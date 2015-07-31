@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>5.2. Un vistazo general a los archivos de configuración (Symfony 1.2, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_5/el_sistema_de_configuracion.html" />
+                    <link rel="next" href="../capitulo_5/entornos.html" />
+                <link rel="start" href="/libro/symfony_1_2/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="5.2. Un vistazo general a los archivos de configuración (Symfony 1.2, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_2"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_2/" itemprop="url">
+                    <span itemprop="title">Symfony 1.2, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_2/capitulo_5.html" itemprop="url">
+                    <span itemprop="title">Capítulo 5. Configurar Symfony</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>5.2. Un vistazo general a los archivos de configuración</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="un_vistazo_general_a_los_archivos_de_configuracion" class="title">
+        <span>5.2.</span> Un vistazo general a los archivos de configuración
+    </h1>
+
+    
+
+<p>La configuración de las aplicaciones realizadas con Symfony se distribuye en varios archivos según su propósito. Los archivos contienen definiciones de parámetros, normalmente llamadas opciones de configuración. Algunos parámetros se pueden redefinir en varios niveles de la aplicación web (proyecto, aplicación y módulo) y otros parámetros son exclusivos de algún nivel. En los siguientes capítulos se muestran los diversos archivos de configuración relacionados con el tema de cada capítulo. En el Capítulo 19 se explica la configuración avanzada.</p>
+
+<h3 id="configuracion_del_proyecto">5.2.1. Configuración del Proyecto</h3>
+
+<p>Symfony crea por defecto algunos archivos de configuración relacionados con el proyecto. El directorio <code>miproyecto/config/</code> contiene los siguientes archivos:</p>
+
+<ul>
+<li><code>ProjectConfiguration.class.php</code>: se trata del primer archivo que se incluye con cada petición o comando. Contiene la ruta a los archivos del framework y se puede modificar para realizar una instalación personalizada. El Capítulo 19 muestra el uso más avanzado de este archivo.</li>
+<li><code>databases.yml</code>: contiene la definición de los accesos a bases de datos y las opciones de conexión de cada acceso (servidor, nombre de usuario, contraseña, nombre de base de datos, etc.) El Capítulo 8 lo explica en detalle. Sus parámetros se pueden redefinir en el nivel de la aplicación.</li>
+<li><code>properties.ini</code>: contiene algunos parámetros que utiliza la herramienta de línea de comandos, como son el nombre del proyecto y las opciones para conectar con servidores remotos. El Capítulo 16 muestra las opciones de este archivo.</li>
+<li><code>rsync_exclude.txt</code>: indica los directorios que se excluyen durante la sincronización entre servidores. El Capítulo 16 también incluye una explicación de este archivo.</li>
+<li><code>schema.yml</code> y <code>propel.ini</code>: son los archivos de configuración que utiliza Propel para el acceso a los datos (recuerda que Propel es el sistema ORM que incorpora Symfony). Se utilizan para que las librerías de Propel puedan interactuar con las clases de Symfony y con los datos de la aplicación. <code>schema.yml</code> contiene la representación del modelo de datos relacional del proyecto. <code>propel.ini</code> se genera de forma automática y es muy probable que no necesites modificarlo. Si no se utiliza Propel, estos dos archivos son innecesarios. El Capítulo 8 explica en detalle el uso de estos dos archivos.</li>
+</ul>
+
+<p>La mayoría de estos archivos los utilizan componentes externos o la línea de comandos e incluso algunos son procesados antes de que se inicie la herramienta que procesa archivos en formato YAML. Por este motivo, algunos de estos archivos no utilizan el formato YAML.</p>
+
+<h3 id="configuracion_de_la_aplicacion">5.2.2. Configuración de la Aplicación</h3>
+
+<p>La configuración de la aplicación es la parte más importante de toda la configuración. La configuración se distribuye entre el controlador frontal (que se encuentra en el directorio <code>web/</code>) que contiene la configuración principal, el directorio <code>config/</code> de la aplicación que contiene diversos archivos en formato YAML, los archivos de internacionalización que se encuentran en el directorio <code>i18n/</code> y también existen otros archivos del framework que contienen opciones de configuración ocultas pero útiles para la configuración de la aplicación.</p>
+
+<h4 id="configuracion_del_controlador_frontal">5.2.2.1. Configuración del Controlador Frontal</h4>
+
+<p>La primera configuración de la aplicación se encuentra en su controlador frontal, que es el primer script que se ejecuta con cada petición. El listado 5-11 muestra el código por defecto del controlador frontal generado automáticamente:</p>
+
+<p><strong>Listado 5-11 - El controlador frontal de producción generado automáticamente</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw1">require_once</span><span class="br0">&#40;</span><span class="kw3">dirname</span><span class="br0">&#40;</span><span class="kw4">__FILE__</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/../config/ProjectConfiguration.class.php'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$configuration</span> <span class="sy0">=</span> ProjectConfiguration<span class="sy0">::</span><span class="me2">getApplicationConfiguration</span><span class="br0">&#40;</span><span class="st_h">'frontend'</span><span class="sy0">,</span> <span class="st_h">'prod'</span><span class="sy0">,</span> <span class="kw4">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+sfContext<span class="sy0">::</span><span class="me2">createInstance</span><span class="br0">&#40;</span><span class="re0">$configuration</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">dispatch</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Después de definir el nombre de la aplicación (<code>frontend</code>) y el entorno en el que se ejecuta la aplicación (<code>prod</code>), se carga el archivo general de configuración, se crea un contexto y se despacha la petición  <em>dispatching</em>). En la clase de configuración de la aplicación se definen algunos métodos importantes:</p>
+
+<ul>
+<li><code>$configuration-&gt;getRootDir()</code>: directorio raíz del proyecto (en general no hay que modificar su valor, salvo que se cambie la estructura de archivos del proyecto).</li>
+<li><code>$configuration-&gt;getApplication()</code>: el nombre de la aplicación, que se utiliza para determinar las rutas de los archivos.</li>
+<li><code>$configuration-&gt;getEnvironment()</code>: nombre del entorno en el que se ejecuta la aplicación (<code>prod</code>, <code>dev</code> o cualquier otro valor que se haya definido). Se utiliza para determinar las opciones de configuración que se utilizan. Al final de este capítulo se explican los entornos de ejecución.</li>
+<li><code>$configuration-&gt;isDebug()</code>: activa el modo de depuración de la aplicación (el capítulo 16 contiene los detalles).</li>
+</ul>
+
+<p>Cuando se quiere cambiar alguno de estos valores, normalmente se crea un nuevo controlador frontal. El siguiente capítulo explica su funcionamiento y cómo crear nuevos controladores.</p>
+
+<h4 id="configuracion_principal_de_la_aplicacion">5.2.2.2. Configuración principal de la aplicación</h4>
+
+<p>La configuración más importante de la aplicación se encuentra en el directorio <code>miproyecto/apps/frontend/config/</code>:</p>
+
+<ul>
+<li><code>app.yml</code>: contiene la configuración específica de la aplicación; por ejemplo se pueden almacenar variables globales que se utilizan en la lógica de negocio de la aplicación y que no se almacenan en una base de datos. Los ejemplos habituales de estas variables son los porcentajes de los impuestos como el IVA, los gastos de envío, direcciones de email de contacto, etc. Por defecto el archivo está vacío.</li>
+<li><code>frontendConfiguration.class.php</code>: esta clase inicia la ejecucion de la aplicación, ya que realiza todas las inicializaciones necesarias para que la aplicación se pueda ejecutar. En este archivo se puede personalizar la estructura de directorios de la aplicación y se pueden añadir constantes que manejan las aplicaciones (el Capítulo 19 lo explica con más detalle). Esta clase hereda de la clase <code>ProjectConfiguration</code>.</li>
+<li><code>factories.yml</code>: Symfony incluye sus propias clases para el manejo de la vista, de las peticiones, de las respuestas, de la sesión, etc. No obstante, es posible definir otras clases propias para realizar estas tareas. El Capítulo 17 lo explica más detalladamente.</li>
+<li><code>filters.yml</code>: los filtros son trozos de código que se ejecutan con cada petición. En este archivo se definen los filtros que se van a procesar y cada módulo puede redefinir los filtros que se procesan. El Capítulo 6 explica en detalle los filtros.</li>
+<li><code>routing.yml</code>: almacena las reglas de enrutamiento, que permiten transformar las URL habituales de las aplicaciones web en URL <em>limpias</em> y sencillas de recordar. Cada vez que se crea una aplicación se crean unas cuantas reglas básicas por defecto. El Capítulo 9 está dedicado a los enlaces y el sistema de enrutamiento.</li>
+<li><code>settings.yml</code>: contiene las principales opciones de configuración de una aplicación Symfony. Entre otras, permite especificar si la aplicación utiliza la internacionalización, el idioma por defecto de la aplicación, el tiempo de expiración de las peticiones y si se activa o no la cache. Un cambio en una única línea de configuración de este archivo permite detener el acceso a la aplicación para realizar tareas de mantenimiento o para actualizar alguno de sus componentes. Las opciones más habituales y su uso se describen en el Capítulo 19.</li>
+<li><code>view.yml</code>: establece la estructura de la vista por defecto: el nombre del layout, las hojas de estilos CSS y los archivos JavaScript que se incluyen, el <code>Content-Type</code>, etc. El capítulo 7 explica detalladamente todas sus posibilidades. Cada módulo puede redefinir el valor de todas estas opciones.</li>
+</ul>
+
+<h4 id="configuracion_de_la_internacionalizacion">5.2.2.3. Configuración de la Internacionalización</h4>
+
+<p>Las aplicaciones con soporte de internacionalización son las que pueden mostrar una misma página en diferentes idiomas. Para conseguirlo, es necesario realizar una configuración específica. Los dos sitios donde se configura la internacionalización en Symfony son:</p>
+
+<ul>
+<li>Archivo <code>factories.yml</code> del directorio <code>config/</code> de la aplicación: en este archivo se define la factoría encargada de la internacionalización y otras opciones comunes para la traducción de páginas, como por ejemplo el idioma por defecto, si las traducciones se guardan en archivos o bases de datos y su formato.</li>
+<li>Los archivos de traducción en el directorio <code>i18n/</code> de la aplicación: se trata de una especie de diccionarios que indican la traducción de cada frase que utilizan las plantillas de la aplicación de forma que cuando el usuario cambie de idioma sea posible mostrar las páginas en ese idioma.</li>
+</ul>
+
+<p>Para activar el mecanismo de i18n, se debe modificar el archivo <code>settings.yml</code>. El Capítulo 13 profundiza en todas las características relacionadas con la i18n.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> <strong>Nota del traductor</strong>
+El término <code>i18n</code> es el más utilizado para referirse a la "internacionalización". Su origen proviene de las 18 letras que existen entre la letra "i" y la letra "n" en la palabra "internacionalización". Otras palabras siguen la misma técnica y así es habitual decir <code>l10n</code> para hablar de la "localization" o adaptación local de los contenidos.</p></div>
+
+<h4 id="configuracion_adicional_de_la_aplicacion">5.2.2.4. Configuración adicional de la Aplicación</h4>
+
+<p>Algunos archivos de configuración se encuentran en el directorio de instalación de Symfony (en <code>$sf_symfony_lib_dir/config/config/</code>) y por tanto no aparecen en los directorios de configuración de las aplicaciones. Las opciones que se encuentran en esos archivos son opciones para las que raramente se modifica su valor o que son globales a todos los proyectos. De todas formas, si necesitas modificar alguna de estas opciones, crea un archivo vacío con el mismo nombre en el directorio <code>miproyecto/apps/frontend/config/</code> y redefine todas las opciones que quieras modificar. Las opciones definidas en una aplicación siempre tienen preferencia respecto a las opciones definidas por el framework. Los archivos de configuración que se encuentran en el directorio <code>config/</code> de la instalación de Symfony son los siguientes:</p>
+
+<ul>
+<li><code>autoload.yml</code>: contiene las opciones relativas a la carga automática de clases. Esta opción permite utilizar clases propias sin necesidad de incluirlas previamente en el script que las utiliza, siempre que esas clases se encuentren en algunos directorios determinados. El Capítulo 19 lo describe en detalle.</li>
+<li><code>core_compile.yml</code> y <code>bootstrap_compile.yml</code>: define la lista de clases que se incluyen al iniciar la aplicación (en <code>bootstrap_compile.yml</code>) y las que se incluyen al procesar una petición (en <code>core_compile.yml</code>). Todas estas clases se concatenan en un único archivo PHP optimizado en el que se eliminan los comentarios y que acelera mucho la ejecución de la aplicación (ya que se reduce el número de archivos que se acceden a uno solo desde los más de 40 archivos necesarios originalmente para cada petición). Esta característica es muy necesaria cuando no se utiliza ningún acelerador de PHP. El Capítulo 18 incluye diversas técnicas para optimizar el rendimiento de las aplicaciones.</li>
+<li><code>config_handlers.yml</code>: permite añadir o modificar los manejadores de archivos de configuración. El Capítulo 19 contiene todos los detalles.</li>
+</ul>
+
+<h3 id="configuracion_de_los_modulos">5.2.3. Configuración de los Módulos</h3>
+
+<p>Inicialmente los módulos no tienen ninguna configuración propia. En cualquier caso, es posible modificar las opciones de la aplicación en cualquier módulo que así lo requiera. Un ejemplo de configuración específica es aquel que permite incluir un archivo JavaScript concreto en todas las acciones de un módulo. También se pueden añadir nuevos parámetros exclusivamente para un módulo concreto.</p>
+
+<p>Como se puede suponer, los archivos de configuración de los módulos se encuentran en el directorio <code>miproyecto/apps/frontend/modules/mimodulo/config/</code>. Los archivos disponibles son los siguientes:</p>
+
+<ul>
+<li><code>generator.yml</code>: se utiliza para los módulos generados automáticamente a partir de una tabla de la base de datos, es decir, para los módulos utilizados en el <em>scaffolding</em> y para las partes de administración creadas de forma automática. Contiene las opciones que definen como se muestran las filas y los registros en las páginas generadas y también define las interacciones con el usuario: filtros, ordenación, botones, etc. El Capítulo 14 explica todas estas características.</li>
+<li><code>module.yml</code>: contiene la configuración de la acción y otros parámetros específicos del módulo (es un archivo equivalente al archivo <code>app.yml</code> de la aplicación). El Capítulo 6 lo explica en detalle.</li>
+<li><code>security.yml</code>: permite restringir el acceso a determinadas acciones del módulo. En este archivo se configura que una página solamente pueda ser accedida por los usuarios registrados o por un grupo de usuarios registrados con permisos especiales. En el Capítulo 6 se detalla su funcionamiento.</li>
+<li><code>view.yml</code>: permite configurar las vistas de una o de todas las acciones del módulo. Redefine las opciones del archivo <code>view.yml</code> de la aplicación y su funcionamiento se describe en el Capítulo 7.</li>
+</ul>
+
+<p>Casi todos los archivos de configuración de los módulos permiten definir parámetros para todas las vistas y/o acciones del módulo o solo para una serie de vistas y/o acciones.</p>
+
+<div class="admonition sidebar"><p><strong class="title"> ¿No son demasiados archivos?</strong> Seguramente estás un poco abrumado por la cantidad de archivos de configuración que tiene la aplicación. Pero debes tener en cuenta que:</p>
+
+<p>Muy pocas veces tendrás que modificar la configuración, ya que las convenciones y normas establecidas por Symfony suelen coincidir con los requerimientos habituales de las aplicaciones. Cada archivo de configuración se utiliza para alguna característica concreta, que se detallarán una a una en los siguientes capítulos. Cuando se estudia individualmente uno de los archivos, es muy fácil comprender su estructura y su finalidad. Para las aplicaciones más profesionales, es habitual modificar la configuración por defecto. Los archivos de configuración permiten modificar fácilmente el funcionamiento de Symfony sin necesidad de añadir o modificar código a la aplicación. Imagina la cantidad de código PHP que se necesitaría para obtener un control similar al de Symfony. Si toda la configuración estuviera centralizada en un único archivo, además de ser un archivo enorme y muy difícil de leer, no sería posible redefinir el valor de las opciones en los diferentes niveles (como se ve más tarde en este capítulo en la sección "Configuraciones en cascada").</p>
+
+<p>El mecanismo de configuración de Symfony es uno de sus puntos fuertes, ya que permite que el framework se pueda utilizar para crear cualquier tipo de aplicación y no solamente aquellas para las que se diseñó originalmente.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_5/el_sistema_de_configuracion.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>5.1. El sistema de configuración</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_5/entornos.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>5.3. Entornos</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_5.html">
+                    <span>Capítulo 5.</span> Configurar Symfony
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/el_sistema_de_configuracion.html">
+                    <span>5.1.</span> El sistema de configuración
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_5/un_vistazo_general_a_los_archivos_de_configuracion.html">
+                    <span>5.2.</span> Un vistazo general a los archivos de configuración
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/entornos.html">
+                    <span>5.3.</span> Entornos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/la_cache_de_configuracion.html">
+                    <span>5.4.</span> La cache de configuración
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/accediendo_a_la_configuracion_desde_la_aplicacion.html">
+                    <span>5.5.</span> Accediendo a la configuración desde la aplicación
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/trucos_para_los_archivos_de_configuracion.html">
+                    <span>5.6.</span> Trucos para los archivos de configuración
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/resumen.html">
+                    <span>5.7.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

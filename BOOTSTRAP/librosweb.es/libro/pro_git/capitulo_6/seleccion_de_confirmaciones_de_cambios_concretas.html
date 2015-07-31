@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>6.1. Selección de confirmaciones de cambios concretas (Pro Git, el libro oficial de Git)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_6.html" />
+                    <link rel="next" href="../capitulo_6/preparacion_interactiva.html" />
+                <link rel="start" href="/libro/pro_git/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="6.1. Selección de confirmaciones de cambios concretas (Pro Git, el libro oficial de Git)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page pro_git"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/" itemprop="url">
+                    <span itemprop="title">Pro Git, el libro oficial de Git</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/capitulo_6.html" itemprop="url">
+                    <span itemprop="title">Capítulo 6. Las herramientas de Git</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>6.1. Selección de confirmaciones de cambios concretas</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="seleccion_de_confirmaciones_de_cambios_concretas" class="title">
+        <span>6.1.</span> Selección de confirmaciones de cambios concretas
+    </h1>
+
+    
+
+<p>Git tiene varios modos de seleccionar confirmaciones de cambio o grupos de confirmaciones de cambio. Algunos de estos modos no son precisamente obvios, pero conviene conocerlos.</p>
+
+<h3 id="confirmaciones_puntuales">6.1.1. Confirmaciones puntuales</h3>
+
+<p>La forma canónica de referirse a una confirmación de cambios es indicando su código-resumen criptográfico SHA-1. Pero también existen otras maneras más sencillas. En esta sección se verán las diversas formas existentes para referirse a una determinada confirmación de cambios (<em>commit</em>).</p>
+
+<h3 id="sha_corto">6.1.2. SHA corto</h3>
+
+<p>Simplemente dándole los primeros caracteres del código SHA-1, Git es lo suficientemente inteligente como para figurarse cual es la confirmación de cambios (<em>commit</em>) deseada. Es necesario teclear por lo menos 4 caracteres y estos han de ser no ambiguos — es decir, debe existir un solo objeto en el repositorio cuyo código comience por dicho trozo inicial del SHA —.</p>
+
+<p>Por ejemplo, a la hora de localizar una confirmación de cambios, supongamos que se lanza el comando <code>git log</code> e intentamos localizar la confirmación de cambios concreta donde se añadió una cierta funcionalidad:</p>
+
+<div class="code code">
+<pre class="code">$ git log
+commit 734713bc047d87bf7eac9674765ae793478c50d3
+Author: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="1a6979727b7975745a7d777b737634797577">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Fri Jan 2 18:32:33 2009 -0800</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    fixed refs handling, added gc auto, updated tests</pre>
+</div>
+
+<div class="code code">
+<pre class="code">commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+Merge: 1c002dd... 35cfb2b...
+Author: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="92e1f1faf3f1fdfcd2f5fff3fbfebcf1fdff">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Thu Dec 11 15:08:43 2008 -0800</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    Merge commit 'phedders/rdocs'</pre>
+</div>
+
+<div class="code code">
+<pre class="code">commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+Author: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="b9cadad1d8dad6d7f9ded4d8d0d597dad6d4">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Thu Dec 11 14:58:32 2008 -0800</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    added some blame and merge stuff</pre>
+</div>
+
+<p>En este caso, escogiendo <code>1c002dd....</code>, para lanzar el comando <code>git show</code> sobre esa confirmación de cambios concreta, serían equivalentes todos estos comandos (asumiendo la no ambiguedad de todas las versiones cortas indicadas):</p>
+
+<div class="code code">
+<pre class="code">$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+$ git show 1c002dd4b536e7479f
+$ git show 1c002d</pre>
+</div>
+
+<p>En todos estos casos, Git puede deducir el resto del valor SHA-1. Con la opción <code>--abbrev-commit</code> del comando <code>git log</code>, en su salida se mostrarán valores acortados, pero únicos de SHA. Habitualmente suelen resultar valores de siete caracteres, pero alguno puede ser más largo si es necesario para preservar la unicidad de todos los valores SHA-1 mostrados:</p>
+
+<div class="code code">
+<pre class="code">$ git log --abbrev-commit --pretty=oneline
+ca82a6d changed the version number
+085bb3b removed unnecessary test code
+a11bef0 first commit</pre>
+</div>
+
+<p>Normalmente, entre ocho y diez caracteres suelen ser más que suficientes para garantizar la unicidad de  todos los objetos dentro de cualquier proyecto. Aunque, en uno de los más grandes proyectos gestionados con Git, el kernel de Linux, están siendo necesarios unos 12 caracteres (de los 40 posibles) para garantizar la unicidad.</p>
+
+<h3 id="un_breve_comentario_sobre_los_codigos_sha_1">6.1.3. Un breve comentario sobre los códigos SHA-1</h3>
+
+<p>Mucha gente se suele preocupar por si, por casualidad, dos objetos en su repositorio reciben el mismo código SHA-1 para identificarlos. ¿Y qué sucederia si se diera ese caso?</p>
+
+<p>Si se da la casualidad de confirmar cambios en un objeto y que a este se le asigne el mismo código SHA-1 que otro ya existente en el repositorio. Al ver  el objeto previamente almacenado en la base de datos, Git asumirá que este ya existía. Al intentar recuperar (check-out) el objeto más tarde, siempre se obtendrán los datos del primer objeto.</p>
+
+<p>No obstante, hemos de ser conscientes de lo altamente improbable de un suceso así. Los códigos SHA-1 son de 20 bytes, (160 bits). El número de objetos, codificados aleatoriamente, necesarios para asegurar un 50% de probabilidad de darse una sola colisión es cercano a 2^80 (la fórmula para determinar la probabilidad de colisión es <code>p = (n(n-1)/2) * (1/2^160))</code>). 2^80 es 1,2 x 10^24, o lo que es lo mismo, 1 billón de billones. Es decir, unas 1.200 veces el número de granos de arena en la Tierra.</p>
+
+<p>El siguiente ejemplo puede ser bastante ilustrativo, para hacernos una idea de lo que podría tardarse en darse una colisión en el código SHA-1: si los 6.500 millones de humanos en el planeta Tierra estuvieran programando y, cada segundo, cada uno de ellos escribiera código equivalente a todo el histórico del kernel de Linux (cerca de 1 millón de objetos Git), enviándolo todo a un enorme repositorio Git, serían necesarios unos 5 años antes de que dicho repositorio contuviera suficientes objetos como para tener una probabilidad del 50% de darse una sola colisión en el código SHA-1. Es mucho más probable que todos los miembros de nuestro equipo de programación fuesen atacados y matados por lobos, en incidentes no relacionados entre sí, acaecidos todos ellos en una misma noche.</p>
+
+<h3 id="referencias_a_ramas">6.1.4. Referencias a ramas</h3>
+
+<p>La manera más directa de referirse a una confirmación de cambios es teniendo una rama apuntando a ella. De esta forma, se puede emplear el nombre de la rama en cualquier comando Git que espere un objeto de confirmación de cambios o un código SHA-1. Por ejemplo, si se desea mostrar la última confirmación de cambios en una rama, y suponiendo que la rama <code>topic1</code> apunta a <code>ca82a6d</code>, los tres comandos siguientes son equivalentes:</p>
+
+<div class="code code">
+<pre class="code">$ git show ca82a6dff817ec66f44342007202690a93763949
+$ git show topic1</pre>
+</div>
+
+<p>Para ver a qué código SHA apunta una determinada rama, o si se desea conocer cómo se comportarian cualquiera de los ejemplos anteriores en términos de SHAs, se puede emplear el comando de fontaneria <code>rev-parse</code>. En el capítulo 9 se verá más información sobre las herramientas de fontaneria. Herramientas estas que son utilizadas para operaciones a muy bajo nivel, y que no estan pensadas para ser utilizadas en el trabajo habitual del día a día. Pero que, sin embargo, pueden ser muy útiles cuando se desea ver lo que realmente sucede <em>"tras las bambalinas"</em>, en el interior de Git. Por ejemplo, lanzando el comando <code>rev-parse</code> sobre una rama, esta muestra el código SHA-1 de la última confirmación de cambios en ella:</p>
+
+<div class="code code">
+<pre class="code">$ git rev-parse topic1
+ca82a6dff817ec66f44342007202690a93763949</pre>
+</div>
+
+<h3 id="nombres_cortos_en_reflog">6.1.5. Nombres cortos en RefLog</h3>
+
+<p>Una de las tareas realizadas por Git continuamente en segundo plano, mientras nosotros trabajamos, es el mantenimiento de un registro de referencia (<em>reflog</em>). En este registro queda traza de dónde han estado las referencias a HEAD y a las distintas ramas durante los últimos meses.</p>
+
+<p>Este registro de referencia se puede consultar con el comando <code>git reflog</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git reflog
+734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+d921970... HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
+1c002dd... HEAD@{2}: commit: added some blame and merge stuff
+1c36188... HEAD@{3}: rebase -i (squash): updating HEAD
+95df984... HEAD@{4}: commit: # This is a combination of two commits.
+1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
+7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD</pre>
+</div>
+
+<p>Cada vez que se actualiza una rama por cualquier razón, Git almacena esa información en este histórico temporal. Y esta información se puede utilizar para referirse a confirmaciones de cambio pasadas. Por ejemplo, si se desea ver el quinto anterior valor de HEAD en el repositorio, se puede emplear la referencia <code>@{n}</code> mostrada por la salida de reflog:</p>
+
+<div class="code code">
+<pre class="code">$ git show HEAD@{5}</pre>
+</div>
+
+<p>Esta misma sintaxis puede emplearse cuando se desea ver dónde estaba una rama en un momento específico en el tiempo. Por ejemplo, para ver dónde apuntaba la rama <code>master</code> en el día de ayer, se puede teclear:</p>
+
+<div class="code code">
+<pre class="code">$ git show master@{yesterday}</pre>
+</div>
+
+<p>Este comando mostrará a dónde apuntaba ayer la rama. Esta técnica tan solo funciona para información presente en el registro de referencia. No se puede emplear para confirmaciones de cambio de antiguedad superior a unos pocos meses.</p>
+
+<p>Si se desea ver la información del registro de referencia, formateada de forma similar a la salida del comando <code>git log</code>, se puede lanzar el comando <code>git log -g</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git log -g master
+commit 734713bc047d87bf7eac9674765ae793478c50d3
+Reflog: master@{0} (Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="a6d5c5cec7c5c9c8e6c1cbc7cfca88c5c9cb">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;)
+Reflog message: commit: fixed refs handling, added gc auto, updated 
+Author: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="c8bbaba0a9aba7a688afa5a9a1a4e6aba7a5">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Fri Jan 2 18:32:33 2009 -0800</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    fixed refs handling, added gc auto, updated tests</pre>
+</div>
+
+<div class="code code">
+<pre class="code">commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+Reflog: master@{1} (Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="fe8d9d969f9d9190be99939f9792d09d9193">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;)
+Reflog message: merge phedders/rdocs: Merge made by recursive.
+Author: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="6417070c05070b0a240309050d084a070b09">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Thu Dec 11 15:08:43 2008 -0800</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    Merge commit 'phedders/rdocs'</pre>
+</div>
+
+<p>Es importante destacar la estricta localidad de la información en el registro de referencia. Es un registro que se va componiendo en cada repositorio según se va trabajando en él. Las referencias de una cierta persona en su repositorio nunca seran las mismas que las de cualquier otra persona en su copia local del repositorio. Es más, justo tras terminar de clonar un repositorio lo que se tiene es un registro de referencia vacio, puesto que  aún no se ha realizado ningún trabajo sobre dicho repositorio recién clonado. Así, un comando tal como <code>git show HEAD@{2.months.ago}</code> solo será válido en caso de haber clonado el proyecto como mínimo dos meses antes. Si se acaba de clonar hace cinco minutos, ese comando dará un resultado vacio.</p>
+
+<h3 id="referencias_a_ancestros">6.1.6. Referencias a ancestros</h3>
+
+<p>Otra forma de especificar una confirmación de cambios es utilizando sus ancestros. Colocando un <code>^</code> al final de una referencia, Git interpreta que se refiere al padre de dicha referencia.</p>
+
+<p>Suponiendo que sea esta la historia de un proyecto:</p>
+
+<div class="code code">
+<pre class="code">$ git log --pretty=format:'%h %s' --graph
+* 734713b fixed refs handling, added gc auto, updated tests
+*   d921970 Merge commit 'phedders/rdocs'
+|\  
+| * 35cfb2b Some rdoc changes
+* | 1c002dd added some blame and merge stuff
+|/  
+* 1c36188 ignore *.gem
+* 9b29157 add open3_detach to gemspec file list</pre>
+</div>
+
+<p>Se puede visualizar la anteúltima confirmación de cambios indicando <code>HEAD^</code>, que significa <em>"el padre de HEAD"</em>:</p>
+
+<div class="code code">
+<pre class="code">$ git show HEAD^
+commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+Merge: 1c002dd... 35cfb2b...
+Author: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="b7c4d4dfd6d4d8d9f7d0dad6dedb99d4d8da">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Thu Dec 11 15:08:43 2008 -0800</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    Merge commit 'phedders/rdocs'</pre>
+</div>
+
+<p>También es posible indicar un número detras de <code>^</code>. Por ejemplo <code>d921970^2</code>, para indicar <em>"el segundo padre de d921970"</em> . Aunque esta sentencia es útil tan solo en confirmaciones de fusiones (<em>merge</em>), los únicos tipos de confirmación de cambios que pueden tener más de un padre. El primer padre es el proveniente de la rama activa al realizar la fusión, y el segundo es la confirmación de cambios en la rama desde la que se fusiona.</p>
+
+<div class="code code">
+<pre class="code">$ git show d921970^
+commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+Author: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="c6b5a5aea7a5a9a886a1aba7afaae8a5a9ab">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Thu Dec 11 14:58:32 2008 -0800</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    added some blame and merge stuff</pre>
+</div>
+
+<div class="code code">
+<pre class="code">$ git show d921970^2
+commit 35cfb2b795a55793d7cc56a6cc2060b4bb732548
+Author: Paul Hedderly &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="44342531286f232d3004292e366a2b3623">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Wed Dec 10 22:22:03 2008 +0000</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    Some rdoc changes</pre>
+</div>
+
+<p>Otra forma de referirse a los ancestros es la marca <code>~</code>. Utilizada tal cual, también se refiere al padre. Por lo tanto, <code>HEAD~</code> y <code>HEAD^</code> son equivalentes. Pero la diferencia comienza al indicar un número tras ella. <code>HEAD~2</code> significa <em>"el primer padre del primer padre"</em>, es decir, <em>"el abuelo"</em>. Y así según el número de veces que se indique. Por ejemplo, en la historia de proyecto citada anteriormente, <code>HEAD~3</code> sería:</p>
+
+<div class="code code">
+<pre class="code">$ git show HEAD~3
+commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
+Author: Tom Preston-Werner &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="9de9f2f0ddf0f2f7f2f0fff2b3fef2f0">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Fri Nov 7 13:47:59 2008 -0500</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    ignore *.gem</pre>
+</div>
+
+<p>Igualmente, se podría haber escrito <code>HEAD^^^</code>, que también se refiere al <em>"primer padre del primer padre del primer padre"</em>:</p>
+
+<div class="code code">
+<pre class="code">$ git show HEAD^^^
+commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
+Author: Tom Preston-Werner &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="f0849f9db09d9f9a9f9d929fde939f9d">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Fri Nov 7 13:47:59 2008 -0500</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    ignore *.gem</pre>
+</div>
+
+<p>E incluso también es posible combinar las dos sintaxis. Por ejemplo, para referirse al <em>"segundo padre de la referencia previa"</em> (asumiendo que es una confirmación de cambios de fusión -merge-), se pude escribir algo como <code>HEAD~3^2</code>.</p>
+
+<h3 id="referecias_a_un_rango_de_confirmaciones_de_cambios">6.1.7. Referecias a un rango de confirmaciones de cambios</h3>
+
+<p>Una vez vistas las formas de referirse a confirmaciones concretas de cambios. Vamos a ver cómo referirse a un grupo de confirmaciones. Esto es especialmente útil en la gestión de ramas. Si se tienen multitud de ramas, se pueden emplear las espeficicaciones de rango para responder a cuestiones tales como <em>"¿cuál es el trabajo de esta rama que aún no se ha fusionado con la rama principal?"</em>.</p>
+
+<h4 id="doble_punto">6.1.7.1. Doble punto</h4>
+
+<p>La especificación de rango más común es la sintaxis doble-punto. Básicamente, se trata de pedir a Git que resuelva un rango de confirmaciones de cambio alcanzables desde una confirmación determinada, pero no desde otra. Por ejemplo, teniendo un historial de confirmaciones de cambio tal como el de la figura 6-1.</p>
+
+<div class="figure" id="figure_6_1">
+    <img src="/img/pro_git/18333fig0601.png" alt="Ejemplo de historial para selección de rangos" />
+
+    <p class="caption"><strong>Figura 6.1</strong> Ejemplo de historial para selección de rangos</p>
+</div>
+
+
+<p>Si se desea ver qué partes de la rama experiment están sin fusionar aún con la rama master. Se puede pedir a Git que muestre un registro con las confirmaciones de cambio en <code>master..experiment</code>. Es decir, <em>"todas las confirmaciones de cambio alcanzables desde experiment que no se pueden alcanzar desde master"</em>. Por razones de brevedad y claridad en los ejemplos, para representar los objetos confirmación de cambios (<em>commit</em>) se utilizarán las letras mostradas en el diagrama en lugar de todo el registro propiamente dicho:</p>
+
+<div class="code code">
+<pre class="code">$ git log master..experiment
+D
+C</pre>
+</div>
+
+<p>Si, por el contrario, se desea ver lo opuesto (todas las confirmaciones en <code>master</code> que no están en <code>experiment</code>). Simplemente hay que invertir los nombres de las ramas. <code>experiment..master</code> muestra todo lo que haya en <code>master</code> pero que no es alcanzable desde 'experiment':</p>
+
+<div class="code code">
+<pre class="code">$ git log experiment..master
+F
+E</pre>
+</div>
+
+<p>Esto es útil si se desea mantener actualizada la rama <code>experiment</code> y previsualizar lo que se está a punto de fusionar en ella. Otra utilidad habitual de estas sentencias es la de ver lo que se está a punto de enviar a un repositorio remoto:</p>
+
+<div class="code code">
+<pre class="code">$ git log origin/master..HEAD</pre>
+</div>
+
+<p>Este comando muestra las confirmaciones de cambio de la rama activa que no están aún en la rama <code>master</code> del repositorio remoto <code>origin</code>. Si se lanza el comando <code>git push</code> (y la rama activa actual esta relacionada con <code>origin/master</code>), las confirmaciones de cambio mostradas por <code>git log origin/master..HEAD</code> serán las que serán transferidas al servidor.</p>
+
+<p>Es posible también omitir la parte final de la sentencia y dejar que Git asuma HEAD. Por ejemplo, se pueden obtener los mismos resultados tecleando <code>git log origin/master..</code>, ya que git sustituye HEAD en la parte faltante.</p>
+
+<h4 id="puntos_multiples">6.1.7.2. Puntos multiples</h4>
+
+<p>La sintaxis del doble-punto es útil como atajo. Pero en algunas ocasiones interesa indicar mas de dos ramas para precisar la revisión. Como cuando se desea ver las confirmaciones de cambio presentes en cualquiera de varias ramas y no en la rama activa. Git permite realizar esto utilizando o bien el caracter <code>^</code> o bien la opción <code>--not</code> por delante de aquellas referencias de las que se desea no ver las confirmaciones de cambio. Así, estos tres comandos son equivalentes:</p>
+
+<div class="code code">
+<pre class="code">$ git log refA..refB
+$ git log ^refA refB
+$ git log refB --not refA</pre>
+</div>
+
+<p>Esto nos permite indicar más de dos referencias en una misma consulta. Algo imposible con la sintaxis dos-puntos. Por ejemplo, si se deseean ver todas las confirmaciones de cambio alcanzables desde la <code>refA</code> o la <code>refB</code>, pero no desde la <code>refC</code>, se puede teclear algo como esto:</p>
+
+<div class="code code">
+<pre class="code">$ git log refA refB ^refC
+$ git log refA refB --not refC</pre>
+</div>
+
+<p>Esto da una enorme versatilidad al sistema de consultas y permite revisar el contenido de todas las ramas  en el repositorio.</p>
+
+<h4 id="triple_punto">6.1.7.3. Triple-punto</h4>
+
+<p>La última de las opciones principales para seleccionar rangos es la sintaxis triple-punto. Utilizada para especificar todas las confirmaciones de cambio alcanzables separadamente desde cualquiera de dos referencias, pero no desde ambas a la vez. Volviendo sobre la historia de proyecto mostrada en la figura 6-1.</p>
+
+<p>Si se desea ver lo que está o bien en <code>master</code> o bien en <code>experiment</code>, pero no en ambas simultáneamente, se puede emplear el comando:</p>
+
+<div class="code code">
+<pre class="code">$ git log master...experiment
+F
+E
+D
+C</pre>
+</div>
+
+<p>De nuevo, esto da una salida normal de <code>log</code>, pero mostrando tan solo información sobre las cuatro confirmaciones de cambio, dadas en la tradicional secuencia ordenada por fechas.</p>
+
+<p>Una opción habitual a utilizar en estos casos con el comando <code>log</code> suele ser <code>left-right</code>. Haciendo así que en la salida se muestre cual es el lado al que pertenece cada una de las confirmaciones de cambio. Esto hace más útil la información mostrada:</p>
+
+<div class="code code">
+<pre class="code">$ git log --left-right master...experiment
+&lt; F
+&lt; E
+&gt; D
+&gt; C</pre>
+</div>
+
+<p>Con estas herramientas, es mucho más sencillo indicar con precisión cuál o cuáles son las confirmaciones de cambios que se desean revisar.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_6.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 6. Las herramientas de Git</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_6/preparacion_interactiva.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>6.2. Preparación interactiva</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Fundamentos de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Trabajando con ramas en Git</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Git en un servidor</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Git en entornos distribuidos</a>
+            </li>
+                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_6.html">
+                    <span>Capítulo 6.</span> Las herramientas de Git
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_6/seleccion_de_confirmaciones_de_cambios_concretas.html">
+                    <span>6.1.</span> Selección de confirmaciones de cambios concretas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/preparacion_interactiva.html">
+                    <span>6.2.</span> Preparación interactiva
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/guardado_rapido_provisional.html">
+                    <span>6.3.</span> Guardado rápido provisional
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/reescribiendo_la_historia.html">
+                    <span>6.4.</span> Reescribiendo la historia
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/depuracion_con_git.html">
+                    <span>6.5.</span> Depuración con Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/submodulos.html">
+                    <span>6.6.</span> Submódulos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/fusion_de_subarboles.html">
+                    <span>6.7.</span> Fusión de subárboles
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/resumen.html">
+                    <span>6.8.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Personalizando Git</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Git y otros sistemas</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Funcionamiento interno de Git</a>
+            </li>
+                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

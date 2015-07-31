@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>3.4. Configurar el servidor web (Symfony 1.2, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_3/crear_una_aplicacion_web.html" />
+                    <link rel="next" href="../capitulo_3/resolucion_de_problemas.html" />
+                <link rel="start" href="/libro/symfony_1_2/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="3.4. Configurar el servidor web (Symfony 1.2, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_2"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_2/" itemprop="url">
+                    <span itemprop="title">Symfony 1.2, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_2/capitulo_3.html" itemprop="url">
+                    <span itemprop="title">Capítulo 3. Ejecutar aplicaciones Symfony</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>3.4. Configurar el servidor web</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="configurar_el_servidor_web" class="title">
+        <span>3.4.</span> Configurar el servidor web
+    </h1>
+
+    
+
+<p>Los scripts que se encuentran en el directorio <code>web/</code> son los únicos puntos de entrada a la aplicación. Por este motivo, debe configurarse el servidor web para que puedan ser accedidos desde Internet. En el servidor de desarrollo y en los servicios de <em>hosting</em> profesionales, se suele tener acceso a la configuración completa de Apache para poder configurar servidores virtuales  <em>virtual host</em>). En los servicios de alojamiento compartido, lo normal es tener acceso solamente a los archivos <code>.htaccess</code>.</p>
+
+<h3 id="configurar_los_servidores_virtuales">3.4.1. Configurar los servidores virtuales</h3>
+
+<p>El listado 3-1 muestra un ejemplo de la configuración necesaria para crear un nuevo servidor virtual en Apache mediante la modificación del archivo <code>httpd.conf</code>.</p>
+
+<p><strong>Listado 3-1 - Ejemplo de configuración de Apache, en <code>apache/conf/httpd.conf</code></strong></p>
+
+<div class="code code">
+<pre class="code">&lt;VirtualHost *:80&gt;
+  ServerName miaplicacion.ejemplo.com
+  DocumentRoot &quot;/home/juan/miproyecto/web&quot;
+  DirectoryIndex index.php
+  Alias /sf /$sf_symfony_data_dir/web/sf
+  &lt;Directory &quot;/$sf_symfony_data_dir/web/sf&quot;&gt;
+    AllowOverride All
+    Allow from All
+  &lt;/Directory&gt;
+  &lt;Directory &quot;/home/steve/miproyecto/web&quot;&gt;
+    AllowOverride All
+    Allow from All
+  &lt;/Directory&gt;
+&lt;/VirtualHost&gt;</pre>
+</div>
+
+<p>En la configuración del listado 3-1, se debe sustituir la variable <code>$sf_symfony_data_dir</code> por la ruta real del directorio de datos de Symfony. Por ejemplo, la ruta en un sistema *nix en el que se ha instalado Symfony mediante PEAR sería:</p>
+
+<div class="code code">
+<pre class="code">Alias /sf /usr/local/lib/php/data/symfony/web/sf</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> No es obligatorio el alias al directorio <code>web/sf/</code>. La finalidad del alias es permitir que Apache pueda encontrar las imágenes, hojas de estilos y archivos de JavaScript utilizados en la barra de depuración, en el generador automático de aplicaciones de gestión, en las páginas propias de Symfony y en las utilidades de Ajax. La alternativa a crear este alias podría ser la de crear un enlace simbólico (symlink) o copiar directamente los contenidos del directorio <code>/$sf_symfony_data_dir/web/sf/</code> al directorio <code>miproyecto/web/sf/</code>.</p></div>
+
+<p>No te olvides reiniciar Apache para que los cambios surtan efecto. La aplicación recién creada ya se puede acceder con cualquier navegador en esta dirección:</p>
+
+<div class="code code">
+<pre class="code">http://localhost/frontend_dev.php/</pre>
+</div>
+
+<p>Al acceder a la aplicación, se debería mostrar una imagen similar a la mostrada en la figura 3-1.</p>
+
+<div class="admonition sidebar"><p><strong class="title"> Reescritura de URL (URL Rewriting)</strong> Symfony utiliza la reescritura de URL para mostrar "URL limpias" en la aplicación, es decir, URL con mucho sentido, optimizadas para buscadores y que ocultan a los usuarios los detalles técnicos internos de la aplicación. El Capítulo 9 explica en detalle el sistema de enrutamiento utilizado por Symfony y su implicación en las URL de las aplicaciones.</p>
+
+<p>Para que funcione correctamente la reescritura de URL, es necesario que Apache esté compilado con el módulo <code>mod_rewrite</code> o al menos que esté instalado el módulo <code>mod_rewrite</code> como módulo DSO. En este último caso, la configuración de Apache debe contener las siguientes líneas en el archivo <code>httpd.conf</code>:</p>
+
+<div class="code code">
+<pre class="code">AddModule mod_rewrite.c
+LoadModule rewrite_module modules/mod_rewrite.so</pre>
+</div>
+
+<p>Para los servidores web IIS (Internet Information Services) es necesario disponer de <code>isapi/rewrite</code> instalado y activado. El sitio web del proyecto Symfony dispone de un <a href="http://www.symfony-project.org/cookbook/1_1/en/web_server_iis">tutorial sobre cómo instalar Symfony en servidores IIS</a>.</p></div>
+
+<h3 id="configurar_un_servidor_compartido">3.4.2. Configurar un servidor compartido</h3>
+
+<p>En los servidores de alojamiento compartido es un poco más complicado instalar las aplicaciones creadas con Symfony, ya que los servidores suelen tener una estructura de directorios que no se puede modificar.</p>
+
+<div class="admonition caution"><p><strong class="title">Advertencia</strong> No es recomendable hacer las pruebas y el desarrollo directamente en un servidor compartido. Una de las razones es que la aplicación es pública incluso cuando no está terminada, pudiendo mostrar su funcionamiento interno y pudiendo provocar problemas de seguridad. El otro motivo es que el rendimiento de los servidores compartidos habituales no es suficiente como para depurar la aplicación con las utilidades de Symfony. Por este motivo, no se recomienda comenzar el desarrollo de una aplicación en un servidor compartido, sino que debería desarrollarse en un servidor local y subirla al servidor compartido una vez terminada la aplicación. En el Capítulo 16 se muestran técnicas y herramientas para la instalación de las aplicaciones.</p></div>
+
+<p>Imaginemos que el servidor compartido llama a la carpeta web <code>www/</code> en vez de <code>web/</code> y que no es posible modificar el archivo de configuración <code>httpd.conf</code>, sino que solo es posible acceder a un archivo de tipo <code>.htaccess</code> en ese directorio.</p>
+
+<p>Los proyectos creados con Symfony permiten configurar cada ruta de cada directorio. En el Capítulo 19 se detalla la configuración de los directorios, pero mientras tanto, se va a renombrar el directorio <code>web</code> a <code>www</code> y se va a modificar la configuración de la aplicación para que lo tenga en cuenta. El listado 3-2 muestra los cambios que es preciso añadir al final del archivo <code>config/ProjectConfiguration.class.php</code>.</p>
+
+<p><strong>Listado 3-2 - Modificación de la estructura de directorios por defecto, en <code>config/ProjectConfiguration.class.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> ProjectConfiguration <span class="kw2">extends</span> sfProjectConfiguration
+<span class="br0">&#123;</span>
+   <span class="kw2">public</span> <span class="kw2">function</span> setup<span class="br0">&#40;</span><span class="br0">&#41;</span>
+   <span class="br0">&#123;</span>
+     <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">setWebDir</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRootDir</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/www'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+   <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>La carpeta web de la raíz del servidor contiene por defecto un archivo de tipo <code>.htaccess</code>. El listado 3-3 muestra su contenido, que debe ser modificado de acuerdo a los requerimientos de tu servidor compartido.</p>
+
+<p><strong>Listado 3-3 - Configuración por defecto de <code>.htaccess</code>, ahora guardado en <code>miproyecto/www/.htaccess</code></strong></p>
+
+<div class="code code">
+<pre class="code">Options +FollowSymLinks +ExecCGI
+&nbsp;
+&lt;IfModule mod_rewrite.c&gt;
+  RewriteEngine On
+&nbsp;
+  # uncomment the following line, if you are having trouble
+  # getting no_script_name to work
+  #RewriteBase /
+&nbsp;
+  # we skip all files with .something
+  #RewriteCond %{REQUEST_URI} \..+$
+  #RewriteCond %{REQUEST_URI} !\.html$
+  #RewriteRule .* - [L]
+&nbsp;
+  # we check if the .html version is here (caching)
+  RewriteRule ^$ index.html [QSA]
+  RewriteRule ^([^.]+)$ $1.html [QSA]
+  RewriteCond %{REQUEST_FILENAME} !-f
+&nbsp;
+  # no, so we redirect to our front web controller
+  RewriteRule ^(.*)$ index.php [QSA,L]
+&lt;/IfModule&gt;</pre>
+</div>
+
+<p>Después de realizar los cambios, ya debería ser posible acceder a la aplicación. Comprueba si se muestra la página de bienvenida accediendo a esta dirección:</p>
+
+<div class="code code">
+<pre class="code">http://www.ejemplo.com/frontend_dev.php/</pre>
+</div>
+
+<div class="admonition sidebar"><p><strong class="title"> Otras configuraciones de servidor</strong> Symfony permite realizar otras configuraciones de servidor. Por ejemplo se puede acceder a las aplicaciones Symfony utilizando alias en vez de servidores virtuales. También es posible ejecutar las aplicaciones Symfony en servidores IIS. Existen tantas técnicas como posibles configuraciones, aunque el propósito de este libro no es explicarlas todas.</p>
+
+<p>Para encontrar ayuda sobre las distintas configuraciones de servidor, puedes consultar el wiki del proyecto Symfony (http://trac.symfony-project.org/) en el que existen varios tutoriales con explicaciones detalladas paso a paso.</p></div>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_3/crear_una_aplicacion_web.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>3.3. Crear una aplicación web</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_3/resolucion_de_problemas.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>3.5. Resolución de problemas</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_3.html">
+                    <span>Capítulo 3.</span> Ejecutar aplicaciones Symfony
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/instalando_el_entorno_de_pruebas.html">
+                    <span>3.1.</span> Instalando el entorno de pruebas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/instalando_las_librerias_de_symfony.html">
+                    <span>3.2.</span> Instalando las librerías de Symfony
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/crear_una_aplicacion_web.html">
+                    <span>3.3.</span> Crear una aplicación web
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_3/configurar_el_servidor_web.html">
+                    <span>3.4.</span> Configurar el servidor web
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/resolucion_de_problemas.html">
+                    <span>3.5.</span> Resolución de problemas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/versionado_del_codigo_fuente.html">
+                    <span>3.6.</span> Versionado del código fuente
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/resumen.html">
+                    <span>3.7.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

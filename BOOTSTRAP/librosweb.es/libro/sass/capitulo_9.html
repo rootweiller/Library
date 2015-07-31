@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Capítulo 9. Directivas mixin (Sass, el manual oficial)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="./capitulo_8.html" />
+                    <link rel="next" href="./capitulo_10.html" />
+                <link rel="start" href="/libro/sass/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Capítulo 9. Directivas mixin (Sass, el manual oficial)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page sass"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/sass/" itemprop="url">
+                    <span itemprop="title">Sass, el manual oficial</span>
+                </a>
+            </li>
+
+        
+            <li class="active">
+                <span>Capítulo 9. Directivas mixin</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="directivas_mixin" class="title">
+        <span>Capítulo 9.</span> Directivas mixin
+    </h1>
+
+    <p>Los <em>mixins</em> permiten definir estilos reutilizables en toda la hoja de estilos sin tener que recurrir a clases CSS no semánticas del tipo <code>.float-left</code>. Los <em>mixins</em> también pueden contener reglas CSS y cualquier otro elemento definido por Sass. Los <em>mixins</em> incluso admiten el uso de argumentos, como si fueran funciones, para poder modificar su comportamiento y ofrecer así una mayor flexibilidad.</p>
+
+<h2 id="definiendo_mixins_con_la_directiva_mixin">9.1. Definiendo mixins con la directiva <code>@mixin</code></h2>
+
+<p>Los <em>mixins</em> se definen con la directiva <code>@mixin</code> seguida del nombre del <em>mixin</em> (y opcionalmente una lista de argumentos) y seguida por el bloque de contenidos que definen los estilos del <em>mixin</em>. El siguiente ejemplo define un <em>mixin</em> sin argumentos llamado <code>large-text</code>:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="kw3">@mixin</span> large-<span class="kw2">text</span> <span class="br0">&#123;</span>
+  <span class="kw1">font</span><span class="sy0">:</span> <span class="br0">&#123;</span>
+    family<span class="sy0">:</span> Arial<span class="sy0">;</span>
+    <span class="kw1">size</span><span class="sy0">:</span> <span class="re3">20px</span><span class="sy0">;</span>
+    weight<span class="sy0">:</span> <span class="kw2">bold</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> <span class="re1">#ff0000</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Además de estilos, los <em>mixins</em> también pueden contener selectores, incluso con referencias al selector padre. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="kw3">@mixin</span> clearfix <span class="br0">&#123;</span>
+  <span class="kw1">display</span><span class="sy0">:</span> <span class="kw2">inline-block</span><span class="sy0">;</span>
+  <span class="sy0">&amp;</span><span class="re2">:after </span><span class="br0">&#123;</span>
+    <span class="kw1">content</span><span class="sy0">:</span> <span class="st0">&quot;.&quot;</span><span class="sy0">;</span>
+    <span class="kw1">display</span><span class="sy0">:</span> <span class="kw2">block</span><span class="sy0">;</span>
+    <span class="kw1">height</span><span class="sy0">:</span> <span class="nu0">0</span><span class="sy0">;</span>
+    <span class="kw1">clear</span><span class="sy0">:</span> <span class="kw2">both</span><span class="sy0">;</span>
+    <span class="kw1">visibility</span><span class="sy0">:</span> <span class="kw2">hidden</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+  <span class="sy0">*</span> html <span class="sy0">&amp;</span> <span class="br0">&#123;</span> <span class="kw1">height</span><span class="sy0">:</span> <span class="re3">1px</span> <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<h2 id="incluyendo_mixins_con_include">9.2. Incluyendo mixins con <code>@include</code></h2>
+
+<p>Los <em>mixins</em> se incluyen en las hojas de estilos mediante la directiva <code>@include</code> seguida del nombre del <em>mixin</em> y opcionalmente por una lista de argumentos. El resultado es que todos los estilos definidos por el <em>mixin</em> se incluyen en el mismo punto en el que se llama al <em>mixin</em>. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass">.page-title <span class="br0">&#123;</span>
+  <span class="kw3">@include</span> large-<span class="kw2">text</span><span class="sy0">;</span>
+  <span class="kw1">padding</span><span class="sy0">:</span> <span class="re3">4px</span><span class="sy0">;</span>
+  <span class="kw1">margin-top</span><span class="sy0">:</span> <span class="re3">10px</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css"><span class="re1">.page-title</span> <span class="br0">&#123;</span>
+  <span class="kw1">font-family</span><span class="sy0">:</span> Arial<span class="sy0">;</span>
+  <span class="kw1">font-size</span><span class="sy0">:</span> <span class="re3">20px</span><span class="sy0">;</span>
+  <span class="kw1">font-weight</span><span class="sy0">:</span> <span class="kw2">bold</span><span class="sy0">;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> <span class="re0">#ff0000</span><span class="sy0">;</span>
+  <span class="kw1">padding</span><span class="sy0">:</span> <span class="re3">4px</span><span class="sy0">;</span>
+  <span class="kw1">margin-top</span><span class="sy0">:</span> <span class="re3">10px</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Los <em>mixins</em> también se pueden incluir en el nivel jerárquico superior de la hoja de estilos, es decir, fuera de cualquier selector o regla. Obviamente, estos <em>mixins</em> no pueden incluir ninguna referencia al selector padre, ya que se produciría un error. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="kw3">@mixin</span> silly-links <span class="br0">&#123;</span>
+  a <span class="br0">&#123;</span>
+    <span class="kw1">color</span><span class="sy0">:</span> <span class="kw2">blue</span><span class="sy0">;</span>
+    <span class="kw1">background-color</span><span class="sy0">:</span> <span class="kw2">red</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw3">@include</span> silly-links<span class="sy0">;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">a <span class="br0">&#123;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> <span class="kw1">blue</span><span class="sy0">;</span>
+  <span class="kw1">background-color</span><span class="sy0">:</span> <span class="kw2">red</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Los <em>mixins</em> también pueden incluir en su interior otros <em>mixins</em>. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="kw3">@mixin</span> compound <span class="br0">&#123;</span>
+  <span class="kw3">@include</span> highlighted-<span class="kw1">background</span><span class="sy0">;</span>
+  <span class="kw3">@include</span> header-<span class="kw2">text</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw3">@mixin</span> highlighted-<span class="kw1">background</span> <span class="br0">&#123;</span> <span class="kw1">background-color</span><span class="sy0">:</span> <span class="re1">#fc0</span><span class="sy0">;</span> <span class="br0">&#125;</span>
+<span class="kw3">@mixin</span> header-<span class="kw2">text</span> <span class="br0">&#123;</span> <span class="kw1">font-size</span><span class="sy0">:</span> <span class="re3">20px</span><span class="sy0">;</span> <span class="br0">&#125;</span></pre>
+</div>
+
+<p>Aunque no es muy habitual, los <em>mixins</em> también pueden incluirse a sí mismos de manera recursiva. En las versiones de Sass anteriores a la 3.3 esta recursividad no estaba permitida.</p>
+
+<h2 id="argumentos">9.3. Argumentos</h2>
+
+<p>Los argumentos de los <em>mixins</em> pueden estar formados por cualquier expresión <em>SassScript</em>. Estos argumentos están disponibles en el interior del <em>mixin</em> en forma de variables.</p>
+
+<p>Cuando se define un <em>mixin</em>, los argumentos se definen como una serie de variables separadas por comas, y todo ello encerrado entre paréntesis. Después, cuando se utiliza un <em>mixin</em> deben pasarse los valores de los argumentos en ese mismo orden. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="kw3">@mixin</span> sexy-<span class="kw1">border</span><span class="br0">&#40;</span><span class="re0">$color</span><span class="sy0">,</span> <span class="re0">$width</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">border</span><span class="sy0">:</span> <span class="br0">&#123;</span>
+    <span class="kw1">color</span><span class="sy0">:</span> <span class="re0">$color</span><span class="sy0">;</span>
+    <span class="kw1">width</span><span class="sy0">:</span> <span class="re0">$width</span><span class="sy0">;</span>
+    style<span class="sy0">:</span> <span class="kw2">dashed</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+p <span class="br0">&#123;</span> <span class="kw3">@include</span> sexy-<span class="kw1">border</span><span class="br0">&#40;</span><span class="kw2">blue</span><span class="sy0">,</span> <span class="re3">1in</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">p <span class="br0">&#123;</span>
+  <span class="kw1">border-color</span><span class="sy0">:</span> <span class="kw1">blue</span><span class="sy0">;</span>
+  <span class="kw1">border-width</span><span class="sy0">:</span> <span class="re3">1in</span><span class="sy0">;</span>
+  <span class="kw1">border-style</span><span class="sy0">:</span> <span class="kw2">dashed</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Los <em>mixins</em> también pueden especificar valores por defecto para sus argumentos. De esta manera, si al llamar a un <em>mixin</em> no se pasa el valor de ese argumento, se utiliza en su lugar el valor por defecto. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="kw3">@mixin</span> sexy-<span class="kw1">border</span><span class="br0">&#40;</span><span class="re0">$color</span><span class="sy0">,</span> <span class="re0">$width</span><span class="sy0">:</span> <span class="re3">1in</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">border</span><span class="sy0">:</span> <span class="br0">&#123;</span>
+    <span class="kw1">color</span><span class="sy0">:</span> <span class="re0">$color</span><span class="sy0">;</span>
+    <span class="kw1">width</span><span class="sy0">:</span> <span class="re0">$width</span><span class="sy0">;</span>
+    style<span class="sy0">:</span> <span class="kw2">dashed</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+p <span class="br0">&#123;</span> <span class="kw3">@include</span> sexy-<span class="kw1">border</span><span class="br0">&#40;</span><span class="kw2">blue</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="br0">&#125;</span>
+h1 <span class="br0">&#123;</span> <span class="kw3">@include</span> sexy-<span class="kw1">border</span><span class="br0">&#40;</span><span class="kw2">blue</span><span class="sy0">,</span> <span class="re3">2in</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">p <span class="br0">&#123;</span>
+  <span class="kw1">border-color</span><span class="sy0">:</span> <span class="kw1">blue</span><span class="sy0">;</span>
+  <span class="kw1">border-width</span><span class="sy0">:</span> <span class="re3">1in</span><span class="sy0">;</span>
+  <span class="kw1">border-style</span><span class="sy0">:</span> <span class="kw2">dashed</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+h1 <span class="br0">&#123;</span>
+  <span class="kw1">border-color</span><span class="sy0">:</span> <span class="kw1">blue</span><span class="sy0">;</span>
+  <span class="kw1">border-width</span><span class="sy0">:</span> <span class="re3">2in</span><span class="sy0">;</span>
+  <span class="kw1">border-style</span><span class="sy0">:</span> <span class="kw2">dashed</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<h3 id="argumentos_con_nombre">9.3.1. Argumentos con nombre</h3>
+
+<p>Cuando se utiliza un <em>mixin</em> también es posible indicar el nombre de sus argumentos:</p>
+
+<div class="code sass">
+<pre class="sass">p <span class="br0">&#123;</span> <span class="kw3">@include</span> sexy-<span class="kw1">border</span><span class="br0">&#40;</span><span class="re0">$color</span><span class="sy0">:</span> <span class="kw2">blue</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="br0">&#125;</span>
+h1 <span class="br0">&#123;</span> <span class="kw3">@include</span> sexy-<span class="kw1">border</span><span class="br0">&#40;</span><span class="re0">$color</span><span class="sy0">:</span> <span class="kw2">blue</span><span class="sy0">,</span> <span class="re0">$width</span><span class="sy0">:</span> <span class="re3">2in</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="br0">&#125;</span></pre>
+</div>
+
+<p>Aunque esta sintaxis es menos concisa que la anterior, hace que las hojas de estilos sean más fáciles de leer. Además permite que los <em>mixins</em> tengan interfaces más flexibles y fáciles de usar, aún cuando incluyan muchos argumentos.</p>
+
+<p>Los argumentos con nombre se pueden pasar en cualquier orden y puedes omitir los que tienen un valor por defecto. Además, como los argumentos con nombre en realidad son nombres de variables, puedes utilizar indistintamente guiones medios y bajos.</p>
+
+<h3 id="argumentos_variables">9.3.2. Argumentos variables</h3>
+
+<p>En ocasiones es necesario que un <em>mixin</em> acepte un número indeterminado de argumentos. Si por ejemplo tienes un <em>mixin</em> que añade sombras a los elementos HTML, es preciso que ese <em>mixin</em> acepte cualquier número de sombras como argumentos. Por eso Sass soporta la creación de <em>mixins</em> con un número variable de argumentos.</p>
+
+<p>Para indicar que un <em>mixin</em> tiene un número variable de argumentos, después del último argumento se añaden tres puntos (<code>...</code>). Esto hará que todos los argumentos sobrantes se guarden como una lista en ese último argumento. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="kw3">@mixin</span> <span class="kw1">box-shadow</span><span class="br0">&#40;</span><span class="re0">$shadows</span><span class="sy0">...</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="re5">-moz-</span><span class="kw1">box-shadow</span><span class="sy0">:</span> <span class="re0">$shadows</span><span class="sy0">;</span>
+  <span class="re5">-webkit-</span><span class="kw1">box-shadow</span><span class="sy0">:</span> <span class="re0">$shadows</span><span class="sy0">;</span>
+  <span class="kw1">box-shadow</span><span class="sy0">:</span> <span class="re0">$shadows</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+.shadows <span class="br0">&#123;</span>
+  <span class="kw3">@include</span> <span class="kw1">box-shadow</span><span class="br0">&#40;</span><span class="re3">0px</span> <span class="re3">4px</span> <span class="re3">5px</span> <span class="re1">#666</span><span class="sy0">,</span> <span class="re3">2px</span> <span class="re3">6px</span> <span class="re3">10px</span> <span class="re1">#999</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css"><span class="re1">.shadows</span> <span class="br0">&#123;</span>
+  -moz-box-shadow<span class="sy0">:</span> <span class="re3">0px</span> <span class="re3">4px</span> <span class="re3">5px</span> <span class="re0">#666</span><span class="sy0">,</span> <span class="re3">2px</span> <span class="re3">6px</span> <span class="re3">10px</span> <span class="re0">#999</span><span class="sy0">;</span>
+  -webkit-box-shadow<span class="sy0">:</span> <span class="re3">0px</span> <span class="re3">4px</span> <span class="re3">5px</span> <span class="re0">#666</span><span class="sy0">,</span> <span class="re3">2px</span> <span class="re3">6px</span> <span class="re3">10px</span> <span class="re0">#999</span><span class="sy0">;</span>
+  box-shadow<span class="sy0">:</span> <span class="re3">0px</span> <span class="re3">4px</span> <span class="re3">5px</span> <span class="re0">#666</span><span class="sy0">,</span> <span class="re3">2px</span> <span class="re3">6px</span> <span class="re3">10px</span> <span class="re0">#999</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Los argumentos variables también contienen todos los argumentos con nombre pasados al <em>mixin</em> o función. Puedes acceder a ellos mediante la función
+<code>keywords($args)</code>, que devuelve un mapa de cadenas de texto en las que el nombre de la variable no contiene el carácter <code>$</code>.</p>
+
+<p>Los argumentos variables también se pueden utilizar cuando se llama a un <em>mixin</em>. Utilizando la misma sintaxis de los tres puntos (<code>...</code>) puedes expandir una lista de valores para pasar cada elemento de la lista como si fuera un argumento. Cuando esta sintaxis se utiliza con mapas, cada par <code>clave: valor</code> se transforma en un argumento con el nombre <code>clave</code>. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="kw3">@mixin</span> colors<span class="br0">&#40;</span><span class="re0">$text</span><span class="sy0">,</span> <span class="re0">$background</span><span class="sy0">,</span> <span class="re0">$border</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> <span class="re0">$text</span><span class="sy0">;</span>
+  <span class="kw1">background-color</span><span class="sy0">:</span> <span class="re0">$background</span><span class="sy0">;</span>
+  <span class="kw1">border-color</span><span class="sy0">:</span> <span class="re0">$border</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="re0">$values</span><span class="sy0">:</span> <span class="re1">#ff0000</span><span class="sy0">,</span> <span class="re1">#00ff00</span><span class="sy0">,</span> <span class="re1">#0000ff</span><span class="sy0">;</span>
+.primary <span class="br0">&#123;</span>
+  <span class="kw3">@include</span> colors<span class="br0">&#40;</span><span class="re0">$values</span><span class="sy0">...</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="re0">$value</span>-map<span class="sy0">:</span> <span class="br0">&#40;</span><span class="kw2">text</span><span class="sy0">:</span> <span class="re1">#00ff00</span><span class="sy0">,</span> <span class="kw1">background</span><span class="sy0">:</span> <span class="re1">#0000ff</span><span class="sy0">,</span> <span class="kw1">border</span><span class="sy0">:</span> <span class="re1">#ff0000</span><span class="br0">&#41;</span><span class="sy0">;</span>
+.secondary <span class="br0">&#123;</span>
+  <span class="kw3">@include</span> colors<span class="br0">&#40;</span><span class="re0">$value</span>-map<span class="sy0">...</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css"><span class="re1">.primary</span> <span class="br0">&#123;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> <span class="re0">#ff0000</span><span class="sy0">;</span>
+  <span class="kw1">background-color</span><span class="sy0">:</span> <span class="re0">#00ff00</span><span class="sy0">;</span>
+  <span class="kw1">border-color</span><span class="sy0">:</span> <span class="re0">#0000ff</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="re1">.secondary</span> <span class="br0">&#123;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> <span class="re0">#0000ff</span><span class="sy0">;</span>
+  <span class="kw1">background-color</span><span class="sy0">:</span> <span class="re0">#ff0000</span><span class="sy0">;</span>
+  <span class="kw1">border-color</span><span class="sy0">:</span> <span class="re0">#00ff00</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>También es posible pasar una lista de argumentos y un mapa siempre que la lista se pase primero, como por ejemplo: <code>@include colors($values..., $map...)</code>.</p>
+
+<p>Los argumentos variables pueden servir por ejemplo para crear un <em>mixin</em> que modifique otro <em>mixin</em> existente añadiendo nuevos estilos. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="kw3">@mixin</span> wrapped-stylish-mixin<span class="br0">&#40;</span><span class="re0">$args</span><span class="sy0">...</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">font-weight</span><span class="sy0">:</span> <span class="kw2">bold</span><span class="sy0">;</span>
+  <span class="kw3">@include</span> stylish-mixin<span class="br0">&#40;</span><span class="re0">$args</span><span class="sy0">...</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+.stylish <span class="br0">&#123;</span>
+  <span class="co1">// El argumento $width se pasa con nombre al mixin &quot;stylish-mixin&quot;</span>
+  <span class="kw3">@include</span> wrapped-stylish-mixin<span class="br0">&#40;</span><span class="re1">#00ff00</span><span class="sy0">,</span> <span class="re0">$width</span><span class="sy0">:</span> <span class="re3">100px</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<h2 id="pasando_bloques_de_contenidos_a_los_mixins">9.4. Pasando bloques de contenidos a los mixins</h2>
+
+<p>A los <em>mixins</em> también se les puede pasar un bloque entero de reglas CSS. Este contenido se incluirá en el lugar donde el <em>mixin</em> haya definido la directiva <code>@content</code>. Gracias a esta característica es posible abstraer ciertas partes de la definición de los selectores y directivas. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="kw3">@mixin</span> apply-to-ie6-<span class="kw5">only</span> <span class="br0">&#123;</span>
+  <span class="sy0">*</span> html <span class="br0">&#123;</span>
+    @<span class="kw1">content</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+<span class="kw3">@include</span> apply-to-ie6-<span class="kw5">only</span> <span class="br0">&#123;</span>
+  #logo <span class="br0">&#123;</span>
+    <span class="kw1">background-image</span><span class="sy0">:</span> <span class="kw2">url</span><span class="br0">&#40;</span>/logo.gif<span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css"><span class="sy0">*</span> html <span class="re0">#logo</span> <span class="br0">&#123;</span>
+  <span class="kw1">background-image</span><span class="sy0">:</span> <span class="kw2">url</span><span class="br0">&#40;</span><span class="co2">/logo.gif</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Estos <em>mixins</em> también se pueden definir mediante los siguientes atajos:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="sy0">=</span>apply-to-ie6-<span class="kw5">only</span>
+  <span class="sy0">*</span> html
+    @<span class="kw1">content</span>
+&nbsp;
+<span class="sy0">+</span>apply-to-ie6-<span class="kw5">only</span>
+  #logo
+    <span class="kw1">background-image</span><span class="sy0">:</span> <span class="kw2">url</span><span class="br0">&#40;</span>/logo.gif<span class="br0">&#41;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Cuando se incluye la directiva <code>@content</code> más de una vez o se incluye dentro de un bucle, los contenidos se repiten para cada aparición de <code>@content</code>.</p></div>
+
+<h3 id="contenxto_variables_y_bloques_de_contenidos">9.4.1. Contenxto variables y bloques de contenidos</h3>
+
+<p>Los bloques de contenidos pasados a los <em>mixins</em> se evalúan en el contexto en el que están definidos, no en el contexto del <em>mixin</em>. Esto significa que los bloques de contenidos no pueden utilizar las variables locales definidas en el <em>mixin</em>. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="re0">$color</span><span class="sy0">:</span> <span class="kw2">white</span><span class="sy0">;</span>
+<span class="kw3">@mixin</span> colors<span class="br0">&#40;</span><span class="re0">$color</span><span class="sy0">:</span> <span class="kw2">blue</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">background-color</span><span class="sy0">:</span> <span class="re0">$color</span><span class="sy0">;</span>
+  @<span class="kw1">content</span><span class="sy0">;</span>
+  <span class="kw1">border-color</span><span class="sy0">:</span> <span class="re0">$color</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+.colors <span class="br0">&#123;</span>
+  <span class="kw3">@include</span> colors <span class="br0">&#123;</span> <span class="kw1">color</span><span class="sy0">:</span> <span class="re0">$color</span><span class="sy0">;</span> <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css"><span class="re1">.colors</span> <span class="br0">&#123;</span>
+  <span class="kw1">background-color</span><span class="sy0">:</span> <span class="kw1">blue</span><span class="sy0">;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> <span class="kw2">white</span><span class="sy0">;</span>
+  <span class="kw1">border-color</span><span class="sy0">:</span> <span class="kw1">blue</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>De esta forma, las variables que se utilizan en los bloques que se pasan a los <em>mixins</em> siempre hacen referencia a las variables definidas alrededor de ese bloque o directamente en el nivel jerárquico superior de la hoja de estilos. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass">#sidebar <span class="br0">&#123;</span>
+  <span class="re0">$sidebar</span>-<span class="kw1">width</span><span class="sy0">:</span> <span class="re3">300px</span><span class="sy0">;</span>
+  <span class="kw1">width</span><span class="sy0">:</span> <span class="re0">$sidebar</span>-<span class="kw1">width</span><span class="sy0">;</span>
+  <span class="kw3">@include</span> smartphone <span class="br0">&#123;</span>
+    <span class="kw1">width</span><span class="sy0">:</span> <span class="re0">$sidebar</span>-<span class="kw1">width</span> / <span class="nu0">3</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="./capitulo_8.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 8. Directivas de control y expresiones</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="./capitulo_10.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>Capítulo 10. Directivas de función</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="./capitulo_1.html"> Características</a>
+            </li>
+                                            <li class="level-1">
+                <span>2.</span> <a href="./capitulo_2.html"> Sintaxis</a>
+            </li>
+                                            <li class="level-1">
+                <span>3.</span> <a href="./capitulo_3.html"> Usando Sass</a>
+            </li>
+                                            <li class="level-1">
+                <span>4.</span> <a href="./capitulo_4.html"> Extensiones CSS</a>
+            </li>
+                                            <li class="level-1">
+                <span>5.</span> <a href="./capitulo_5.html"> Comentarios</a>
+            </li>
+                                            <li class="level-1">
+                <span>6.</span> <a href="./capitulo_6.html"> SassScript</a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="./capitulo_7.html"> Reglas @ y directivas</a>
+            </li>
+                                            <li class="level-1">
+                <span>8.</span> <a href="./capitulo_8.html"> Directivas de control y expresiones</a>
+            </li>
+                                            <li class="level-1 active">
+                <a href="./capitulo_9.html">
+                    <span>Capítulo 9.</span> Directivas mixin
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="./capitulo_10.html"> Directivas de función</a>
+            </li>
+                                            <li class="level-1">
+                <span>11.</span> <a href="./capitulo_11.html"> Formato de salida</a>
+            </li>
+                                            <li class="level-1">
+                <span>12.</span> <a href="./capitulo_12.html"> Extendiendo Sass</a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

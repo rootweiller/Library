@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Creando un proveedor de usuarios propio con Silex</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Creando un proveedor de usuarios propio con Silex">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-4-2" class="forum forum_discussion"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                    <div class="module module-ad module-ad-responsive module-ad-top">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+    <div itemscope="" itemtype="http://schema.org/Article">
+        <div id="discussion" class="col-sm-9 ">
+            <h1 class="title" itemprop="name">Creando un proveedor de usuarios propio con Silex</h1>
+
+            <div id="discussion-content" itemprop="description">
+                <p>Hola,</p>
+
+<p>Estoy con el <em>backend</em> para una aplicación y como tenemos varios iguales se van a unificar y claro, la forma de identificar cada uno es con un código de cliente: un esquema común de base de datos con los usuarios y luego cada cliente con su esquema.</p>
+
+<p>Total, que el login tiene que tener además de usuario y contraseña (obvio) un "código de cliente", ¿cómo puedo validar ese tercer parámetro?. En el <code>UserProvider</code> tengo el método <code>loadUserByUsername()</code> que recibe el nombre de usuario, típico, pero he intentado pasarle el <code>Request</code> o algo donde poder pillar los parámetros. El caso es que buscando he encontrado con un par de post similares por StackOverflow pero no termino de entender muy bien lo que hacer:</p>
+
+<ul>
+<li><a href="http://stackoverflow.com/questions/15420328/symfony2-login-using-3-parameters-username-password-and-company">symfony2 login using 3 parameters (username, password and company)</a></li>
+<li><a href="http://stackoverflow.com/questions/9652290/custom-login-using-a-third-parameter">Custom Login using a Third Parameter</a></li>
+</ul>
+
+<p>Estoy haciéndolo como el del primer enlace. Entiendo que tendría que añadir un campo <code>_codigo</code>, "codigo_parameter", ¿no?. ¿Cómo indico luego que use ese para validar? y lo mas importante, ¿cómo hago la consulta en <code>loadUserByUsername()</code>, porque solo recibe el nombre de usuario?.</p>
+
+<p>Tengo muchas dudas la verdad, he trabajado con Silex para este y otros proyectos pero nunca me he metido tan a fondo.</p>
+
+<p>Gracias de antemano.</p>
+
+<p>Un saludo.</p>
+
+            </div>
+
+                            <div id="discussion-tags">
+                    <h3>Etiquetas</h3>
+                    <ul class="tags-list">
+                                                                <li><a href="/foro/seguridad/">seguridad</a></li>
+                                            <li><a href="/foro/silex/">silex</a></li>
+                                        </ul>
+                </div>
+                    </div>
+
+        <div id="discussion-attributes" class="col-sm-3">
+            <div class="row">
+                <p class="col-xs-3 col-sm-12 avatar">
+                    <img width="73" height="73" itemprop="image"
+                     src="http://pbs.twimg.com/profile_images/1246411719/021_DonRamon_bigger.jpg" />
+                </p>
+
+                <p class="col-xs-8 col-sm-12 col-md-12">
+                    <span class="login">@LoGaNsF</span>
+                    <meta itemprop="author" content="Jose Manuel" />
+
+                    <span class="published">1 de septiembre de 2014</span>
+                    <meta itemprop="dateCreated" content="2014-09-01T20:05:33+02:00" />
+                </p>
+
+                <p id="discussion-actions" class="col-sm-12">
+                                    </p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="discussion-comments" class="col-sm-12">
+                    <h2>Respuestas</h2>
+
+                            <div class="row comment"  id="respuesta-1">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-1" title="Enlace permanente a esta respuesta">#1</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_1_html">
+                        <p>Si te he entendido bien, lo que debes hacer es lo que se explica en el propio manual de Silex: <a href="http://librosweb.es/libro/silex/apendice_a/securityserviceprovider.html#utilizando_un_proveedor_de_usuarios_propio">Cómo utilizar un proveedor de usuarios propio en Silex</a>.</p>
+
+<p>Lo primero sería configurar tu propia clase proveedora de usuarios (debes definir la clase <code>UserProvider</code> en tu aplicación Silex) para poder pasarle el <code>id</code> de la empresa:</p>
+
+<pre class="php code"><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'security.firewalls'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'admin'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'pattern'</span> <span class="sy0">=&gt;</span> <span class="st_h">'...'</span><span class="sy0">,</span>
+        <span class="co2"># ...
+</span>        <span class="st_h">'users'</span> <span class="sy0">=&gt;</span> <span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">share</span><span class="br0">&#40;</span><span class="kw2">function</span> <span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="kw2">new</span> UserProvider<span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'db'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'request'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'company_id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span><span class="br0">&#41;</span>
+    <span class="br0">&#41;</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>Y después tendrías que definir el código de esa clase, que sería casi idéntico al que se muestra en el manual de Silex. Tú sólo tendrías que modificar el constructor de la clase y la consulta del método <code>loadByUsername()</code>:</p>
+
+<pre class="php code"><span class="kw2">use</span> Symfony\Component\Security\Core\User\UserProviderInterface<span class="sy0">;</span>
+<span class="kw2">use</span> Doctrine\DBAL\Connection<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> UserProvider implements UserProviderInterface
+<span class="br0">&#123;</span>
+    <span class="kw2">private</span> <span class="re0">$conn</span><span class="sy0">;</span>
+    <span class="kw2">private</span> <span class="re0">$companyId</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span>Connection <span class="re0">$conn</span><span class="sy0">,</span> <span class="re0">$companyId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">conn</span> <span class="sy0">=</span> <span class="re0">$conn</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">companyId</span> <span class="sy0">=</span> <span class="re0">$companyId</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> loadUserByUsername<span class="br0">&#40;</span><span class="re0">$username</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$stmt</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">conn</span><span class="sy0">-&gt;</span><span class="me1">executeQuery</span><span class="br0">&#40;</span><span class="st_h">'SELECT * FROM users WHERE username = ? AND company = ?'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="kw3">strtolower</span><span class="br0">&#40;</span><span class="re0">$username</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="br0">&#40;</span>int<span class="br0">&#41;</span> <span class="re0">$companyId</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$user</span> <span class="sy0">=</span> <span class="re0">$stmt</span><span class="sy0">-&gt;</span><span class="me1">fetch</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">throw</span> <span class="kw2">new</span> UsernameNotFoundException<span class="br0">&#40;</span><span class="kw3">sprintf</span><span class="br0">&#40;</span><span class="st_h">'Username &quot;%s&quot; does not exist.'</span><span class="sy0">,</span> <span class="re0">$username</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="co1">// ...</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co1">// ...</span>
+<span class="br0">&#125;</span></pre>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    01-sep-14 23:24
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-2">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-2" title="Enlace permanente a esta respuesta">#2</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_2_html">
+                        <p>Muchas gracias, pero al hacerlo así me lanza el error:</p>
+
+<pre class="code code">RuntimeException: Accessed request service outside of request scope.
+Try moving that call to a before handler or controller</pre>
+
+<p>El firewall lo tengo configurado en el archivo app.php, lo que hago es poner como zona segura <code>/admin</code>, pero realmente lo que hace el controlador es que cuando entras en <code>/</code> te redirige a <code>/login</code> y este a <code>/admin</code>. Vamos, que siempre te tienes que loguear. Este sería mi firewall:</p>
+
+<pre class="php code"><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'security.firewalls'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'default'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'remember_me'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="st_h">'lifetime'</span> <span class="sy0">=&gt;</span> <span class="nu0">31536000</span><span class="sy0">,</span>
+            <span class="st_h">'path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'/admin'</span><span class="sy0">,</span>
+            <span class="st_h">'domain'</span> <span class="sy0">=&gt;</span> <span class="st_h">''</span>
+        <span class="br0">&#41;</span><span class="sy0">,</span>
+        <span class="st_h">'pattern'</span> <span class="sy0">=&gt;</span> <span class="st_h">'^/admin'</span><span class="sy0">,</span>
+        <span class="st_h">'anonymous'</span> <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="sy0">,</span>
+        <span class="st_h">'form'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="st_h">'login_path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'/login'</span><span class="sy0">,</span>
+            <span class="st_h">'check_path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'/admin/login_check'</span><span class="sy0">,</span>
+            <span class="st_h">'default_target_path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'/admin'</span><span class="sy0">,</span>
+            <span class="st_h">'always_use_default_target_path'</span> <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="sy0">,</span>
+            <span class="st_h">'use_referer'</span> <span class="sy0">=&gt;</span> <span class="kw4">true</span>
+        <span class="br0">&#41;</span><span class="sy0">,</span>
+        <span class="st_h">'logout'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="st_h">'logout_path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'/admin/logout'</span>
+        <span class="br0">&#41;</span><span class="sy0">,</span>
+        <span class="st_h">'users'</span> <span class="sy0">=&gt;</span> <span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">share</span><span class="br0">&#40;</span><span class="kw2">function</span> <span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="kw2">new</span> UserProvider<span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'db'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'request'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'ccode'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>Lo demás lo he echo igual, al UserProvider le he añadido un atributo <code>ccode</code> (el código es texto en mi caso) y el resto es igual, variando la consulta. Lo que si he echo se añadir otro campo a mi clase User con el código para poder acceder a el fácilmente. El resto es igual pero no hay manera. Te pongo ambas clases:</p>
+
+<p><strong>UserProvider.php</strong>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">namespace</span> Users<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Users\User<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Security\Core\User\UserProviderInterface<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Security\Core\User\UserInterface<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Security\Core\Exception\UnsupportedUserException<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Security\Core\Exception\UsernameNotFoundException<span class="sy0">;</span>
+<span class="kw2">use</span> Doctrine\DBAL\Connection<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> UserProvider implements UserProviderInterface <span class="br0">&#123;</span>
+    <span class="kw2">private</span> <span class="re0">$conn</span><span class="sy0">;</span>
+    <span class="kw2">private</span> <span class="re0">$ccode</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span>Connection <span class="re0">$conn</span><span class="sy0">,</span> <span class="re0">$ccode</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">conn</span> <span class="sy0">=</span> <span class="re0">$conn</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">ccode</span> <span class="sy0">=</span> <span class="re0">$ccode</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> loadUserByUsername<span class="br0">&#40;</span><span class="re0">$username</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">// $sql = 'SELECT * FROM usuarios WHERE email_usuario = ?';</span>
+        <span class="re0">$sql</span> <span class="sy0">=</span> <span class="st0">&quot;SELECT c.id, c.codigo, u.email_usuario, u.pass_usuario, u.roles
+                FROM usuarios u
+                INNER JOIN clientes c ON u.cliente_id = c.id
+                WHERE LOWER(email_usuario) = ? AND LOWER(codigo) = ? AND c.estado = 1&quot;</span><span class="sy0">;</span>
+        <span class="re0">$stmt</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">conn</span><span class="sy0">-&gt;</span><span class="me1">executeQuery</span><span class="br0">&#40;</span><span class="re0">$sql</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="kw3">strtolower</span><span class="br0">&#40;</span><span class="re0">$username</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">strtolower</span><span class="br0">&#40;</span><span class="re0">$ccode</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$user</span> <span class="sy0">=</span> <span class="re0">$stmt</span><span class="sy0">-&gt;</span><span class="me1">fetch</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">throw</span> <span class="kw2">new</span> UsernameNotFoundException<span class="br0">&#40;</span><span class="kw3">sprintf</span><span class="br0">&#40;</span><span class="st_h">'Username &quot;%s&quot; does not exist.'</span><span class="sy0">,</span> <span class="re0">$username</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="kw2">new</span> User<span class="br0">&#40;</span><span class="re0">$user</span><span class="br0">&#91;</span><span class="st_h">'email_usuario'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="re0">$user</span><span class="br0">&#91;</span><span class="st_h">'pass_usuario'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="kw3">explode</span><span class="br0">&#40;</span><span class="st_h">','</span><span class="sy0">,</span> <span class="re0">$user</span><span class="br0">&#91;</span><span class="st_h">'roles'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$user</span><span class="br0">&#91;</span><span class="st_h">'codigo'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="kw4">true</span><span class="sy0">,</span> <span class="kw4">true</span><span class="sy0">,</span> <span class="kw4">true</span><span class="sy0">,</span> <span class="kw4">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> refreshUser<span class="br0">&#40;</span>UserInterface <span class="re0">$user</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$user</span> instanceof User<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">throw</span> <span class="kw2">new</span> UnsupportedUserException<span class="br0">&#40;</span><span class="kw3">sprintf</span><span class="br0">&#40;</span><span class="st_h">'Instances of &quot;%s&quot; are not supported.'</span><span class="sy0">,</span> <span class="kw3">get_class</span><span class="br0">&#40;</span><span class="re0">$user</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">loadUserByUsername</span><span class="br0">&#40;</span><span class="re0">$user</span><span class="sy0">-&gt;</span><span class="me1">getUsername</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> supportsClass<span class="br0">&#40;</span><span class="re0">$class</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$class</span> <span class="sy0">===</span> <span class="st_h">'User'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+<p><strong><em>User.php</em></strong>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">namespace</span> Users<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\Security\Core\User\UserInterface<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> User implements UserInterface
+<span class="br0">&#123;</span>
+    <span class="kw2">private</span> <span class="re0">$email_usuario</span><span class="sy0">;</span>
+    <span class="kw2">private</span> <span class="re0">$pass_usuario</span><span class="sy0">;</span>
+    <span class="kw2">private</span> <span class="re0">$roles</span><span class="sy0">;</span>
+    <span class="kw2">private</span> <span class="re0">$code</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span><span class="re0">$email_usuario</span><span class="sy0">,</span> <span class="re0">$pass_usuario</span><span class="sy0">,</span> <span class="kw3">array</span> <span class="re0">$roles</span><span class="sy0">,</span> <span class="re0">$codigo</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">email_usuario</span> <span class="sy0">=</span> <span class="re0">$email_usuario</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">pass_usuario</span> <span class="sy0">=</span> <span class="re0">$pass_usuario</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">roles</span> <span class="sy0">=</span> <span class="re0">$roles</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">code</span> <span class="sy0">=</span> <span class="re0">$codigo</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> getRoles<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">roles</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> getPassword<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">pass_usuario</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> getSalt<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> getUsername<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">email_usuario</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> eraseCredentials<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> getCode<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">code</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> isEqualTo<span class="br0">&#40;</span>UserInterface <span class="re0">$user</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$user</span> instanceof User<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="kw4">false</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">pass_usuario</span> <span class="sy0">!==</span> <span class="re0">$user</span><span class="sy0">-&gt;</span><span class="me1">getPassword</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="kw4">false</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">email_usuario</span> <span class="sy0">!==</span> <span class="re0">$user</span><span class="sy0">-&gt;</span><span class="me1">getUsername</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="kw4">false</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="kw4">true</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>Según lo que he visto es que no puedo acceder a la petición en el middleware share, ¿pero como lo hago?. Voy a seguir probando.</p>
+
+<p>Gracias.</p>
+
+<p>Un saludo.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1246411719/021_DonRamon_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @LoGaNsF
+                                </span>
+
+                                <span class="published">
+                                    02-sep-14 09:59
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-3">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-3" title="Enlace permanente a esta respuesta">#3</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_3_html">
+                        <p>El error que estás viendo se parece bastante a <a href="https://github.com/silexphp/Silex/issues/661">este issue reportado</a> en el repositorio de Silex. Teóricamente ya está resuelto <a href="https://github.com/silexphp/Silex/pull/662">en este Pull Request</a>. ¿La versión de Silex que utilizáis es más o menos moderna?</p>
+
+<p>Otra posible solución que puedes explorar son <a href="http://librosweb.es/libro/silex/capitulo_3/los_middlewares_de_aplicacion.html">los middlewares de Silex</a>, que te permiten ejecutar código antes de la capa de seguridad utilizando el tipo de evento <code>Application::EARLY_EVENT</code>.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    02-sep-14 10:12
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-4">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-4" title="Enlace permanente a esta respuesta">#4</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_4_html">
+                        <p>La versión es la 1.2.1, no hace mucho que la actualice. He cambiado el código por:</p>
+
+<pre class="php code"><span class="sy0">...</span>
+<span class="st_h">'users'</span> <span class="sy0">=&gt;</span> <span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">before</span><span class="br0">&#40;</span><span class="kw2">function</span> <span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="kw2">new</span> UserProvider<span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'db'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'request'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'ccode'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">,</span> Application<span class="sy0">::</span><span class="me2">EARLY_EVENT</span><span class="br0">&#41;</span>
+<span class="sy0">...</span></pre>
+
+<p>Ahora no da error, solo que no me loguea aunque voy a mirar por si fuese de la base de datos ya que tengo varias conexiones (una por cada cliente), aunque entiendo que debería coger la primera que la he llamado default, ¿no?.</p>
+
+<p>Gracias de nuevo, si no es correcto el código que he puesto indicamelo vaya ser que me este pegando cabezazos jeje :P</p>
+
+<p>Un saludo.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1246411719/021_DonRamon_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @LoGaNsF
+                                </span>
+
+                                <span class="published">
+                                    02-sep-14 10:33
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-5">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-5" title="Enlace permanente a esta respuesta">#5</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_5_html">
+                        <p>Me estoy volviendo loco. He puesto el código tal y como he puesto antes, no da error pero siempre me dice "Bad credentials" al loguear. Usando ladybug he visto que crea bien el usuario por lo que tanto la consulta como la clase User están correctas. ¿Porque me da siempre error en el login?. El caso es que si dejo el código como al principio, sin usar ese tercer parámetro, me loguea perfectamente.</p>
+
+<p>Ya no se que hacer, he revisado y revisado la base de datos por si hubiese algo mal, pero es que esta bien.</p>
+
+<p>EDIT: he vuelvo a usar share y he probado a pasar a pelo el código y funciona perfecto, pero necesito el código que escriba el usuario pero no puedo acceder al request. Sigo probando pero me tiene ya desesperado jeje. ¿No podría inyectar la petición de alguna forma?. Entiendo que ese servicio se ejecuta tanto cuando entro como cuando envío el login, ¿no?. Pero si no puedo acceder al request no le veo sentido a hacerlo de esta forma.</p>
+
+<p>EDIT: voy avanzando pero no me muevo del sitio, actualmente tengo esto:</p>
+
+<pre class="php code"><span class="st_h">'users'</span> <span class="sy0">=&gt;</span> <span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">share</span><span class="br0">&#40;</span><span class="kw2">function</span> <span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="kw2">new</span> UserProvider<span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'db'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="re0">$app</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">,</span></pre>
+
+<p>Luego en el <code>UserProvider</code> accedo con <code>$this-&gt;ccode['request']-&gt;get('ccode')</code>, no me da error pero siempre me devuelve al login. Miro el log y obtengo lo siguiente:</p>
+
+<pre class=" code">[2014-09-02 16:27:26] myapp.INFO: Matched route &quot;admin_login_check&quot; (parameters: &quot;_controller&quot;: &quot;null&quot;, &quot;_route&quot;: &quot;admin_login_check&quot;) [] []
+[2014-09-02 16:27:27] myapp.INFO: User &quot;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="7b191e0214151f0c1e193b191e191e0214151f551e08">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&quot; has been authenticated successfully [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Clearing remember-me cookie &quot;REMEMBERME&quot; [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Did not send remember-me cookie (remember-me parameter &quot;_remember_me&quot; was not sent). [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Remember-me was not requested. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.request&quot; to listener &quot;Symfony\Component\HttpKernel\EventListener\ProfilerListener::onKernelRequest&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.request&quot; to listener &quot;closure&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.request&quot; to listener &quot;Silex\Provider\SessionServiceProvider::onEarlyKernelRequest&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.request&quot; to listener &quot;Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.request&quot; to listener &quot;Silex\EventListener\LocaleListener::onKernelRequest&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.request&quot; to listener &quot;Symfony\Component\Security\Http\Firewall::onKernelRequest&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Listener &quot;Symfony\Component\Security\Http\Firewall::onKernelRequest&quot; stopped propagation of the event &quot;kernel.request&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Listener &quot;closure&quot; was not called for event &quot;kernel.request&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Listener &quot;Silex\EventListener\LogListener::onKernelRequest&quot; was not called for event &quot;kernel.request&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Listener &quot;Silex\EventListener\MiddlewareListener::onKernelRequest&quot; was not called for event &quot;kernel.request&quot;. [] []
+[2014-09-02 16:27:27] myapp.INFO: &lt; 302 http://backend.bbgame/admin [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Write SecurityContext in the session [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.response&quot; to listener &quot;Silex\EventListener\MiddlewareListener::onKernelResponse&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.response&quot; to listener &quot;Symfony\Component\HttpKernel\EventListener\ResponseListener::onKernelResponse&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.response&quot; to listener &quot;closure&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.response&quot; to listener &quot;Symfony\Component\Security\Http\RememberMe\ResponseListener::onKernelResponse&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.response&quot; to listener &quot;Silex\EventListener\LogListener::onKernelResponse&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.response&quot; to listener &quot;Symfony\Component\Security\Http\Firewall\ContextListener::onKernelResponse&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.response&quot; to listener &quot;Symfony\Component\HttpKernel\EventListener\ProfilerListener::onKernelResponse&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.response&quot; to listener &quot;Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener::onKernelResponse&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.finish_request&quot; to listener &quot;Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelFinishRequest&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.finish_request&quot; to listener &quot;Silex\EventListener\LocaleListener::onKernelFinishRequest&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.finish_request&quot; to listener &quot;Symfony\Component\Security\Http\Firewall::onKernelFinishRequest&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.terminate&quot; to listener &quot;closure&quot;. [] []
+[2014-09-02 16:27:27] myapp.DEBUG: Notified event &quot;kernel.terminate&quot; to listener &quot;Symfony\Component\HttpKernel\EventListener\ProfilerListener::onKernelTerminate&quot;. [] []
+[2014-09-02 16:27:28] myapp.INFO: Matched route &quot;admin&quot; (parameters: &quot;_controller&quot;: &quot;{}&quot;, &quot;_route&quot;: &quot;admin&quot;) [] []
+[2014-09-02 16:27:28] myapp.DEBUG: Read SecurityContext from the session [] []
+[2014-09-02 16:27:28] myapp.DEBUG: Reloading user from user provider. [] []
+[2014-09-02 16:27:29] myapp.WARNING: Username &quot;&quot; could not be found. [] []
+[2014-09-02 16:27:29] myapp.INFO: Populated SecurityContext with an anonymous Token [] []
+[2014-09-02 16:27:29] myapp.DEBUG: Access is denied (user is not fully authenticated) by &quot;C:\xampp\htdocs\backend.bbgame\vendor\symfony\security\Symfony\Component\Security\Http\Firewall\AccessListener.php&quot; at line 70; redirecting to authentication entry point [] []
+[2014-09-02 16:27:29] myapp.DEBUG: Calling Authentication entry point [] []
+[2014-09-02 16:27:29] myapp.DEBUG: Notified event &quot;kernel.exception&quot; to listener &quot;Symfony\Component\HttpKernel\EventListener\ProfilerListener::onKernelException&quot;. [] []
+[2014-09-02 16:27:29] myapp.DEBUG: Notified event &quot;kernel.exception&quot; to listener &quot;Symfony\Component\Security\Http\Firewall\ExceptionListener::onKernelException&quot;. [] []
+[2014-09-02 16:27:29] myapp.DEBUG: Listener &quot;Symfony\Component\Security\Http\Firewall\ExceptionListener::onKernelException&quot; stopped propagation of the event &quot;kernel.exception&quot;. [] []
+[2014-09-02 16:27:29] myapp.DEBUG: Listener &quot;Silex\EventListener\LogListener::onKernelException&quot; was not called for event &quot;kernel.exception&quot;. [] []
+[2014-09-02 16:27:29] myapp.DEBUG: Listener &quot;Silex\ExceptionListenerWrapper::__invoke&quot; was not called for event &quot;kernel.exception&quot;. [] []
+[2014-09-02 16:27:29] myapp.DEBUG: Listener &quot;Silex\ExceptionListenerWrapper::__invoke&quot; was not called for event &quot;kernel.exception&quot;. [] []
+[2014-09-02 16:27:29] myapp.DEBUG: Listener &quot;Silex\ExceptionHandler::onSilexError&quot; was not called for event &quot;kernel.exception&quot;. [] []
+[2014-09-02 16:27:29] myapp.INFO: &lt; 302 http://backend.bbgame/login [] []</pre>
+
+<p>Parece que lo hace pero cuando me redirige a <code>/admin</code> no estoy logueado. ¿He echo algo mal en lo que he puesto? Qué locura, aunque estoy aprendiendo jeje.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1246411719/021_DonRamon_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @LoGaNsF
+                                </span>
+
+                                <span class="published">
+                                    02-sep-14 12:21
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-6">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-6" title="Enlace permanente a esta respuesta">#6</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_6_html">
+                        <p>Siento postear tan seguido pero me voy a volver loco jeje. Me di por vencido ayer con el método que me comentabas, opté por pasar <code>$app</code> directamente al <code>UserProvider</code> y me ocurre lo que comentaba arriba, pero no hay manera.</p>
+
+<p>Pues hoy he probado a crear mi propio proveedor de autenticación como en el manual y guiándome por la web de symfony y el segundo enlace que puse en mi primer post. Pero no hay manera. Mira que me he creado mi propia clase <code>AbstractToken</code> para crear el token de usuario añadiéndole un campo para el código, con un <em>provider</em> y un <em>listener</em> añadiendo el campo código junto con el <code>username</code> y <code>password</code>, pero nada.</p>
+
+<p>Sigue yendo <code>loadUserByUsername()</code> aunque he creado y utilizado en el <em>listener</em> un método <code>loadUserByUsernameCode</code> que recibe usuario y código para sacar el usuario.</p>
+
+<p>A ver si me podéis echar una mano que no puedo avanzar.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1246411719/021_DonRamon_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @LoGaNsF
+                                </span>
+
+                                <span class="published">
+                                    03-sep-14 15:41
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-7">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-7" title="Enlace permanente a esta respuesta">#7</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_7_html">
+                        <p>Nunca he tenido que hacer un <em>user provider</em> con Silex, pero sigo pensando que la mejor manera de hacerlo sería seguir el método explicado en el manual oficial de Silex (<a href="http://librosweb.es/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-1">ver respuesta anterior</a>).</p>
+
+<p>El problema era que en ese caso se te producía este error:</p>
+
+<pre class="code code">RuntimeException: Accessed request service outside of request scope.
+Try moving that call to a before handler or controller</pre>
+
+<p>Para evitarlo, no pases el objeto <code>Request</code> mediante <code>$app['request']</code>, sino que puedes probar a pasar el objeto <code>RequestStack</code>. Te quedaría algo así:</p>
+
+<pre class="php code"><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'security.firewalls'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'admin'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'pattern'</span> <span class="sy0">=&gt;</span> <span class="st_h">'...'</span><span class="sy0">,</span>
+        <span class="co2"># ...
+</span>        <span class="st_h">'users'</span> <span class="sy0">=&gt;</span> <span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">share</span><span class="br0">&#40;</span><span class="kw2">function</span> <span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="kw2">new</span> UserProvider<span class="br0">&#40;</span>
+                <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'db'</span><span class="br0">&#93;</span><span class="sy0">,</span>
+                <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'request_stack'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">getCurrentRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'company_id'</span><span class="br0">&#41;</span>
+            <span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span><span class="br0">&#41;</span>
+    <span class="br0">&#41;</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>Lo del <code>RequestStack</code> no se explica en el manual de Silex, pero sí que lo explican <a href="http://symfony.com/doc/current/book/service_container.html#book-container-request-stack">en la documentación de Symfony</a>.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    03-sep-14 22:08
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-8">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-8" title="Enlace permanente a esta respuesta">#8</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_8_html">
+                        <p>Muchas gracias, mañana lo probare en cuanto llegue, desconocía request_stack, a ver si de esa forma me sirve. De todas maneras actualmente lo tengo como me indicaste orignalmente, tenia que probar otros métodos jeje.</p>
+
+<p>Lo único, tengo una clase User a la cual le he añadido un campo $ccode y le paso este también en el constructor, ¿no habrá problema por eso no?.</p>
+
+<p>Gracias de nuevo.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1246411719/021_DonRamon_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @LoGaNsF
+                                </span>
+
+                                <span class="published">
+                                    03-sep-14 22:40
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-9">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-9" title="Enlace permanente a esta respuesta">#9</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_9_html">
+                        <p>He estado probando lo que me comentabas y nada, ahora me lanza el error:</p>
+
+<pre class="code code">FatalErrorException: Error: Call to a member function get() on a non-object in...</pre>
+
+<p>Si pruebo a pasarle <code>RequestStack</code> directamente y obtener el código desde el <code>UserProvider</code> también peta. En el primer caso ni me muestra el login y en el segundo envío el formulario pero luego me da el mismo error. Bueno, no el mismo pero viene a ser lo mismo, que no puede acceder a ese valor. Siempre es <code>null</code> el <code>getCurrentRequest()</code>.</p>
+
+<p>¿Hay algo que me esté olvidando? Sólo he creado el <code>UserProvider</code> y mi clase <code>User</code>, nada de autenticación propia ni nada mas.</p>
+
+<p>Gracias de nuevo.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1246411719/021_DonRamon_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @LoGaNsF
+                                </span>
+
+                                <span class="published">
+                                    04-sep-14 10:14
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-10">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-10" title="Enlace permanente a esta respuesta">#10</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_10_html">
+                        <p>Como este no es un problema tan fácil de resolver, te propongo que hagamos una cosa. Primero vamos a hacer que funcione el login con tres campos poniendo a mano el código de la empresa. Luego ya veremos cómo obtener ese código y pasárselo al <em>provider</em>.</p>
+
+<p>Así que te propongo que utilices el siguiente código con el <code>id</code> de empresa <em>hardcodeado</em> y compruebes si realmente los usuarios se pueden <em>loguear</em> en esa empresa:</p>
+
+<pre class="php code"><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'security.firewalls'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'admin'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'pattern'</span> <span class="sy0">=&gt;</span> <span class="st_h">'...'</span><span class="sy0">,</span>
+        <span class="co2"># ...
+</span>        <span class="st_h">'users'</span> <span class="sy0">=&gt;</span> <span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">share</span><span class="br0">&#40;</span><span class="kw2">function</span> <span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="kw2">new</span> UserProvider<span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'db'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="st_h">'empresa_1'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span><span class="br0">&#41;</span>
+    <span class="br0">&#41;</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    04-sep-14 10:24
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-11">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-11" title="Enlace permanente a esta respuesta">#11</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_11_html">
+                        <p>Ok, lo he puesto así y todo correcto, me loguea sin problemas. También he probado, que no lo puse, a comprobar que <code>$app['request_stack']-&gt;getCurrentRequest()</code> no era <code>null</code> y si era <code>null</code> meter el código a mano, si no, pues cogerlo del formulario pero siempre era <code>null</code>.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1246411719/021_DonRamon_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @LoGaNsF
+                                </span>
+
+                                <span class="published">
+                                    04-sep-14 11:17
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-12">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-12" title="Enlace permanente a esta respuesta">#12</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_12_html">
+                        <p>¡Genial! Me alegro que esa parte funcione bien, ya que en teoría esa era la parte difícil. Lo que podemos hacer ahora para pasar el parámetro con el <code>id</code> de la empresa, es lo siguiente:</p>
+
+<p><strong>1.</strong> Creas un <em>middleware</em> de tipo <code>Aplication::ERALY_EVENT</code>, porque este es el único evento que se ejecuta antes de la capa de seguridad.</p>
+
+<p><strong>2.</strong> En ese <em>middleware</em> obtienes el <code>id</code> de la empresa y lo guardas como un parámetro de la aplicación. Ejemplo: <code>$app['params.ccode'] = 'XXXX'</code></p>
+
+<p><strong>3.</strong> Si todo va bien, podrás reemplazar el valor <em>hardcodeado</em> del <code>id</code> de la empresa en tu proveedor por una llamada a <code>$app['params.ccode']</code>.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    04-sep-14 11:29
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-13">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-13" title="Enlace permanente a esta respuesta">#13</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_13_html">
+                        <p>Vamos avanzando, no me loguea pero porque el parámetro esta a <code>null</code> y me devuelve <strong>Bad credentials</strong>. Lo tengo así ahora mismo:</p>
+
+<pre class="php code"><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'security.firewalls'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'default'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'pattern'</span> <span class="sy0">=&gt;</span> <span class="st_h">'^/admin'</span><span class="sy0">,</span>
+        <span class="co2"># ...
+</span>        <span class="st_h">'users'</span> <span class="sy0">=&gt;</span> <span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">share</span><span class="br0">&#40;</span><span class="kw2">function</span> <span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="kw2">new</span> UserProvider<span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'db'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'params.ccode'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span>
+<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'params.ccode'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">before</span><span class="br0">&#40;</span><span class="kw2">function</span> <span class="br0">&#40;</span>Request <span class="re0">$request</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'_ccode'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">,</span> Application<span class="sy0">::</span><span class="me2">EARLY_EVENT</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>Probando con ladybug compruebo que siempre entra en el before y toma bien el valor del formulario, pero si hago la comprobación en en share, cuando envío el formulario en <code>$app['params.ccode']</code> es null siempre. Ahí me surge la duda, ¿cada vez que hago un intento de login entra en el share?. He probado a quitarlo y me lanza el error:</p>
+
+<pre class="code code">InvalidArgumentException: Identifier &quot;params.ccode&quot; is not defined.</pre>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1246411719/021_DonRamon_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @LoGaNsF
+                                </span>
+
+                                <span class="published">
+                                    04-sep-14 12:23
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-14">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-14" title="Enlace permanente a esta respuesta">#14</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_14_html">
+                        <p>Creo que el <em>middleware</em> que se ejecuta antes que nada debería ser así:</p>
+
+<pre class="php code"><span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">before</span><span class="br0">&#40;</span><span class="kw2">function</span> <span class="br0">&#40;</span>Request <span class="re0">$request</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'params.ccode'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'_ccode'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">,</span> Application<span class="sy0">::</span><span class="me2">EARLY_EVENT</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    04-sep-14 12:33
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-15">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-15" title="Enlace permanente a esta respuesta">#15</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_15_html">
+                        <p>Inicialmente lo tenia así, pero me lanza el error anterior por lo que tenia que inicializar el parámetro antes aunque sea como una cadena vacía, pero claro, el error lo lanza la línea:</p>
+
+<pre class="php code"><span class="kw1">return</span> <span class="kw2">new</span> UserProvider<span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'db'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'params.ccode'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>Está entrando antes que en el middleware, he probado incluso a ponerlo antes por si tenía algo que ver (todo esto está en el <code>app.php</code>), pero tampoco.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1246411719/021_DonRamon_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @LoGaNsF
+                                </span>
+
+                                <span class="published">
+                                    04-sep-14 12:50
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-16">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-16" title="Enlace permanente a esta respuesta">#16</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_16_html">
+                        <p>He estado probando y pintando con <code>print_r</code> para ver por donde iba pasando y entra siempre en <code>share</code> antes que en el <em>middleware</em> <code>before</code> por mucho <code>EARLY_EVENT</code> que le ponga. Si lo pongo como indicaba en la respuesta #13 no tengo que inicializarla, pero no le pasa parámetro.</p>
+
+<p>He estado trabajando con el código a pelo y esta todo correcto, pero sin login no me sirve de nada jeje.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1246411719/021_DonRamon_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @LoGaNsF
+                                </span>
+
+                                <span class="published">
+                                    04-sep-14 19:59
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-17">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-17" title="Enlace permanente a esta respuesta">#17</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_17_html">
+                        <p>Aquí sigo dándole vueltas y en vistas de que ni avanzo ni se que coño puede ser, ¿habría la posibilidad de guardar el parámetro en sesión o como sea mediantes javascript?. Es lo que se me ocurre, capturar el evento submit del formulario, guardar el campo ccode de alguna forma y ya que siga su curso todo. Pero claro, imagino que pasaría antes por la capa de seguridad que por el javascipt (no lo se) y se jode el invento.</p>
+
+<p>Otra opción seria loguear manualmente, ¿se puede?. Es decir, ¿podría hacerme un login y aun así mantener la seguridad?. Actualmente todo es para administradores, pero en cuestión de días también debe existir una parte para usuarios y el login va a ser el mismo. Si mantengo la seguridad me sirve, si no, descartado.</p>
+
+<p>Como te salgas un poco de lo habitual vaya tela, debería ser mas fácil loguear con tres o mas parámetros, si al final la diferencia esta en la consulta pasa sacar el usuario, el único fijo es la contraseña. Claro que es mas fácil decirlo que hacerlo, pero se supone que los frameworks están para facilitar el trabajo entre otras muchas cosas.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1246411719/021_DonRamon_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @LoGaNsF
+                                </span>
+
+                                <span class="published">
+                                    07-sep-14 19:46
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-18">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-18" title="Enlace permanente a esta respuesta">#18</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_18_html">
+                        <p>En efecto podrías optar a hacer el proceso de login a mano. Una vez hecha la consulta a la base de datos para comprobar si los datos del usuario son correctos, deberías crear un <code>UsernamePasswordToken</code> y guardarlo en el contexto de seguridad para loguear al usuario. Este proceso es exactamente igual que en Symfony, pero <a href="https://gist.github.com/simonjodet/3927516">en este gist</a> puedes encontrar un ejemplo de cómo hacerlo con Silex.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    07-sep-14 19:56
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-19">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-19" title="Enlace permanente a esta respuesta">#19</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_19_html">
+                        <p>¿El resto funciona todo igual, no?. Me refiero a que puedo definir a que zonas entran que usuarios y demás, ¿no?. Lo que no me queda claro del ejemplo que me has pasado es que el <code>login_check</code> va a <code>/authenticate</code> y abajo tiene creado <code>/register</code>, entiendo que debe ser un error y es a esa ruta a la que va y donde se hace el login, ¿no?.</p>
+
+<p>Segun lo entiendo, en el controlador del <code>login_check</code> consulto a la base de datos para sacar el usuario (¿quito el <code>'users'</code> del firewall?) y si está correcto genero el token, ¿lo he entendido bien?.</p>
+
+<p>Muchas gracias de nuevo, mañana lo probare y te cuento. Lo saque o no te debo una bien grande aunque solo sea por aguantarme jeje :P</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1246411719/021_DonRamon_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @LoGaNsF
+                                </span>
+
+                                <span class="published">
+                                    07-sep-14 20:36
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-20">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-20" title="Enlace permanente a esta respuesta">#20</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_20_html">
+                        <p>El resto debería funcionar igual porque lo único que estás haciendo es pasar del sistema de login pero no del resto del componente de seguridad (por supuesto para asegurarte deberías crear al menos unos tests funcionales muy sencillos que comprueben que los usuarios anónimos no pueden acceder a las URL protegidas).</p>
+
+<p>La idea sería redirigir el login a una acción tuya propia donde harás la consulta a la base de datos y si todo es correcto, creas el token a mano, lo guardas en el contexto de la seguridad de la aplicación y ya debería funcionar el resto sin problemas.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    07-sep-14 20:44
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-21">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-21" title="Enlace permanente a esta respuesta">#21</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_21_html">
+                        <p>¡Genio!, ahora si, he tenido que hacer alguna modificación porque he llegado a encontrar un hilo de ese mismo usuario indicando que no le funcionaba y a mi me pasaba lo mismo, que no guardaba el token y al hacer la redirección pues petaba. Al final mi acción ha quedado así:</p>
+
+<pre class="php code"><span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">post</span><span class="br0">&#40;</span><span class="st_h">'/authenticate'</span><span class="sy0">,</span> <span class="kw2">function</span><span class="br0">&#40;</span>Request <span class="re0">$request</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="re0">$username</span>   <span class="sy0">=</span> <span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'_username'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$password</span>   <span class="sy0">=</span> <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'security.encoder.digest'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">encodePassword</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'_password'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">''</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$ccode</span>      <span class="sy0">=</span> <span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'_ccode'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Buscar usuario</span>
+    <span class="re0">$sql</span> <span class="sy0">=</span> <span class="st0">&quot;...&quot;</span><span class="sy0">;</span>
+    <span class="re0">$user</span> <span class="sy0">=</span> <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'db'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">fetchAssoc</span><span class="br0">&#40;</span><span class="re0">$sql</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="kw3">strtolower</span><span class="br0">&#40;</span><span class="re0">$username</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$password</span><span class="sy0">,</span> <span class="kw3">strtolower</span><span class="br0">&#40;</span><span class="re0">$ccode</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Loguear usuario</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$user</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="re0">$usuario</span> <span class="sy0">=</span> <span class="kw2">new</span> User<span class="br0">&#40;</span><span class="re0">$user</span><span class="br0">&#91;</span><span class="st_h">'email_usuario'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="re0">$user</span><span class="br0">&#91;</span><span class="st_h">'pass_usuario'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="kw3">explode</span><span class="br0">&#40;</span><span class="st_h">','</span><span class="sy0">,</span> <span class="re0">$user</span><span class="br0">&#91;</span><span class="st_h">'roles'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$user</span><span class="br0">&#91;</span><span class="st_h">'codigo'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$token</span> <span class="sy0">=</span> <span class="kw2">new</span> UsernamePasswordToken<span class="br0">&#40;</span><span class="re0">$usuario</span><span class="sy0">,</span> <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">getPassword</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'default'</span><span class="sy0">,</span> <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">getRoles</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'security'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">setToken</span><span class="br0">&#40;</span><span class="re0">$token</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'session'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">set</span><span class="br0">&#40;</span><span class="st_h">'_security_default'</span><span class="sy0">,</span> <span class="kw3">serialize</span><span class="br0">&#40;</span><span class="re0">$token</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'url_generator'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">generate</span><span class="br0">&#40;</span><span class="st_h">'admin'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span>
+<span class="sy0">-&gt;</span><span class="me1">bind</span><span class="br0">&#40;</span><span class="st_h">'custom_login'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>He tenido que añadir la última línea dentro del <code>if</code> y ya funciona perfecto. Bueno, casi perfecto porque cuando los datos son erróneos no devuelve ningún error, pero es lo de menos.</p>
+
+<p>Muchísimas gracias, espero poder devolverte la ayuda recibida algún día ;)</p>
+
+<p>Un saludo.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1246411719/021_DonRamon_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @LoGaNsF
+                                </span>
+
+                                <span class="published">
+                                    08-sep-14 10:59
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-22">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-22" title="Enlace permanente a esta respuesta">#22</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_22_html">
+                        <p>¡Me alegro que ya te funcione! Sobre el tema de que no muestra un mensaje de error en caso de que los datos sean incorrectos, podrías utilizar algo así:</p>
+
+<pre class="php code"><span class="kw2">use</span> Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">post</span><span class="br0">&#40;</span><span class="st_h">'/authenticate'</span><span class="sy0">,</span> <span class="kw2">function</span><span class="br0">&#40;</span>Request <span class="re0">$request</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="co1">// ...</span>
+&nbsp;
+    <span class="co1">// Loguear usuario</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$user</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">// ...</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'url_generator'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">generate</span><span class="br0">&#40;</span><span class="st_h">'admin'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">throw</span> <span class="kw2">new</span> AccessDeniedHttpException<span class="br0">&#40;</span><span class="st_h">'El usuario y/o contraseña son incorrectos.'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span>
+<span class="sy0">-&gt;</span><span class="me1">bind</span><span class="br0">&#40;</span><span class="st_h">'custom_login'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    08-sep-14 11:09
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-23">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-23" title="Enlace permanente a esta respuesta">#23</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_23_html">
+                        <p>Ese error lo uso actualmente cuando el usuario no tiene permisos, cuando tiene ROLE_USER lanzo ese error y lo echo, aunque me lo apunto porque como ahora todos los usuarios se van a poder loguear pues lo controlo con eso. De momento le he puesto:</p>
+
+<pre class="php code"><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'session'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">set</span><span class="br0">&#40;</span><span class="st_h">'_security.last_error'</span><span class="sy0">,</span> <span class="st_h">'Bad credentials.'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>Quizás sea un poco chapuza pero es temporal.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1246411719/021_DonRamon_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @LoGaNsF
+                                </span>
+
+                                <span class="published">
+                                    08-sep-14 11:27
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-24">
+                                        <i id="ultimo"></i>
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/#respuesta-24" title="Enlace permanente a esta respuesta">#24</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_24_html">
+                        <p>¿Pensabas que te ibas a librar de mi? jeje. Acabo de descubrir un problema. Resulta que si me logueo con usuario1/cliente1 o con usuario2/cliente2, sin problema, pero si se trata de usuario1/cliente3 (mismo usuario pero en otro cliente, con registro duplicado en la BBDD cambiando solo cliente_id), me pilla usuario1/cliente1. Haciendo pruebas he descubierto que entra en '/authenticate' pero después de crear el token entra en UserProvider y como ahí tengo la consulta que busca solo por usuario, pues me saca el primer usuario que coincide y me autentica con el. Te muestro como lo tengo:</p>
+
+<p>app.php
+<pre class="php code"><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'security.firewalls'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'default'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'pattern'</span> <span class="sy0">=&gt;</span> <span class="st_h">'^/admin'</span><span class="sy0">,</span>
+        <span class="st_h">'anonymous'</span> <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="sy0">,</span>
+        <span class="st_h">'form'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="st_h">'login_path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'/login'</span><span class="sy0">,</span>
+            <span class="st_h">'check_path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'/authenticate'</span>
+        <span class="br0">&#41;</span><span class="sy0">,</span>
+        <span class="st_h">'logout'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="st_h">'logout_path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'/admin/logout'</span>
+        <span class="br0">&#41;</span><span class="sy0">,</span>
+        <span class="st_h">'users'</span> <span class="sy0">=&gt;</span> <span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">share</span><span class="br0">&#40;</span><span class="kw2">function</span> <span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="kw2">new</span> UserProvider<span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'db'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>controllers.php
+<pre class="php code"><span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">post</span><span class="br0">&#40;</span><span class="st_h">'/authenticate'</span><span class="sy0">,</span> <span class="kw2">function</span><span class="br0">&#40;</span>Request <span class="re0">$request</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="re0">$username</span>   <span class="sy0">=</span> <span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'_username'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$password</span>   <span class="sy0">=</span> <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'security.encoder.digest'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">encodePassword</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'_password'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">''</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$ccode</span>      <span class="sy0">=</span> <span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'_ccode'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'session'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">remove</span><span class="br0">&#40;</span><span class="st_h">'_security.last_error'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Buscar usuario</span>
+    <span class="re0">$sql</span> <span class="sy0">=</span> <span class="st0">&quot;SELECT c.id, c.codigo, u.email_usuario, u.pass_usuario, u.roles
+            FROM usuarios u
+            INNER JOIN clientes c ON u.cliente_id = c.id
+            WHERE LOWER(email_usuario) = ? AND pass_usuario = ? AND LOWER(codigo) = ? AND c.estado = 1&quot;</span><span class="sy0">;</span>
+    <span class="re0">$user</span> <span class="sy0">=</span> <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'db'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">fetchAssoc</span><span class="br0">&#40;</span><span class="re0">$sql</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="kw3">strtolower</span><span class="br0">&#40;</span><span class="re0">$username</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$password</span><span class="sy0">,</span> <span class="kw3">strtolower</span><span class="br0">&#40;</span><span class="re0">$ccode</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Loguear usuario</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$user</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="re0">$usuario</span> <span class="sy0">=</span> <span class="kw2">new</span> User<span class="br0">&#40;</span><span class="re0">$user</span><span class="br0">&#91;</span><span class="st_h">'email_usuario'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="re0">$user</span><span class="br0">&#91;</span><span class="st_h">'pass_usuario'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="kw3">explode</span><span class="br0">&#40;</span><span class="st_h">','</span><span class="sy0">,</span> <span class="re0">$user</span><span class="br0">&#91;</span><span class="st_h">'roles'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$user</span><span class="br0">&#91;</span><span class="st_h">'codigo'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$token</span> <span class="sy0">=</span> <span class="kw2">new</span> UsernamePasswordToken<span class="br0">&#40;</span><span class="re0">$usuario</span><span class="sy0">,</span> <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">getPassword</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'default'</span><span class="sy0">,</span> <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">getRoles</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'security'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">setToken</span><span class="br0">&#40;</span><span class="re0">$token</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'session'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">set</span><span class="br0">&#40;</span><span class="st_h">'_security_default'</span><span class="sy0">,</span> <span class="kw3">serialize</span><span class="br0">&#40;</span><span class="re0">$token</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw1">else</span> <span class="br0">&#123;</span>
+        <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'session'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">set</span><span class="br0">&#40;</span><span class="st_h">'_security.last_username'</span><span class="sy0">,</span> <span class="re0">$username</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'session'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">set</span><span class="br0">&#40;</span><span class="st_h">'_security.last_ccode'</span><span class="sy0">,</span> <span class="re0">$ccode</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'session'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">set</span><span class="br0">&#40;</span><span class="st_h">'_security.last_error'</span><span class="sy0">,</span> <span class="st_h">'Bad credentials.'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="re0">$app</span><span class="br0">&#91;</span><span class="st_h">'url_generator'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">generate</span><span class="br0">&#40;</span><span class="st_h">'admin'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span>
+<span class="sy0">-&gt;</span><span class="me1">bind</span><span class="br0">&#40;</span><span class="st_h">'custom_login'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>En UserProvider.php hago la misma consulta pero sin el código. Depurando veo que el token que me genera en el action es correcto y si obtengo el código es el correcto, pero en cuanto hace la redirección genera otro token.</p>
+
+<p>¿Alguna idea de como evitar que entre alli?. He probado a quitar 'users' del firewall pero obviamente no funciona.</p>
+
+<p>Gracias.</p>
+
+<p>EDIT: solucionado, resulta que entraba en el método refreshUser del UserProvider y este a su vez llama al loadUserByUsername, así que me he creado otro método que saca el usuario en función del nombre y código. Ahora va perfecto.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1246411719/021_DonRamon_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @LoGaNsF
+                                </span>
+
+                                <span class="published">
+                                    09-sep-14 16:24
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                    
+                    <div id="btn-reply">
+                <a rel="nofollow" href="/foro/pregunta/208/creando-un-proveedor-de-usuarios-propio-con-silex/responder/#tu-respuesta" class="btn btn-lg">
+                    Responder pregunta
+                </a>
+            </div>
+            </div>
+
+
+                </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

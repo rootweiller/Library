@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>10.1. Helpers de formularios (Symfony 1.1, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_10.html" />
+                    <link rel="next" href="../capitulo_10/helpers_de_formularios_para_objetos.html" />
+                <link rel="start" href="/libro/symfony_1_1/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="10.1. Helpers de formularios (Symfony 1.1, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_1"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/" itemprop="url">
+                    <span itemprop="title">Symfony 1.1, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/capitulo_10.html" itemprop="url">
+                    <span itemprop="title">Capítulo 10. Formularios</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>10.1. Helpers de formularios</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="helpers_de_formularios" class="title">
+        <span>10.1.</span> Helpers de formularios
+    </h1>
+
+    
+
+<p>En las plantillas, es común mezclar las etiquetas HTML con código PHP. Los <em>helpers</em> de formularios que incluye Symfony intentan simplificar esta tarea para evitar tener que incluir continuamente etiquetas <code>&lt;?php echo</code> en medio de las etiquetas <code>&lt;input&gt;</code>.</p>
+
+<h3 id="etiqueta_principal_de_los_formularios">10.1.1. Etiqueta principal de los formularios</h3>
+
+<p>Como se explicó en el capítulo anterior, para crear un formulario se emplea el <em>helper</em> <code>form_tag()</code>, ya que se encarga de transformar la acción que se pasa como parámetro a una URL válida para el sistema de enrutamiento. El segundo argumento se emplea para indicar opciones adicionales, como por ejemplo, cambiar el valor del <code>method</code> por defecto, establecer el valor de <code>enctype</code> o especificar otros atributos. El listado 10-1 muestra algunos ejemplos.</p>
+
+<p><strong>Listado 10-1 - El <em>helper</em> <code>form_tag()</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> form_tag<span class="br0">&#40;</span><span class="st_h">'prueba/guardar'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;form method=&quot;post&quot; action=&quot;/ruta/a/guardar&quot;&gt;
+&nbsp;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> form_tag<span class="br0">&#40;</span><span class="st_h">'prueba/guardar'</span><span class="sy0">,</span> <span class="st_h">'method=get multipart=true class=formularioSimple'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;form method=&quot;get&quot; enctype=&quot;multipart/form-data&quot; class=&quot;formularioSimple&quot; action=&quot;/ruta/a/guardar&quot;&gt;</pre>
+</div>
+
+<p>Como no se utiliza un <em>helper</em> para cerrar el formulario, siempre debe incluirse la etiqueta HTML <code>&lt;/form&gt;</code>, aunque no quede bien en el código fuente de la plantilla.</p>
+
+<h3 id="elementos_comunes_de_formulario">10.1.2. Elementos comunes de formulario</h3>
+
+<p>Los <em>helpers</em> de formulario asignan por defecto a cada elemento un atributo <code>id</code> cuyo valor coincide con su atributo <code>name</code>, aunque esta no es la única convención útil. El listado 10-2 muestra una lista completa de los <em>helpers</em> disponibles para los elementos comunes de formularios y sus opciones.</p>
+
+<p><strong>Listado 10-2 - Sintaxis de los <em>helpers</em> para los elementos comunes de formulario</strong></p>
+
+<div class="code php">
+<pre class="php">// Cuadro de texto (input)
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_tag<span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="sy0">,</span> <span class="st_h">'valor inicial'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;input type=&quot;text&quot; name=&quot;nombre&quot; id=&quot;nombre&quot; value=&quot;valor inicial&quot; /&gt;
+&nbsp;
+// Todos los helpers de formularios aceptan un parámetro con opciones adicionales
+// De esta forma es posible añadir atributos propios a la etiqueta que se genera
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_tag<span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="sy0">,</span> <span class="st_h">'valor inicial'</span><span class="sy0">,</span> <span class="st_h">'maxlength=20'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;input type=&quot;text&quot; name=&quot;nombre&quot; id=&quot;nombre&quot; value=&quot;valor inicial&quot; maxlength=&quot;20&quot; /&gt;
+&nbsp;
+// Cuadro de texto grande (área de texto)
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> textarea_tag<span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="sy0">,</span> <span class="st_h">'valor inicial'</span><span class="sy0">,</span> <span class="st_h">'size=10x20'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;textarea name=&quot;nombre&quot; id=&quot;nombre&quot; cols=&quot;10&quot; rows=&quot;20&quot;&gt;
+      valor inicial
+    &lt;/textarea&gt;
+&nbsp;
+// Checkbox
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> checkbox_tag<span class="br0">&#40;</span><span class="st_h">'soltero'</span><span class="sy0">,</span> <span class="nu0">1</span><span class="sy0">,</span> <span class="kw4">true</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> checkbox_tag<span class="br0">&#40;</span><span class="st_h">'carnet_conducir'</span><span class="sy0">,</span> <span class="st_h">'B'</span><span class="sy0">,</span> <span class="kw4">false</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;input type=&quot;checkbox&quot; name=&quot;soltero&quot; id=&quot;soltero&quot; value=&quot;1&quot; checked=&quot;checked&quot; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;carnet_conducir&quot; id=&quot;carnet_conducir&quot; value=&quot;B&quot; /&gt;
+&nbsp;
+// Radio button
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> radiobutton_tag<span class="br0">&#40;</span><span class="st_h">'estado[]'</span><span class="sy0">,</span> <span class="st_h">'valor1'</span><span class="sy0">,</span> <span class="kw4">true</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> radiobutton_tag<span class="br0">&#40;</span><span class="st_h">'estado[]'</span><span class="sy0">,</span> <span class="st_h">'valor2'</span><span class="sy0">,</span> <span class="kw4">false</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;input type=&quot;radio&quot; name=&quot;estado[]&quot; id=&quot;estado_valor1&quot; value=&quot;valor1&quot; checked=&quot;checked&quot; /&gt;
+    &lt;input type=&quot;radio&quot; name=&quot;estado[]&quot; id=&quot;estado_valor2&quot; value=&quot;valor2&quot; /&gt;
+&nbsp;
+// Lista desplegable (select)
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> select_tag<span class="br0">&#40;</span><span class="st_h">'pago'</span><span class="sy0">,</span>
+  <span class="st_h">'&lt;option selected=&quot;selected&quot;&gt;Visa&lt;/option&gt;
+   &lt;option&gt;Eurocard&lt;/option&gt;
+   &lt;option&gt;Mastercard&lt;/option&gt;'</span><span class="br0">&#41;</span>
+<span class="sy1">?&gt;</span>
+ =&gt; &lt;select name=&quot;pago&quot; id=&quot;pago&quot;&gt;
+      &lt;option selected=&quot;selected&quot;&gt;Visa&lt;/option&gt;
+      &lt;option&gt;Eurocard&lt;/option&gt;
+      &lt;option&gt;Mastercard&lt;/option&gt;
+    &lt;/select&gt;
+&nbsp;
+// Lista de opciones para una etiqueta select
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> options_for_select<span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'Visa'</span><span class="sy0">,</span> <span class="st_h">'Eurocard'</span><span class="sy0">,</span> <span class="st_h">'Mastercard'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;option value=&quot;0&quot; selected=&quot;selected&quot;&gt;Visa&lt;/option&gt;
+    &lt;option value=&quot;1&quot;&gt;Eurocard&lt;/option&gt;
+    &lt;option value=&quot;2&quot;&gt;Mastercard&lt;/option&gt;
+&nbsp;
+// Helper de lista desplegable con una lista de opciones
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> select_tag<span class="br0">&#40;</span><span class="st_h">'pago'</span><span class="sy0">,</span> options_for_select<span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+  <span class="st_h">'Visa'</span><span class="sy0">,</span>
+  <span class="st_h">'Eurocard'</span><span class="sy0">,</span>
+  <span class="st_h">'Mastercard'</span>
+<span class="br0">&#41;</span><span class="sy0">,</span> <span class="nu0">0</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;select name=&quot;pago&quot; id=&quot;pago&quot;&gt;
+      &lt;option value=&quot;0&quot; selected=&quot;selected&quot;&gt;Visa&lt;/option&gt;
+      &lt;option value=&quot;1&quot;&gt;Eurocard&lt;/option&gt;
+      &lt;option value=&quot;2&quot;&gt;Mastercard&lt;/option&gt;
+    &lt;/select&gt;
+&nbsp;
+// Para indicar el nombre de las opciones, se utiliza un array asociativo
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> select_tag<span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="sy0">,</span> options_for_select<span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+  <span class="st_h">'Steve'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'Steve'</span><span class="sy0">,</span>
+  <span class="st_h">'Bob'</span>    <span class="sy0">=&gt;</span> <span class="st_h">'Bob'</span><span class="sy0">,</span>
+  <span class="st_h">'Albert'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Albert'</span><span class="sy0">,</span>
+  <span class="st_h">'Ian'</span>    <span class="sy0">=&gt;</span> <span class="st_h">'Ian'</span><span class="sy0">,</span>
+  <span class="st_h">'Buck'</span>   <span class="sy0">=&gt;</span> <span class="st_h">'Buck'</span>
+<span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'Ian'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;select name=&quot;nombre&quot; id=&quot;nombre&quot;&gt;
+      &lt;option value=&quot;Steve&quot;&gt;Steve&lt;/option&gt;
+      &lt;option value=&quot;Bob&quot;&gt;Bob&lt;/option&gt;
+      &lt;option value=&quot;Albert&quot;&gt;Albert&lt;/option&gt;
+      &lt;option value=&quot;Ian&quot; selected=&quot;selected&quot;&gt;Ian&lt;/option&gt;
+      &lt;option value=&quot;Buck&quot;&gt;Buck&lt;/option&gt;
+    &lt;/select&gt;
+&nbsp;
+// Lista desplegable que permite una selección múltiple
+// (los valores seleccionados se pueden indicar en forma de array)
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> select_tag<span class="br0">&#40;</span><span class="st_h">'pago'</span><span class="sy0">,</span> options_for_select<span class="br0">&#40;</span>
+  <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'Visa'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Visa'</span><span class="sy0">,</span> <span class="st_h">'Eurocard'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Eurocard'</span><span class="sy0">,</span> <span class="st_h">'Mastercard'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Mastercard'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+  <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'Visa'</span><span class="sy0">,</span> <span class="st_h">'Mastercard'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'multiple'</span> <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;select name=&quot;pago[]&quot; id=&quot;pago&quot; multiple=&quot;multiple&quot;&gt;
+      &lt;option value=&quot;Visa&quot; selected=&quot;selected&quot;&gt;Visa&lt;/option&gt;
+      &lt;option value=&quot;Eurocard&quot;&gt;Eurocard&lt;/option&gt;
+      &lt;option value=&quot;Mastercard&quot;&gt;Mastercard&lt;/option&gt;
+    &lt;/select&gt;
+&nbsp;
+// Lista desplegable que permite una selección múltiple
+// (los valores seleccionados se pueden indicar en forma de array)
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> select_tag<span class="br0">&#40;</span><span class="st_h">'pago'</span><span class="sy0">,</span> options_for_select<span class="br0">&#40;</span>
+  <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'Visa'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Visa'</span><span class="sy0">,</span> <span class="st_h">'Eurocard'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Eurocard'</span><span class="sy0">,</span> <span class="st_h">'Mastercard'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Mastercard'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+  <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'Visa'</span><span class="sy0">,</span> <span class="st_h">'Mastercard'</span><span class="br0">&#41;</span>
+<span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'multiple=multiple'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;select name=&quot;pago[]&quot; id=&quot;pago&quot; multiple=&quot;multiple&quot;&gt;
+      &lt;option value=&quot;Visa&quot; selected=&quot;selected&quot;&gt;Visa&lt;/option&gt;
+      &lt;option value=&quot;Eurocard&quot;&gt;Eurocard&lt;/option&gt;
+      &lt;option value=&quot;Mastercard&quot; selected=&quot;selected&quot;&gt;Mastercard&lt;/option&gt;
+    &lt;/select&gt;
+&nbsp;
+// Campo para adjuntar archivos
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_file_tag<span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;input type=&quot;file&quot; name=&quot;nombre&quot; id=&quot;nombre&quot; value=&quot;&quot; /&gt;
+&nbsp;
+// Cuadro de texto de contraseña
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_password_tag<span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="sy0">,</span> <span class="st_h">'valor'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;input type=&quot;password&quot; name=&quot;nombre&quot; id=&quot;nombre&quot; value=&quot;valor&quot; /&gt;
+&nbsp;
+// Campo oculto
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_hidden_tag<span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="sy0">,</span> <span class="st_h">'valor'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;input type=&quot;hidden&quot; name=&quot;nombre&quot; id=&quot;nombre&quot; value=&quot;valor&quot; /&gt;
+&nbsp;
+// Botón de envío de formulario (botón normal de texto)
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> submit_tag<span class="br0">&#40;</span><span class="st_h">'Guardar'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;Guardar&quot; /&gt;
+&nbsp;
+// Botón de envío de formulario (botón creado con la imagen indicada)
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> submit_image_tag<span class="br0">&#40;</span><span class="st_h">'imagen_envio'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;input type=&quot;image&quot; name=&quot;submit&quot; src=&quot;/images/imagen_envio.png&quot; /&gt;</pre>
+</div>
+
+<p>El <em>helper</em> <code>submit_image_tag()</code> utiliza la misma sintaxis y tiene las mismas características que <code>image_tag()</code>.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> En los radio button, el valor del atributo <code>id</code> no se copia directamente del atributo de <code>name</code>, sino que se construye mediante una combinación del nombre y de cada valor. El motivo es que el atributo <code>name</code> debe tener el mismo valor para todos los radio button que se quieren definir como mutuamente excluyentes, al mismo tiempo que en una página HTML dos o más elementos no pueden disponer del mismo valor para su atributo <code>id</code>.</p></div>
+
+<div class="admonition sidebar"><p><strong class="title">Procesando los formularios</strong> ¿Cómo se obtienen los datos enviados por los usuarios a través de los formularios? Los datos se encuentran disponibles en los parámetros de la petición, por lo que en una acción se debe llamar a <code>$peticion-&gt;getParameter($nombreElemento)</code> para obtener el valor.</p>
+
+<p>Una buena práctica consiste en utilizar la misma acción para mostrar y para procesar el formulario. En función del método de la solicitud (GET o POST) se muestra la plantilla del formulario o se procesan los datos enviados para redirigir a otra acción.</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// En mimodulo/actions/actions.class.php</span>
+<span class="kw2">public</span> <span class="kw2">function</span> executeModificarAutor<span class="br0">&#40;</span><span class="re0">$peticion</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">isMethod</span><span class="br0">&#40;</span><span class="st_h">'post'</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Mostrar el formulario</span>
+    <span class="kw1">return</span> sfView<span class="sy0">::</span><span class="me2">SUCCESS</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+  <span class="kw1">else</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Procesar los datos del formulario</span>
+    <span class="re0">$nombre</span> <span class="sy0">=</span> <span class="re0">$peticion</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="sy0">...</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="st_h">'mimodulo/otraaccion'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Para que esta técnica funcione, el destino del formulario tiene que ser la misma acción que la acción que muestra el formulario.</p>
+
+<div class="code php">
+<pre class="php">// En mimodulo/templates/modificarAutorSuccess.php
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> form_tag<span class="br0">&#40;</span><span class="st_h">'mimodulo/modificarAutor'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+...</pre>
+</div>
+
+<p></p></div>
+
+<p>Symfony también incluye <em>helpers</em> de formularios para realizar peticiones asíncronas en segundo plano. El siguiente capítulo se centra en Ajax y proporciona todos los detalles.</p>
+
+<h3 id="campos_para_introducir_fechas">10.1.3. Campos para introducir fechas</h3>
+
+<p>Muchos formularios permiten al usuario introducir fechas. Uno de los principales fallos en los datos de los formularios suele ser el formato incorrecto de las fechas. El <em>helper</em> <code>input_date_tag()</code> simplifica la introducción de fechas mostrando un calendario interactivo creado con JavaScript, tal y como muestra la figura 10-1. Para ello, se indica la opción <code>rich</code> con un valor de <code>true</code>.</p>
+
+<div class="figure" id="figure_10_1">
+    <img src="/img/symfony_1_1/symfony_1_1:f1001.png" alt="Etiqueta para introducir la fecha mediante un calendario" />
+
+    <p class="caption"><strong>Figura 10.1</strong> Etiqueta para introducir la fecha mediante un calendario</p>
+</div>
+
+
+<p>Si no se utiliza la opción <code>rich</code>, el <em>helper</em> muestra 3 listas desplegables (<code>&lt;select&gt;</code>) cargadas con una serie de meses, días y años. También es posible mostrar por separado cada una de estas listas utilizando sus propios <em>helpers</em> (<code>select_day_tag()</code>, <code>select_month_tag()</code> y <code>select_year_tag()</code>). Los valores iniciales de estos elementos son el día, mes y año actuales. El listado 10-3 muestra los <em>helpers</em> disponibles para introducir fechas.</p>
+
+<p><strong>Listado 10-3 - <em>Helpers</em> para introducir datos</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_date_tag<span class="br0">&#40;</span><span class="st_h">'fechanacimiento'</span><span class="sy0">,</span> <span class="st_h">'2005-05-03'</span><span class="sy0">,</span> <span class="st_h">'rich=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; Muestra un cuadro de texto y un calendario dinámico
+&nbsp;
+// Los siguientes helpers requieren incluir el grupo de helpers llamado DateForm
+<span class="kw2">&lt;?php</span> use_helper<span class="br0">&#40;</span><span class="st_h">'DateForm'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> select_day_tag<span class="br0">&#40;</span><span class="st_h">'dia'</span><span class="sy0">,</span> <span class="nu0">1</span><span class="sy0">,</span> <span class="st_h">'include_custom=Seleccione un día'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+=&gt; &lt;select name=&quot;dia&quot; id=&quot;dia&quot;&gt;
+      &lt;option value=&quot;&quot;&gt;Seleccione un día&lt;/option&gt;
+      &lt;option value=&quot;1&quot; selected=&quot;selected&quot;&gt;01&lt;/option&gt;
+      &lt;option value=&quot;2&quot;&gt;02&lt;/option&gt;
+      ...
+      &lt;option value=&quot;31&quot;&gt;31&lt;/option&gt;
+    &lt;/select&gt;
+&nbsp;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> select_month_tag<span class="br0">&#40;</span><span class="st_h">'mes'</span><span class="sy0">,</span> <span class="nu0">1</span><span class="sy0">,</span> <span class="st_h">'include_custom=Seleccione un mes use_short_month=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+=&gt; &lt;select name=&quot;mes&quot; id=&quot;mes&quot;&gt;
+      &lt;option value=&quot;&quot;&gt;Seleccione un mes&lt;/option&gt;
+      &lt;option value=&quot;1&quot; selected=&quot;selected&quot;&gt;Jan&lt;/option&gt;
+      &lt;option value=&quot;2&quot;&gt;Feb&lt;/option&gt;
+      ...
+      &lt;option value=&quot;12&quot;&gt;Dec&lt;/option&gt;
+    &lt;/select&gt;
+&nbsp;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> select_year_tag<span class="br0">&#40;</span><span class="st_h">'ano'</span><span class="sy0">,</span> <span class="nu0">2007</span><span class="sy0">,</span> <span class="st_h">'include_custom=Seleccione un año year_end=2010'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;select name=&quot;ano&quot; id=&quot;ano&quot;&gt;
+      &lt;option value=&quot;&quot;&gt;Seleccione un año&lt;/option&gt;
+      &lt;option value=&quot;2006&quot;&gt;2006&lt;/option&gt;
+      &lt;option value=&quot;2007&quot; selected=&quot;selected&quot;&gt;2007&lt;/option&gt;
+      ...
+    &lt;/select&gt;</pre>
+</div>
+
+<p>Los valores permitidos por el <em>helper</em> <code>input_date_tag()</code> son los mismos que admite la función <code>strtotime()</code> de PHP. El listado 10-4 muestra algunos de los listados que se pueden utilizar y el listado 10-5 muestra los que no se pueden emplear.</p>
+
+<p><strong>Listado 10-4 - Formatos de fecha válidos para los <em>helpers</em> de fecha</strong></p>
+
+<div class="code php">
+<pre class="php">// Funcionan bien
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_date_tag<span class="br0">&#40;</span><span class="st_h">'prueba'</span><span class="sy0">,</span> <span class="st_h">'2006-04-01'</span><span class="sy0">,</span> <span class="st_h">'rich=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_date_tag<span class="br0">&#40;</span><span class="st_h">'prueba'</span><span class="sy0">,</span> <span class="nu0">1143884373</span><span class="sy0">,</span> <span class="st_h">'rich=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_date_tag<span class="br0">&#40;</span><span class="st_h">'prueba'</span><span class="sy0">,</span> <span class="st_h">'now'</span><span class="sy0">,</span> <span class="st_h">'rich=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_date_tag<span class="br0">&#40;</span><span class="st_h">'prueba'</span><span class="sy0">,</span> <span class="st_h">'23 October 2005'</span><span class="sy0">,</span> <span class="st_h">'rich=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_date_tag<span class="br0">&#40;</span><span class="st_h">'prueba'</span><span class="sy0">,</span> <span class="st_h">'next tuesday'</span><span class="sy0">,</span> <span class="st_h">'rich=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_date_tag<span class="br0">&#40;</span><span class="st_h">'prueba'</span><span class="sy0">,</span> <span class="st_h">'1 week 2 days 4 hours 2 seconds'</span><span class="sy0">,</span> <span class="st_h">'rich=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// Devuelven un valor null
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_date_tag<span class="br0">&#40;</span><span class="st_h">'prueba'</span><span class="sy0">,</span> <span class="kw4">null</span><span class="sy0">,</span> <span class="st_h">'rich=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_date_tag<span class="br0">&#40;</span><span class="st_h">'prueba'</span><span class="sy0">,</span> <span class="st_h">''</span><span class="sy0">,</span> <span class="st_h">'rich=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p><strong>Listado 10-5 - Formatos de fecha incorrectos para los <em>helpers</em> de fecha</strong></p>
+
+<div class="code php">
+<pre class="php">// Fecha de referencia = 01/01/1970
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_date_tag<span class="br0">&#40;</span><span class="st_h">'prueba'</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="st_h">'rich=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// Los formatos que no son válidos en inglés no funcionan
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_date_tag<span class="br0">&#40;</span><span class="st_h">'prueba'</span><span class="sy0">,</span> <span class="st_h">'01/04/2006'</span><span class="sy0">,</span> <span class="st_h">'rich=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<h3 id="editor_de_textos_avanzado">10.1.4. Editor de textos avanzado</h3>
+
+<p>Las áreas de texto definidas mediante <code>&lt;textarea&gt;</code> se pueden utilizar como editor de textos avanzado gracias a la integración con las herramientas TinyMCE y FCKEditor. Estos editores muestran una interfaz similar a la de un procesador de textos, incluyendo botones para formatear el texto en negrita, cursiva y otros estilos, tal y como muestra la figura 10-2.</p>
+
+<div class="figure" id="figure_10_2">
+    <img src="/img/symfony_1_1/f1002.png" alt="Editor de textos avanzado" />
+
+    <p class="caption"><strong>Figura 10.2</strong> Editor de textos avanzado</p>
+</div>
+
+
+<p>Los dos editores se tienen que instalar manualmente. Como el proceso es el mismo para los dos, sólo se explica cómo instalar el editor TinyMCE. En primer lugar, se descarga el editor desde la página web del proyecto (http://tinymce.moxiecode.com/) y se descomprime en una carpeta temporal. A continuación, se copia el directorio <code>tinymce/jscripts/tiny_mce/</code> en la carpeta <code>web/js/</code> del proyecto y se define la ruta a la librería en el archivo <code>settings.yml</code>, como se muestra en el listado 10-6.</p>
+
+<p><strong>Listado 10-6 - Definiendo la ruta de la librería TinyMCE</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co4">
+  .settings</span>:<span class="co3">
+    rich_text_js_dir</span><span class="sy2">: </span> js/tiny_mce</pre>
+</div>
+
+<p>Una vez instalado, se puede activar el editor avanzado mediante la opción <code>rich=true</code>. También es posible definir opciones propias para el editor JavaScript mediante la opción <code>tinymce_options</code>. El listado 10-7 muestra algunos ejemplos.</p>
+
+<p>**Listado 10-7 - Editores de texto avanzado **</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> textarea_tag<span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="sy0">,</span> <span class="st_h">'valor inicial'</span><span class="sy0">,</span> <span class="st_h">'rich=true size=10x20'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; se muestra un editor de textos avanzado creado con TinyMCE
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> textarea_tag<span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="sy0">,</span> <span class="st_h">'valor inicial'</span><span class="sy0">,</span> <span class="st_h">'rich=true size=10x20 tinymce_options=language:&quot;fr&quot;,theme_advanced_buttons2:&quot;separator&quot;'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+=&gt; se muestra un editor de textos avanzado creado con TinyMCE y personalizado con opciones propias</pre>
+</div>
+
+<h3 id="seleccion_de_idioma_pais_y_moneda">10.1.5. Selección de idioma, país y moneda</h3>
+
+<p>En ocasiones es necesario mostrar un campo de formulario para seleccionar un país. Como el nombre de los países varía en función del idioma en el que se muestran, las opciones de una lista desplegable de países deberían cambiar en función de la cultura del usuario (el Capítulo 13 incluye más información sobre el concepto de <em>culturas</em>). Como se muestra en el listado 10-8, el <em>helper</em> <code>select_country_tag()</code> automatiza este proceso: traduce el nombre de todos los países y utiliza como valor los códigos estándar definidos por el ISO.</p>
+
+<p><strong>Listado 10-8 - <em>Helper</em> para seleccionar un país</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> select_country_tag<span class="br0">&#40;</span><span class="st_h">'pais'</span><span class="sy0">,</span> <span class="st_h">'AL'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;select name=&quot;pais&quot; id=&quot;pais&quot;&gt;
+      &lt;option value=&quot;AF&quot;&gt;Afghanistan&lt;/option&gt;
+      &lt;option value=&quot;AL&quot; selected=&quot;selected&quot;&gt;Albania&lt;/option&gt;
+      &lt;option value=&quot;DZ&quot;&gt;Algeria&lt;/option&gt;
+      &lt;option value=&quot;AS&quot;&gt;American Samoa&lt;/option&gt;
+  ...</pre>
+</div>
+
+<p>De forma similar a <code>select_country_tag()</code>, el <em>helper</em> <code>select_language_tag()</code> muestra una lista de idiomas, tal y como indica el listado 10-9.</p>
+
+<p><strong>Listado 10-9 - <em>Helper</em> para seleccionar un idioma</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> select_language_tag<span class="br0">&#40;</span><span class="st_h">'idioma'</span><span class="sy0">,</span> <span class="st_h">'en'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;select name=&quot;idioma&quot; id=&quot;idioma&quot;&gt;
+      ...
+      &lt;option value=&quot;elx&quot;&gt;Elamite&lt;/option&gt;
+      &lt;option value=&quot;en&quot; selected=&quot;selected&quot;&gt;English&lt;/option&gt;
+      &lt;option value=&quot;enm&quot;&gt;English, Middle (1100-1500)&lt;/option&gt;
+      &lt;option value=&quot;ang&quot;&gt;English, Old (ca.450-1100)&lt;/option&gt;
+      &lt;option value=&quot;myv&quot;&gt;Erzya&lt;/option&gt;
+      &lt;option value=&quot;eo&quot;&gt;Esperanto&lt;/option&gt;
+      ...</pre>
+</div>
+
+<p>El tercer <em>helper</em> es <code>select_currency_tag()</code>, que muestra una lista de monedas similar a la del listado 10-10.</p>
+
+<p><strong>Listado 10-10 - <em>Helper</em> para seleccionar una moneda</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> select_currency_tag<span class="br0">&#40;</span><span class="st_h">'moneda'</span><span class="sy0">,</span> <span class="st_h">'EUR'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;select name=&quot;moneda&quot; id=&quot;moneda&quot;&gt;
+      ...
+      &lt;option value=&quot;ETB&quot;&gt;Ethiopian Birr&lt;/option&gt;
+      &lt;option value=&quot;ETD&quot;&gt;Ethiopian Dollar&lt;/option&gt;
+      &lt;option value=&quot;EUR&quot; selected=&quot;selected&quot;&gt;Euro&lt;/option&gt;
+      &lt;option value=&quot;XBA&quot;&gt;European Composite Unit&lt;/option&gt;
+      &lt;option value=&quot;XEU&quot;&gt;European Currency Unit&lt;/option&gt;
+      ...</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Los tres <em>helpers</em> anteriores aceptan un tercer parámetro opcional que corresponde a un array de opciones. Este parámetro se puede utilizar para restringir la lista de opciones que se muestran. En el <em>helper</em> de países la opción se llama <code>countries</code> y se indica de la siguiente forma: <code>array('countries' =&gt; array ('FR', 'DE'))</code>. En el <em>helper</em> de los idiomas la opción se llama <code>languages</code> y en el de las monedas la opción se llama <code>currencies</code>.</p>
+
+<p>Restringir la lista completa de opciones a un grupo de valores determinados es muy recomendable porque las listas pueden contener algunos elementos desfasados.</p>
+
+<p>Por último, el <em>helper</em> <code>select_currency_tag()</code> dispone de otro parámetro opcional llamado <code>display</code> que permite controlar la forma en la que se muestran las monedas. Los valores que admite son <code>symbol</code>, <code>code</code> y <code>name</code>.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_10.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 10. Formularios</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_10/helpers_de_formularios_para_objetos.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>10.2. Helpers de formularios para objetos</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_10.html">
+                    <span>Capítulo 10.</span> Formularios
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_10/helpers_de_formularios.html">
+                    <span>10.1.</span> Helpers de formularios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/helpers_de_formularios_para_objetos.html">
+                    <span>10.2.</span> Helpers de formularios para objetos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/validacion_de_formularios.html">
+                    <span>10.3.</span> Validación de formularios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/validaciones_complejas.html">
+                    <span>10.4.</span> Validaciones complejas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/resumen.html">
+                    <span>10.5.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

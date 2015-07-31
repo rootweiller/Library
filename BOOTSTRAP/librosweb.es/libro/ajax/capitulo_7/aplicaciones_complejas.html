@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>7.6. Aplicaciones complejas (Introducción a AJAX)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_7/interaccion_con_el_servidor.html" />
+                    <link rel="next" href="../capitulo_7/seguridad.html" />
+                <link rel="start" href="/libro/ajax/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="7.6. Aplicaciones complejas (Introducción a AJAX)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page ajax"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/ajax/" itemprop="url">
+                    <span itemprop="title">Introducción a AJAX</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/ajax/capitulo_7.html" itemprop="url">
+                    <span itemprop="title">Capítulo 7. Primeros pasos con AJAX</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>7.6. Aplicaciones complejas</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="aplicaciones_complejas" class="title">
+        <span>7.6.</span> Aplicaciones complejas
+    </h1>
+
+    
+
+<h3 id="envio_de_parametros_mediante_xml">7.6.1. Envío de parámetros mediante XML</h3>
+
+<p>La flexibilidad del objeto <code>XMLHttpRequest</code> permite el envío de los parámetros por otros medios alternativos a la tradicional <em>query string</em>. De esta forma, si la aplicación del servidor así lo requeire, es posible realizar una petición al servidor enviando los parámetros en formato XML.</p>
+
+<p>A continuación se modifica el ejemplo anterior para enviar los datos del usuario en forma de documento XML. En primer lugar, se modifica la llamada a la función que construye la <em>query string</em>:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> valida<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  peticion_http <span class="sy0">=</span> inicializa_xhr<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="kw1">if</span><span class="br0">&#40;</span>peticion_http<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    peticion_http.<span class="me1">onreadystatechange</span> <span class="sy0">=</span> procesaRespuesta<span class="sy0">;</span>
+    peticion_http.<span class="me1">open</span><span class="br0">&#40;</span><span class="st0">&quot;POST&quot;</span><span class="sy0">,</span> <span class="st0">&quot;http://localhost/validaDatos.php&quot;</span><span class="sy0">,</span> <span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">var</span> parametros_xml <span class="sy0">=</span> crea_xml<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    peticion_http.<span class="me1">setRequestHeader</span><span class="br0">&#40;</span><span class="st0">&quot;Content-Type&quot;</span><span class="sy0">,</span> <span class="st0">&quot;application/x-www-form-urlencoded&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    peticion_http.<span class="me1">send</span><span class="br0">&#40;</span>parametros_xml<span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Seguidamente, se crea la función <code>crea_xml()</code> que se encarga de construir el documento XML que contiene los parámetros enviados al servidor:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> crea_xml<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">var</span> fecha <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;fecha_nacimiento&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="kw1">var</span> cp <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;codigo_postal&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="kw1">var</span> telefono <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;telefono&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+  <span class="kw1">var</span> xml <span class="sy0">=</span> <span class="st0">&quot;&lt;parametros&gt;&quot;</span><span class="sy0">;</span>
+  xml <span class="sy0">=</span> xml <span class="sy0">+</span> <span class="st0">&quot;&lt;fecha_nacimiento&gt;&quot;</span> <span class="sy0">+</span> fecha.<span class="me1">value</span> <span class="sy0">+</span> <span class="st0">&quot;&lt;<span class="es0">\/</span>fecha_nacimiento&gt;&quot;</span><span class="sy0">;</span>
+  xml <span class="sy0">=</span> xml <span class="sy0">+</span> <span class="st0">&quot;&lt;codigo_postal&gt;&quot;</span> <span class="sy0">+</span> cp.<span class="me1">value</span> <span class="sy0">+</span> <span class="st0">&quot;&lt;<span class="es0">\/</span>codigo_postal&gt;&quot;</span><span class="sy0">;</span>
+  xml <span class="sy0">=</span> xml <span class="sy0">+</span> <span class="st0">&quot;&lt;telefono&gt;&quot;</span> <span class="sy0">+</span> telefono.<span class="me1">value</span> <span class="sy0">+</span> <span class="st0">&quot;&lt;<span class="es0">\/</span>telefono&gt;&quot;</span><span class="sy0">;</span>
+  xml <span class="sy0">=</span> xml <span class="sy0">+</span> <span class="st0">&quot;&lt;<span class="es0">\/</span>parametros&gt;&quot;</span><span class="sy0">;</span>
+  <span class="kw1">return</span> xml<span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código de la función anterior emplea el carácter <code>\</code> en el cierre de todas las etiquetas XML. El motivo es que las etiquetas de cierre XML y HTML (al contrario que las etiquetas de apertura) se interpretan en el mismo lugar en el que se encuentran, por lo que si no se incluyen esos caracteres <code>\</code> el código no validaría siguiendo el estándar XHTML de forma estricta.</p>
+
+<p>El método <code>send()</code> del objeto <code>XMLHttpRequest</code> permite el envío de una cadena de texto y de un documento XML. Sin embargo, en el ejemplo anterior se ha optado por una solución intermedia: una cadena de texto que representa un documento XML. El motivo es que no existe a día de hoy un método robusto y que se pueda emplear en la mayoría de navegadores para la creación de documentos XML completos.</p>
+
+<h3 id="procesando_respuestas_xml">7.6.2. Procesando respuestas XML</h3>
+
+<p>Además del envío de parámetros en formato XML, el objeto <code>XMLHttpRequest</code> también permite la recepción de respuestas de servidor en formato XML. Una vez obtenida la respuesta del servidor mediante la propiedad <code>petición_http.responseXML</code>, es posible procesarla empleando los métodos DOM de manejo de documentos XML/HTML.</p>
+
+<p>En este caso, se modifica la respuesta del servidor para que no sea un texto sencillo, sino que la respuesta esté definida mediante un documento XML:</p>
+
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;respuesta<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;mensaje<span class="re2">&gt;</span></span></span>...<span class="sc3"><span class="re1">&lt;/mensaje<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;parametros<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;telefono<span class="re2">&gt;</span></span></span>...<span class="sc3"><span class="re1">&lt;/telefono<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;codigo_postal<span class="re2">&gt;</span></span></span>...<span class="sc3"><span class="re1">&lt;/codigo_postal<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;fecha_nacimiento<span class="re2">&gt;</span></span></span>...<span class="sc3"><span class="re1">&lt;/fecha_nacimiento<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;/parametros<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/respuesta<span class="re2">&gt;</span></span></span></pre>
+</div>
+
+<p>La respuesta del servidor incluye un mensaje sobre el éxito o fracaso de la operación de validación de los parámetros y además incluye la lista completa de parámetros enviados al servidor.</p>
+
+<p>La función encargada de procesar la respuesta del servidor se debe modificar por completo para tratar el nuevo tipo de respuesta recibida:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> procesaRespuesta<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">if</span><span class="br0">&#40;</span>peticion_http.<span class="me1">readyState</span> <span class="sy0">==</span> READY_STATE_COMPLETE<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">if</span><span class="br0">&#40;</span>peticion_http.<span class="me1">status</span> <span class="sy0">==</span> <span class="nu0">200</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+      <span class="kw1">var</span> documento_xml <span class="sy0">=</span> peticion_http.<span class="me1">responseXML</span><span class="sy0">;</span>
+      <span class="kw1">var</span> root <span class="sy0">=</span> documento_xml.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;respuesta&quot;</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+      <span class="kw1">var</span> mensajes <span class="sy0">=</span> root.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;mensaje&quot;</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+      <span class="kw1">var</span> mensaje <span class="sy0">=</span> mensajes.<span class="me1">firstChild</span>.<span class="me1">nodeValue</span><span class="sy0">;</span>
+&nbsp;
+      <span class="kw1">var</span> parametros <span class="sy0">=</span> root.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;parametros&quot;</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+      <span class="kw1">var</span> telefono <span class="sy0">=</span> parametros.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;telefono&quot;</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">firstChild</span>.<span class="me1">nodeValue</span><span class="sy0">;</span>
+      <span class="kw1">var</span> fecha_nacimiento <span class="sy0">=</span> parametros.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;fecha_nacimiento&quot;</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">firstChild</span>.<span class="me1">nodeValue</span><span class="sy0">;</span>
+      <span class="kw1">var</span> codigo_postal <span class="sy0">=</span> parametros.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;codigo_postal&quot;</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">firstChild</span>.<span class="me1">nodeValue</span><span class="sy0">;</span>
+&nbsp;
+      document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;respuesta&quot;</span><span class="br0">&#41;</span>.<span class="me1">innerHTML</span> <span class="sy0">=</span> mensaje <span class="sy0">+</span> <span class="st0">&quot;&lt;br/&gt;&quot;</span> <span class="sy0">+</span> <span class="st0">&quot;Fecha nacimiento = &quot;</span> <span class="sy0">+</span> fecha_nacimiento <span class="sy0">+</span> <span class="st0">&quot;&lt;br/&gt;&quot;</span> <span class="sy0">+</span> <span class="st0">&quot;Codigo postal = &quot;</span> <span class="sy0">+</span> codigo_postal <span class="sy0">+</span> <span class="st0">&quot;&lt;br/&gt;&quot;</span> <span class="sy0">+</span> <span class="st0">&quot;Telefono = &quot;</span> <span class="sy0">+</span> telefono<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El primer cambio importante es el de obtener el contenido de la respuesta del servidor. Hasta ahora, siempre se utilizaba la propiedad <code>responseText</code>, que devuelve el texto simple que incluye la respuesta del servidor. Cuando se procesan respuestas en formato XML, se debe utilizar la propiedad <code>responseXML</code>.</p>
+
+<p>El valor devuelto por <code>responseXML</code> es un documento XML que contiene la respuesta del servidor. Como se trata de un documento XML, es posible utilizar con sus contenidos todas las funciones DOM que se vieron en el capítulo correspondiente a DOM.</p>
+
+<p>Aunque el manejo de repuestas XML es mucho más pesado y requiere el uso de numerosas funciones DOM, su utilización se hace imprescindible para procesar respuestas muy complejas o respuestas recibidas por otros sistemas que exportan sus respuestas internas a un formato estándar XML.</p>
+
+<p>El mecanismo para obtener los datos varía mucho según cada documento XML, pero en general, se trata de obtener el valor almacenado en algunos elementos XML que a su vez pueden ser descendientes de otros elementos. Para obtener el primer elemento que se corresponde con una etiqueta XML, se utiliza la siguiente instrucción:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> elemento <span class="sy0">=</span> root.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;nombre_etiqueta&quot;</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>En este caso, se busca la primera etiqueta <code>&lt;nombre_etiqueta&gt;</code> que se encuentra dentro del elemento <code>root</code> (en este caso se trata de la raíz del documento XML). Para ello, se buscan todas las etiquetas <code>&lt;nombre_etiqueta&gt;</code> del documento y se obtiene la primera mediante <code>[0]</code>, que corresponde al primer elemento del array de elementos.</p>
+
+<p>Una vez obtenido el elemento, para obtener su valor se debe acceder a su primer nodo hijo (que es el nodo de tipo texto que almacena el valor) y obtener la propiedad <code>nodeValue</code>, que es la propiedad que guarda el texto correspondiente al valor de la etiqueta:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> valor <span class="sy0">=</span> elemento.<span class="me1">firstChild</span>.<span class="me1">nodeValue</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Normalmente, las dos instrucciones anteriores se unen en una sola instrucción:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> tfno <span class="sy0">=</span> parametros.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;telefono&quot;</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">firstChild</span>.<span class="me1">nodeValue</span><span class="sy0">;</span></pre>
+</div>
+
+<p><div class="exercise"><p class="title">Ejercicio 14</p> <p>Normalmente, cuando se valida la disponibilidad de un nombre de usuario, se muestra una lista de valores alternativos en el caso de que el nombre elegido no esté disponible. Modificar el ejercicio de comprobación de disponibilidad de los nombres para que permita mostrar una serie de valores alternativos devueltos por el servidor.</p>
+
+<p>El script del servidor se llama <code>compruebaDisponibilidadXML.php</code> y el parámetro que contiene el nombre se llama <code>login</code>. La respuesta del servidor es un documento XML con la siguiente estructura:</p>
+
+<p>Si el nombre de usuario está libre:</p>
+
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;respuesta<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;disponible<span class="re2">&gt;</span></span></span>si<span class="sc3"><span class="re1">&lt;/disponible<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/respuesta<span class="re2">&gt;</span></span></span></pre>
+</div>
+
+<p>Si el nombre de usuario está ocupado:</p>
+
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;respuesta<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;disponible<span class="re2">&gt;</span></span></span>no<span class="sc3"><span class="re1">&lt;/disponible<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;alternativas<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;login<span class="re2">&gt;</span></span></span>...<span class="sc3"><span class="re1">&lt;/login<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;login<span class="re2">&gt;</span></span></span>...<span class="sc3"><span class="re1">&lt;/login<span class="re2">&gt;</span></span></span>
+    ...
+    <span class="sc3"><span class="re1">&lt;login<span class="re2">&gt;</span></span></span>...<span class="sc3"><span class="re1">&lt;/login<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;/alternativas<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/respuesta<span class="re2">&gt;</span></span></span></pre>
+</div>
+
+<p>Los nombres de usuario alternativos se deben mostrar en forma de lista de elementos (<code>&lt;ul&gt;&lt;/ul&gt;</code>).</p>
+
+<p>Modificar la lista anterior para que muestre enlaces para cada uno de los nombres alternativos. Al pinchar sobre el enlace de un nombre alternativo, se copia en el cuadro de texto del login del usuario.</p>
+
+<p><a href="/ejercicios/ajax/ejercicio14/ejercicio14.zip">Descargar archivo ZIP con el script compruebaDisponibilidadXML.php</a></p>
+
+<p><a href="http://www.librosweb.es/ajax/capitulo14/ejercicio_14.html">Ver solución</a></p></div></p>
+
+<h3 id="parametros_y_respuestas_json">7.6.3. Parámetros y respuestas JSON</h3>
+
+<p>Aunque el formato XML está soportado por casi todos los lenguajes de programación, por muchas aplicaciones y es una tecnología madura y probada, en algunas ocasiones es más útil intercambiar información con el servidor en formato JSON.</p>
+
+<p>JSON es un formato mucho más compacto y ligero que XML. Además, es mucho más fácil de procesar en el navegador del usuario. Afortunadamente, cada vez existen más utilidades para procesar y generar el formato JSON en los diferentes lenguajes de programación del servidor (PHP, Java, C#, etc.)</p>
+
+<p>El ejemplo mostrado anteriormente para procesar las respuestas XML del servidor se puede reescribir utilizando respuestas JSON. En este caso, la respuesta que genera el servidor es mucho más concisa:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="br0">&#123;</span> 
+mensaje<span class="sy0">:</span> <span class="st0">&quot;...&quot;</span><span class="sy0">,</span>
+parametros<span class="sy0">:</span> <span class="br0">&#123;</span>telefono<span class="sy0">:</span> <span class="st0">&quot;...&quot;</span><span class="sy0">,</span> codigo_postal<span class="sy0">:</span> <span class="st0">&quot;...&quot;</span><span class="sy0">,</span> fecha_nacimiento<span class="sy0">:</span> <span class="st0">&quot;...&quot;</span> <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Considerando el nuevo formato de la respuesta, es necesario modificar la función que se encarga de procesar la respuesta del servidor:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> procesaRespuesta<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">if</span><span class="br0">&#40;</span>http_request.<span class="me1">readyState</span> <span class="sy0">==</span> READY_STATE_COMPLETE<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">if</span><span class="br0">&#40;</span>http_request.<span class="me1">status</span> <span class="sy0">==</span> <span class="nu0">200</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">var</span> respuesta_json <span class="sy0">=</span> http_request.<span class="me1">responseText</span><span class="sy0">;</span>
+    <span class="kw1">var</span> objeto_json <span class="sy0">=</span> eval<span class="br0">&#40;</span><span class="st0">&quot;(&quot;</span><span class="sy0">+</span>respuesta_json<span class="sy0">+</span><span class="st0">&quot;)&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">var</span> mensaje <span class="sy0">=</span> objeto_json.<span class="me1">mensaje</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">var</span> telefono <span class="sy0">=</span> objeto_json.<span class="me1">parametros</span>.<span class="me1">telefono</span><span class="sy0">;</span>
+    <span class="kw1">var</span> fecha_nacimiento <span class="sy0">=</span> objeto_json.<span class="me1">parametros</span>.<span class="me1">fecha_nacimiento</span><span class="sy0">;</span>
+    <span class="kw1">var</span> codigo_postal <span class="sy0">=</span> objeto_json.<span class="me1">parametros</span>.<span class="me1">codigo_postal</span><span class="sy0">;</span>
+&nbsp;
+    document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;respuesta&quot;</span><span class="br0">&#41;</span>.<span class="me1">innerHTML</span> <span class="sy0">=</span> mensaje <span class="sy0">+</span> <span class="st0">&quot;&lt;br&gt;&quot;</span> <span class="sy0">+</span> <span class="st0">&quot;Fecha nacimiento = &quot;</span> <span class="sy0">+</span> fecha_nacimiento <span class="sy0">+</span> <span class="st0">&quot;&lt;br&gt;&quot;</span> <span class="sy0">+</span> <span class="st0">&quot;Codigo postal = &quot;</span> <span class="sy0">+</span> codigo_postal <span class="sy0">+</span> <span class="st0">&quot;&lt;br&gt;&quot;</span> <span class="sy0">+</span> <span class="st0">&quot;Telefono = &quot;</span> <span class="sy0">+</span> telefono<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>La respuesta JSON del servidor se obtiene mediante la propiedad <code>responseText</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> respuesta_json <span class="sy0">=</span> http_request.<span class="me1">responseText</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Sin embargo, esta propiedad solamente devuelve la respuesta del servidor en forma de cadena de texto. Para trabajar con el código JSON devuelto, se debe transformar esa cadena de texto en un objeto JSON. La forma más sencilla de realizar esa conversión es mediante la función <code>eval()</code>, en la que deben añadirse paréntesis al principio y al final para realizar la evaluación de forma correcta:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> objeto_json <span class="sy0">=</span> eval<span class="br0">&#40;</span><span class="st0">&quot;(&quot;</span><span class="sy0">+</span>respuesta_json<span class="sy0">+</span><span class="st0">&quot;)&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Una vez realizada la transformación, el objeto JSON ya permite acceder a sus métodos y propiedades mediante la notación de puntos tradicional. Comparado con las respuestas XML, este procedimiento permite acceder a la información devuelta por el servidor de forma mucho más simple:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="co1">// Con JSON</span>
+<span class="kw1">var</span> fecha_nacimiento <span class="sy0">=</span> objeto_json.<span class="me1">parametros</span>.<span class="me1">fecha_nacimiento</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Con XML</span>
+<span class="kw1">var</span> parametros <span class="sy0">=</span> root.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;parametros&quot;</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+<span class="kw1">var</span> fecha_nacimiento <span class="sy0">=</span> parametros.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;fecha_nacimiento&quot;</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">firstChild</span>.<span class="me1">nodeValue</span><span class="sy0">;</span></pre>
+</div>
+
+<p>También es posible el envío de los parámetros en formato JSON. Sin embargo, no es una tarea tan sencilla como la creación de un documento XML. Así, se han diseñado utilidades específicas para la transformación de objetos JavaScript a cadenas de texto que representan el objeto en formato JSON. Esta librería se puede descargar desde el sitio web www.json.org.</p>
+
+<p>Para emplearla, se añade la referencia en el código de la página:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="sy0">&lt;</span>script type<span class="sy0">=</span><span class="st0">&quot;text/javascript&quot;</span> src<span class="sy0">=</span><span class="st0">&quot;json.js&quot;</span><span class="sy0">&gt;&lt;/</span>script<span class="sy0">&gt;</span></pre>
+</div>
+
+<p>Una vez referenciada la librería, se emplea el método <code>stringify</code> para realizar la transformación:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> objeto_json <span class="sy0">=</span> JSON.<span class="me1">stringify</span><span class="br0">&#40;</span>objeto<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Además de las librerías para JavaScript, están disponibles otras librerías para muchos otros lenguajes de programación habituales. Empleando la librería desarrollada para Java, es posible procesar la petición JSON realizada por un cliente:</p>
+
+<div class="code java">
+<pre class="java"><span class="kw1">import</span> <span class="co2">org.json.JSONObject</span><span class="sy0">;</span>
+...
+<span class="kw3">String</span> cadena_json <span class="sy0">=</span> <span class="st0">&quot;{propiedad: valor, codigo_postal: otro_valor}&quot;</span><span class="sy0">;</span>
+JSONObject objeto_json <span class="sy0">=</span> <span class="kw1">new</span> JSONObject<span class="br0">&#40;</span>cadena_json<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw3">String</span> codigo_postal <span class="sy0">=</span> objeto_json.<span class="me1">getString</span><span class="br0">&#40;</span><span class="st0">&quot;codigo_postal&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p><div class="exercise"><p class="title">Ejercicio 15</p> <p>Rehacer el ejercicio 14 para procesar respuestas del servidor en formato JSON. Los cambios producidos son:</p>
+
+<p>1) El script del servidor se llama <code>compruebaDisponibilidadJSON.php</code> y el parámetro que contiene el nombre se llama <code>login</code>.</p>
+
+<p>2) La respuesta del servidor es un objeto JSON con la siguiente estructura:</p>
+
+<p>El nombre de usuario está libre:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="br0">&#123;</span> disponible<span class="sy0">:</span> <span class="st0">&quot;si&quot;</span> <span class="br0">&#125;</span></pre>
+</div>
+
+<p>El nombre de usuario está ocupado:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="br0">&#123;</span> disponible<span class="sy0">:</span> <span class="st0">&quot;no&quot;</span><span class="sy0">,</span> alternativas<span class="sy0">:</span> <span class="br0">&#91;</span><span class="st0">&quot;...&quot;</span><span class="sy0">,</span> <span class="st0">&quot;...&quot;</span><span class="sy0">,</span> ...<span class="sy0">,</span> <span class="st0">&quot;...&quot;</span><span class="br0">&#93;</span> <span class="br0">&#125;</span></pre>
+</div>
+
+<p><a href="/ejercicios/ajax/ejercicio15/ejercicio15.zip">Descargar archivo ZIP con el script compruebaDisponibilidadJSON.php</a></p>
+
+<p><a href="http://www.librosweb.es/ajax/capitulo14/ejercicio_15.html">Ver solución</a></p></div></p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_7/interaccion_con_el_servidor.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>7.5. Interacción con el servidor</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_7/seguridad.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>7.7. Seguridad</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a AJAX</a>
+            </li>
+                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> JavaScript básico</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> JavaScript avanzado</a>
+            </li>
+                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> DOM (Document Object Model)</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> BOM (Browser Object Model)</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Eventos</a>
+            </li>
+                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_7.html">
+                    <span>Capítulo 7.</span> Primeros pasos con AJAX
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/la_primera_aplicacion.html">
+                    <span>7.2.</span> La primera aplicación
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/metodos_y_propiedades_del_objeto_xmlhttprequest.html">
+                    <span>7.3.</span> Métodos y propiedades del objeto XMLHttpRequest
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/utilidades_y_objetos_para_ajax.html">
+                    <span>7.4.</span> Utilidades y objetos para AJAX
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/interaccion_con_el_servidor.html">
+                    <span>7.5.</span> Interacción con el servidor
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_7/aplicaciones_complejas.html">
+                    <span>7.6.</span> Aplicaciones complejas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/seguridad.html">
+                    <span>7.7.</span> Seguridad
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Técnicas básicas con AJAX</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Técnicas avanzadas con AJAX</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Frameworks y librerías</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Otras utilidades</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Recursos útiles</a>
+            </li>
+                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Bibliografía</a>
+            </li>
+                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Ejercicios resueltos</a>
+            </li>
+                                                                                                                                                                                                                                                                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

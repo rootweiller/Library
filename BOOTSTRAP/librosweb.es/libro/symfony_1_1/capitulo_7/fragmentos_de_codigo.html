@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>7.2. Fragmentos de código (Symfony 1.1, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_7/plantillas.html" />
+                    <link rel="next" href="../capitulo_7/configuracion_de_la_vista.html" />
+                <link rel="start" href="/libro/symfony_1_1/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="7.2. Fragmentos de código (Symfony 1.1, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_1"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/" itemprop="url">
+                    <span itemprop="title">Symfony 1.1, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/capitulo_7.html" itemprop="url">
+                    <span itemprop="title">Capítulo 7. La Vista</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>7.2. Fragmentos de código</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="fragmentos_de_codigo" class="title">
+        <span>7.2.</span> Fragmentos de código
+    </h1>
+
+    
+
+<p>En ocasiones es necesario incluir cierto código HTML o PHP en varias páginas. Para no tener que repetirlo, casi siempre es suficiente con utilizar la instrucción <code>include()</code>.</p>
+
+<p>Si por ejemplo varias de las plantillas de la aplicación utilizan el mismo fragmento de código, se puede guardar en un archivo llamado <code>miFragmento.php</code> en el directorio global de plantillas (<code>miproyecto/apps/frontend/templates/</code>) e incluirlo en las plantillas mediante la instrucción siguiente:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">include</span><span class="br0">&#40;</span>sfConfig<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'sf_app_template_dir'</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/miFragmento.php'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Sim embargo, esta forma de trabajar con fragmentos de código no es muy limpia, sobre todo porque puede que los nombres de las variables utilizadas no coincidan en el fragmento de código y en las distintas plantillas. Además, el sistema de cache de Symfony (que se explica en el Capítulo 12) no puede detectar el uso de <code>include()</code>, por lo que no se puede incluir en la cache el código del fragmento de forma independiente al de las plantillas. Symfony define 3 alternativas al uso de la instrucción <code>include()</code> y que permiten manejar de forma inteligente los fragmentos de código:</p>
+
+<ul>
+<li>Si el fragmento contiene poca lógica, se puede utilizar un archivo de plantilla al que se le pasan algunas variables. En este caso, se utilizan los elementos parciales  <em>partial</em>).</li>
+<li>Si la lógica es compleja (por ejemplo se debe acceder a los datos del modelo o se debe variar los contenidos en función de la sesión) es preferible separar la presentación de la lógica. En este caso, se utilizan componentes  <em>component</em>).</li>
+<li>Si el fragmento va a reemplazar una zona específica del layout, para la que puede que exista un contenido por defecto, se utiliza un <em>slot</em>.</li>
+</ul>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Existe otro tipo de fragmento de código, llamado "slot de componentes", que se utiliza cuando el fragmento depende del contexto (por ejemplo si el fragmento debe ser diferente para las acciones de un mismo módulo). Más tarde en este capítulo se explican los "slots de componentes".</p></div>
+
+<p>Todos estos fragmentos se incluyen mediante los <em>helpers</em> del grupo llamado <code>Partial</code>. Estos <em>helpers</em> están disponibles en cualquier plantilla de Symfony sin necesidad de declararlos al principio.</p>
+
+<h3 id="elementos_parciales">7.2.1. Elementos parciales</h3>
+
+<p>Un elemento parcial es un trozo de código de plantilla que se puede reutilizar. Por ejemplo, en una aplicación de publicación, el código de plantilla que se encarga de mostrar un artículo se utiliza en la página de detalle del artículo, en la página que lista los mejores artículo y en la página que muestra los últimos artículos. Se trata de un código perfecto para definirlo como elemento parcial, tal y como muestra la figura 7-2.</p>
+
+<div class="figure" id="figure_7_2">
+    <img src="/img/symfony_1_1/f0702.png" alt="Reutilización de elementos parciales en las plantillas" />
+
+    <p class="caption"><strong>Figura 7.2</strong> Reutilización de elementos parciales en las plantillas</p>
+</div>
+
+
+<p>Al igual que las plantillas, los elementos parciales son archivos que se encuentran en el directorio <code>templates/</code>, y que contienen código HTML y código PHP. El nombre del archivo de un elemento parcial siempre comienza con un guión bajo (<code>_</code>), lo que permite distinguir a los elementos parciales de las plantillas, ya que todos se encuentran en el mismo directorio <code>templates/</code>.</p>
+
+<p>Una plantilla puede incluir elementos parciales independientemente de que estos se encuentren en el mismo módulo, en otro módulo o en el directorio global <code>templates/</code>. Los elementos parciales se incluyen mediante el <em>helper</em> <code>include_partial()</code>, al que se le pasa como parámetro el nombre del módulo y el nombre del elemento parcial (sin incluir el guión bajo del principio y la extensión <code>.php</code> del final), tal y como se muestra en el listado 7-7.</p>
+
+<p><strong>Listado 7-7 - Incluir elementos parciales en una plantilla del módulo <code>mimodulo</code></strong></p>
+
+<div class="code php">
+<pre class="php">// Incluir el elemento pacial de frontend/modules/mimodulo/templates/_miparcial1.php
+// Como la plantilla y el elemento parcial están en el mismo módulo,
+// se puede omitir el nombre del módulo
+<span class="kw2">&lt;?php</span> include_partial<span class="br0">&#40;</span><span class="st_h">'miparcial1'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// Incluir el elemento parcial de frontend/modules/otromodulo/templates/_miparcial2.php
+// En este caso es obligatorio indicar el nombre del módulo
+<span class="kw2">&lt;?php</span> include_partial<span class="br0">&#40;</span><span class="st_h">'otromodulo/miparcial2'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// Incluir el elemento parcial de frontend/templates/_miparcial3.php
+// Se considera que es parte del módulo 'global'
+<span class="kw2">&lt;?php</span> include_partial<span class="br0">&#40;</span><span class="st_h">'global/miparcial3'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Los elementos parciales pueden acceder a los <em>helpers</em> y atajos de plantilla que proporciona Symfony. Pero como los elementos parciales se pueden llamar desde cualquier punto de la aplicación, no tienen acceso automático a las variables definidas por la acción que ha incluido la plantilla en la que se encuentra el elemento parcial, a no ser que se pase esas variables explícitamente en forma de parámetro. Si por ejemplo se necesita que un elemento parcial tenga acceso a una variable llamada <code>$total</code>, la acción pasa esa variable a la plantilla y después la plantilla se la pasa al <em>helper</em> como el segundo parámetro de la llamada a la función <code>include_partial()</code>, como se muestra en los listado 7-8, 7-9 y 7-10.</p>
+
+<p><strong>Listado 7-8 - La acción define una variable, en <code>mimodulo/actions/actions.class.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> mimoduloActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeIndex<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">total</span> <span class="sy0">=</span> <span class="nu0">100</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p><strong>Listado 7-9 - La plantilla pasa la variable al elemento parcial, en <code>mimodulo/templates/indexSuccess.php</code></strong></p>
+
+<div class="code php">
+<pre class="php">&lt;p&gt;¡Hola Mundo!&lt;/p&gt;
+<span class="kw2">&lt;?php</span> include_partial<span class="br0">&#40;</span><span class="st_h">'miparcial'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'mitotal'</span> <span class="sy0">=&gt;</span> <span class="re0">$total</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p><strong>Listado 7-10 - El elemento parcial ya puede usar la variable, en <code>mimodulo/templates/_miparcial.php</code></strong></p>
+
+<div class="code php">
+<pre class="php">&lt;p&gt;Total: <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$mitotal</span> <span class="sy1">?&gt;</span>&lt;/p&gt;</pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Hasta ahora, todos los helpers se llamaban con la función <code>&lt;?php echo nombreFuncion() ?&gt;</code>. Por el contrario, el helper utilizado con los elementos parciales se llama mediante <code>&lt;?php include_partial() ?&gt;</code>, sin incluir el <code>echo</code>, para hacer su comportamiento más parecido a la instrucción de PHP <code>include()</code>. Si alguna vez se necesita obtener el contenido del elemento parcial sin mostrarlo, se puede utilizar la función <code>get_partial()</code>. Todos los helpers de tipo <code>include_</code> de este capítulo, tienen una función asociada que comienza por <code>get_</code> y que devuelve los contenidos que se pueden mostrar directamente con una instrucción <code>echo</code>.</p></div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Una de las novedades de Symfony 1.1 es que las acciones no sólo pueden acabar generando una plantilla, sino que también pueden finalizar generando un elemento parcial o un componente. Los métodos <code>renderPartial()</code> y <code>renderComponent()</code> de la clase de las acciones permite la reutilización del código. Además, esta técnica también puede hacer uso de la caché de los elementos parciales (ver capítulo 12). Las variables definidas en una acción se pasan de forma automática al elemento parcial y al componente, a menos que definas un array asociativo de variables y lo pases como segundo argumento del método.</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> executeMiAccion<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">variable1</span> <span class="sy0">=</span> <span class="nu0">1234</span><span class="sy0">;</span>
+  <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">variable2</span> <span class="sy0">=</span> <span class="nu0">4567</span><span class="sy0">;</span>
+&nbsp;
+  <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">renderPartial</span><span class="br0">&#40;</span><span class="st_h">'mimodulo/miparcial'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>En el código anterior, el elemento parcial tiene acceso a las variables <code>variable1</code> y <code>variable2</code>. Sin embargo, si la última instrucción de la acción es la siguiente:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">renderPartial</span><span class="br0">&#40;</span><span class="st_h">'mimodulo/miparcial'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'variable1'</span> <span class="sy0">=&gt;</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">variable1</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>En este último caso, el elemento parcial sólo tiene acceso a la variable llamada <code>variable1</code>.</p></div>
+
+<h3 id="componentes">7.2.2. Componentes</h3>
+
+<p>En el Capítulo 2, el primer script de ejemplo se dividía en dos partes para separar la lógica de la presentación. Al igual que el patrón MVC se aplica a las acciones y las plantillas, es posible dividir un elemento parcial en su parte de lógica y su parte de presentación. En este caso, se necesitan los componentes.</p>
+
+<p>Un componente es como una acción, solo que mucho más rápido. La lógica del componente se guarda en una clase que hereda de <code>sfComponents</code> y que se debe guardar en el archivo <code>actions/components.class.php</code>. Su presentación se guarda en un elemento parcial. Los métodos de la clase <code>sfComponents</code> empiezan con la palabra <code>execute</code>, como sucede con las acciones, y pueden pasar variables a su presentación de la misma forma en la que se pasan variables en las acciones. Los elementos parciales que se utilizan como presentación de un componente, se deben llamar igual que los componentes, sustituyendo la palabra <code>execute</code> por un guión bajo. La tabla 7-1 compara las convenciones en los nombres de las acciones y los componentes.</p>
+
+<p><strong>Tabla 7-1.  Convenciones en el nombrado de las acciones y de los componentes</strong></p>
+
+<div class="table" id="table_7_1">
+
+    <table>
+<thead>
+<tr>
+  <th>Convención</th>
+  <th>Acciones</th>
+  <th>Componentes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Archivo de la lógica</td>
+  <td><code>actions.class.php</code></td>
+  <td><code>components.class.php</code></td>
+</tr>
+<tr>
+  <td>Clase de la que hereda la lógica</td>
+  <td><code>sfActions</code></td>
+  <td><code>sfComponents</code></td>
+</tr>
+<tr>
+  <td>Nombre de los métodos</td>
+  <td><code>executeMiAccion()</code></td>
+  <td><code>executeMiComponente()</code></td>
+</tr>
+<tr>
+  <td>Nombre del archivo de presentación</td>
+  <td><code>miAccionSuccess.php</code></td>
+  <td><code>_miComponente.php</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> De la misma forma que es posible separar los archivos de las acciones, la clase <code>sfComponents</code> dispone de una equivalente llamada <code>sfComponent</code>  y que permite crear archivos individuales para cada componente siguiendo una sintaxis similar.</p></div>
+
+<p>Por ejemplo, se puede definir una zona lateral que muestra las últimas noticias de un determinado tema que depende del perfil del usuario y que se va a reutilizar en varias páginas. Las consultas necesarias para mostrar las noticias son demasiado complejas como para incluirlas en un elemento parcial, por lo que se deben incluir en un archivo similar a las acciones, es decir, en un componente. La figura 7-3 ilustra este ejemplo.</p>
+
+<div class="figure" id="figure_7_3">
+    <img src="/img/symfony_1_1/f0703.png" alt="Uso de componentes en las plantillas" />
+
+    <p class="caption"><strong>Figura 7.3</strong> Uso de componentes en las plantillas</p>
+</div>
+
+
+<p>En este ejemplo, mostrado en los listados 7-11 y 7-12, el componente se define en su propio módulo (llamado <code>news</code>), pero se pueden mezclar componentes y acciones en un único módulo, siempre que tenga sentido hacerlo desde un punto de vista funcional.</p>
+
+<p><strong>Listado 7-11 - La clase de los componentes, en <code>modules/news/actions/components.class.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span>
+&nbsp;
+    <span class="kw2">class</span> newsComponents <span class="kw2">extends</span> sfComponents
+    <span class="br0">&#123;</span>
+      <span class="kw2">public</span> <span class="kw2">function</span> executeHeadlines<span class="br0">&#40;</span><span class="br0">&#41;</span>
+      <span class="br0">&#123;</span>
+        <span class="re0">$c</span> <span class="sy0">=</span> <span class="kw2">new</span> Criteria<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$c</span><span class="sy0">-&gt;</span><span class="me1">addDescendingOrderByColumn</span><span class="br0">&#40;</span>NewsPeer<span class="sy0">::</span><span class="me2">PUBLISHED_AT</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$c</span><span class="sy0">-&gt;</span><span class="me1">setLimit</span><span class="br0">&#40;</span><span class="nu0">5</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">news</span> <span class="sy0">=</span> NewsPeer<span class="sy0">::</span><span class="me2">doSelect</span><span class="br0">&#40;</span><span class="re0">$c</span><span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+</div>
+
+<p><strong>Listado 7-12 - El elemento parcial, en <code>modules/news/templates/_headlines.php</code></strong></p>
+
+<div class="code php">
+<pre class="php">&lt;div&gt;
+      &lt;h1&gt;Últimas noticias&lt;/h1&gt;
+      &lt;ul&gt;
+      <span class="kw2">&lt;?php</span> <span class="kw1">foreach</span><span class="br0">&#40;</span><span class="re0">$news</span> <span class="kw1">as</span> <span class="re0">$headline</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+        &lt;li&gt;
+          <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$headline</span><span class="sy0">-&gt;</span><span class="me1">getPublishedAt</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+          <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="re0">$headline</span><span class="sy0">-&gt;</span><span class="me1">getTitle</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span><span class="st_h">'news/show?id='</span><span class="sy0">.</span><span class="re0">$headline</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+        &lt;/li&gt;
+      <span class="kw2">&lt;?php</span> <span class="kw1">endforeach</span> <span class="sy1">?&gt;</span>
+      &lt;/ul&gt;
+    &lt;/div&gt;</pre>
+</div>
+
+<p>Ahora, cada vez que se necesite el componente en una plantilla, se puede incluir de la siguiente forma:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> include_component<span class="br0">&#40;</span><span class="st_h">'news'</span><span class="sy0">,</span> <span class="st_h">'headlines'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Al igual que sucede con los elementos parciales, se pueden pasar parámetros adicionales a los componentes mediante un array asociativo. Dentro del elemento parcial se puede acceder directamente a los parámetros mediante su nombre y en el componente se puede acceder a ellos mediante el uso de <code>$this</code>. El listado 7-13 muestra un ejemplo.</p>
+
+<p><strong>Listado 7-13 - Paso de parámetros a un componente y a su plantilla</strong></p>
+
+<div class="code php">
+<pre class="php">// Llamada al componente
+    <span class="kw2">&lt;?php</span> include_component<span class="br0">&#40;</span><span class="st_h">'news'</span><span class="sy0">,</span> <span class="st_h">'headlines'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'parametro'</span> <span class="sy0">=&gt;</span> <span class="st_h">'valor'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+    // Dentro del componente
+    echo $this-&gt;parametro;
+     =&gt; 'valor'
+&nbsp;
+    // Dentro del elemento parcial _headlines.php
+    echo $parametro;
+     =&gt; 'valor'</pre>
+</div>
+
+<p>Se pueden incluir componentes dentro de otros componentes y también en el layout global como si fuera una plantilla normal. Al igual que en las acciones, los métodos <code>execute</code> de los componentes pueden pasar variables a sus elementos parciales relacionados y pueden tener acceso a los mismos atajos. Pero las similitudes se quedan solo en eso. Los componentes no pueden manejar la seguridad ni la validación, no pueden ser llamados desde Internet (solo desde la propia aplicación) y no tienen distintas posibilidades para devolver sus resultados. Por este motivo, los componentes son más rápidos que las acciones.</p>
+
+<h3 id="slots">7.2.3. Slots</h3>
+
+<p>Los elementos parciales y los componentes están especialmente diseñados para reutilizar código. Sin embargo, en muchas ocasiones se necesitan fragmentos de código que rellenen un layout con más de una zona variable. Por ejemplo se puede necesitar añadir etiquetas personalizadas en la sección <code>&lt;head&gt;</code> del layout en función del contenido de la acción. También se puede dar el caso de un layout que tiene una zona de contenidos dinámicos que se rellena con el resultado de la acción y muchas otras zonas pequeñas que tienen un contenido por defecto definido en el layout pero que puede ser modificado en la plantilla.</p>
+
+<p>En los casos descritos anteriormente la solución más adecuada es un <em>slot</em>. Básicamente, un slot es una zona que se puede definir en cualquier elemento de la vista (layout, plantilla o elemento parcial). La forma de rellenar esa zona es similar a establecer el valor de una variable. El código de relleno se almacena de forma global en la respuesta, por lo que se puede definir en cualquier sitio (layout, plantilla o elemento parcial). Se debe definir un slot antes de utilizarlo y también hay que tener en cuenta que el layout se ejecuta después de la plantilla (durante el proceso de <em>decoración</em>) y que los elementos parciales se ejecutan cuando los llama una plantilla. Como todo esto suena demasiado abstracto, se va a ver su funcionamiento con un ejemplo.</p>
+
+<p>Imagina que se dispone de un layout con una zona para la plantilla y 2 slots: uno para el lateral de la página y otro para el pie de página. El valor de los slots se define en la plantilla. Durante el proceso de decoración, el layout integra en su interior el código de la plantilla, por lo que los slots se rellenan con los valores que se han definido anteriormente, tal y como muestra la figura 7-4. De esta forma, el lateral y el pie de página pueden depender de la acción. Se puede aproximar a la idea de tener un layout con uno o más agujeros que se rellenan con otro código.</p>
+
+<div class="figure left" id="figure_7_4">
+    <img src="/img/symfony_1_1/f0704.png" alt="La plantilla define el valor de los slots del layout" />
+
+    <p class="caption"><strong>Figura 7.4</strong> La plantilla define el valor de los slots del layout</p>
+</div>
+
+
+<p>Su funcionamiento se puede comprender mejor viendo algo de código. Para incluir un slot se utiliza el <em>helper</em> <code>include_slot()</code>. El <em>helper</em> <code>has_slot()</code> devuelve un valor <code>true</code> si el slot ya ha sido definido antes, permitiendo de esta forma establecer un mecanismo de protección frente a errores. El listado 7-14 muestra como definir la zona para el slot <code>lateral</code> en el layout y su contenido por defecto.</p>
+
+<p><strong>Listado 7-14 - Incluir un slot llamado <code>lateral</code> en el layout</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;div id=&quot;lateral&quot;&gt;
+    <span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">&#40;</span>has_slot<span class="br0">&#40;</span><span class="st_h">'lateral'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+      <span class="kw2">&lt;?php</span> include_slot<span class="br0">&#40;</span><span class="st_h">'lateral'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+    <span class="kw2">&lt;?php</span> <span class="kw1">else</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+      &lt;!-- código del lateral por defecto --&gt;
+      &lt;h1&gt;Zona cuyo contenido depende del contexto&lt;/h1&gt;
+      &lt;p&gt;Esta zona contiene enlaces e información sobre
+      el contenido principal de la página.&lt;/p&gt;
+    <span class="kw2">&lt;?php</span> <span class="kw1">endif</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+    &lt;/div&gt;</pre>
+</div>
+
+<p>Como es muy común mostrar un contenido por defecto cuando un slot no está definido, el <em>helper</em> <code>include_slot</code> devuelve un valor <em>booleano</em> que indica si el slot está definido. El listado 7-15 muestra cómo utilizar este valor de retorno para simplificar el código.</p>
+
+<p><strong>Listado 7-15 - Redefiniendo el contenido del slot <code>lateral</code> en el layout</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;div id=&quot;lateral&quot;&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>include_slot<span class="br0">&#40;</span><span class="st_h">'lateral'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+  &lt;!-- contenido por defecto del lateral --&gt;
+  &lt;h1&gt;Zona de contenidos contextuales&lt;/h1&gt;
+  &lt;p&gt;En esta zona se muestran enlaces e información
+  que dependen del contenido principal de la página&lt;/p&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">endif</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+&lt;/div&gt;</pre>
+</div>
+
+<p>Las plantillas pueden definir los contenidos de un slot (e incluso los elementos parciales pueden hacerlo). Como los slots se definen para mostrar código HTML, Symfony proporciona métodos útiles para indicar ese código HTML: se puede escribir el código del slot entre las llamadas a las funciones <code>slot()</code> y <code>end_slot()</code>, como se muestra en el listado 7-16.</p>
+
+<p><strong>Listado 7-16 - Redefiniendo el contenido del slot <code>lateral</code> en la plantilla</strong></p>
+
+<div class="code php">
+<pre class="php">// ...
+<span class="kw2">&lt;?php</span> slot<span class="br0">&#40;</span><span class="st_h">'lateral'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+  &lt;!-- Código específico para el lateral de esta plantilla --&gt;
+  &lt;h1&gt;Detalles del usuario&lt;/h1&gt;
+  &lt;p&gt;Nombre:  <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$user</span><span class="sy0">-&gt;</span><span class="me1">getName</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/p&gt;
+  &lt;p&gt;Email: <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$user</span><span class="sy0">-&gt;</span><span class="me1">getEmail</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/p&gt;
+<span class="kw2">&lt;?php</span> end_slot<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>El código incluido entre las llamadas a los <em>helpers</em> del slot se ejecutan en el contexto de las plantillas, por lo que tienen acceso a todas las variables definidas por la acción. Symfony añade de forma automática en el objeto <code>response</code> el resultado del código anterior. No se muestra directamente en la plantilla, sino que se puede acceder a su código mediante la llamada a la función <code>include_slot()</code>, como se muestra en el listado 7.14.</p>
+
+<p>Los slots son muy útiles cuando se tienen que definir zonas que muestran contenido que depende del contexto de la página. También se puede utilizar para añadir código HTML al layout solo para algunas acciones. Por ejemplo, una plantilla que muestra la lista de las últimas noticias puede necesitar incluir un enlace a un canal RSS dentro de la sección <code>&lt;head&gt;</code> del layout. Esto se puede conseguir añadiendo un slot llamado <code>feed</code> en el layout y que sea redefinido en la plantilla del listado de noticias.</p>
+
+<p>Si el contenido de un slot es muy corto, como por ejemplo cuando se utilizan slots para mostrar el título de las páginas, se puede pasar todo el contenido como el segundo argumento de la llamada al método <code>slot()</code>, como muestra el listado 7-17.</p>
+
+<p><strong>Listado 7-17 - Utilizando el método <code>slot()</code> con contenidos cortos</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> slot<span class="br0">&#40;</span><span class="st_h">'titulo'</span><span class="sy0">,</span> <span class="st_h">'El título de la página'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<div class="admonition sidebar"><p><strong class="title">Dónde encontrar los fragmentos de plantillas</strong> Los usuarios que trabajan con plantillas normalmente son diseñadores web, que no conocen muy bien el funcionamiento de Symfony y que pueden tener problemas para encontrar los fragmentos de plantilla, ya que pueden estar desperdigados por todas la aplicación. Los siguientes consejos pueden hacer más fácil su trabajo con las plantillas de Symfony.</p>
+
+<p>En primer lugar, aunque los proyectos de Symfony contienen muchos directorios, todos los layouts, plantillas y fragmentos de plantillas son archivos que se encuentran en directorios llamados <code>templates/</code>. Por tanto, en lo que respecta a un diseñador web, la estructura de un proyecto queda reducida a:</p>
+
+<div class="code code">
+<pre class="code">miproyecto/
+  apps/
+    aplicacion1/
+      templates/       # Layouts de la aplicacion 1
+      modules/
+        modulo1/
+          templates/   # Plantillas y elementos parciales del modulo 1
+        modulo2/
+          templates/   # Plantillas y elementos parciales del modulo 2
+        modulo3/
+          templates/   # Plantillas y elementos parciales del modulo 3</pre>
+</div>
+
+<p>El resto de directorios pueden ser ignorados por el diseñador.</p>
+
+<p>Cuando se encuentren con una función del tipo <code>include_partial()</code>, los diseñadores web sólo tienen que preocuparse por el primer argumento de la función. La estructura del nombre de este argumento es <code>nombre_modulo/nombre_elemento_parcial</code>, lo que significa que el código se encuentra en el archivo <code>modules/nombre_modulo/templates/_nombre_elemento_parcial.php</code>.</p>
+
+<p>En los helpers de tipo <code>include_component()</code>, el nombre del módulo y el nombre del elemento parcial son los dos primeros argumentos. Por lo demás, para empezar a diseñar plantillas de aplicaciones Symfony sólo es necesario tener una idea general sobre lo que son los helpers y cuales son los más utilizados en las plantillas.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_7/plantillas.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>7.1. Plantillas</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_7/configuracion_de_la_vista.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>7.3. Configuración de la vista</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_7.html">
+                    <span>Capítulo 7.</span> La Vista
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/plantillas.html">
+                    <span>7.1.</span> Plantillas
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_7/fragmentos_de_codigo.html">
+                    <span>7.2.</span> Fragmentos de código
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/configuracion_de_la_vista.html">
+                    <span>7.3.</span> Configuración de la vista
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/slots_de_componentes.html">
+                    <span>7.4.</span> Slots de componentes
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/mecanismo_de_escape.html">
+                    <span>7.5.</span> Mecanismo de escape
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/resumen.html">
+                    <span>7.6.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

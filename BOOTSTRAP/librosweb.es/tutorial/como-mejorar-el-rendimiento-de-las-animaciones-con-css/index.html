@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Cómo mejorar el rendimiento de las animaciones con CSS</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Cómo mejorar el rendimiento de las animaciones con CSS">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-2-1" class="tutorials"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                            <h1 class="title">Cómo mejorar el rendimiento de las animaciones con CSS</h1>
+
+    <p>Los navegadores web modernos pueden aplicar con facilidad los siguientes cuatro efectos CSS: cambio de posición, escalado, rotación y opacidad. Si aplicas cualquier otro efecto CSS en la página, es muy posible que el rendimiento se resienta y no puedas mantener los 60 <em>frames</em> por segundo que hacen que la página se vea tan bien.</p>
+<p>Por este motivo, todos los efectos gráficos de tus páginas se deberían reducir a las siguientes cuatro instrucciones:</p>
+<pre class="css code"><span class="coMULTI">/* mover un elemento */</span>
+... <span class="br0">&#123;</span> transform<span class="sy0">:</span> translate<span class="br0">&#40;</span><span class="re3">0px</span><span class="sy0">,</span> <span class="re3">0px</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="br0">&#125;</span>
+&nbsp;
+<span class="coMULTI">/* escalar (cambiar el tamaño) de un elemento */</span>
+... <span class="br0">&#123;</span> transform<span class="sy0">:</span> scale<span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="br0">&#125;</span>
+&nbsp;
+<span class="coMULTI">/* rotar un elemento */</span>
+... <span class="br0">&#123;</span> transform<span class="sy0">:</span> rotate<span class="br0">&#40;</span>0deg<span class="br0">&#41;</span><span class="sy0">;</span> <span class="br0">&#125;</span>
+&nbsp;
+<span class="coMULTI">/* cambiar la opacidad de un elemento */</span>
+... <span class="br0">&#123;</span> opacity<span class="sy0">:</span> <span class="nu0">0</span>...<span class="nu0">1</span><span class="sy0">;</span> <span class="br0">&#125;</span></pre>
+<p>Observa el siguiente vídeo que muestra a cámara lenta la diferencia entre animar un objeto con la propiedad <code>transform</code> (parte derecha del vídeo) o hacerlo con las propiedades tradicionales <code>position</code>, <code>top</code> y <code>left</code> (parte izquierda del vídeo):</p>
+<iframe width="640" height="480" src="//www.youtube.com/embed/-62uPWUxgcg?rel=0" frameborder="0" allowfullscreen></iframe>
+<h2>Del DOM al píxel a través de las <em>DevTools</em></h2>
+<p>Cuando analizas una página con las <em>DevTools</em> o <em>Herramientas del desarrollador</em> de Google Chrome, deberías ver un patrón similar al siguiente:</p>
+<p><img alt="Análisis del rendimiento mediante las DevTools de Google Chrome" src="/img/tutoriales/rendimiento_css_devtools-waterfall.jpg" /></p>
+<p>El proceso que sigue tu navegador es muy sencillo:</p>
+<ol>
+<li>Determina qué estilos se aplican a cada elemento (esta es la fase <em>"Recalculate Style"</em>)</li>
+<li>Calcula la geometría y posición de cada elemento (fase <em>Layout</em>)</li>
+<li>Pinta los píxeles de cada elemento en diferentes capas (fase <em>Paint Setup and Paint</em>)</li>
+<li>Dibuja las capas en la pantalla (fase <em>Composite Layers</em>).</li>
+</ol>
+<p>Para hacer que las animaciones se vean fluidas en el navegador, la clave está en evitar la máxima cantidad de trabajo. La mejor manera de conseguirlo consiste en utilizar solamente las propiedades <code>transform</code> y <code>opacity</code>. El motivo es que cuanto más arriba empieces en la línea del tiempo mostrada anteriormente, más trabajo tiene que realizar el navegador para mostrar los píxeles en pantalla.</p>
+<p>Este consejo es aplicable a casi todos los navegadores, ya que Chrome, Firefox, Safari y Opera aceleran las propiedades <code>transform</code> y <code>opacity</code> mediante el <em>hardware</em>. Lamentablemente, no está claro el criterio que sigue Internet Explorer 10, así que tendremos que esperar hasta el lanzamiento de Internet Explorer 11.</p>
+<h2>Animando elementos con propiedades que afectan a su <em>layout</em></h2>
+<p>Cuando modificas algún elemento de la página, es probable que el navegador tenga que crear un nuevo <em>layout</em>, es decir, que tenga que recalcular el tamaño y la posición de todos los elementos afectados por el cambio. Así que aunque sólo cambies un elemento, es posible que también se recalcule la geometría de muchos otros elementos.</p>
+<p>Si modificas por ejemplo la anchura del elemento <code>&lt;html&gt;</code>, todos los elementos de la página se ven afectados. Además, como es normal que un elemento afecte a muchos otros, cuando modificas un elemento de la página es muy común que llegue a afectar hasta al elemento <code>&lt;html&gt;</code>.</p>
+<p>Cuanto más grande sea el árbol DOM de elementos visibles en la página, más tiempo le cuesta al navegador realizar todas esas operaciones relacionadas con el <em>layout</em>. Por eso es tan importante evitar cualquier efecto gráfico que obligue a recalcular el <em>layout</em> de los elementos.</p>
+<p>Por otra parte, utilizar las clases CSS de los elementos para controlar el estado de la aplicación también puede afectar al rendimiento. El motivo es que cuando modificas las clases CSS de esos elementos, es posible que el navegador tenga que recalcular el <em>layout</em> de todos ellos. ¡Así que el rendimiento de tu aplicación se puede resentir seriamente incluso cuando no utilizas animaciones!</p>
+<p>La siguiente tabla muestra las propiedades CSS más populares que provocan un recálculo del <em>layout</em> al modificar sus valores:</p>
+<table>
+    <thead>
+        <tr>
+            <th colspan="6">Propiedades CSS que afectan al <em>layout</em> de los elementos</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><a href="http://librosweb.es/referencia/css/border.html">border</a></td>
+        <td><a href="http://librosweb.es/referencia/css/border-width.html">border-width</a></td>
+        <td><a href="http://librosweb.es/referencia/css/bottom.html">bottom</a></td>
+        <td><a href="http://librosweb.es/referencia/css/clear.html">clear</a></td>
+        <td><a href="http://librosweb.es/referencia/css/display.html">display</a></td>
+        <td><a href="http://librosweb.es/referencia/css/float.html">float</a></td>
+    </tr>
+    <tr>
+        <td><a href="http://librosweb.es/referencia/css/font-family.html">font-family</a></td>
+        <td><a href="http://librosweb.es/referencia/css/font-size.html">font-size</a></td>
+        <td><a href="http://librosweb.es/referencia/css/font-weight.html">font-weight</a></td>
+        <td><a href="http://librosweb.es/referencia/css/height.html">height</a></td>
+        <td><a href="http://librosweb.es/referencia/css/left.html">left</a></td>
+        <td><a href="http://librosweb.es/referencia/css/line-height.html">line-height</a></td>
+    </tr>
+    <tr>
+        <td><a href="http://librosweb.es/referencia/css/margin.html">margin</a></td>
+        <td><a href="http://librosweb.es/referencia/css/min-height.html">min-height</a></td>
+        <td><a href="http://librosweb.es/referencia/css/overflow.html">overflow</a></td>
+        <td><a href="http://librosweb.es/referencia/css/overflow.html">overflow-y</a></td>
+        <td><a href="http://librosweb.es/referencia/css/padding.html">padding</a></td>
+        <td><a href="http://librosweb.es/referencia/css/position.html">position</a></td>
+    </tr>
+    <tr>
+        <td><a href="http://librosweb.es/referencia/css/right.html">right</a></td>
+        <td><a href="http://librosweb.es/referencia/css/text-align.html">text-align</a></td>
+        <td><a href="http://librosweb.es/referencia/css/top.html">top</a></td>
+        <td><a href="http://librosweb.es/referencia/css/vertical-align.html">vertical-align</align</a>
+        <td><a href="http://librosweb.es/referencia/css/white-space.html">white-space</a></td>
+        <td><a href="http://librosweb.es/referencia/css/width.html">width</a></td>
+    </tr>
+    </tbody>
+</table>
+<h2>Animando elementos con propiedades que afectan al pintado</h2>
+<p>Al modificar un elemento, también es posible que se tenga que realizar una fase de pintado de píxeles. El problema es que incluso en los navegadores más modernos, el pintado se realiza mediante <em>software</em>. Dependiendo de cómo se agrupen los elementos de la página en capas, es posible que el pintado también afecte a otros elementos adyacentes. Si no conoces el concepto de capas o <em>layers</em>, puedes leer <a href="http://www.html5rocks.com/en/tutorials/speed/layers/">la introducción</a> que realizó Tom Wiltzius sobre el tema.</p>
+<p>Muchas propiedades CSS obligan a repintar los elementos, pero estas son las más populares:</p>
+<table>
+    <thead>
+        <tr>
+            <th colspan="6">Propiedades CSS que afectan al <em>pintado</em> de los elementos</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><a href="http://librosweb.es/referencia/css/background.html">background</a></td>
+        <td><a href="http://librosweb.es/referencia/css/background-image.html">background-image</a></td>
+        <td><a href="http://librosweb.es/referencia/css/background-position.html">background-position</a></td>
+        <td><a href="http://librosweb.es/referencia/css/background-repeat.html">background-repeat</a></td>
+        <td><a href="http://librosweb.es/referencia/css/background-size .html">background-size </a></td>
+    </tr>
+    <tr>
+        <td><a href="http://librosweb.es/referencia/css/border-style.html">border-style</a></td>
+        <td><a href="http://librosweb.es/referencia/css/border-radius.html">border-radius</a></td>
+        <td><a href="http://librosweb.es/referencia/css/box-shadow.html">box-shadow</a></td>
+        <td><a href="http://librosweb.es/referencia/css/color.html">color</a></td>
+        <td><a href="http://librosweb.es/referencia/css/outline.html">outline</a></td>
+    </tr>
+    <tr>
+        <td><a href="http://librosweb.es/referencia/css/outline-color.html">outline-color</a></td>
+        <td><a href="http://librosweb.es/referencia/css/outline-style.html">outline-style</a></td>
+        <td><a href="http://librosweb.es/referencia/css/outline-width.html">outline-width</a></td>
+        <td><a href="http://librosweb.es/referencia/css/text-decoration.html">text-decoration</a></td>
+        <td><a href="http://librosweb.es/referencia/css/visibility.html">visibility</a></td>
+    </tr>
+    </tbody>
+</table>
+<p>Si modificas el valor de cualquiera de estas propiedades, se vuelve a pintar el elemento afectado y todas las capas relacionadas con ese elemento. Este problema es especialmente importante en los dispositivos móviles, ya que sus CPU suelen ser menos potentes que las de los equipos de escritorio.</p>
+<h2>Animando elementos con propiedades que afectan a su composición</h2>
+<p>Una de las propiedades CSS que parece que debería provocar el repintado de los elementos pero que normalmente no lo hace es la propiedad <code>opacity</code>. En realidad, los cambios en la opacidad de un elemento los gestiona directamente la GPU modificando su transparencia. Ten en cuenta que esto solamente se aplica cuando ese elemento es lo único que contiene la capa.</p>
+<p>En los navegadores basados en los motores Blink y WebKit, se crea una nueva capa para cada elemento que tiene una transición CSS o un cambio en su opacidad. Por eso algunos programadores aplican las propiedades <code>translateZ(0)</code> o <code>translate3d(0,0,0)</code> como truco para forzar la creación de una nueva capa para ese elemento. Forzar la creación de capas asegura que la capa estará lista tan pronto como empiece la animación y que sus contenidos no se verán afectados por los cambios en el <em>antialiasing</em>. A pesar de sus ventajas, es recomendable no utilizar en exceso el truco de forzar la creación de las capas.</p>
+<p>Al modificar el valor de la propiedad <code>transform</code> sobre un elemento, se modifica su posición, su rotación o su escala. Normalmente la posición del elemento se modifica con las propiedades <code>left</code> y <code>top</code>. El problema de esta técnica, tal y como se mostró anteriormente, es que penaliza el rendimiento de la página. Para mover un elemento, lo mejor es usar el valor <code>translate</code> de la propiedad <code>transform</code>, ya que no obliga a recalcular el <em>layout</em> de los elementos de la página.</p>
+<h2>Animaciones <em>imperativas</em> frente a animaciones <em>declarativas</em></h2>
+<p>Los diseñadores a menudo tienen que decidir entre animar los elementos de la página con JavaScript (se denomina, estilo <em>imperativo</em>) o con CSS (estilo <em>declarativo</em>). Cada uno de los dos métodos tiene sus ventajas e inconvenientes.</p>
+<h3>Estilo <em>imperativo</em></h3>
+<p>Paradójicamente, la principal ventaja de JavaScript es a la vez su mayor desventaja: todo el código JavaScript se ejecuta en el principal <em>hilo de ejecución</em> del navegador. El problema es que este <em>hilo de ejecución</em> ya está ocupado con muchas otras tareas relacionadas con JavaScript y con el cálculo de los estilos, por lo que es común que se produzcan <em>atascos</em> y por tanto, que las animaciones de la página no sean fluidas.</p>
+<p>Las animaciones con JavaScript permiten un control absoluto sobre el comienzo de la animación, su finalización, cancelación, pausa, etc. Además, algunos efectos avanzados como el <em>scroll parallax</em> solamente son posibles con JavaScript.</p>
+<h3>Estilo <em>declarativo</em></h3>
+<p>La alternativa a JavaScript consiste en crear las animaciones y las transiciones directamente con CSS. La principal ventaja de este método es que el navegador puede optimizar la animación. Entre otras optimizaciones, el navegador crea todas las capas que sean necesarias y realiza los cálculos fuera del <em>hilo de ejecución</em> principal. La desventaja de las animaciones CSS es que no son tan expresivas como las creadas con JavaScript. Además, no resulta fácil combinar dos o más animaciones, por lo que suelen producirse errores al crear animaciones muy complejas.</p>
+<h3>Un vistazo al futuro</h3>
+<p>Como los estándares web evolucionan tan rápidamente, es seguro que pronto desaparecerán todas estas limitaciones con las animaciones y los efectos gráficos. De hecho, el programador Ian Vollick, de la empresa Google, ha realizado <a href="https://github.com/ianvollick/animation-proxy/blob/master/Explainer.md">una propuesta</a> para que las animaciones JavaScript básicas (las que no necesitan recalcular <em>layouts</em>) se ejecuten mediante <em>workers</em>, en vez de mediante el <em>hijo de ejecución</em> principal.</p>
+<p>Por último, se ha creado la <a href="http://dev.w3.org/fxtf/web-animations/">especificación Web Animations</a> para aquellos diseñadores que prefieren el estilo <em>declarativo</em>. El diseñador Jake Archibald ha escrito <a href="http://coding.smashingmagazine.com/2013/03/04/animating-web-gonna-need-bigger-api/">algún artículo</a> sobre el tema.</p>
+<h2>En resumen</h2>
+<p>Saber animar correctamente los elementos de una página es esencial para crear una buena experiencia de usuario. Siempre que sea posible, evita el uso de propiedades que obligan a recalcular el <em>layout</em> de los elementos o a repintarlos. Resulta mucho mejor animar los elementos mediante transformaciones CSS en vez de mediante código JavaScript, ya que así el navegador puede optimizar esas animaciones.</p>
+<p>Hoy en día, la propiedad <code>transform</code> es la mejor forma de crear animaciones y efectos gráficos, ya que la GPU ayuda en todo el procesamiento gráfico. Si es posible, limita los efectos gráficos de tu sitio o aplicación web a <code>opacity</code>, <code>translate</code>, <code>rotate</code> y <code>scale</code>.</p>
+<p>En un futuro no muy lejano, es posible que se creen nuevas formas de animar elementos que sean tan expresivas como JavaScript (pero sin penalizar tanto el rendimiento) y tan optimizadas como CSS (pero sin sus restricciones). Hasta ese momento, optimiza al máximo las animaciones para proporcionar una experiencia de usuario excelente.</p>
+<h2> Recursos útiles</h2>
+<ul>
+<li><a href="http://www.chromestatus.com/metrics/css/animated">The current status of animated properties on the web</a></li>
+<li>Presentación de Paul Irish sobre <a href="https://docs.google.com/a/google.com/presentation/d/19R_E5B__kdE55L1bTpS6IFKbYbHq-PQKKky4do5Yc6A/edit#slide=id.g105c64d69_170">herramientas para medir el rendimiento en el navegador</a></li>
+<li><a href="http://www.html5rocks.com/en/tutorials/internals/antialiasing-101/">Introduction to Antialiasing</a></li>
+<li><a href="http://coding.smashingmagazine.com/2013/03/04/animating-web-gonna-need-bigger-api/">We’re Gonna Need A Bigger API!</a></li>
+</ul>
+<hr />
+<p><em>Este tutorial es una traducción del artículo <a href="http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/">High Performance Animations</a> realizada de acuerdo a la licencia del contenido original.</em></p>
+
+                    </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+    <div class="module module-share">
+    <h3>Compartir</h3>
+    <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = 'Cómo mejorar el rendimiento de las animaciones con CSS';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+</div>
+
+
+    
+<div class="module module-tags">
+    <h3>Etiquetas populares</h3>
+    <ul class="tags-list">
+                    <li class="">
+                <a href="/tutoriales/composer/">composer</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/css/">css</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/dise%C3%B1o/">diseño</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/html/">html</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/javascript/">javascript</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/php/">php</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/programaci%C3%B3n/">programación</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/sistemas/">sistemas</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/symfony/">symfony</a>
+            </li>
+            </ul>
+</div>
+
+
+    <div class="module module-rss">
+    <h3>Suscríbete gratis</h3>
+    <ul class="list-unstyled text-links module-rss-feeds">
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/todos.xml">
+                <strong>Todos</strong> los tutoriales
+            </a>
+        </li>
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/diseno.xml">
+                Tutoriales de <strong>diseño</strong>
+            </a>
+        </li>
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/programacion.xml">
+                Tutoriales de <strong>programación</strong>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

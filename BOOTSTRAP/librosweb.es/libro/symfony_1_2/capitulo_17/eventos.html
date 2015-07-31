@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>17.1. Eventos (Symfony 1.2, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_17.html" />
+                    <link rel="next" href="../capitulo_17/factorias.html" />
+                <link rel="start" href="/libro/symfony_1_2/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="17.1. Eventos (Symfony 1.2, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_2"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_2/" itemprop="url">
+                    <span itemprop="title">Symfony 1.2, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_2/capitulo_17.html" itemprop="url">
+                    <span itemprop="title">Capítulo 17. Personalizar Symfony</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>17.1. Eventos</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="eventos" class="title">
+        <span>17.1.</span> Eventos
+    </h1>
+
+    
+
+<p>Una de las limitaciones actuales de PHP más molestas es que una clase no puede heredar de más de una clase. Además, tampoco se pueden añadir nuevos métodos a una clase ya existente y no se pueden redefinir los métodos existentes. Para paliar estas dos limitaciones y para hacer el framework realmente modificable, Symfony proporciona un sistema de eventos inspirado en el <a href="http://developer.apple.com/documentation/Cocoa/Conceptual/Notifications/Articles/NotificationCenters.html">centro de notificación de Cocoa</a>, que a su vez se basa en el <a href="http://es.wikipedia.org/wiki/Observer_%28patr%C3%B3n_de_dise%C3%B1o%29">patrón de diseño Observer</a>.</p>
+
+<h3 id="comprendiendo_los_eventos">17.1.1. Comprendiendo los eventos</h3>
+
+<p>Algunas clases de Symfony <em>notifican un evento</em> en varios momentos de su ejecución. Por ejemplo cuando un usuario modifica su cultura, el objeto del usuario notifica un evento de tipo <code>change_culture</code>. Explicándolo sin palabras técnicas, este evento es como si el objeto le dijera al proyecto <em>"Acabo de cambiar la cultura del usuario. Si necesitas hacer algo al respecto, este es el momento"</em>.</p>
+
+<p>Cuando se produce un evento, la aplicación puede responder realizando cualquier proceso. Cuando el usuario modifica su cultura, la aplicación podría responder a la notificación del evento <code>change_culture</code> guardando la cultura del usuario en una base de datos para recordar posteriormente la cultura preferida del usuario. Para ello, la aplicación tiene que registrar un <em>event listener</em>, que consiste en una función que responde a los eventos producidos. El listado 17-1 muestra cómo registrar un <em>listener</em> que responda al evento <code>change_culture</code> del usuario:</p>
+
+<p><strong>Listado 17-1 - Registrando un <em>event listener</em></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$dispatcher</span><span class="sy0">-&gt;</span><span class="me1">connect</span><span class="br0">&#40;</span><span class="st_h">'user.change_culture'</span><span class="sy0">,</span> <span class="st_h">'modificaCulturaUsuario'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw2">function</span> modificaCulturaUsuario<span class="br0">&#40;</span>sfEvent <span class="re0">$evento</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="re0">$usuario</span> <span class="sy0">=</span> <span class="re0">$evento</span><span class="sy0">-&gt;</span><span class="me1">getSubject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="re0">$cultura</span> <span class="sy0">=</span> <span class="re0">$evento</span><span class="br0">&#91;</span><span class="st_h">'culture'</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+  <span class="co1">// Código que utiliza la cultura del usuario</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>La gestión de los eventos y del registro de <em>listeners</em> se realiza mediante un objeto especial llamado <em>event dispatcher</em>. Este objeto está disponible en cualquier parte del código de la aplicación mediante el <em>singleton</em> <code>sfContext</code> y la mayoría de objetos de Symfony incluyen un método llamado <code>getEventDispatcher()</code> que permite tener acceso directo a ese objeto. El método <code>connect()</code> del <em>dispatcher</em> se utiliza para registrar cualquier elemento ejecutable de PHP (el método de una clase o una función) de forma que se ejecute cada vez que se produzca el evento. El primer argumento de <code>connect()</code> es el identificador del evento, que es una cadena de texto formada por un <em>namespace</em> y el nombre del evento. El segundo argumento es el nombre del elemento ejecutable de PHP.</p>
+
+<p>Las funciones registradas con el <em>event dispatcher</em> simplemente esperan a que se produzca el evento para el que han sido registradas. El <em>event dispatcher</em> guarda un registro de todos los <em>listeners</em> para saber cuáles se deben ejecutar cuando se notifique un evento. Cuando se ejecutan estos métodos o funciones, el <em>dispatcher</em> les pasa como argumento un objeto de tipo <code>sfEvent</code>.</p>
+
+<p>El objeto del evento almacena información sobre el evento que ha sido notificado. El elemento que ha notificado el evento se puede obtener mediante el método <code>getSubject()</code> y los parámetros del evento se pueden acceder mediante el propio objeto del evento utilizando la sintaxis de los arrays. Para obtener por ejemplo el parámetro <code>culture</code> de <code>sfUser</code> cuando se notifica el evento <code>user.change_culture</code>, se utiliza <code>$evento['culture']</code>.</p>
+
+<p>En resumen, el sistema de eventos permite añadir nuevas opciones a las clases existentes e incluso permite modificar sus métodos en tiempo de ejecución sin necesidad de utilizar la herencia de clases.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Symfony 1.0 utiliza un mecanismo similar pero con una sintaxis muy diferente. En vez de realizar llamadas a los métodos del <em>event dispatcher</em>, en Symfony 1.0 se realizan llamadas a métodos estáticos de la clase <code>sfMixer</code> para registrar y notificar eventos. Aunque las llamadas a <code>sfMixer</code> se han declarado obsoletas, todavía funcionan correctamente en Symfony 1.1.</p></div>
+
+<h3 id="notificando_un_evento">17.1.2. Notificando un evento</h3>
+
+<p>De la misma forma que las clases de Symfony notifican sus eventos, puedes hacer que tus clases sean fácilmente modificables notificando algunos de sus eventos más importantes. Imagina que tu aplicación realiza peticiones a varios servicios web externos y que has creado una clase llamada <code>sfRestRequest</code> para encapsular toda la lógica de tipo REST de estas peticiones. Una buena práctica consiste en notificar un evento cada vez que la clase realice una nueva petición. De esta forma, en el futuro será mucho más fácil añadirle funcionalidades como una cache y un sistema de logs. El listado 17-2 muestra el código que es necesario añadir a un método existente llamado <code>obtener()</code> para que notifique un evento.</p>
+
+<p><strong>Listado 17-2 - Notificando un evento</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> sfRestRequest
+<span class="br0">&#123;</span>
+  <span class="kw2">protected</span> <span class="re0">$dispatcher</span> <span class="sy0">=</span> <span class="kw4">null</span><span class="sy0">;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span>sfEventDispatcher <span class="re0">$dispatcher</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">dispatcher</span> <span class="sy0">=</span> <span class="re0">$dispatcher</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="co4">/**
+   * Realiza una petición a un servicio web externo
+   */</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> obtener<span class="br0">&#40;</span><span class="re0">$uri</span><span class="sy0">,</span> <span class="re0">$parametros</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Notificar el inicio de la petición</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">dispatcher</span><span class="sy0">-&gt;</span><span class="me1">notify</span><span class="br0">&#40;</span><span class="kw2">new</span> sfEvent<span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">,</span> <span class="st_h">'peticion_rest.preparar_peticion'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+      <span class="st_h">'uri'</span>        <span class="sy0">=&gt;</span> <span class="re0">$uri</span><span class="sy0">,</span>
+      <span class="st_h">'parameters'</span> <span class="sy0">=&gt;</span> <span class="re0">$parametros</span>
+    <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Realizar la petición y guardar el resultado en una variable llamada $resultado</span>
+    <span class="co1">// ...</span>
+&nbsp;
+    <span class="co1">// Notificar la finalización de la petición</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">dispatcher</span><span class="sy0">-&gt;</span><span class="me1">notify</span><span class="br0">&#40;</span><span class="kw2">new</span> sfEvent<span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">,</span> <span class="st_h">'peticion_rest.peticion_finalizada'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+      <span class="st_h">'uri'</span>        <span class="sy0">=&gt;</span> <span class="re0">$uri</span><span class="sy0">,</span>
+      <span class="st_h">'parametros'</span> <span class="sy0">=&gt;</span> <span class="re0">$parametros</span><span class="sy0">,</span>
+      <span class="st_h">'resultado'</span>  <span class="sy0">=&gt;</span> <span class="re0">$resultado</span>
+    <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="re0">$resultado</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El método <code>notify()</code> del <em>event dispatcher</em> requiere como argumento un objeto de tipo <code>sfEvent</code>, el mismo tipo de objeto que se pasa a los <em>event listeners</em>. Este objeto siempre incluye una referencia al elemento que realiza la notificación (ese es el motivo por el que la instancia del objeto se inicializa con <code>$this</code>) y un identificador del evento. De forma opcional también admite un array asociativo de parámetros que permite a los <em>listeners</em> interactuar con la lógica del notificador del evento.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Solamente las clases que notifican eventos se pueden modificar mediante el sistema de eventos. Por lo tanto, aunque no estés seguro de si en el futuro necesitarás modificar una clase en tiempo de ejecución, es conveniente que añadas notificaciones en al menos los métodos principales de tus clases.</p></div>
+
+<h3 id="notificando_un_evento_hasta_que_lo_procese_un_listener">17.1.3. Notificando un evento hasta que lo procese un listener</h3>
+
+<p>El método <code>notify()</code> asegura que todos los <em>listeners</em> registrados para un evento se van a ejecutar cuando se produzca el evento. Sin embargo, en ocasiones es necesario que un <em>listener</em> impida la notificación del evento de forma que ya no se ejecute ninguno de los restantes <em>listeners</em> registrados para ese evento. En este último caso se utiliza el método <code>notifyUntil()</code> en vez de <code>notify()</code>. De esta forma, el <em>dispatcher</em> ejecuta todos los <em>listeners</em> hasta que alguno de ellos devuelva un valor <code>true</code> y detenga la notificación del evento. Explicándolo sin palabras técnicas, este evento es como si el <em>listener</em> le dijera al proyecto <em>"Ya me encargo yo de responder a este evento, por lo que no se lo notifiques a nadie más"</em>. El listado 17-3 muestra cómo utilizar esta técnica junto con el método mágico <code>__call()</code> para añadir métodos en tiempo de ejecución a una clase existente.</p>
+
+<p><strong>Listado 17-3 - Notificando un evento hasta que un <em>listener</em> devuelva <code>true</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> sfRestRequest
+<span class="br0">&#123;</span>
+  <span class="co1">// ...</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> __call<span class="br0">&#40;</span><span class="re0">$metodo</span><span class="sy0">,</span> <span class="re0">$argumentos</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$evento</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">dispatcher</span><span class="sy0">-&gt;</span><span class="me1">notifyUntil</span><span class="br0">&#40;</span><span class="kw2">new</span> sfEvent<span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">,</span> <span class="st_h">'peticion_rest.metodo_no_disponible'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+      <span class="st_h">'metodo'</span>     <span class="sy0">=&gt;</span> <span class="re0">$metodo</span><span class="sy0">,</span> 
+      <span class="st_h">'argumentos'</span> <span class="sy0">=&gt;</span> <span class="re0">$argumentos</span>
+    <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$evento</span><span class="sy0">-&gt;</span><span class="me1">isProcessed</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="kw1">throw</span> <span class="kw2">new</span> sfException<span class="br0">&#40;</span><span class="kw3">sprintf</span><span class="br0">&#40;</span><span class="st_h">'Se ha invocado un método que no existe %s::%s.'</span><span class="sy0">,</span> <span class="kw3">get_class</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$metodo</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="re0">$evento</span><span class="sy0">-&gt;</span><span class="me1">getReturnValue</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Un <em>event listener</em> que se haya suscrito al evento <code>peticion_rest.metodo_no_disponible</code> puede comprobar el <code>$metodo</code> invocado para decidir si se encarga de el o decide pasarlo al siguiente <em>event listener</em>. El listado 17-4 muestra como una clase externa añade los métodos <code>put()</code> y <code>delete()</code> en la clase <code>sfRestRequest</code> en tiempo de ejecución utilizando este truco.</p>
+
+<p><strong>Listado 17-4 - Manejando un evento de tipo <code>notifyUntil</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> frontendConfiguration <span class="kw2">extends</span> sfApplicationConfiguration
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> configure<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// ...</span>
+&nbsp;
+    <span class="co1">// Registrar el listener</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">dispatcher</span><span class="sy0">-&gt;</span><span class="me1">connect</span><span class="br0">&#40;</span><span class="st_h">'peticion_rest.metodo_no_disponible'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'sfRestRequestExtension'</span><span class="sy0">,</span> <span class="st_h">'listenerMetodoNoDisponible'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw2">class</span> sfRestRequestExtension
+<span class="br0">&#123;</span>
+  static <span class="kw2">public</span> <span class="kw2">function</span> listenerMetodoNoDisponible<span class="br0">&#40;</span>sfEvent <span class="re0">$evento</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">switch</span> <span class="br0">&#40;</span><span class="re0">$evento</span><span class="br0">&#91;</span><span class="st_h">'metodo'</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="kw1">case</span> <span class="st_h">'put'</span><span class="sy0">:</span>
+        <span class="kw2">self</span><span class="sy0">::</span><span class="me2">put</span><span class="br0">&#40;</span><span class="re0">$evento</span><span class="sy0">-&gt;</span><span class="me1">getSubject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$evento</span><span class="br0">&#91;</span><span class="st_h">'argumentos'</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="kw4">true</span><span class="sy0">;</span>
+      <span class="kw1">case</span> <span class="st_h">'delete'</span><span class="sy0">:</span>
+        <span class="kw2">self</span><span class="sy0">::</span><span class="me2">delete</span><span class="br0">&#40;</span><span class="re0">$evento</span><span class="sy0">-&gt;</span><span class="me1">getSubject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$evento</span><span class="br0">&#91;</span><span class="st_h">'argumentos'</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="kw4">true</span><span class="sy0">;</span>
+      <span class="kw1">default</span><span class="sy0">:</span>
+        <span class="kw1">return</span> <span class="kw4">false</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  static <span class="kw2">protected</span> <span class="kw2">function</span> put<span class="br0">&#40;</span><span class="re0">$peticionREST</span><span class="sy0">,</span> <span class="re0">$argumentos</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Realizar la petición PUT y guardar el resultado en la variable $resultado</span>
+    <span class="co1">// ...</span>
+&nbsp;
+    <span class="re0">$evento</span><span class="sy0">-&gt;</span><span class="me1">setReturnValue</span><span class="br0">&#40;</span><span class="re0">$resultado</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  static <span class="kw2">protected</span> <span class="kw2">function</span> delete<span class="br0">&#40;</span><span class="re0">$peticionREST</span><span class="sy0">,</span> <span class="re0">$argumentos</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Realizar la petición DELETE y guardar el resultado en la variable $resultado</span>
+    <span class="co1">// ...</span>
+&nbsp;
+    <span class="re0">$evento</span><span class="sy0">-&gt;</span><span class="me1">setReturnValue</span><span class="br0">&#40;</span><span class="re0">$resultado</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El método <code>notifyUntil()</code> permite realizar con PHP la herencia múltiple entre clases, más conocida como <em>mixins</em> y que consisten en añadir métodos de varias clases en otra clase existente. Ahora es posible inyectar, en tiempo de ejecución, nuevos métodos en los objetos que no se pueden modificar mediante la herencia de clases. Lo mejor de todo es que si utilizas Symfony ya no estás limitado por las características orientadas a objetos de PHP.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Como el primer <em>listener</em> que se encarga de un evento de tipo <code>notifyUntil()</code> evita que el evento siga notificándose, es importante conocer el orden en el que se ejecutan los <em>listeners</em>. El orden que se sigue es el mismo en el que fueron registrados, por lo que el primer <em>listener</em> registrado es el primer <em>listener</em> que se ejecuta.</p>
+
+<p>En la práctica es difícil que el orden en el que se ejecutan los <em>listeners</em> sea un problema. Por lo tanto, si crees que dos <em>listeners</em> pueden entrar en conflicto para un determinado evento, es probable que tu clase tenga que notificar varios eventos, por ejemplo uno al principio y otro al final de la ejecución del método.</p>
+
+<p>Por último, si los eventos añaden nuevos métodos a las clases existentes, utiliza nombres únicos de forma que no entren en conflicto con otros métodos añadidos en tiempo de ejecución. Una buena práctica en este sentido consiste en prefijar el nombre de los métodos con el nombre de la clase del <em>listener</em>.</p></div>
+
+<h3 id="modificando_el_valor_de_retorno_de_un_metodo">17.1.4. Modificando el valor de retorno de un método</h3>
+
+<p>Obviamente, los <em>listener</em> no sólo pueden utilizar la información que reciben desde el evento, sino que también la pueden modificar para alterar la lógica original del notificador del evento. Para conseguirlo, se utiliza el método <code>filter()</code> del <em>event dispatcher</em> en vez del método <code>notify()</code>. En este caso, todos los <em>listeners</em> se invocan con dos parámetros: el objeto que representa al evento y el valor que se va a filtrar. Los <em>listeners</em> deben devolver un valor, que puede ser el mismo o completamente diferente. El listado 17-5 muestra cómo utilizar el método <code>filter()</code> para filtrar la respuesta recibida de un servicio web de modo que se puedan procesar los caracteres especiales.</p>
+
+<p><strong>Listado 17-5 - Notificando y procesando un evento con filtro</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> sfRestRequest
+<span class="br0">&#123;</span>
+  <span class="co1">// ...</span>
+&nbsp;
+  <span class="co4">/**
+   * Realiza una petición a un servicio web externo
+   */</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> obtener<span class="br0">&#40;</span><span class="re0">$uri</span><span class="sy0">,</span> <span class="re0">$parametros</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Realizar la petición y guardar el resultado en una variable llamada $resultado</span>
+    <span class="co1">// ...</span>
+&nbsp;
+    <span class="co1">// Notificar la finalización de la petición</span>
+    <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">dispatcher</span><span class="sy0">-&gt;</span><span class="me1">filter</span><span class="br0">&#40;</span><span class="kw2">new</span> sfEvent<span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">,</span> <span class="st_h">'peticion_rest.filtrar_respuesta'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+      <span class="st_h">'uri'</span>        <span class="sy0">=&gt;</span> <span class="re0">$uri</span><span class="sy0">,</span>
+      <span class="st_h">'parametros'</span> <span class="sy0">=&gt;</span> <span class="re0">$parametros</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$resultado</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">// Aplicar el mecanismo de escape a la respuesta del servicio web</span>
+<span class="re0">$dispatcher</span><span class="sy0">-&gt;</span><span class="me1">connect</span><span class="br0">&#40;</span><span class="st_h">'peticion_rest.filtrar_respuesta'</span><span class="sy0">,</span> <span class="st_h">'rest_htmlspecialchars'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw2">function</span> rest_htmlspecialchars<span class="br0">&#40;</span>sfEvent <span class="re0">$evento</span><span class="sy0">,</span> <span class="re0">$resultado</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="kw1">return</span> <span class="kw3">htmlspecialchars</span><span class="br0">&#40;</span><span class="re0">$resultado</span><span class="sy0">,</span> <span class="kw4">ENT_QUOTES</span><span class="sy0">,</span> <span class="st_h">'UTF-8'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<h3 id="eventos_predefinidos">17.1.5. Eventos predefinidos</h3>
+
+<p>Muchas clases de Symfony incluyen varios eventos, lo que permite modificar las funcionalidades del framework sin tener que modificar sus clases. La tabla 17-1 muestra un listado completo de todos estos eventos junto con su tipo y sus argumentos.</p>
+
+<p><strong>Tabla 17-1 - Eventos de Symfony</strong></p>
+
+<div class="table" id="table_17_1">
+
+    <table>
+<thead>
+<tr>
+  <th>Namespace</th>
+  <th>Nombre</th>
+  <th>Tipo</th>
+  <th>Notificadores</th>
+  <th>Argumentos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>application</code></td>
+  <td><code>log</code></td>
+  <td><code>notify</code></td>
+  <td>Muchas clases</td>
+  <td>prioridad</td>
+</tr>
+<tr>
+  <td><code>application</code></td>
+  <td><code>throw_exception</code></td>
+  <td><code>notifyUntil</code></td>
+  <td><code>sfException</code></td>
+  <td>-</td>
+</tr>
+<tr>
+  <td><code>command</code></td>
+  <td><code>log</code></td>
+  <td><code>notify</code></td>
+  <td>Las clases <code>sfCommand*</code></td>
+  <td>prioridad</td>
+</tr>
+<tr>
+  <td><code>command</code></td>
+  <td><code>pre_command</code></td>
+  <td><code>notifyUntil</code></td>
+  <td><code>sfTask</code></td>
+  <td>argumentos, opciones</td>
+</tr>
+<tr>
+  <td><code>command</code></td>
+  <td><code>post_command</code></td>
+  <td><code>notify</code></td>
+  <td><code>sfTask</code></td>
+  <td>-</td>
+</tr>
+<tr>
+  <td><code>command</code></td>
+  <td><code>filter_options</code></td>
+  <td><code>filter</code></td>
+  <td><code>sfTask</code></td>
+  <td><code>command_manager</code></td>
+</tr>
+<tr>
+  <td><code>configuration</code></td>
+  <td><code>method_not_found</code></td>
+  <td><code>notifyUntil</code></td>
+  <td><code>sfProjectConfiguration</code></td>
+  <td>método, argumentos</td>
+</tr>
+<tr>
+  <td><code>component</code></td>
+  <td><code>method_not_found</code></td>
+  <td><code>notifyUntil</code></td>
+  <td><code>sfComponent</code></td>
+  <td>método, argumentos</td>
+</tr>
+<tr>
+  <td><code>context</code></td>
+  <td><code>load_factories</code></td>
+  <td><code>notify</code></td>
+  <td><code>sfContext</code></td>
+  <td>-</td>
+</tr>
+<tr>
+  <td><code>controller</code></td>
+  <td><code>change_action</code></td>
+  <td><code>notify</code></td>
+  <td><code>sfController</code></td>
+  <td>módulo, acción</td>
+</tr>
+<tr>
+  <td><code>controller</code></td>
+  <td><code>method_not_found</code></td>
+  <td><code>notifyUntil</code></td>
+  <td><code>sfController</code></td>
+  <td>método, argumentos</td>
+</tr>
+<tr>
+  <td><code>controller</code></td>
+  <td><code>page_not_found</code></td>
+  <td><code>notify</code></td>
+  <td><code>sfController</code></td>
+  <td>módulo, acción</td>
+</tr>
+<tr>
+  <td><code>plugin</code></td>
+  <td><code>pre_install</code></td>
+  <td><code>notify</code></td>
+  <td><code>sfPluginManager</code></td>
+  <td>canal, plugin, <code>is_package</code></td>
+</tr>
+<tr>
+  <td><code>plugin</code></td>
+  <td><code>post_install</code></td>
+  <td><code>notify</code></td>
+  <td><code>sfPluginManager</code></td>
+  <td>canal, plugin</td>
+</tr>
+<tr>
+  <td><code>plugin</code></td>
+  <td><code>pre_uninstall</code></td>
+  <td><code>notify</code></td>
+  <td><code>sfPluginManager</code></td>
+  <td>canal, plugin</td>
+</tr>
+<tr>
+  <td><code>plugin</code></td>
+  <td><code>post_uninstall</code></td>
+  <td><code>notify</code></td>
+  <td><code>sfPluginManager</code></td>
+  <td>canal, plugin</td>
+</tr>
+<tr>
+  <td><code>request</code></td>
+  <td><code>filter_parameters</code></td>
+  <td><code>filter</code></td>
+  <td><code>sfWebRequest</code></td>
+  <td><code>path_info</code></td>
+</tr>
+<tr>
+  <td><code>request</code></td>
+  <td><code>method_not_found</code></td>
+  <td><code>notifyUntil</code></td>
+  <td><code>sfRequest</code></td>
+  <td>método, argumentos</td>
+</tr>
+<tr>
+  <td><code>response</code></td>
+  <td><code>method_not_found</code></td>
+  <td><code>notifyUntil</code></td>
+  <td><code>sfResponse</code></td>
+  <td>método, argumentos</td>
+</tr>
+<tr>
+  <td><code>response</code></td>
+  <td><code>filter_content</code></td>
+  <td><code>filter</code></td>
+  <td><code>sfResponse</code></td>
+  <td>-</td>
+</tr>
+<tr>
+  <td><code>routing</code></td>
+  <td><code>load_configuration</code></td>
+  <td><code>notify</code></td>
+  <td><code>sfRouting</code></td>
+  <td>-</td>
+</tr>
+<tr>
+  <td><code>task</code></td>
+  <td><code>cache.clear</code></td>
+  <td><code>notifyUntil</code></td>
+  <td><code>sfCacheClearTask</code></td>
+  <td>aplicación, tipo, entorno</td>
+</tr>
+<tr>
+  <td><code>template</code></td>
+  <td><code>filter_parameters</code></td>
+  <td><code>filter</code></td>
+  <td><code>sfViewParameterHolder</code></td>
+  <td>-</td>
+</tr>
+<tr>
+  <td><code>user</code></td>
+  <td><code>change_culture</code></td>
+  <td><code>notify</code></td>
+  <td><code>sfUser</code></td>
+  <td>cultura</td>
+</tr>
+<tr>
+  <td><code>user</code></td>
+  <td><code>method_not_found</code></td>
+  <td><code>notifyUntil</code></td>
+  <td><code>sfUser</code></td>
+  <td>método, argumentos</td>
+</tr>
+<tr>
+  <td><code>user</code></td>
+  <td><code>change_authentication</code></td>
+  <td><code>notify</code></td>
+  <td><code>sfBasicSecurityUser</code></td>
+  <td>autenticado</td>
+</tr>
+<tr>
+  <td><code>view</code></td>
+  <td><code>configure_format</code></td>
+  <td><code>notify</code></td>
+  <td><code>sfView</code></td>
+  <td>formato, respuesta, petición</td>
+</tr>
+<tr>
+  <td><code>view</code></td>
+  <td><code>method_not_found</code></td>
+  <td><code>notifyUntil</code></td>
+  <td><code>sfView</code></td>
+  <td>método, argumentos</td>
+</tr>
+<tr>
+  <td><code>view.cache</code></td>
+  <td><code>filter_content</code></td>
+  <td><code>filter</code></td>
+  <td><code>sfViewCacheManager</code></td>
+  <td>respuesta, uri, nuevo</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Puedes registrar todos los <em>listeners</em> que necesites para cada uno de los eventos predefinidos. Lo único que debes tener en cuenta es que los métodos o funciones PHP que registres deben devolver un valor <em>booleano</em> para los eventos de tipo <code>notifyUntil</code> y deben devolver el valor filtrado en los eventos de tipo <code>filter</code>.</p>
+
+<p>Como se puede comprobar en la tabla anterior, los espacios de nombres o <em>namespaces</em> de los eventos no siempre coinciden con la función de la clase. Por ejemplo todas las clases de Symfony notifican el evento <code>application.log</code> cuando quieren guardar algo en los archivos de log (y también en la barra de depuración web):</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$dispatcher</span><span class="sy0">-&gt;</span><span class="me1">notify</span><span class="br0">&#40;</span><span class="kw2">new</span> sfEvent<span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">,</span> <span class="st_h">'application.log'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="re0">$mensaje</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Las clases propias de tu proyecto también pueden notificar eventos de Symfony siempre que lo necesiten.</p>
+
+<h3 id="donde_se_registran_los_listeners">17.1.6. ¿Dónde se registran los listeners?</h3>
+
+<p>Los <em>event listeners</em> se deben registrar lo antes posible durante la ejecución de una petición. En la práctica, el mejor sitio para registrar los <em>event listeners</em> es la clase de configuración de la aplicación. Esta clase dispone de una referencia al <em>event dispatcher</em> que se puede utilizar en el método <code>configure()</code>. El listado 17-6 muestra cómo registrar un <em>listener</em> para uno de los eventos de tipo <code>peticion_rest</code> de los ejemplos anteriores.</p>
+
+<p><strong>Listado 17-6 - Registrando un <em>listener</em> en la clase de configuración de la aplicación, en <code>apps/frontend/config/ApplicationConfiguration.class.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> frontendConfiguration <span class="kw2">extends</span> sfApplicationConfiguration
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> configure<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">dispatcher</span><span class="sy0">-&gt;</span><span class="me1">connect</span><span class="br0">&#40;</span><span class="st_h">'peticion_rest.metodo_no_disponible'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'sfRestRequestExtension'</span><span class="sy0">,</span> <span class="st_h">'listenerMetodoNoDisponible'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Los plugins, que se explican más adelante en este capítulo, pueden registrar sus propios <em>event listeners</em> en el script <code>config/config.php</code> de cada plugin. Este script se ejecuta durante la inicialización de la aplicación y permite acceder al <em>event dispatcher</em> mediante <code>$this-&gt;dispatcher</code>.</p>
+
+<div class="admonition sidebar"><p><strong class="title"> Comportamientos de Propel</strong> Los comportamientos de Prope, que se describieron en el capítulo 8, utilizan el sistema de eventos. Los comportamientos en realidad utilizan el sistema de eventos de Symfony 1.0, aunque eso no es lo importante. Los comportamientos encapsulan el registro y el procesamiento de los eventos para poder extender los objetos generados para Propel, tal y como se explica en el siguiente ejemplo.</p>
+
+<p>Los objetos Propel correspondientes a las tablas de la base de datos tienen un método llamado <code>delete()</code>, que se puede utilizar para borrar ese registro de la base de datos. Sin embargo, si estás trabajando con una clase llamada <code>Factura</code>, es probable que quieras modificar ese método <code>delete()</code> para que no borre el registro sino que simplemente modifique el valor de una columna llamada <code>borrada</code>. Además, los métodos que obtienen registros (<code>doSelect()</code>, <code>retrieveByPk()</code>) tendrían en cuenta el valor de esa columna. Además, habría que añadir un método llamado <code>forzarBorrado()</code> que permita realmente borrar el registro de la base de datos. Todos estos cambios se pueden juntar en una clase, llamada por ejemplo <code>ParanoidBehavior</code>  <em>comportamiento paranoico</em>). La clase <code>Factura</code> resultante hereda de la clase <code>BaseFactura</code> de Propel y se le inyectan en tiempo de ejecución los métodos de la clase <code>ParanoidBehavior</code>.</p>
+
+<p>Como se ha visto, un comportamiento es en realidad un <em>mixin</em> sobre un objeto Propel. Además, el término <em>comportamiento</em> en Symfony implica que el <em>mixin</em> se distribuye en forma de plugin. De hecho, la clase <code>ParanoidBehavior</code> anterior es realmente un plugin de Symfony llamado <a href="http://trac.symfony-project.org/wiki/sfPropelParanoidBehaviorPlugin">sfPropelParanoidBehaviorPlugin</a>.</p>
+
+<p>El uso de comportamientos implica que los objetos Propel generados deben notificar muchos eventos. Como este comportamiento penaliza el rendimiento de la aplicación si no se utilizan comportamientos, los eventos están deshabilitados por defecto. Para utilizar los comportamientos de Propel, tienes que activarlos cambiando el valor de la propiedad <code>propel.builder.addBehaviors</code> a <code>true</code> en el archivo <code>propel.ini</code> y después tienes que volver a construir las clases del modelo.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_17.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 17. Personalizar Symfony</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_17/factorias.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>17.2. Factorías</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_17.html">
+                    <span>Capítulo 17.</span> Personalizar Symfony
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_17/eventos.html">
+                    <span>17.1.</span> Eventos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_17/factorias.html">
+                    <span>17.2.</span> Factorías
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_17/integrando_componentes_de_otros_frameworks.html">
+                    <span>17.3.</span> Integrando componentes de otros frameworks
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_17/plugins.html">
+                    <span>17.4.</span> Plugins
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_17/resumen.html">
+                    <span>17.5.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

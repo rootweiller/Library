@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>6.7. Filtros (Symfony 1.2, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_6/metodos_de_validacion_y_manejo_de_errores.html" />
+                    <link rel="next" href="../capitulo_6/configuracion_del_modulo.html" />
+                <link rel="start" href="/libro/symfony_1_2/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="6.7. Filtros (Symfony 1.2, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_2"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_2/" itemprop="url">
+                    <span itemprop="title">Symfony 1.2, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_2/capitulo_6.html" itemprop="url">
+                    <span itemprop="title">Capítulo 6. El Controlador</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>6.7. Filtros</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="filtros" class="title">
+        <span>6.7.</span> Filtros
+    </h1>
+
+    
+
+<p>El mecanismo de seguridad puede ser entendido como un filtro, por el que debe pasar cada petición antes de ejecutar la acción. Según las comprobaciones realizadas en el filtro, se puede modificar el procesamiento de la petición --por ejemplo, cambiando la acción ejecutada (<code>default/secure</code> en lugar de la acción solicitada en el caso del filtro de seguridad). Symfony extiende esta idea a clases de filtros. Se puede especificar cualquier número de clases de filtros a ser ejecutadas antes de que se procese la respuesta, y además hacerlo de forma sistemática para todas las peticiones. Se pueden entender los filtros como una forma de empaquetar cierto código de forma similar a <code>preExecute()</code> y <code>postExecute()</code>, pero a un nivel superior (para toda una aplicación en lugar de para todo un módulo).</p>
+
+<h3 id="la_cadena_de_filtros">6.7.1. La Cadena de Filtros</h3>
+
+<p>Symfony de hecho procesa cada petición como una cadena de filtros ejecutados de forma sucesiva. Cuando el framework recibe una petición, se ejecuta el primer filtro (que siempre es <code>sfRenderingFilter</code>). En algún punto, llama al siguiente filtro en la cadena, luego el siguiente, y asi sucesivamente. Cuando se ejecuta el último filtro (que siempre es <code>sfExecutionFilter</code>), los filtros anteriores pueden finalizar, y asi hasta el filtro de <code>sfRenderingFilter</code>. La Figura 6-3 ilustra esta idea con un diagrama de secuencias, utilizando una cadena de filtros simplificada (la cadena real tiene muchos más filtros).</p>
+
+<div class="figure" id="figure_6_3">
+    <img src="/img/symfony_1_2/f0603.png" alt="Ejemplo de cadena de filtros" />
+
+    <p class="caption"><strong>Figura 6.3</strong> Ejemplo de cadena de filtros</p>
+</div>
+
+
+<p>Este proceso es la razón de la estructura de la clases de tipo filtro. Todas estas clases extienden la clase <code>sfFilter</code> y contienen un método <code>execute()</code> que espera un objeto de tipo <code>$filterChain</code> como parámetro. En algún punto de este método, el filtro pasa al siguiente filtro en la cadena, llamando a <code>$filterChain-&gt;execute()</code>. El listado 6-28 muestra un ejemplo. Por lo tanto, los filtros se dividen en dos partes:</p>
+
+<ul>
+<li>El código que se encuentra antes de la llamada a <code>$filterChain-&gt;execute()</code> se ejecuta antes de que se ejecute la acción.</li>
+<li>El código que se encuentra después de la llamada a <code>$filterChain-&gt;execute()</code> se ejecuta después de la acción y antes de producir la vista.</li>
+</ul>
+
+<p><strong>Listado 6-28 - Estructura de la clase filtro</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> miFiltro <span class="kw2">extends</span> sfFilter
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> execute <span class="br0">&#40;</span><span class="re0">$filterChain</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Código que se ejecuta antes de la ejecución de la acción</span>
+    <span class="sy0">...</span>
+&nbsp;
+    <span class="co1">// Ejecutar el siguiente filtro de la cadena</span>
+    <span class="re0">$filterChain</span><span class="sy0">-&gt;</span><span class="me1">execute</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Código que se ejecuta después de la ejecuciñon de la acción y antes de que se genere la vista</span>
+    <span class="sy0">...</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>La cadena de filtros por defecto se define en el archivo de configurarcion de la aplicación <code>filters.yml</code>, y su contenido se muestra en el listado 6-29. Este archivo lista los filtros que se ejecutan para cada petición.</p>
+
+<p><strong>Listado 6-29 - Cadena de filtros por defecto, en <code>frontend/config/filters.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co3">rendering</span><span class="sy2">: </span>~<span class="co3">
+security</span><span class="sy2">: </span> ~
+&nbsp;
+<span class="co1"># Normalmente los filtros propios se insertan aqui</span>
+<span class="co3">
+cache</span><span class="sy2">: </span>    ~<span class="co3">
+common</span><span class="sy2">: </span>   ~<span class="co3">
+execution</span><span class="sy2">: </span>~</pre>
+</div>
+
+<p>Estas declaraciones no tienen parámetros (el caracter tilde, <code>~</code>, significa <code>null</code> en YAML), porque heredan los parámetros definidos en el núcleo de Symfony. En su núcleo, Symfony define las opciones <code>class</code> y <code>param</code> para cada uno de estos filtros. Por ejemplo, el listado 6-30 muestra los parámetros por defecto para el filtro <code>rendering</code>.</p>
+
+<p><strong>Listado 6-30 - Parámetros por defecto del filtro <code>sfRenderingFilter</code>, en <code>$sf_symfony_lib_dir/config/config/filters.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">rendering</span>:<span class="co3">
+  class</span><span class="sy2">: </span>sfRenderingFilter   <span class="co1"># Clase del filtro</span><span class="co3">
+  param</span><span class="sy2">: </span>                    <span class="co1"># Parámetros del filtro</span><span class="co3">
+    type</span><span class="sy2">: </span>rendering</pre>
+</div>
+
+<p>Si se deja el valor vacío (<code>~</code>) en el archivo <code>filters.yml</code> de la aplicación, Symfony aplica el filtro con las opciones por defecto definidas en su núcleo.</p>
+
+<p>Se pueden personalizar la cadenas de filtros en varias formas:</p>
+
+<ul>
+<li>Desactivando algún filtro de la cadena agregando un parámetro <code>enabled: off</code>. Para desactivar por ejemplo el filtro <code>common</code>, que se encarga de añadir los archivos CSS y JavaScript en la cabecera de la página, se añade la siguiente opción:</li>
+</ul>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">common</span>:<span class="co3">
+  enabled</span><span class="sy2">: </span>off</pre>
+</div>
+
+<ul>
+<li>No se deben borrar las entradas del archivo <code>filters.yml</code> para desactivar un filtro ya que Symfony lanzará una excepción.</li>
+<li>Se pueden añadir declaraciones propias en cualquier lugar de la cadena (normalmente después del filtro <code>security</code>) para agregar un filtro propio (como se verá en la próxima sección). En cualquier caso, el filtro <code>rendering</code> debe ser siempre la primera entrada, y el filtro <code>execution</code> debe ser siempre la ultima entrada en la cadena de filtros.</li>
+<li>Redefinir la clase y los parámetros por defecto del filtro por defecto (normalmente para modificar el sistema de seguridad y utilizar un filtro de seguridad propio).</li>
+</ul>
+
+<h3 id="construyendo_tu_propio_filtro">6.7.2. Construyendo Tu Propio Filtro</h3>
+
+<p>Construir un filtro propio es bastante sencillo. Se debe crear una definición de una clase similar a la demostrada en el listado 6-28, y se coloca en uno de los directorios <code>lib/</code> del proyecto para aprovechar la carga automática de clases.</p>
+
+<p>Como una acción puede pasar el control o redireccionar hacia otra acción y en consecuencia relanzar toda la cadena de filtros, quizás sea necesario restringir la ejecución de los filtros propios a la primera acción de la petición. El método <code>isFirstCall()</code> de la clase <code>sfFilter</code> retorna un valor booleano con este propósito. Esta llamada solo tiene sentido antes de la ejecución de una acción.</p>
+
+<p>Este concepto se puede entender fácilmente con un ejemplo. El listado 6-31 muestra un filtro utilizado para auto-loguear a los usuarios con una cookie <code>MiSitioWeb</code>, que se supone que se crea en la acción login. Se trata de una forma rudimentaria pero que funciona para incluir la característica <code>Recuérdame</code> de un formulario de login.</p>
+
+<p><strong>Listado 6-31 - Ejemplo de archivo de clase de filtro, en <code>apps/frontend/lib/rememberFilter.class.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> rememberFilter <span class="kw2">extends</span> sfFilter
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> execute<span class="br0">&#40;</span><span class="re0">$filterChain</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Ejecutar este filtro solo una vez</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">isFirstCall</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="co1">// Los filtros no tienen acceso directo a los objetos user y request.</span>
+      <span class="co1">// Se necesita el contexto para obtenerlos</span>
+      <span class="re0">$peticion</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getContext</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="re0">$usuario</span>  <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getContext</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getUser</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+      <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$peticion</span><span class="sy0">-&gt;</span><span class="me1">getCookie</span><span class="br0">&#40;</span><span class="st_h">'MiSitioWeb'</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+      <span class="br0">&#123;</span>
+        <span class="co1">// logueado </span>
+        <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">setAuthenticated</span><span class="br0">&#40;</span><span class="kw4">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co1">// Ejecutar el proximo filtro</span>
+    <span class="re0">$filterChain</span><span class="sy0">-&gt;</span><span class="me1">execute</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>En ocasiones, en lugar de continuar con la ejecución de la cadena de filtros, se necesita pasar el control a una acción específica al final de un filtro. <code>sfFilter</code> no tiene un método <code>forward()</code>, pero <code>sfController</code> si, por lo que simplemente se puede llamar al siguiente método:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getContext</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getController</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">forward</span><span class="br0">&#40;</span><span class="st_h">'mimodulo'</span><span class="sy0">,</span> <span class="st_h">'miAccion'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> La clase <code>sfFilter</code> tiene un método <code>initialize()</code>, ejecutado cuando se crea el objeto filtro. Se puede redefinir en el filtro propio si se necesita trabajar de forma personalizada con los parámetros de los filtros (definidos en <code>filters.yml</code>, como se describe a continuación).</p></div>
+
+<h3 id="activacion_de_filtros_y_parametros">6.7.3. Activación de Filtros y Parámetros</h3>
+
+<p>Crear un filtro no es suficiente para activarlo. Se necesita agregar el filtro propio a la cadena, y para eso, se debe declar la clase del filtro en el archivo <code>filters.yml</code>, localizado en el directorio <code>config/</code>de la aplicación o del módulo, como se muestra en el listado 6-32.</p>
+
+<p><strong>Listado 6-32 - Ejemplo de archivo de activación de filtro, en <code>apps/frontend/config/filters.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co3">rendering</span><span class="sy2">: </span>~<span class="co3">
+security</span><span class="sy2">: </span> ~
+<span class="co3">
+remember</span><span class="sy2">: </span>                <span class="co1"># Los filtros requieren un nombre único</span><span class="co3">
+  class</span><span class="sy2">: </span>rememberFilter<span class="co4">
+  param</span>:<span class="co3">
+    cookie_name</span><span class="sy2">: </span>MiSitioWeb<span class="co3">
+    condition</span><span class="sy2">: </span>  <span class="co2">%APP_ENABLE_REMEMBER_ME%</span>
+<span class="co3">
+cache</span><span class="sy2">: </span>    ~<span class="co3">
+common</span><span class="sy2">: </span>   ~<span class="co3">
+execution</span><span class="sy2">: </span>~</pre>
+</div>
+
+<p>Cuando se encuentra activo, el filtro se ejecuta en cada petición. El archivo de configuración de los filtros puede contener una o más definiciones de parámetros en la sección <code>param</code>. La clase filtro puede obtener estos parámetros con el método <code>getParameter()</code>. El listado 6-33 muestra como obtener los valores de los parámetros.</p>
+
+<p><strong>Listado 6-33 - Obteniendo el valor del parámetro, en <code>apps/frontend/lib/rememberFilter.class.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> rememberFilter <span class="kw2">extends</span> sfFilter
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> execute<span class="br0">&#40;</span><span class="re0">$filterChain</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// ...</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getCookie</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'cookie_name'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="co1">// ...</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co1">// ...</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El parámetro <code>condition</code> se comprueba en la cadena de filtros para ver si el filtro debe ser ejecutado. Por lo que las declaraciones del filtro propio puede basarse en la configuración de la aplicación, como muestra el listado 6-32. El filtro <code>remeber</code> se ejecuta solo si el archivo <code>app.yml</code> incluye lo siguiente:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co3">
+  enable_remember_me</span><span class="sy2">: </span>on</pre>
+</div>
+
+<h3 id="filtros_de_ejemplo">6.7.4. Filtros de Ejemplo</h3>
+
+<p>Los filtros son útiles para repetir cierto código en todas las acciones. Por ejemplo, si se utiliza un sistema remoto de estadísticas, puede ser necesario añadir un trozo de código que realice una llamada a un script de las estadísticas en cada página. Este código se puede colocar en el layout global, pero entonces estaría activo para toda la aplicación. Otra forma es colocarlo en un filtro, como se muestra el listado 6-34, y activarlo en cada módulo.</p>
+
+<p><strong>Listado 6-34 - Filtro para el sistema de estadísticas de Google Analytics</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> sfGoogleAnalyticsFilter <span class="kw2">extends</span> sfFilter
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> execute<span class="br0">&#40;</span><span class="re0">$filterChain</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// No se hace nada antes de la acción</span>
+    <span class="re0">$filterChain</span><span class="sy0">-&gt;</span><span class="me1">execute</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Decorar la respuesta con el código de Google Analytics</span>
+    <span class="re0">$codigoGoogle</span> <span class="sy0">=</span> <span class="st_h">'
+&lt;script src=&quot;http://www.google-analytics.com/urchin.js&quot;  type=&quot;text/javascript&quot;&gt;
+&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+      _uacct=&quot;UA-'</span><span class="sy0">.</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'google_id'</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'&quot;;urchinTracker();
+&lt;/script&gt;'</span><span class="sy0">;</span>
+    <span class="re0">$respuesta</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getContext</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getResponse</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$respuesta</span><span class="sy0">-&gt;</span><span class="me1">setContent</span><span class="br0">&#40;</span><span class="kw3">str_ireplace</span><span class="br0">&#40;</span><span class="st_h">'&lt;/body&gt;'</span><span class="sy0">,</span> <span class="re0">$codigoGoogle</span><span class="sy0">.</span><span class="st_h">'&lt;/body&gt;'</span><span class="sy0">,</span><span class="re0">$respuesta</span><span class="sy0">-&gt;</span><span class="me1">getContent</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+   <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>No obstante, este filtro no es perfecto, ya que no se debería añadir el código de Google si la respuesta no es de tipo HTML.</p>
+
+<p>Otro ejemplo es el de un filtro que cambia las peticiones a SSL si no lo son, para hacer más segura la comunicación, como muestra el Listado 6-35.</p>
+
+<p><strong>Listado 6-35 - Filtro de comunicación segura</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> sfSecureFilter <span class="kw2">extends</span> sfFilter
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> execute<span class="br0">&#40;</span><span class="re0">$filterChain</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$contexto</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getContext</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$peticion</span> <span class="sy0">=</span> <span class="re0">$context</span><span class="sy0">-&gt;</span><span class="me1">getRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$peticion</span><span class="sy0">-&gt;</span><span class="me1">isSecure</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="re0">$urlSegura</span> <span class="sy0">=</span> <span class="kw3">str_replace</span><span class="br0">&#40;</span><span class="st_h">'http'</span><span class="sy0">,</span> <span class="st_h">'https'</span><span class="sy0">,</span> <span class="re0">$peticion</span><span class="sy0">-&gt;</span><span class="me1">getUri</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="kw1">return</span> <span class="re0">$contexto</span><span class="sy0">-&gt;</span><span class="me1">getController</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="re0">$urlSegura</span><span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="co1">// No se continúa con la cadena de filtros</span>
+    <span class="br0">&#125;</span>
+    <span class="kw1">else</span>
+    <span class="br0">&#123;</span>
+      <span class="co1">// La petición ya es segura, asi que podemos continuar</span>
+      <span class="re0">$filterChain</span><span class="sy0">-&gt;</span><span class="me1">execute</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Los filtros se utilizan mucho en los plugins, porque permiten extender las características de una aplicación de forma global. El Capítulo 17 incluye más información sobre los plugins, y el wiki del proyecto Symfony (http://trac.symfony-project.org/) también tiene más ejemplos de filtros.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_6/metodos_de_validacion_y_manejo_de_errores.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>6.6. Métodos de Validación y Manejo de Errores</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_6/configuracion_del_modulo.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>6.8. Configuración del Módulo</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_6.html">
+                    <span>Capítulo 6.</span> El Controlador
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/el_controlador_frontal.html">
+                    <span>6.1.</span> El Controlador Frontal
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/acciones.html">
+                    <span>6.2.</span> Acciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/accediendo_a_la_peticion.html">
+                    <span>6.3.</span> Accediendo a la petición
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/sesiones_de_usuario.html">
+                    <span>6.4.</span> Sesiones de Usuario
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/seguridad_de_la_accion.html">
+                    <span>6.5.</span> Seguridad de la Acción
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/metodos_de_validacion_y_manejo_de_errores.html">
+                    <span>6.6.</span> Métodos de Validación y Manejo de Errores
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_6/filtros.html">
+                    <span>6.7.</span> Filtros
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/configuracion_del_modulo.html">
+                    <span>6.8.</span> Configuración del Módulo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/resumen.html">
+                    <span>6.9.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

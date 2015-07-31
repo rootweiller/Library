@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>13.3. Usando el típico formulario de acceso (Symfony 2.0, el libro oficial)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                            
+        <link rel="canonical" href="/libro/symfony_2_x/capitulo_13/usando_el_tipico_formulario_de_acceso.html"/>
+                                    <link rel="prev" href="../capitulo_13/como_funciona_la_seguridad_autenticacion_y_autorizacion.html" />
+                    <link rel="next" href="../capitulo_13/autorizacion.html" />
+                <link rel="start" href="/libro/symfony_2_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="13.3. Usando el típico formulario de acceso (Symfony 2.0, el libro oficial)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_2_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_0/" itemprop="url">
+                    <span itemprop="title">Symfony 2.0, el libro oficial</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_0/capitulo_13.html" itemprop="url">
+                    <span itemprop="title">Capítulo 13. Seguridad</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>13.3. Usando el típico formulario de acceso</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="usando_el_tipico_formulario_de_acceso" class="title">
+        <span>13.3.</span> Usando el típico formulario de acceso
+    </h1>
+
+    
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> En esta sección, aprenderás cómo crear un formulario de acceso básico que continúa utilizando los usuarios definidos en el archivo <code>security.yml</code>.</p>
+
+<p>Para cargar usuarios desde la base de datos, por favor consulta el artículo <a href="http://symfony.com/doc/2.0/cookbook/security/entity_provider.html">How to load Security Users from the Database (the Entity Provider)</a>. Después ya podrás crear un sistema completo de formularios de acceso que carguen los usuarios desde la base de datos.</p></div>
+
+<p>Hasta ahora, se ha visto cómo proteger tu aplicación bajo un <em>firewall</em> y cómo hacer que algunas de sus partes exijan un determinado rol para poder acceder. Aunque es muy fácil utilizar la autenticación HTTP de Symfony para pedir el usuario y contraseña a través de una caja del propio navegador, Symfony soporta otros mecanismos de autenticación más avanzados.</p>
+
+<p>En esta sección, vamos a mejorar este proceso permitiendo la autenticación del usuario a través del típico formulario de login.</p>
+
+<p>En primer lugar, añade la opción <code>form_login</code> en la configuración del <em>firewall</em>:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_d1831" class="active"><a data-toggle="tab active" href="#select_tab_1_d1831" onclick="document.getElementById('select_tab_1_d1831').className='active'; document.getElementById('tab_1_d1831').className='tab-pane active';document.getElementById('select_tab_2_d1831').className='';  document.getElementById('tab_2_d1831').className='tab-pane';document.getElementById('select_tab_3_d1831').className='';  document.getElementById('tab_3_d1831').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_d1831"><a data-toggle="tab" href="#select_tab_2_d1831" onclick="document.getElementById('select_tab_1_d1831').className='';  document.getElementById('tab_1_d1831').className='tab-pane';document.getElementById('select_tab_2_d1831').className='active'; document.getElementById('tab_2_d1831').className='tab-pane active';document.getElementById('select_tab_3_d1831').className='';  document.getElementById('tab_3_d1831').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_d1831"><a data-toggle="tab" href="#select_tab_3_d1831" onclick="document.getElementById('select_tab_1_d1831').className='';  document.getElementById('tab_1_d1831').className='tab-pane';document.getElementById('select_tab_2_d1831').className='';  document.getElementById('tab_2_d1831').className='tab-pane';document.getElementById('select_tab_3_d1831').className='active'; document.getElementById('tab_3_d1831').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_d1831">
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># app/config/security.yml</span><span class="co4">
+security</span>:<span class="co4">
+    firewalls</span>:<span class="co4">
+        secured_area</span>:<span class="co3">
+            pattern</span><span class="sy2">: </span>   ^/<span class="co3">
+            anonymous</span><span class="sy2">: </span> ~<span class="co4">
+            form_login</span>:<span class="co3">
+                login_path</span><span class="sy2">: </span> /login<span class="co3">
+                check_path</span><span class="sy2">: </span> /login_check</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_d1831">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;?xml</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span> <span class="re0">encoding</span>=<span class="st0">&quot;UTF-8&quot;</span><span class="re2">?&gt;</span></span>
+&nbsp;
+<span class="sc3"><span class="re1">&lt;srv:container</span> <span class="re0">xmlns</span>=<span class="st0">&quot;http://symfony.com/schema/dic/security&quot;</span></span>
+<span class="sc3">    <span class="re0">xmlns:xsi</span>=<span class="st0">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="sc3">    <span class="re0">xmlns:srv</span>=<span class="st0">&quot;http://symfony.com/schema/dic/services&quot;</span></span>
+<span class="sc3">    <span class="re0">xsi:schemaLocation</span>=<span class="st0">&quot;http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd&quot;</span><span class="re2">&gt;</span></span>
+&nbsp;
+    <span class="sc-1">&lt;!-- app/config/security.xml --&gt;</span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;config<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;firewall</span> <span class="re0">name</span>=<span class="st0">&quot;secured_area&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;^/&quot;</span><span class="re2">&gt;</span></span>
+            <span class="sc3"><span class="re1">&lt;anonymous</span> <span class="re2">/&gt;</span></span>
+            <span class="sc3"><span class="re1">&lt;form-login</span> <span class="re0">login_path</span>=<span class="st0">&quot;/login&quot;</span> <span class="re0">check_path</span>=<span class="st0">&quot;/login_check&quot;</span> <span class="re2">/&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;/firewall<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/config<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/srv:container<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_d1831">
+<div class="code php">
+<pre class="php"><span class="co1">// app/config/security.php</span>
+<span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">loadFromExtension</span><span class="br0">&#40;</span><span class="st_h">'security'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'firewalls'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'secured_area'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="st_h">'pattern'</span> <span class="sy0">=&gt;</span> <span class="st_h">'^/'</span><span class="sy0">,</span>
+            <span class="st_h">'anonymous'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+            <span class="st_h">'form_login'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+                <span class="st_h">'login_path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'/login'</span><span class="sy0">,</span>
+                <span class="st_h">'check_path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'/login_check'</span><span class="sy0">,</span>
+            <span class="br0">&#41;</span><span class="sy0">,</span>
+        <span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Si no necesitas personalizar los valores <code>login_path</code> o <code>check_path</code> (arriba se muestran sus valores por defecto), puedes simplificar al máximo tu configuración:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_d18ef" class="active"><a data-toggle="tab active" href="#select_tab_1_d18ef" onclick="document.getElementById('select_tab_1_d18ef').className='active'; document.getElementById('tab_1_d18ef').className='tab-pane active';document.getElementById('select_tab_2_d18ef').className='';  document.getElementById('tab_2_d18ef').className='tab-pane';document.getElementById('select_tab_3_d18ef').className='';  document.getElementById('tab_3_d18ef').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_d18ef"><a data-toggle="tab" href="#select_tab_2_d18ef" onclick="document.getElementById('select_tab_1_d18ef').className='';  document.getElementById('tab_1_d18ef').className='tab-pane';document.getElementById('select_tab_2_d18ef').className='active'; document.getElementById('tab_2_d18ef').className='tab-pane active';document.getElementById('select_tab_3_d18ef').className='';  document.getElementById('tab_3_d18ef').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_d18ef"><a data-toggle="tab" href="#select_tab_3_d18ef" onclick="document.getElementById('select_tab_1_d18ef').className='';  document.getElementById('tab_1_d18ef').className='tab-pane';document.getElementById('select_tab_2_d18ef').className='';  document.getElementById('tab_2_d18ef').className='tab-pane';document.getElementById('select_tab_3_d18ef').className='active'; document.getElementById('tab_3_d18ef').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_d18ef">
+<div class="code yaml">
+<pre class="yaml"><span class="co3">form_login</span><span class="sy2">: </span>~</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_d18ef">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;form-login</span> <span class="re2">/&gt;</span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_d18ef">
+<div class="code php">
+<pre class="php"><span class="st_h">'form_login'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span></pre>
+</div>
+</div>
+
+  </div>
+</div></div>
+
+<p>Ahora, cuando el sistema de seguridad inicia el proceso de autenticación, se redirige al usuario a la ruta que muestra el formulario de acceso (por defecto <code>/login</code>). El formulario tienes que crearlo tú mismo a mano, ya que Symfony no lo proporciona. Primero crea dos nuevas rutas: una que muestre el formulario de acceso (es decir, <code>/login</code>) y una que procese el envío del formulario (por ejemplo, <code>/login_check</code>):</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_d19ad" class="active"><a data-toggle="tab active" href="#select_tab_1_d19ad" onclick="document.getElementById('select_tab_1_d19ad').className='active'; document.getElementById('tab_1_d19ad').className='tab-pane active';document.getElementById('select_tab_2_d19ad').className='';  document.getElementById('tab_2_d19ad').className='tab-pane';document.getElementById('select_tab_3_d19ad').className='';  document.getElementById('tab_3_d19ad').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_d19ad"><a data-toggle="tab" href="#select_tab_2_d19ad" onclick="document.getElementById('select_tab_1_d19ad').className='';  document.getElementById('tab_1_d19ad').className='tab-pane';document.getElementById('select_tab_2_d19ad').className='active'; document.getElementById('tab_2_d19ad').className='tab-pane active';document.getElementById('select_tab_3_d19ad').className='';  document.getElementById('tab_3_d19ad').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_d19ad"><a data-toggle="tab" href="#select_tab_3_d19ad" onclick="document.getElementById('select_tab_1_d19ad').className='';  document.getElementById('tab_1_d19ad').className='tab-pane';document.getElementById('select_tab_2_d19ad').className='';  document.getElementById('tab_2_d19ad').className='tab-pane';document.getElementById('select_tab_3_d19ad').className='active'; document.getElementById('tab_3_d19ad').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_d19ad">
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># app/config/routing.yml</span><span class="co4">
+login</span>:<span class="co3">
+    pattern</span><span class="sy2">: </span>  /login<span class="co3">
+    defaults</span><span class="sy2">: </span> <span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeSecurityBundle:Security:login <span class="br0">&#125;</span><span class="co4">
+login_check</span>:<span class="co3">
+    pattern</span><span class="sy2">: </span>  /login_check</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_d19ad">
+<div class="code xml">
+<pre class="xml"><span class="sc-1">&lt;!-- app/config/routing.xml --&gt;</span>
+<span class="sc3"><span class="re1">&lt;?xml</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span> <span class="re0">encoding</span>=<span class="st0">&quot;UTF-8&quot;</span> <span class="re2">?&gt;</span></span>
+&nbsp;
+<span class="sc3"><span class="re1">&lt;routes</span> <span class="re0">xmlns</span>=<span class="st0">&quot;http://symfony.com/schema/routing&quot;</span></span>
+<span class="sc3">    <span class="re0">xmlns:xsi</span>=<span class="st0">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="sc3">    <span class="re0">xsi:schemaLocation</span>=<span class="st0">&quot;http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd&quot;</span><span class="re2">&gt;</span></span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;route</span> <span class="re0">id</span>=<span class="st0">&quot;login&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;/login&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_controller&quot;</span><span class="re2">&gt;</span></span>AcmeSecurityBundle:Security:login<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/route<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;route</span> <span class="re0">id</span>=<span class="st0">&quot;login_check&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;/login_check&quot;</span> <span class="re2">/&gt;</span></span>
+&nbsp;
+<span class="sc3"><span class="re1">&lt;/routes<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_d19ad">
+<div class="code php">
+<pre class="php"><span class="co1">// app/config/routing.php</span>
+<span class="kw2">use</span> Symfony\Component\Routing\RouteCollection<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Routing\Route<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$collection</span> <span class="sy0">=</span> <span class="kw2">new</span> RouteCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'login'</span><span class="sy0">,</span> <span class="kw2">new</span> Route<span class="br0">&#40;</span><span class="st_h">'/login'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_controller'</span> <span class="sy0">=&gt;</span> <span class="st_h">'AcmeDemoBundle:Security:login'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'login_check'</span><span class="sy0">,</span> <span class="kw2">new</span> Route<span class="br0">&#40;</span><span class="st_h">'/login_check'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">return</span> <span class="re0">$collection</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> No es necesario que crees el controlador que procesa la URL <code>/login_check</code> ya que el <em>firewall</em> captura y procesa automáticamente cualquier formulario enviado a esa URL. Por tanto, la ruta <code>login_check</code> es realmente opcional, pero se recomienda crearla para utilizarla después en el formulario de login.</p></div>
+
+<p>Observa que el nombre de la ruta <code>login</code> no importan. Lo realmente importante es que la URL de la ruta (<code>/login</code>) coincida con el valor de la opción <code>login_path</code>, ya que es donde el sistema de seguridad redirige a los usuarios que necesitan autenticarse.</p>
+
+<p>A continuación, crea el controlador que muestra el formulario de acceso:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// src/Acme/SecurityBundle/Controller/SecurityController.php;</span>
+<span class="kw2">namespace</span> Acme\SecurityBundle\Controller<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Bundle\FrameworkBundle\Controller\Controller<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Security\Core\SecurityContext<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> SecurityController <span class="kw2">extends</span> Controller
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> loginAction<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$request</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$session</span> <span class="sy0">=</span> <span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getSession</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// get the login error if there is one</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">attributes</span><span class="sy0">-&gt;</span><span class="me1">has</span><span class="br0">&#40;</span>SecurityContext<span class="sy0">::</span><span class="me2">AUTHENTICATION_ERROR</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="re0">$error</span> <span class="sy0">=</span> <span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">attributes</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span>
+                SecurityContext<span class="sy0">::</span><span class="me2">AUTHENTICATION_ERROR</span>
+            <span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            <span class="re0">$error</span> <span class="sy0">=</span> <span class="re0">$session</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span>SecurityContext<span class="sy0">::</span><span class="me2">AUTHENTICATION_ERROR</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="re0">$session</span><span class="sy0">-&gt;</span><span class="me1">remove</span><span class="br0">&#40;</span>SecurityContext<span class="sy0">::</span><span class="me2">AUTHENTICATION_ERROR</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">&#40;</span>
+            <span class="st_h">'AcmeSecurityBundle:Security:login.html.twig'</span><span class="sy0">,</span>
+            <span class="kw3">array</span><span class="br0">&#40;</span>
+                <span class="co1">// last username entered by the user</span>
+                <span class="st_h">'last_username'</span> <span class="sy0">=&gt;</span> <span class="re0">$session</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span>SecurityContext<span class="sy0">::</span><span class="me2">LAST_USERNAME</span><span class="br0">&#41;</span><span class="sy0">,</span>
+                <span class="st_h">'error'</span>         <span class="sy0">=&gt;</span> <span class="re0">$error</span><span class="sy0">,</span>
+            <span class="br0">&#41;</span>
+        <span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>No dejes que este controlador te líe. Como veremos en un momento, cuando el usuario envía el formulario, el sistema de seguridad se encarga de procesar automáticamente el envío del formulario. Si el usuario envía un nombre de usuario o contraseña no válidos, este controlador obtiene el mensaje de error del sistema de seguridad y lo muestra al usuario.</p>
+
+<p>En otras palabras, tu te encargas de mostrar el formulario al usuario y los errores que puedan haber ocurrido, pero el propio sistema de seguridad se encarga de verificar el nombre de usuario y contraseña y la autenticación del usuario.</p>
+
+<p>Por último, crea la plantilla correspondiente:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_d1ab7" class="active"><a data-toggle="tab active" href="#select_tab_1_d1ab7" onclick="document.getElementById('select_tab_1_d1ab7').className='active'; document.getElementById('tab_1_d1ab7').className='tab-pane active';document.getElementById('select_tab_2_d1ab7').className='';  document.getElementById('tab_2_d1ab7').className='tab-pane';return false;">TWIG</a></li><li id="select_tab_2_d1ab7"><a data-toggle="tab" href="#select_tab_2_d1ab7" onclick="document.getElementById('select_tab_1_d1ab7').className='';  document.getElementById('tab_1_d1ab7').className='tab-pane';document.getElementById('select_tab_2_d1ab7').className='active'; document.getElementById('tab_2_d1ab7').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_d1ab7">
+<div class="code twig">
+<pre class="twig"><span class="sc1"><span class="coMULTI">{&#35; src/Acme/SecurityBundle/Resources/views/Security/login.html.twig &#35;}</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">if</span> <span class="re0">error</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;div&gt;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">error</span><span class="re1">.message</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&lt;/div&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endif</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&nbsp;
+&lt;form action=&quot;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">path</span><span class="br0">&#40;</span><span class="st0">'login_check'</span><span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&quot; method=&quot;post&quot;&gt;
+    &lt;label for=&quot;username&quot;&gt;Username:&lt;/label&gt;
+    &lt;input type=&quot;text&quot; id=&quot;username&quot; name=&quot;_username&quot; value=&quot;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">last_username</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&quot; /&gt;
+&nbsp;
+    &lt;label for=&quot;password&quot;&gt;Password:&lt;/label&gt;
+    &lt;input type=&quot;password&quot; id=&quot;password&quot; name=&quot;_password&quot; /&gt;
+&nbsp;
+    <span class="sc1"><span class="coMULTI">{&#35;</span>
+<span class="sc1">        añade lo siguiente si quieres redirigir al usuario a una</span>
+<span class="sc1">        URL concreta después del login (explicado más adelante)</span>
+<span class="sc1">        &lt;input type=&quot;hidden&quot; name=&quot;_target_path&quot; value=&quot;/account&quot; /&gt;</span>
+<span class="sc1">    &#35;}</span></span>
+&nbsp;
+    &lt;button type=&quot;submit&quot;&gt;login&lt;/button&gt;
+&lt;/form&gt;</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_d1ab7">
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="co1">// src/Acme/SecurityBundle/Resources/views/Security/login.html.php ?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$error</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+    &lt;div&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$error</span><span class="sy0">-&gt;</span><span class="me1">getMessage</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/div&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">endif</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+&lt;form action=&quot;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'router'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">generate</span><span class="br0">&#40;</span><span class="st_h">'login_check'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&quot; method=&quot;post&quot;&gt;
+    &lt;label for=&quot;username&quot;&gt;Username:&lt;/label&gt;
+    &lt;input type=&quot;text&quot; id=&quot;username&quot; name=&quot;_username&quot; value=&quot;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$last_username</span> <span class="sy1">?&gt;</span>&quot; /&gt;
+&nbsp;
+    &lt;label for=&quot;password&quot;&gt;Password:&lt;/label&gt;
+    &lt;input type=&quot;password&quot; id=&quot;password&quot; name=&quot;_password&quot; /&gt;
+&nbsp;
+    &lt;!--
+        añade lo siguiente si quieres redirigir al usuario a una
+        URL concreta después del login (explicado más adelante)
+        &lt;input type=&quot;hidden&quot; name=&quot;_target_path&quot; value=&quot;/account&quot; /&gt;
+    --&gt;
+&nbsp;
+    &lt;button type=&quot;submit&quot;&gt;login&lt;/button&gt;
+&lt;/form&gt;</pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> La variable <code>error</code> pasada a la plantilla es una instancia de <code>AuthenticationException</code>. Como puede contener bastante información sobre el error de autenticación (incluyendo información sensible) debes ser muy cuidadoso con ella.</p></div>
+
+<p>El formulario de <em>login</em> tiene muy pocos requisitos. En primer lugar, el formulario debe ser enviado a la URL <code>/login_check</code> (a ​​través de la ruta <code>login_check</code>), para que el sistema de seguridad intercepte el formulario y lo procese automáticamente. Y en segundo lugar, los campos del formulario se deben llamar exactamente <code>_username</code> y <code>_password</code> (a menos que los cambies con las opciones <code>username_parameter</code> y <code>password_parameter</code> bajo la clave <code>form_login</code> de la configuración de seguridad).</p>
+
+<p>¡Y eso es todo! Cuando envíes el formulario, el sistema de seguridad comprobará automáticamente las credenciales del usuario y, o bien autenticará al usuario o bien lo enviará de nuevo al formulario de <em>login</em> mostrándole el error producido.</p>
+
+<p>Repasemos todo el proceso:</p>
+
+<ol>
+<li>El usuario intenta acceder a un recurso que está protegido.</li>
+<li>El <em>firewall</em> inicia el proceso de autenticación redirigiendo al usuario al formulario de acceso (<code>/login</code>).</li>
+<li>La página <code>/login</code> muestra el formulario de acceso gracias a la ruta y el controlador creados en este ejemplo.</li>
+<li>El usuario envía el formulario de acceso a <code>/login_check</code>.</li>
+<li>El sistema de seguridad intercepta la petición, comprueba las credenciales presentadas por el usuario, autentica al usuario si todo está correcto, y si no, envía al usuario de nuevo al formulario de acceso.</li>
+</ol>
+
+<p>Si las credenciales presentadas son correctas, el usuario será redirigido por defecto a la página solicitada originalmente (por ejemplo <code>/admin/foo</code>). Si el usuario ha accedido directamente a la página de <em>login</em>, se le redirige a la portada.</p>
+
+<p>En cualquier caso, puedes personalizar este comportamiento para redirigir al usuario a cualquier URL que quieras. Consulta el artículo <a href="http://symfony.com/doc/2.0/cookbook/security/form_login.html">How to customize your Form Login</a> para conocer más opciones de personalización del formulario de <em>login</em>.</p>
+
+<h3 id="evitando_los_errores_mas_comunes">13.3.1. Evitando los errores más comunes</h3>
+
+<p>Cuando crees tu formulario de acceso, ten cuidado de no cometer alguno de los siguientes errores comunes.</p>
+
+<p><strong>1. Crea las rutas correctas</strong></p>
+
+<p>En primer lugar, asegúrate de que has definido las rutas <code>/login</code> y <code>/login_check</code> correctamente y que correspondan a los valores de configuración <code>login_path</code> y <code>check_path</code>. Una mala configuración puede significar que se el usuario sea redirigido a una página de error 404 en lugar de a la página de acceso, o que al enviar el formulario de <em>login</em> no suceda nada (sólo verás el formulario de <em>login</em> una y otra vez).</p>
+
+<p><strong>2. Asegúrate de que la página de inicio de sesión no esté protegida</strong></p>
+
+<p>Además, asegúrate de que la página que contiene el formulario de <em>login</em> no requiere de ningún rol para verla. La siguiente configuración por ejemplo requiere el rol <code>ROLE_ADMIN</code> para todas las URL (incluso para la URL <code>/login</code>), lo que provoca un bucle de redirecciones:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_d1b72" class="active"><a data-toggle="tab active" href="#select_tab_1_d1b72" onclick="document.getElementById('select_tab_1_d1b72').className='active'; document.getElementById('tab_1_d1b72').className='tab-pane active';document.getElementById('select_tab_2_d1b72').className='';  document.getElementById('tab_2_d1b72').className='tab-pane';document.getElementById('select_tab_3_d1b72').className='';  document.getElementById('tab_3_d1b72').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_d1b72"><a data-toggle="tab" href="#select_tab_2_d1b72" onclick="document.getElementById('select_tab_1_d1b72').className='';  document.getElementById('tab_1_d1b72').className='tab-pane';document.getElementById('select_tab_2_d1b72').className='active'; document.getElementById('tab_2_d1b72').className='tab-pane active';document.getElementById('select_tab_3_d1b72').className='';  document.getElementById('tab_3_d1b72').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_d1b72"><a data-toggle="tab" href="#select_tab_3_d1b72" onclick="document.getElementById('select_tab_1_d1b72').className='';  document.getElementById('tab_1_d1b72').className='tab-pane';document.getElementById('select_tab_2_d1b72').className='';  document.getElementById('tab_2_d1b72').className='tab-pane';document.getElementById('select_tab_3_d1b72').className='active'; document.getElementById('tab_3_d1b72').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_d1b72">
+<div class="code yaml">
+<pre class="yaml"><span class="co4">access_control</span>:<span class="co3">
+    - { path</span><span class="sy2">: </span>^/, roles<span class="sy2">: </span>ROLE_ADMIN <span class="br0">&#125;</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_d1b72">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;access-control<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;rule</span> <span class="re0">path</span>=<span class="st0">&quot;^/&quot;</span> <span class="re0">role</span>=<span class="st0">&quot;ROLE_ADMIN&quot;</span> <span class="re2">/&gt;</span></span>
+<span class="sc3"><span class="re1">&lt;/access-control<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_d1b72">
+<div class="code php">
+<pre class="php"><span class="st_h">'access_control'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'^/'</span><span class="sy0">,</span> <span class="st_h">'role'</span> <span class="sy0">=&gt;</span> <span class="st_h">'ROLE_ADMIN'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="sy0">,</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Si eliminar el control de acceso en la URL <code>/login</code>, el problema se soluciona:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_d1c29" class="active"><a data-toggle="tab active" href="#select_tab_1_d1c29" onclick="document.getElementById('select_tab_1_d1c29').className='active'; document.getElementById('tab_1_d1c29').className='tab-pane active';document.getElementById('select_tab_2_d1c29').className='';  document.getElementById('tab_2_d1c29').className='tab-pane';document.getElementById('select_tab_3_d1c29').className='';  document.getElementById('tab_3_d1c29').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_d1c29"><a data-toggle="tab" href="#select_tab_2_d1c29" onclick="document.getElementById('select_tab_1_d1c29').className='';  document.getElementById('tab_1_d1c29').className='tab-pane';document.getElementById('select_tab_2_d1c29').className='active'; document.getElementById('tab_2_d1c29').className='tab-pane active';document.getElementById('select_tab_3_d1c29').className='';  document.getElementById('tab_3_d1c29').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_d1c29"><a data-toggle="tab" href="#select_tab_3_d1c29" onclick="document.getElementById('select_tab_1_d1c29').className='';  document.getElementById('tab_1_d1c29').className='tab-pane';document.getElementById('select_tab_2_d1c29').className='';  document.getElementById('tab_2_d1c29').className='tab-pane';document.getElementById('select_tab_3_d1c29').className='active'; document.getElementById('tab_3_d1c29').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_d1c29">
+<div class="code yaml">
+<pre class="yaml"><span class="co4">access_control</span>:<span class="co3">
+    - { path</span><span class="sy2">: </span>^/login, roles<span class="sy2">: </span>IS_AUTHENTICATED_ANONYMOUSLY <span class="br0">&#125;</span><span class="co3">
+    - { path</span><span class="sy2">: </span>^/, roles<span class="sy2">: </span>ROLE_ADMIN <span class="br0">&#125;</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_d1c29">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;access-control<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;rule</span> <span class="re0">path</span>=<span class="st0">&quot;^/login&quot;</span> <span class="re0">role</span>=<span class="st0">&quot;IS_AUTHENTICATED_ANONYMOUSLY&quot;</span> <span class="re2">/&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;rule</span> <span class="re0">path</span>=<span class="st0">&quot;^/&quot;</span> <span class="re0">role</span>=<span class="st0">&quot;ROLE_ADMIN&quot;</span> <span class="re2">/&gt;</span></span>
+<span class="sc3"><span class="re1">&lt;/access-control<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_d1c29">
+<div class="code php">
+<pre class="php"><span class="st_h">'access_control'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'^/login'</span><span class="sy0">,</span> <span class="st_h">'role'</span> <span class="sy0">=&gt;</span> <span class="st_h">'IS_AUTHENTICATED_ANONYMOUSLY'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'^/'</span><span class="sy0">,</span> <span class="st_h">'role'</span> <span class="sy0">=&gt;</span> <span class="st_h">'ROLE_ADMIN'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="sy0">,</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Además, si el <em>firewall</em> no permite el acceso a los usuarios anónimos, tendrás que crear un <em>firewall</em> especial que permita los usuarios anónimos en la página del formulario de <em>login</em>:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_d1cd0" class="active"><a data-toggle="tab active" href="#select_tab_1_d1cd0" onclick="document.getElementById('select_tab_1_d1cd0').className='active'; document.getElementById('tab_1_d1cd0').className='tab-pane active';document.getElementById('select_tab_2_d1cd0').className='';  document.getElementById('tab_2_d1cd0').className='tab-pane';document.getElementById('select_tab_3_d1cd0').className='';  document.getElementById('tab_3_d1cd0').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_d1cd0"><a data-toggle="tab" href="#select_tab_2_d1cd0" onclick="document.getElementById('select_tab_1_d1cd0').className='';  document.getElementById('tab_1_d1cd0').className='tab-pane';document.getElementById('select_tab_2_d1cd0').className='active'; document.getElementById('tab_2_d1cd0').className='tab-pane active';document.getElementById('select_tab_3_d1cd0').className='';  document.getElementById('tab_3_d1cd0').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_d1cd0"><a data-toggle="tab" href="#select_tab_3_d1cd0" onclick="document.getElementById('select_tab_1_d1cd0').className='';  document.getElementById('tab_1_d1cd0').className='tab-pane';document.getElementById('select_tab_2_d1cd0').className='';  document.getElementById('tab_2_d1cd0').className='tab-pane';document.getElementById('select_tab_3_d1cd0').className='active'; document.getElementById('tab_3_d1cd0').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_d1cd0">
+<div class="code yaml">
+<pre class="yaml"><span class="co4">firewalls</span>:<span class="co4">
+    login_firewall</span>:<span class="co3">
+        pattern</span><span class="sy2">: </span>   ^/login$<span class="co3">
+        anonymous</span><span class="sy2">: </span> ~<span class="co4">
+    secured_area</span>:<span class="co3">
+        pattern</span><span class="sy2">: </span>   ^/<span class="co3">
+        form_login</span><span class="sy2">: </span>~</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_d1cd0">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;firewall</span> <span class="re0">name</span>=<span class="st0">&quot;login_firewall&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;^/login$&quot;</span><span class="re2">&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;anonymous</span> <span class="re2">/&gt;</span></span>
+<span class="sc3"><span class="re1">&lt;/firewall<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;firewall</span> <span class="re0">name</span>=<span class="st0">&quot;secured_area&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;^/&quot;</span><span class="re2">&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;form_login</span> <span class="re2">/&gt;</span></span>
+<span class="sc3"><span class="re1">&lt;/firewall<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_d1cd0">
+<div class="code php">
+<pre class="php"><span class="st_h">'firewalls'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'login_firewall'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'pattern'</span> <span class="sy0">=&gt;</span> <span class="st_h">'^/login$'</span><span class="sy0">,</span>
+        <span class="st_h">'anonymous'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="st_h">'secured_area'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'pattern'</span> <span class="sy0">=&gt;</span> <span class="st_h">'^/'</span><span class="sy0">,</span>
+        <span class="st_h">'form_login'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="sy0">,</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p><strong>3. Asegúrate de que <code>/login_check</code> está detrás de un <em>firewall</em></strong></p>
+
+<p>A continuación, asegúrate de que la URL de la ruta <code>check_path</code> (por ejemplo <code>/login_check</code>) está detrás del <em>firewall</em> que estás utilizando para tu formulario de acceso (en este ejemplo, el único <em>firewall</em> cubre todas las URL, incluyendo <code>/login_check</code>). Si <code>/login_check</code> no se encuentra bajo ningún <em>firewall</em>, se lanzará una excepción con el siguiente mensaje: <em>Unable
+    to find the controller for path "/login_check"</em>.</p>
+
+<p><strong>4. Diferentes <em>firewalls</em> no comparten el mismo contexto de seguridad</strong></p>
+
+<p>Si estás utilizando varios <em>firewalls</em> y el usuario se autentica contra uno de ellos, esto <strong>no</strong> significa que se haya autenticado en el resto de <em>firewalls</em>.</p>
+
+<p>Los diferentes <em>firewalls</em> son como diferentes sistemas de seguridad. Por este motivo, para la mayoría de las aplicaciones es suficiente con tener un <em>firewalls</em> principal.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_13/como_funciona_la_seguridad_autenticacion_y_autorizacion.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>13.2. Cómo funciona la seguridad: autenticación y autorización </small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_13/autorizacion.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>13.4. Autorización</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Symfony2 y los fundamentos de HTTP</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> De PHP a Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Instalando y configurando Symfony2</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Creando páginas en Symfony2</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> El controlador</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El enrutamiento</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Creando y utilizando plantillas</a>
+            </li>
+                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> La base de datos y Doctrine</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> La base de datos y Propel</a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Tests unitarios y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Validación</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Formularios</a>
+            </li>
+                                                                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_13.html">
+                    <span>Capítulo 13.</span> Seguridad
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_13/ejemplo_basico_autenticacion_http.html">
+                    <span>13.1.</span>  Ejemplo básico: Autenticación HTTP
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_13/como_funciona_la_seguridad_autenticacion_y_autorizacion.html">
+                    <span>13.2.</span> Cómo funciona la seguridad: autenticación y autorización 
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_13/usando_el_tipico_formulario_de_acceso.html">
+                    <span>13.3.</span> Usando el típico formulario de acceso
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_13/autorizacion.html">
+                    <span>13.4.</span> Autorización
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_13/usuarios.html">
+                    <span>13.5.</span> Usuarios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_13/roles.html">
+                    <span>13.6.</span> Roles
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_13/cerrando_sesion.html">
+                    <span>13.7.</span> Cerrando sesión
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_13/controlando_el_acceso_en_las_plantillas.html">
+                    <span>13.8.</span> Controlando el acceso en las plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_13/controlando_el_acceso_en_los_controladores.html">
+                    <span>13.9.</span> Controlando el acceso en los controladores
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_13/suplantando_a_un_usuario.html">
+                    <span>13.10.</span> Suplantando a un usuario
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_13/autenticacion_sin_estado.html">
+                    <span>13.11.</span> Autenticación sin estado
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_13/consideraciones_finales.html">
+                    <span>13.12.</span> Consideraciones finales
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> La caché de HTTP</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> El contenedor de servicios</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Mejorando el rendimiento</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> El interior de Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> La API estable de Symfony2</a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

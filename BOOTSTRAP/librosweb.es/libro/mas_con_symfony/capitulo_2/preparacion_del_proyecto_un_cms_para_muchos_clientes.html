@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>2.1. Preparación del proyecto: un CMS para muchos clientes (Más con Symfony)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_2.html" />
+                    <link rel="next" href="../capitulo_2/como_funciona_el_sistema_de_enrutamiento.html" />
+                <link rel="start" href="/libro/mas_con_symfony/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="2.1. Preparación del proyecto: un CMS para muchos clientes (Más con Symfony)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page mas_con_symfony"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+            <div class="module module-ad module-ad-responsive module-ad-top">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/mas_con_symfony/" itemprop="url">
+                    <span itemprop="title">Más con Symfony</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/mas_con_symfony/capitulo_2.html" itemprop="url">
+                    <span itemprop="title">Capítulo 2. Enrutamiento avanzado</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>2.1. Preparación del proyecto: un CMS para muchos clientes</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="preparacion_del_proyecto_un_cms_para_muchos_clientes" class="title">
+        <span>2.1.</span> Preparación del proyecto: un CMS para muchos clientes
+    </h1>
+
+    
+
+<p>En este proyecto, una empresa imaginaria llamada <em>Sympal Builder</em> quiere crear
+un CMS para que sus clientes puedan construir sitios web como subdominios de
+<code>sympalbuilder.com</code>. En concreto, el cliente XXX puede ver su sitio web en
+<code>xxx.sympalbuilder.com</code> y hacer uso del área de administración en
+<code>xxx.sympalbuilder.com/backend.php</code>.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> El nombre <code>Sympal</code> se ha tomado prestado del proyecto <a href="http://www.sympalphp.org/">Sympal</a>
+creado por Jonathan Wage, que es un framework de gestores de contenidos (CMF)
+desarrollado con Symfony.</p></div>
+
+<p>Los dos requerimientos básicos del proyecto son:</p>
+
+<ul>
+<li><p>Los usuarios pueden crear páginas y especificar el título, contenido y URL
+de esas páginas.</p></li>
+<li><p>Toda la aplicación debe construirse dentro de un único proyecto de Symfony
+que gestione el <em>frontend</em> y <em>backend</em> de todos los sitios de los clientes
+y que obtenga los datos adecuados en función del subdominio utilizado por
+cada cliente.</p></li>
+</ul>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Para crear esta aplicación, el servidor debe configurarse para redirigir todos
+los subdominios <code>*.sympalbuilder.com</code> al mismo directorio raíz, que es el
+directorio web del proyecto Symfony.</p></div>
+
+<h3 id="el_esquema_y_los_datos">2.1.1. El esquema y los datos</h3>
+
+<p>La base de datos del proyecto está formada por clientes (objeto <code>Client</code>) y
+páginas (objeto <code>Page</code>). Cada cliente representa un sitio web accesible mediante
+un subdominio y puede contener varias páginas.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># config/doctrine/schema.yml</span><span class="co4">
+Client</span>:<span class="co4">
+  columns</span>:<span class="co3">
+    name</span><span class="sy2">: </span>      string<span class="br0">&#40;</span><span class="nu0">255</span><span class="br0">&#41;</span><span class="co3">
+    subdomain</span><span class="sy2">: </span> string<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span><span class="co4">
+  indexes</span>:<span class="co4">
+    subdomain_index</span>:<span class="co3">
+      fields</span><span class="sy2">: </span>  <span class="br0">&#91;</span>subdomain<span class="br0">&#93;</span><span class="co3">
+      type</span><span class="sy2">: </span>    unique
+<span class="co4">
+Page</span>:<span class="co4">
+  columns</span>:<span class="co3">
+    title</span><span class="sy2">: </span>     string<span class="br0">&#40;</span><span class="nu0">255</span><span class="br0">&#41;</span><span class="co3">
+    slug</span><span class="sy2">: </span>      string<span class="br0">&#40;</span><span class="nu0">255</span><span class="br0">&#41;</span><span class="co3">
+    content</span><span class="sy2">: </span>   clob<span class="co3">
+    client_id</span><span class="sy2">: </span> integer<span class="co4">
+  relations</span>:<span class="co4">
+    Client</span>:<span class="co3">
+      alias</span><span class="sy2">: </span>       Client<span class="co3">
+      foreignAlias</span><span class="sy2">: </span>Pages<span class="co3">
+      onDelete</span><span class="sy2">: </span>    CASCADE<span class="co4">
+  indexes</span>:<span class="co4">
+    slug_index</span>:<span class="co3">
+      fields</span><span class="sy2">: </span>  <span class="br0">&#91;</span>slug, client_id<span class="br0">&#93;</span><span class="co3">
+      type</span><span class="sy2">: </span>    unique</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Aunque los índices de cada tabla no son obligatorios, es mejor añadirlos porque
+la aplicación va a realizar muchas consultas que utilizan estas columnas.</p></div>
+
+<p>Para poder probar el funcionamiento del proyecto, añade los siguientes datos de
+prueba en el archivo <code>data/fixtures/fixtures.yml</code>:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># data/fixtures/fixtures.yml</span><span class="co4">
+Client</span>:<span class="co4">
+  client_pete</span>:<span class="co3">
+    name</span><span class="sy2">: </span>     Pete's Pet Shop<span class="co3">
+    subdomain</span><span class="sy2">: </span>pete<span class="co4">
+  client_pub</span>:<span class="co3">
+    name</span><span class="sy2">: </span>     City Pub and Grill<span class="co3">
+    subdomain</span><span class="sy2">: </span>citypub
+<span class="co4">
+Page</span>:<span class="co4">
+  page_pete_location_hours</span>:<span class="co3">
+    title</span><span class="sy2">: </span>    Location and Hours | Pete's Pet Shop<span class="co3">
+    content</span><span class="sy2">: </span>  We're open Mon - Sat, <span class="nu0">8</span> am - 7pm<span class="co3">
+    slug</span><span class="sy2">: </span>     location<span class="co3">
+    Client</span><span class="sy2">: </span>   client_pete<span class="co4">
+  page_pub_menu</span>:<span class="co3">
+    title</span><span class="sy2">: </span>    City Pub And Grill | Menu<span class="co3">
+    content</span><span class="sy2">: </span>  Our menu consists of fish, Steak, salads, and more.<span class="co3">
+    slug</span><span class="sy2">: </span>     menu<span class="co3">
+    Client</span><span class="sy2">: </span>   client_pub</pre>
+</div>
+
+<p>Los datos de prueba crean dos sitios web, cada uno de ellos con una página. La
+URL completa de cada página está formada por el valor de la columa <code>subdomain</code>
+de la tabla <code>Client</code> y por el valor de la columna <code>slug</code> del objeto <code>Page</code>.</p>
+
+<div class="code code">
+<pre class="code">http://pete.sympalbuilder.com/location
+http://citypub.sympalbuilder.com/menu</pre>
+</div>
+
+<h3 id="el_enrutamiento">2.1.2. El enrutamiento</h3>
+
+<p>Todas las páginas de los sitios web creados en <em>Sympal Builder</em> se corresponden
+de forma directa con un objeto de tipo <code>Page</code> del modelo, que define el título
+y el contenido que se muestran. Para asociar cada URL con su correspondiente
+objeto <code>Page</code>, se crea una nueva ruta de objetos de tipo <code>sfDoctrineRoute</code> y
+que hace uso del campo <code>slug</code>. El siguiente código busca automáticamente en la
+base de datos un objeto de tipo <code>Page</code> cuyo campo <code>slug</code> coincida con el que
+incluye la URL:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># apps/frontend/config/routing.yml</span><span class="co4">
+page_show</span>:<span class="co3">
+  url</span><span class="sy2">: </span>       /:slug<span class="co3">
+  class</span><span class="sy2">: </span>     sfDoctrineRoute<span class="co4">
+  options</span>:<span class="co3">
+    model</span><span class="sy2">: </span>   Page<span class="co3">
+    type</span><span class="sy2">: </span>    object<span class="co4">
+  params</span>:<span class="co3">
+    module</span><span class="sy2">: </span>  page<span class="co3">
+    action</span><span class="sy2">: </span>  show</pre>
+</div>
+
+<p>La ruta anterior asocia correctamente la página <code>http://pete.sympalbuilder.com/location</code>
+con su objeto <code>Page</code>. Desafortunadamente, la ruta anterior también funciona con
+la URL <code>http://pete.sympalbuilder.com/menu</code>, por lo que el menú del restaurante
+se mostraría en el sitio web de Peter. Por el momento, el enrutamiento no es
+consciente de la importancia de los subdominios de los clientes.</p>
+
+<p>Para que la aplicación funcione correctamente, el enrutamiento debe ser más
+avanzado. El objeto <code>Page</code> se debe buscar tanto por el campo <code>slug</code> como por el
+campo <code>client_id</code>. Este último campo se puede determinar comparando el <em>host</em>
+(por ejemplo <code>pete.sympalbuilder.com</code>) con el valor de la columna <code>subdomain</code>
+del modelo <code>Client</code>. Para ello, se va a mejorar el framework de enrutamiento
+creando una clase propia de enrutamiento. No obstante, antes de crear esta clase
+será necesario repasar cómo funciona el sistema de enrutamiento.</p>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_2.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 2. Enrutamiento avanzado</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_2/como_funciona_el_sistema_de_enrutamiento.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>2.2. Cómo funciona el sistema de enrutamiento</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción</a>
+            </li>
+                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_2.html">
+                    <span>Capítulo 2.</span> Enrutamiento avanzado
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_2/preparacion_del_proyecto_un_cms_para_muchos_clientes.html">
+                    <span>2.1.</span> Preparación del proyecto: un CMS para muchos clientes
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/como_funciona_el_sistema_de_enrutamiento.html">
+                    <span>2.2.</span> Cómo funciona el sistema de enrutamiento
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/creando_una_clase_de_ruta_personalizada.html">
+                    <span>2.3.</span> Creando una clase de ruta personalizada
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/colecciones_de_rutas.html">
+                    <span>2.4.</span> Colecciones de rutas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/creando_una_coleccion_de_rutas_propia.html">
+                    <span>2.5.</span> Creando una colección de rutas propia
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/personalizando_una_coleccion_de_rutas_de_objeto.html">
+                    <span>2.6.</span> Personalizando una colección de rutas de objeto
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/opciones_de_las_colecciones_de_rutas.html">
+                    <span>2.7.</span> Opciones de las colecciones de rutas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/conclusion.html">
+                    <span>2.8.</span> Conclusión
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Mejora tu productividad</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Emails</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Widgets y validadores propios</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Formularios avanzados</a>
+            </li>
+                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Mejorando la barra de depuración web</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Uso avanzado de Doctrine</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Utilizando la herencia de tablas de Doctrine</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Funcionamiento interno de Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Windows y Symfony</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Desarrollando aplicaciones Facebook</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Descubriendo el poder de la línea de comandos</a>
+            </li>
+                                                                                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Jugando con la cache de configuración de Symfony</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Trabajando con la comunidad Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>A.</span> <a href="../apendice_a.html"> Código JavaScript de sfWidgetFormGMapAddress</a>
+            </li>
+                                            <li class="level-1">
+                <span>B.</span> <a href="../apendice_b.html"> Ejemplo de instalador propio</a>
+            </li>
+                                            <li class="level-1">
+                <span>C.</span> <a href="../apendice_c.html"> Licencia</a>
+            </li>
+                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

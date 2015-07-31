@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>9.2. Los objetos Git (Pro Git, el libro oficial de Git)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_9/fontaneria_y_porcelana.html" />
+                    <link rel="next" href="../capitulo_9/referencias_git.html" />
+                <link rel="start" href="/libro/pro_git/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="9.2. Los objetos Git (Pro Git, el libro oficial de Git)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page pro_git"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/" itemprop="url">
+                    <span itemprop="title">Pro Git, el libro oficial de Git</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/capitulo_9.html" itemprop="url">
+                    <span itemprop="title">Capítulo 9. Funcionamiento interno de Git</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>9.2. Los objetos Git</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="los_objetos_git" class="title">
+        <span>9.2.</span> Los objetos Git
+    </h1>
+
+    
+
+<p>Git es un sistema de archivos orientado a contenidos. Estupendo. Y eso, ¿qué significa?</p>
+
+<p>Pues significa que el núcleo Git es un simple almacén de claves y valores. Cuando insertas cualquier tipo de contenido, él te devuelve una clave que puedes utilizar para recuperar de nuevo dicho contenido en cualquier momento. Para verlo en acción, puedes utilizar el <em>comando de fontanería</em> <code>hash-object</code>. Este comando coge ciertos datos, los guarda en la carpeta <code>.git.</code> y te devuelve la clave bajo la cual se han guardado. Para empezar, inicializa un nuevo repositorio Git y comprueba que la carpeta <code>objects</code> está vacia.</p>
+
+<div class="code code">
+<pre class="code">$ mkdir test
+$ cd test
+$ git init
+Initialized empty Git repository in /tmp/test/.git/
+$ find .git/objects
+.git/objects
+.git/objects/info
+.git/objects/pack
+$ find .git/objects -type f
+$</pre>
+</div>
+
+<p>Git ha inicializado la carpeta <code>objects</code>, creando en ella las subcarpetas <code>pack</code> e <code>info</code>; pero aún no hay archivos en ellas. Luego, guarda algo de texto en la base de datos de Git:</p>
+
+<div class="code code">
+<pre class="code">$ echo 'test content' | git hash-object -w --stdin
+d670460b4b4aece5915caf5c68d12f560a9fe3e4</pre>
+</div>
+
+<p>La opción <code>-w</code> indica a <code>hash-object</code> que ha de guardar el objeto; de otro modo, el comando solo te respondería cual sería su clave. La opción <code>--stdin</code> indica al comando de leer desde la entrada estandar stdin; si no lo indicas, <code>hash-object</code> espera encontrar la ubicación de un archivo. La salida del comando es una suma de comprobación (<em>checksum hash</em>) de 40 caracteres. Este checksum hash SHA-1  es una suma de comprobación del contenido que estás guardando más una cabecera; cabecera sobre la que trataremos en breve. En estos momentos, ya puedes comprobar la forma en que Git ha guardado tus datos:</p>
+
+<div class="code code">
+<pre class="code">$ find .git/objects -type f 
+.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4</pre>
+</div>
+
+<p>Como puedes ver, hay un archivo en la carpeta <code>objects</code>. En principio, esta es la forma en que guarda Git los contenidos; como un archivo por cada pieza de contenido, nombrado con la suma de comprobación SHA-1 del contenido y su cabecera. La subcarpeta se nombra con los primeros 2 caracteres del SHA, y el archivo con los restantes 38 caracteres.</p>
+
+<p>Puedes volver a recuperar los contenidos usando el comando <code>cat-file</code>. Este comando es algo así como una <em>"navaja suiza"</em> para inspeccionar objetos Git. Pasandole la opción <code>-p</code>, puedes indicar al comando <code>cat-file</code> que deduzca el tipo de contenido y te lo muestre adecuadamente:</p>
+
+<div class="code code">
+<pre class="code">$ git cat-file -p d670460b4b4aece5915caf5c68d12f560a9fe3e4
+test content</pre>
+</div>
+
+<p>Ahora que sabes cómo añadir contenido a Git y cómo recuperarlo de vuelta. Lo puedes hacer también con el propio contenido de los archivos. Por ejemplo, puedes realizar un control simple de versiones sobre un archivo. Para ello, crea un archivo nuevo y guarda su contenido en tu base de datos:</p>
+
+<div class="code code">
+<pre class="code">$ echo 'version 1' &gt; test.txt
+$ git hash-object -w test.txt 
+83baae61804e65cc73a7201a7252750c76066a30</pre>
+</div>
+
+<p>A continuación, escribe algo más de contenido en el archivo y vuelvelo a guardar:</p>
+
+<div class="code code">
+<pre class="code">$ echo 'version 2' &gt; test.txt
+$ git hash-object -w test.txt 
+1f7a7a472abf3dd9643fd615f6da379c4acb3e3a</pre>
+</div>
+
+<p>Tu base de datos contendrá las dos nuevas versiones del archivo, así como el primer contenido que habias guardado en ella antes:</p>
+
+<div class="code code">
+<pre class="code">$ find .git/objects -type f 
+.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a
+.git/objects/83/baae61804e65cc73a7201a7252750c76066a30
+.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4</pre>
+</div>
+
+<p>Podrás revertir el archivo a su primera versión:</p>
+
+<div class="code code">
+<pre class="code">$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 &gt; test.txt 
+$ cat test.txt 
+version 1</pre>
+</div>
+
+<p>o a su segunda versión:</p>
+
+<div class="code code">
+<pre class="code">$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a &gt; test.txt 
+$ cat test.txt 
+version 2</pre>
+</div>
+
+<p>Pero no es práctico esto de andar recordando la clave SHA-1 para cada versión de tu archivo; es más, realmente no estás guardando el nombre de tu archivo en el sistema, — solo su contenido —. Este tipo de objeto se denomina un <em>blob</em> (<em>binary large object</em>). Con la orden <code>cat-file -t</code> puedes comprobar el tipo de cualquier objeto almacenado en Git, sin mas que indicar su clave <code>SHA-1</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git cat-file -t 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
+blob</pre>
+</div>
+
+<h3 id="objetos_tipo_arbol">9.2.1. Objetos tipo arbol</h3>
+
+<p>El siguiente tipo de objeto a revisar serán los objetos tipo árbol. Estos se encargan de resolver el problema de guardar un nombre de archivo, a la par que guardamos conjuntamente un grupo de archivos. Git guarda contenido de manera similar a un sistema de archivos UNIX, pero de forma algo más simple. Todo el contenido se guarda como objetos arbol (<em>tree</em>) u objetos binarios (<em>blob</em>). 
+Correspondiendo los árboles a las entradas de carpetas; y correspondiendo los binarios, mas o menos, a los contenidos de los archivos (inodes). Un objeto tipo árbol tiene una o más entradas de tipo arbol. Y cada una de ellas consta de un puntero SHA-1 a un objeto binario (<em>blob</em>) o a un subárbol, más sus correspondientes datos de modo, tipo y nombre de archivo. Por ejemplo, el árbol que hemos utilizado recientemente en el proyecto <code>simplegit</code>, puede resultar algo así como:</p>
+
+<div class="code code">
+<pre class="code">$ git cat-file -p master^{tree}
+100644 blob a906cb2a4a904a152e80877d4088654daad0c859      README
+100644 blob 8f94139338f9404f26296befa88755fc2598c289      Rakefile
+040000 tree 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0      lib</pre>
+</div>
+
+<p>La sentencia <code>master^{tree}</code> indica el objeto árbol apuntado por la última confirmación de cambios (<em>commit</em>) en tu rama principal (<code>master</code>). Fíjate en que la carpeta <code>lib</code> no es un objeto binario, sino un apuntador a otro objeto tipo árbol.</p>
+
+<div class="code code">
+<pre class="code">$ git cat-file -p 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0
+100644 blob 47c6340d6459e05787f644c2447d2595f5d3a54b      simplegit.rb</pre>
+</div>
+
+<p>Conceptualmente, la información almacenada por Git es algo similar a la Figura 9-1.</p>
+
+<div class="figure" id="figure_9_1">
+    <img src="/img/pro_git/18333fig0901.png" alt="Versión simplificada del modelo de datos de Git" />
+
+    <p class="caption"><strong>Figura 9.1</strong> Versión simplificada del modelo de datos de Git</p>
+</div>
+
+
+<p>Puedes crear tu propio árbol. Habitualmente Git suele crear un árbol a partir del estado de tu área de preparación (<em>staging area</em>) o índice, escribiendo un objeto árbol con él. Por tanto, para crear un objeto árbol, previamente has de crear un índice preparando algunos archivos para ser almacenados. Puedes utilizar el comando de <em>"fontaneria"</em> <code>update-index</code> para crear un índice con una sola entrada, — la primera version de tu archivo <code>text.txt</code> —. Este comando se utiliza para añadir artificialmente la versión anterior del archivo <code>test.txt</code> a una nueva área de preparación. Has de utilizar la opción <code>--add</code>, porque el archivo no existe aún en tu área de preparación (es más, ni siquiera tienes un área de preparación). Y has de utilizar también la opción <code>--cacheinfo</code>, porque el archivo que estas añadiendo no está en tu carpeta, sino en tu base de datos.  Para terminar, has de indicar el modo, la clave SHA-1 y el nombre de archivo:</p>
+
+<div class="code code">
+<pre class="code">$ git update-index --add --cacheinfo 100644 \
+  83baae61804e65cc73a7201a7252750c76066a30 test.txt</pre>
+</div>
+
+<p>En este caso, indicas un modo <code>100644</code>, el modo que denota un archivo normal. Otras opciones son <code>100755</code>, para un achivo ejecutable; o <code>120000</code>, para un enlace simbólico.  Estos modos son como los modos de UNIX, pero mucho menos flexibles. Solo estos tres modos son válidos para archivos (<em>blobs</em>) en Git; (aunque  también se permiten otros modos para carpetas y submódulos).</p>
+
+<p>Tras esto, puedes usar el comando <code>write-tree</code> para escribir el área de preparacón a un objeto tipo árbol. Sin necesidad de la opción <code>-w</code>, solo llamando al comando <code>write-tree</code>, y si dicho árbol no existiera ya, se crea automáticamente un objeto tipo árbol a partir del estado del índice.</p>
+
+<div class="code code">
+<pre class="code">$ git write-tree
+d8329fc1cc938780ffdd9f94e0d364e0ea74f579
+$ git cat-file -p d8329fc1cc938780ffdd9f94e0d364e0ea74f579
+100644 blob 83baae61804e65cc73a7201a7252750c76066a30      test.txt</pre>
+</div>
+
+<p>También puedes comprobar si realmente es un objeto tipo árbol:</p>
+
+<div class="code code">
+<pre class="code">$ git cat-file -t d8329fc1cc938780ffdd9f94e0d364e0ea74f579
+tree</pre>
+</div>
+
+<p>Vamos a crear un nuevo árbol con la segunda versión del archivo <code>test.txt</code> y con un nuevo archivo.</p>
+
+<div class="code code">
+<pre class="code">$ echo 'new file' &gt; new.txt
+$ git update-index test.txt 
+$ git update-index --add new.txt </pre>
+</div>
+
+<p>El área de preparación contendrá ahora la nueva versión de <code>test.txt</code>, así como el nuevo archivo <code>new.txt</code>. Escribiendo este árbol, (guardando el estado del área de preparación o índice), podrás ver que aparece algo así como:</p>
+
+<div class="code code">
+<pre class="code">$ git write-tree
+0155eb4229851634a0f03eb265b69f5a2d56f341
+$ git cat-file -p 0155eb4229851634a0f03eb265b69f5a2d56f341
+100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
+100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt</pre>
+</div>
+
+<p>Aquí se vén las entradas para los dos archivos y también el que la suma de comprobación SHA-1 de <code>test.txt</code> es la <em>"segunda versión"</em> de la anterior (<code>1f7a7a</code>). Simplemente por diversión, puedes añadir el primer árbol como una subcarpeta de este otro. Para leer árboles al área de preparación puedes utilizar el comando <code>read-tree</code>. Y, en este caso, puedes hacerlo como si fuera una subcarpeta utilizando la opción <code>--prefix</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git read-tree --prefix=bak d8329fc1cc938780ffdd9f94e0d364e0ea74f579
+$ git write-tree
+3c4e9cd789d88d8d89c1073707c3585e41b0e614
+$ git cat-file -p 3c4e9cd789d88d8d89c1073707c3585e41b0e614
+040000 tree d8329fc1cc938780ffdd9f94e0d364e0ea74f579      bak
+100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
+100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt</pre>
+</div>
+
+<p>Si crearas una carpeta de trabajo a partir de este nuevo árbol que acabas de escribir, obtendrías los dos archivos en el nivel principal de la carpeta de trabajo y una subcarpeta llamada <code>bak</code> conteniendo la primera versión del archivo <code>test.txt</code>. Puedes pensar en algo parecido a la Figura 9-2 para representar los datos guardados por Git para estas estructuras.</p>
+
+<div class="figure" id="figure_9_2">
+    <img src="/img/pro_git/18333fig0902.png" alt="La estructura del contenido Git para tus datos actuales" />
+
+    <p class="caption"><strong>Figura 9.2</strong> La estructura del contenido Git para tus datos actuales</p>
+</div>
+
+
+<h3 id="objetos_de_confirmacion_de_cambios">9.2.2. Objetos de confirmación de cambios</h3>
+
+<p>Tienes tres árboldes que representan diferentes momentos interesantes de tu proyecto, pero el problema principal sigue siendo el estar obligado a recordar los tres valores SHA-1 para poder recuperar cualquiera de esos momentos. Asimismo, careces de información alguna sobre quién guardó las instantáneas de esos momentos, cuándo fueron guardados o por qué se guardaron. Este es el tipo de información que almacenan para tí los objetos de confirmación de cambios.</p>
+
+<p>Para crearlos, tan solo has de llamar al comando <code>commit-tree</code>, indicando uno de los árboles SHA-1 y los objetos de confirmación de cambios que lo preceden (si es que lo precede alguno). Empezando por el primer árbol que has escrito:</p>
+
+<div class="code code">
+<pre class="code">$ echo 'first commit' | git commit-tree d8329f
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d</pre>
+</div>
+
+<p>Con el comando <code>cat-file</code> puedes revisar el nuevo objeto de confirmación de cambios recién creado:</p>
+
+<div class="code code">
+<pre class="code">$ git cat-file -p fdf4fc3
+tree d8329fc1cc938780ffdd9f94e0d364e0ea74f579
+author Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="96e5f5fef7f5f9f8d6f1fbf7fffab8f5f9fb">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt; 1243040974 -0700
+committer Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="2b5848434a4844456b4c464a424705484446">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt; 1243040974 -0700</pre>
+</div>
+
+<div class="code code">
+<pre class="code">first commit</pre>
+</div>
+
+<p>El formato para un objeto de confirmación de cambios (<em>commit</em>) es sencillo, contemplando: el objeto tipo árbol para la situación del proyecto en ese momento puntual; la información sobre el autor/confirmador, recogida desde las opciones de configuración<code>user.name</code> y <code>user.email</code>; la fecha y hora actuales; una línea en blanco; y el mensaje de la confirmación de cambios.</p>
+
+<p>Puedes seguir adelante, escribiendo los otros dos objetos de confirmación de cambios. Y relacionando cada uno de ellos con su inmediato anterior:</p>
+
+<div class="code code">
+<pre class="code">$ echo 'second commit' | git commit-tree 0155eb -p fdf4fc3
+cac0cab538b970a37ea1e769cbbde608743bc96d
+$ echo 'third commit'  | git commit-tree 3c4e9c -p cac0cab
+1a410efbd13591db07496601ebc7a059dd55cfe9</pre>
+</div>
+
+<p>Cada uno de estos tres objetos de confirmación de cambios apunta a uno de los tres objetos tipo árbol que habias creado previamente. Más aún, en estos momentos tienes ya un verdadero historial Git. Lo puedes comprobar con el comando <code>git log</code>. Lanzandolo mientras estás en la última de las confirmaciones de cambio.</p>
+
+<div class="code code">
+<pre class="code">$ git log --stat 1a410e commit 1a410efbd13591db07496601ebc7a059dd55cfe9
+Author: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="2152424940424e4f61464c40484d0f424e4c">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Fri May 22 18:15:24 2009 -0700</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    third commit</pre>
+</div>
+
+<div class="code code">
+<pre class="code"> bak/test.txt |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)</pre>
+</div>
+
+<div class="code code">
+<pre class="code">commit cac0cab538b970a37ea1e769cbbde608743bc96d
+Author: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="d3a0b0bbb2b0bcbd93b4beb2babffdb0bcbe">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Fri May 22 18:14:29 2009 -0700</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    second commit</pre>
+</div>
+
+<div class="code code">
+<pre class="code"> new.txt  |    1 +
+ test.txt |    2 +-
+ 2 files changed, 2 insertions(+), 1 deletions(-)</pre>
+</div>
+
+<div class="code code">
+<pre class="code">commit fdf4fc3344e67ab068f836878b6c4951e3b15f3d
+Author: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="dcafbfb4bdbfb3b29cbbb1bdb5b0f2bfb3b1">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Fri May 22 18:09:34 2009 -0700</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    first commit</pre>
+</div>
+
+<div class="code code">
+<pre class="code"> test.txt |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)</pre>
+</div>
+
+<p>¡Sorprendente!. Acabas de confeccionar un historial Git utilizando solamente operaciones de bajo nivel, sin usar ninguno de los interfaces principales. Esto es básicamente lo que hace Git cada vez que utilizas los comandos <code>git add</code> y <code>git commit</code>: guardar objetos binarios (<em>blobs</em>) para los archivos modificados, actualizar el índice, escribir árboles (<em>trees</em>), escribir objetos de confirmación de cambios (<em>commits</em>) que los referencian y relacionar cada uno de ellos con su inmediato precedente. Estos tres objetos Git, — binario, árbol y confirmación de cambios —, se guardan como archivos separados en la carpeta <code>.git/objects</code>. Aquí se muestran todos los objetos presentes en este momento en la carpeta del ejemplo, con comentarios acerca de lo que almacena cada uno de ellos:</p>
+
+<div class="code code">
+<pre class="code">$ find .git/objects -type f
+.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
+.git/objects/1a/410efbd13591db07496601ebc7a059dd55cfe9 # commit 3
+.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a # test.txt v2
+.git/objects/3c/4e9cd789d88d8d89c1073707c3585e41b0e614 # tree 3
+.git/objects/83/baae61804e65cc73a7201a7252750c76066a30 # test.txt v1
+.git/objects/ca/c0cab538b970a37ea1e769cbbde608743bc96d # commit 2
+.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4 # 'test content'
+.git/objects/d8/329fc1cc938780ffdd9f94e0d364e0ea74f579 # tree 1
+.git/objects/fa/49b077972391ad58037050f2a75f74e3671e92 # new.txt
+.git/objects/fd/f4fc3344e67ab068f836878b6c4951e3b15f3d # commit 1</pre>
+</div>
+
+<p>Siguiendo todos los enlaces internos, puedes llegar a un gráfico similar al de la figura 9-3.</p>
+
+<div class="figure" id="figure_9_3">
+    <img src="/img/pro_git/18333fig0903.png" alt="Todos los objetos en tu carpeta Git" />
+
+    <p class="caption"><strong>Figura 9.3</strong> Todos los objetos en tu carpeta Git</p>
+</div>
+
+
+<h3 id="almacenamiento_de_los_objetos">9.2.3. Almacenamiento de los objetos</h3>
+
+<p>He citado anteriormente que siempre se almacena una cabecera  junto al contenido. Vamos a echar un vistazo a cómo Git almacena sus objetos. Te mostraré el proceso de guardar un objeto binario grande (<em>blob</em>), — en este caso la cadena de texto <em>"what is up, doc?"</em> (<em>¿qué hay de nuevo, viejo?</em>) —, interactivamente, en el lenguaje de script Ruby. Puedes arrancar el modo interactivo de Ruby con el comando <code>irb</code>:</p>
+
+<div class="code code">
+<pre class="code">$ irb
+&gt;&gt; content = &quot;what is up, doc?&quot;
+=&gt; &quot;what is up, doc?&quot;</pre>
+</div>
+
+<p>Git construye la cabecera comenzando por el tipo de objeto, en este caso un objeto binario grande (<em>blob</em>). Después añade un espacio, seguido del tamaño del contenido y termina con un byte nulo:</p>
+
+<div class="code code">
+<pre class="code">&gt;&gt; header = &quot;blob #{content.length}\0&quot;
+=&gt; &quot;blob 16\000&quot;</pre>
+</div>
+
+<p>Git concatena la cabecera y el contenido original, para calcular la suma de control SHA-1 conjunta. En Ruby, para calcular el valor SHA-1 de una cadena de texto: has de incluir la libreria de generación SHA1 con el comando <code>require</code> y llamar luego a la orden <code>Digest::SHA1.hexdigest()</code>:</p>
+
+<div class="code code">
+<pre class="code">&gt;&gt; store = header + content
+=&gt; &quot;blob 16\000what is up, doc?&quot;
+&gt;&gt; require 'digest/sha1'
+=&gt; true
+&gt;&gt; sha1 = Digest::SHA1.hexdigest(store)
+=&gt; &quot;bd9dbf5aae1a3862dd1526723246b20206e5fc37&quot;</pre>
+</div>
+
+<p>Git  comprime todo el contenido con zlib. Y tu puedes hacer lo mismo en Ruby con la libreria zlib. Primero has de incluir la libreria y luego lanzar la orden <code>Zlib::Deflate.deflate()</code> sobre el contenido:</p>
+
+<div class="code code">
+<pre class="code">&gt;&gt; require 'zlib'
+=&gt; true
+&gt;&gt; zlib_content = Zlib::Deflate.deflate(store)
+=&gt; &quot;x\234K\312\311OR04c(\317H,Q\310,V(-\320QH\311O\266\a\000_\034\a\235&quot;</pre>
+</div>
+
+<p>Para terminar, has de escribir el contenido comprimido en un objeto en disco. Para fijar el lugar donde almacenarlo, utilizaremos como nombre de carpeta los dos primeros caracteres del valor SHA-1 y como nombre de archivo los restantes 38 caracteres de dicho valor SHA-1. En Ruby, puedes utilizar la función <code>FileUtils.mkdir_p()</code> para crear una carpeta. Después, puedes abrir un archivo con la orden <code>File.open()</code> y escribir contenido en él con la orden <code>write()</code>:</p>
+
+<div class="code code">
+<pre class="code">&gt;&gt; path = '.git/objects/' + sha1[0,2] + '/' + sha1[2,38]
+=&gt; &quot;.git/objects/bd/9dbf5aae1a3862dd1526723246b20206e5fc37&quot;
+&gt;&gt; require 'fileutils'
+=&gt; true
+&gt;&gt; FileUtils.mkdir_p(File.dirname(path))
+=&gt; &quot;.git/objects/bd&quot;
+&gt;&gt; File.open(path, 'w') { |f| f.write zlib_content }
+=&gt; 32</pre>
+</div>
+
+<p>Y ¡esto es todo!. — acabas de crear un auténtico objeto Git binario grande (<em>blob</em>) —. Todos los demas objetos Git se almacenan de forma similar, pero con la diferencia de que sus cabeceras comienzan con un tipo diferente. En lugar de <code>blob</code> (objeto binario grande), comenzarán por <code>commit</code> (confirmación de cambios), o por <code>tree</code> (árbol). Además, el contenido de un binario (<em>blob</em>) puede ser prácticamente cualquier cosa. Mientras que el contenido de una confirmación de cambios (<em>commit</em>) o de un árbol (<em>tree</em>) han de seguir unos formatos internos muy concretos.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_9/fontaneria_y_porcelana.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>9.1. Fontaneria y porcelana</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_9/referencias_git.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>9.3. Referencias Git</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Fundamentos de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Trabajando con ramas en Git</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Git en un servidor</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Git en entornos distribuidos</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Las herramientas de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Personalizando Git</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Git y otros sistemas</a>
+            </li>
+                                                                                            <li class="level-1 ">
+                <a href="../capitulo_9.html">
+                    <span>Capítulo 9.</span> Funcionamiento interno de Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/fontaneria_y_porcelana.html">
+                    <span>9.1.</span> Fontaneria y porcelana
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_9/los_objetos_git.html">
+                    <span>9.2.</span> Los objetos Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/referencias_git.html">
+                    <span>9.3.</span> Referencias Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/archivos_empaquetadores.html">
+                    <span>9.4.</span> Archivos empaquetadores
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/las_especificaciones_para_hacer_referencia_refspec.html">
+                    <span>9.5.</span> Las especificaciones para hacer referencia (refspec)
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/protocolos_de_transferencia.html">
+                    <span>9.6.</span> Protocolos de transferencia
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/mantenimiento_y_recuperacion_de_datos.html">
+                    <span>9.7.</span> Mantenimiento y recuperación de datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/resumen.html">
+                    <span>9.8.</span> Resumen
+                </a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

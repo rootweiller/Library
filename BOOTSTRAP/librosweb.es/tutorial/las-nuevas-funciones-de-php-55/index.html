@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Las nuevas funciones de PHP 5.5</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Las nuevas funciones de PHP 5.5">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-2-1" class="tutorials"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                            <h1 class="title">Las nuevas funciones de PHP 5.5</h1>
+
+    <h2>Nuevas funciones del núcleo de PHP</h2>
+<p>Una de las nuevas funciones más útiles añadidas por PHP 5.5 es <code>array_column()</code>, que extrae todos los valores de una determinada columna del array multidimensional indicado.</p>
+<p>Si utilizas por ejemplo PDO para obtener registros de una base de datos, aunque sólo quieras obtener una columna, el resultado siempre es un array multidimensional:</p>
+<pre class="php code"><span class="re0">$resultado</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'nombre'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Usuario 1'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'nombre'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Usuario 54'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'nombre'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Usuario 231'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'nombre'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Usuario 4'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="co1">// ...</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>Gracias a la nueva función <code>array_column()</code>, resulta muy sencillo <em>aplanar</em> ese array para quedarse solamente con la columna <code>nombre</code>:</p>
+<pre class="php code"><span class="re0">$nombres</span> <span class="sy0">=</span> array_column<span class="br0">&#40;</span><span class="re0">$resultado</span><span class="sy0">,</span> <span class="st_h">'nombre'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>La función <code>array_column()</code> solamente permite extraer una columna cada vez, pero admite un tercer parámetro opcional que indica la columna cuyos valores se utilizan como claves del nuevo array. Imagina que el array del ejemplo anterior tuviera más columnas de información:</p>
+<pre class="php code"><span class="re0">$resultado</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'id'</span>     <span class="sy0">=&gt;</span> <span class="nu0">1</span><span class="sy0">,</span>
+        <span class="st_h">'nombre'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Usuario 1'</span><span class="sy0">,</span>
+        <span class="st_h">'edad'</span>   <span class="sy0">=&gt;</span> <span class="st_h">'...'</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'id'</span>     <span class="sy0">=&gt;</span> <span class="nu0">54</span><span class="sy0">,</span>
+        <span class="st_h">'nombre'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Usuario 54'</span><span class="sy0">,</span>
+        <span class="st_h">'edad'</span>   <span class="sy0">=&gt;</span> <span class="st_h">'...'</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'id'</span>     <span class="sy0">=&gt;</span> <span class="nu0">231</span><span class="sy0">,</span>
+        <span class="st_h">'nombre'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Usuario 231'</span><span class="sy0">,</span>
+        <span class="st_h">'edad'</span>   <span class="sy0">=&gt;</span> <span class="st_h">'...'</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'id'</span>     <span class="sy0">=&gt;</span> <span class="nu0">4</span><span class="sy0">,</span>
+        <span class="st_h">'nombre'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Usuario 4'</span><span class="sy0">,</span>
+        <span class="st_h">'edad'</span>   <span class="sy0">=&gt;</span> <span class="st_h">'...'</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span>
+<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$nombres</span> <span class="sy0">=</span> array_column<span class="br0">&#40;</span><span class="re0">$resultado</span><span class="sy0">,</span> <span class="st_h">'nombre'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$nombresOrdenadosPorId</span> <span class="sy0">=</span> array_column<span class="br0">&#40;</span><span class="re0">$resultado</span><span class="sy0">,</span> <span class="st_h">'nombre'</span><span class="sy0">,</span> <span class="st_h">'id'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>El resultado de ejecutar el código anterior sería:</p>
+<pre class="php code"><span class="re0">$nombres</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="nu0">0</span> <span class="sy0">=&gt;</span> <span class="st_h">'Usuario 1'</span><span class="sy0">,</span>
+    <span class="nu0">1</span> <span class="sy0">=&gt;</span> <span class="st_h">'Usuario 54'</span><span class="sy0">,</span>
+    <span class="nu0">2</span> <span class="sy0">=&gt;</span> <span class="st_h">'Usuario 231'</span><span class="sy0">,</span>
+    <span class="nu0">3</span> <span class="sy0">=&gt;</span> <span class="st_h">'Usuario 4'</span><span class="sy0">,</span>
+    <span class="co1">// ...</span>
+<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$nombresOrdenadosPorId</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="nu0">1</span>   <span class="sy0">=&gt;</span> <span class="st_h">'Usuario 1'</span><span class="sy0">,</span>
+    <span class="nu0">54</span>  <span class="sy0">=&gt;</span> <span class="st_h">'Usuario 54'</span><span class="sy0">,</span>
+    <span class="nu0">231</span> <span class="sy0">=&gt;</span> <span class="st_h">'Usuario 231'</span><span class="sy0">,</span>
+    <span class="nu0">4</span>   <span class="sy0">=&gt;</span> <span class="st_h">'Usuario 4'</span><span class="sy0">,</span>
+    <span class="co1">// ...</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>Los valores de la columna que se utiliza como clave no tienen que ser necesariamente numéricos. Si los valores son cadenas de texto, la diferencia será que el array resultante es asociativo en vez de numérico.</p>
+<p>La nueva función <code>json_last_error_msg()</code> devuelve el último mensaje de error producido al ejecutar la función <code>json_encode()</code> o <code>json_decode()</code>. Si no se ha producido ningún error, devuelve <code>null</code>.</p>
+<p>Las versiones anteriores de PHP incluyen varias funciones para convertir una variable a un tipo determinado: <code>intval()</code>, <code>floatval()</code> y <code>strval()</code>. Ahora PHP 5.5 añade la función que faltaba: <code>boolval()</code>, que convierte cualquier variable en un valor booleano:</p>
+<pre class="php code">boolval<span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>             <span class="co1">// false</span>
+boolval<span class="br0">&#40;</span><span class="nu0">42</span><span class="br0">&#41;</span><span class="sy0">;</span>            <span class="co1">// true</span>
+boolval<span class="br0">&#40;</span><span class="nu19">0.0</span><span class="br0">&#41;</span><span class="sy0">;</span>           <span class="co1">// false</span>
+boolval<span class="br0">&#40;</span><span class="nu19">4.2</span><span class="br0">&#41;</span><span class="sy0">;</span>           <span class="co1">// true</span>
+boolval<span class="br0">&#40;</span><span class="st0">&quot;&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>            <span class="co1">// false</span>
+boolval<span class="br0">&#40;</span><span class="st0">&quot;string&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>      <span class="co1">// true</span>
+boolval<span class="br0">&#40;</span><span class="br0">&#91;</span><span class="nu0">1</span><span class="sy0">,</span> <span class="nu0">2</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>        <span class="co1">// true</span>
+boolval<span class="br0">&#40;</span><span class="br0">&#91;</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>            <span class="co1">// false</span>
+boolval<span class="br0">&#40;</span><span class="kw2">new</span> stdClass<span class="br0">&#41;</span><span class="sy0">;</span>  <span class="co1">// true</span></pre>
+<h2>Nuevas funciones relacionadas con bases de datos</h2>
+<p>La extensión <code>MySQLi</code> ha añadido tres nuevas funciones relacionadas con las transacciones:</p>
+<ul>
+<li><code>mysqli_begin_transaction()</code>, indica que debe empezar una transacción.</li>
+<li><code>mysqli_release_savepoint()</code>, deshace los cambios de una transacción y vuelve hasta el punto de guardado que se indica.</li>
+<li><code>mysqli_savepoint()</code>, crea un nuevo punto de guardado dentro de una transacción.</li>
+</ul>
+<p>Por su parte, la extensión <code>PostgreSQL</code> ha añadido dos nuevas funciones:</p>
+<ul>
+<li><code>pg_escape_literal()</code>, aplica el mecanismo de escape a un contenido antes de insertarlo en la base de datos. Se recomienda el uso de esta nueva función en vez de <code>pg_escape_string()</code>.</li>
+<li><code>pg_escape_identifier()</code>, aplica el mecanismo de escape a una cadena de texto que contiene el nombre de una tabla o de un campo de la base de datos y que va a ser utilizado en una consulta.</li>
+</ul>
+<h2>Nuevas funciones de la extensión <code>gd</code></h2>
+<p>La librería GD utilizada por PHP se ha actualizado a la versión 2.1, lo que añade nuevas funcionalidades, corrige algunos errores y mejora el rendimiento global.</p>
+<p>La nueva función <code>imageflip()</code> voltea horizontal o verticalmente una imagen. El primer argumento es la imagen que se manipula y el segundo es una constante que define el tipo de volteo a realizar: horizontal (<code>IMG_FLIP_HORIZONTAL</code>), vertical (<code>IMG_FLIP_VERTICAL</code>) o los dos a la vez (<code>IMG_FLIP_BOTH</code>).</p>
+<pre class="php code"><span class="re0">$rutaImagen</span> <span class="sy0">=</span> <span class="st_h">'foto.png'</span><span class="sy0">;</span>
+<span class="re0">$imagen</span> <span class="sy0">=</span> <span class="kw3">imagecreatefrompng</span><span class="br0">&#40;</span><span class="re0">$rutaImagen</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// voltearla verticalmente</span>
+imageflip<span class="br0">&#40;</span><span class="re0">$imagen</span><span class="sy0">,</span> IMG_FLIP_VERTICAL<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// mostrar la imagen en el navegador</span>
+<span class="kw3">imagejpeg</span><span class="br0">&#40;</span><span class="re0">$imagen</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw3">imagedestroy</span><span class="br0">&#40;</span><span class="re0">$imagen</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>Ahora también es posible redimensionar imágenes con la función <code>imagescale()</code>. El primer argumento indica la imagen a redimensionar, el segundo argumento indica la nueva anchura en píxeles, el tercer argumento opcional indica la nueva altura en píxeles y el cuarto argumento opcional indica el tipo de escalado que se aplica:</p>
+<pre class="php code"><span class="re0">$imagen</span> <span class="sy0">=</span> <span class="kw3">imagecreatefrompng</span><span class="br0">&#40;</span><span class="st_h">'foto.png'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// la nueva anchura de la imagen será 600 píxel</span>
+<span class="co1">// (la altura se calcula automáticamente para mantener las proporciones)</span>
+imagescale<span class="br0">&#40;</span><span class="re0">$imagen</span><span class="sy0">,</span> <span class="nu0">600</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// la nueva imagen será de 600 x 350 píxeles</span>
+<span class="co1">// (aunque eso suponga deformar la imagen original)</span>
+imagescale<span class="br0">&#40;</span><span class="re0">$imagen</span><span class="sy0">,</span> <span class="nu0">600</span><span class="sy0">,</span> <span class="nu0">350</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// el método empleado para redimensionar la imagen será</span>
+<span class="co1">// el escalado bicúbico, mucho más lento pero de más calidad</span>
+<span class="co1">// las constantes definidas son:</span>
+<span class="co1">//   * IMG_NEAREST_NEIGHBOUR</span>
+<span class="co1">//   * IMG_BILINEAR_FIXED</span>
+<span class="co1">//   * IMG_BICUBIC</span>
+<span class="co1">//   * IMG_BICUBIC_FIXED</span>
+imagescale<span class="br0">&#40;</span><span class="re0">$imagen</span><span class="sy0">,</span> <span class="nu0">600</span><span class="sy0">,</span> <span class="nu0">350</span><span class="sy0">,</span> IMG_BICUBIC<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>Recortar imágenes es un requerimiento habitual en las aplicaciones web. La nueva función <code>imagecrop()</code> simplifica al máximo esta tarea. Su primer argumento es la imagen a recortar y el segundo argumento es un array asociativo con las claves <code>x</code>, <code>y</code>, <code>width</code> y <code>height</code> que definen el área de corte:</p>
+<pre class="php code"><span class="re0">$imagen</span> <span class="sy0">=</span> <span class="kw3">imagecreatefrompng</span><span class="br0">&#40;</span><span class="st_h">'foto.png'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+imagecrop<span class="br0">&#40;</span><span class="re0">$imagen</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'x'</span> <span class="sy0">=&gt;</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="st_h">'y'</span> <span class="sy0">=&gt;</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="st_h">'width'</span> <span class="sy0">=&gt;</span> <span class="nu0">100</span><span class="sy0">,</span> <span class="st_h">'height'</span> <span class="sy0">=&gt;</span> <span class="nu0">200</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>Además de la función <code>imagecrop()</code> PHP 5.5 define una función relacionada llamada <code>imagecropauto()</code> para recortar las imágenes de forma automática. Su primer argumento es la imagen a recortar y el segundo argumento es alguna de las siguientes constantes: <code>IMG_CROP_DEFAULT</code>,<code>IMG_CROP_TRANSPARENT</code>,<code>IMG_CROP_BLACK</code>,<code>IMG_CROP_WHITE</code> y <code>IMG_CROP_SIDES</code>.</p>
+<pre class="php code"><span class="re0">$imagen</span> <span class="sy0">=</span> <span class="kw3">imagecreatefrompng</span><span class="br0">&#40;</span><span class="st_h">'foto.png'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+imagecrop<span class="br0">&#40;</span><span class="re0">$imagen</span><span class="sy0">,</span> IMG_CROP_TRANSPARENT<span class="br0">&#41;</span><span class="sy0">;</span>
+imagecrop<span class="br0">&#40;</span><span class="re0">$imagen</span><span class="sy0">,</span> IMG_CROP_SIDES<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>Por último, se han añadido otras tres funciones menos importantes: <code>imageaffinematrixconcat()</code>, <code>imageaffinematrixget()</code> y <code>imagepalettetotruecolor()</code>, que convierte una imagen con un número limitado de colores en una imagen de color verdadero.</p>
+<h2>Nuevas funciones de la extensión <code>curl</code></h2>
+<p>La principal función añadida por la extensión <code>cURL</code> es <code>curl_file_create()</code>, que permite crear fácilmente un objeto de tipo <code>CURLFile</code> para subir archivos con el método <code>POST</code> de HTTP. Su primer argumento es la ruta del archivo, el segundo argumento opcional es el tipo MIME del archivo y el tercer parámetro opcional es el nombre con el que se subirá el archivo:</p>
+<pre class="php code"><span class="re0">$ch</span> <span class="sy0">=</span> <span class="kw3">curl_init</span><span class="br0">&#40;</span><span class="st_h">'http://librosweb.es/subir_archivo.php'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$archivoCurl</span> <span class="sy0">=</span> curl_file_create<span class="br0">&#40;</span><span class="st_h">'foto.jpg'</span><span class="sy0">,</span><span class="st_h">'image/jpeg'</span><span class="sy0">,</span><span class="st_h">'otro_nombre'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw3">curl_setopt</span><span class="br0">&#40;</span><span class="re0">$ch</span><span class="sy0">,</span> CURLOPT_POST<span class="sy0">,</span><span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw3">curl_setopt</span><span class="br0">&#40;</span><span class="re0">$ch</span><span class="sy0">,</span> CURLOPT_POSTFIELDS<span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'otro_nombre'</span> <span class="sy0">=&gt;</span> <span class="re0">$archivoCurl</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw3">curl_exec</span><span class="br0">&#40;</span><span class="re0">$ch</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>Si ejecutas el código del ejemplo anterior, el <em>script</em> que responda  la URL <code>subir_archivo.php</code> recibirá un archivo llamado <code>otro_nombre</code>, de tipo JPEG y que contiene la imagen del archivo <code>foto.jpg</code>.</p>
+<p>Además de esta función, se han añadido dos funciones complementarias llamadas <code>curl_escape()</code> y <code>curl_unescape()</code>. La primera codifica una cadena de texto para que sea seguro incluirla como parte de una URL. La segunda hace el proceso inverso para recuperar el contenido original de una cadena de texto codificada como parte de una URL.</p>
+<p>Por último, se han añadido otras funciones como <code>curl_pause()</code>, que detiene o continúa la ejecución de las peticiones y <code>curl_reset()</code> que inicializa todas las opciones de la conexión a sus valores por defecto. Para ver el resto de funciones añadidas por <code>cURL</code> consulta el siguiente enlace: <a href="http://php.net/manual/en/migration55.new-functions.php#migration55.new-functions.curl">New cURL functions</a>.</p>
+<h2>Nuevas funciones de la extensión <code>socket</code></h2>
+<p>La extensión <code>Socket</code> ha definido tres nuevas funciones: <code>socket_sendmsg()</code> para enviar un mensaje a través de un socket, <code>socket_recvmsg()</code> que es la función complementaria para leer los mensajes recibidos a través de un socket y <code>socket_cmsg_space()</code>, que calcula el tamaño que debería reservarse como <em>buffer</em> de mensajes.</p>
+<h2>Nuevas funciones de la extensión <code>intl</code></h2>
+<p>La extensión <code>intl</code> es con diferencia la que más funciones ha añadido en esta nueva versión de PHP. Además, en el momento de escribir este tutorial casi ninguna de esas funciones está documentada. Ver <a href="http://php.net/manual/en/migration55.new-functions.php#migration55.new-functions.intl">listado de nuevas funciones intl</a>.</p>
+<h2>Nuevas funciones para la línea de comandos</h2>
+<p>Si ejecutas <em>scripts</em> de PHP a través de la consola de comandos, ahora puedes establecer el nombre del proceso bajo el que se ejecuta PHP. Este nombre es el que luego aparece al listar los procesos del servidor con comandos como <code>top</code> y <code>ps</code>. Establece el nombre del proceso PHP con la función <code>cli_set_process_title()</code> y obtén el nombre del proceso actual con la función <code>cli_get_process_title()</code>.</p>
+<h2>Nuevos argumentos para las funciones</h2>
+<p>Además de añadir nuevas funciones, PHP 5.5 cambia los argumentos de algunas de las funciones existentes.</p>
+<p>La función <code>json_encode()</code> ahora admite un tercer parámetro llamado <code>$depth</code> y que indica hasta qué nivel de profundidad (para los arrays) o hasta que nivel de recursividad (para los objetos) se tiene en cuenta para codificar el objeto o array.</p>
+<p>Las funciones <code>set_error_handler()</code> y <code>set_exception_handler()</code> ahora admiten el valor <code>null</code> como argumento. En ese caso, devuelven respectivamente el anterior <em>handler</em>  para errores y excepciones.</p>
+<p>Las funciones de la extensión <code>intl</code> han recibido muchos cambios, que puedes consultar con detalle en el artículo <em><a href="http://php.net/manual/en/migration55.changed-functions.php#migration55.changed-functions.intl">Changed Functions</a></em></p>
+<p>Por último, la función <code>preg_replace()</code> ya no soporta el modificador <code>/e</code>. Utiliza en su lugar la función <code>preg_replace_callback()</code>.</p>
+<h2>Cambios incompatibles con las versiones anteriores de PHP</h2>
+<p>Para que su funcionamiento sea más parecido al del lenguaje Perl, se ha modificado el comportamiento de las funciones <code>pack()</code> y <code>unpack()</code>.</p>
+<p>La función <code>pack()</code> ahora soporta el formato <code>Z</code>, que se comporta igual que el formato <code>a</code> disponible anteriormente.</p>
+<p>La función <code>unpack()</code> ha sufrido varios cambios:</p>
+<ul>
+<li>Ahora soporta el formato <code>Z</code> para las cadenas rellenas con el carácter <code>NULL</code> y se comporta igual que el formato <code>a</code> (elimina todos los bytes <code>NULL</code> sobrantes).</li>
+<li>Si se utiliza el formato <code>a</code>, se mantienen todos los bytes <code>null</code> sobrantes</li>
+<li>El formato <code>A</code> ahora eliminar todos los espacios en blanco sobrantes.</li>
+</ul>
+<p>El siguiente ejemplo muestra el código que debes utilizar en PHP 5.5 para mantener la retrocompatibilidad de los datos comprimidos con el formato <code>a</code>:</p>
+<pre class="php code"><span class="co1">// código válido antes de PHP 5.5</span>
+<span class="re0">$datos</span> <span class="sy0">=</span> <span class="kw3">unpack</span><span class="br0">&#40;</span><span class="st_h">'a5'</span><span class="sy0">,</span> <span class="re0">$datosComprimidos</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// a partir de PHP 5.5 el comportamiento cambia</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw3">version_compare</span><span class="br0">&#40;</span><span class="kw4">PHP_VERSION</span><span class="sy0">,</span> <span class="st_h">'5.5.0-dev'</span><span class="sy0">,</span> <span class="st_h">'&gt;='</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="re0">$datos</span> <span class="sy0">=</span> <span class="kw3">unpack</span><span class="br0">&#40;</span><span class="st_h">'Z5'</span><span class="sy0">,</span> <span class="re0">$datosComprimidos</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+  <span class="re0">$datos</span> <span class="sy0">=</span> <span class="kw3">unpack</span><span class="br0">&#40;</span><span class="st_h">'a5'</span><span class="sy0">,</span> <span class="re0">$datosComprimidos</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<p>Por otra parte, se han declarado obsoletas las siguientes cuatro funciones de la extensión <code>Mcrypt</code>: <code>mcrypt_cbc()</code>, <code>mcrypt_cfb()</code>, <code>mcrypt_ecb()</code> y <code>mcrypt_ofb()</code>.</p>
+<h2>Funciones eliminadas</h2>
+<p>Por su poca utilidad práctica, PHP 5.5 ha eliminado las siguientes cuatro funciones cuyo resultado únicamente servía para mostrar el logotipo de PHP: <code>php_logo_guid()</code>, <code>php_egg_logo_guid()</code>, <code>php_real_logo_guid()</code> y <code>zend_logo_guid()</code>.</p>
+
+                    </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+    <div class="module module-share">
+    <h3>Compartir</h3>
+    <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = 'Las nuevas funciones de PHP 5.5';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+</div>
+
+
+    
+<div class="module module-tags">
+    <h3>Etiquetas populares</h3>
+    <ul class="tags-list">
+                    <li class="">
+                <a href="/tutoriales/composer/">composer</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/css/">css</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/dise%C3%B1o/">diseño</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/html/">html</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/javascript/">javascript</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/php/">php</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/programaci%C3%B3n/">programación</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/sistemas/">sistemas</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/symfony/">symfony</a>
+            </li>
+            </ul>
+</div>
+
+
+    <div class="module module-rss">
+    <h3>Suscríbete gratis</h3>
+    <ul class="list-unstyled text-links module-rss-feeds">
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/todos.xml">
+                <strong>Todos</strong> los tutoriales
+            </a>
+        </li>
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/diseno.xml">
+                Tutoriales de <strong>diseño</strong>
+            </a>
+        </li>
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/programacion.xml">
+                Tutoriales de <strong>programación</strong>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

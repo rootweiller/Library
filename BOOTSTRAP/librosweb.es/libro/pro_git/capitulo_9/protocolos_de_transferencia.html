@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>9.6. Protocolos de transferencia (Pro Git, el libro oficial de Git)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_9/las_especificaciones_para_hacer_referencia_refspec.html" />
+                    <link rel="next" href="../capitulo_9/mantenimiento_y_recuperacion_de_datos.html" />
+                <link rel="start" href="/libro/pro_git/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="9.6. Protocolos de transferencia (Pro Git, el libro oficial de Git)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page pro_git"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/" itemprop="url">
+                    <span itemprop="title">Pro Git, el libro oficial de Git</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/capitulo_9.html" itemprop="url">
+                    <span itemprop="title">Capítulo 9. Funcionamiento interno de Git</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>9.6. Protocolos de transferencia</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="protocolos_de_transferencia" class="title">
+        <span>9.6.</span> Protocolos de transferencia
+    </h1>
+
+    
+
+<p>Git puede transferir datos entre dos repositorios utilizando uno de sus dos principales mecanismos de transporte: sobre HTTP (<em>protocolo tonto</em>), o sobre los denominados <em>protocolos inteligentes</em> (utilizados en  <code>file://</code>, <code>ssh://</code> o <code>git://</code>).  En esta parte, se verán brevemente cómo trabajan esos dos tipos de protocolo.</p>
+
+<h3 id="el_protocolo_tonto_dumb">9.6.1. El protocolo tonto (dumb)</h3>
+
+<p>El transporte de Git sobre protocolo HTTP es conocido también como <em>protocolo tonto</em> porque no requiere ningún tipo de codigo Git en la parte servidor. El proceso de recuperación (<em>fetch</em>) de datos se limita a una serie de peticiones GET, siendo el cliente quien ha de conocer la estructura del repositorio Git en el servidor. Vamos a revisar el proceso <code>http-fetch</code> para una libreria simple de Git:</p>
+
+<div class="code code">
+<pre class="code">$ git clone http://github.com/schacon/simplegit-progit.git</pre>
+</div>
+
+<p>Lo primero que hace este comando es recuperar el archivo <code>info/refs</code>.  Este es un archivo escrito por el comando <code>update-server-info</code>, el que has de habilitar como enganche (<em>hook</em>)  <code>post-receive</code> para permitir funcionar correctamente al transporte HTTP:</p>
+
+<div class="code code">
+<pre class="code">=&gt; GET info/refs
+ca82a6dff817ec66f44342007202690a93763949     refs/heads/master</pre>
+</div>
+
+<p>A partir de ahi, ya tienes una lista de las referencias remotas y sus SHAs. Lo siguiente es mirar cuál es la referencia a <code>HEAD</code>, de tal forma que puedas saber el punto a activar (<em>checkout</em>) cuando termines:</p>
+
+<div class="code code">
+<pre class="code">=&gt; GET HEAD
+ref: refs/heads/master</pre>
+</div>
+
+<p>Ves que es la rama <code>master</code> la que has de activar cuando el proceso esté completado. En este punto, ya estás preparado para seguir procesando el resto de los objetos. En el archivo <code>info/refs</code> se ve que el punto de partida es la confirmación de cambios (<em>commit</em>) <code>ca82a6</code>, y, por tanto, comenzaremos recuperandola:</p>
+
+<div class="code code">
+<pre class="code">=&gt; GET objects/ca/82a6dff817ec66f44342007202690a93763949
+(179 bytes of binary data)</pre>
+</div>
+
+<p>Cuando recuperas un objeto, dicho objeto se encuentra sin comprimir (<em>loose</em>) en el servidor y lo traes mediante una petición estática HTTP GET. Puedes descomprimirlo, quitarle la cabecera y mirar el contenido:</p>
+
+<div class="code code">
+<pre class="code">$ git cat-file -p ca82a6dff817ec66f44342007202690a93763949
+tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
+parent 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+author Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="1c6f7f747d7f73725c7b717d7570327f7371">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt; 1205815931 -0700
+committer Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="2655454e4745494866414b474f4a0845494b">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt; 1240030591 -0700</pre>
+</div>
+
+<div class="code code">
+<pre class="code">changed the version number</pre>
+</div>
+
+<p>Tras esto, ya tienes más objetos a recuperar — el árbol de contenido <code>cfda3b</code> al que apunta la confirmación de cambios; y la confirmación de cambios padre <code>085bb3</code> —.</p>
+
+<div class="code code">
+<pre class="code">=&gt; GET objects/08/5bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+(179 bytes of data)</pre>
+</div>
+
+<p>El siguiente objeto confirmación de cambio (<em>commit</em>). Y el árbol de contenido:</p>
+
+<div class="code code">
+<pre class="code">=&gt; GET objects/cf/da3bf379e4f8dba8717dee55aab78aef7f4daf
+(404 - Not Found)</pre>
+</div>
+
+<p>Pero... ¡Ay!... parece que el objeto árbol no está <em>suelto</em> en el servidor. Por lo que obtienes una respuesta <code>404</code> (objeto no encontrado). Puede haber un par de razones para que suceda esto: el objeto está en otro repositorio alternativo; o el objeto está en este repositorio, pero dentro de un objeto empaquetador (<em>packfile</em>). Git comprueba primero a ver si en el listado hay alguna alternativa:</p>
+
+<div class="code code">
+<pre class="code">=&gt; GET objects/info/http-alternates
+(empty file)</pre>
+</div>
+
+<p>En el caso de que esto devolviera una lista de ubicaciones (URL) alternativas, Git busca en ellas. (Es un mecanismo muy adecuado en aquellos proyectos donde hay segmentos derivados uno de otro compartiendo objetos en disco). Pero, en este caso, no hay altenativas. Por lo que el objeto debe encontrarse dentro de un empaquetado. Para ver que empaquetados hay disponibles en el servidor, has de recuperar el archivo <code>objects/info/packs</code>. Este contiene una lista de todos ellos: (que ha sido generada por <code>update-server-info</code>)</p>
+
+<div class="code code">
+<pre class="code">=&gt; GET objects/info/packs
+P pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack</pre>
+</div>
+
+<p>Vemos que hay un archivo empaquetado, y el objeto buscado ha de encontrarse dentro de él; pero merece comprobarlo revisando el archivo de índice, para asegurarse. Hacer la comprobacion es sobre todo util en aquellos casos donde existan multiples archivos empaquetados en el servidor, para determinar así en cual de ellos se encuentra el objeto que necesitas:</p>
+
+<div class="code code">
+<pre class="code">=&gt; GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.idx
+(4k of binary data)</pre>
+</div>
+
+<p>Una vez tengas el índice del empaquetado, puedes mirar si el objeto buscado está en él, (Dicho índice contiene la lista de SHAs de los objetos dentro del empaquetado y las ubicaciones — offsets — de cada uno de llos dentro de él). Una vez comprobada la presencia del objeto, adelante con la recuperación de todo el archivo empaquetado:</p>
+
+<div class="code code">
+<pre class="code">=&gt; GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
+(13k of binary data)</pre>
+</div>
+
+<p>Cuando tengas el objeto árbol, puedes continuar avanzando por las confirmaciones de cambio. Y, como estás también están dentro del archivo empaquetado que acabas de descargar, ya no necesitas hacer mas peticiones al servidor. Git activa una copia de trabajo de la rama  <code>master</code> señalada por la referencia HEAD que has descargado al principio.</p>
+
+<p>La salida completa de todo el proceso es algo como esto:</p>
+
+<div class="code code">
+<pre class="code">$ git clone http://github.com/schacon/simplegit-progit.git
+Initialized empty Git repository in /private/tmp/simplegit-progit/.git/
+got ca82a6dff817ec66f44342007202690a93763949
+walk ca82a6dff817ec66f44342007202690a93763949
+got 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Getting alternates list for http://github.com/schacon/simplegit-progit.git
+Getting pack list for http://github.com/schacon/simplegit-progit.git
+Getting index for pack 816a9b2334da9953e530f27bcac22082a9f5b835
+Getting pack 816a9b2334da9953e530f27bcac22082a9f5b835
+ which contains cfda3bf379e4f8dba8717dee55aab78aef7f4daf
+walk 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+walk a11bef06a3f659402fe7563abf99ad00de2209e6</pre>
+</div>
+
+<h3 id="el_protocolo_inteligente_smart">9.6.2. El protocolo inteligente (smart)</h3>
+
+<p>HTTP es un protocolo simple, pero ineficiente. Es mucho más común utilizar protocolos inteligentes para transferir datos. Estos protocolos suelen tener procesos en el lado remoto y conocen acerca de la estructura de datos Git en ese lado, — pueden leer datos localmente y determinar lo que el cliente tiene ya o necesita a continuación, para generar automáticamente datos expresamente preparados para él —. Existen dos conjuntos de procesos para transferir datos: uno para para enviar y otro par para recibir.</p>
+
+<h4 id="enviando_datos_uploading">9.6.2.1. Enviando datos, (Uploading)</h4>
+
+<p>Para enviar datos a un proceso remoto, Git utliza  <code>send-pack</code> (enviar paquete) y <code>receive-pack</code> (recibir paquete).  El proceso <code>send-pack</code>  corre en el cliente y conecta con el proceso <code>receive-pack</code> corriendo en el lado remoto.</p>
+
+<p>Por ejemplo, si lanzas el comando <code>git push origin master</code> en tu proyecto y <code>origin</code> está definida como una ubicación que utiliza el protocolo SSH.  Git lanzará el proceso <code>send-pack</code> , con el que establece conexión SSH con tu servidor. En el servidor remoto, a través de una llamada SSH, intentará lanzar un comando tal como:</p>
+
+<div class="code code">
+<pre class="code">$ ssh -x <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="41262835012628352934236f222e2c">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script> &quot;git-receive-pack 'schacon/simplegit-progit.git'&quot;
+005bca82a6dff817ec66f4437202690a93763949 refs/heads/master report-status delete-refs
+003e085bb3bcb608e1e84b2432f8ecbe6306e7e7 refs/heads/topic
+0000</pre>
+</div>
+
+<p>El comando <code>git-receive-pack</code> responde con una linea por cada una de las referencias que tenga, — en este caso, la rama <code>master</code> y su SHA —.  La primera linea suele indicar también una lista con las capacidades del servidor, (en este caso: <code>report-status</code>, dar situación, y <code>delete-refs</code>, borrar referencias).</p>
+
+<p>Cada linea comienza con un valor de 4 bytes, en hexadecimal, indicando la longitud del resto de la linea. La primera de las lineas comienza con <code>005b</code>, que es <code>91</code> en decimal, indicandonos que hay 91 bytes más en esa línea. La siguiente línea comienza con <code>003e</code>, que es <code>62</code> en decimal, por lo que has de leer otros 62 bytes hasta el final de la linea. Y la última linea comienza con <code>0000</code>, indicando así que la lista de referencias ha terminado.</p>
+
+<p>Con esta información, el proceso <code>send-pack</code> ya puede determnar las confirmaciones de cambios (<em>commits</em>) presentes en el servidor.  Para cada una de las referencias que se van a actualizar, el proceso <code>send-pack</code> llama al proceso <code>receive-pack</code> con la información pertinente. Por ejemplo, si estás actualizando la rama <code>master</code> y añadiendo otra rama <code>experiment</code>, la respuesta del proceso <code>send-pack</code> será algo así como:</p>
+
+<div class="code code">
+<pre class="code">0085ca82a6dff817ec66f44342007202690a93763949  15027957951b64cf874c3557a0f3547bd83b3ff6 refs/heads/master report-status
+00670000000000000000000000000000000000000000 cdfdb42577e2506715f8cfeacdbabc092bf63e8d refs/heads/experiment
+0000</pre>
+</div>
+
+<p>Una clave SHA-1 con todo ceros, nos indica que no había nada anteriormente, y que, por tanto, estamos añadiendo una nueva referencia. Si estuvieras borrando una referencia existente, verias lo contrario: una clave todo ceros en el lado derecho.</p>
+
+<p>Git envia una linea por cada referencia a actualizar, indicando el viejo SHA, el nuevo SHA y la referencia a actualizar. La primera linea indica también las capacidades disponibles en el cliente. A continuación, el cliente envia un archivo empaquetado con todos los objetos que faltan en el servidor. Y, por ultimo, el servidor responde con un indicador de éxito (o fracaso) de la operación:</p>
+
+<div class="code code">
+<pre class="code">000Aunpack ok</pre>
+</div>
+
+<h4 id="descargando_datos">9.6.2.2. Descargando datos</h4>
+
+<p>Cuando descargas datos, los procesos que se ven envueltos son <code>fetch-pack</code> (recuperar paquete) y <code>upload-pack</code> (enviar paquete).  El cliente arranca un proceso <code>fetch-pack</code>, para conectar con un proceso <code>upload-pack</code> en el lado servidor y negociar con él los datos a transferir.</p>
+
+<p>Hay varias maneras de iniciar un proceso <code>upload-pack</code> en el repositorio remoto. Se puede lanzar a través de SSH, de la misma forma que se arrancaba el proceso <code>receive-pack</code>. O se puede arrancar a traves del demonio Git, que suele estar escuchando por el puerto 9418. Tras la conexión, el proceso <code>fetch-pack</code> envia datos de una forma parecida a esta:</p>
+
+<div class="code code">
+<pre class="code">003fgit-upload-pack schacon/simplegit-progit.git\0host=myserver.com\0</pre>
+</div>
+
+<p>Como siempre, comienza con cuatro bytes indicadores de cuantos datos siguen a continuación, siguiendo con el comando a lanzar, y terminando con un byte nulo, el nombre del servidor y otro byte nulo más. El demonio Git realizará las comprobaciones de si el comando se puede lanzar, si el repositorio existe y si tenemos permisos. Siendo todo correcto, el demonio lanzará el proceso <code>upload-pack</code> y procesara nuestra petición.</p>
+
+<p>Si en lugar de utilizar el demonio Git, estás utilizando el protocolo SSH. <code>fetch-pack</code> lanzará algo como esto:</p>
+
+<div class="code code">
+<pre class="code">$ ssh -x <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="4d2a24390d2a243925382f632e2220">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script> &quot;git-upload-pack 'schacon/simplegit-progit.git'&quot;</pre>
+</div>
+
+<p>En cualquier caso, después de establecer conexión, <code>upload-pack</code> responderá:</p>
+
+<div class="code code">
+<pre class="code">0088ca82a6dff817ec66f44342007202690a93763949 HEAD\0multi_ack thin-pack \
+  side-band side-band-64k ofs-delta shallow no-progress include-tag
+003fca82a6dff817ec66f44342007202690a93763949 refs/heads/master
+003e085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 refs/heads/topic
+0000</pre>
+</div>
+
+<p>La respuesta es muy similar a la dada por <code>receive-pack</code>, pero las capacidades que se indican son diferentes. Además, nos indica la referencia <code>HEAD</code>, para que el cliente pueda saber qué ha de activar (<em>check out</em>) en el caso de estar requiriendo un clon.</p>
+
+<p>En este punto, el proceso <code>fetch-pack</code> revisa los objetos que tiene y responde indicando los objetos que necesita. Enviando <em>"want"</em> (quiero) y la clave SHA que necesita. Los objetos que ya tiene, los envía con <em>"have"</em> (tengo) y la correspondiente clave SHA. Llegando al final de la lista, escribe <em>"done"</em> (hecho). Para indicar al proceso <code>upload-pack</code> que ya puede comenzar a enviar el archivo empaquetado con los datos requeridos:</p>
+
+<div class="code code">
+<pre class="code">0054want ca82a6dff817ec66f44342007202690a93763949 ofs-delta
+0032have 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+0000
+0009done</pre>
+</div>
+
+<p>Este es un caso muy sencillo para ilustrar los protocolos de trasferencia. En casos más complejos, el cliente explota las capacidades de <code>multi_ack</code> (<em>multiples confirmaciones</em>) o <code>side-band</code> (<em>banda lateral</em>). Pero este ejemplo muestra los intercambios básicos empleados en los protocolos inteligentes.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_9/las_especificaciones_para_hacer_referencia_refspec.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>9.5. Las especificaciones para hacer referencia (refspec)</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_9/mantenimiento_y_recuperacion_de_datos.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>9.7. Mantenimiento y recuperación de datos</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Fundamentos de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Trabajando con ramas en Git</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Git en un servidor</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Git en entornos distribuidos</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Las herramientas de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Personalizando Git</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Git y otros sistemas</a>
+            </li>
+                                                                                            <li class="level-1 ">
+                <a href="../capitulo_9.html">
+                    <span>Capítulo 9.</span> Funcionamiento interno de Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/fontaneria_y_porcelana.html">
+                    <span>9.1.</span> Fontaneria y porcelana
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/los_objetos_git.html">
+                    <span>9.2.</span> Los objetos Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/referencias_git.html">
+                    <span>9.3.</span> Referencias Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/archivos_empaquetadores.html">
+                    <span>9.4.</span> Archivos empaquetadores
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/las_especificaciones_para_hacer_referencia_refspec.html">
+                    <span>9.5.</span> Las especificaciones para hacer referencia (refspec)
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_9/protocolos_de_transferencia.html">
+                    <span>9.6.</span> Protocolos de transferencia
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/mantenimiento_y_recuperacion_de_datos.html">
+                    <span>9.7.</span> Mantenimiento y recuperación de datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/resumen.html">
+                    <span>9.8.</span> Resumen
+                </a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

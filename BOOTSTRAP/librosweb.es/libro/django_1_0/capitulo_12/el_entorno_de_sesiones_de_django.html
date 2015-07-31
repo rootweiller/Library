@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>12.2. El entorno de sesiones de Django (El libro de Django 1.0)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_12/cookies.html" />
+                    <link rel="next" href="../capitulo_12/usuarios_e_identificacion.html" />
+                <link rel="start" href="/libro/django_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="12.2. El entorno de sesiones de Django (El libro de Django 1.0)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page django_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/" itemprop="url">
+                    <span itemprop="title">El libro de Django 1.0</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/capitulo_12.html" itemprop="url">
+                    <span itemprop="title">Capítulo 12. Sesiones, usuario e inscripciones</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>12.2. El entorno de sesiones de Django</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="el_entorno_de_sesiones_de_django" class="title">
+        <span>12.2.</span> El entorno de sesiones de Django
+    </h1>
+
+    
+
+<p>Con todas estas limitaciones y agujeros potenciales de seguridad, es obvio
+que la gestión de las cookies y de las sesiones persistentes es el origen
+de muchos dolores de cabeza para los desarrolladores web. Por supuesto,
+uno de los objetivos de Django es evitar eficazmente estos dolores de cabeza, 
+así que dispone de un entorno de sesiones diseñado para suavizar y facilitar 
+todas estas cuestiones por vos.</p>
+
+<p>El entorno de sesiones te permite almacenar y recuperar cualquier dato
+que quieras basándote en la sesión del usuario. Almacena la información 
+relevante solo en el servidor y abstrae todo el problema del envío y recepción 
+de las cookies. Estas solo almacenan una versión codificada (<em>hash</em>) del 
+identificador de la sesión, y ningún otro dato, lo cual te aisla de la mayoría 
+de los problemas asociados con las cookies.</p>
+
+<p>Veamos como activar las sesiones, y como usarlas en nuestras vistas.</p>
+
+<h3 id="activar_sesiones">12.2.1. Activar sesiones</h3>
+
+<p>Las sesiones se implementan mediante un poco de <em>middleware</em> (véase Capítulo 
+15) y un modelo Django. Para activar las sesiones, necesitas seguir los
+siguientes pasos:</p>
+
+<ol>
+<li>Editar el valor de <code>MIDDLEWARE_CLASSES</code> de forma que contenga
+ <code>'django.contrib.sessions.middleware.SessionMiddleware'</code>.</li>
+<li>Comprobar que <code>'django.contrib.sessions'</code> esté incluido
+ en el valor de <code>INSTALLED_APPS</code> (y ejecutar <code>manage.py syncdb</code>
+ si lo tuviste que añadir).</li>
+</ol>
+
+<p>Los valores por defecto creados por <code>startproject</code> ya tienes estas dos
+características habilitadas, así que a menos que las hayas borrado, es
+muy probable que no tengas que hacer nada para empezar a usar las
+sesiones.</p>
+
+<p>Si lo que quieres en realidad es no usar sesiones, deberías quitar
+la referencia a <code>SessionMiddleware</code> de <code>MIDDLEWARE_CLASSES</code> y
+borrar <code>'django.contrib.sessions'</code> de <code>INSTALLED_APPS</code>. Esto
+te ahorrará sólo un poco de sobrecarga, pero toda ayuda es buena.</p>
+
+<h3 id="usar_las_sesiones_en_una_vista">12.2.2. Usar las sesiones en una vista</h3>
+
+<p>Cuando están activadas las sesiones, los objetos <code>HttpRequest</code> — el
+primer argumento de cualquier función que actúe como una vista en Django —
+tendrán un atributo llamado <code>session</code>, que se comporta igual
+que un diccionario. Se puede leer y escribir en él de la misma forma
+en que lo harías con un diccionario normal. Por ejemplo, podrías usar
+algo como esto en una de tus vistas:</p>
+
+<div class="code python">
+<pre class="python"><span class="co1"># Set a session value:</span>
+request.<span class="me1">session</span><span class="br0">&#91;</span><span class="st0">&quot;fav_color&quot;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st0">&quot;blue&quot;</span>
+&nbsp;
+<span class="co1"># Get a session value -- this could be called in a different view,</span>
+<span class="co1"># or many requests later (or both):</span>
+fav_color <span class="sy0">=</span> request.<span class="me1">session</span><span class="br0">&#91;</span><span class="st0">&quot;fav_color&quot;</span><span class="br0">&#93;</span>
+&nbsp;
+<span class="co1"># Clear an item from the session:</span>
+<span class="kw1">del</span> request.<span class="me1">session</span><span class="br0">&#91;</span><span class="st0">&quot;fav_color&quot;</span><span class="br0">&#93;</span>
+&nbsp;
+<span class="co1"># Check if the session has a given key:</span>
+<span class="kw1">if</span> <span class="st0">&quot;fav_color&quot;</span> <span class="kw1">in</span> request.<span class="me1">session</span>:
+    ...</pre>
+</div>
+
+<p>También puedes usar otros métodos propios de un diccionario como <code>keys()</code>
+o <code>items()</code> en <code>request.session</code>.</p>
+
+<p>Hay dos o tres reglas muy sencillas para usar eficazmente las sesiones en Django:</p>
+
+<ul>
+<li>Debes usar sólo cadenas de texto normales como valores de clave
+en <code>request.session</code>, en vez de, por ejemplo, enteros, objetos, etc. Esto
+es más un convenio que un regla en el sentido estricto, pero merece la pena
+seguirla.</li>
+<li>Los valores de las claves de una sesión que empiecen con el carácter
+subrayado están reservadas para uso interno de Django. En la práctica, sólo
+hay unas pocas variables así, pero, a no ser que sepas lo que estás
+haciendo (y estés dispuesto a mantenerte al día en los cambios internos
+de Django), lo mejor que puedes hacer es evitar usar el carácter subrayado
+como prefijo en tus propias variables; eso impedirá que Django
+pueda interferir con tu aplicación,</li>
+<li>Nunca reemplaces <code>request.session</code> por otro objeto, y nunca accedas
+o modifiques sus atributos. Utilízalo sólo como si fuera un diccionario.</li>
+</ul>
+
+<p>Veamos un ejemplo rápido. Esta vista simplificada define una variable
+<code>has_commented</code> como <code>True</code> después de que el usuario haya publicado
+un comentario. Es una forma sencilla (aunque no particularmente segura) de
+impedir que el usuario publique dos veces el mismo comentario:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> post_comment<span class="br0">&#40;</span>request<span class="sy0">,</span> new_comment<span class="br0">&#41;</span>:
+    <span class="kw1">if</span> request.<span class="me1">session</span>.<span class="me1">get</span><span class="br0">&#40;</span><span class="st0">'has_commented'</span><span class="sy0">,</span> <span class="kw2">False</span><span class="br0">&#41;</span>:
+        <span class="kw1">return</span> HttpResponse<span class="br0">&#40;</span><span class="st0">&quot;You've already commented.&quot;</span><span class="br0">&#41;</span>
+    c <span class="sy0">=</span> comments.<span class="me1">Comment</span><span class="br0">&#40;</span>comment<span class="sy0">=</span>new_comment<span class="br0">&#41;</span>
+    c.<span class="me1">save</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    request.<span class="me1">session</span><span class="br0">&#91;</span><span class="st0">'has_commented'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw2">True</span>
+    <span class="kw1">return</span> HttpResponse<span class="br0">&#40;</span><span class="st0">'Thanks for your comment!'</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Esta vista simplificada permite que un usuario se identifique
+como tal en nuestras páginas:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> login<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    <span class="kw1">try</span>:
+        m <span class="sy0">=</span> Member.<span class="me1">objects</span>.<span class="me1">get</span><span class="br0">&#40;</span>username__exact<span class="sy0">=</span>request.<span class="me1">POST</span><span class="br0">&#91;</span><span class="st0">'username'</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+        <span class="kw1">if</span> m.<span class="me1">password</span> <span class="sy0">==</span> request.<span class="me1">POST</span><span class="br0">&#91;</span><span class="st0">'password'</span><span class="br0">&#93;</span>:
+            request.<span class="me1">session</span><span class="br0">&#91;</span><span class="st0">'member_id'</span><span class="br0">&#93;</span> <span class="sy0">=</span> m.<span class="kw2">id</span>
+            <span class="kw1">return</span> HttpResponse<span class="br0">&#40;</span><span class="st0">&quot;You're logged in.&quot;</span><span class="br0">&#41;</span>
+    <span class="kw1">except</span> Member.<span class="me1">DoesNotExist</span>:
+        <span class="kw1">return</span> HttpResponse<span class="br0">&#40;</span><span class="st0">&quot;Your username and password didn't match.&quot;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Y esta le permite cerrar o salir de la sesión:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> logout<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    <span class="kw1">try</span>:
+        <span class="kw1">del</span> request.<span class="me1">session</span><span class="br0">&#91;</span><span class="st0">'member_id'</span><span class="br0">&#93;</span>
+    <span class="kw1">except</span> <span class="kw2">KeyError</span>:
+        <span class="kw1">pass</span>
+    <span class="kw1">return</span> HttpResponse<span class="br0">&#40;</span><span class="st0">&quot;You're logged out.&quot;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> En la práctica, esta sería una forma pésima de validar a tus
+usuarios. El mecanismo de autentificación que presentaremos
+un poco más adelante realiza esta tarea de forma mucho más
+segura y robusta. Los ejemplo son deliberadamente simples
+para que se comprendan con más facilidad.</p></div>
+
+<h3 id="comprobar_que_las_cookies_sean_utilizables">12.2.3. Comprobar que las <em>cookies</em> sean utilizables</h3>
+
+<p>Como ya mencionamos, no se puede confiar en que cualquier navegador
+sea capaz de aceptar <em>cookies</em>. Por ello, Django incluye una forma fácil
+de comprobar que el cliente del usuario disponga de esta capacidad. Sólo
+es necesario llamar a la función <code>request.session.set_test_cookie()</code>
+en una vista, y comprobar posteriormente, en otra vista distinta, el
+resultado de llamar a <code>request.session.test_cookie_worked()</code>.</p>
+
+<p>Esta división un tanto extraña entre las llamadas a <code>set_test_cookie()</code> y <code>test_cookie_worked()</code> se debe a la forma es que trabajan las <em>cookies</em>. Cuando
+se define una <em>cookie</em>, no tienes forma de saber si el navegador la ha aceptado
+realmente hasta la siguiente solicitud.</p>
+
+<p>Es una práctica recomendable llamar a la función <code>delete_test_cookie()</code> para
+limpiar la cookie de prueba después de haberla usado. Lo mejor es hacerlo
+justo después de haber verificado que las <em>cookies</em> funcionan.</p>
+
+<p>He aquí un ejemplo típico de uso:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> login<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+&nbsp;
+    <span class="co1"># If we submitted the form...</span>
+    <span class="kw1">if</span> request.<span class="me1">method</span> <span class="sy0">==</span> <span class="st0">'POST'</span>:
+&nbsp;
+        <span class="co1"># Check that the test cookie worked (we set it below):</span>
+        <span class="kw1">if</span> request.<span class="me1">session</span>.<span class="me1">test_cookie_worked</span><span class="br0">&#40;</span><span class="br0">&#41;</span>:
+&nbsp;
+            <span class="co1"># The test cookie worked, so delete it.</span>
+            request.<span class="me1">session</span>.<span class="me1">delete_test_cookie</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+&nbsp;
+            <span class="co1"># In practice, we'd need some logic to check username/password</span>
+            <span class="co1"># here, but since this is an example...</span>
+            <span class="kw1">return</span> HttpResponse<span class="br0">&#40;</span><span class="st0">&quot;You're logged in.&quot;</span><span class="br0">&#41;</span>
+&nbsp;
+        <span class="co1"># The test cookie failed, so display an error message. If this</span>
+        <span class="co1"># was a real site we'd want to display a friendlier message.</span>
+        <span class="kw1">else</span>:
+            <span class="kw1">return</span> HttpResponse<span class="br0">&#40;</span><span class="st0">&quot;Please enable cookies and try again.&quot;</span><span class="br0">&#41;</span>
+&nbsp;
+    <span class="co1"># If we didn't post, send the test cookie along with the login form.</span>
+    request.<span class="me1">session</span>.<span class="me1">set_test_cookie</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span><span class="st0">'foo/login_form.html'</span><span class="br0">&#41;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> De nuevo, las funciones de autentificación ya definidas en el entorno
+realizan estos chequeos por vos.</p></div>
+
+<h3 id="usar_las_sesiones_fuera_de_las_vistas">12.2.4. Usar las sesiones fuera de las vistas</h3>
+
+<p>Internamente, cada sesión es simplemente un modelo de entidad de
+Django como cualquier otro, definido en <code>django.contrib.sessions.models</code>. Cada
+sesión se identifica gracias a un <em>hash</em> pseudo-aleatorio de 32 caracteres, que
+es el valor que se almacena en la cookie. Dado que es un modelo normal, puedes
+acceder a las propiedades de las sesiones usando la API de acceso a la
+base de datos de Django:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> <span class="kw1">from</span> django.<span class="me1">contrib</span>.<span class="me1">sessions</span>.<span class="me1">models</span> <span class="kw1">import</span> Session
+<span class="sy0">&gt;&gt;&gt;</span> s <span class="sy0">=</span> Session.<span class="me1">objects</span>.<span class="me1">get</span><span class="br0">&#40;</span>pk<span class="sy0">=</span><span class="st0">'2b1189a188b44ad18c35e113ac6ceead'</span><span class="br0">&#41;</span>
+<span class="sy0">&gt;&gt;&gt;</span> s.<span class="me1">expire_date</span>
+<span class="kw3">datetime</span>.<span class="kw3">datetime</span><span class="br0">&#40;</span><span class="nu0">2005</span><span class="sy0">,</span> <span class="nu0">8</span><span class="sy0">,</span> <span class="nu0">20</span><span class="sy0">,</span> <span class="nu0">13</span><span class="sy0">,</span> <span class="nu0">35</span><span class="sy0">,</span> <span class="nu0">12</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Para poder acceder a los datos de la sesión, hay que usar el método
+<code>get_decoded()</code>. Esto se debe a que estos datos, que consistían en
+un diccionario, están almacenados codificados:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> s.<span class="me1">session_data</span>
+<span class="st0">'KGRwMQpTJ19hdXRoX3VzZXJfaWQnCnAyCkkxCnMuMTExY2ZjODI2Yj...'</span>
+<span class="sy0">&gt;&gt;&gt;</span> s.<span class="me1">get_decoded</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span><span class="st0">'user_id'</span>: <span class="nu0">42</span><span class="br0">&#125;</span></pre>
+</div>
+
+<h3 id="cuando_se_guardan_las_sesiones">12.2.5. Cuándo se guardan las sesiones</h3>
+
+<p>Django, en principio, solo almacena la sesión en la base de datos si ésta
+ha sido modificada; es decir, si cualquiera de los valores almacenados
+en el diccionario es asignado o borrado. Esto puede dar lugar a algunos
+errores sutiles, como se indica en el último ejemplo:</p>
+
+<div class="code python">
+<pre class="python"><span class="co1"># Session is modified.</span>
+request.<span class="me1">session</span><span class="br0">&#91;</span><span class="st0">'foo'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st0">'bar'</span>
+&nbsp;
+<span class="co1"># Session is modified.</span>
+<span class="kw1">del</span> request.<span class="me1">session</span><span class="br0">&#91;</span><span class="st0">'foo'</span><span class="br0">&#93;</span>
+&nbsp;
+<span class="co1"># Session is modified.</span>
+request.<span class="me1">session</span><span class="br0">&#91;</span><span class="st0">'foo'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="br0">&#123;</span><span class="br0">&#125;</span>
+&nbsp;
+<span class="co1"># Gotcha: Session is NOT modified, because this alters</span>
+<span class="co1"># request.session['foo'] instead of request.session.</span>
+request.<span class="me1">session</span><span class="br0">&#91;</span><span class="st0">'foo'</span><span class="br0">&#93;</span><span class="br0">&#91;</span><span class="st0">'bar'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st0">'baz'</span></pre>
+</div>
+
+<p>Se puede cambiar este comportamiento, especificando la opción
+<code>SESSION_SAVE_EVERY_REQUEST</code> a <code>True</code>. Si lo hacemos así, Django
+almacenará la sesión en la base de datos en cada petición, incluso si
+no se ha modificado ninguno de sus valores.</p>
+
+<p>Fíjate que la cookie de sesión sólo se envía cuando se ha creado o
+modificado una sesión. Si <code>SESSION_SAVE_EVERY_REQUEST</code> está como <code>True</code>, la
+cookie de sesión será reenviada en cada petición. De forma similar, la sección
+de expiración (<code>expires</code>) se actualizará cada vez que se reenvíe la
+cookie.</p>
+
+<h3 id="sesiones_breves_frente_a_sesiones_persistentes">12.2.6. Sesiones breves frente a sesiones persistentes</h3>
+
+<p>Es posible que te hayas fijado en que la cookie que nos envió Google al
+principio del capítulo contenía el siguiente texto <code>expires=Sun,
+17-Jan-2038 19:14:07 GMT;</code>. Las Cookies pueden incluir opcionalmente
+una fecha de expiración, que informa al navegador el momento en que se
+debe desechar por inválida. Si la cookie no contiene ningún
+valor de expiración, el navegador entiende que esta debe expirar
+en el momento en que se cierra el propio navegador. Se puede controlar
+el comportamiento del entorno para que use cookies de este tipo, breves, 
+ajustando en valor de la opción <code>SESSION_EXPIRE_AT_BROWSER_CLOSE</code>.</p>
+
+<p>El valor por omisión de la opción <code>SESSION_EXPIRE_AT_BROWSER_CLOSE</code> es
+<code>False</code>, lo que significa que las cookies serán almacenadas en el
+navegador del usuario durante <code>SESSION_COOKIE_AGE</code> segundos (cuyo
+valor por defecto es de dos semanas, o 1.209.600 segundos). Estos
+valores son adecuados si no quieres obligar a tus usuarios a validarse
+cada vez que abran el navegador y accedan a tu página.</p>
+
+<p>Si <code>SESSION_EXPIRE_AT_BROWSER_CLOSE</code> se establece a <code>True</code>, Django
+usará cookies que se invalidarán cuando el usuario cierre el navegador.</p>
+
+<h3 id="otras_caracteristicas_de_las_sesiones">12.2.7.  Otras características de las sesiones</h3>
+
+<p>Además de las características ya mencionadas, hay otros valores de 
+configuración que influyen en la gestión de sesiones con Django, tal y como se muestra en la siguiente lista:</p>
+
+<ul>
+<li><code>SESSION_COOKIE_DOMAIN</code>: el Dominio a utilizar por la cookie de sesión. Se puede utilizar, por ejemplo, el valor <code>".lawrence.com"</code> para utilizar la cookie en diferentes subdominios. El valor <code>None</code> indica una cookie estándar. (Valor por defecto: <code>None</code>).</li>
+<li><code>SESSION_COOKIE_NAME</code>: el nombre de la cookie de sesiones. Puede ser cualquier cadena de texto. (Valor por defecot: <code>"sessionid"</code>)</li>
+<li><code>SESSION_COOKIE_SECURE</code>: indica si se debe usar una cookie segura para la cookie de sesión. Si el valor es <code>True</code>, la cookie se marcará como segura, lo que significa que sólo se podrá utilizar mediante el protocolo HTTPS. (Valor por defecto: <code>False</code>).</li>
+</ul>
+
+<p>Para los más curiosos, he aquí una serie de notas técnicas acerca de algunos
+aspectos interesantes de la gestión interna de las sesiones:</p>
+
+<ul>
+<li>El diccionario de la sesión acepta cualquier objeto Python capaz de
+ser serializado con <code>pickle</code>. Véase la documentación del módulo
+<code>pickle</code> incluido en la librería estándar de Python para más información.</li>
+<li>Los datos de la sesión se almacenan en una tabla en la base de datos<br />
+llamada <code>django_session</code>.</li>
+<li>Los datos de la sesión son suministrados bajo demanda. Si nunca accedes al
+atributo <code>request.session</code>, Django nunca accederá a la base de datos.</li>
+<li>Django sólo envía la cookie si tiene que hacerlo. Si no modificas ningún
+valor de la sesión, no reenvía la cookie (a no ser que hayas definido
+<code>SESSION_SAVE_EVERY_REQUEST</code> como <code>True</code>).</li>
+<li><p>El entorno de sesiones de Django se basa entera y exclusivamente en
+las cookies. No almacena la información de la sesión en las URL, como 
+recurso extremo en el caso de que no se puedan utilizar las cookies, como 
+hacen otros entornos (PHP, JSP).</p>
+
+<p>Esta es una decisión tomada de forma consciente. Poner los identificadores 
+de sesión en las URL no solo hace que las direcciones sean más feas, 
+también hace que el sistema sea vulnerable ante un tipo de ataque en que 
+se roba el identificador de la sesión utilizando la cabecera <code>Referer</code>.</p></li>
+</ul>
+
+<p>Si aun te pica la curiosidad, el código fuente es bastante directo y claro, mira en <code>django.contrib.sessions</code> para más detalles.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_12/cookies.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>12.1. Cookies</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_12/usuarios_e_identificacion.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>12.3. Usuarios e identificación</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Los principios de las páginas Web dinámicas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> El sistema de plantillas de Django</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Interactuar con una base de datos: Modelos</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El sitio de Administración Django</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Procesamiento de formularios</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Vistas avanzadas y URLconfs</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Vistas genéricas</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Extender el sistema de plantillas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Generación de contenido no HTML</a>
+            </li>
+                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_12.html">
+                    <span>Capítulo 12.</span> Sesiones, usuario e inscripciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/cookies.html">
+                    <span>12.1.</span> Cookies
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_12/el_entorno_de_sesiones_de_django.html">
+                    <span>12.2.</span> El entorno de sesiones de Django
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/usuarios_e_identificacion.html">
+                    <span>12.3.</span> Usuarios e identificación
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/utilizando_usuarios.html">
+                    <span>12.4.</span> Utilizando usuarios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/el_resto_de_detalles_permisos_grupos_mensajes_y_perfiles.html">
+                    <span>12.5.</span> El resto de detalles: permisos, grupos, mensajes y perfiles
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/grupos.html">
+                    <span>12.6.</span> Grupos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/que_sigue.html">
+                    <span>12.7.</span> ¿Qué sigue?
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Cache</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Otros sub-frameworks contribuidos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Middleware</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Integración con Base de datos y Aplicaciones existentes</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Extender la Interfaz de Administración de Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>20.</span> <a href="../capitulo_20.html"> Puesta en marcha de Django en un servidor</a>
+            </li>
+                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>2.5. Trabajando con repositorios remotos (Pro Git, el libro oficial de Git)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_2/deshaciendo_cosas.html" />
+                    <link rel="next" href="../capitulo_2/creando_etiquetas.html" />
+                <link rel="start" href="/libro/pro_git/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="2.5. Trabajando con repositorios remotos (Pro Git, el libro oficial de Git)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page pro_git"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/" itemprop="url">
+                    <span itemprop="title">Pro Git, el libro oficial de Git</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/capitulo_2.html" itemprop="url">
+                    <span itemprop="title">Capítulo 2. Fundamentos de Git</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>2.5. Trabajando con repositorios remotos</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="trabajando_con_repositorios_remotos" class="title">
+        <span>2.5.</span> Trabajando con repositorios remotos
+    </h1>
+
+    
+
+<p>Para poder colaborar en cualquier proyecto Git, necesitas saber cómo gestionar tus repositorios remotos. Los repositorios remotos son versiones de tu proyecto que se encuentran alojados en Internet o en algún punto de la red. Puedes tener varios, cada uno de los cuales puede ser de sólo lectura, o de lectura/escritura, según los permisos que tengas. Colaborar con otros implica gestionar estos repositorios remotos, y mandar (<em>push</em>) y recibir (<em>pull</em>) datos de ellos cuando necesites compartir cosas.</p>
+
+<p>Gestionar repositorios remotos implica conocer cómo añadir repositorios nuevos, eliminar aquellos que ya no son válidos, gestionar ramas remotas e indicar si están bajo seguimiento o no, y más cosas. En esta sección veremos todos estos conceptos.</p>
+
+<h3 id="mostrando_tus_repositorios_remotos">2.5.1. Mostrando tus repositorios remotos</h3>
+
+<p>Para ver qué repositorios remotos tienes configurados, puedes ejecutar el comando <code>git remote</code>. Mostrará una lista con los nombres de los remotos que hayas especificado. Si has clonado tu repositorio, deberías ver por lo menos <em>"origin"</em> — es el nombre predeterminado que le da Git al servidor del que clonaste —:</p>
+
+<div class="code cli">
+<pre class="cli">$ git clone git://github.com/schacon/ticgit.git
+Initialized empty Git repository in /private/tmp/ticgit/.git/
+remote: Counting objects: 595, done.
+remote: Compressing objects: 100% (269/269), done.
+remote: Total 595 (delta 255), reused 589 (delta 253)
+Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
+Resolving deltas: 100% (255/255), done.
+$ cd ticgit
+$ git remote
+origin</pre>
+</div>
+
+<p>También puedes añadir la opción <code>-v</code>, que muestra la URL asociada a cada repositorio remoto:</p>
+
+<div class="code cli">
+<pre class="cli">$ git remote -v
+origin  git://github.com/schacon/ticgit.git</pre>
+</div>
+
+<p>Si tienes más de un remoto, este comando los lista todos. Por ejemplo, mi repositorio Grit tiene esta pinta:</p>
+
+<div class="code cli">
+<pre class="cli">$ cd grit
+$ git remote -v
+bakkdoor  git://github.com/bakkdoor/grit.git
+cho45     git://github.com/cho45/grit.git
+defunkt   git://github.com/defunkt/grit.git
+koke      git://github.com/koke/grit.git
+origin    <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="7a1d130e3a1d130e120f1854191517">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>:mojombo/grit.git</pre>
+</div>
+
+<p>Esto significa que podemos recibir contribuciones de cualquiera de estos usuarios de manera bastante fácil. Pero fíjate en que sólo el remoto origen tiene una URL SSH, por lo que es el único al que podemos enviar (veremos el por qué en el <a href="#capitulo4">Capítulo 4</a>).</p>
+
+<h3 id="anadiendo_repositorios_remotos">2.5.2. Añadiendo repositorios remotos</h3>
+
+<p>Ya he mencionado y he dado ejemplos de repositorios remotos en secciones anteriores, pero a continuación veremos cómo añadirlos explícitamente. Para añadir un nuevo repositorio Git remoto, asignándole un nombre con el que referenciarlo fácilmente, ejecuta <code>git remote add [nombre] [url]</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ git remote
+origin
+$ git remote add pb git://github.com/paulboone/ticgit.git
+$ git remote -v
+origin  git://github.com/schacon/ticgit.git
+pb  git://github.com/paulboone/ticgit.git</pre>
+</div>
+
+<p>Ahora puedes usar la cadena "pb" en la línea de comandos, en lugar de toda la URL. Por ejemplo, si quieres recuperar toda la información de Paul que todavía no tienes en tu repositorio, puedes ejecutar <code>git fetch pb</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ git fetch pb
+remote: Counting objects: 58, done.
+remote: Compressing objects: 100% (41/41), done.
+remote: Total 44 (delta 24), reused 1 (delta 0)
+Unpacking objects: 100% (44/44), done.
+From git://github.com/paulboone/ticgit
+ * [new branch]      master     -&gt; pb/master
+ * [new branch]      ticgit     -&gt; pb/ticgit</pre>
+</div>
+
+<p>La rama maestra de Paul es accesible localmente como <code>pb/master</code> — puedes unirla a una de tus ramas, o copiarla localmente para inspeccionarla —.</p>
+
+<h3 id="recibiendo_de_tus_repositorios_remotos">2.5.3. Recibiendo de tus repositorios remotos</h3>
+
+<p>Como acabas de ver, para recuperar datos de tus repositorios remotos puedes ejecutar:</p>
+
+<div class="code cli">
+<pre class="cli">$ git fetch [remote-name]</pre>
+</div>
+
+<p>Este comando recupera todos los datos del proyecto remoto que no tengas todavía. Después de hacer esto, deberías tener referencias a todas las ramas del repositorio remoto, que puedes unir o inspeccionar en cualquier momento. (Veremos qué son las ramas y cómo utilizarlas en más detalle en el <a href="#capitulo3">Capítulo 3</a>).</p>
+
+<p>Si clonas un repositorio, el comando añade automáticamente ese repositorio remoto con el nombre de "origin". Por tanto, <code>git fetch origin</code> recupera toda la información enviada a ese servidor desde que lo clonaste (o desde la última vez que ejecutaste <code>fetch</code>). Es importante tener en cuenta que el comando <code>fetch</code> sólo recupera la información y la pone en tu repositorio local — no la une automáticamente con tu trabajo ni modifica aquello en lo que estás trabajando. Tendrás que unir ambos manualmente a posteriori —.</p>
+
+<p>Si has configurado una rama para seguir otra rama remota (véase la siguiente sección y el <a href="#capitulo3">Capítulo 3</a> para más información), puedes usar el comando <code>git pull</code> para recuperar y unir automáticamente la rama remota con tu rama actual. Éste puede resultarte un flujo de trabajo más sencillo y más cómodo; y por defecto, el comando <code>git clone</code> automáticamente configura tu rama local maestra para que siga la rama remota maestra del servidor del cual clonaste (asumiendo que el repositorio remoto tiene una rama maestra). Al ejecutar <code>git pull</code>, por lo general se recupera la información del servidor del que clonaste, y automáticamente se intenta unir con el código con el que estás trabajando actualmente.</p>
+
+<h3 id="enviando_a_tus_repositorios_remotos">2.5.4. Enviando a tus repositorios remotos</h3>
+
+<p>Cuando tu proyecto se encuentra en un estado que quieres compartir, tienes que enviarlo a un repositorio remoto. El comando que te permite hacer esto es sencillo: <code>git push [nombre-remoto][nombre-rama]</code>. Si quieres enviar tu rama maestra (<code>master</code>) a tu servidor origen (<code>origin</code>), ejecutarías esto para enviar tu trabajo al servidor:</p>
+
+<div class="code cli">
+<pre class="cli">$ git push origin master</pre>
+</div>
+
+<p>Este comando funciona únicamente si has clonado de un servidor en el que tienes permiso de escritura, y nadie ha enviado información mientras tanto. Si tú y otra persona clonais a la vez, y él envía su información y luego envías tú la tuya, tu envío será rechazado. Tendrás que bajarte primero su trabajo e incorporarlo en el tuyo para que se te permita hacer un envío. Véase el <a href="#capitulo3">Capítulo 3</a> para ver en detalle cómo enviar a servidores remotos.</p>
+
+<h3 id="inspeccionando_un_repositorio_remoto">2.5.5. Inspeccionando un repositorio remoto</h3>
+
+<p>Si quieres ver más información acerca de un repositorio remoto en particular, puedes usar el comando <code>git remote show [nombre]</code>. Si ejecutas este comando pasándole el nombre de un repositorio, como <code>origin</code>, obtienes algo así:</p>
+
+<div class="code cli">
+<pre class="cli">$ git remote show origin
+* remote origin
+  URL: git://github.com/schacon/ticgit.git
+  Remote branch merged with 'git pull' while on branch master
+    master
+  Tracked remote branches
+    master
+    ticgit</pre>
+</div>
+
+<p>Esto lista la URL del repositorio remoto, así como información sobre las ramas bajo seguimiento. Este comando te recuerda que si estás en la rama maestra y ejecutas <code>git pull</code>, automáticamente unirá los cambios a la rama maestra del remoto después de haber recuperado todas las referencias remotas. También lista todas las referencias remotas que ha recibido.</p>
+
+<p>El anterior es un sencillo ejemplo que te encontrarás con frecuencia. Sin embargo, cuando uses Git de forma más avanzada, puede que <code>git remote show</code> muestre mucha más información:</p>
+
+<div class="code cli">
+<pre class="cli">$ git remote show origin
+* remote origin
+  URL: <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="c8afa1bc88afa1bca0bdaae6aba7a5">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>:defunkt/github.git
+  Remote branch merged with 'git pull' while on branch issues
+    issues
+  Remote branch merged with 'git pull' while on branch master
+    master
+  New remote branches (next fetch will store in remotes/origin)
+    caching
+  Stale tracking branches (use 'git remote prune')
+    libwalker
+    walker2
+  Tracked remote branches
+    acl
+    apiv2
+    dashboard2
+    issues
+    master
+    postgres
+  Local branch pushed with 'git push'
+    master:master</pre>
+</div>
+
+<p>Este comando muestra qué rama se envía automáticamente cuando ejecutas <code>git push</code> en determinadas ramas. También te muestra qué ramas remotas no tienes todavía, qué ramas remotas tienes y han sido eliminadas del servidor, y múltiples ramas que serán unidas automáticamente cuando ejecutes <code>git pull</code>.</p>
+
+<h3 id="eliminando_y_renombrando_repositorios_remotos">2.5.6. Eliminando y renombrando repositorios remotos</h3>
+
+<p>Si quieres renombrar una referencia a un repositorio remoto, en versiones recientes de Git puedes ejecutar <code>git remote rename</code>. Por ejemplo, si quieres renombrar <code>pb</code> a <code>paul</code>, puedes hacerlo de la siguiente manera:</p>
+
+<div class="code cli">
+<pre class="cli">$ git remote rename pb paul
+$ git remote
+origin
+paul</pre>
+</div>
+
+<p>Conviene mencionar que esto también cambia el nombre de tus ramas remotas. Lo que antes era referenciado en <code>pb/master</code> ahora está en <code>paul/master</code>.</p>
+
+<p>Si por algún motivo quieres eliminar una referencia — has movido el servidor o ya no estás usando un determinado mirror, o quizás un contribuidor ha dejado de contribuir — puedes usar el comando <code>git remote rm</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ git remote rm paul
+$ git remote
+origin</pre>
+</div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_2/deshaciendo_cosas.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>2.4. Deshaciendo cosas</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_2/creando_etiquetas.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>2.6. Creando etiquetas</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_2.html">
+                    <span>Capítulo 2.</span> Fundamentos de Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/obteniendo_un_repositorio_git.html">
+                    <span>2.1.</span> Obteniendo un repositorio Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/guardando_cambios_en_el_repositorio.html">
+                    <span>2.2.</span> Guardando cambios en el repositorio
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/viendo_el_historico_de_confirmaciones.html">
+                    <span>2.3.</span> Viendo el histórico de confirmaciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/deshaciendo_cosas.html">
+                    <span>2.4.</span> Deshaciendo cosas
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_2/trabajando_con_repositorios_remotos.html">
+                    <span>2.5.</span> Trabajando con repositorios remotos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/creando_etiquetas.html">
+                    <span>2.6.</span> Creando etiquetas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/consejos_y_trucos.html">
+                    <span>2.7.</span> Consejos y trucos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/resumen.html">
+                    <span>2.8.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Trabajando con ramas en Git</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Git en un servidor</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Git en entornos distribuidos</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Las herramientas de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Personalizando Git</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Git y otros sistemas</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Funcionamiento interno de Git</a>
+            </li>
+                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

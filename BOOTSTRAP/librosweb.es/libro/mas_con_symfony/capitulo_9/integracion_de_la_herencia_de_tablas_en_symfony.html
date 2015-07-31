@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>9.2. Integración de la herencia de tablas en Symfony (Más con Symfony)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_9/herencia_de_tablas_de_doctrine.html" />
+                    <link rel="next" href="../capitulo_9/conclusion.html" />
+                <link rel="start" href="/libro/mas_con_symfony/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="9.2. Integración de la herencia de tablas en Symfony (Más con Symfony)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page mas_con_symfony"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/mas_con_symfony/" itemprop="url">
+                    <span itemprop="title">Más con Symfony</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/mas_con_symfony/capitulo_9.html" itemprop="url">
+                    <span itemprop="title">Capítulo 9. Utilizando la herencia de tablas de Doctrine</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>9.2. Integración de la herencia de tablas en Symfony</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="integracion_de_la_herencia_de_tablas_en_symfony" class="title">
+        <span>9.2.</span> Integración de la herencia de tablas en Symfony
+    </h1>
+
+    
+
+<p>Antes de Symfony 1.3, la ~herencia de tablas~ de Doctrine no estaba integrada
+en el framework, ya que los formularios y los filtros no heredaban correctamente
+de la clase base. Por tanto, los programadores que querían utilizar la herencia
+de tablas debían modificar los formularios y filtros, además de redefinir muchos
+métodos.</p>
+
+<p>Gracias al apoyo de la comunidad de usuarios, los desarrolladores de Symfony
+han mejorado los formularios y los filtros para que Symfony 1.3 soporte la
+herencia de tablas de Doctrine de forma sencilla pero completa.</p>
+
+<p>El resto de este capítulo explica cómo usar la herencia de tablas de Doctrine y
+cómo aprovecharla en varios ejemplos adoptándola en los modelos, formularios,
+filtros y generadores de la parte de administración. Los casos de uso reales
+que se presentan permiten entender mejor cómo funciona la herencia de tablas
+en Symfony de forma que puedas hacer uso de ella en tus propias aplicaciones.</p>
+
+<h3 id="introduciendo_casos_de_estudio_reales">9.2.1. Introduciendo casos de estudio reales</h3>
+
+<p>A lo largo de este capítulo se van a presentar varios casos de uso reales que
+muestran las grandes ventajas de usar la herencia de tablas de Doctrine en
+varios elementos: modelos, formularios, filtros y el generador de la parte de
+administración.</p>
+
+<p>El primer ejemplo fue utilizado en una aplicación desarrollada por Sensio para
+una empresa francesa muy conocida. Este ejemplo muestra cómo la herencia de
+tablas es una buena solución para manejar una docena de conjuntos de datos
+idénticos de forma que se puedan reaprovechar métodos y propiedades para evitar
+la duplicación de código.</p>
+
+<p>El segundo ejemplo muestra cómo hacer uso de la herencia concreta de tablas
+en los formularios creando un modelo simple que gestione archivos numéricos.</p>
+
+<p>Por último, el tercer ejemplo muestra cómo utilizar la herencia de tablas con
+el generador de la parte de administración para hacerlo más flexible.</p>
+
+<h3 id="herencia_de_tablas_en_el_modelo">9.2.2. Herencia de tablas en el modelo</h3>
+
+<p>Al igual que la programación orientada a objetos, la herencia de tablas
+fomenta que se comparta la información. Por tanto, es posible compartir métodos
+y propiedades cuando se trabaja con las clases generadas por el modelo. La
+herencia de tablas de Doctrine es una buena forma de compartir y redefinir las
+acciones de los objetos heredados. A continuación se explica este uso con un
+ejemplo real.</p>
+
+<h4 id="el_problema">9.2.2.1. El problema</h4>
+
+<p>Muchas aplicaciones web requieren el uso de datos "referenciales" para funcionar.
+Por referencial se entiende un conjunto normalmente pequeño de datos que se
+representan mediante una tabla sencilla que contiene al menos dos campos (por
+ejemplo <code>id</code> y <code>label</code>). No obstante, en algunos casos los datos referenciales
+contienen información adicional como los campos <code>is_active</code> o <code>is_default</code>.
+Este fue el caso al que se enfrentó recientemente la empresa Sensio al desarrollar
+una aplicación para un cliente.</p>
+
+<p>El cliente quería gestionar un gran conjunto de datos a través de los formularios
+y plantillas de la aplicación. Todas las tablas referenciales presentaban la
+misma estructura básica: <code>id</code>, <code>label</code>, <code>position</code> y <code>is_default</code>. El campo
+<code>position</code> se emplea para ordenar los registros mediante una funcionalidad
+tipo <em>drag &amp; drop</em> construida con AJAX. El campo <code>is_default</code> indica si el
+registro se debe mostrar o no seleccionado por defecto cuando se muestra en
+una lista desplegable de HTML.</p>
+
+<h4 id="la_solucion">9.2.2.2. La solución</h4>
+
+<p>Gestionar dos o más tablas idénticas es uno de los problemas que más fácilmente
+se resuelven con la herencia de tablas. En este caso, se eligió la
+herencia concreta de tablas como mejor estrategia para que los métodos de
+cada objeto se encontraran en una única clase. Veamos un esquema de datos
+simplificado para ilustrar el problema.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">sfReferential</span>:<span class="co4">
+  columns</span>:<span class="co4">
+    id</span>:<span class="co3">
+      type</span><span class="sy2">: </span>       integer<span class="br0">&#40;</span><span class="nu0">2</span><span class="br0">&#41;</span><span class="co3">
+      notnull</span><span class="sy2">: </span>    true<span class="co4">
+    label</span>:<span class="co3">
+      type</span><span class="sy2">: </span>       string<span class="br0">&#40;</span><span class="nu0">45</span><span class="br0">&#41;</span><span class="co3">
+      notnull</span><span class="sy2">: </span>    true<span class="co4">
+    position</span>:<span class="co3">
+      type</span><span class="sy2">: </span>       integer<span class="br0">&#40;</span><span class="nu0">2</span><span class="br0">&#41;</span><span class="co3">
+      notnull</span><span class="sy2">: </span>    true<span class="co4">
+    is_default</span>:<span class="co3">
+      type</span><span class="sy2">: </span>       boolean<span class="co3">
+      notnull</span><span class="sy2">: </span>    true<span class="co3">
+      default</span><span class="sy2">: </span>    false
+<span class="co4">
+sfReferentialContractType</span>:<span class="co4">
+  inheritance</span>:<span class="co3">
+    type</span><span class="sy2">: </span>         concrete<span class="co3">
+    extends</span><span class="sy2">: </span>      sfReferential
+<span class="co4">
+sfReferentialProductType</span>:<span class="co4">
+  inheritance</span>:<span class="co3">
+    type</span><span class="sy2">: </span>         concrete<span class="co3">
+    extends</span><span class="sy2">: </span>      sfReferential</pre>
+</div>
+
+<p>La herencia concreta de tablas es la mejor en este caso porque crea tablas
+aisladas e independientes y porque el campo <code>position</code> se debe gestionar para
+los registros que sean del mismo tipo.</p>
+
+<p>Construye el modelo y verás que Doctrine y Symfony generan tres tablas SQL y
+seis clases del modelo en el directorio <code>lib/model/doctrine</code>:</p>
+
+<ul>
+<li><code>sfReferential</code>: gestiona los registros de tipo the <code>sf_referential</code></li>
+<li><code>sfReferentialTable</code>: gestiona la tabla <code>sf_referential</code></li>
+<li><code>sfReferentialContractType</code>: gestiona los registros de tipo <code>sf_referential_contract_type</code></li>
+<li><code>sfReferentialContractTypeTable</code>: gestiona la tabla <code>sf_referential_contract_type</code></li>
+<li><code>sfReferentialProductType</code>: gestiona los registros de tipo <code>sf_referential_product_type</code></li>
+<li><code>sfReferentialProductTypeTable</code>: gestiona la tabla <code>sf_referential_product_type</code></li>
+</ul>
+
+<p>Si exploras las clases generadas, verás que las clases base de
+<code>sfReferentialContractType</code> y <code>sfReferentialProductType</code> heredan de la clase
+<code>sfReferential</code>. Por tanto, todos los métodos y propiedades de tipo <code>public</code> o
+<code>protected</code> de la clase <code>sfReferential</code> se comparten entre las dos sub-clases
+y pueden ser redefinidos fácilmente si es necesario. Esto es justamente lo que
+necesitamos.</p>
+
+<p>La clase <code>sfReferential</code> ahora puede contener métodos que gestionen cualquier
+tipo de dato referencial, como por ejemplo:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// lib/model/doctrine/sfReferential.class.php</span>
+<span class="kw2">class</span> sfReferential <span class="kw2">extends</span> BasesfReferential
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> promote<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// sube un elemento dentro de la lista</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> demote<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// baja un elemento dentro de la lista</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> moveToFirstPosition<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// posiciona el elemento como el primero de la lista</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> moveToLastPosition<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// posiciona el elemento como el último de la lista</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> moveToPosition<span class="br0">&#40;</span><span class="re0">$position</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// coloca el elemento en la posición indicada</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> makeDefault<span class="br0">&#40;</span><span class="re0">$forceSave</span> <span class="sy0">=</span> <span class="kw4">true</span><span class="sy0">,</span> <span class="re0">$conn</span> <span class="sy0">=</span> <span class="kw4">null</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">setIsDefault</span><span class="br0">&#40;</span><span class="kw4">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$forceSave</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">save</span><span class="br0">&#40;</span><span class="re0">$conn</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Gracias a la herencia concreta de tablas de Doctrine, todo el código se
+encuentra centralizado en un único sitio. Por tanto, el código es más sencillo
+de depurar, mantener, mejorar y probar con pruebas unitarias.</p>
+
+<p>La anterior es la primera gran ventaja de trabajar con la herencia de tablas.
+Además, gracias a esta estrategia, los objetos del modelo se pueden utilizar
+para centralizar el código de las acciones, tal y como se muestra a continuación.
+La clase <code>sfBaseReferentialActions</code> es un tipo especial de clase de acciones
+que gestiona el modelo referencial y que heredan cada una de las clases de acciones.</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// lib/actions/sfBaseReferentialActions.class.php</span>
+<span class="kw2">class</span> sfBaseReferentialActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="co4">/**
+   * Acción AJAX que guarda la nueva posición resultante después de que
+   * el usuario reordene los elementos de la lista.
+   *
+   * Esta acción está relacionada gracias a una ruta ~sfDoctrineRoute~ que
+   * facilita la búsqueda de los objetos referenciales.
+   *
+   * @param sfWebRequest $request
+   */</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeMoveToPosition<span class="br0">&#40;</span>sfWebRequest <span class="re0">$request</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">forward404Unless</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">isXmlHttpRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$referential</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRoute</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$referential</span><span class="sy0">-&gt;</span><span class="me1">moveToPosition</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'position'</span><span class="sy0">,</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">return</span> sfView<span class="sy0">::</span><span class="me2">NONE</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>¿Qué hubiera sucedido si el esquema no utiliza herencia de tablas? El código
+debería haberse duplicado en cada una de las sub-clases referenciales. Esta
+estrategia no sería muy DRY (<em>Don't Repeat Yourself</em>) sobre todo en una aplicación
+que dispone de una docena de tablas referenciales.</p>
+
+<h3 id="herencia_de_tablas_en_los_formularios">9.2.3. Herencia de tablas en los formularios</h3>
+
+<p>Sigamos con el recorrido de todas las ventajas de la herencia de tablas de
+Doctrine. En la sección anterior se ha mostrado lo útil que es la herencia para
+compartir métodos y propiedades entre varios modelos. A continuación se muestra
+su utilidad en los formularios generados automáticamente por Symfony.</p>
+
+<h4 id="el_modelo_de_ejemplo">9.2.3.1. El modelo de ejemplo</h4>
+
+<p>El siguiente esquema YAML describe un modelo para gestionar documentos numéricos.
+El objetivo es guardar información genérica en la tabla <code>File</code> e información
+específica en las sub-tablas <code>Video</code> y <code>PDF</code>.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">File</span>:<span class="co4">
+  columns</span>:<span class="co4">
+    filename</span>:<span class="co3">
+      type</span><span class="sy2">: </span>           string<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span><span class="co3">
+      notnull</span><span class="sy2">: </span>        true<span class="co4">
+    mime_type</span>:<span class="co3">
+      type</span><span class="sy2">: </span>           string<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span><span class="co3">
+      notnull</span><span class="sy2">: </span>        true<span class="co4">
+    description</span>:<span class="co3">
+      type</span><span class="sy2">: </span>           clob<span class="co3">
+      notnull</span><span class="sy2">: </span>        true<span class="co4">
+    size</span>:<span class="co3">
+      type</span><span class="sy2">: </span>           integer<span class="br0">&#40;</span><span class="nu0">8</span><span class="br0">&#41;</span><span class="co3">
+      notnull</span><span class="sy2">: </span>        true<span class="co3">
+      default</span><span class="sy2">: </span>        <span class="nu0">0</span>
+<span class="co4">
+Video</span>:<span class="co4">
+  inheritance</span>:<span class="co3">
+    type</span><span class="sy2">: </span>             concrete<span class="co3">
+    extends</span><span class="sy2">: </span>          File<span class="co4">
+  columns</span>:<span class="co4">
+    format</span>:<span class="co3">
+      type</span><span class="sy2">: </span>           string<span class="br0">&#40;</span><span class="nu0">30</span><span class="br0">&#41;</span><span class="co3">
+      notnull</span><span class="sy2">: </span>        true<span class="co4">
+    duration</span>:<span class="co3">
+      type</span><span class="sy2">: </span>           integer<span class="br0">&#40;</span><span class="nu0">8</span><span class="br0">&#41;</span><span class="co3">
+      notnull</span><span class="sy2">: </span>        true<span class="co3">
+      default</span><span class="sy2">: </span>        <span class="nu0">0</span><span class="co4">
+    encoding</span>:<span class="co3">
+      type</span><span class="sy2">: </span>           string<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span>
+<span class="co4">
+PDF</span>:<span class="co3">
+  tableName</span><span class="sy2">: </span>          pdf<span class="co4">
+  inheritance</span>:<span class="co3">
+    type</span><span class="sy2">: </span>             concrete<span class="co3">
+    extends</span><span class="sy2">: </span>          File<span class="co4">
+  columns</span>:<span class="co4">
+    pages</span>:<span class="co3">
+      type</span><span class="sy2">: </span>           integer<span class="br0">&#40;</span><span class="nu0">8</span><span class="br0">&#41;</span><span class="co3">
+      notnull</span><span class="sy2">: </span>        true<span class="co3">
+      default</span><span class="sy2">: </span>        <span class="nu0">0</span><span class="co4">
+    paper_size</span>:<span class="co3">
+      type</span><span class="sy2">: </span>           string<span class="br0">&#40;</span><span class="nu0">30</span><span class="br0">&#41;</span><span class="co4">
+    orientation</span>:<span class="co3">
+      type</span><span class="sy2">: </span>           enum<span class="co3">
+      default</span><span class="sy2">: </span>        portrait<span class="co3">
+      values</span><span class="sy2">: </span>         <span class="br0">&#91;</span>portrait, landscape<span class="br0">&#93;</span><span class="co4">
+    is_encrypted</span>:<span class="co3">
+      type</span><span class="sy2">: </span>           boolean<span class="co3">
+      default</span><span class="sy2">: </span>        false<span class="co3">
+      notnull</span><span class="sy2">: </span>        true</pre>
+</div>
+
+<p>Las tablas <code>PDF</code> y <code>Video</code> comparten la misma tabla <code>File</code>, que contiene información
+general sobre archivos numéricos. El modelo <code>Video</code> encapsula la información
+relativa a los objetos de tipo vídeo como su formato (columna <code>format</code>) (4/3,
+16/9, ...) o su duración (columna <code>duration</code>), mientras que el modelo <code>PDF</code>
+contiene información como el número de páginas (columna <code>pages</code>) y la orientación
+del documento (columna <code>orientation</code>). Ejecuta la siguiente tarea para generar
+el modelo y sus correspondientes formularios.</p>
+
+<div class="code cli">
+<pre class="cli">$ php symfony doctrine:build --all</pre>
+</div>
+
+<p>La siguiente sección describe cómo aprovechar la herencia de tablas en las clases
+de los formularios gracias al nuevo método <code>setupInheritance()</code>.</p>
+
+<h4 id="descubre_el_metodo_setupinheritance">9.2.3.2. Descubre el método setupInheritance()</h4>
+
+<p>Como era de esperar, Doctrine ha generado seis clases de formulario en los
+directorios <code>lib/form/doctrine</code> y <code>lib/form/doctrine/base</code>:</p>
+
+<ul>
+<li><code>BaseFileForm</code></li>
+<li><code>BaseVideoForm</code></li>
+<li><p><code>BasePDFForm</code></p></li>
+<li><p><code>FileForm</code></p></li>
+<li><code>VideoForm</code></li>
+<li><code>PDFForm</code></li>
+</ul>
+
+<p>Si abres las tres clases <code>Base</code> de los formularios, verás algo nuevo en el
+método <code>setup()</code>. Symfony 1.3 añade un nuevo método llamado <code>setupInheritance()</code>.
+Inicialmente este método está vacío.</p>
+
+<p>Lo más importante es que la herencia de formularios se mantiene porque tanto
+<code>BaseVideoForm</code> como <code>BasePDFForm</code> heredan de las clases <code>FileForm</code> y <code>BaseFileForm</code>.
+Por tanto, cada una de ellas hereda de la clase <code>File</code> y pueden compartir sus
+métodos.</p>
+
+<p>El siguiente código redefine el método <code>setupInheritance()</code> y configura la clase
+<code>FileForm</code> para que pueda ser utilizar en cualquier sub-formulario de forma
+más efectiva.</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// lib/form/doctrine/FileForm.class.php</span>
+<span class="kw2">class</span> FileForm <span class="kw2">extends</span> BaseFileForm
+<span class="br0">&#123;</span>
+  <span class="kw2">protected</span> <span class="kw2">function</span> setupInheritance<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    parent<span class="sy0">::</span><span class="me2">setupInheritance</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">useFields</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'filename'</span><span class="sy0">,</span> <span class="st_h">'description'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">widgetSchema</span><span class="br0">&#91;</span><span class="st_h">'filename'</span><span class="br0">&#93;</span>    <span class="sy0">=</span> <span class="kw2">new</span> sfWidgetFormInputFile<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">validatorSchema</span><span class="br0">&#91;</span><span class="st_h">'filename'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw2">new</span> sfValidatorFile<span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+      <span class="st_h">'path'</span> <span class="sy0">=&gt;</span> sfConfig<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'sf_upload_dir'</span><span class="br0">&#41;</span>
+    <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El método <code>setupInheritance()</code>, invocado por las sub-clases <code>VideoForm</code> y <code>PDFForm</code>,
+elimina todos los campos salvo <code>filename</code> y <code>description</code>. El widget del campo
+<code>filename</code> se ha transformado en un widget de archivo y su validador asociado
+se ha cambiado a <code>sfValidatorFile</code>. De esta forma, el usuario podrá subir un
+archivo y guardarlo en el servidor.</p>
+
+<div class="figure" id="figure_9_5">
+    <img src="/img/mas_con_symfony/05_table_inheritance_forms.png" alt="Personalizando los formularios heredados mediante el método setupInheritance()" title="Personalizando los formularios heredados mediante el método setupInheritance()" />
+
+    <p class="caption"><strong>Figura 9.5</strong> Personalizando los formularios heredados mediante el método setupInheritance()</p>
+</div>
+
+
+<h4 id="estableciendo_el_tamano_y_tipo_mime_del_archivo">9.2.3.3. Estableciendo el tamaño y tipo MIME del archivo</h4>
+
+<p>Aunque los formularios ya están preparados, todavía falta configurar una cosa
+más antes de poder utilizarlos. Como los campos <code>mime_type</code> y <code>size</code> se han
+eliminado del objeto <code>FileForm</code>, es preciso añadirlos en la aplicación. El
+mejor lugar para añadirlos es el método <code>generateFilenameFilename()</code> de la
+clase <code>File</code>.</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// lib/model/doctrine/File.class.php</span>
+<span class="kw2">class</span> <span class="kw3">File</span> <span class="kw2">extends</span> BaseFile
+<span class="br0">&#123;</span>
+  <span class="co4">/**
+   * Generates a filename for the current file object.
+   *
+   * @param sfValidatedFile $file
+   * @return string
+   */</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> generateFilenameFilename<span class="br0">&#40;</span>sfValidatedFile <span class="re0">$file</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">setMimeType</span><span class="br0">&#40;</span><span class="re0">$file</span><span class="sy0">-&gt;</span><span class="kw3">getType</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">setSize</span><span class="br0">&#40;</span><span class="re0">$file</span><span class="sy0">-&gt;</span><span class="me1">getSize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="re0">$file</span><span class="sy0">-&gt;</span><span class="me1">generateFilename</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Este nuevo método se encarga de generar un nombre de archivo propio para guardar
+el archivo en el sistema de archivos. Aunque el método <code>generateFilenameFilename()</code>
+devuelve por defecto un nombre de archivo generado automáticamente, también
+establece las propiedades <code>mime_type</code> y <code>size</code> gracias al objeto de tipo
+<code>sfValidatedFile</code> que se pasa como primer argumento.</p>
+
+<p>Como Symfony 1.3 ya soporta la herencia de tablas de Doctrine, los formularios
+ahora pueden guardar un objeto y todos sus valores heredados. Gracias al soporte
+nativo de la herencia de tablas, es posible crear formularios muy potentes y
+funcionales añadiendo una pequeña cantidad de código propio.</p>
+
+<p>El código anterior puede mejorarse mucho de forma sencilla gracias a la herencia
+de clases. Por ejemplo las clases <code>VideoForm</code> y <code>PDFForm</code> podrían redefinir el
+validador de <code>filename</code> para que utilizara un validador propio más específico
+como <code>sfValidatorVideo</code> o <code>sfValidatorPDF</code>.</p>
+
+<h3 id="herencia_de_tablas_en_los_filtros">9.2.4. Herencia de tablas en los filtros</h3>
+
+<p>Como los filtros en realidad son formularios, también heredan los métodos y
+propiedades de los filtros padre. De esta forma, los objetos <code>VideoFormFilter</code>
+y <code>PDFFormFilter</code> heredan de la clase <code>FileFormFilter</code> y se pueden personalizar
+utilizando el método <code>setupInheritance()</code>.</p>
+
+<p>De la misma forma, tanto <code>VideoFormFilter</code> como <code>PDFFormFilter</code> pueden compartir
+los mismos métodos propios de la clase <code>FileFormFilter</code>.</p>
+
+<h3 id="herencia_de_tablas_en_el_generador_de_la_parte_de_administracion">9.2.5. Herencia de tablas en el generador de la parte de administración</h3>
+
+<p>A continuación se muestra cómo aprovechar la herencia de tablas de Doctrine
+junto con una de las nuevas características del generador de la parte de
+administración: la definición de una <em>clase base de las acciones</em>. El generador
+de la parte de administración es una de las características que más ha mejorado
+Symfony desde su versión 1.0.</p>
+
+<p>En noviembre de 2008 Symfony introdujo el nuevo generador de administración como
+parte de Symfony 1.2. Esta herramienta incluye muchas funcionalidades listas
+para usar, como las operaciones CRUD básicas, paginación y filtrado de listados,
+borrado múltiple, etc. El generador de administraciones es una herramienta muy
+poderosa que facilita y acelera el desarrollo y personalización del <em>backend</em>
+de las aplicaciones.</p>
+
+<h4 id="introduccion_al_ejemplo_practico">9.2.5.1. Introducción al ejemplo práctico</h4>
+
+<p>El objetivo de esta última parte del capítulo consiste en ilustrar el uso de la
+herencia de tablas de Doctrine junto con el generador de la parte de administración.
+Para ello, se va a crear un backend sencillo que gestione dos tablas que contienen
+información que se puede ordenar y priorizar.</p>
+
+<p>Como el lema de Symfony es <em>"no reinventes la rueda"</em>, el modelo de Doctrine
+va a utilizar el plugin <a href="http://www.symfony-project.org/plugins/csDoctrineActAsSortablePlugin" title="página del plugin csDoctrineActAsSortablePlugin">csDoctrineActAsSortablePlugin</a>
+para que se encargue de todo lo relacionado con la ordenación de objetos. El
+plugin ~<code>csDoctrineActAsSortablePlugin</code>~ lo desarrolla y mantiene una empresa
+llamada <em>CentreSource</em> y que es una de las empresas más activas dentro del
+ecosistema de Symfony.</p>
+
+<p>El modelo de datos es muy sencillo, ya que está formado por tres clases llamadas
+<code>sfItem</code>, <code>sfTodoItem</code> y <code>sfShoppingItem</code>, que permiten gestionar una lista de
+tareas y una lista de la compra. Cada elemento de las dos listas es ordenable
+de forma que se pueda asignar la prioridad de los elementos en base a su
+posición.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">sfItem</span>:<span class="co3">
+  actAs</span><span class="sy2">: </span>            <span class="br0">&#91;</span>Timestampable<span class="br0">&#93;</span><span class="co4">
+  columns</span>:<span class="co4">
+    name</span>:<span class="co3">
+      type</span><span class="sy2">: </span>         string<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span><span class="co3">
+      notnull</span><span class="sy2">: </span>      true
+<span class="co4">
+sfTodoItem</span>:<span class="co3">
+  actAs</span><span class="sy2">: </span>            <span class="br0">&#91;</span>Sortable<span class="br0">&#93;</span><span class="co4">
+  inheritance</span>:<span class="co3">
+    type</span><span class="sy2">: </span>           concrete<span class="co3">
+    extends</span><span class="sy2">: </span>        sfItem<span class="co4">
+  columns</span>:<span class="co4">
+    priority</span>:<span class="co3">
+      type</span><span class="sy2">: </span>         string<span class="br0">&#40;</span><span class="nu0">20</span><span class="br0">&#41;</span><span class="co3">
+      notnull</span><span class="sy2">: </span>      true<span class="co3">
+      default</span><span class="sy2">: </span>      minor<span class="co4">
+    assigned_to</span>:<span class="co3">
+      type</span><span class="sy2">: </span>         string<span class="br0">&#40;</span><span class="nu0">30</span><span class="br0">&#41;</span><span class="co3">
+      notnull</span><span class="sy2">: </span>      true<span class="co3">
+      default</span><span class="sy2">: </span>      me
+<span class="co4">
+sfShoppingItem</span>:<span class="co3">
+  actAs</span><span class="sy2">: </span>            <span class="br0">&#91;</span>Sortable<span class="br0">&#93;</span><span class="co4">
+  inheritance</span>:<span class="co3">
+    type</span><span class="sy2">: </span>           concrete<span class="co3">
+    extends</span><span class="sy2">: </span>        sfItem<span class="co4">
+  columns</span>:<span class="co4">
+    quantity</span>:<span class="co3">
+      type</span><span class="sy2">: </span>         integer<span class="br0">&#40;</span><span class="nu0">3</span><span class="br0">&#41;</span><span class="co3">
+      notnull</span><span class="sy2">: </span>      true<span class="co3">
+      default</span><span class="sy2">: </span>      <span class="nu0">1</span></pre>
+</div>
+
+<p>El esquema anterior describe el modelo de datos basado en tres clases diferentes.
+Las dos sub-clases (<code>sfTodoItem</code> y <code>sfShoppingItem</code>) utilizan los comportamientos
+<code>Sortable</code> y <code>Timestampable</code>. El comportamiento <code>Sortable</code> está disponible gracias
+al plugin <code>csDoctrineActAsSortablePlugin</code> y añade en cada tabla una columna de
+tipo entero llamada <code>position</code>. Las dos clases heredan de la clase base <code>sfItem</code>.
+Esta clase contiene dos columnas llamadas <code>id</code> y <code>name</code>.</p>
+
+<p>Para poder probar el backend se crea el siguiente archivo de datos. Como es
+habitual, este archivo de datos se guarda en el archivo <code>data/fixtures.yml</code> del
+proyecto Symfony.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">sfTodoItem</span>:<span class="co4">
+  sfTodoItem_1</span>:<span class="co3">
+    name</span><span class="sy2">: </span>          <span class="st0">&quot;Write a new symfony book&quot;</span><span class="co3">
+    priority</span><span class="sy2">: </span>      <span class="st0">&quot;medium&quot;</span><span class="co3">
+    assigned_to</span><span class="sy2">: </span>   <span class="st0">&quot;Fabien Potencier&quot;</span><span class="co4">
+  sfTodoItem_2</span>:<span class="co3">
+    name</span><span class="sy2">: </span>          <span class="st0">&quot;Release Doctrine 2.0&quot;</span><span class="co3">
+    priority</span><span class="sy2">: </span>      <span class="st0">&quot;minor&quot;</span><span class="co3">
+    assigned_to</span><span class="sy2">: </span>   <span class="st0">&quot;Jonathan Wage&quot;</span><span class="co4">
+  sfTodoItem_3</span>:<span class="co3">
+    name</span><span class="sy2">: </span>          <span class="st0">&quot;Release symfony 1.4&quot;</span><span class="co3">
+    priority</span><span class="sy2">: </span>      <span class="st0">&quot;major&quot;</span><span class="co3">
+    assigned_to</span><span class="sy2">: </span>   <span class="st0">&quot;Kris Wallsmith&quot;</span><span class="co4">
+  sfTodoItem_4</span>:<span class="co3">
+    name</span><span class="sy2">: </span>          <span class="st0">&quot;Document Lime 2 Core API&quot;</span><span class="co3">
+    priority</span><span class="sy2">: </span>      <span class="st0">&quot;medium&quot;</span><span class="co3">
+    assigned_to</span><span class="sy2">: </span>   <span class="st0">&quot;Bernard Schussek&quot;</span>
+<span class="co4">
+sfShoppingItem</span>:<span class="co4">
+  sfShoppingItem_1</span>:<span class="co3">
+    name</span><span class="sy2">: </span>          <span class="st0">&quot;Apple MacBook Pro 15.4 inches&quot;</span><span class="co3">
+    quantity</span><span class="sy2">: </span>      <span class="nu0">3</span><span class="co4">
+  sfShoppingItem_2</span>:<span class="co3">
+    name</span><span class="sy2">: </span>          <span class="st0">&quot;External Hard Drive 320 GB&quot;</span><span class="co3">
+    quantity</span><span class="sy2">: </span>      <span class="nu0">5</span><span class="co4">
+  sfShoppingItem_3</span>:<span class="co3">
+    name</span><span class="sy2">: </span>          <span class="st0">&quot;USB Keyboards&quot;</span><span class="co3">
+    quantity</span><span class="sy2">: </span>      <span class="nu0">2</span><span class="co4">
+  sfShoppingItem_4</span>:<span class="co3">
+    name</span><span class="sy2">: </span>          <span class="st0">&quot;Laser Printer&quot;</span><span class="co3">
+    quantity</span><span class="sy2">: </span>      <span class="nu0">1</span></pre>
+</div>
+
+<p>Después de instalar el plugin <code>csDoctrineActAsSortablePlugin</code> y después de crear
+el modelo de datos, es necesario activar el nuevo plugin en la clase
+<code>ProjectConfiguration</code> del archivo <code>config/ProjectConfiguration.class.php</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> ProjectConfiguration <span class="kw2">extends</span> sfProjectConfiguration
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> setup<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">enablePlugins</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+      <span class="st_h">'sfDoctrinePlugin'</span><span class="sy0">,</span>
+      <span class="st_h">'csDoctrineActAsSortablePlugin'</span>
+    <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>A continuación se puede generar la base de datos, el modelo, los formularios y
+los filtros, además de cargar los datos de prueba en las tablas de la recién
+creada base de datos. Todo esto se puede realizar con una única tarea llamada
+<code>doctrine:build</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ php symfony doctrine:build --all --no-confirmation</pre>
+</div>
+
+<p>Para completar el proceso es necesario borrar la cache de Symfony y también se
+deben enlazar los recursos del plugin desde el directorio <code>web/</code> del proyecto:</p>
+
+<div class="code cli">
+<pre class="cli">$ php symfony cache:clear
+$ php symfony plugin:publish-assets</pre>
+</div>
+
+<p>La siguiente sección explica cómo crear los módulos del backend con las herramientas
+de generación de administraciones y también explica cómo aprovechar la nueva
+clase base de las acciones.</p>
+
+<h4 id="creando_el_backend">9.2.5.2. Creando el backend</h4>
+
+<p>Esta sección describe los pasos necesarios para crear una nueva aplicación de
+backend que contenga dos módulos generados automáticamente para gestionar las
+listas de tareas y las listas de la compra. Por tanto, el primer paso consiste
+en generar una nueva aplicación llamada <code>backend</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ php symfony generate:app backend</pre>
+</div>
+
+<p>Aunque el generador de administraciones es una herramienta muy completa, antes
+de Symfony 1.3 el programador debía duplicar todo el código común de los
+diferentes módulos. Ahora en cambio, la tarea <code>doctrine:generate-admin</code>
+incluye una nueva opción llamada <code>--actions-base-class</code> que permite al
+programador definir la clase base de las acciones del módulo.</p>
+
+<p>Como los dos módulos son muy parecidos, es seguro que compartirán el código de
+las acciones genéricas. Este código compartido se puede incluir en una clase
+base de las acciones que se encuentra en el directorio <code>lib/actions</code>, tal y como
+se muestra a continuación:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// lib/actions/sfSortableModuleActions.class.php</span>
+<span class="kw2">class</span> sfSortableModuleActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+&nbsp;
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Una vez que se ha creado la nueva clase <code>sfSortableModuleActions</code> y después de
+borrar la cache, ya es posible generar los dos módulos de la aplicación backend:</p>
+
+<div class="code cli">
+<pre class="cli">$ php symfony doctrine:generate-admin --module=shopping --actions-base-class=sfSortableModuleActions backend sfShoppingItem
+$ php symfony doctrine:generate-admin --module=todo --actions-base-class=sfSortableModuleActions backend sfTodoItem</pre>
+</div>
+
+<p>El generador de la parte de administración genera los módulos en dos directorios
+diferentes. El primer directorio obviamente es <code>apps/backend/modules</code>. No
+obstante, la mayoría de los archivos generados se encuentran en el directorio
+<code>cache/backend/dev/modules</code>. Los archivos que se encuentran en ese directorio
+se regeneran cada vez que se borra la cache o cuando se modifica la cofiguración
+del módulo.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Investigar los archivos generados en la cache es una de las mejores formas de
+aprender cómo funciona internamente el generador de administraciones de Symfony.
+Las nuevas sub-clases de <code>sfSortableModuleActions</code> las puedes encontrar en
+<code>cache/backend/dev/modules/autoShopping/actions/actions.class.php</code> y
+<code>cache/backend/dev/modules/autoTodo/actions/actions.class.php</code> respectivamente.
+Symfony genera por defecto estas clases para que hereden directamente de <code>sfActions</code>.</p></div>
+
+<div class="figure" id="figure_9_6">
+    <img src="/img/mas_con_symfony/06_table_inheritance_backoffice_todo_1.png" alt="Gestión por defecto de la lista de tareas" title="Gestión por defecto de la lista de tareas" />
+
+    <p class="caption"><strong>Figura 9.6</strong> Gestión por defecto de la lista de tareas</p>
+</div>
+
+
+<div class="figure" id="figure_9_7">
+    <img src="/img/mas_con_symfony/07_table_inheritance_backoffice_shopping_1.png" alt="Gestión por defecto de la lista de la compra" title="Gestión por defecto de la lista de la compra" />
+
+    <p class="caption"><strong>Figura 9.7</strong> Gestión por defecto de la lista de la compra</p>
+</div>
+
+
+<p>Los dos módulos del backend ya están listos para utilizarlos y personalizar su
+comportamiento. No obstante, en este capítulo no se trata la configuración de los
+módulos generados automáticamente. Afortunadamente existe mucha documentación
+sobre este aspecto, como por ejemplo la 
+<a href="http://www.symfony-project.org/reference/1_3/en/06-Admin-Generator">Referencia de Symfony</a>.</p>
+
+<h4 id="modificando_la_posicion_de_un_elemento">9.2.5.3. Modificando la posición de un elemento</h4>
+
+<p>La sección anterior describe cómo crear dos módulos de administración completamente
+funcionales, cada uno de ellos heredando de la misma clase base de acciones. El
+siguiente paso consiste en crear una acción compartida que permita reordenar los
+elementos de una lista. Este requerimiento es bastante sencillo ya que el plugin
+que acabamos de instalar incluye una completa API para reordenar los objetos.</p>
+
+<p>En primer lugar se crean dos nuevas rutas preparadas para mover un registro
+hacia arriba o hacia abajo. Como el generador de administraciones utiliza la
+ruta <code>sfDoctrineRouteCollection</code>, se pueden añadir fácilmente nuevas rutas a
+la colección mediante el archivo de configuración <code>config/generator.yml</code> de
+cada módulo:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># apps/backend/modules/shopping/config/generator.yml</span><span class="co4">
+generator</span>:<span class="co3">
+  class</span><span class="sy2">: </span>sfDoctrineGenerator<span class="co4">
+  param</span>:<span class="co3">
+    model_class</span><span class="sy2">: </span>          sfShoppingItem<span class="co3">
+    theme</span><span class="sy2">: </span>                admin<span class="co3">
+    non_verbose_templates</span><span class="sy2">: </span>true<span class="co3">
+    with_show</span><span class="sy2">: </span>            false<span class="co3">
+    singular</span><span class="sy2">: </span>             ~<span class="co3">
+    plural</span><span class="sy2">: </span>               ~<span class="co3">
+    route_prefix</span><span class="sy2">: </span>         sf_shopping_item<span class="co3">
+    with_doctrine_route</span><span class="sy2">: </span>  true<span class="co3">
+    actions_base_class</span><span class="sy2">: </span>   sfSortableModuleActions
+<span class="co4">
+    config</span>:<span class="co3">
+      actions</span><span class="sy2">: </span>~<span class="co3">
+      fields</span><span class="sy2">: </span> ~<span class="co4">
+      list</span>:<span class="co3">
+        max_per_page</span><span class="sy2">: </span>     <span class="nu0">100</span><span class="co3">
+        sort</span><span class="sy2">: </span>             <span class="br0">&#91;</span>position, asc<span class="br0">&#93;</span><span class="co3">
+        display</span><span class="sy2">: </span>          <span class="br0">&#91;</span>position, name, quantity<span class="br0">&#93;</span><span class="co4">
+        object_actions</span>:<span class="co3">
+          moveUp</span><span class="sy2">: </span>         <span class="br0">&#123;</span> label<span class="sy2">: </span><span class="st0">&quot;move up&quot;</span>, action<span class="sy2">: </span><span class="st0">&quot;moveUp&quot;</span> <span class="br0">&#125;</span><span class="co3">
+          moveDown</span><span class="sy2">: </span>       <span class="br0">&#123;</span> label<span class="sy2">: </span><span class="st0">&quot;move down&quot;</span>, action<span class="sy2">: </span><span class="st0">&quot;moveDown&quot;</span> <span class="br0">&#125;</span><span class="co3">
+          _edit</span><span class="sy2">: </span>     ~<span class="co3">
+          _delete</span><span class="sy2">: </span>   ~<span class="co3">
+      filter</span><span class="sy2">: </span> ~<span class="co3">
+      form</span><span class="sy2">: </span>   ~<span class="co3">
+      edit</span><span class="sy2">: </span>   ~<span class="co3">
+      new</span><span class="sy2">: </span>    ~</pre>
+</div>
+
+<p>Los cambios anteriores también hay que incluirlos en el módulo <code>todo</code>:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># apps/backend/modules/todo/config/generator.yml</span><span class="co4">
+generator</span>:<span class="co3">
+  class</span><span class="sy2">: </span>sfDoctrineGenerator<span class="co4">
+  param</span>:<span class="co3">
+    model_class</span><span class="sy2">: </span>          sfTodoItem<span class="co3">
+    theme</span><span class="sy2">: </span>                admin<span class="co3">
+    non_verbose_templates</span><span class="sy2">: </span>true<span class="co3">
+    with_show</span><span class="sy2">: </span>            false<span class="co3">
+    singular</span><span class="sy2">: </span>             ~<span class="co3">
+    plural</span><span class="sy2">: </span>               ~<span class="co3">
+    route_prefix</span><span class="sy2">: </span>         sf_todo_item<span class="co3">
+    with_doctrine_route</span><span class="sy2">: </span>  true<span class="co3">
+    actions_base_class</span><span class="sy2">: </span>   sfSortableModuleActions
+<span class="co4">
+    config</span>:<span class="co3">
+      actions</span><span class="sy2">: </span>~<span class="co3">
+      fields</span><span class="sy2">: </span> ~<span class="co4">
+      list</span>:<span class="co3">
+        max_per_page</span><span class="sy2">: </span>     <span class="nu0">100</span><span class="co3">
+        sort</span><span class="sy2">: </span>             <span class="br0">&#91;</span>position, asc<span class="br0">&#93;</span><span class="co3">
+        display</span><span class="sy2">: </span>          <span class="br0">&#91;</span>position, name, priority, assigned_to<span class="br0">&#93;</span><span class="co4">
+        object_actions</span>:<span class="co3">
+          moveUp</span><span class="sy2">: </span>         <span class="br0">&#123;</span> label<span class="sy2">: </span><span class="st0">&quot;move up&quot;</span>, action<span class="sy2">: </span><span class="st0">&quot;moveUp&quot;</span> <span class="br0">&#125;</span><span class="co3">
+          moveDown</span><span class="sy2">: </span>       <span class="br0">&#123;</span> label<span class="sy2">: </span><span class="st0">&quot;move down&quot;</span>, action<span class="sy2">: </span><span class="st0">&quot;moveDown&quot;</span> <span class="br0">&#125;</span><span class="co3">
+          _edit</span><span class="sy2">: </span>     ~<span class="co3">
+          _delete</span><span class="sy2">: </span>   ~<span class="co3">
+      filter</span><span class="sy2">: </span> ~<span class="co3">
+      form</span><span class="sy2">: </span>   ~<span class="co3">
+      edit</span><span class="sy2">: </span>   ~<span class="co3">
+      new</span><span class="sy2">: </span>    ~</pre>
+</div>
+
+<p>Los dos archivos YAML describen la configuración de los módulos <code>shopping</code> y
+<code>todo</code>. Cada uno ha sido configurado para que se adapte a las necesidades del
+usuario. En primer lugar, los listados se ordenan de forma ascendente según la
+columna <code>position</code>. Además, el máximo número de elementos por página se ha
+incrementado hasta 100 para evitar en lo posible la paginación de elementos.</p>
+
+<p>Por último, el número de columnas que se muestran se han reducido a <code>position</code>,
+<code>name</code>, <code>priority</code>, <code>assigned_to</code> y <code>quantity</code>. Además, cada módulo dispone de
+dos nuevas acciones: <code>moveUp</code> y <code>moveDown</code>. El aspecto final de los listados
+debe ser idéntico al de las siguientes imágenes:</p>
+
+<div class="figure" id="figure_9_8">
+    <img src="/img/mas_con_symfony/09_table_inheritance_backoffice_todo_2.png" alt="Administración personalizada de la lista de tareas" title="Administración personalizada de la lista de tareas" />
+
+    <p class="caption"><strong>Figura 9.8</strong> Administración personalizada de la lista de tareas</p>
+</div>
+
+
+<div class="figure" id="figure_9_9">
+    <img src="/img/mas_con_symfony/08_table_inheritance_backoffice_shopping_2.png" alt="Administración personalizada de la lista de la compra" title="Administración personalizada de la lista de tareas" />
+
+    <p class="caption"><strong>Figura 9.9</strong> Administración personalizada de la lista de la compra</p>
+</div>
+
+
+<p>Estas dos nuevas acciones se han declarado pero todavía no hacen nada. Las dos
+se deben crear en la clase base de las acciones <code>sfSortableModuleActions</code>, tal
+y como se describe a continuación.  El plugin ~<code>csDoctrineActAsSortablePlugin</code>~
+incluye dos métodos muy útiles en la clase de cada modelo: <code>promote()</code> y <code>demote()</code>.
+Los dos se utilizan para crear las acciones <code>moveUp</code> y <code>moveDown</code>.</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// lib/actions/sfSortableModuleActions.class.php</span>
+<span class="kw2">class</span> sfSortableModuleActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="co4">/**
+   * Moves an item up in the list.
+   *
+   * @param sfWebRequest $request
+   */</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeMoveUp<span class="br0">&#40;</span>sfWebRequest <span class="re0">$request</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">item</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRoute</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">item</span><span class="sy0">-&gt;</span><span class="me1">promote</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getModuleName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="co4">/**
+   * Moves an item down in the list.
+   *
+   * @param sfWebRequest $request
+   */</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeMoveDown<span class="br0">&#40;</span>sfWebRequest <span class="re0">$request</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">item</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRoute</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">item</span><span class="sy0">-&gt;</span><span class="me1">demote</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getModuleName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Gracias a estas dos nuevas acciones compartidas, tanto la lista de tareas como
+la lista de la compra permiten reordenar sus elementos. Además, estas acciones
+son fáciles de mantener y de probar con las pruebas funcionales. Si quieres
+puedes mejorar el aspecto de los dos módulos redefiniendo la plantilla de las
+acciones del objeto para eliminar el primer enlace <code>move up</code> y el último enlace
+<code>move down</code>.</p>
+
+<h4 id="mejorando_la_experiencia_de_usuario">9.2.5.4. Mejorando la experiencia de usuario</h4>
+
+<p>Antes de concluir este capítulo se van a retocar las dos listas para mejorar la
+experiencia de usuario. Casi todo el mundo está de acuerdo en que mover un
+elemento pinchando un enlace no es una forma muy intuitiva para la mayoría de
+usuarios. Una forma mucho mejor de hacerlo consiste en utilizar comportamientos
+de AJAX y JavaScript. En este último caso, todas las filas de la tabla HTML son
+reordenables simplemente arrastrando y soltando (<em>drag &amp; drop</em>) gracias al plugin
+<em><code>Table Drag and Drop</code></em> de jQuery. Cada vez que el usuario mueva una fila de
+la tabla HTML, se realizará una llamada mediante AJAX.</p>
+
+<p>En primer lugar, descarga el framework jQuery e instálalo en el directorio <code>web/js</code>.
+Repite este proceso para el plugin <em><code>Table Drag and Drop</code></em> cuyo código puedes
+encontrar en un <a href="http://code.google.com/p/tablednd/">repositorio de Google Code</a>.</p>
+
+<p>Para que esta nueva característica funcione, los listados de cada módulo deben
+en primer lugar incluir cierto código JavaScript y las dos tablas necesitan un
+atributo <code>id</code>. Como todas las plantillas y elementos parciales del generador de
+administraciones se pueden redefinir, localiza el archivo <code>_list.php</code> de la
+cache y copialo en los dos módulos.</p>
+
+<p>Sin embargo, copiar el mismo archivo <code>_list.php</code> en el directorio <code>templates/</code>
+de cada módulo no es una práctica muy DRY (<em>Don't Repeat Yourself</em>). Por tanto,
+copiar el archivo <code>cache/backend/dev/modules/autoShopping/templates/_list.php</code>
+en el directorio <code>apps/backend/templates/</code> y cambia su nombre a <code>_table.php</code>.
+Reemplaza su contenido actual por el siguiente código:</p>
+
+<div class="code php">
+<pre class="php">&lt;div class=&quot;sf_admin_list&quot;&gt;
+  <span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$pager</span><span class="sy0">-&gt;</span><span class="me1">getNbResults</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+    &lt;p&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> __<span class="br0">&#40;</span><span class="st_h">'No result'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'sf_admin'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/p&gt;
+  <span class="kw2">&lt;?php</span> <span class="kw1">else</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+    &lt;table cellspacing=&quot;0&quot; id=&quot;sf_item_table&quot;&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th id=&quot;sf_admin_list_batch_actions&quot;&gt;&lt;input id=&quot;sf_admin_list_batch_checkbox&quot; type=&quot;checkbox&quot; onclick=&quot;checkAll();&quot; /&gt;&lt;/th&gt;
+          <span class="kw2">&lt;?php</span> include_partial<span class="br0">&#40;</span>
+            <span class="re0">$sf_request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'module'</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/list_th_tabular'</span><span class="sy0">,</span>
+            <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'sort'</span> <span class="sy0">=&gt;</span> <span class="re0">$sort</span><span class="br0">&#41;</span>
+          <span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+          &lt;th id=&quot;sf_admin_list_th_actions&quot;&gt;
+            <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> __<span class="br0">&#40;</span><span class="st_h">'Actions'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'sf_admin'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+          &lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tfoot&gt;
+        &lt;tr&gt;
+          &lt;th colspan=&quot;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$colspan</span> <span class="sy1">?&gt;</span>&quot;&gt;
+            <span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$pager</span><span class="sy0">-&gt;</span><span class="me1">haveToPaginate</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+              <span class="kw2">&lt;?php</span> include_partial<span class="br0">&#40;</span>
+                <span class="re0">$sf_request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'module'</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/pagination'</span><span class="sy0">,</span>
+                <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'pager'</span> <span class="sy0">=&gt;</span> <span class="re0">$pager</span><span class="br0">&#41;</span>
+              <span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+            <span class="kw2">&lt;?php</span> <span class="kw1">endif</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+            <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> format_number_choice<span class="br0">&#40;</span>
+              <span class="st_h">'[0] no result|[1] 1 result|(1,+Inf] %1% results'</span><span class="sy0">,</span> 
+              <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'%1%'</span> <span class="sy0">=&gt;</span> <span class="re0">$pager</span><span class="sy0">-&gt;</span><span class="me1">getNbResults</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+              <span class="re0">$pager</span><span class="sy0">-&gt;</span><span class="me1">getNbResults</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'sf_admin'</span>
+            <span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+            <span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$pager</span><span class="sy0">-&gt;</span><span class="me1">haveToPaginate</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+              <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> __<span class="br0">&#40;</span><span class="st_h">'(page %%page%%/%%nb_pages%%)'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+                <span class="st_h">'%%page%%'</span> <span class="sy0">=&gt;</span> <span class="re0">$pager</span><span class="sy0">-&gt;</span><span class="me1">getPage</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> 
+                <span class="st_h">'%%nb_pages%%'</span> <span class="sy0">=&gt;</span> <span class="re0">$pager</span><span class="sy0">-&gt;</span><span class="me1">getLastPage</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">,</span> 
+                <span class="st_h">'sf_admin'</span>
+              <span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+            <span class="kw2">&lt;?php</span> <span class="kw1">endif</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+          &lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/tfoot&gt;
+      &lt;tbody&gt;
+      <span class="kw2">&lt;?php</span> <span class="kw1">foreach</span> <span class="br0">&#40;</span><span class="re0">$pager</span><span class="sy0">-&gt;</span><span class="me1">getResults</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw1">as</span> <span class="re0">$i</span> <span class="sy0">=&gt;</span> <span class="re0">$item</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+        <span class="kw2">&lt;?php</span> <span class="re0">$odd</span> <span class="sy0">=</span> <span class="kw3">fmod</span><span class="br0">&#40;</span><span class="sy0">++</span><span class="re0">$i</span><span class="sy0">,</span> <span class="nu0">2</span><span class="br0">&#41;</span> ? <span class="st_h">'odd'</span> <span class="sy0">:</span> <span class="st_h">'even'</span> <span class="sy1">?&gt;</span>
+        &lt;tr class=&quot;sf_admin_row <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$odd</span> <span class="sy1">?&gt;</span>&quot;&gt;
+          <span class="kw2">&lt;?php</span> include_partial<span class="br0">&#40;</span>
+            <span class="re0">$sf_request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'module'</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/list_td_batch_actions'</span><span class="sy0">,</span>
+            <span class="kw3">array</span><span class="br0">&#40;</span>
+              <span class="st_h">'sf_'</span><span class="sy0">.</span> <span class="re0">$sf_request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'module'</span><span class="br0">&#41;</span> <span class="sy0">.</span><span class="st_h">'_item'</span> <span class="sy0">=&gt;</span> <span class="re0">$item</span><span class="sy0">,</span>
+              <span class="st_h">'helper'</span> <span class="sy0">=&gt;</span> <span class="re0">$helper</span>
+          <span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+          <span class="kw2">&lt;?php</span> include_partial<span class="br0">&#40;</span>
+            <span class="re0">$sf_request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'module'</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/list_td_tabular'</span><span class="sy0">,</span> 
+            <span class="kw3">array</span><span class="br0">&#40;</span>
+              <span class="st_h">'sf_'</span><span class="sy0">.</span> <span class="re0">$sf_request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'module'</span><span class="br0">&#41;</span> <span class="sy0">.</span><span class="st_h">'_item'</span> <span class="sy0">=&gt;</span> <span class="re0">$item</span>
+          <span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+            <span class="kw2">&lt;?php</span> include_partial<span class="br0">&#40;</span>
+              <span class="re0">$sf_request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'module'</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/list_td_actions'</span><span class="sy0">,</span>
+              <span class="kw3">array</span><span class="br0">&#40;</span>
+                <span class="st_h">'sf_'</span><span class="sy0">.</span> <span class="re0">$sf_request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'module'</span><span class="br0">&#41;</span> <span class="sy0">.</span><span class="st_h">'_item'</span> <span class="sy0">=&gt;</span> <span class="re0">$item</span><span class="sy0">,</span> 
+                <span class="st_h">'helper'</span> <span class="sy0">=&gt;</span> <span class="re0">$helper</span>
+            <span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+        &lt;/tr&gt;
+      <span class="kw2">&lt;?php</span> <span class="kw1">endforeach</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  <span class="kw2">&lt;?php</span> <span class="kw1">endif</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+  &lt;/div&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
+    /* &lt;![CDATA[ */
+    function checkAll() {
+      var boxes = document.getElementsByTagName('input'); 
+      for (var index = 0; index &lt; boxes.length; index++) { 
+        box = boxes[index]; 
+        if (
+          box.type == 'checkbox' 
+          &amp;&amp; 
+          box.className == 'sf_admin_batch_checkbox'
+        ) 
+        box.checked = document.getElementById('sf_admin_list_batch_checkbox').checked 
+      }
+      return true;
+    }
+    /* ]]&gt; */
+  &lt;/script&gt;</pre>
+</div>
+
+<p>Por último, crea un archivo <code>_list.php</code> en el directorio <code>templates/</code> de cada
+módulo y coloca el siguiente código en cada uno:</p>
+
+<div class="code php">
+<pre class="php">// apps/backend/modules/shopping/templates/_list.php
+<span class="kw2">&lt;?php</span> include_partial<span class="br0">&#40;</span><span class="st_h">'global/table'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+  <span class="st_h">'pager'</span> <span class="sy0">=&gt;</span> <span class="re0">$pager</span><span class="sy0">,</span>
+  <span class="st_h">'helper'</span> <span class="sy0">=&gt;</span> <span class="re0">$helper</span><span class="sy0">,</span>
+  <span class="st_h">'sort'</span> <span class="sy0">=&gt;</span> <span class="re0">$sort</span><span class="sy0">,</span>
+  <span class="st_h">'colspan'</span> <span class="sy0">=&gt;</span> <span class="nu0">5</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<div class="code php">
+<pre class="php">// apps/backend/modules/shopping/templates/_list.php
+<span class="kw2">&lt;?php</span> include_partial<span class="br0">&#40;</span><span class="st_h">'global/table'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+  <span class="st_h">'pager'</span> <span class="sy0">=&gt;</span> <span class="re0">$pager</span><span class="sy0">,</span>
+  <span class="st_h">'helper'</span> <span class="sy0">=&gt;</span> <span class="re0">$helper</span><span class="sy0">,</span>
+  <span class="st_h">'sort'</span> <span class="sy0">=&gt;</span> <span class="re0">$sort</span><span class="sy0">,</span>
+  <span class="st_h">'colspan'</span> <span class="sy0">=&gt;</span> <span class="nu0">8</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Para modificar la posición de una fila, los dos módulos deben implementar una
+nueva acción que procese la petición AJAX entrante. Como se ha explicado anteriormente,
+la nueva acción compartida <code>executeMove()</code> debe añadirse a la clase base de acciones
+<code>sfSortableModuleActions</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// lib/actions/sfSortableModuleActions.class.php</span>
+<span class="kw2">class</span> sfSortableModuleActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="co4">/**
+   * Performs the Ajax request, moves an item to a new position.
+   *
+   * @param sfWebRequest $request
+   */</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeMove<span class="br0">&#40;</span>sfWebRequest <span class="re0">$request</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">forward404Unless</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">isXmlHttpRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">forward404Unless</span><span class="br0">&#40;</span><span class="re0">$item</span> <span class="sy0">=</span> Doctrine_Core<span class="sy0">::</span><span class="me2">getTable</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">configuration</span><span class="sy0">-&gt;</span><span class="me1">getModel</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">find</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$item</span><span class="sy0">-&gt;</span><span class="me1">moveToPosition</span><span class="br0">&#40;</span><span class="br0">&#40;</span>int<span class="br0">&#41;</span> <span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'rank'</span><span class="sy0">,</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">return</span> sfView<span class="sy0">::</span><span class="me2">NONE</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>La acción <code>executeMove()</code> requiere un método llamado <code>getModel()</code> en el objeto
+de la configuración. Implementa este nuevo método en las clases <code>todoGeneratorConfiguration</code>
+y <code>shoppingGeneratorConfiguration</code> tal y como se muestra a continuación:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// apps/backend/modules/shopping/lib/shoppingGeneratorConfiguration.class.php</span>
+<span class="kw2">class</span> shoppingGeneratorConfiguration <span class="kw2">extends</span> BaseShoppingGeneratorConfiguration
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> getModel<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="st_h">'sfShoppingItem'</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<div class="code php">
+<pre class="php"><span class="co1">// apps/backend/modules/todo/lib/todoGeneratorConfiguration.class.php</span>
+<span class="kw2">class</span> todoGeneratorConfiguration <span class="kw2">extends</span> BaseTodoGeneratorConfiguration
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> getModel<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="st_h">'sfTodoItem'</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Todavía queda una última tarea que hacer. Por el momento, las filas de las tablas
+no se pueden arrastrar y no se realiza ninguna llamada AJAX cuando se recoloca
+una fila. Para implementar estas características, los dos módulos necesitan una
+ruta específica para acceder a su correspondiente acción <code>move</code>. Por tanto,
+añade en el archivo <code>apps/backend/config/routing.yml</code> las dos siguientes rutas:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">foreach</span> <span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'shopping'</span><span class="sy0">,</span> <span class="st_h">'todo'</span><span class="br0">&#41;</span> <span class="kw1">as</span> <span class="re0">$module</span><span class="br0">&#41;</span> <span class="sy0">:</span> <span class="sy1">?&gt;</span>
+&nbsp;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$module</span> <span class="sy1">?&gt;</span>_move:
+  class: sfRequestRoute
+  url: /<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$module</span> <span class="sy1">?&gt;</span>/move
+  param:
+    module: &quot;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$module</span> <span class="sy1">?&gt;</span>&quot;
+    action: move
+  requirements:
+    sf_method: [get]
+&nbsp;
+<span class="kw2">&lt;?php</span> <span class="kw1">endforeach</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Para evitar el código duplicado, las dos nuevas rutas se generan mediante una
+instrucción <code>foreach</code> y hacen uso del nombre del módulo para utilizarlas
+fácilmente desde la vista. Por último, el archivo <code>apps/backend/templates/_table.php</code>
+debe incluir el siguiente código JavaScript para añadir el comportamiento de
+"arrastrar y soltar" en las filas de las tablas y para realizar la correspondiente
+llamada AJAX:</p>
+
+<div class="code php">
+<pre class="php">&lt;script type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;
+  $().ready(function() {
+    $(&quot;#sf_item_table&quot;).tableDnD({
+      onDrop: function(table, row) {
+        var rows = table.tBodies[0].rows;
+&nbsp;
+        // Get the moved item's id
+        var movedId = $(row).find('td input:checkbox').val();
+&nbsp;
+        // Calculate the new row's position
+        var pos = 1;
+        for (var i = 0; i&lt;rows.length; i++) {
+          var cells = rows[i].childNodes;
+          // Perform the ajax request for the new position
+          if (movedId == $(cells[1]).find('input:checkbox').val()) {
+            $.ajax({
+              url:&quot;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> url_for<span class="br0">&#40;</span><span class="st_h">'@'</span><span class="sy0">.</span> <span class="re0">$sf_request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'module'</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'_move'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>?id=&quot;+ movedId +&quot;&amp;rank=&quot;+ pos,
+              type:&quot;GET&quot;
+            });
+            break;
+          }
+          pos++;
+        }
+      },
+    });
+  });
+&lt;/script&gt;</pre>
+</div>
+
+<p>La tabla HTML ya es completamente funcional. Sus filas se pueden arrastrar y
+soltar y la nueva posición de los elementos se guarda automáticamente gracias
+a las llamadas AJAX. Añadiendo un poco de código en las acciones y plantillas,
+la usabilidad del backend ha mejorado enormemente, mejorando también la
+experiencia de usuario. El generador de la parte de administración es suficientemente
+flexible como para extenderlo y personalizarlo, además de soportar todas las
+características de la herencia de tablas de Doctrine.</p>
+
+<p>Si quieres ahora puedes mejorar los dos módulos eliminando las acciones <code>moveUp</code>
+y <code>moveDown</code> obsoletas y añadiendo cualquier otro cambio que se ajuste a tus
+necesidades.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_9/herencia_de_tablas_de_doctrine.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>9.1. Herencia de tablas de Doctrine</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_9/conclusion.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>9.3. Conclusión</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Enrutamiento avanzado</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Mejora tu productividad</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Emails</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Widgets y validadores propios</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Formularios avanzados</a>
+            </li>
+                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Mejorando la barra de depuración web</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Uso avanzado de Doctrine</a>
+            </li>
+                                                                                            <li class="level-1 ">
+                <a href="../capitulo_9.html">
+                    <span>Capítulo 9.</span> Utilizando la herencia de tablas de Doctrine
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/herencia_de_tablas_de_doctrine.html">
+                    <span>9.1.</span> Herencia de tablas de Doctrine
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_9/integracion_de_la_herencia_de_tablas_en_symfony.html">
+                    <span>9.2.</span> Integración de la herencia de tablas en Symfony
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/conclusion.html">
+                    <span>9.3.</span> Conclusión
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Funcionamiento interno de Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Windows y Symfony</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Desarrollando aplicaciones Facebook</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Descubriendo el poder de la línea de comandos</a>
+            </li>
+                                                                                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Jugando con la cache de configuración de Symfony</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Trabajando con la comunidad Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>A.</span> <a href="../apendice_a.html"> Código JavaScript de sfWidgetFormGMapAddress</a>
+            </li>
+                                            <li class="level-1">
+                <span>B.</span> <a href="../apendice_b.html"> Ejemplo de instalador propio</a>
+            </li>
+                                            <li class="level-1">
+                <span>C.</span> <a href="../apendice_c.html"> Licencia</a>
+            </li>
+                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

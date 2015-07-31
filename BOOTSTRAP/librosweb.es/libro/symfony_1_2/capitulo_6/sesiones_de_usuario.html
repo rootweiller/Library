@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>6.4. Sesiones de Usuario (Symfony 1.2, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_6/accediendo_a_la_peticion.html" />
+                    <link rel="next" href="../capitulo_6/seguridad_de_la_accion.html" />
+                <link rel="start" href="/libro/symfony_1_2/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="6.4. Sesiones de Usuario (Symfony 1.2, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_2"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_2/" itemprop="url">
+                    <span itemprop="title">Symfony 1.2, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_2/capitulo_6.html" itemprop="url">
+                    <span itemprop="title">Capítulo 6. El Controlador</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>6.4. Sesiones de Usuario</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="sesiones_de_usuario" class="title">
+        <span>6.4.</span> Sesiones de Usuario
+    </h1>
+
+    
+
+<p>Symfony maneja automáticamente las sesiones del usuario y es capaz de almacenar datos de forma persistente entre peticiones. Utiliza el mecanismo de manejo de sesiones incluido en PHP y lo mejora para hacerlo mas configurable y más fácil de usar.</p>
+
+<h3 id="accediendo_a_la_sesion_de_usuario">6.4.1. Accediendo a la Sesión de Usuario</h3>
+
+<p>El objeto sesión del usuario actual se accede en la acción con el método <code>getUser()</code>, que es una instancia de la clase <code>sfUser</code>. Esta clase dispone de un contenedor de parámetros que permite guardar cualquier atributo del usuario en el. Esta información estará disponible en otras peticiones hasta terminar la sesión del usuario, como se muestra en el Listado 6-15. Los atributos de usuarios pueden guardar cualquier tipo de información (cadenas de texto, arrays y arrays asociativos). Se pueden utilizar para cualquier usuario, incluso si ese usuario no se ha identificado.</p>
+
+<p><strong>Listado 6-15 - El objeto <code>sfUser</code> puede contener atributos personalizados del usuario disponibles en todas las peticiones</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> mimoduloActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executePrimeraPagina<span class="br0">&#40;</span><span class="re0">$peticion</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$nombre</span> <span class="sy0">=</span> <span class="re0">$peticion</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Guardar información en la sesión del usuario</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getUser</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">setAttribute</span><span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="sy0">,</span> <span class="re0">$nombre</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> executeSegundaPagina<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Obtener información de la sesión del usuario con un valor por defecto</span>
+    <span class="re0">$nombre</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getUser</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getAttribute</span><span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="sy0">,</span> <span class="st_h">'Anónimo'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<div class="admonition caution"><p><strong class="title">Advertencia</strong> Puedes guardar objetos en la sesión del usuario, pero no se recomienda hacerlo. El motivo es que el objeto de la sesión se serializa entre una petición y otra. Cuando la sesión se <em>deserializa</em>, la clase del objeto guardado debe haber sido previamente cargada y este no es siempre el caso. Además, puede haber objetos de tipo <em>"stalled"</em> si se guardan objetos de Propel.</p></div>
+
+<p>Como muchos otros <em>getters</em> en Symfony, el método <code>getAttribute()</code> acepta un segundo parámetro, especificando el valor por defecto a ser utilizado cuando el atributo no está definido. Para verificar si un atributo ha sido definido para un usuario, se utiliza el método <code>hasAttribute()</code>. Los atributos se guardan en un contenedor de parámetros que puede ser accedido por el método <code>getAttributeHolder()</code>. También permite un borrado rápido de los atributos del usuario con los métodos usuales del contenedor de parámetros, como se muestra en el listado 6-16.</p>
+
+<p><strong>Listado 6-16 - Eliminando información de la sesión del usuario</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> mimoduloActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeBorraNombre<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getUser</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getAttributeHolder</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">remove</span><span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> executeLimpia<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getUser</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getAttributeHolder</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">clear</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Los atributos de la sesión del usuario también están disponibles por defecto en las plantillas mediante la variable <code>$sf_user</code>, que almacena el objeto <code>sfUser</code> actual, como se muestra en el listado 6-17.</p>
+
+<p><strong>Listado 6-17 - Las plantillas también tienen acceso a los atributos de la sesión del usuario</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;p&gt;
+  Hola, <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$sf_user</span><span class="sy0">-&gt;</span><span class="me1">getAttribute</span><span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&lt;/p&gt;</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Si se necesita guardar la información solamente durante la petición actual (por ejemplo, para pasar información a través de una sucesión de llamadas a acciones) es preferible utilizar la clase <code>sfRequest</code>, que también tiene métodos <code>getAttribute()</code> y <code>setAttribute()</code>. Solo los atributos del objeto <code>sfUser</code> son persistentes entre peticiones.</p></div>
+
+<h3 id="atributos_flash">6.4.2. Atributos Flash</h3>
+
+<p>Un problema recurrente con los atributos del usuario es la limpieza de la sesión del usuario una vez que el atributo no se necesita más. Por ejemplo, puede ser necesario mostrar un mensaje de confirmación después de actualizar información mediante un formulario. Como la acción que maneja el formulario realiza una redirección, la única forma de pasar información desde esta acción a la acción que ha sido redireccionada es almacenar la información en la sesión del usuario. Pero una vez que se muestra el mensaje, es necesario borrar el atributo; ya que de otra forma, permanecerá en la sesión hasta que esta expire.</p>
+
+<p>El atributo de tipo flash es un atributo fugaz que permite definirlo y olvidarse de el, sabiendo que desaparece automáticamente después de la siguiente petición y que deja la sesión limpia para las futuras peticiones. En la acción, se define el atributo flash de la siguiente manera:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getUser</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">setFlash</span><span class="br0">&#40;</span><span class="st_h">'atributo'</span><span class="sy0">,</span> <span class="re0">$valor</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>La plantilla se procesa y se envía al usuario, quien después realiza una nueva petición hacia otra acción. En esta segunda acción, es posible obtener el valor del atributo flash de esta forma:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$valor</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getUser</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getFlash</span><span class="br0">&#40;</span><span class="st_h">'atributo'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Luego ya te puedes olvidar de ese parámetro. Después de mostrar la segunda página, el atributo flash llamado <code>atributo</code> desaparece automáticamente. Incluso si no se utiliza el atributo durante la segunda acción, el atributo desaparece igualmente de la sesión.</p>
+
+<p>Si necesitas acceder a un atributo flash desde la plantilla, puedes utilizar el objeto <code>$sf_user</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$sf_user</span><span class="sy0">-&gt;</span><span class="me1">hasFlash</span><span class="br0">&#40;</span><span class="st_h">'atributo'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+  <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$sf_user</span><span class="sy0">-&gt;</span><span class="me1">getFlash</span><span class="br0">&#40;</span><span class="st_h">'atributo'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">endif</span><span class="sy0">;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>O simplemente:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$sf_user</span><span class="sy0">-&gt;</span><span class="me1">getFlash</span><span class="br0">&#40;</span><span class="st_h">'atributo'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Los atributos de tipo flash son una forma limpia de pasar información a la próxima petición.</p>
+
+<h3 id="manejo_de_sesiones">6.4.3. Manejo de Sesiones</h3>
+
+<p>El manejo de sesiones de Symfony se encarga de gestionar automáticamente el almacenamiento de los IDs de sesión tanto en el cliente como en el servidor. Sin embargo, si se necesita modificar este comportamiento por defecto, es posible hacerlo. Se trata de algo que solamente lo necesitan los usuarios más avanzados.</p>
+
+<p>En el lado del cliente, las sesiones son manejadas por cookies. La cookie de Symfony se llama <code>Symfony</code>, pero se puede cambiar su nombre editando el archivo de configuración <code>factories.yml</code>, como se muestra en el Listado 6-18.</p>
+
+<p><strong>Listado 6-18 - Cambiando el nombre de la cookie de sesión, en <code>apps/frontend/config/factories.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co4">
+  storage</span>:<span class="co3">
+    class</span><span class="sy2">: </span>sfSessionStorage<span class="co4">
+    param</span>:<span class="co3">
+      session_name</span><span class="sy2">: </span>mi_nombre_cookie</pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> La sesión se inicializa (con la función de PHP <code>session_start()</code>) solo si el parámetro <code>auto_start</code> de <code>factories.yml</code> tiene un valor de <code>true</code> (que es el caso por defecto). Si se quiere iniciar la sesión manualmente, se debe cambiar el valor de esa opción de configuración del archivo <code>factories.yml</code>.</p></div>
+
+<p>El manejo de sesiones de Symfony esta basado en las sesiones de PHP. Por tanto, si la gestión de la sesión en la parte del cliente se quiere realizar mediante parámetros en la URL en lugar de cookies, se debe modificar el valor de la directiva <code>use_trans_sid</code> en el archivo de configuración <code>php.ini</code>. No obstante, se recomienda no utilizar esta técnica.</p>
+
+<div class="code code">
+<pre class="code">session.use_trans_sid = 1</pre>
+</div>
+
+<p>En el lado del servidor, Symfony guarda por defecto las sesiones de usuario en archivos. Se pueden almacenar en la base de datos cambiando el valor del parámetro <code>class</code> en <code>factories.yml</code>, como se muestra en el Listado 6-19.</p>
+
+<p><strong>Listado 6-19 - Cambiando el almacenamiento de las sesiones en el servidor, en <code>apps/frontend/config/factories.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co4">
+  storage</span>:<span class="co3">
+    class</span><span class="sy2">: </span>sfMySQLSessionStorage<span class="co4">
+    param</span>:<span class="co3">
+      db_table</span><span class="sy2">: </span>   session              <span class="co1"># Nombre de la tabla que guarda las sesiones</span><span class="co3">
+      database</span><span class="sy2">: </span>   propel               <span class="co1"># Nombre de la conexión a base de datos que se utiliza</span>
+      <span class="co1"># Parámetros opcionales</span><span class="co3">
+      db_id_col</span><span class="sy2">: </span>  sess_id              <span class="co1"># Nombre de la columna que guarda el identificador de la sesión</span><span class="co3">
+      db_data_col</span><span class="sy2">: </span>sess_data            <span class="co1"># Nombre de la columna que guarda los datos de la sesión</span><span class="co3">
+      db_time_col</span><span class="sy2">: </span>sess_time            <span class="co1"># Nombre de la columna que guarda el timestamp de la sesión</span></pre>
+</div>
+
+<p>La opción <code>database</code> define el nombre de la conexión a base de datos que se utiliza. Posteriormente, Symfony utiliza el archivo <code>databases.yml</code> (ver capítulo 8) para determinar los parámetros con los que realiza la conexión (host, nombre de la base de datos, usuario y password).</p>
+
+<p>Las clases disponibles para el almacenamiento de sesiones son <code>sfMySQLSessionStorage</code>, <code>sfMySQLiSessionStorage</code>, <code>sfPostgreSQLSessionStorage</code> y <code>sfPDOSessionStorage</code>. La clase recomendada es <code>sfPDOSessionStorage</code>. Para deshabilitar completamente el almacenamiento de las sesiones, se puede utilizar la clase <code>sfNoStorage</code>.</p>
+
+<p>La expiración de la sesión se produce automáticamente después de 30 minutos. El valor de esta opción se puede modificar para cada entorno en el mismo archivo de configuración <code>factories.yml</code>, concretamente en la factoría correspondiente al usuario (<code>user</code>), tal y como muestra el listado 6-20.</p>
+
+<p><strong>Listado 6-20 - Cambiando el tiempo de vida de la sesión, en <code>apps/frontend/config/factories.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co4">
+  user</span>:<span class="co3">
+    class</span><span class="sy2">: </span>      myUser<span class="co4">
+    param</span>:<span class="co3">
+      timeout</span><span class="sy2">: </span>  <span class="nu0">1800</span>           <span class="co1"># Tiempo de vida de la sesión en segundos</span></pre>
+</div>
+
+<p>El capítulo 19 explica detalladamente todas las opciones de las factorías.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_6/accediendo_a_la_peticion.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>6.3. Accediendo a la petición</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_6/seguridad_de_la_accion.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>6.5. Seguridad de la Acción</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_6.html">
+                    <span>Capítulo 6.</span> El Controlador
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/el_controlador_frontal.html">
+                    <span>6.1.</span> El Controlador Frontal
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/acciones.html">
+                    <span>6.2.</span> Acciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/accediendo_a_la_peticion.html">
+                    <span>6.3.</span> Accediendo a la petición
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_6/sesiones_de_usuario.html">
+                    <span>6.4.</span> Sesiones de Usuario
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/seguridad_de_la_accion.html">
+                    <span>6.5.</span> Seguridad de la Acción
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/metodos_de_validacion_y_manejo_de_errores.html">
+                    <span>6.6.</span> Métodos de Validación y Manejo de Errores
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/filtros.html">
+                    <span>6.7.</span> Filtros
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/configuracion_del_modulo.html">
+                    <span>6.8.</span> Configuración del Módulo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/resumen.html">
+                    <span>6.9.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

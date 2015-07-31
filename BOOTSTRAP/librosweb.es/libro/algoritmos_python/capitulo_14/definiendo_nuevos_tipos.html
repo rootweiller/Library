@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>14.3. Definiendo nuevos tipos (Algoritmos de Programación con Python)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_14/que_es_un_objeto.html" />
+                    <link rel="next" href="../capitulo_14/metodos_especiales.html" />
+                <link rel="start" href="/libro/algoritmos_python/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="14.3. Definiendo nuevos tipos (Algoritmos de Programación con Python)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page algoritmos_python"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/algoritmos_python/" itemprop="url">
+                    <span itemprop="title">Algoritmos de Programación con Python</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/algoritmos_python/capitulo_14.html" itemprop="url">
+                    <span itemprop="title">Capítulo 14. Objetos</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>14.3. Definiendo nuevos tipos</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="definiendo_nuevos_tipos" class="title">
+        <span>14.3.</span> Definiendo nuevos tipos
+    </h1>
+
+    
+
+<p>Sin bien Python nos provee con un gran número de tipos ya definidos, en
+muchas situaciones utilizar solamente los tipos provistos por el
+lenguaje resultará insuficiente. En estas situaciones queremos poder
+crear nuestros propios tipos, que almacenen la información relevante
+para el problema a resolver y contengan las funciones para operar con
+esa información.</p>
+
+<p>Por ejemplo, si se quiere representar un punto en el plano, es posible
+hacerlo mediante una tupla de dos elementos, pero esta implementación es
+limitada, ya que si se quiere poder operar con distintos puntos
+(sumarlos, restarlos o calcular la distancia entre ellos) se deberán
+tener funciones <em>sueltas</em> para realizar las diversas operaciones.</p>
+
+<p>Podemos hacer algo mejor definiendo un nuevo tipo <code>Punto</code>, que almacene la
+información relacionada con el punto, y contenga las operaciones nos
+interese realizar sobre él.</p>
+
+<h3 id="nuestra_primera_clase_punto">14.3.1. Nuestra primera clase: Punto</h3>
+
+<p>Queremos definir nuestra clase que represente un punto en el plano. Lo
+primero que debemos notar es que existen varias formas de representar
+un punto en el plano, por ejemplo, coordenadas polares o coordenadas
+cartesianas. Además, existen varias operaciones que se pueden realizar
+sobre un punto del plano, e implementarlas todas podría llevar mucho
+tiempo.</p>
+
+<p>En esta primera implementación, optaremos por utilizar la
+representación de coordenadas cartesianas, e iremos implementando las
+operaciones a medida que las vayamos necesitando. En primer lugar,
+creamos una clase <code>Punto</code> que simplemente almacena las coordenadas.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">class</span> Punto<span class="br0">&#40;</span><span class="kw2">object</span><span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Representación de un punto en el plano, los atributos son x e y
+        que representan los valores de las coordenadas cartesianas.&quot;&quot;&quot;</span>
+    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> x<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">,</span> y<span class="sy0">=</span><span class="nu0">0</span><span class="br0">&#41;</span>:
+        <span class="st0">&quot;Constructor de Punto, x e y deben ser numéricos&quot;</span>
+        <span class="kw2">self</span>.<span class="me1">x</span> <span class="sy0">=</span> x
+        <span class="kw2">self</span>.<span class="me1">y</span> <span class="sy0">=</span> y</pre>
+</div>
+
+<p>En la primera línea de código indicamos que vamos a crear una nueva
+clase, llamada <code>Punto</code>. La palabra <code>object</code> entre paréntesis indica que la
+clase que estamos creando es un objeto básico, no está basado en ningún
+objeto más complejo.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Por convención, en los nombres de las clases definidas por el
+programador, se escribe cada palabra del nombre con la primera letra
+en mayúsculas. Ejemplos: <code>Punto</code>, <code>ListaEnlazada</code>, <code>Hotel</code>.</p></div>
+
+<p>Además definimos uno de los métodos especiales, <code>__init__</code>, el
+<strong>constructor</strong> de la clase. Este método se llama cada vez que se crea
+una nueva instancia de la clase.</p>
+
+<p>Este método, al igual que todos los métodos de cualquier clase, recibe
+como primer parámetro a la instancia sobre la que está trabajando. Por
+convención a ese primer parámetro se lo suele llamar <code>self</code> (que podríamos traducir como <em>yo mismo</em>), pero puede llamarse de cualquier forma.</p>
+
+<p>Para definir atributos, basta con definir una variable dentro de la
+instancia, es una buena idea definir todos los atributos de nuestras
+instancias en el constructor, de modo que se creen con algún valor
+válido. En nuestro ejemplo <code>self.x</code> y <code>self.y</code> y se usarán como <code>punto.x</code> y
+<code>punto.y</code>.</p>
+
+<p>Para utilizar esta clase que acabamos de definir, lo haremos de la
+siguiente forma:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> p <span class="sy0">=</span> Punto<span class="br0">&#40;</span><span class="nu0">5</span><span class="sy0">,</span><span class="nu0">7</span><span class="br0">&#41;</span>
+<span class="sy0">&gt;&gt;&gt;</span> <span class="kw1">print</span> p
+<span class="sy0">&lt;</span><span class="kw3">__main__</span>.<span class="me1">Punto</span> <span class="kw2">object</span> at <span class="nu0">0x8e4e24c</span><span class="sy0">&gt;</span>
+<span class="sy0">&gt;&gt;&gt;</span> <span class="kw1">print</span> p.<span class="me1">x</span>
+<span class="nu0">5</span>
+<span class="sy0">&gt;&gt;&gt;</span> <span class="kw1">print</span> p.<span class="me1">y</span>
+<span class="nu0">7</span></pre>
+</div>
+
+<p>Al realizar la llamada <code>Punto(5,7)</code>, se creó un nuevo punto, y se
+almacenó una referencia a ese punto en la variable <code>p</code>. <code>5</code> y <code>7</code> son los valores que se asignaron a <code>x</code> e <code>y</code> respectivamente.</p>
+
+<p>Si bien nosotros no lo invocamos explícitamente, internamente Python
+realizó la llamada al método <code>__init__</code>, asignando así los valores de la forma que se indica en el constructor.</p>
+
+<h3 id="agregando_validaciones_al_constructor">14.3.2. Agregando validaciones al constructor</h3>
+
+<p>Hemos creado una clase <code>Punto</code> que permite guardar valores <code>x</code> e <code>y</code>. Sin
+embargo, por más que en la documentación se indique que los valores
+deben ser numéricos, el código mostrado hasta ahora no impide que a <code>x</code>
+e <code>y</code> se les asigne un valor cualquiera, no numérico.</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> q <span class="sy0">=</span> Punto<span class="br0">&#40;</span><span class="st0">&quot;A&quot;</span><span class="sy0">,</span> <span class="kw2">True</span><span class="br0">&#41;</span>
+<span class="sy0">&gt;&gt;&gt;</span> <span class="kw1">print</span> q.<span class="me1">x</span>
+A
+<span class="sy0">&gt;&gt;&gt;</span> <span class="kw1">print</span> q.<span class="me1">y</span>
+<span class="kw2">True</span></pre>
+</div>
+
+<p>Si queremos impedir que esto suceda, debemos agregar validaciones al
+constructor, como las vistas en unidades anteriores.</p>
+
+<p>Verificaremos que los valores pasados para <code>x</code> e <code>y</code> sean numéricos,
+utilizando la función <code>es_numero</code>, que incluiremos en un módulo llamado
+validaciones:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> es_numero<span class="br0">&#40;</span>valor<span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Indica si un valor es numérico o no. &quot;&quot;&quot;</span>
+    <span class="kw1">return</span> <span class="kw2">isinstance</span><span class="br0">&#40;</span>valor<span class="sy0">,</span> <span class="br0">&#40;</span><span class="kw2">int</span><span class="sy0">,</span> <span class="kw2">float</span><span class="sy0">,</span> <span class="kw2">long</span><span class="sy0">,</span> <span class="kw2">complex</span><span class="br0">&#41;</span> <span class="br0">&#41;</span></pre>
+</div>
+
+<p>Y en el caso de que alguno de los valores no sea numérico, lanzaremos
+una excepción del tipo <code>TypeError</code>. El nuevo constructor quedará así:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> x<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">,</span> y<span class="sy0">=</span><span class="nu0">0</span><span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Constructor de Punto, x e y deben ser numéricos,
+        de no ser así, se levanta una excepción TypeError &quot;&quot;&quot;</span>
+    <span class="kw1">if</span> es_numero<span class="br0">&#40;</span>x<span class="br0">&#41;</span> <span class="kw1">and</span> es_numero<span class="br0">&#40;</span>y<span class="br0">&#41;</span>:
+        <span class="kw2">self</span>.<span class="me1">x</span><span class="sy0">=</span>x
+        <span class="kw2">self</span>.<span class="me1">y</span><span class="sy0">=</span>y
+    <span class="kw1">else</span>:
+        <span class="kw1">raise</span> <span class="kw2">TypeError</span><span class="br0">&#40;</span><span class="st0">&quot;x e y deben ser valores numéricos&quot;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Este constructor impide que se creen instancias con valores inválidos
+para <code>x</code> e <code>y</code>.</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> p <span class="sy0">=</span> Punto<span class="br0">&#40;</span><span class="st0">&quot;A&quot;</span><span class="sy0">,</span> <span class="kw2">True</span><span class="br0">&#41;</span>
+Traceback <span class="br0">&#40;</span>most recent call last<span class="br0">&#41;</span>:
+    File <span class="st0">&quot;&lt;stdin&gt;&quot;</span><span class="sy0">,</span> line <span class="nu0">1</span><span class="sy0">,</span> <span class="kw1">in</span> <span class="sy0">&lt;</span>module<span class="sy0">&gt;</span>
+    File <span class="st0">&quot;&lt;stdin&gt;&quot;</span><span class="sy0">,</span> line <span class="nu0">11</span><span class="sy0">,</span> <span class="kw1">in</span> <span class="kw4">__init__</span>
+<span class="kw2">TypeError</span>: x e y deben ser valores numéricos</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Python cuenta con un listado de excepciones que se pueden lanzar ante distintas situaciones, en este caso se utilizó <code>TypeError</code> que es la excepción que se lanza cuando una operación o función interna se aplica a un objeto de tipo inadecuado. El valor asociado es una cadena con detalles de la incoherencia de tipos.</p>
+
+<p>Otra excepción que podríamos querer utilizar es <code>ValueError</code>, que se lanza cuando una operación o función interna recibe un argumento del tipo correcto, pero con un valor inapropiado y no es posible describir la situación con una excepción más precisa.</p>
+
+<p>Si la situación excepcional que queremos indicar no está cubierta por ninguna de las excepciones del lenguaje, podremos crear nuestra propia excepción.</p>
+
+<p>El listado completo de las excepciones provistas por el lenguaje se encuentra en <a href="http://docs.python.org/library/exceptions.html">docs.python.org/library/exceptions</a></p></div>
+
+<h3 id="agregando_operaciones">14.3.3. Agregando operaciones</h3>
+
+<p>Hasta ahora hemos creado una clase <code>Punto</code> que permite construirla con
+un par de valores, que deben ser sí o sí numéricos, pero no podemos
+operar con esos valores. Para apreciar la potencia de los objetos,
+tenemos que definir operaciones adicionales que vayamos a querer
+realizar sobre esos puntos.</p>
+
+<p>Queremos, por ejemplo, poder calcular la distancia entre dos puntos.
+Para ello definimos un nuevo método <code>distancia</code> que recibe el punto de
+la instancia actual y el punto para el cual se quiere calcular la
+distancia.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> distancia<span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> otro<span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Devuelve la distancia entre ambos puntos. &quot;&quot;&quot;</span>
+    dx <span class="sy0">=</span> <span class="kw2">self</span>.<span class="me1">x</span> - otro.<span class="me1">x</span>
+    dy <span class="sy0">=</span> <span class="kw2">self</span>.<span class="me1">y</span> - otro.<span class="me1">y</span>
+    <span class="kw1">return</span> <span class="br0">&#40;</span>dx*dx + dy*dy<span class="br0">&#41;</span>**<span class="nu0">0.5</span></pre>
+</div>
+
+<p>Una vez agregado este método a la clase, será posible obtener la
+distancia entre dos puntos, de la siguiente manera:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> p <span class="sy0">=</span> Punto<span class="br0">&#40;</span><span class="nu0">5</span><span class="sy0">,</span><span class="nu0">7</span><span class="br0">&#41;</span>
+<span class="sy0">&gt;&gt;&gt;</span> q <span class="sy0">=</span> Punto<span class="br0">&#40;</span><span class="nu0">2</span><span class="sy0">,</span><span class="nu0">3</span><span class="br0">&#41;</span>
+<span class="sy0">&gt;&gt;&gt;</span> <span class="kw1">print</span> p.<span class="me1">distancia</span><span class="br0">&#40;</span>q<span class="br0">&#41;</span>
+<span class="nu0">5.0</span></pre>
+</div>
+
+<p>Podemos ver, sin embargo, que la operación para calcular la distancia
+incluye la operación de restar dos puntos y la de obtener la norma de
+un vector. Sería deseable incluir también estas dos operaciones dentro
+de la clase <code>Punto</code>.</p>
+
+<p>Agregaremos, entonces, el método para restar dos puntos:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> restar<span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> otro<span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Devuelve un nuevo punto, con la resta entre dos puntos. &quot;&quot;&quot;</span>
+    <span class="kw1">return</span> Punto<span class="br0">&#40;</span><span class="kw2">self</span>.<span class="me1">x</span> - otro.<span class="me1">x</span><span class="sy0">,</span> <span class="kw2">self</span>.<span class="me1">y</span> - otro.<span class="me1">y</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>La resta entre dos puntos es un nuevo punto. Es por ello que este método
+devuelve un nuevo punto, en lugar de modificar el punto actual.</p>
+
+<p>A continuación, definimos el método para calcular la norma del vector
+que se forma uniendo un punto con el origen.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> norma<span class="br0">&#40;</span><span class="kw2">self</span><span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Devuelve la norma del vector que va desde el origen
+        hasta el punto. &quot;&quot;&quot;</span>
+    <span class="kw1">return</span> <span class="br0">&#40;</span><span class="kw2">self</span>.<span class="me1">x</span>*<span class="kw2">self</span>.<span class="me1">x</span> + <span class="kw2">self</span>.<span class="me1">y</span>*<span class="kw2">self</span>.<span class="me1">y</span><span class="br0">&#41;</span>**<span class="nu0">0.5</span></pre>
+</div>
+
+<p>En base a estos dos métodos podemos ahora volver a escribir el método
+distancia para que aproveche el código ambos:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> distancia<span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> otro<span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Devuelve la distancia entre ambos puntos. &quot;&quot;&quot;</span>
+    r <span class="sy0">=</span> <span class="kw2">self</span>.<span class="me1">restar</span><span class="br0">&#40;</span>otro<span class="br0">&#41;</span>
+    <span class="kw1">return</span> r.<span class="me1">norma</span><span class="br0">&#40;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>En definitiva, hemos definido tres operaciones en la clase <code>Punto</code>, que
+nos sirve para calcular restas, normas de vectores al origen, y
+distancias entre puntos.</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> p <span class="sy0">=</span> Punto<span class="br0">&#40;</span><span class="nu0">5</span><span class="sy0">,</span><span class="nu0">7</span><span class="br0">&#41;</span>
+<span class="sy0">&gt;&gt;&gt;</span> q <span class="sy0">=</span> Punto<span class="br0">&#40;</span><span class="nu0">2</span><span class="sy0">,</span><span class="nu0">3</span><span class="br0">&#41;</span>
+<span class="sy0">&gt;&gt;&gt;</span> r <span class="sy0">=</span> p.<span class="me1">restar</span><span class="br0">&#40;</span>q<span class="br0">&#41;</span>
+<span class="sy0">&gt;&gt;&gt;</span> <span class="kw1">print</span> r.<span class="me1">x</span><span class="sy0">,</span> r.<span class="me1">y</span>
+<span class="nu0">3</span> <span class="nu0">4</span>
+<span class="sy0">&gt;&gt;&gt;</span> <span class="kw1">print</span> r.<span class="me1">norma</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="nu0">5.0</span>
+<span class="sy0">&gt;&gt;&gt;</span> <span class="kw1">print</span> q.<span class="me1">distancia</span><span class="br0">&#40;</span>r<span class="br0">&#41;</span>
+<span class="nu0">1.41421356237</span></pre>
+</div>
+
+<div class="admonition caution"><p><strong class="title">Advertencia</strong> Cuando definimos los métodos que va a tener una determinada clase es importante tener en cuenta que el listado de métodos debe ser lo más conciso posible.</p>
+
+<p>Es decir, si una clase tiene algunos métodos básicos que pueden combinarse para obtener distintos resultados, no queremos implementar toda posible combinación de llamadas a los métodos básicos, sino sólo los básicos y aquellas combinaciones que sean muy frecuentes, o en las que tenerlas como un método aparte implique una ventaja significativa en cuanto al tiempo de ejecución de la operación.</p>
+
+<p>Este concepto se llama <strong>ortogonalidad</strong> de los métodos, basado en la idea de que cada método debe realizar una operación independiente de los otros. Entre las motivaciones que puede haber para agregar métodos que no sean ortogonales, se encuentran la <em>simplicidad de uso</em> y la <em>eficiencia</em>.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_14/que_es_un_objeto.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>14.2. Qué es un objeto</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_14/metodos_especiales.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>14.4. Métodos especiales</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+            <div id="book-legal-notice">
+            Copyright (c) 2011-2014 Rosita Wachenchauzer, Margarita Manterola,
+Maximiliano Curia, Marcos Medrano, Nicolás Paez.
+La copia y redistribución de esta página se permite bajo los términos
+de la licencia Creative Commons Atribución - Compartir Obras Derivadas
+Igual 3.0 siempre que se conserve esta nota de copyright.
+
+        </div>
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Algunos conceptos básicos</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Programas sencillos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Funciones</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Decisiones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Más sobre ciclos</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Cadenas de caracteres</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Tuplas y listas</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Algoritmos de búsqueda</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Diccionarios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Contratos y Mutabilidad</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Manejo de archivos</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Manejo de errores y excepciones</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Procesamiento de archivos</a>
+            </li>
+                                                                                            <li class="level-1 ">
+                <a href="../capitulo_14.html">
+                    <span>Capítulo 14.</span> Objetos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/tipos.html">
+                    <span>14.1.</span> Tipos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/que_es_un_objeto.html">
+                    <span>14.2.</span> Qué es un objeto
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_14/definiendo_nuevos_tipos.html">
+                    <span>14.3.</span> Definiendo nuevos tipos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/metodos_especiales.html">
+                    <span>14.4.</span> Métodos especiales
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/creando_clases_mas_complejas.html">
+                    <span>14.5.</span> Creando clases más complejas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/resumen.html">
+                    <span>14.6.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/ejercicios.html">
+                    <span>14.7.</span> Ejercicios
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Polimorfismo, Herencia y Delegación</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Listas enlazadas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Pilas y colas</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Modelo de ejecución de funciones y recursividad</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Ordenar listas</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>20.</span> <a href="../capitulo_20.html"> Algunos ordenamientos recursivos</a>
+            </li>
+                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

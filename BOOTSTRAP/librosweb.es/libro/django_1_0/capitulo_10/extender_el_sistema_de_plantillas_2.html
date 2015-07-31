@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>10.4. Extender el sistema de plantillas (El libro de Django 1.0)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_10/detalles_internos_de_la_carga_de_plantillas.html" />
+                    <link rel="next" href="../capitulo_10/escribir_cargadores_de_plantillas_personalizados.html" />
+                <link rel="start" href="/libro/django_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="10.4. Extender el sistema de plantillas (El libro de Django 1.0)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page django_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/" itemprop="url">
+                    <span itemprop="title">El libro de Django 1.0</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/capitulo_10.html" itemprop="url">
+                    <span itemprop="title">Capítulo 10. Extender el sistema de plantillas</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>10.4. Extender el sistema de plantillas</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="extender_el_sistema_de_plantillas_2" class="title">
+        <span>10.4.</span> Extender el sistema de plantillas
+    </h1>
+
+    
+
+<p>Ahora que entiendes un poco más acerca del funcionamiento interno del sistema 
+de plantillas, echemos una mirada a cómo extender el sistema con código
+propio.</p>
+
+<p>La mayor parte de la personalización de plantillas se da en forma de etiquetas
+y/o filtros. Aunque el lenguaje de plantillas de Django incluye muchos,
+probablemente ensamblarás tus propias librerías de etiquetas y filtros que se
+adapten a tus propias necesidades. Afortunadamente, es muy fácil definir tu
+propia funcionalidad.</p>
+
+<h3 id="crear_una_libreria_para_plantillas">10.4.1. Crear una librería para plantillas</h3>
+
+<p>Ya sea que estés escribiendo etiquetas o filtros personalizados, la primera
+tarea a realizar es crear una <strong>librería para plantillas</strong> — un pequeño
+fragmento de infraestructura con el cual Django puede interactuar.</p>
+
+<p>La creación de una librería para plantillas es un proceso de dos pasos.
+Primero, decidir qué aplicación Django alojará la librería. Si has
+creado una aplicación vía <code>manage.py startapp</code> puedes colocarla allí, o
+puedes crear otra aplicación con el solo fin de alojar la librería.</p>
+
+<p>Sin importar cual de las dos rutas tomes, asegúrate de agregar la
+aplicación a tu variable de configuración <code>INSTALLED_APPS</code>.
+Explicaremos esto un poco más adelante.</p>
+
+<p>Segundo, crear un directorio <code>templatetags</code> en el paquete de aplicación
+Django apropiado. Debe encontrarse en el mismo nivel que <code>models.py</code>,
+<code>views.py</code>, etc. Por ejemplo:</p>
+
+<div class="code code">
+<pre class="code">books/
+    __init__.py
+    models.py
+    templatetags/
+    views.py</pre>
+</div>
+
+<p>Crea dos archivos vacíos en el directorio <code>templatetags</code>: un archivo
+<code>__init__.py</code> (para indicarle a Python que se trata de un paquete que
+contiene código Python) y un archivo que contendrá tus definiciones
+personalizadas de etiquetas/filtros. El nombre del segundo archivo es el
+que usarás para cargar las etiquetas más tarde. Por ejemplo, si tus
+etiquetas/filtros personalizadas están en un archivo llamado
+<code>poll_extras.py</code>, entonces deberás escribir lo siguiente en una
+plantilla:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">load</span> <span class="re0">poll_extras</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>La etiqueta <code>{&#37; load &#37;}</code> examina tu variable de configuración
+<code>INSTALLED_APPS</code> y sólo permite la carga de librerías para plantillas
+desde aplicaciones Django que estén instaladas. Se trata de una
+característica de seguridad; te permite tener en cierto equipo el código
+Python de varias librerías para plantillas sin tener que activar el
+acceso a todas ellas para cada instalación de Django.</p>
+
+<p>Si escribes una librería para plantillas que no se encuentra atada a ningún
+modelo/vista particular es válido y normal el tener un paquete de aplicación
+Django que sólo contiene un paquete <code>templatetags</code>. No existen límites en lo
+referente a cuántos módulos puedes poner en el paquete <code>templatetags</code>. Sólo
+ten presente que una sentencia <code>{&#37; load &#37;}</code> cargará etiquetas/filtros para el
+nombre del módulo Python provisto, no el nombre de la aplicación.</p>
+
+<p>Una vez que has creado ese módulo Python, sólo tendrás que escribir un poquito
+de código Python, dependiendo de si estás escribiendo filtros o etiquetas.</p>
+
+<p>Para ser una librería de etiquetas válida, el módulo debe contener una
+variable a nivel del módulo llamada <code>register</code> que sea una instancia de
+<code>template.Library</code>. Esta instancia de <code>template.Library</code> es la estructura de
+datos en la cual son registradas todas las etiquetas y filtros. Así que inserta
+en la zona superior de tu módulo, lo siguiente:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django <span class="kw1">import</span> template
+&nbsp;
+register <span class="sy0">=</span> template.<span class="me1">Library</span><span class="br0">&#40;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Para ver un buen número de ejemplos, examina el código fuente de los filtros
+y etiquetas incluidos con Django. Puedes encontrarlos en
+<code>django/template/defaultfilters.py</code> y <code>django/template/defaulttags.py</code>,
+respectivamente. Algunas aplicaciones en <code>django.contrib</code> también
+contienen librerías para plantillas.</p></div>
+
+<p>Una vez que hayas creado esta variable <code>register</code>, usarás la misma para crear
+filtros y etiquetas para plantillas.</p>
+
+<h3 id="escribir_filtros_de_plantilla_personalizados">10.4.2. Escribir filtros de plantilla personalizados</h3>
+
+<p>Los filtros personalizados son sólo funciones Python que reciben uno o dos
+argumentos:</p>
+
+<ul>
+<li>El valor de la variable (entrada)</li>
+<li>El valor del argumento, el cual puede tener un valor por omisión o puede
+ser obviado.</li>
+</ul>
+
+<p>Por ejemplo, en el filtro <code>{&#123; var|foo:"bar" &#125;}</code> el filtro <code>foo</code> recibiría el
+contenido de la variable  <code>var</code> y el argumento <code>"bar"</code>.</p>
+
+<p>Las funciones filtro deben siempre retornar algo. No deben arrojar excepciones,
+y deben fallar silenciosamente. Si existe un error, las mismas deben retornar 
+la entrada original o una cadena vacía, dependiendo de qué sea más apropiado.</p>
+
+<p>Esta es un ejemplo de definición de un filtro:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> cut<span class="br0">&#40;</span>value<span class="sy0">,</span> arg<span class="br0">&#41;</span>:
+    <span class="st0">&quot;Removes all values of arg from the given string&quot;</span>
+    <span class="kw1">return</span> value.<span class="me1">replace</span><span class="br0">&#40;</span>arg<span class="sy0">,</span> <span class="st0">''</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Y este es un ejemplo de cómo se usaría:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">somevariable</span><span class="sy0">|</span>cut<span class="sy0">:</span><span class="st0">&quot;0&quot;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>La mayoría de los filtros no reciben argumentos. En ese caso, basta con que
+no incluyas el argumento en tu función:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> lower<span class="br0">&#40;</span>value<span class="br0">&#41;</span>: <span class="co1"># Only one argument.</span>
+    <span class="st0">&quot;Converts a string into all lowercase&quot;</span>
+    <span class="kw1">return</span> value.<span class="me1">lower</span><span class="br0">&#40;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Una vez que has escrito tu definición de filtro, necesitas registrarlo en tu
+instancia de <code>Library</code>, para que esté disponible para el lenguaje de
+plantillas de Django:</p>
+
+<div class="code python">
+<pre class="python">register.<span class="kw2">filter</span><span class="br0">&#40;</span><span class="st0">'cut'</span><span class="sy0">,</span> cut<span class="br0">&#41;</span>
+register.<span class="kw2">filter</span><span class="br0">&#40;</span><span class="st0">'lower'</span><span class="sy0">,</span> lower<span class="br0">&#41;</span></pre>
+</div>
+
+<p>El método  <code>Library.filter()</code> tiene dos argumentos:</p>
+
+<ul>
+<li>El nombre del filtro (una cadena)</li>
+<li>La función filtro propiamente dicha</li>
+</ul>
+
+<p>Si estás usando Python 2.4 o más reciente, puedes usar <code>register.filter()</code>
+como un decorador:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">@</span>register.<span class="kw2">filter</span><span class="br0">&#40;</span>name<span class="sy0">=</span><span class="st0">'cut'</span><span class="br0">&#41;</span>
+<span class="kw1">def</span> cut<span class="br0">&#40;</span>value<span class="sy0">,</span> arg<span class="br0">&#41;</span>:
+    <span class="kw1">return</span> value.<span class="me1">replace</span><span class="br0">&#40;</span>arg<span class="sy0">,</span> <span class="st0">''</span><span class="br0">&#41;</span>
+&nbsp;
+<span class="sy0">@</span>register.<span class="kw2">filter</span>
+<span class="kw1">def</span> lower<span class="br0">&#40;</span>value<span class="br0">&#41;</span>:
+    <span class="kw1">return</span> value.<span class="me1">lower</span><span class="br0">&#40;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Si no provees el argumento <code>name</code>, como en el segundo ejemplo, Django usará el
+nombre de la función como nombre del filtro.</p>
+
+<p>Veamos entonces el ejemplo completo de una librería para plantillas, que
+provee el filtro <code>cut</code>:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django <span class="kw1">import</span> template
+&nbsp;
+register <span class="sy0">=</span> template.<span class="me1">Library</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+&nbsp;
+<span class="sy0">@</span>register.<span class="kw2">filter</span><span class="br0">&#40;</span>name<span class="sy0">=</span><span class="st0">'cut'</span><span class="br0">&#41;</span>
+<span class="kw1">def</span> cut<span class="br0">&#40;</span>value<span class="sy0">,</span> arg<span class="br0">&#41;</span>:
+    <span class="kw1">return</span> value.<span class="me1">replace</span><span class="br0">&#40;</span>arg<span class="sy0">,</span> <span class="st0">''</span><span class="br0">&#41;</span></pre>
+</div>
+
+<h3 id="escribir_etiquetas_de_plantilla_personalizadas">10.4.3. Escribir etiquetas de plantilla personalizadas</h3>
+
+<p>Las etiquetas son más complejas que los filtros porque las etiquetas pueden
+implementar prácticamente cualquier funcionalidad.</p>
+
+<p>El Capítulo 4 describe cómo el sistema de plantillas funciona como un proceso 
+de dos etapas: compilación y renderizado. Para definir una etiqueta de 
+plantilla personalizada, necesitas indicarle a Django cómo manejar ambas 
+etapas cuando llega a tu etiqueta.</p>
+
+<p>Cuando Django compila una plantilla, divide el texto crudo de la plantilla en
+<em>nodos</em>. Cada nodo es una instancia de <code>django.template.Node</code> y tiene un
+método <code>render()</code>. Por lo tanto, una plantilla compilada es simplemente una
+lista de objetos <code>Node</code>.</p>
+
+<p>Cuando llamas a <code>render()</code> en una plantilla compilada, la plantilla llama a
+<code>render()</code> en cada <code>Node()</code> de su lista de nodos, con el contexto
+proporcionado. Los resultados son todos concatenados juntos para formar la
+salida de la plantilla. Por ende, para definir una etiqueta de plantilla
+personalizada debes especificar cómo se debe convertir la etiqueta en crudo en
+un <code>Node</code> (la función de compilación) y qué hace el método <code>render()</code> del
+nodo.</p>
+
+<p>En las secciones que siguen, explicaremos todos los pasos necesarios para
+escribir una etiqueta propia.</p>
+
+<h4 id="escribir_la_funcion_de_compilacion">10.4.3.1. Escribir la función de compilación</h4>
+
+<p>Para cada etiqueta de plantilla que encuentra, el intérprete (<em>parser</em>) de
+plantillas llama a una función de Python pasándole el contenido de la etiqueta 
+y el objeto parser en sí mismo. Esta función tiene la responsabilidad de 
+retornar una instancia de <code>Node</code> basada en el contenido de la etiqueta.</p>
+
+<p>Por ejemplo, escribamos una etiqueta <code>{&#37; current_time &#37;}</code> que visualice la
+fecha/hora actuales con un formato determinado por un parámetro pasado a la
+etiqueta, usando la sintaxis de <code>strftime</code> (ver
+<code>http://www.djangoproject.com/r/python/strftime/</code>). Es una buena idea definir
+la sintaxis de la etiqueta previamente. En nuestro caso, supongamos que la
+etiqueta deberá ser usada de la siguiente manera:</p>
+
+<div class="code twig">
+<pre class="twig">&lt;p&gt;The time is <span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">current_time</span> <span class="st0">&quot;%Y-%m-%d %I:%M %p&quot;</span> <span class="kw6">%<span class="br0">&#125;</span></span>.&lt;/p&gt;</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Si, esta etiqueta de plantilla es redundante — La etiqueta <code>{&#37; now &#37;}</code>
+incluida en Django por defecto hace exactamente lo mismo con una sintaxis
+más simple. Sólo mostramos esta etiqueta a modo de ejemplo.</p></div>
+
+<p>Para evaluar esta función, se deberá obtener el parámetro y crear el objeto
+<code>Node</code>:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django <span class="kw1">import</span> template
+&nbsp;
+<span class="kw1">def</span> do_current_time<span class="br0">&#40;</span><span class="kw3">parser</span><span class="sy0">,</span> <span class="kw3">token</span><span class="br0">&#41;</span>:
+    <span class="kw1">try</span>:
+        <span class="co1"># split_contents() knows not to split quoted strings.</span>
+        tag_name<span class="sy0">,</span> format_string <span class="sy0">=</span> <span class="kw3">token</span>.<span class="me1">split_contents</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">except</span> <span class="kw2">ValueError</span>:
+        msg <span class="sy0">=</span> <span class="st0">'%r tag requires a single argument'</span> % <span class="kw3">token</span>.<span class="me1">split_contents</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>
+        <span class="kw1">raise</span> template.<span class="me1">TemplateSyntaxError</span><span class="br0">&#40;</span>msg<span class="br0">&#41;</span>
+    <span class="kw1">return</span> CurrentTimeNode<span class="br0">&#40;</span>format_string<span class="br0">&#91;</span><span class="nu0">1</span>:-<span class="nu0">1</span><span class="br0">&#93;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Hay muchas cosas en juego aquí:</p>
+
+<ul>
+<li><code>parser</code> es la instancia del <em>parser</em>. No lo necesitamos en este ejemplo.</li>
+<li><code>token.contents</code> es un <em>string</em> con los contenidos crudos de la
+etiqueta, en nuestro ejemplo sería: <code>'current_time "%Y-%m-%d %I:%M %p"'</code>.</li>
+<li>El método <code>token.split_contents()</code> separa los argumentos en sus
+espacios, mientras deja unidas a los <em>strings</em>. Evite utilizar
+<code>token.contents.split()</code> (el cual usa la semántica natural de Python
+para dividir <em>strings</em>, y por esto no es tan robusto, ya que divide en
+todos los espacios, incluyendo aquellos dentro de cadenas entre comillas.</li>
+<li>Esta función es la responsable de generar la excepción
+<code>django.template.TemplateSyntaxError</code> con mensajes útiles, ante
+cualquier caso de error de sintaxis.</li>
+<li>No escribas el nombre de la etiqueta en el mensaje de error, ya que eso
+acoplaría innecesariamente el nombre de la etiqueta a la función. En
+cambio, <code>token.split_contents()[0]</code> siempre contendrá el nombre de tu
+etiqueta — aún cuando la etiqueta no lleve argumentos.</li>
+<li>La función devuelve <code>CurrentTimeNode</code> (el cual mostraremos en
+un momento) conteniendo todo lo que el nodo necesita saber sobre esta
+etiqueta. En este caso, sólo pasa el argumento <code>"%Y-%m-%d %I:%M %p"</code>.
+Las comillas son removidas con <code>format_string[1:-1]</code>.</li>
+<li>Las funciones de compilación de etiquetas de plantilla <em>deben</em> devolver
+una subclase de <code>Nodo</code>; cualquier otro valor es un error.</li>
+</ul>
+
+<h4 id="escribir_el_nodo_de_plantilla">10.4.3.2. Escribir el nodo de plantilla</h4>
+
+<p>El segundo paso para escribir etiquetas propias, es definir una subclase de
+<code>Node</code> que posea un método <code>render()</code>. Continuando con el ejemplo previo,
+debemos definir <code>CurrentTimeNode</code>:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">import</span> <span class="kw3">datetime</span>
+&nbsp;
+<span class="kw1">class</span> CurrentTimeNode<span class="br0">&#40;</span>template.<span class="me1">Node</span><span class="br0">&#41;</span>:
+&nbsp;
+    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> format_string<span class="br0">&#41;</span>:
+        <span class="kw2">self</span>.<span class="me1">format_string</span> <span class="sy0">=</span> format_string
+&nbsp;
+    <span class="kw1">def</span> render<span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> context<span class="br0">&#41;</span>:
+        now <span class="sy0">=</span> <span class="kw3">datetime</span>.<span class="kw3">datetime</span>.<span class="me1">now</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+        <span class="kw1">return</span> now.<span class="me1">strftime</span><span class="br0">&#40;</span><span class="kw2">self</span>.<span class="me1">format_string</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Estas dos funciones (<code>__init__</code> y <code>render</code>) se relacionan directamente
+con los dos pasos para el proceso de la plantilla (compilación y renderizado).
+La función de inicialización sólo necesitará almacenar el string con el formato
+deseado, el trabajo real sucede dentro de la función <code>render()</code></p>
+
+<p>Del mismo modo que los filtros de plantilla, estas funciones de renderización
+deberían fallar silenciosamente en lugar de generar errores. En el único 
+momento en el cual se le es permitido a las etiquetas de plantilla generar 
+errores es en tiempo de compilación.</p>
+
+<h4 id="registrar_la_etiqueta">10.4.3.3. Registrar la etiqueta</h4>
+
+<p>Finalmente, deberás registrar la etiqueta con tu objeto <code>Library</code> dentro del
+módulo. Registrar nuevas etiquetas es muy similar a registrar nuevos filtros
+(como explicamos previamente). Sólo deberás instanciar un objeto
+<code>template.Library</code> y llamar a su método <code>tag()</code>. Por ejemplo:</p>
+
+<div class="code python">
+<pre class="python">register.<span class="me1">tag</span><span class="br0">&#40;</span><span class="st0">'current_time'</span><span class="sy0">,</span> do_current_time<span class="br0">&#41;</span></pre>
+</div>
+
+<p>El método <code>tag()</code> toma dos argumentos:</p>
+
+<ul>
+<li>El nombre de la etiqueta de plantilla (<em>string</em>). Si esto se omite, se
+  utilizará el nombre de la función de compilación.</li>
+<li>La función de compilación.</li>
+</ul>
+
+<p>De manera similar a como sucede con el registro de filtros, también es posible 
+utilizar <code>register.tag</code> como un decorador en Python 2.4 o posterior:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">@</span>register.<span class="me1">tag</span><span class="br0">&#40;</span>name<span class="sy0">=</span><span class="st0">&quot;current_time&quot;</span><span class="br0">&#41;</span>
+<span class="kw1">def</span> do_current_time<span class="br0">&#40;</span><span class="kw3">parser</span><span class="sy0">,</span> <span class="kw3">token</span><span class="br0">&#41;</span>:
+    <span class="co1"># ...</span>
+&nbsp;
+<span class="sy0">@</span>register.<span class="me1">tag</span>
+<span class="kw1">def</span> shout<span class="br0">&#40;</span><span class="kw3">parser</span><span class="sy0">,</span> <span class="kw3">token</span><span class="br0">&#41;</span>:
+    <span class="co1"># ...</span></pre>
+</div>
+
+<p>Si omitimos el argumento <code>name</code>, así como en el segundo ejemplo, Django
+usará el nombre de la función como nombre de la etiqueta.</p>
+
+<h4 id="definir_una_variable_en_el_contexto">10.4.3.4. Definir una variable en el contexto</h4>
+
+<p>El ejemplo en la sección anterior simplemente devuelve un valor. Muchas veces 
+es útil definir variables de plantilla en vez de simplemente devolver valores. 
+De esta manera, los autores de plantillas podrán directamente utilizar las
+variables que esta etiqueta defina.</p>
+
+<p>Para definir una variable en el contexto, asignaremos a nuestro objeto
+<code>context</code> disponible en el método <code>render()</code> nuestras variables, como si de
+un diccionario se tratase. Aquí mostramos la versión actualizada de
+<code>CurrentTimeNode</code> que define una variable de plantilla, <code>current_time</code>, en
+lugar de devolverla:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">class</span> CurrentTimeNode2<span class="br0">&#40;</span>template.<span class="me1">Node</span><span class="br0">&#41;</span>:
+&nbsp;
+    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> format_string<span class="br0">&#41;</span>:
+        <span class="kw2">self</span>.<span class="me1">format_string</span> <span class="sy0">=</span> format_string
+&nbsp;
+    <span class="kw1">def</span> render<span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> context<span class="br0">&#41;</span>:
+        now <span class="sy0">=</span> <span class="kw3">datetime</span>.<span class="kw3">datetime</span>.<span class="me1">now</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+        context<span class="br0">&#91;</span><span class="st0">'current_time'</span><span class="br0">&#93;</span> <span class="sy0">=</span> now.<span class="me1">strftime</span><span class="br0">&#40;</span><span class="kw2">self</span>.<span class="me1">format_string</span><span class="br0">&#41;</span>
+        <span class="kw1">return</span> <span class="st0">''</span></pre>
+</div>
+
+<p>Devolvemos un <em>string</em> vacío, debido a que <code>render()</code> siempre debe devolver
+un string. Entonces, si todo lo que la etiqueta hace es definir una variable,
+<code>render()</code> debe al menos devolver un <em>string</em> vacío.</p>
+
+<p>De esta manera usaríamos esta nueva versión de nuestra etiqueta:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">current_time2</span> <span class="st0">&quot;%Y-%M-%d %I:%M %p&quot;</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&lt;p&gt;The time is <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">current_time</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>.&lt;/p&gt;</pre>
+</div>
+
+<p>Pero hay un problema con <code>CurrentTimeNode2</code>: el nombre de la variable
+<code>current_time</code> está definido dentro del código. Esto significa que tendrás que
+asegurar que <code>{&#123; current_time &#125;}</code> no sea utilizado en otro lugar dentro de la
+plantilla, ya que <code>{&#37; current_time &#37;}</code> sobreescribirá el valor de esa otra
+variable.</p>
+
+<p>Una solución más limpia, es poder recibir el nombre de la variable en la
+etiqueta de plantilla así:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">get_current_time</span> <span class="st0">&quot;%Y-%M-%d %I:%M %p&quot;</span> <span class="re0">as</span> <span class="re0">my_current_time</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&lt;p&gt;The current time is <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">my_current_time</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>.&lt;/p&gt;</pre>
+</div>
+
+<p>Para hacer esto, necesitaremos modificar tanto la función de compilación
+como la clase <code>Node</code> de esta manera:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">import</span> <span class="kw3">re</span>
+&nbsp;
+<span class="kw1">class</span> CurrentTimeNode3<span class="br0">&#40;</span>template.<span class="me1">Node</span><span class="br0">&#41;</span>:
+&nbsp;
+    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> format_string<span class="sy0">,</span> var_name<span class="br0">&#41;</span>:
+        <span class="kw2">self</span>.<span class="me1">format_string</span> <span class="sy0">=</span> format_string
+        <span class="kw2">self</span>.<span class="me1">var_name</span> <span class="sy0">=</span> var_name
+&nbsp;
+    <span class="kw1">def</span> render<span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> context<span class="br0">&#41;</span>:
+        now <span class="sy0">=</span> <span class="kw3">datetime</span>.<span class="kw3">datetime</span>.<span class="me1">now</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+        context<span class="br0">&#91;</span><span class="kw2">self</span>.<span class="me1">var_name</span><span class="br0">&#93;</span> <span class="sy0">=</span> now.<span class="me1">strftime</span><span class="br0">&#40;</span><span class="kw2">self</span>.<span class="me1">format_string</span><span class="br0">&#41;</span>
+        <span class="kw1">return</span> <span class="st0">''</span>
+&nbsp;
+<span class="kw1">def</span> do_current_time<span class="br0">&#40;</span><span class="kw3">parser</span><span class="sy0">,</span> <span class="kw3">token</span><span class="br0">&#41;</span>:
+    <span class="co1"># This version uses a regular expression to parse tag contents.</span>
+    <span class="kw1">try</span>:
+        <span class="co1"># Splitting by None == splitting by spaces.</span>
+        tag_name<span class="sy0">,</span> arg <span class="sy0">=</span> <span class="kw3">token</span>.<span class="me1">contents</span>.<span class="me1">split</span><span class="br0">&#40;</span><span class="kw2">None</span><span class="sy0">,</span> <span class="nu0">1</span><span class="br0">&#41;</span>
+    <span class="kw1">except</span> <span class="kw2">ValueError</span>:
+        msg <span class="sy0">=</span> <span class="st0">'%r tag requires arguments'</span> % <span class="kw3">token</span>.<span class="me1">contents</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>
+        <span class="kw1">raise</span> template.<span class="me1">TemplateSyntaxError</span><span class="br0">&#40;</span>msg<span class="br0">&#41;</span>
+&nbsp;
+    m <span class="sy0">=</span> <span class="kw3">re</span>.<span class="me1">search</span><span class="br0">&#40;</span>r<span class="st0">'(.*?) as (<span class="es0">\w</span>+)'</span><span class="sy0">,</span> arg<span class="br0">&#41;</span>
+    <span class="kw1">if</span> m:
+        fmt<span class="sy0">,</span> var_name <span class="sy0">=</span> m.<span class="me1">groups</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">else</span>:
+        msg <span class="sy0">=</span> <span class="st0">'%r tag had invalid arguments'</span> % tag_name
+        <span class="kw1">raise</span> template.<span class="me1">TemplateSyntaxError</span><span class="br0">&#40;</span>msg<span class="br0">&#41;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="kw1">not</span> <span class="br0">&#40;</span>fmt<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span> <span class="sy0">==</span> fmt<span class="br0">&#91;</span>-<span class="nu0">1</span><span class="br0">&#93;</span> <span class="kw1">and</span> fmt<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span> <span class="kw1">in</span> <span class="br0">&#40;</span><span class="st0">'&quot;'</span><span class="sy0">,</span> <span class="st0">&quot;'&quot;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>:
+        msg <span class="sy0">=</span> <span class="st0">&quot;%r tag's argument should be in quotes&quot;</span> % tag_name
+        <span class="kw1">raise</span> template.<span class="me1">TemplateSyntaxError</span><span class="br0">&#40;</span>msg<span class="br0">&#41;</span>
+&nbsp;
+    <span class="kw1">return</span> CurrentTimeNode3<span class="br0">&#40;</span>fmt<span class="br0">&#91;</span><span class="nu0">1</span>:-<span class="nu0">1</span><span class="br0">&#93;</span><span class="sy0">,</span> var_name<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Ahora, <code>do_current_time()</code> pasa el <em>string</em> de formato junto al nombre de la
+variable a <code>CurrentTimeNode3</code>.</p>
+
+<h4 id="evaluar_hasta_otra_etiqueta_de_bloque">10.4.3.5. Evaluar hasta otra etiqueta de bloque</h4>
+
+<p>Las etiquetas de plantilla pueden funcionar como bloques que contienen otras
+etiquetas (piensa en <code>{&#37; if &#37;}</code>, <code>{&#37; for &#37;}</code>, etc.). Para crear una
+etiqueta como esta, usa <code>parser.parse()</code> en tu función de compilación.</p>
+
+<p>Aquí vemos como está implementada la etiqueta estándar <code>{&#37; coment &#37;}</code>:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> do_comment<span class="br0">&#40;</span><span class="kw3">parser</span><span class="sy0">,</span> <span class="kw3">token</span><span class="br0">&#41;</span>:
+    nodelist <span class="sy0">=</span> <span class="kw3">parser</span>.<span class="me1">parse</span><span class="br0">&#40;</span><span class="br0">&#40;</span><span class="st0">'endcomment'</span><span class="sy0">,</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="kw3">parser</span>.<span class="me1">delete_first_token</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> CommentNode<span class="br0">&#40;</span><span class="br0">&#41;</span>
+&nbsp;
+<span class="kw1">class</span> CommentNode<span class="br0">&#40;</span>template.<span class="me1">Node</span><span class="br0">&#41;</span>:
+    <span class="kw1">def</span> render<span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> context<span class="br0">&#41;</span>:
+        <span class="kw1">return</span> <span class="st0">''</span></pre>
+</div>
+
+<p><code>parser.parse()</code> toma una tupla de nombres de etiquetas de bloque para
+evaluar y devuelve una instancia de <code>django.template.NodeList</code>, la cual es una
+lista de todos los objetos <code>Nodo</code> que el <em>parser</em> encontró <em>antes</em> de haber
+encontrado alguna de las etiquetas nombradas en la tupla.</p>
+
+<p>Entonces, en el ejemplo previo, <code>nodelist</code> es una lista con todos los nodos
+entre <code>{&#37; comment &#37;}</code> y <code>{&#37; endcomment &#37;}</code>, excluyendo a los mismos <code>{&#37;
+comment &#37;}</code> y <code>{&#37; endcomment &#37;}</code>.</p>
+
+<p>Luego de que <code>parser.parse()</code> es llamado el <em>parser</em> aún no ha "consumido" la
+etiqueta <code>{&#37; endcomment &#37;}</code>, es por eso que en el código se necesita llamar
+explícitamente a <code>parser.delete_first_token()</code> para prevenir que esta
+etiqueta sea procesada nuevamente.</p>
+
+<p>Luego, <code>CommentNode.render()</code> simplemente devuelve un <em>string</em> vacío.
+Cualquier cosa entre <code>{&#37; comment &#37;}</code> y <code>{&#37; endcomment &#37;}</code> es ignorada.</p>
+
+<p>En el ejemplo anterior, <code>do_comment()</code> desechó todo entre <code>{&#37; comment &#37;}</code> y
+<code>{&#37; endcomment &#37;}</code>, pero también es posible hacer algo con el código entre
+estas etiquetas.</p>
+
+<p>Por ejemplo, presentamos una etiqueta de plantilla, <code>{&#37; upper &#37;}</code>, que
+convertirá a mayúsculas todo hasta la etiqueta <code>{&#37; endupper &#37;}</code>:</p>
+
+<div class="code python">
+<pre class="python"><span class="br0">&#123;</span>% upper %<span class="br0">&#125;</span>
+    This will appear <span class="kw1">in</span> uppercase<span class="sy0">,</span> <span class="br0">&#123;</span><span class="br0">&#123;</span> your_name <span class="br0">&#125;</span><span class="br0">&#125;</span>.
+<span class="br0">&#123;</span>% endupper %<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Como en el ejemplo previo, utilizaremos <code>parser.parse()</code> pero esta vez
+pasamos el resultado en <code>nodelist</code> a <code>Node</code>:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">@</span>register.<span class="me1">tag</span>
+<span class="kw1">def</span> do_upper<span class="br0">&#40;</span><span class="kw3">parser</span><span class="sy0">,</span> <span class="kw3">token</span><span class="br0">&#41;</span>:
+    nodelist <span class="sy0">=</span> <span class="kw3">parser</span>.<span class="me1">parse</span><span class="br0">&#40;</span><span class="br0">&#40;</span><span class="st0">'endupper'</span><span class="sy0">,</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="kw3">parser</span>.<span class="me1">delete_first_token</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> UpperNode<span class="br0">&#40;</span>nodelist<span class="br0">&#41;</span>
+&nbsp;
+<span class="kw1">class</span> UpperNode<span class="br0">&#40;</span>template.<span class="me1">Node</span><span class="br0">&#41;</span>:
+&nbsp;
+    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> nodelist<span class="br0">&#41;</span>:
+        <span class="kw2">self</span>.<span class="me1">nodelist</span> <span class="sy0">=</span> nodelist
+&nbsp;
+    <span class="kw1">def</span> render<span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> context<span class="br0">&#41;</span>:
+        output <span class="sy0">=</span> <span class="kw2">self</span>.<span class="me1">nodelist</span>.<span class="me1">render</span><span class="br0">&#40;</span>context<span class="br0">&#41;</span>
+        <span class="kw1">return</span> output.<span class="me1">upper</span><span class="br0">&#40;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>El único concepto nuevo aquí es <code>self.nodelist.render(context)</code> en
+<code>UpperNode.render()</code>. El mismo simplemente llama a <code>render()</code> en cada
+<code>Node</code> en la lista de nodos.</p>
+
+<p>Para más ejemplos de renderizado complejo, examina el código fuente para las
+etiquetas <code>{&#37; if &#37;}</code>, <code>{&#37; for &#37;}</code>, <code>{&#37; ifequal &#37;}</code> y <code>{&#37; ifchanged &#37;}</code>.
+Puedes encontrarlas en <code>django/template/defaulttags.py</code>.</p>
+
+<h3 id="un_atajo_para_etiquetas_simples">10.4.4. Un atajo para etiquetas simples</h3>
+
+<p>Muchas etiquetas de plantilla reciben un único argumento — una cadena o una
+referencia a una variable de plantilla — y retornan una cadena luego de hacer
+algún procesamiento basado solamente en el argumento de entrada e información
+externa. Por ejemplo la etiqueta <code>current_time</code> que escribimos antes es de
+este tipo. Le pasamos una cadena de formato, y retorna la hora como una cadena.</p>
+
+<p>Para facilitar la creación de esos tipos de etiquetas, Django provee una 
+función auxiliar: <code>simple_tag</code>. Esta función, que es un método de
+<code>django.template.Library</code>, recibe una función que acepta un argumento, lo
+encapsula en una función <code>render</code> y el resto de las piezas necesarias que
+mencionamos previamente y lo registra con el sistema de plantillas.</p>
+
+<p>Nuestra función <code>current_time</code> podría entonces ser escrita de la siguiente
+manera:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> current_time<span class="br0">&#40;</span>format_string<span class="br0">&#41;</span>:
+    <span class="kw1">return</span> <span class="kw3">datetime</span>.<span class="kw3">datetime</span>.<span class="me1">now</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">strftime</span><span class="br0">&#40;</span>format_string<span class="br0">&#41;</span>
+&nbsp;
+register.<span class="me1">simple_tag</span><span class="br0">&#40;</span>current_time<span class="br0">&#41;</span></pre>
+</div>
+
+<p>En Python 2.4 la sintaxis de decorador también funciona:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">@</span>register.<span class="me1">simple_tag</span>
+<span class="kw1">def</span> current_time<span class="br0">&#40;</span><span class="kw3">token</span><span class="br0">&#41;</span>:
+    ...</pre>
+</div>
+
+<p>Un par de cosas a tener en cuenta acerca de la función auxiliar <code>simple_tag</code>:</p>
+
+<ul>
+<li>Sólo se pasa un argumento a nuestra función.</li>
+<li>La verificación de la cantidad requerida de argumentos ya ha sido
+realizada para el momento en el que nuestra función es llamada, de manera
+que no es necesario que lo hagamos nosotros.</li>
+<li>Las comillas alrededor del argumento (si existieran) ya han sido quitadas,
+de manera que recibimos una cadena común.</li>
+</ul>
+
+<h3 id="etiquetas_de_inclusion">10.4.5. Etiquetas de inclusión</h3>
+
+<p>Otro tipo de etiquetas de plantilla común es aquel que visualiza ciertos datos
+renderizando <em>otra</em> plantilla. Por ejemplo la interfaz de administración de
+Django usa etiquetas de plantillas personalizadas (<em>custom</em>) para visualizar los
+botones en la parte inferior de la páginas de formularios "agregar/cambiar".
+Dichos botones siempre se ven igual, pero el destino del enlace  cambia
+dependiendo del objeto que se está modificando. Se trata de un caso perfecto
+para el uso de una pequeña plantilla que es llenada con detalles del objeto
+actual.</p>
+
+<p>Ese tipo de etiquetas reciben el nombre de <em>etiquetas de inclusión</em>. Es
+probablemente mejor demostrar cómo escribir una usando un ejemplo. Escribamos
+una etiqueta que produzca una lista de opciones para un simple objeto <code>Poll</code>
+con múltiples opciones. Usaremos una etiqueta como esta:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">show_results</span> <span class="re0">poll</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>El resultado será algo como esto:</p>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">ul</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>First choice<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>Second choice<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>Third choice<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">ul</span>&gt;</span></pre>
+</div>
+
+<p>Primero definimos la función que toma el argumento y produce un diccionario de
+datos con los resultados. Nota que nos basta un diccionario y no necesitamos
+retornar nada más complejo. Esto será usado como el contexto para el fragmento
+de plantilla:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> show_books_for_author<span class="br0">&#40;</span>author<span class="br0">&#41;</span>:
+    books <span class="sy0">=</span> author.<span class="me1">book_set</span>.<span class="kw2">all</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> <span class="br0">&#123;</span><span class="st0">'books'</span>: books<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Luego creamos la plantilla usada para renderizar la salida de la etiqueta.
+Siguiendo con nuestro ejemplo, la plantilla es muy simple:</p>
+
+<div class="code twig">
+<pre class="twig">&lt;ul&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">for</span> <span class="re0">book</span> <span class="kw5">in</span> <span class="re0">books</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;li&gt; <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">book</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span> &lt;/li&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endfor</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&lt;/ul&gt;</pre>
+</div>
+
+<p>Finalmente creamos y registramos la etiqueta de inclusión invocando el método
+<code>inclusion_tag()</code> sobre un objeto <code>Library</code>.</p>
+
+<p>Continuando con nuestro ejemplo, si la plantilla se encuentra en un archivo
+llamado <code>polls/result_snippet.html</code>, registraremos la plantilla de la
+siguiente manera:</p>
+
+<div class="code python">
+<pre class="python">register.<span class="me1">inclusion_tag</span><span class="br0">&#40;</span><span class="st0">'books/books_for_author.html'</span><span class="br0">&#41;</span><span class="br0">&#40;</span>show_books_for_author<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Como siempre, la sintaxis de decoradores de Python 2.4 también funciona, de
+manera que en cambio podríamos haber escrito:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">@</span>register.<span class="me1">inclusion_tag</span><span class="br0">&#40;</span><span class="st0">'books/books_for_author.html'</span><span class="br0">&#41;</span>
+<span class="kw1">def</span> show_books_for_author<span class="br0">&#40;</span>show_books_for_author<span class="br0">&#41;</span>:
+    ...</pre>
+</div>
+
+<p>A veces tus etiquetas de inclusión necesitan tener acceso a valores del 
+contexto de la plantilla padre. Para resolver esto Django provee una opción
+<code>takes_context</code> para las etiquetas de inclusión. Si especificas
+<code>takes_context</code> cuando creas una etiqueta de plantilla, la misma no tendrá
+argumentos obligatorios y la función Python subyacente tendrá un argumento: el
+contexto de la plantilla en el estado en el que se encontraba cuando la 
+etiqueta fue invocada.</p>
+
+<p>Por ejemplo supongamos que estás escribiendo una etiqueta de inclusión que será
+siempre usada en un contexto que contiene variables <code>home_link</code> y
+<code>home_title</code> que apuntan a la página principal. Así es como se vería la
+función Python:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">@</span>register.<span class="me1">inclusion_tag</span><span class="br0">&#40;</span><span class="st0">'link.html'</span><span class="sy0">,</span> takes_context<span class="sy0">=</span><span class="kw2">True</span><span class="br0">&#41;</span>
+<span class="kw1">def</span> jump_link<span class="br0">&#40;</span>context<span class="br0">&#41;</span>:
+    <span class="kw1">return</span> <span class="br0">&#123;</span>
+        <span class="st0">'link'</span>: context<span class="br0">&#91;</span><span class="st0">'home_link'</span><span class="br0">&#93;</span><span class="sy0">,</span>
+        <span class="st0">'title'</span>: context<span class="br0">&#91;</span><span class="st0">'home_title'</span><span class="br0">&#93;</span><span class="sy0">,</span>
+    <span class="br0">&#125;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> El primer parámetro de la función debe llamarse <code>context</code> obligatoriamente.</p></div>
+
+<p>La plantilla <code>link.html</code> podría contener lo siguiente:</p>
+
+<div class="code twig">
+<pre class="twig">Jump directly to &lt;a href=&quot;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">link</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&quot;&gt;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="kw2">title</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&lt;/a&gt;.</pre>
+</div>
+
+<p>Entonces, cada vez que desees usar esa etiqueta personalizada, carga su
+librería y ejecútala sin argumentos, de la siguiente manera:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">jump_link</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_10/detalles_internos_de_la_carga_de_plantillas.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>10.3. Detalles internos de la carga de plantillas</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_10/escribir_cargadores_de_plantillas_personalizados.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>10.5. Escribir cargadores de plantillas personalizados</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Los principios de las páginas Web dinámicas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> El sistema de plantillas de Django</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Interactuar con una base de datos: Modelos</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El sitio de Administración Django</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Procesamiento de formularios</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Vistas avanzadas y URLconfs</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Vistas genéricas</a>
+            </li>
+                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_10.html">
+                    <span>Capítulo 10.</span> Extender el sistema de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/revision_del_lenguaje_de_plantillas.html">
+                    <span>10.1.</span> Revisión del lenguaje de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/procesadores_de_contexto.html">
+                    <span>10.2.</span> Procesadores de contexto
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/detalles_internos_de_la_carga_de_plantillas.html">
+                    <span>10.3.</span> Detalles internos de la carga de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_10/extender_el_sistema_de_plantillas_2.html">
+                    <span>10.4.</span> Extender el sistema de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/escribir_cargadores_de_plantillas_personalizados.html">
+                    <span>10.5.</span> Escribir cargadores de plantillas personalizados
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/usar_la_referencia_de_plantillas_incorporadas.html">
+                    <span>10.6.</span> Usar la referencia de plantillas incorporadas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/configurar_el_sistema_de_plantillas_en_modo_autonomo.html">
+                    <span>10.7.</span> Configurar el sistema de plantillas en modo autónomo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/que_sigue.html">
+                    <span>10.8.</span> ¿Qué sigue?
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Generación de contenido no HTML</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Sesiones, usuario e inscripciones</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Cache</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Otros sub-frameworks contribuidos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Middleware</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Integración con Base de datos y Aplicaciones existentes</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Extender la Interfaz de Administración de Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>20.</span> <a href="../capitulo_20.html"> Puesta en marcha de Django en un servidor</a>
+            </li>
+                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

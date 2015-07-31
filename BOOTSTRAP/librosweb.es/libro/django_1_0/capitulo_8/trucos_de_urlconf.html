@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>8.1. Trucos de URLconf (El libro de Django 1.0)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_8.html" />
+                    <link rel="next" href="../capitulo_8/incluyendo_otras_urlconfs.html" />
+                <link rel="start" href="/libro/django_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="8.1. Trucos de URLconf (El libro de Django 1.0)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page django_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/" itemprop="url">
+                    <span itemprop="title">El libro de Django 1.0</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/capitulo_8.html" itemprop="url">
+                    <span itemprop="title">Capítulo 8. Vistas avanzadas y URLconfs</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>8.1. Trucos de URLconf</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="trucos_de_urlconf" class="title">
+        <span>8.1.</span> Trucos de URLconf
+    </h1>
+
+    
+
+<p>No hay nada de "especial" con las URLconfs — como cualquier otra cosa en
+Django, son sólo código Python —. Puedes aprovecharte de esto de varias
+maneras, como se describe las secciones que siguen.</p>
+
+<h3 id="importacion_de_funciones_de_forma_efectiva">8.1.1. Importación de funciones de forma efectiva</h3>
+
+<p>Considera esta URLconf, que se basa en el ejemplo del Capítulo 3:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+<span class="kw1">from</span> mysite.<span class="me1">views</span> <span class="kw1">import</span> current_datetime<span class="sy0">,</span> hours_ahead<span class="sy0">,</span> hours_behind<span class="sy0">,</span> 
+    now_in_chicago<span class="sy0">,</span> now_in_london
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/$'</span><span class="sy0">,</span> current_datetime<span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/plus(<span class="es0">\d</span>{1,2})hours/$'</span><span class="sy0">,</span> hours_ahead<span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/minus(<span class="es0">\d</span>{1,2})hours/$'</span><span class="sy0">,</span> hours_behind<span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/in_chicago/$'</span><span class="sy0">,</span> now_in_chicago<span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/in_london/$'</span><span class="sy0">,</span> now_in_london<span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Como se explicó en el Capítulo 3, cada entrada de la URLconf incluye su 
+función vista asociada, que se pasa directamente como un método. Esto 
+significa que es necesario importar las funciones view en la parte superior 
+del módulo.</p>
+
+<p>Pero a medida que las aplicaciones Django crecen en complejidad, sus URLconf
+crecen también, y mantener esos import puede ser tedioso de manejar. (Por cada
+nueva función vista, tienes que recordar importarla y la declaración de
+importaciones tiende a volverse demasiado larga si se utiliza este método). Es
+posible evitar esa tarea tediosa importando el módulo <code>views</code> directamente.
+Este ejemplo de URLconf es equivalente al anterior:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+<span class="kw1">from</span> mysite <span class="kw1">import</span> views
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/$'</span><span class="sy0">,</span> views.<span class="me1">current_datetime</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/plus(<span class="es0">\d</span>{1,2})hours/$'</span><span class="sy0">,</span> views.<span class="me1">hours_ahead</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/minus(<span class="es0">\d</span>{1,2})hours/$'</span><span class="sy0">,</span> views.<span class="me1">hours_behind</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/in_chicago/$'</span><span class="sy0">,</span> views.<span class="me1">now_in_chicago</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/in_london/$'</span><span class="sy0">,</span> views.<span class="me1">now_in_london</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Django ofrece otra forma de especificar la función vista para un patrón en
+particular en la URLconf: se le puede pasar un string que contiene el nombre 
+del módulo y de la función en lugar del método. Continuando con el ejemplo:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/$'</span><span class="sy0">,</span> <span class="st0">'mysite.views.current_datetime'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/plus(<span class="es0">\d</span>{1,2})hours/$'</span><span class="sy0">,</span> <span class="st0">'mysite.views.hours_ahead'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/minus(<span class="es0">\d</span>{1,2})hours/$'</span><span class="sy0">,</span> <span class="st0">'mysite.views.hours_behind'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/in_chicago/$'</span><span class="sy0">,</span> <span class="st0">'mysite.views.now_in_chicago'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/in_london/$'</span><span class="sy0">,</span> <span class="st0">'mysite.views.now_in_london'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>(Nota que los nombres de las vistas están entre comillas. Estamos usando
+<code>'mysite.views.current_datetime'</code> — con comillas — en lugar de
+<code>mysite.views.current_datetime</code>.)</p>
+
+<p>Al usar esta técnica ya no es necesario importar las funciones vista;
+Django importa automáticamente la función vista apropiada la primera vez que
+sea necesaria, según el string que describe el nombre y la ruta de la función
+vista.</p>
+
+<p>Otro atajo que puedes tomar al usar la técnica del string es sacar factor común
+de "prefijos view". En nuestro ejemplo URLconf, cada uno de los strings vista
+comienza con <code>'mysite.views'</code>, lo cual es redundante. Podemos factorizar ese
+prefijo común y pasarlo como primer argumento de <code>patterns()</code>, así:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">'mysite.views'</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/$'</span><span class="sy0">,</span> <span class="st0">'current_datetime'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/plus(<span class="es0">\d</span>{1,2})hours/$'</span><span class="sy0">,</span> <span class="st0">'hours_ahead'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/minus(<span class="es0">\d</span>{1,2})hours/$'</span><span class="sy0">,</span> <span class="st0">'hours_behind'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/in_chicago/$'</span><span class="sy0">,</span> <span class="st0">'now_in_chicago'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^now/in_london/$'</span><span class="sy0">,</span> <span class="st0">'now_in_london'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Nota que no se pone un punto detrás del prefijo, ni un punto delante de los
+string vista. Django los pone automáticamente.</p>
+
+<p>Con estos dos enfoques en mente, ¿cuál es mejor? Realmente depende de tu estilo
+personal de programación y tus necesidades.</p>
+
+<p>Las siguientes son ventajas del enfoque string:</p>
+
+<ul>
+<li>Es más compacto, porque no requiere que importes las funciones vista.</li>
+<li>Resulta en URLconfs más fáciles de leer y de manejar si tus funciones
+vista están extendidas por varios módulos Python diferentes.</li>
+</ul>
+
+<p>Las siguientes son ventajas del enfoque del método:</p>
+
+<ul>
+<li>Permite un fácil "empaquetado" de funciones vista. Ver la sección
+"Empaquetado de funciones vista" más adelante en este capítulo.</li>
+<li>Sigue fielmente el estilo Python — es decir, está más en línea con las 
+tradiciones Python, como la de pasar funciones como objetos.</li>
+</ul>
+
+<p>Ambos enfoques son válidos e incluso puedes mezclarlos dentro de la misma
+URLconf. La elección es tuya.</p>
+
+<h3 id="usar_multiples_prefijos_de_vista">8.1.2. Usar múltiples prefijos de vista</h3>
+
+<p>En la práctica, si usas la técnica del string, probablemente termines mezclando
+vistas hasta el punto en que las vistas de tu URLconf no tengan un prefijo
+común.  Sin embargo, todavía puedes sacar provecho del atajo del prefijo de las
+vistas para remover esta duplicación. Simplemente junta los objetos
+<code>patterns()</code>, así:</p>
+
+<p>Antes:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^/?$'</span><span class="sy0">,</span> <span class="st0">'mysite.views.archive_index'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^(<span class="es0">\d</span>{4})/([a-z]{3})/$'</span><span class="sy0">,</span> <span class="st0">'mysite.views.archive_month'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^tag/(<span class="es0">\w</span>+)/$'</span><span class="sy0">,</span> <span class="st0">'weblog.views.tag'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Después:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">'mysite.views'</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^/?$'</span><span class="sy0">,</span> <span class="st0">'archive_index'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^(<span class="es0">\d</span>{4})/([a-z]{3})/$'</span><span class="sy0">,</span> <span class="st0">'archive_month'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span>
+&nbsp;
+urlpatterns +<span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">'weblog.views'</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^tag/(<span class="es0">\w</span>+)/$'</span><span class="sy0">,</span> <span class="st0">'tag'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Lo único que le importa al framework es que existe una variable a nivel módulo
+llamada <code>urlpatterns</code>. Esta variable puede ser construida de forma dinámica,
+como lo hacemos en este ejemplo.</p>
+
+<h3 id="casos_especiales_de_urls_en_modo_debug">8.1.3.  Casos especiales de URLs en modo Debug</h3>
+
+<p>Hablando de construir <code>urlpatterns</code> de forma dinámica, quizás quieras
+aprovechar esta técnica para alterar el comportamiento de tu URLconf mientras
+estás en el modo depuración de Django. Para hacer eso simplemente comprueba el
+valor de la configuración <code>DEBUG</code> en tiempo de ejecución, así:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span>*
+<span class="kw1">from</span> django.<span class="me1">conf</span> <span class="kw1">import</span> settings
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^$'</span><span class="sy0">,</span> <span class="st0">'mysite.views.homepage'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^(<span class="es0">\d</span>{4})/([a-z]{3})/$'</span><span class="sy0">,</span> <span class="st0">'mysite.views.archive_month'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span>
+&nbsp;
+<span class="kw1">if</span> settings.<span class="me1">DEBUG</span>:
+    urlpatterns +<span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+        <span class="br0">&#40;</span>r<span class="st0">'^debuginfo/$'</span><span class="sy0">,</span> <span class="st0">'mysite.views.debug'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span></pre>
+</div>
+
+<p>En este ejemplo, la URL <code>/debuginfo/</code> sólo estará disponible si tu
+configuración <code>DEBUG</code> tiene el valor <code>True</code>.</p>
+
+<h3 id="usar_grupos_con_nombre">8.1.4. Usar grupos con nombre</h3>
+
+<p>Hasta ahora en todos nuestros ejemplos URLconf hemos usado, grupos de
+expresiones regulares <em>sin nombre</em> — es decir, ponemos paréntesis en las partes
+de la URL que queremos capturar y Django le pasa ese texto capturado a la
+función vista como un argumento posicional. En un uso más avanzado, es posible
+usar grupos de expresiones regulares <em>con nombre</em> para capturar partes de la 
+URL y pasarlos como argumentos <em>clave</em> a una vista.</p>
+
+<div class="admonition sidebar"><p><strong class="title"> Argumentos claves vs. Argumentos posicionales</strong> A una función de Python se la puede llamar usando argumentos de palabra
+clave o argumentos posicionales — y, en algunos casos, los dos al mismo
+tiempo. En una llamada por argumentos de palabra clave, se especifican los
+nombres de los argumentos junto con los valores que se le pasan. En una
+llamada por argumento posicional, sencillamente pasas los argumentos sin
+especificar explícitamente qué argumento concuerda con cual valor; la
+asociación está implícita en el orden de los argumentos.</p></div>
+
+<p>Por ejemplo, considera esta sencilla función:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> sell<span class="br0">&#40;</span>item<span class="sy0">,</span> price<span class="sy0">,</span> quantity<span class="br0">&#41;</span>:
+    <span class="kw1">print</span> <span class="st0">&quot;Selling %s unit(s) of %s at %s&quot;</span> % <span class="br0">&#40;</span>quantity<span class="sy0">,</span> item<span class="sy0">,</span> price<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Para llamarla con argumentos posicionales, se especifican los argumentos
+en el orden en que están listados en la definición de la función:</p>
+
+<div class="code python">
+<pre class="python">sell<span class="br0">&#40;</span><span class="st0">'Socks'</span><span class="sy0">,</span> <span class="st0">'$2.50'</span><span class="sy0">,</span> <span class="nu0">6</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Para llamarla con argumentos de palabra clave, se especifican los nombres de
+los argumentos junto con sus valores. Las siguientes sentencias son
+equivalentes:</p>
+
+<div class="code python">
+<pre class="python">sell<span class="br0">&#40;</span>item<span class="sy0">=</span><span class="st0">'Socks'</span><span class="sy0">,</span> price<span class="sy0">=</span><span class="st0">'$2.50'</span><span class="sy0">,</span> quantity<span class="sy0">=</span><span class="nu0">6</span><span class="br0">&#41;</span>
+sell<span class="br0">&#40;</span>item<span class="sy0">=</span><span class="st0">'Socks'</span><span class="sy0">,</span> quantity<span class="sy0">=</span><span class="nu0">6</span><span class="sy0">,</span> price<span class="sy0">=</span><span class="st0">'$2.50'</span><span class="br0">&#41;</span>
+sell<span class="br0">&#40;</span>price<span class="sy0">=</span><span class="st0">'$2.50'</span><span class="sy0">,</span> item<span class="sy0">=</span><span class="st0">'Socks'</span><span class="sy0">,</span> quantity<span class="sy0">=</span><span class="nu0">6</span><span class="br0">&#41;</span>
+sell<span class="br0">&#40;</span>price<span class="sy0">=</span><span class="st0">'$2.50'</span><span class="sy0">,</span> quantity<span class="sy0">=</span><span class="nu0">6</span><span class="sy0">,</span> item<span class="sy0">=</span><span class="st0">'Socks'</span><span class="br0">&#41;</span>
+sell<span class="br0">&#40;</span>quantity<span class="sy0">=</span><span class="nu0">6</span><span class="sy0">,</span> item<span class="sy0">=</span><span class="st0">'Socks'</span><span class="sy0">,</span> price<span class="sy0">=</span><span class="st0">'$2.50'</span><span class="br0">&#41;</span>
+sell<span class="br0">&#40;</span>quantity<span class="sy0">=</span><span class="nu0">6</span><span class="sy0">,</span> price<span class="sy0">=</span><span class="st0">'$2.50'</span><span class="sy0">,</span> item<span class="sy0">=</span><span class="st0">'Socks'</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Finalmente, se pueden mezclar los argumentos posicionales y por palabra
+clave, siempre y cuando los argumentos posicionales estén listados antes que
+los argumentos por palabra clave. Las siguientes sentencias son equivalentes
+a los ejemplos anteriores:</p>
+
+<div class="code python">
+<pre class="python">sell<span class="br0">&#40;</span><span class="st0">'Socks'</span><span class="sy0">,</span> <span class="st0">'$2.50'</span><span class="sy0">,</span> quantity<span class="sy0">=</span><span class="nu0">6</span><span class="br0">&#41;</span>
+sell<span class="br0">&#40;</span><span class="st0">'Socks'</span><span class="sy0">,</span> price<span class="sy0">=</span><span class="st0">'$2.50'</span><span class="sy0">,</span> quantity<span class="sy0">=</span><span class="nu0">6</span><span class="br0">&#41;</span>
+sell<span class="br0">&#40;</span><span class="st0">'Socks'</span><span class="sy0">,</span> quantity<span class="sy0">=</span><span class="nu0">6</span><span class="sy0">,</span> price<span class="sy0">=</span><span class="st0">'$2.50'</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>En las expresiones regulares de Python, la sintaxis para los grupos de
+expresiones regulares con nombre es <code>(?P&lt;nombre&gt;patrón)</code>, donde <code>nombre</code> es
+el nombre del grupo y <code>patrón</code> es algún patrón a buscar.</p>
+
+<p>Aquí hay un ejemplo de URLconf que usa grupos sin nombre:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+<span class="kw1">from</span> mysite <span class="kw1">import</span> views
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^articles/(<span class="es0">\d</span>{4})/$'</span><span class="sy0">,</span> views.<span class="me1">year_archive</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^articles/(<span class="es0">\d</span>{4})/(<span class="es0">\d</span>{2})/$'</span><span class="sy0">,</span> views.<span class="me1">month_archive</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Aquí está la misma URLconf, reescrita para usar grupos con nombre:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+<span class="kw1">from</span> mysite <span class="kw1">import</span> views
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^articles/(?P&lt;year&gt;<span class="es0">\d</span>{4})/$'</span><span class="sy0">,</span> views.<span class="me1">year_archive</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^articles/(?P&lt;year&gt;<span class="es0">\d</span>{4})/(?P&lt;month&gt;<span class="es0">\d</span>{2})/$'</span><span class="sy0">,</span> views.<span class="me1">month_archive</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Esto produce exactamente el mismo resultado que el ejemplo anterior, con una
+sutil diferencia: se le pasa a las funciones vista los valores capturados como
+argumentos clave en lugar de argumentos posicionales.</p>
+
+<p>Por ejemplo, con los grupos sin nombre una petición a <code>/articles/2006/03/</code>
+resultaría en una llamada de función equivalente a esto:</p>
+
+<div class="code python">
+<pre class="python">month_archive<span class="br0">&#40;</span>request<span class="sy0">,</span> <span class="st0">'2006'</span><span class="sy0">,</span> <span class="st0">'03'</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Sin embargo, con los grupos con nombre, la misma petición resultaría en esta
+llamada de función:</p>
+
+<div class="code python">
+<pre class="python">month_archive<span class="br0">&#40;</span>request<span class="sy0">,</span> year<span class="sy0">=</span><span class="st0">'2006'</span><span class="sy0">,</span> month<span class="sy0">=</span><span class="st0">'03'</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>En la práctica, usar grupos con nombres hace que tus URLconfs sean un poco más
+explícitas y menos propensas a bugs causados por argumentos — y puedes
+reordenar los argumentos en las definiciones de tus funciones vista. Siguiendo
+con el ejemplo anterior, si quisiéramos cambiar las URLs para incluir el mes
+<em>antes</em> del año, y estuviéramos usando grupos sin nombre, tendríamos que
+acordarnos de cambiar el orden de los argumentos en la vista <code>month_archive</code>.
+Si estuviéramos usando grupos con nombre, cambiar el orden de los parámetros
+capturados en la URL no tendría ningún efecto sobre la vista.</p>
+
+<p>Por supuesto, los beneficios de los grupos con nombre tienen el costo de la
+falta de brevedad; algunos desarrolladores opinan que la sintaxis de los grupos
+con nombre es fea y larga.  Aún así, otra ventaja de los grupos con nombres es
+la facilidad de lectura, especialmente para las personas que no están
+íntimamente relacionadas con las expresiones regulares o con tu aplicación
+Django en particular. Es más fácil ver lo que está pasando, a primera vista, en
+una URLconf que usa grupos con nombre.</p>
+
+<h3 id="comprender_el_algoritmo_de_combinacion_agrupacion">8.1.5. Comprender el algoritmo de combinación/agrupación</h3>
+
+<p>Una advertencia al usar grupos con nombre en una URLconf es que un simple 
+patrón URLconf no puede contener grupos con nombre y sin nombre. Si haces eso, 
+Django no generará ningún mensaje de error, pero probablemente descubras que 
+tus URLs no se están disparando de la forma esperada. Aquí está 
+específicamente el algoritmo que sigue el parser URLconf, con respecto a 
+grupos con nombre vs. grupos sin nombre en una expresión regular:</p>
+
+<ul>
+<li>Si existe algún argumento con nombre, usará esos, ignorando los argumentos
+sin nombre.</li>
+<li>Además, pasará todos los argumentos sin nombre como argumentos
+posicionales.</li>
+<li>En ambos casos, pasará cualquier opción extra como argumentos de palabra
+clave. Lee la próxima sección para más información.</li>
+</ul>
+
+<h3 id="pasarle_opciones_extra_a_las_funciones_vista">8.1.6. Pasarle opciones extra a las funciones vista</h3>
+
+<p>A veces te encontrarás escribiendo funciones vista que son bastante similares,
+con tan sólo algunas pequeñas diferencias. Por ejemplo, digamos que tienes dos
+vistas cuyo contenido es idéntico excepto por la plantilla que utilizan:</p>
+
+<div class="code python">
+<pre class="python"><span class="co1"># urls.py</span>
+&nbsp;
+<span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+<span class="kw1">from</span> mysite <span class="kw1">import</span> views
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^foo/$'</span><span class="sy0">,</span> views.<span class="me1">foo_view</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^bar/$'</span><span class="sy0">,</span> views.<span class="me1">bar_view</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<div class="code python">
+<pre class="python"><span class="co1"># views.py</span>
+&nbsp;
+<span class="kw1">from</span> django.<span class="me1">shortcuts</span> <span class="kw1">import</span> render_to_response
+<span class="kw1">from</span> mysite.<span class="me1">models</span> <span class="kw1">import</span> MyModel
+&nbsp;
+<span class="kw1">def</span> foo_view<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    m_list <span class="sy0">=</span> MyModel.<span class="me1">objects</span>.<span class="kw2">filter</span><span class="br0">&#40;</span>is_new<span class="sy0">=</span><span class="kw2">True</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span><span class="st0">'template1.html'</span><span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'m_list'</span>: m_list<span class="br0">&#125;</span><span class="br0">&#41;</span>
+&nbsp;
+<span class="kw1">def</span> bar_view<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    m_list <span class="sy0">=</span> MyModel.<span class="me1">objects</span>.<span class="kw2">filter</span><span class="br0">&#40;</span>is_new<span class="sy0">=</span><span class="kw2">True</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span><span class="st0">'template2.html'</span><span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'m_list'</span>: m_list<span class="br0">&#125;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Con este código nos estamos repitiendo y eso no es elegante. Al comienzo,
+podrías pensar en reducir la redundancia usando la misma vista para ambas URLs,
+poniendo paréntesis alrededor de la URL para capturarla y comprobando la URL
+dentro de la vista para determinar la plantilla, como mostramos a continuación:</p>
+
+<div class="code python">
+<pre class="python"><span class="co1"># urls.py</span>
+&nbsp;
+<span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+<span class="kw1">from</span> mysite <span class="kw1">import</span> views
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^(foo)/$'</span><span class="sy0">,</span> views.<span class="me1">foobar_view</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^(bar)/$'</span><span class="sy0">,</span> views.<span class="me1">foobar_view</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<div class="code python">
+<pre class="python"><span class="co1"># views.py</span>
+&nbsp;
+<span class="kw1">from</span> django.<span class="me1">shortcuts</span> <span class="kw1">import</span> render_to_response
+<span class="kw1">from</span> mysite.<span class="me1">models</span> <span class="kw1">import</span> MyModel
+&nbsp;
+<span class="kw1">def</span> foobar_view<span class="br0">&#40;</span>request<span class="sy0">,</span> url<span class="br0">&#41;</span>:
+    m_list <span class="sy0">=</span> MyModel.<span class="me1">objects</span>.<span class="kw2">filter</span><span class="br0">&#40;</span>is_new<span class="sy0">=</span><span class="kw2">True</span><span class="br0">&#41;</span>
+    <span class="kw1">if</span> url <span class="sy0">==</span> <span class="st0">'foo'</span>:
+        template_name <span class="sy0">=</span> <span class="st0">'template1.html'</span>
+    <span class="kw1">elif</span> url <span class="sy0">==</span> <span class="st0">'bar'</span>:
+        template_name <span class="sy0">=</span> <span class="st0">'template2.html'</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span>template_name<span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'m_list'</span>: m_list<span class="br0">&#125;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Sin embargo, el problema con esa solución es que acopla fuertemente tus URLs y
+tu código Si decides renombrar <code>/foo/</code> a <code>/fooey/</code>, tienes que recordar
+cambiar el código de la vista.</p>
+
+<p>La solución elegante involucra un parámetro URLconf opcional. Cada patrón en 
+una URLconf puede incluir un tercer ítem: un diccionario de argumentos de 
+palabra clave para pasarle a la función vista.</p>
+
+<p>Con esto en mente podemos reescribir nuestro ejemplo anterior así:</p>
+
+<div class="code python">
+<pre class="python"><span class="co1"># urls.py</span>
+&nbsp;
+<span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+<span class="kw1">from</span> mysite <span class="kw1">import</span> views
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^foo/$'</span><span class="sy0">,</span> views.<span class="me1">foobar_view</span><span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'template_name'</span>: <span class="st0">'template1.html'</span><span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^bar/$'</span><span class="sy0">,</span> views.<span class="me1">foobar_view</span><span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'template_name'</span>: <span class="st0">'template2.html'</span><span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<div class="code python">
+<pre class="python"><span class="co1"># views.py</span>
+&nbsp;
+<span class="kw1">from</span> django.<span class="me1">shortcuts</span> <span class="kw1">import</span> render_to_response
+<span class="kw1">from</span> mysite.<span class="me1">models</span> <span class="kw1">import</span> MyModel
+&nbsp;
+<span class="kw1">def</span> foobar_view<span class="br0">&#40;</span>request<span class="sy0">,</span> template_name<span class="br0">&#41;</span>:
+    m_list <span class="sy0">=</span> MyModel.<span class="me1">objects</span>.<span class="kw2">filter</span><span class="br0">&#40;</span>is_new<span class="sy0">=</span><span class="kw2">True</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span>template_name<span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'m_list'</span>: m_list<span class="br0">&#125;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Como puedes ver, la URLconf en este ejemplo especifica <code>template_name</code> en la
+URLconf. La función vista lo trata como a cualquier otro parámetro.</p>
+
+<p>Esta técnica de la opción extra en la URLconf es una linda forma de enviar
+información adicional a tus funciones vista sin tanta complicación. Por ese
+motivo es que es usada por algunas aplicaciones incluidas en Django, más
+notablemente el sistema de vistas genéricas, que tratamos en el
+Capítulo 9.</p>
+
+<p>La siguiente sección contiene algunas ideas sobre cómo puedes usar la técnica 
+de la opción extra en la URLconf como parte de tus proyectos.</p>
+
+<h4 id="simulando_valores_capturados_en_urlconf">8.1.6.1. Simulando valores capturados en URLconf</h4>
+
+<p>Supongamos que posees un conjunto de vistas que son disparadas vía un patrón y
+otra URL que no lo es pero cuya lógica de vista es la misma. En este caso 
+puedes "simular" la captura de valores de la URL usando opciones extra de 
+URLconf para manejar esa URL extra con una única vista.</p>
+
+<p>Por ejemplo, podrías tener una aplicación que muestra algunos datos para un día
+particular, con URLs tales como:</p>
+
+<div class="code code">
+<pre class="code">/mydata/jan/01/
+/mydata/jan/02/
+/mydata/jan/03/
+&nbsp;
+# ...
+&nbsp;
+/mydata/dec/30/
+/mydata/dec/31/</pre>
+</div>
+
+<p>Esto es lo suficientemente simple de manejar — puedes capturar los mismos en
+una URLconf como esta (usando sintaxis de grupos con nombre):</p>
+
+<div class="code python">
+<pre class="python">urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^mydata/(?P&lt;month&gt;<span class="es0">\w</span>{3})/(?P&lt;day&gt;<span class="es0">\d</span><span class="es0">\d</span>)/$'</span><span class="sy0">,</span> views.<span class="me1">my_view</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Y la <strong><em>signature</em></strong> de la función vista se vería así:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> my_view<span class="br0">&#40;</span>request<span class="sy0">,</span> month<span class="sy0">,</span> day<span class="br0">&#41;</span>:
+    <span class="co1"># ....</span></pre>
+</div>
+
+<p>Este enfoque es simple y directo — no es nada que no hayamos visto antes. El
+truco entra en juego cuando quieres agregar otra URL que usa <code>my_view</code> pero
+cuya URL no incluye un <code>month</code> ni/o un <code>day</code>.</p>
+
+<p>Por ejemplo, podrías querer agregar otra URL, <code>/mydata/birthday/</code>, que sería
+equivalente a <code>/mydata/jan/06/</code>. Puedes sacar provecho de opciones extra de
+las URLconf de la siguiente forma:</p>
+
+<div class="code python">
+<pre class="python">urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^mydata/birthday/$'</span><span class="sy0">,</span> views.<span class="me1">my_view</span><span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'month'</span>: <span class="st0">'jan'</span><span class="sy0">,</span> <span class="st0">'day'</span>: <span class="st0">'06'</span><span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^mydata/(?P&lt;month&gt;<span class="es0">\w</span>{3})/(?P&lt;day&gt;<span class="es0">\d</span><span class="es0">\d</span>)/$'</span><span class="sy0">,</span> views.<span class="me1">my_view</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>El detalle genial aquí es que no necesitas cambiar tu función vista para nada. 
+A la función vista sólo le incumbe el obtener los parámetros <code>month</code> y <code>day</code>
+— no importa si los mismos provienen de la captura de la URL o de parámetros
+extra.</p>
+
+<h4 id="convirtiendo_una_vista_en_generica">8.1.6.2. Convirtiendo una vista en genérica</h4>
+
+<p>Es una buena práctica de programación el "factorizar"  para aislar las partes
+comunes del código. Por ejemplo, con estas dos funciones Python:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> say_hello<span class="br0">&#40;</span>person_name<span class="br0">&#41;</span>:
+    <span class="kw1">print</span> <span class="st0">'Hello, %s'</span> % person_name
+&nbsp;
+<span class="kw1">def</span> say_goodbye<span class="br0">&#40;</span>person_name<span class="br0">&#41;</span>:
+    <span class="kw1">print</span> <span class="st0">'Goodbye, %s'</span> % person_name</pre>
+</div>
+
+<p>podemos extraer el saludo para convertirlo en un parámetro:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> greet<span class="br0">&#40;</span>person_name<span class="sy0">,</span> greeting<span class="br0">&#41;</span>:
+    <span class="kw1">print</span> <span class="st0">'%s, %s'</span> % <span class="br0">&#40;</span>greeting<span class="sy0">,</span> person_name<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Puedes aplicar la misma filosofía a tus vistas Django usando los parámetros
+extra de URLconf.</p>
+
+<p>Con esto en mente, puedes comenzar a hacer abstracciones de nivel más alto de
+tus vistas. En lugar de pensar "Esta vista muestra una lista de objetos
+<code>Event</code>" y "Esta otra vista muestra una lista de objetos <code>BlogEntry</code>",
+descubre que ambas son casos específicos de "Una vista que muestra una lista de
+objetos, donde el tipo de objeto es variable".</p>
+
+<p>Usemos este código como ejemplo:</p>
+
+<div class="code python">
+<pre class="python"><span class="co1"># urls.py</span>
+&nbsp;
+<span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+<span class="kw1">from</span> mysite <span class="kw1">import</span> views
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^events/$'</span><span class="sy0">,</span> views.<span class="me1">event_list</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^blog/entries/$'</span><span class="sy0">,</span> views.<span class="me1">entry_list</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<div class="code python">
+<pre class="python"><span class="co1"># views.py</span>
+&nbsp;
+<span class="kw1">from</span> django.<span class="me1">shortcuts</span> <span class="kw1">import</span> render_to_response
+<span class="kw1">from</span> mysite.<span class="me1">models</span> <span class="kw1">import</span> Event<span class="sy0">,</span> BlogEntry
+&nbsp;
+<span class="kw1">def</span> event_list<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    obj_list <span class="sy0">=</span> Event.<span class="me1">objects</span>.<span class="kw2">all</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span><span class="st0">'mysite/event_list.html'</span><span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'event_list'</span>: obj_list<span class="br0">&#125;</span><span class="br0">&#41;</span>
+&nbsp;
+<span class="kw1">def</span> entry_list<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    obj_list <span class="sy0">=</span> BlogEntry.<span class="me1">objects</span>.<span class="kw2">all</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span><span class="st0">'mysite/blogentry_list.html'</span><span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'entry_list'</span>: obj_list<span class="br0">&#125;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Ambas vistas hacen esencialmente lo mismo: muestran una lista de objetos.
+Refactoricemos el código para extraer el tipo de objetos que muestran:</p>
+
+<div class="code python">
+<pre class="python"><span class="co1"># urls.py</span>
+&nbsp;
+<span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+<span class="kw1">from</span> mysite <span class="kw1">import</span> models<span class="sy0">,</span> views
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^events/$'</span><span class="sy0">,</span> views.<span class="me1">object_list</span><span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'model'</span>: models.<span class="me1">Event</span><span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^blog/entries/$'</span><span class="sy0">,</span> views.<span class="me1">object_list</span><span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'model'</span>: models.<span class="me1">BlogEntry</span><span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<div class="code python">
+<pre class="python"><span class="co1"># views.py</span>
+&nbsp;
+<span class="kw1">from</span> django.<span class="me1">shortcuts</span> <span class="kw1">import</span> render_to_response
+&nbsp;
+<span class="kw1">def</span> object_list<span class="br0">&#40;</span>request<span class="sy0">,</span> model<span class="br0">&#41;</span>:
+    obj_list <span class="sy0">=</span> model.<span class="me1">objects</span>.<span class="kw2">all</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    template_name <span class="sy0">=</span> <span class="st0">'mysite/%s_list.html'</span> % model.__name__.<span class="me1">lower</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span>template_name<span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'object_list'</span>: obj_list<span class="br0">&#125;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Con esos pequeños cambios tenemos, de repente, una vista reusable e
+independiente del modelo. De ahora en adelante, cada vez que necesitemos una
+lista que muestre una listado de objetos, podemos simplemente reusar esta vista
+<code>object_list</code> en lugar de escribir código de vista. A continuación, un par de
+notas acerca de lo que hicimos:</p>
+
+<ul>
+<li>Estamos pasando las clases de modelos directamente, como el parámetro
+<code>model</code>. El diccionario de opciones extra de ULconf puede pasar
+cualquier tipo de objetos Python — no sólo strings.</li>
+<li>La línea <code>model.objects.all()</code> es un ejemplo de <em>duck typing</em> (este término
+tiene su origen en la frase *"Si camina como un pato, y habla como un 
+pato, podemos tratarlo como un pato." Nota que el código no conoce de qué 
+tipo de objeto se trata <code>model</code>; el único requerimiento es que <code>model</code> 
+tenga un atributo <code>objects</code>, el cual a su vez tiene un método <code>all()</code>.</li>
+<li>Estamos usando <code>model.__name__.lower()</code> para determinar el nombre de la
+plantilla. Cada clase Python tiene un atributo <code>__name__</code> que retorna el
+nombre de la clase. Esta característica es útil en momentos como este,
+cuando no conocemos el tipo de clase hasta el momento de la ejecución. Por
+ejemplo, el <code>__name__</code> de la clase <code>BlogEntry</code> es la cadena <code>BlogEntry</code>.</li>
+<li>En una sutil diferencia entre este ejemplo y el ejemplo previo, estamos
+pasando a la plantilla el nombre de variable genérico <code>object_list</code>.
+Podemos fácilmente cambiar este nombre de variable a <code>blogentry_list</code> o
+<code>event_list</code>, pero hemos dejado eso como un ejercicio para el lector.</li>
+</ul>
+
+<p>Debido a que los sitios Web impulsados por bases de datos tienen varios 
+patrones comunes, Django incluye un conjunto de "vistas genéricas" que usan 
+justamente esta técnica para ahorrarte tiempo. Nos ocupamos de las vistas 
+genéricas incluidas con Django en el próximo capítulo.</p>
+
+<h4 id="pasando_opciones_de_configuracion_a_una_vista">8.1.6.3. Pasando opciones de configuración a una vista</h4>
+
+<p>Si estás distribuyendo una aplicación Django, es probable que tus usuarios
+deseen cierto grado de configuración. En este caso, es una buena idea agregar
+puntos de extensión a tus vistas para las opciones de configuración que piensas
+que la gente pudiera desear cambiar. Puedes usar los parámetros extra de 
+URLconf para este fin.</p>
+
+<p>Una parte de una aplicación que normalmente se hace configurable es el nombre
+de la plantilla:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> my_view<span class="br0">&#40;</span>request<span class="sy0">,</span> template_name<span class="br0">&#41;</span>:
+    var <span class="sy0">=</span> do_something<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span>template_name<span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'var'</span>: var<span class="br0">&#125;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<h4 id="entendiendo_la_precedencia_entre_valores_captuardos_vs_opciones_extra">8.1.6.4. Entendiendo la precedencia entre valores captuardos vs. opciones extra</h4>
+
+<p>Cuando se presenta un conflicto, los parámetros extra de la URLconf tiene
+precedencia sobre los parámetros capturados. En otras palabras, si tu URLconf
+captura una variable de grupo con nombre y un parámetro extra de URLconf 
+incluye una variable con el mismo nombre, se usará el parámetro extra de la 
+URLconf.</p>
+
+<p>Por ejemplo, analicemos esta URLconf:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^mydata/(?P&lt;id&gt;<span class="es0">\d</span>+)/$'</span><span class="sy0">,</span> views.<span class="me1">my_view</span><span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'id'</span>: <span class="nu0">3</span><span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Aquí, tanto la expresión regular como el diccionario extra incluye un <code>id</code>.
+Tiene precedencia el <code>id</code> fijo especificado. Esto significa que cualquier
+petición (por ej. <code>/mydata/2/</code> o <code>/mydata/432432/</code>) serán tratados como si
+<code>id</code> estuviera fijado a <code>3</code>, independientemente del valor capturado en la
+URL.</p>
+
+<p>Los lectores atentos notarán que en este caso es una pérdida de tiempo y de
+tipeo capturar <code>id</code> en la expresión regular, porque su valor será siempre
+descartado en favor del valor proveniente del diccionario. Esto es correcto;
+lo traemos a colación sólo para ayudarte a evitar el cometer ese error.</p>
+
+<h3 id="usando_argumentos_de_vista_por_omision">8.1.7. Usando argumentos de vista por omisión</h3>
+
+<p>Otro truco cómodo es el de especificar parámetros por omisión para los
+argumentos de una vista. Esto le indica a la vista qué valor usar para un
+parámetro por omisión si es que no se especifica ninguno.</p>
+
+<p>Veamos un ejemplo:</p>
+
+<div class="code python">
+<pre class="python"><span class="co1"># urls.py</span>
+&nbsp;
+<span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^blog/$'</span><span class="sy0">,</span> views.<span class="me1">page</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^blog/page(?P&lt;num&gt;<span class="es0">\d</span>+)/$'</span><span class="sy0">,</span> views.<span class="me1">page</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<div class="code python">
+<pre class="python"><span class="co1"># views.py</span>
+&nbsp;
+<span class="kw1">def</span> page<span class="br0">&#40;</span>request<span class="sy0">,</span> num<span class="sy0">=</span><span class="st0">&quot;1&quot;</span><span class="br0">&#41;</span>:
+    <span class="co1"># Output the appropriate page of blog entries, according to num.</span>
+    <span class="co1"># ...</span></pre>
+</div>
+
+<p>Aquí, ambos patrones de URL apuntan a la misma vista — <code>views.page</code> — pero
+el primer patrón no captura nada de la URL. Si el primer patrón es disparado, 
+la función <code>page()</code> usará su argumento por omisión para <code>num</code>, <code>"1"</code>. Si el
+segundo patrón es disparado, <code>page()</code> usará el valor de <code>num</code> que se haya
+capturado mediante la expresión regular.</p>
+
+<p>Es común usar esta técnica en combinación con opciones de configuración,
+como explicamos previamente. Este  ejemplo implementa una pequeña mejora al
+ejemplo de la sección "<code>Pasando opciones de configuración a una vista</code>_": 
+provee un valor por omisión para <code>template_name</code>:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> my_view<span class="br0">&#40;</span>request<span class="sy0">,</span> template_name<span class="sy0">=</span><span class="st0">'mysite/my_view.html'</span><span class="br0">&#41;</span>:
+    var <span class="sy0">=</span> do_something<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span>template_name<span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'var'</span>: var<span class="br0">&#125;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<h3 id="manejando_vistas_en_forma_especial">8.1.8. Manejando vistas en forma especial</h3>
+
+<p>En algunas ocasiones tendrás un patrón en tu URLconf que maneja un gran número
+de URLs, pero necesitarás realizar un manejo especial en una de ellas. En este
+caso, saca provecho de la forma lineal en la que son procesadas la URLconfs y
+coloca el caso especial primero.</p>
+
+<p>Por ejemplo, las páginas "agregar un objeto" en el sitio de administración de
+Django están representadas por la siguiente línea de URLconf:</p>
+
+<div class="code python">
+<pre class="python">urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="co1"># ...</span>
+    <span class="br0">&#40;</span><span class="st0">'^([^/]+)/([^/]+)/add/$'</span><span class="sy0">,</span> <span class="st0">'django.contrib.admin.views.main.add_stage'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="co1"># ...</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Esto se disparará con URLs como <code>/myblog/entries/add/</code> y
+<code>/auth/groups/add/</code>. Sin embargo, la página "agregar" de un objeto usuario
+(<code>/auth/user/add/</code>) es un caso especial — la misma no muestra todos los
+campos del formulario, muestra dos campos de contraseña, etc. Podríamos 
+resolver este problema tratando esto como un caso especial en la vista, de 
+esta manera:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> add_stage<span class="br0">&#40;</span>request<span class="sy0">,</span> app_label<span class="sy0">,</span> model_name<span class="br0">&#41;</span>:
+    <span class="kw1">if</span> app_label <span class="sy0">==</span> <span class="st0">'auth'</span> <span class="kw1">and</span> model_name <span class="sy0">==</span> <span class="st0">'user'</span>:
+        <span class="co1"># do special-case code</span>
+    <span class="kw1">else</span>:
+        <span class="co1"># do normal code</span></pre>
+</div>
+
+<p>pero eso es poco elegante por una razón que hemos mencionado en múltiples
+oportunidades en este capítulo: Coloca lógica de URLs en la vista. Una manera
+más elegante sería la de hacer uso del hecho que las URLconfs se procesan
+desde arriba hacia abajo:</p>
+
+<div class="code python">
+<pre class="python">urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="co1"># ...</span>
+    <span class="br0">&#40;</span><span class="st0">'^auth/user/add/$'</span><span class="sy0">,</span> <span class="st0">'django.contrib.admin.views.auth.user_add_stage'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span><span class="st0">'^([^/]+)/([^/]+)/add/$'</span><span class="sy0">,</span> <span class="st0">'django.contrib.admin.views.main.add_stage'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="co1"># ...</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Con esto, una petición de <code>/auth/user/add/</code> será manejada por la vista
+<code>user_add_stage</code>. Aunque dicha URL coincide con el segundo patrón, coincide
+primero con el patrón ubicado más arriba. (Esto es lógica de corto circuito).</p>
+
+<h3 id="capturando_texto_en_urls">8.1.9. Capturando texto en URLs</h3>
+
+<p>Cada argumento capturado es enviado a la vista como una cadena Python, sin
+importar qué tipo de coincidencia se haya producido con la expresión regular.
+Por ejemplo en esta línea de URLconf:</p>
+
+<div class="code python">
+<pre class="python"><span class="br0">&#40;</span>r<span class="st0">'^articles/(?P&lt;year&gt;<span class="es0">\d</span>{4})/$'</span><span class="sy0">,</span> views.<span class="me1">year_archive</span><span class="br0">&#41;</span><span class="sy0">,</span></pre>
+</div>
+
+<p>el argumento <code>year</code> de <code>views.year.archive()</code> será una cadena, no un entero,
+aun cuando <code>\d{4}</code> sólo coincidirá con cadenas que representen enteros.</p>
+
+<p>Es importante tener esto presente cuando estás escribiendo código de vistas.
+Muchas funciones incluidas con Python son exigentes (y eso es bueno) acerca de
+aceptar objetos de cierto tipo. Un error común es intentar crear un objeto
+<code>datetime.date</code> con valores de cadena en lugar de valores enteros:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> <span class="kw1">import</span> <span class="kw3">datetime</span>
+<span class="sy0">&gt;&gt;&gt;</span> <span class="kw3">datetime</span>.<span class="me1">date</span><span class="br0">&#40;</span><span class="st0">'1993'</span><span class="sy0">,</span> <span class="st0">'7'</span><span class="sy0">,</span> <span class="st0">'9'</span><span class="br0">&#41;</span>
+Traceback <span class="br0">&#40;</span>most recent call last<span class="br0">&#41;</span>:
+    ...
+<span class="kw2">TypeError</span>: an integer <span class="kw1">is</span> required
+<span class="sy0">&gt;&gt;&gt;</span> <span class="kw3">datetime</span>.<span class="me1">date</span><span class="br0">&#40;</span><span class="nu0">1993</span><span class="sy0">,</span> <span class="nu0">7</span><span class="sy0">,</span> <span class="nu0">9</span><span class="br0">&#41;</span>
+<span class="kw3">datetime</span>.<span class="me1">date</span><span class="br0">&#40;</span><span class="nu0">1993</span><span class="sy0">,</span> <span class="nu0">7</span><span class="sy0">,</span> <span class="nu0">9</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Traducido a una URLconf y una vista, este error se vería así:</p>
+
+<div class="code python">
+<pre class="python"><span class="co1"># urls.py</span>
+&nbsp;
+<span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^articles/(<span class="es0">\d</span>{4})/(<span class="es0">\d</span>{2})/(<span class="es0">\d</span>{2})/$'</span><span class="sy0">,</span> views.<span class="me1">day_archive</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<div class="code python">
+<pre class="python"><span class="co1"># views.py</span>
+&nbsp;
+<span class="kw1">import</span> <span class="kw3">datetime</span>
+&nbsp;
+<span class="kw1">def</span> day_archive<span class="br0">&#40;</span>request<span class="sy0">,</span> year<span class="sy0">,</span> month<span class="sy0">,</span> day<span class="br0">&#41;</span>
+    <span class="co1"># The following statement raises a TypeError!</span>
+    date <span class="sy0">=</span> <span class="kw3">datetime</span>.<span class="me1">date</span><span class="br0">&#40;</span>year<span class="sy0">,</span> month<span class="sy0">,</span> day<span class="br0">&#41;</span></pre>
+</div>
+
+<p>En cambio <code>day_archive</code> puede ser escrito correctamente de la siguiente
+forma:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> day_archive<span class="br0">&#40;</span>request<span class="sy0">,</span> year<span class="sy0">,</span> month<span class="sy0">,</span> day<span class="br0">&#41;</span>
+    date <span class="sy0">=</span> <span class="kw3">datetime</span>.<span class="me1">date</span><span class="br0">&#40;</span><span class="kw2">int</span><span class="br0">&#40;</span>year<span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw2">int</span><span class="br0">&#40;</span>month<span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw2">int</span><span class="br0">&#40;</span>day<span class="br0">&#41;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Notar que <code>int()</code> lanza un <code>ValueError</code> cuando le pasas una cadena que no
+está compuesta únicamente de dígitos, pero estamos evitando ese error en este
+caso porque la expresión regular en nuestra URLconf ya se ha asegurado que sólo
+se pasen a la función vista cadenas que contengan dígitos.</p>
+
+<h3 id="entendiendo_donde_busca_una_urlconf">8.1.10. Entendiendo dónde busca una URLconf</h3>
+
+<p>Cuando llega una petición, Django intenta comparar los patrones de la URLconf
+con la URL solicitada como una cadena Python normal (no como una cadena
+Unicode). Esto no incluye los parámetros de <code>GET</code> o <code>POST</code> o el nombre del
+dominio. Tampoco incluye la barra inicial porque toda URL tiene una barra
+inicial.</p>
+
+<p>Por ejemplo, en una petición de <code>http://www.example.com/myapp/</code> Django tratará
+de encontrar una coincidencia para <code>myapp/</code>. En una petición de
+<code>http.//www.example.com/myapp/?page3</code> Django tratará de buscar una
+coincidencia para <code>myapp/</code>.</p>
+
+<p>El método de la petición (por ej. <code>POST</code>, <code>GET</code>, <code>HEAD</code>) <em>no</em>  se tiene en
+cuenta cuando se recorre la URLconf. En otras palabras, todos los métodos serán
+encaminados hacia la misma función para la misma URL. Es responsabilidad de una
+función vista el manejar de maneras distintas en base al método de la petición.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_8.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 8. Vistas avanzadas y URLconfs</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_8/incluyendo_otras_urlconfs.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>8.2. Incluyendo otras URLconfs</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Los principios de las páginas Web dinámicas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> El sistema de plantillas de Django</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Interactuar con una base de datos: Modelos</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El sitio de Administración Django</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Procesamiento de formularios</a>
+            </li>
+                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_8.html">
+                    <span>Capítulo 8.</span> Vistas avanzadas y URLconfs
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_8/trucos_de_urlconf.html">
+                    <span>8.1.</span> Trucos de URLconf
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/incluyendo_otras_urlconfs.html">
+                    <span>8.2.</span> Incluyendo otras URLconfs
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/que_sigue.html">
+                    <span>8.3.</span> ¿Qué sigue?
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Vistas genéricas</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Extender el sistema de plantillas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Generación de contenido no HTML</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Sesiones, usuario e inscripciones</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Cache</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Otros sub-frameworks contribuidos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Middleware</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Integración con Base de datos y Aplicaciones existentes</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Extender la Interfaz de Administración de Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>20.</span> <a href="../capitulo_20.html"> Puesta en marcha de Django en un servidor</a>
+            </li>
+                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

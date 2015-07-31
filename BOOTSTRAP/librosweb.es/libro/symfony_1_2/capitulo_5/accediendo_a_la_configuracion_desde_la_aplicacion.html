@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>5.5. Accediendo a la configuración desde la aplicación (Symfony 1.2, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_5/la_cache_de_configuracion.html" />
+                    <link rel="next" href="../capitulo_5/trucos_para_los_archivos_de_configuracion.html" />
+                <link rel="start" href="/libro/symfony_1_2/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="5.5. Accediendo a la configuración desde la aplicación (Symfony 1.2, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_2"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_2/" itemprop="url">
+                    <span itemprop="title">Symfony 1.2, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_2/capitulo_5.html" itemprop="url">
+                    <span itemprop="title">Capítulo 5. Configurar Symfony</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>5.5. Accediendo a la configuración desde la aplicación</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="accediendo_a_la_configuracion_desde_la_aplicacion" class="title">
+        <span>5.5.</span> Accediendo a la configuración desde la aplicación
+    </h1>
+
+    
+
+<p>Los archivos de configuración se transforman en código PHP y la mayoría de sus opciones solamente son utilizadas por el framework. Sin embargo, en ocasiones es necesario acceder a los archivos de configuración desde el código de la aplicación (en las acciones, plantillas, clases propias, etc.) Se puede acceder a todas las opciones definidas en los archivos <code>settings.yml</code>, <code>app.yml</code> y <code>module.yml</code> mediante una clase especial llamada <code>sfConfig</code>.</p>
+
+<h3 id="la_clase_sfconfig">5.5.1. La clase sfConfig</h3>
+
+<p>Desde cualquier punto del código de la aplicación se puede acceder a las opciones de configuración mediante la clase <code>sfConfig</code>. Se trata de un registro de opciones de configuración que proporciona un método <em>getter</em> que puede ser utilizado en cualquier parte del código:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// Obtiene una opción</span>
+opcion <span class="sy0">=</span> sfConfig<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'nombre_opcion'</span><span class="sy0">,</span> <span class="re0">$valor_por_defecto</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>También se pueden crear o redefinir opciones desde el código de la aplicación:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// Crear una nueva opción</span>
+sfConfig<span class="sy0">::</span><span class="me2">set</span><span class="br0">&#40;</span><span class="st_h">'nombre_opcion'</span><span class="sy0">,</span> <span class="re0">$valor</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El nombre de la opción se construye concatenando varios elementos y separándolos con guiones bajos en este orden:</p>
+
+<ul>
+<li>Un prefijo relacionado con el nombre del archivo de configuración (<code>sf_</code> para <code>settings.yml</code>, <code>app_</code> para <code>app.yml</code>, <code>mod_</code> para <code>module.yml</code>)</li>
+<li>Si existen, todas las claves ascendentes de la opción (y en minúsculas)</li>
+<li>El nombre de la clave, en minúsculas</li>
+</ul>
+
+<p>No es necesario incluir el nombre del entorno de ejecución, ya que el código PHP solo tiene acceso a los valores definidos para el entorno en el que se está ejecutando.</p>
+
+<p>El listado 5-16 muestra el código necesario para acceder a los valores de las opciones definidas en el archivo <code>app.yml</code> mostrado en el listado 5-15.</p>
+
+<p><strong>Listado 5-15 - Ejemplo de configuración del archivo <code>app.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co4">
+  .general</span>:<span class="co3">
+    impuestos</span><span class="sy2">: </span>   <span class="nu0">19.6</span><span class="co4">
+  usuario_por_defecto</span>:<span class="co3">
+    nombre</span><span class="sy2">: </span>      Juan Pérez<span class="co4">
+  email</span>:<span class="co3">
+    webmaster</span><span class="sy2">: </span>   <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="6f180a0d020e1c1b0a1d2f0a050a021f0300410c0002">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script><span class="co3">
+    contacto</span><span class="sy2">: </span>    <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="51323e3f253032253e11343b343c213d3e7f323e3c">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script><span class="co4">
+dev</span>:<span class="co4">
+  email</span>:<span class="co3">
+    webmaster</span><span class="sy2">: </span>   <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="147b60667b54717e717964787b3a777b79">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script><span class="co3">
+    contacto</span><span class="sy2">: </span>    <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="1e716a6c715e7b747b736e7271307d7173">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script></pre>
+</div>
+
+<p><strong>Listado 5-16 - Acceso a las opciones de configuración desde el entorno de desarrollo</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw1">echo</span> sfConfig<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'app_impuestos'</span><span class="br0">&#41;</span><span class="sy0">;</span>   <span class="co1">// Recuerda que se ignora el nombre de la categoría</span>
+                                       <span class="co1">// Es decir, no es necesario incluir 'general'</span>
+<span class="sy0">=&gt;</span> <span class="st_h">'19.6'</span>
+<span class="kw1">echo</span> sfConfig<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'app_usuario_por_defecto_nombre'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="sy0">=&gt;</span> <span class="st_h">'Juan Pérez'</span>
+<span class="kw1">echo</span> sfConfig<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'app_email_webmaster'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="sy0">=&gt;</span> <span class="st_h">'<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="9cf3e8eef3dcf9f6f9f1ecf0f3b2fff3f1">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>'</span>
+<span class="kw1">echo</span> sfConfig<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'app_email_contacto'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="sy0">=&gt;</span> <span class="st_h">'<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="cca3b8bea38ca9a6a9a1bca0a3e2afa3a1">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>'</span></pre>
+</div>
+
+<p>Las opciones de configuración de Symfony tienen todas las ventajas de las constantes PHP, pero sin sus desventajas, ya que se puede modificar su valor durante la ejecución de la aplicación.</p>
+
+<p>Considerando el funcionamiento que se ha mostrado, el archivo <code>settings.yml</code> que se utiliza para establecer las opciones del framework en cada aplicación, es equivalente a realizar varias llamadas a la función <code>sfConfig::set()</code>. Así que el listado 5-17 se interpreta de la misma forma que el listado 5-18.</p>
+
+<p><strong>Listado 5-17 - Extracto del archivo de configuración <code>settings.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co4">
+  .settings</span>:<span class="co3">
+    csrf_secret</span><span class="sy2">: </span>      false<span class="co3">
+    escaping_strategy</span><span class="sy2">: </span>off<span class="co3">
+    escaping_method</span><span class="sy2">: </span>  ESC_SPECIALCHARS</pre>
+</div>
+
+<p><strong>Listado 5-18 - Forma en la que Symfony procesa el archivo <code>settings.yml</code></strong></p>
+
+<div class="code php">
+<pre class="php">sfConfig<span class="sy0">::</span><span class="me2">add</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+  <span class="st_h">'sf_csrf_secret'</span> <span class="sy0">=&gt;</span> <span class="st_h">'false'</span><span class="sy0">,</span>
+  <span class="st_h">'sf_escaping_strategy'</span> <span class="sy0">=&gt;</span> <span class="st_h">'false'</span><span class="sy0">,</span>
+  <span class="st_h">'sf_escaping_method'</span> <span class="sy0">=&gt;</span> <span class="st_h">'ESC_SPECIALCHARS'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El Capítulo 19 explica el significado de las opciones de configuración del archivo <code>settings.yml</code>.</p>
+
+<h3 id="el_archivo_appyml_y_la_configuracion_propia_de_la_aplicacion">5.5.2. El archivo app.yml y la configuración propia de la aplicación</h3>
+
+<p>El archivo <code>app.yml</code>, que se encuentra en el directorio <code>miproyecto/apps/frontend/config/</code>, contiene la mayoría de las opciones de configuración relacionadas con la aplicación. Por defecto el archivo está vacío y sus opciones se configuran para cada entorno de ejecución. En este archivo se deben incluir todas las opciones que necesiten modificarse rápidamente y se utiliza la clase <code>sfConfig</code> para acceder a sus valores desde el código de la aplicación. El listado 5-19 muestra un ejemplo.</p>
+
+<p><strong>Listado 5-19 - Archivo <code>app.yml</code> que define los tipos de tarjeta de crédito aceptados en un sitio</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co4">
+  tarjetascredito</span>:<span class="co3">
+    falsa</span><span class="sy2">: </span>           off<span class="co3">
+    visa</span><span class="sy2">: </span>            on<span class="co3">
+    americanexpress</span><span class="sy2">: </span> on
+<span class="co4">
+dev</span>:<span class="co4">
+  tarjetascredito</span>:<span class="co3">
+    falsa</span><span class="sy2">: </span>           on</pre>
+</div>
+
+<p>Para saber si las tarjetas de crédito <em>falsas</em> se aceptan en el entorno de ejecución de la aplicación, se debe utilizar la siguiente instrucción:</p>
+
+<div class="code php">
+<pre class="php">sfConfig<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'app_tarjetascredito_falsa'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Si quieres definir un array de elementos bajo la clave <code>all</code>, es necesario que utilices el nombre de una categoría, ya que de otro modo Symfony trata cada uno de los valores de forma independiente, tal y como se muestra en el ejemplo anterior.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co4">
+  .array</span>:<span class="co4">
+    tarjetascredito</span>:<span class="co3">
+      falsa</span><span class="sy2">: </span>            off<span class="co3">
+      visa</span><span class="sy2">: </span>             on<span class="co3">
+      americanexpress</span><span class="sy2">: </span>  on</pre>
+</div>
+
+<div class="code php">
+<pre class="php"><span class="kw3">print_r</span><span class="br0">&#40;</span>sfConfig<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'app_tarjetascredito'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw3">Array</span><span class="br0">&#40;</span>
+  <span class="br0">&#91;</span>falsa<span class="br0">&#93;</span> <span class="sy0">=&gt;</span> <span class="kw4">false</span>
+  <span class="br0">&#91;</span>visa<span class="br0">&#93;</span> <span class="sy0">=&gt;</span> <span class="kw4">true</span>
+  <span class="br0">&#91;</span>americanexpress<span class="br0">&#93;</span> <span class="sy0">=&gt;</span> <span class="kw4">true</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p></p></div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Cuando vayas a definir una constante o una opción dentro de un script, piensa si no sería mejor incluir esa opción en el archivo <code>app.yml</code>. Se trata del lugar más apropiado para guardar todas las opciones de la configuración.</p></div>
+
+<p>Los requerimientos de algunas aplicaciones complejas pueden dificultar el uso del archivo <code>app.yml</code>. En este caso, se puede almacenar la configuración en cualquier otro archivo, con el formato y la sintaxis que se prefiera y que sea procesado por un manejador realizado completamente a medida. El Capítulo 19 explica en detalle el funcionamiento de los manejadores de configuraciones.</p>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_5/la_cache_de_configuracion.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>5.4. La cache de configuración</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_5/trucos_para_los_archivos_de_configuracion.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>5.6. Trucos para los archivos de configuración</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_5.html">
+                    <span>Capítulo 5.</span> Configurar Symfony
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/el_sistema_de_configuracion.html">
+                    <span>5.1.</span> El sistema de configuración
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/un_vistazo_general_a_los_archivos_de_configuracion.html">
+                    <span>5.2.</span> Un vistazo general a los archivos de configuración
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/entornos.html">
+                    <span>5.3.</span> Entornos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/la_cache_de_configuracion.html">
+                    <span>5.4.</span> La cache de configuración
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_5/accediendo_a_la_configuracion_desde_la_aplicacion.html">
+                    <span>5.5.</span> Accediendo a la configuración desde la aplicación
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/trucos_para_los_archivos_de_configuracion.html">
+                    <span>5.6.</span> Trucos para los archivos de configuración
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/resumen.html">
+                    <span>5.7.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

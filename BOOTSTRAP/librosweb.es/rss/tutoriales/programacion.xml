@@ -1,0 +1,2006 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:atom="http://www.w3.org/2005/Atom"
+    xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+    >
+    <channel>
+        <title>Tutoriales de programación</title>
+        <description>Tutoriales sobre diseño y programación web (HTML, CSS, JavaScript y PHP).</description>
+
+        <atom:link href="http://librosweb.es/rss/tutoriales/programacion.xml" rel="self" type="application/rss+xml" />
+        <link>http://librosweb.es/</link>
+
+        <language>es</language>
+
+        <pubDate>Fri, 19 Jun 2015 23:04:23 +0200</pubDate>
+        <lastBuildDate>Fri, 19 Jun 2015 23:04:23 +0200</lastBuildDate>
+        <sy:updatePeriod>daily</sy:updatePeriod>
+        <sy:updateFrequency>1</sy:updateFrequency>
+
+        <generator>http://symfony.com/</generator>
+
+        <image>
+            <url>http://librosweb.es/apple-touch-icon.png</url>
+            <title>LibrosWeb</title>
+            <link>http://librosweb.es/</link>
+        </image>
+
+        <atom:link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb" />
+
+                    <item>
+        <title><![CDATA[ Las nuevas cadenas de texto de JavaScript 6 ]]></title>
+        <link>http://librosweb.es/tutorial/las-nuevas-cadenas-de-texto-de-javascript-6/</link>
+        <description><![CDATA[
+            <p>Las cadenas de texto de JavaScript han sido desde siempre muy limitadas, sobre todo comparadas con las cadenas de lenguajes como PHP, Python o Ruby. Las <a href="https://www.chromestatus.com/feature/4743002513735680">Template Strings</a> del estándar EcmaScript 6 (que están disponibles a partir de Google Chrome 41) eliminan todas estas limitaciones y permiten incluso definir DSLs (<em>domain-specific languages</em>) en tus aplicaciones JavaScript.</p>
+<p>Las principales funcionalidades que aportan las <em>Template Strings</em> son:</p>
+<ul>
+<li>Interpolación de cadenas.</li>
+<li>Posibilidad de incluir (y evaluar) expresiones dentro de cadenas.</li>
+<li>Definición de cadenas de texto en varias líneas sin tener que usar <em>hacks</em>.</li>
+<li>Formatear cadenas de manera avanzada.</li>
+<li>Cadenas etiquetadas.</li>
+</ul>
+<p>En vez de añadir todas estas funcionalidades en las cadenas que conocemos y usamos a diario en JavaScript, las <em>Template Strings</em> añaden sus funcionalidades de una manera completamente nueva.</p>
+<h2>Sintaxis</h2>
+<p>Las <em>Template Strings</em> utilizan las comillas invertidas o <em>backticks</em> para delimitar sus contenidos, en vez de las tradicionales comillas simples o dobles de las cadenas de texto normales. Así que este es un ejemplo de cómo definir una <em>Template String</em>:</p>
+<pre class="javascript code"><span class="co1">// esto es una Template String</span>
+<span class="kw1">var</span> saludo <span class="sy0">=</span> `¡Hola Mundo<span class="sy0">!</span>`<span class="sy0">;</span>
+&nbsp;
+<span class="co1">// esto es una cadena normal con comillas simples</span>
+<span class="kw1">var</span> saludo <span class="sy0">=</span> <span class="st0">'¡Hola Mundo!'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// esto es una cadena normal con comillas dobles</span>
+<span class="kw1">var</span> saludo <span class="sy0">=</span> <span class="st0">&quot;¡Hola Mundo!&quot;</span><span class="sy0">;</span></pre>
+<p>Aunque de momento las <em>Template Strings</em> no parecen gran cosa, sigue leyendo para descubrir todas sus funcionalidades.</p>
+<h2>Interpolación de cadenas</h2>
+<p>Una de las mejores características de las <em>Template Strings</em> es la interpolación de cadenas. En pocas palabras, la interpolación permite utilizar cualquier expresión válida de JavaScript (como por ejemplo la suma de dos variables) dentro de una cadena y obtener como resultado la cadena completa con la expresión evaluada.</p>
+<p>Las partes variables de una <em>Template String</em> se denominan <em>placeholders</em> y utilizan la sintaxis <code>${ }</code> para diferenciarse del resto de la cadena. Ejemplo:</p>
+<pre class="javascript code"><span class="co1">// Sustitución simple de cadenas</span>
+<span class="kw1">var</span> nombre <span class="sy0">=</span> <span class="st0">&quot;Juan&quot;</span><span class="sy0">;</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>`¡Hola $<span class="br0">&#123;</span>nombre<span class="br0">&#125;</span><span class="sy0">!</span>`<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// resultado =&gt; &quot;¡Hola Juan!&quot;</span></pre>
+<p>Como dentro de las partes variables de la cadena se puede incluir cualquier expresión válida de JavaScript, en la práctica sirven para mucho más que mostrar el contenido de una variable. En los siguientes ejemplos se muestran cómo interpolar algunas operaciones matemáticas sencillas:</p>
+<pre class="javascript code"><span class="kw1">var</span> a <span class="sy0">=</span> <span class="nu0">10</span><span class="sy0">;</span>
+<span class="kw1">var</span> b <span class="sy0">=</span> <span class="nu0">10</span><span class="sy0">;</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>`¡JavaScript se publicó hace $<span class="br0">&#123;</span>a<span class="sy0">+</span>b<span class="br0">&#125;</span> años<span class="sy0">!</span>`<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// resultado =&gt; ¡JavaScript se publicó hace 20 años!</span>
+&nbsp;
+console.<span class="me1">log</span><span class="br0">&#40;</span>`Existen $<span class="br0">&#123;</span><span class="nu0">2</span> <span class="sy0">*</span> <span class="br0">&#40;</span>a <span class="sy0">+</span> b<span class="br0">&#41;</span><span class="br0">&#125;</span> frameworks JavaScript y no $<span class="br0">&#123;</span><span class="nu0">10</span> <span class="sy0">*</span> <span class="br0">&#40;</span>a <span class="sy0">+</span> b<span class="br0">&#41;</span><span class="br0">&#125;</span>.`<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// resultado =&gt; Existen 40 frameworks JavaScript y no 2000.</span></pre>
+<p>Dentro de un valor interpolado también se puede utilizar cualquier función:</p>
+<pre class="javascript code"><span class="kw1">function</span> fn<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span> <span class="kw1">return</span> <span class="st0">&quot;Este es el resultado de la función&quot;</span><span class="sy0">;</span> <span class="br0">&#125;</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>`Hola <span class="st0">&quot;${fn()}&quot;</span> Mundo`<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// resultado =&gt; Hola &quot;Este es el resultado de la función&quot; Mundo</span></pre>
+<p>La sintaxis <code>${}</code> también funciona con expresiones que invocan métodos y acceden a propiedades:</p>
+<pre class="javascript code"><span class="kw1">var</span> usuario <span class="sy0">=</span> <span class="br0">&#123;</span> nombre<span class="sy0">:</span> <span class="st0">'Juan Perez'</span> <span class="br0">&#125;</span><span class="sy0">;</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>`Estás conectado como $<span class="br0">&#123;</span>usuario.<span class="me1">nombre</span>.<span class="me1">toUpperCase</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#125;</span>.`<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// resultado =&gt; &quot;Estás conectado como JUAN PEREZ.&quot;;</span>
+&nbsp;
+<span class="kw1">var</span> divisa <span class="sy0">=</span> <span class="st0">'Euro'</span><span class="sy0">;</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>`Los precios se indican en $<span class="br0">&#123;</span>divisa<span class="br0">&#125;</span>. <span class="me1">Utiliza</span> nuestro conversor para convertir $<span class="br0">&#123;</span>divisa<span class="br0">&#125;</span> en tu moneda local.`<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// resultado =&gt; Los precios se indican en Euro. Utiliza nuestro conversor para convertir Euro en tu moneda local.</span></pre>
+<p>Si la <em>Template String</em> contiene en su interior las mismas comillas que se usan para delimitar sus contenidos, escápalas usando la habitual barra invertida <code>\</code> delante de la comilla:</p>
+<pre class="javascript code"><span class="kw1">var</span> saludo <span class="sy0">=</span> `¡\`Hola\` Mundo<span class="sy0">!</span>`<span class="sy0">;</span></pre>
+<h2>Cadenas en varias líneas</h2>
+<p>Definir una cadena de texto en varias líneas con JavaScript es sencillo, pero requiere de algunos <em>hacks</em> que ensucian el código de la aplicación. La solución más utilizada actualmente consiste en añadir una barra invertida antes de cada salto de línea. Ejemplo:</p>
+<pre class="javascript code"><span class="kw1">var</span> saludo <span class="sy0">=</span> <span class="st0">&quot;Hola <span class="es0">\</span>
+Mundo&quot;</span><span class="sy0">;</span></pre>
+<p>Aunque este código funciona perfectamente en cualquier <em>engine</em> moderno de JavaScript, no deja de ser un <em>hack</em>. Otra forma de definir cadenas en varias líneas consiste en utilizar la concatenación de cadenas, aunque el resultado no es mucho mejor que el anterior:</p>
+<pre class="javascript code"><span class="kw1">var</span> saludo <span class="sy0">=</span> <span class="st0">&quot;Hola &quot;</span> <span class="sy0">+</span>
+<span class="st0">&quot;Mundo&quot;</span><span class="sy0">;</span></pre>
+<p>Las <em>Template Strings</em> simplifican drásticamente la definición de cadenas en varias líneas. De hecho, es tan sencillo que no hay que hacer absolutamente nada: pulsa <code>&lt;Enter&gt;</code> cada vez que quieras incluir un salto de línea en la cadena y ya está. Ejemplo:</p>
+<pre class="javascript code"><span class="kw1">var</span> cadena <span class="sy0">=</span> `Línea número <span class="nu0">1</span> de la cadena
+Línea número <span class="nu0">2</span> de la cadena`<span class="sy0">;</span></pre>
+<p>Este código funciona bien porque cualquier espacio en blanco (incluyendo los saltos de línea) que se incluyen dentro de las comillas invertidas se considera que es parte de la cadena.</p>
+<h2>Cadenas etiquetadas</h2>
+<p>Otra de las funcionalidades avanzadas de las <em>Template Strings</em> son las <em>"tagged strings"</em> o cadenas etiquetadas. Las etiquetas permiten transformar los contenidos de una cadena aplicándoles una función. El nombre de la etiqueta se indica justo delante de la cadena y su nombre coincide con el de la función que se ejecutará para transformar los contenidos de la cadena:</p>
+<pre class="code code">fn`¡Hola ${nombre}! Tu última conexión fue el ${fechaUltimaConexion}.`</pre>
+<p>En este ejemplo, <code>fn</code> es el nombre de la etiqueta y por tanto, también es el nombre de la función que se ejecuta. El siguiente código muestra cómo se transforman realmente los contenidos de la <em>Template String</em> en los argumentos de la función:</p>
+<pre class="javascript code">fn<span class="br0">&#40;</span><span class="br0">&#91;</span><span class="st0">&quot;¡Hola &quot;</span><span class="sy0">,</span> <span class="st0">&quot;! Tu última conexión fue el  &quot;</span><span class="sy0">,</span> <span class="st0">&quot;.&quot;</span><span class="br0">&#93;</span><span class="sy0">,</span> nombre<span class="sy0">,</span> fechaUltimaConexion<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>A continuación, se muestra un ejemplo práctico del uso de las cadenas etiquetadas. Imagina que en tu aplicación necesitas escapar todo el contenido HTML que puedan contener las cadenas de texto. Gracias a las cadenas etiquetadas, podrías definir una etiqueta llamada <code>html</code> y utilizarla de esta manera:</p>
+<pre class="javascript code">html`<span class="sy0">&lt;</span>b<span class="sy0">&gt;</span>$<span class="br0">&#123;</span>nombreUsuario<span class="br0">&#125;</span> dice<span class="sy0">&lt;/</span>b<span class="sy0">&gt;:</span> <span class="st0">&quot;${comentario}&quot;</span>`</pre>
+<p>Lo que queremos es que el contenido de las variables <code>nombreUsuario</code> y <code>comentario</code> se escape automáticamente para que no "rompan" el contenido HTML de la página. La función a desarrollar tendrá dos argumentos llamados <code>nombreUsuario</code> y <code>comentario</code>. Los dos argumentos pueden contener caracteres problemáticos desde el punto de vista HTML (<code>&lt;</code>, <code>&gt;</code>, <code>&amp;</code>, etc.)</p>
+<p>La función <code>html()</code> que utilizaremos como etiqueta podría tener este contenido:</p>
+<pre class="javascript code"><span class="kw1">function</span> html<span class="br0">&#40;</span>parametros<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">var</span> resultado <span class="sy0">=</span> parametros<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+    <span class="kw1">var</span> substituciones <span class="sy0">=</span> <span class="br0">&#91;</span><span class="br0">&#93;</span>.<span class="me1">slice</span>.<span class="me1">call</span><span class="br0">&#40;</span>arguments<span class="sy0">,</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+    <span class="kw1">for</span> <span class="br0">&#40;</span><span class="kw1">var</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i <span class="sy0">&lt;</span> substituciones.<span class="me1">length</span><span class="sy0">;</span> <span class="sy0">++</span>i<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        resultado <span class="sy0">+=</span> escape<span class="br0">&#40;</span>substituciones<span class="br0">&#91;</span>i<span class="br0">&#93;</span><span class="br0">&#41;</span> <span class="sy0">+</span> parametros<span class="br0">&#91;</span>i <span class="sy0">+</span> <span class="nu0">1</span><span class="br0">&#93;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">return</span> resultado<span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">function</span> escape<span class="br0">&#40;</span>s<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> s.<span class="me1">replace</span><span class="br0">&#40;</span><span class="co2">/&amp;/g</span><span class="sy0">,</span> <span class="st0">&quot;&amp;amp;&quot;</span><span class="br0">&#41;</span>
+            .<span class="me1">replace</span><span class="br0">&#40;</span><span class="co2">/&lt;/g</span><span class="sy0">,</span> <span class="st0">&quot;&amp;lt;&quot;</span><span class="br0">&#41;</span>
+            .<span class="me1">replace</span><span class="br0">&#40;</span><span class="co2">/&gt;/g</span><span class="sy0">,</span> <span class="st0">&quot;&amp;gt;&quot;</span><span class="br0">&#41;</span>
+            .<span class="me1">replace</span><span class="br0">&#40;</span><span class="co2">/'/g</span><span class="sy0">,</span> <span class="st0">&quot;&amp;#39;&quot;</span><span class="br0">&#41;</span>
+            .<span class="me1">replace</span><span class="br0">&#40;</span><span class="co2">/&quot;/g</span><span class="sy0">,</span> <span class="st0">&quot;&amp;quot;&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">var</span> nombreUsuario <span class="sy0">=</span> <span class="st0">&quot;Juan Perez&quot;</span><span class="sy0">;</span>
+<span class="kw1">var</span> comentario <span class="sy0">=</span> <span class="st0">&quot;aprendiendo &lt;em&gt;JavaScript&lt;/em&gt; &amp; &lt;b&gt;ES6&lt;/b&gt;&quot;</span><span class="sy0">;</span>
+&nbsp;
+console.<span class="me1">log</span><span class="br0">&#40;</span>html`<span class="sy0">&lt;</span>b<span class="sy0">&gt;</span>$<span class="br0">&#123;</span>nombreUsuario<span class="br0">&#125;</span> dice<span class="sy0">&lt;/</span>b<span class="sy0">&gt;:</span> <span class="st0">&quot;${comentario}&quot;</span>`<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// resultado =&gt; &lt;b&gt;Juan Perez dice&lt;/b&gt;: &quot;aprendiendo &amp;lt;em&amp;gt;JavaScript&amp;lt;/em&amp;gt; &amp;amp; &amp;lt;b&amp;gt;ES6&amp;lt;/b&amp;gt;&quot;</span></pre>
+<p>Las posibilidades de las cadenas etiquetadas son prácticamente ilimitadas. Puedes utilizarlas para escapar información, formatear cadenas, traducirlas y cualquier otra sustitución avanzada que puedas imaginar:</p>
+<pre class="javascript code"><span class="co1">// Escapar información</span>
+qsa`.$<span class="br0">&#123;</span>className<span class="br0">&#125;</span>`<span class="sy0">;</span>
+safehtml`<span class="sy0">&lt;</span>a href<span class="sy0">=</span><span class="st0">&quot;${url}?q=${query}&quot;</span> onclick<span class="sy0">=</span><span class="st0">&quot;alert('${mensaje}')&quot;</span> style<span class="sy0">=</span><span class="st0">&quot;color: ${color}&quot;</span><span class="sy0">&gt;</span>$<span class="br0">&#123;</span>mensaje<span class="br0">&#125;</span><span class="sy0">&lt;/</span>a<span class="sy0">&gt;</span>`<span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Formatear valores en función del idioma (:numero y :divisa transforman el contenido)</span>
+l10n`Hola $<span class="br0">&#123;</span>nombre<span class="br0">&#125;</span><span class="sy0">;</span> eres nuestro visitante $<span class="br0">&#123;</span>visitante<span class="br0">&#125;</span><span class="sy0">:</span>numero. <span class="me1">El</span> saldo de tu cuenta es $<span class="br0">&#123;</span>dinero<span class="br0">&#125;</span><span class="sy0">:</span>divisa.`
+&nbsp;
+<span class="co1">// Embeber HTML/XML</span>
+jsx`<span class="sy0">&lt;</span>a href<span class="sy0">=</span><span class="st0">&quot;${url}&quot;</span><span class="sy0">&gt;</span>$<span class="br0">&#123;</span>texto<span class="br0">&#125;</span><span class="sy0">&lt;/</span>a<span class="sy0">&gt;</span>` <span class="co1">// se transforma en React.DOM.a({ href: url }, texto)</span>
+&nbsp;
+<span class="co1">// DSL propio para ejecutar comandos</span>
+<span class="kw1">var</span> proceso <span class="sy0">=</span> sh`ps ax <span class="sy0">|</span> grep $<span class="br0">&#123;</span>pid<span class="br0">&#125;</span>`<span class="sy0">;</span></pre>
+<h2>Resumen y referencias</h2>
+<p>Las <em>Template Strings</em> se pueden utilizar en Google Chrome 41, la <em>Tech Preview</em> de Internet Explorer, Firefox 35 y el framework <em>io.js</em>. La mayor parte de <em>transpilers</em> de ES6 también las soportan, como por ejemplo <a href="https://github.com/google/traceur-compiler/wiki/LanguageFeatures#template-literals">Tracuer</a>.</p>
+<p>Puedes encontrar más <a href="https://github.com/GoogleChrome/samples/tree/gh-pages/template-literals-es6">ejemplos sobre Template Strings</a> en el repositorio de ejemplos de código de Google Chrome. Consulta también <a href="https://github.com/addyosmani/es6-equivalents-in-es5#template-literals">este artículo</a> para descubrir el código equivalente en ES5 para conseguir una funcionalidad similar a la ofrecida por ES6.</p>
+<p>Las <em>Template Strings</em> añaden funcionalidades muy interesantes a las cadenas de texto tradicionales de JavaScript. Entre otras, permiten interpolar expresiones, definir cadenas en varias líneas y crear tu propio lenguaje DSL gracias a las cadenas etiquetadas.</p>
+<p>Esta última es la funcionalidad más importante, ya que gracias a las etiquetas, las aplicaciones pueden definir sus propios lenguajes DSL. En la práctica, las etiquetas reciben como argumentos las diferentes partes de una cadena y los procesan para obtener como resultado una nueva cadena.</p>
+<p><strong>Referencias interesantes</strong></p>
+<ul>
+<li><a href="http://www.2ality.com/2015/01/template-strings-html.html">http://www.2ality.com/2015/01/template-strings-html.html</a></li>
+<li><a href="https://leanpub.com/understandinges6/read/#leanpub-auto-tagged-templates">https://leanpub.com/understandinges6/read/#leanpub-auto-tagged-templates</a></li>
+<li><a href="http://jaysoo.ca/2014/03/20/i18n-with-es6-template-strings/">http://jaysoo.ca/2014/03/20/i18n-with-es6-template-strings/</a></li>
+<li><a href="http://odetocode.com/blogs/scott/archive/2014/09/30/features-of-es6-part-8-tagged-templates.aspx">http://odetocode.com/blogs/scott/archive/2014/09/30/features-of-es6-part-8-tagged-templates.aspx</a></li>
+</ul>
+<h2>Sobre el autor</h2>
+<p>Este artículo fue publicado originalmente por <strong>Addy Osmani</strong> y ha sido traducido con permiso por <a href="https://github.com/javiereguiluz">Javier Eguiluz</a>.</p>
+            ]]></description>
+        <guid isPermaLink="false">http://librosweb.es/tutorial/las-nuevas-cadenas-de-texto-de-javascript-6/</guid>
+        <pubDate>Tue, 10 Feb 2015 00:00:00 +0100</pubDate>
+                    <category><![CDATA[programación]]></category>
+                    <category><![CDATA[javascript]]></category>
+            </item>
+        <item>
+        <title><![CDATA[ Las novedades de Doctrine ORM 2.5 (Segunda parte) ]]></title>
+        <link>http://librosweb.es/tutorial/las-novedades-de-doctrine-orm-25-segunda-parte/</link>
+        <description><![CDATA[
+            <p>Este tutorial es la segunda parte del artículo sobre las novedades de Doctrine 2.5. La <a href="http://librosweb.es/tutorial/las-novedades-de-doctrine-orm-25-primera-parte/">primera parte</a> se centró en las nuevas funcionalidades más relevantes, como los objetos embebidos y la caché de segundo nivel para Redis, Memcache y Riak.</p>
+<p>En esta segunda parte se explican las mejoras de las funcionalidades que ya existían en Doctrine. Además, se detallan los cambios que Doctrine 2.5 introduce y que son incompatibles con sus versiones anteriores, por lo que te obligarán a cambiar el código de tu aplicación.</p>
+<h2>Mejoras en el lenguaje DQL</h2>
+<p><strong>1.</strong> La cláusula <code>ORDER BY</code> de las consultas DQL ahora permite utilizar funciones:</p>
+<pre class="php code"><span class="re0">$dql</span> <span class="sy0">=</span> <span class="st0">&quot;SELECT u FROM User u ORDER BY CONCAT(u.username, u.name)&quot;</span><span class="sy0">;</span></pre>
+<p><strong>2.</strong> Las expresiones <code>IS_NULL</code> también permiten el uso de funciones:</p>
+<pre class="php code"><span class="re0">$dql</span> <span class="sy0">=</span> <span class="st0">&quot;SELECT u.name FROM User u WHERE MAX(u.name) IS NULL&quot;</span><span class="sy0">;</span></pre>
+<p><strong>3.</strong> La cláusula <code>HAVING</code> ahora permite el uso de expresiones <code>LIKE</code>.</p>
+<p><strong>4.</strong> Las expresiones <code>NEW()</code> ahora soportan el uso de subconsultas:</p>
+<pre class="php code"><span class="re0">$dql</span> <span class="sy0">=</span> <span class="st0">&quot;SELECT new UserDTO(u.name, SELECT count(g.id) FROM Group g WHERE g.id = u.id) FROM User u&quot;</span><span class="sy0">;</span></pre>
+<p><strong>5.</strong> La expresión <code>MEMBER OF</code> ahora permite filtrar por más de un resultado:</p>
+<pre class="php code"><span class="re0">$dql</span> <span class="sy0">=</span> <span class="st0">&quot;SELECT u FROM User u WHERE :groups MEMBER OF u.groups&quot;</span><span class="sy0">;</span>
+<span class="re0">$query</span> <span class="sy0">=</span> <span class="re0">$entityManager</span><span class="sy0">-&gt;</span><span class="me1">createQuery</span><span class="br0">&#40;</span><span class="re0">$dql</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$query</span><span class="sy0">-&gt;</span><span class="me1">setParameter</span><span class="br0">&#40;</span><span class="st_h">'groups'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="nu0">1</span><span class="sy0">,</span> <span class="nu0">2</span><span class="sy0">,</span> <span class="nu0">3</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$users</span> <span class="sy0">=</span> <span class="re0">$query</span><span class="sy0">-&gt;</span><span class="me1">getResult</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p><strong>6.</strong> Ahora es posible utilizar expresiones dentro de <code>COUNT()</code>:</p>
+<pre class="php code"><span class="re0">$dql</span> <span class="sy0">=</span> <span class="st0">&quot;SELECT COUNT(DISTINCT CONCAT(u.name, u.lastname)) FROM User u&quot;</span><span class="sy0">;</span></pre>
+<p><strong>7.</strong> Las funciones <code>DATE_ADD()</code>/<code>DATE_SUB()</code> ahora soportan la expresión <code>HOUR</code>.</p>
+<h2>Añadido soporte para factorías en las funciones DQL</h2>
+<p>En las versiones anteriores de Doctrine, había que indicar la clase completa de las funciones DQL propias. Por eso no era posible utilizar la inyección de dependencias para configurar esas funciones en tiempo de ejecución.</p>
+<p><a href="https://github.com/mnapoli">Matthieu Napoli</a> ha implementado una nueva funcionalidad muy sencilla que permite pasar un <em>callback</em> que es el que se encarga de resolver la función DQL en tiempo de ejecución:</p>
+<pre class="php code"><span class="re0">$config</span> <span class="sy0">=</span> <span class="kw2">new</span> \Doctrine\ORM\Configuration<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$config</span><span class="sy0">-&gt;</span><span class="me1">addCustomNumericFunction</span><span class="br0">&#40;</span>
+    <span class="st_h">'IS_PUBLISHED'</span><span class="sy0">,</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$funcName</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="re0">$currentSiteId</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="kw2">new</span> IsPublishedFunction<span class="br0">&#40;</span><span class="re0">$currentSiteId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+     <span class="br0">&#125;</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<h2>Colecciones como parámetro de las búsquedas <code>WHERE ... IN</code></h2>
+<p>Las consultas de tipo <code>WHERE IN</code> ahora permiten usar directamente el array que contiene la colección de entidades a utilizar en la búsqueda:</p>
+<pre class="php code"><span class="re0">$categories</span> <span class="sy0">=</span> <span class="re0">$rootCategory</span><span class="sy0">-&gt;</span><span class="me1">getChildren</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$queryBuilder</span>
+    <span class="sy0">-&gt;</span><span class="me1">select</span><span class="br0">&#40;</span><span class="st_h">'p'</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">from</span><span class="br0">&#40;</span><span class="st_h">'Product'</span><span class="sy0">,</span> <span class="st_h">'p'</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">where</span><span class="br0">&#40;</span><span class="st_h">'p.category IN (:categories)'</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">setParameter</span><span class="br0">&#40;</span><span class="st_h">'categories'</span><span class="sy0">,</span> <span class="re0">$categories</span><span class="br0">&#41;</span>
+<span class="sy0">;</span></pre>
+<p>Esta funcionalidad ha sido desarrollada por <a href="https://github.com/michaelperrin">Michael Perrin</a>.</p>
+<ul>
+<li><a href="https://github.com/doctrine/doctrine2/pull/590">Ver Pull Request</a></li>
+<li><a href="http://doctrine-project.org/jira/browse/DDC-2319">Ver discusión DDC-2319</a></li>
+</ul>
+<h2>Posibilidad de definir <em>Query Hints</em> por defecto para todas las consultas</h2>
+<p>Doctrine soporta los <em>query hints</em> desde la versión 2.0, ya que se utiliza en varios elementos, como el AST, los <em>fetch modes</em>, el <em>locking</em> y otras funcionalidades relacionads con la generación de código DQL.</p>
+<p>La novedad es que ahora es posible definir <em>query hints</em> por defecto que están activados para todas las consultas:</p>
+<pre class="php code"><span class="re0">$config</span> <span class="sy0">=</span> <span class="kw2">new</span> \Doctrine\ORM\Configuration<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="sy0">-&gt;</span><span class="me1">setDefaultQueryHints</span><span class="br0">&#40;</span>
+    <span class="st_h">'doctrine.customOutputWalker'</span> <span class="sy0">=&gt;</span> <span class="st_h">'MyProject\CustomOutputWalker'</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>Esta funcionalidad ha sido desarrollada por <a href="https://github.com/Strate">Artur Eshenbrener</a>.</p>
+<ul>
+<li><a href="https://github.com/doctrine/doctrine2/pull/863">Ver Pull Request</a></li>
+</ul>
+<h2>ResultSetMappingBuilder soporta herencia de tipo <em>Single-Table</em></h2>
+<p>En las versiones anteriores, <code>ResultSetMappingBuilder</code> no funcionaba con las entidades que utilizaban herencia de tipo <em>single table</em>. En Doctrine ORM 2.5 esta limitación ha desaparecido.</p>
+<h2>Definición simple de relaciones <em>many-to-many</em> cuando se usa YAML</h2>
+<p>La configuración basada en XML y la configuración basada en anotaciones permiten definir relaciones de tipo <em>many-to-many</em> muy fácilmente, ya que no requiren definir la columna de tipo <em>join</em> utilizada en la relación.</p>
+<p>A partir de Doctrine 2.5, la configuración basada en YAML también permite utilizar este atajo para definir relaciones <em>many-to-many</em>:</p>
+<pre class="yaml code"><span class="co4">manyToMany</span>:<span class="co4">
+    groups</span>:<span class="co3">
+        targetEntity</span><span class="sy2">: </span>Group<span class="co4">
+        joinTable</span>:<span class="co3">
+            name</span><span class="sy2">: </span>users_groups</pre>
+<h2>Mayor control sobre el comando que valida el esquema</h2>
+<p>El comando que valida el esquema ejecuta dos validaciones adicionales para comprobar la validez de los <em>mappings</em> y para comprobar si el esquema está correctamente sincronizado. Ahora es posible saltarse cualquiera de estas dos comprobaciones:</p>
+<pre class="cli code">$ php vendor/bin/doctrine orm:validate-schema --skip-mapping
+$ php vendor/bin/doctrine orm:validate-schema --skip-sync</pre>
+<p>La ventaja de deshabilitar estas comprobaciones es que ahora puedes crear por ejemplo <em>scripts</em> de integración continua más especializados. Si no se encuentra ningún error, el comando devuelve <code>0</code>; si se produce un error de <em>mapping</em>, devuelve <code>1</code>; si se produce un error de sincronización, devuelve <code>2</code>; y si se producen ambos errores, se devuelve <code>3</code>.</p>
+<h2>Evitar las copias de seguridad al generar las entidades</h2>
+<p>Cuando se ejecuta el comando que genera las entidades, Doctrine hace una copia de seguridad del archivo que se está modificando para evitar la pérdida de información. Utiliza la nueva opción <code>-no-backup</code> para no generar esas copias de seguridad:</p>
+<pre class="cli code">$ php vendor/bin/doctrine orm:generate-entities src/ --no-backup</pre>
+<h2>Uso de objetos como identificadores de entidades</h2>
+<p>Ahora es posible utilizar objetos como identificadores de las entidades, siempre que implementen el método mágico <code>__toString()</code>.</p>
+<pre class="php code"><span class="kw2">class</span> UserId
+<span class="br0">&#123;</span>
+    <span class="kw2">private</span> <span class="re0">$value</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span><span class="re0">$value</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">value</span> <span class="sy0">=</span> <span class="re0">$value</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __toString<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="br0">&#40;</span>string<span class="br0">&#41;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">value</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw2">class</span> User
+<span class="br0">&#123;</span>
+    <span class="co4">/** @Id @Column(type=&quot;userid&quot;) */</span>
+    <span class="kw2">private</span> <span class="re0">$id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span>UserId <span class="re0">$id</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">id</span> <span class="sy0">=</span> <span class="re0">$id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw2">class</span> UserIdType <span class="kw2">extends</span> \Doctrine\DBAL\Types\Type
+<span class="br0">&#123;</span>
+    <span class="co1">// ...</span>
+<span class="br0">&#125;</span>
+&nbsp;
+Doctrine\DBAL\Types\Type<span class="sy0">::</span><span class="me2">addType</span><span class="br0">&#40;</span><span class="st_h">'userid'</span><span class="sy0">,</span> <span class="st_h">'MyProject\UserIdType'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<h2>Cambios incompatibles con las versiones anteriores de Doctrine</h2>
+<p>En esta sección se muestran todos los cambios de tipo <em>BC Break (Backwards compatibility Break)</em> introducidos por Doctrine ORM 2.5. Si utilizas alguna de estas funcionalidades, tendrás que actualizar el código de tu aplicación antes de pasar a Doctrine 2.5.</p>
+<h3>La interfaz NamingStrategy ha cambiado</h3>
+<p>La interfaz <code>Doctrine\ORM\Mapping\NamingStrategyInterface</code> ha cambiado ligeramente para pasar el nombre de la clase de la entidad en el método que genera el nombre de la columna <em>join</em> de la relación:</p>
+<pre class="php code"><span class="co1">// antes</span>
+<span class="kw2">function</span> joinColumnName<span class="br0">&#40;</span><span class="re0">$propertyName</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// ahora</span>
+<span class="kw2">function</span> joinColumnName<span class="br0">&#40;</span><span class="re0">$propertyName</span><span class="sy0">,</span> <span class="re0">$className</span> <span class="sy0">=</span> <span class="kw4">null</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>También se ha añadido un nuevo método necesario para tratar los objetos embebidos, una de las principales novedades de Doctrine 2.5:</p>
+<pre class="php code"><span class="kw2">public</span> <span class="kw2">function</span> embeddedFieldToColumnName<span class="br0">&#40;</span><span class="re0">$propertyName</span><span class="sy0">,</span> <span class="re0">$embeddedColumnName</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<h3>Los <em>type-hints</em> utilizan <code>EntityManagerInterface</code> en vez de <code>EntityManager</code></h3>
+<p>Todas las clases que requieren la clase <code>EntityManager</code> en cualquiera de sus métodos ahora requieren la interfaz <code>EntityManagerInterface</code>.</p>
+<p>Así que si tu aplicación extiende cualquiera de las siguientes clases, asegúrate de cambiar estas llamadas a métodos:</p>
+<ul>
+<li><code>Doctrine\ORM\Tools\DebugUnitOfWorkListener#dumpIdentityMap(EntityManagerInterface $em)</code></li>
+<li><code>Doctrine\ORM\Mapping\ClassMetadataFactory#setEntityManager(EntityManagerInterface $em)</code></li>
+</ul>
+<h3>Modificada la API de los <em>hydrators</em> propios</h3>
+<p>La API de <code>AbstractHydrator</code> ya no obliga a usar una caché. Además, se ha añadido el método <code>hydrateColumnInfo($column)</code> para obtener información sobre una columna.</p>
+<p>Por otra parte, la variable que representaba a la caché ya no se pasa por referencia entre los diferentes métodos, ya que no es necesario hacerlo desde la versión 2.4 de Doctrine en la que los <em>hydrators</em> se instancian para cada consulta.</p>
+<ul>
+<li><a href="http://doctrine-project.org/jira/browse/DDC-3060">Ver discusión DDC-3060</a></li>
+</ul>
+<h3>El <em>inheritance map</em> debe contener todas las clases de una herencia de entidades</h3>
+<p>Hasta ahora, era posible no añadir en el <em>inheritance map</em> la clase padre de una herencia de entidades. En Doctrine 2.5 esto ya no es posible, por lo que si no quieres persistir las instancias de esa clase padre, debes aplicar una de las dos siguientes soluciones:</p>
+<ul>
+<li>convierte la clase padre en abstracta.</li>
+<li>añade la clase padre al <em>inheritance map</em>.</li>
+</ul>
+<p>Si no lo haces así, la aplicación lanzará una excepción de tipo <code>Doctrine\ORM\Mapping\MappingException</code>.</p>
+<ul>
+<li><a href="http://doctrine-project.org/jira/browse/DDC-3300">Ver discusión DDC-3300</a></li>
+<li><a href="http://doctrine-project.org/jira/browse/DDC-3503">Ver discusión DDC-3503</a></li>
+</ul>
+<h3>El método <code>EntityManager#clear()</code> también se ejecuta en las asociaciones</h3>
+<p>En Doctrine 2.4 y versiones anteriores, cuando se invoca el método <code>EntityManager#clear()</code> pasándole el nombre de una entidad, sólo se aplica el proceso de <em>detach</em> a la entidad indicada.</p>
+<p>En Doctrine 2.5, este mismo método también sigue todos los <em>cascades</em> configurados en la entidad. Esto hace por ejemplo que se reduzca el consumo de memoria en tareas complejas, ya que se aplica el <em>recolector de basura</em> a esas asociaciones configuradas en los <em>cascades</em>.</p>
+<h3>Las actualizaciones sobre las entidades borradas ya no se aplican</h3>
+<p>En Doctrine 2.4, cuando modificas una propiedad que se ha marcado como borrada, se ejecuta una sentencia de tipo <code>UPDATE</code> justo antes de la sentencia <code>DELETE</code>. Y lo que es peor, también se ejecutan los <em>listeners</em> <code>preUpdate</code> y
+<code>postUpdate</code>, que en este caso no sirven para nada más que para penalizar el rendimiento de la aplicación.</p>
+<p>Por otra parte, en los <em>listeners</em> de <code>preFlush</code> era posible hacer que una entidad marcada para borrar ya no se borrara. El truco consistía en llamar al método <code>persist()</code> si la entidad se encontraba tanto en <code>entityUpdates</code> como en <code>entityDeletions</code>. En Doctrine 2.5 este truco ya no funciona porque se ha cambiado gran parte de la lógica que determina qué cambios se han producido en las entidades.</p>
+<h3>El modo de bloqueo por defecto ahora es <code>null</code> en vez de <code>LockMode::NONE</code></h3>
+<p><em>(Este cambio sólo afecta a las bases de datos tipo Microsoft SQL Server)</em></p>
+<p>Debido a una confusión sobre el modo de bloqueo (<em>lock mode</em>) por defecto usado en los métodos, se producían algunos errores no deseados en bases de datos de tipo SQL Server.</p>
+<p>Como el modo de bloqueo por defecto (<code>LockMode::NONE</code>) se utilizaba en todos los métodos, todas las consultas relacionadas con el <em>locking</em> añadían automáticamente el <code>WITH (NOLOCK)</code>.</p>
+<p>El resultado era impredecible porque cuando la consulta incluye el <code>WITH (NOLOCK)</code>, la base de datos SQL Server ejecuta la consulta en una transacción de tipo <code>READ UNCOMMITTED</code> en vez de <code>READ COMMITTED</code>.</p>
+<p>Por todo ello, ahora se distingue entre el <em>locking</em> de tipo <code>LockMode::NONE</code> y el <em>locking</em> de tipo <code>null</code>. Así Doctrine sabe cuándo añadir la información del <em>locking</em> en las consultas y cuándo no hacerlo. De esta manera, los siguientes métodos han cambiado su declaración para usar <code>$lockMode = null</code> en vez de <code>$lockMode = LockMode::NONE</code>:</p>
+<ul>
+<li><code>Doctrine\ORM\Cache\Persister\AbstractEntityPersister#getSelectSQL()</code></li>
+<li><code>Doctrine\ORM\Cache\Persister\AbstractEntityPersister#load()</code></li>
+<li><code>Doctrine\ORM\Cache\Persister\AbstractEntityPersister#refresh()</code></li>
+<li><code>Doctrine\ORM\Decorator\EntityManagerDecorator#find()</code></li>
+<li><code>Doctrine\ORM\EntityManager#find()</code></li>
+<li><code>Doctrine\ORM\EntityRepository#find()</code></li>
+<li><code>Doctrine\ORM\Persisters\BasicEntityPersister#getSelectSQL()</code></li>
+<li><code>Doctrine\ORM\Persisters\BasicEntityPersister#load()</code></li>
+<li><code>Doctrine\ORM\Persisters\BasicEntityPersister#refresh()</code></li>
+<li><code>Doctrine\ORM\Persisters\EntityPersister#getSelectSQL()</code></li>
+<li><code>Doctrine\ORM\Persisters\EntityPersister#load()</code></li>
+<li><code>Doctrine\ORM\Persisters\EntityPersister#refresh()</code></li>
+<li><code>Doctrine\ORM\Persisters\JoinedSubclassPersister#getSelectSQL()</code></li>
+</ul>
+<p>Si has extendido alguna de estas clases, no olvides actualizar la declaración de todos estos métodos. Y por supuesto, comprueba también el código que hace llamadas a estos métodos.</p>
+<h3>El método <code>__clone()</code> ya no se invoca al instanciar nuevas entidades</h3>
+<p>En las aplicaciones que utilizan PHP 5.6, la instanciación de nuevas entidades se realiza mediante <a href="https://github.com/doctrine/instantiator">la librería doctrine/instantiator</a>, que no ejecuta ni el método mágico <code>__clone()</code> ni ningún otro método del objeto instanciado.</p>
+<h3><code>DefaultRepositoryFactory</code> se ha declarado como <code>final</code></h3>
+<p>Debido a este cambio, en vez de extender la clase <code>Doctrine\ORM\Repository\DefaultRepositoryFactory</code>, ahora debes implementar la interfaz <code>Doctrine\ORM\Repository\RepositoryFactory</code>.</p>
+<h3>Las consultas que crean objetos respetan los <em>alias</em> indicados</h3>
+<p>Cuando se ejecutan consultas DQL que crean nuevos objetos, en vez de devolver los datos todos juntos en un array escalar, ahora se respetan los <em>alias</em> utilizados en la consulta. Así por ejemplo, la siguiente consulta DQL:</p>
+<pre class="sql code"><span class="kw1">SELECT</span> <span class="kw1">NEW</span> UserDTO<span class="br0">&#40;</span>u<span class="sy0">.</span>id<span class="sy0">,</span> u<span class="sy0">.</span>name<span class="br0">&#41;</span> <span class="kw1">AS</span> <span class="kw1">USER</span><span class="sy0">,</span>
+       <span class="kw1">NEW</span> AddressDTO<span class="br0">&#40;</span>a<span class="sy0">.</span>street<span class="sy0">,</span> a<span class="sy0">.</span>postalCode<span class="br0">&#41;</span> <span class="kw1">AS</span> address<span class="sy0">,</span>
+       a<span class="sy0">.</span>id <span class="kw1">AS</span> addressId
+<span class="kw1">FROM</span> <span class="kw1">USER</span> u
+<span class="kw1">INNER</span> <span class="kw1">JOIN</span> u<span class="sy0">.</span>addresses a <span class="kw1">WITH</span> a<span class="sy0">.</span>isPrimary <span class="sy0">=</span> <span class="kw1">TRUE</span></pre>
+<p>Doctrine 2.4 devolvería como resultado el siguiente array:</p>
+<pre class="php code"><span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="nu0">0</span><span class="sy0">=&gt;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="nu0">0</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>UserDTO object<span class="br0">&#125;</span><span class="sy0">,</span>
+        <span class="nu0">1</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>AddressDTO object<span class="br0">&#125;</span><span class="sy0">,</span>
+        <span class="nu0">2</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>u<span class="sy0">.</span>id scalar<span class="br0">&#125;</span><span class="sy0">,</span>
+        <span class="nu0">3</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>u<span class="sy0">.</span>name scalar<span class="br0">&#125;</span><span class="sy0">,</span>
+        <span class="nu0">4</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>a<span class="sy0">.</span>street scalar<span class="br0">&#125;</span><span class="sy0">,</span>
+        <span class="nu0">5</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>a<span class="sy0">.</span>postalCode scalar<span class="br0">&#125;</span><span class="sy0">,</span>
+        <span class="st_h">'addressId'</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>a<span class="sy0">.</span>id scalar<span class="br0">&#125;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="sy0">...</span>
+<span class="br0">&#41;</span></pre>
+<p>En Doctrine 2.5 el resultado devuelto es el que se espera:</p>
+<pre class="php code"><span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="nu0">0</span><span class="sy0">=&gt;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'user'</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>UserDTO object<span class="br0">&#125;</span><span class="sy0">,</span>
+        <span class="st_h">'address'</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>AddressDTO object<span class="br0">&#125;</span><span class="sy0">,</span>
+        <span class="st_h">'addressId'</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>a<span class="sy0">.</span>id scalar<span class="br0">&#125;</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="sy0">...</span>
+<span class="br0">&#41;</span></pre>
+<h2>Recursos</h2>
+<ul>
+<li><a href="http://librosweb.es/tutorial/las-novedades-de-doctrine-orm-25-primera-parte/">Las novedades de Doctrine ORM 2.5 (Primera parte)</a></li>
+</ul>
+            ]]></description>
+        <guid isPermaLink="false">http://librosweb.es/tutorial/las-novedades-de-doctrine-orm-25-segunda-parte/</guid>
+        <pubDate>Thu, 05 Feb 2015 00:00:00 +0100</pubDate>
+                    <category><![CDATA[programación]]></category>
+                    <category><![CDATA[php]]></category>
+                    <category><![CDATA[doctrine]]></category>
+                    <category><![CDATA[dbal]]></category>
+                    <category><![CDATA[symfony]]></category>
+            </item>
+        <item>
+        <title><![CDATA[ Las novedades de Doctrine ORM 2.5 (Primera parte) ]]></title>
+        <link>http://librosweb.es/tutorial/las-novedades-de-doctrine-orm-25-primera-parte/</link>
+        <description><![CDATA[
+            <p>Antes de actualizar Doctrine ORM a su versión 2.5, primero lee atentamente esta guía donde se explican todos sus cambios, especialmente aquellos que son incompatibles con las versiones anteriores de Doctrine.</p>
+<p>Después, actualiza Doctrine entrando con la consola de comandos en el directorio de tu proyecto y ejecutando el siguiente comando:</p>
+<pre class="cli code">$ composer update doctrine/orm</pre>
+<p>Para que el comando anterior funcione correctamente, la versión de Doctrine indicada en tu archivo <code>composer.json</code> debe permitir actualizar a 2.5. Si usas la versión por defecto que proporciona Symfony (<code>"doctrine/orm": "~2.2,&gt;=2.2.3"</code>) la actualización funcionará bien sin tener que hacer nada.</p>
+<p>A continuación, se detallan las principales nuevas funcionalidades que incluye Doctrine ORM 2.5:</p>
+<h2>Se requiere PHP 5.4 o superior</h2>
+<p>El primer cambio importante introducido por Doctrine ORM 2.5 es la obligación de usar <strong>PHP 5.4 o superior</strong>. Así que si tu aplicación todavía usa PHP 5.3, no podrás actualizar a Doctrine 2.5.</p>
+<h2>El evento <code>PostLoad</code> ahora se lanza después de cargar las asociaciones</h2>
+<p>En las versiones anteriores, cuando una entidad definía el evento <code>@PostLoad</code>, Doctrine ejecutaba los <em>listeners</em> después de que los campos de la entidad se hubieran cargado, pero antes de que las entidades relacionadas estuvieran disponibles.</p>
+<ul>
+<li><a href="http://doctrine-project.org/jira/browse/DDC-54">Ver discusión DDC-54</a></li>
+<li><a href="https://github.com/doctrine/doctrine2/commit/a906295c65f1516737458fbee2f6fa96254f27a5">Ver commit</a></li>
+</ul>
+<h2>Posibilidad de añadir event listeners a las entidades dinámicamente</h2>
+<p>Cuando se crean librerías y aplicaciones desacopladas, puede ser interesante definir un <em>event listener</em> sin saber qué entidades lo utilizarán realmente.</p>
+<p>Por eso se ha creado una nueva API que permite asociar <em>listeners</em> a las entidades mediante la clase <code>AttachEntityListenersListener</code>, que a su vez escucha al evento <code>loadMetadata</code>, que se lanza una vez para cada entidad cuando se generan sus metadatos:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">use</span> Doctrine\ORM\Tools\AttachEntityListenersListener<span class="sy0">;</span>
+<span class="kw2">use</span> Doctrine\ORM\Events<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$listener</span> <span class="sy0">=</span> <span class="kw2">new</span> AttachEntityListenersListener<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$listener</span><span class="sy0">-&gt;</span><span class="me1">addEntityListener</span><span class="br0">&#40;</span>
+    <span class="st_h">'MyProject\Entity\User'</span><span class="sy0">,</span> <span class="st_h">'MyProject\Listener\TimestampableListener'</span><span class="sy0">,</span>
+    Events<span class="sy0">::</span><span class="me2">prePersist</span><span class="sy0">,</span> <span class="st_h">'onPrePersist'</span>
+<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$evm</span><span class="sy0">-&gt;</span><span class="me1">addEventListener</span><span class="br0">&#40;</span>Events<span class="sy0">::</span><span class="me2">loadClassMetadata</span><span class="sy0">,</span> <span class="re0">$listener</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> TimestampableListener
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> onPrePersist<span class="br0">&#40;</span><span class="re0">$event</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$entity</span> <span class="sy0">=</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getEntity</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$entity</span><span class="sy0">-&gt;</span><span class="me1">setCreated</span><span class="br0">&#40;</span><span class="kw2">new</span> \DateTime<span class="br0">&#40;</span><span class="st_h">'now'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<h2>Objetos embebidos</h2>
+<p>Doctrine ahora permite crear varios objetos PHP a partir de una única tabla, gracias a una nueva funcionalidad llamada <em>"Embeddedable Objects"</em>. Para ello, dentro de una clase de tipo <code>@Entity</code> puedes definir otra clase de tipo <em>"embebible"</em> mediante la anotación <code>@Embeddable</code> para hacer que sus datos se guarden en la misma tabla de la primera entidad.</p>
+<p>Los objetos embebidos no se pueden guardar, actualizar o borrar por sí mismos, sino siempre a través de la entidad en la que están embebidos (a esta entidad "padre" se le suele llamar <em>"root-entity"</em> o <em>"aggregate"</em>). Así que los objetos embebidos no tienen una clave primaria, sino que se identifican mediante los propios valores que contienen.</p>
+<p>Ejemplo de cómo definir y utilizar objetos embebidos:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="co4">/** @Entity */</span>
+<span class="kw2">class</span> Product
+<span class="br0">&#123;</span>
+    <span class="co4">/** @Id @Column(type=&quot;integer&quot;) @GeneratedValue */</span>
+    <span class="kw2">private</span> <span class="re0">$id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/** @Embedded(class = &quot;Money&quot;) */</span>
+    <span class="kw2">private</span> <span class="re0">$price</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co4">/** @Embeddable */</span>
+<span class="kw2">class</span> Money
+<span class="br0">&#123;</span>
+    <span class="co4">/** @Column(type = &quot;decimal&quot;) */</span>
+    <span class="kw2">private</span> <span class="re0">$value</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/** @Column(type = &quot;string&quot;) */</span>
+    <span class="kw2">private</span> <span class="re0">$currency</span> <span class="sy0">=</span> <span class="st_h">'EUR'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<p>Puedes leer más sobre los objetos embebidos en este tutorial de Doctrine: <a href="http://docs.doctrine-project.org/en/latest/tutorials/embeddables.html">Separating Concerns using Embeddables</a>.</p>
+<p>Esta funcionalidad ha sido desarrollada por <a href="https://twitter.com/schmittjoh">Johannes Schmitt</a>.</p>
+<ul>
+<li><a href="http://doctrine-project.org/jira/browse/DDC-93">Ver discusión DDC-93</a></li>
+<li><a href="https://github.com/doctrine/doctrine2/pull/835">Ver Pull Request</a></li>
+</ul>
+<h2>Caché de segundo nivel</h2>
+<p>Desde la versión 2.0 de Doctrine, cuando realizas varias búsquedas de un mismo objeto utilizando su clave primaria, Doctrine solamente hace la consulta la primera vez y cachea el objeto para devolverlo las siguientes veces. Esta funcionalidad se denomina <em>caché de primer nivel</em>, guarda las entidades en memoria e implementa el patrón <em>identity map</em>.</p>
+<p>La nueva <em>caché de segundo nivel</em> que introduce Doctrine 2.5 funciona de manera diferente. En vez de guardar las entidades en memoria, se guardan en un sistema de caché en memoria como Memcache, Redis, Riak o MongoDB. Además, esta caché guarda el resultado de búsquedas más complejas, no solo aquellas que buscan entidades a partir de su clave primaria. En otras palabras, esta caché es muy parecida a la <em>Query Result Cache</em> que ya existía, pero es mucho más potente.</p>
+<p>El siguiente ejemplo muestra cómo cachear una entidad <code>Country</code> relacionada con una entidad <code>User</code>. La aplicación muestra la información del país del usuario continuamente, así que es mejor cachear esa información para poder reutilizarla en todos los usuarios de la aplicación que pertenezcan al mismo país:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="co4">/**
+ * @Entity
+ * @Cache(usage=&quot;READ_ONLY&quot;, region=&quot;country_region&quot;)
+ */</span>
+<span class="kw2">class</span> Country
+<span class="br0">&#123;</span>
+    <span class="co4">/**
+     * @Id
+     * @GeneratedValue
+     * @Column(type=&quot;integer&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @Column(unique=true)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$name</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<p>En este ejemplo, se define un nuevo segmento de caché llamado <code>country_region</code>, que también hay que configurar en el EntityManager:</p>
+<pre class="php code"><span class="re0">$config</span> <span class="sy0">=</span> <span class="kw2">new</span> \Doctrine\ORM\Configuration<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="sy0">-&gt;</span><span class="me1">setSecondLevelCacheEnabled</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$cacheConfig</span>  <span class="sy0">=</span>  <span class="re0">$config</span><span class="sy0">-&gt;</span><span class="me1">getSecondLevelCacheConfiguration</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$regionConfig</span> <span class="sy0">=</span>  <span class="re0">$cacheConfig</span><span class="sy0">-&gt;</span><span class="me1">getRegionsConfiguration</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$regionConfig</span><span class="sy0">-&gt;</span><span class="me1">setLifetime</span><span class="br0">&#40;</span><span class="st_h">'country_region'</span><span class="sy0">,</span> <span class="nu0">3600</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>A partir de ahora, Doctrine siempre buscará esta información primero en la caché y después en la base de datos.</p>
+<ul>
+<li><a href="http://docs.doctrine-project.org/en/latest/reference/second-level-cache.html">Leer documentación sobre la caché de segundo nivel</a></li>
+<li><a href="https://github.com/doctrine/doctrine2/pull/808">Ver Pull request asociado</a></li>
+</ul>
+<h2>Soporte para asociaciones ManyToMany en <code>Criteria</code></h2>
+<p>La API para definir <code>Criteria</code> soportaba la consulta de colecciones (<a href="http://docs.doctrine-project.org/en/latest/reference/working-with-associations.html#filtering-collections">leer documentación relacionada</a>) desde Doctrine 2.4. Pero en esta nueva versión, además de las asociaciones <em>one-to-many</em>, ahora también se soportan las asociaciones <em>many-to-many</em>.</p>
+<h2>Soporte para la expresión <code>contains()</code> en <code>Criteria</code></h2>
+<p>La expresión <code>contains()</code> ahora se puede usar en la API de <code>Criteria</code> para buscar si una cadena de texto contiene otra cadena. En la práctica esta expresión se traduce a una condición <code>columna LIKE '%cadena-a-buscar%'</code> de SQL.</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="kw2">use</span> \Doctrine\Common\Collections\Criteria<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$criteria</span> <span class="sy0">=</span> Criteria<span class="sy0">::</span><span class="me2">create</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">where</span><span class="br0">&#40;</span>Criteria<span class="sy0">::</span><span class="me2">expr</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">contains</span><span class="br0">&#40;</span><span class="st_h">'name'</span><span class="sy0">,</span> <span class="st_h">'Benjamin'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$users</span> <span class="sy0">=</span> <span class="re0">$repository</span><span class="sy0">-&gt;</span><span class="me1">matching</span><span class="br0">&#40;</span><span class="re0">$criteria</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<h2>Soporte de la opción <code>EXTRA_LAZY</code> en <code>Criteria</code></h2>
+<p>Si una colección está definida como <code>fetch="EXTRA_LAZY"</code>, cuando se utiliza <code>Collection::matching($criteria)</code> ahora se devuelve una colección de tipo <em>lazy</em>:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">class</span> Post
+<span class="br0">&#123;</span>
+    <span class="co4">/** @OneToMany(targetEntity=&quot;Comment&quot;, fetch=&quot;EXTRA_LAZY&quot;) */</span>
+    <span class="kw2">private</span> <span class="re0">$comments</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="re0">$criteria</span> <span class="sy0">=</span> Criteria<span class="sy0">::</span><span class="me2">create</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">where</span><span class="br0">&#40;</span>Criteria<span class="sy0">-&gt;</span><span class="me1">expr</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">eq</span><span class="br0">&#40;</span><span class="st0">&quot;published&quot;</span><span class="sy0">,</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$publishedComments</span> <span class="sy0">=</span> <span class="re0">$post</span><span class="sy0">-&gt;</span><span class="me1">getComments</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">matching</span><span class="br0">&#40;</span><span class="re0">$criteria</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">echo</span> <span class="kw3">count</span><span class="br0">&#40;</span><span class="re0">$publishedComments</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>La colección asociada no se carga cuando se utiliza <code>count()</code> o <code>contains()</code>, pero si se realiza cualquier otra operación sobre ella, sí que se carga completamente la colección.</p>
+<p>Esta funcionalidad ha sido desarrollada por <a href="https://github.com/bakura10">Michaël Gallego</a>.</p>
+<ul>
+<li><a href="https://github.com/doctrine/doctrine2/pull/882">Ver Pull Request #1</a></li>
+<li><a href="https://github.com/doctrine/doctrine2/pull/1032">Ver Pull Request #2</a></li>
+</ul>
+<h2>Posibilidad de configurar opciones de los índices</h2>
+<p>Mediante la configuración del ORM ahora es posible establecer las opciones de DBAL para los índices de la base de datos. Antes sólo era posible hacerlo mediante un <em>listener</em>:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="co4">/**
+ * @Table(name=&quot;product&quot;, indexes={@Index(columns={&quot;description&quot;},flags={&quot;fulltext&quot;})})
+ */</span>
+<span class="kw2">class</span> Product
+<span class="br0">&#123;</span>
+    <span class="kw2">private</span> <span class="re0">$description</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<p>Esta funcionalidad ha sido desarrollada por <a href="https://github.com/adrianolek">Adrian Olek</a>.</p>
+<ul>
+<li><a href="https://github.com/doctrine/doctrine2/pull/973">Ver Pull Request</a></li>
+</ul>
+<h2>Comprobar los parámetros definidos en la API de <code>SQLFilter</code></h2>
+<p>Ahora es posible comprobar dentro de un filtro de tipo <code>SQLFilter</code> si un parámetro está definido o no. Esto permite controlar más fácilmente qué opciones del filtro activar o desactivar.</p>
+<p>El siguiente ejemplo utiliza el mismo código que el se usa en la documentación de los filtros <code>SQLFilter</code>:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="kw2">class</span> MyLocaleFilter <span class="kw2">extends</span> SQLFilter
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addFilterConstraint<span class="br0">&#40;</span>ClassMetadata <span class="re0">$targetEntity</span><span class="sy0">,</span> <span class="re0">$targetTableAlias</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$targetEntity</span><span class="sy0">-&gt;</span><span class="me1">reflClass</span><span class="sy0">-&gt;</span><span class="me1">implementsInterface</span><span class="br0">&#40;</span><span class="st_h">'LocaleAware'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="st0">&quot;&quot;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">hasParameter</span><span class="br0">&#40;</span><span class="st_h">'locale'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="st0">&quot;&quot;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$targetTableAlias</span><span class="sy0">.</span><span class="st_h">'.locale = '</span> <span class="sy0">.</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'locale'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>Esta funcionalidad ha sido desarrollada por <a href="https://github.com/mdemo">Miroslav Demovic</a>.</p>
+<ul>
+<li><a href="https://github.com/doctrine/doctrine2/pull/963">Ver Pull Request</a></li>
+</ul>
+<h2>Mejoras en la opción <code>EXTRA_LAZY</code></h2>
+<p>Las consultas que utilizan <code>EXTRA_LAZY</code> y <code>containsKey</code> ahora son más eficientes. Cuando se invoca el método <code>Collection::containsKey($key)</code> en colecciones de tipo <em>one-to-many</em> y <em>many-to-many</em> que utilizan <code>indexBy</code> y <code>EXTRA_LAZY</code>, ahora se ejecuta una consulta para comprobar si existe el item. Antes esta operación se hacía en memoria después de cargar todas las entidades de la colección.</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">class</span> User
+<span class="br0">&#123;</span>
+    <span class="co4">/** @OneToMany(targetEntity=&quot;Group&quot;, indexBy=&quot;id&quot;) */</span>
+    <span class="kw2">private</span> <span class="re0">$groups</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$user</span><span class="sy0">-&gt;</span><span class="me1">getGroups</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">containsKey</span><span class="br0">&#40;</span><span class="re0">$groupId</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">echo</span> <span class="st0">&quot;User is in group <span class="es4">$groupId</span><span class="es1">\n</span>&quot;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<p>Esta funcionalidad ha sido desarrollada por <a href="https://github.com/goetas">Asmir Mustafic</a>.</p>
+<ul>
+<li><a href="https://github.com/doctrine/doctrine2/pull/937">Ver Pull Request</a></li>
+</ul>
+<p>Además, <a href="https://github.com/sandermarechal">Sander Marechal</a> ha desarrollado una funcionalidad que añade soporte para <code>EXTRA_LAZY</code> en el método <code>get()</code> de las asociaciones many-to-many, tanto <em>owning</em> como <em>inverse</em>.</p>
+<h2>Mejorada la eficiencia de la opción <code>EAGER</code></h2>
+<p>Cuando se define una asociación <em>one-to-many</em> como <code>fetch="EAGER"</code>, ahora se ejecuta una consulta menos que antes. Además, ahora también funciona bien cuando se utiliza junto con <code>indexBy</code>.</p>
+<h2>Mejorado el soporte de <code>EntityManagerInterface</code></h2>
+<p>La versión 2.4 de Doctrine introdujo la interfaz <code>EntityManagerInterface</code>. Esta nueva versión 2.5 hace que se utilice en muchos sitios donde antes solamente se usaba la clase <code>Doctrine\ORM\EntityManager</code>.</p>
+<p>Este cambio hace que sea más sencillo usar el patrón <em>decorator</em> para extender la clase <code>EntityManager</code> cuando sea necesario. En cualquier caso, la nueva interfaz todavía no se utiliza en todas las partes del código de Doctrine, así que debes tener cuidado.</p>
+<h2>Recursos</h2>
+<ul>
+<li><a href="http://librosweb.es/tutorial/las-novedades-de-doctrine-orm-25-segunda-parte/">Las novedades de Doctrine ORM 2.5 (Segunda parte)</a></li>
+</ul>
+            ]]></description>
+        <guid isPermaLink="false">http://librosweb.es/tutorial/las-novedades-de-doctrine-orm-25-primera-parte/</guid>
+        <pubDate>Wed, 04 Feb 2015 00:00:00 +0100</pubDate>
+                    <category><![CDATA[programación]]></category>
+                    <category><![CDATA[php]]></category>
+                    <category><![CDATA[doctrine]]></category>
+                    <category><![CDATA[dbal]]></category>
+                    <category><![CDATA[symfony]]></category>
+            </item>
+        <item>
+        <title><![CDATA[ Aprende Symfony2 (Parte 6): Conclusión ]]></title>
+        <link>http://librosweb.es/tutorial/aprende-symfony2-parte-6-conclusion/</link>
+        <description><![CDATA[
+            <p>Este es el quinto artículo de la serie para aprender sobre <a href="http://symfony.com/">el framework Symfony2</a>. En los anteriores artículos desarrollamos una aplicación sencilla que muestra información sobre empresas y que contiene los siguientes archivos:</p>
+<pre class="code code">.
+├── app
+│   ├── AppKernel.php
+│   ├── cache
+│   │   └── .gitkeep
+│   ├── config
+│   │   ├── config_test.yml
+│   │   ├── config.yml
+│   │   └── routing.yml
+│   ├── logs
+│   │   └── .gitkeep
+│   └── phpunit.xml.dist
+├── composer.json
+├── composer.lock
+├── src
+│    └── AppBundle
+│        ├── Controller
+│        │   └── ApiController.php
+│        ├── AppBundle.php
+│        └── Tests
+│            └── Controller
+│                └── ApiControllerTest.php
+├── .gitignore
+└── web
+    └── app.php</pre>
+<p>Ejecutar el comando <code>composer install</code> debería crear el directorio <code>vendor/</code>, que hemos ignorado en Git. Si lo necesitas, echa un vistazo al <a href="https://github.com/gnugat/learning-symfony2/">repositorio de código público en el que estamos desarrollando la aplicación</a>. En este artículo es un resumen general de todo lo visto en la serie.</p>
+<h2>Composer</h2>
+<p><a href="https://getcomposer.org/">Composer</a> te ayuda a instalar y actualizar librerías
+de terceros. Descárgalo una sola vez e instálalo globalmente en tu ordenador:</p>
+<pre class="cli code">$ curl -sS https://getcomposer.org/installer | php
+$ sudo mv ./composer.phar /usr/local/bin/composer</pre>
+<p>Deberías poder ejecutarlo así: <code>composer</code></p>
+<ul>
+<li>instalar una librería de terceros: <code>composer require [--dev] &lt;vendor/name:version&gt;</code></li>
+<li>descargar las librerías de terceros del proyecto: <code>composer install</code></li>
+<li>actualizar las librerías de terceros del proyecto: <code>composer update</code></li>
+</ul>
+<p>Las librerías de terceros disponibles se pueden encontrar en
+<a href="https://packagist.org/">Packagist</a>.</p>
+<p>Aquí tienes un
+<a href="https://igor.io/2013/01/07/composer-versioning.html">artículo sobre cómo indicar las versiones de las dependencias en Composer</a>.</p>
+<p>En estos artículos hemos creado un proyecto desde cero, pero la manera
+recomendada de comenzar una aplicación Symfony2 es usar el comando de
+inicialización de Composer: <code>composer create-project &lt;vendor/name&gt; &lt;path-to-install&gt;</code></p>
+<p>Puedes usar la <a href="https://github.com/symfony/symfony-standard">edición estándar de Symfony</a> cuya dependencia se llama <code>symfony/framework-standard-edition</code>, o cualquier otra distribución.</p>
+<p>Si lo prefieres y eres experto en Symfony, puedes utilizar una distribución vacía como <a href="https://github.com/gnugat/symfony-empty">Symfony Empty Edition</a>:</p>
+<pre class="cli code">$ composer create-project gnugat/symfony-framework-empty-edition &lt;path-to-install&gt;</pre>
+<p>[tip]
+En el servidor de producción, usa este comando para instalar las
+dependencias del proyecto (las librerías de terceros):</p>
+<pre class="cli code">$ composer install --no-dev --optimize</pre>
+<p>[/tip]</p>
+<h2>Bundles</h2>
+<p>Integran tu código con el framework. Más concretamente, configuran el contenedor de inyección de dependencias del kernel.</p>
+<p>El único bundle que necesitas crear es el <code>AppBundle</code>, donde estará
+todo tu código. Así es como se hace:</p>
+<ol>
+<li>crea su directorio: <code>mkdir -p src/AppBundle</code></li>
+<li>crea su clase: <code>$EDITOR src/AppBundle/AppBundle.php</code></li>
+<li>regístralo en el kernel: <code>$EDITOR app/AppKernel.php</code></li>
+</ol>
+<p>Una clase <code>Bundle</code> tiene esta pinta:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// src/AppBundle/AppBundle.php</span>
+&nbsp;
+<span class="kw2">namespace</span> AppBundle<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\HttpKernel\Bundle\Bundle<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> AppBundle <span class="kw2">extends</span> Bundle
+<span class="br0">&#123;</span>
+<span class="br0">&#125;</span></pre>
+<h2>Aplicación</h2>
+<p>En tu aplicación, hay muy pocos archivos relacionados con el framework
+Symfony2. Esta es la lista de los que editarás normalmente:</p>
+<h3>El kernel de la aplicación</h3>
+<p>El archivo <code>app/AppKernel.php</code> es donde se registran los bundles y donde se
+carga la configuración. Sólo necesitarás editarlo cuando instales un bundle
+nuevo.</p>
+<p>Manera de proceder: primero instala el bundle vía Composer:</p>
+<pre class="cli code">$ composer require [--dev] &lt;vendor/name:version&gt;</pre>
+<p>Después regístralo en el kernel de la aplicación:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// app/AppKernel.php</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\HttpKernel\Kernel<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Config\Loader\LoaderInterface<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> AppKernel <span class="kw2">extends</span> Kernel
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> registerBundles<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$bundles</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="kw2">new</span> Symfony\Bundle\FrameworkBundle\FrameworkBundle<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+            <span class="kw2">new</span> Symfony\Bundle\SecurityBundle\SecurityBundle<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+            <span class="kw2">new</span> Symfony\Bundle\TwigBundle\TwigBundle<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+            <span class="kw2">new</span> Symfony\Bundle\MonologBundle\MonologBundle<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+            <span class="kw2">new</span> Symfony\Bundle\AsseticBundle\AsseticBundle<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+            <span class="kw2">new</span> Doctrine\Bundle\DoctrineBundle\DoctrineBundle<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+            <span class="kw2">new</span> Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+&nbsp;
+            <span class="co1">// Añade aquí tus bundles</span>
+        <span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw3">in_array</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getEnvironment</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'dev'</span><span class="sy0">,</span> <span class="st_h">'test'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="re0">$bundles</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw2">new</span> Symfony\Bundle\WebProfilerBundle\WebProfilerBundle<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="re0">$bundles</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw2">new</span> Sensio\Bundle\DistributionBundle\SensioDistributionBundle<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="re0">$bundles</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw2">new</span> Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="co1">// O aquí, si quieres que sólo estén disponibles en el entorno de testing</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$bundles</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> registerContainerConfiguration<span class="br0">&#40;</span>LoaderInterface <span class="re0">$loader</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$loader</span><span class="sy0">-&gt;</span><span class="me1">load</span><span class="br0">&#40;</span>__DIR__<span class="sy0">.</span><span class="st_h">'/config/config_'</span><span class="sy0">.</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getEnvironment</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'.yml'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<h3>La configuración del enrutamiento</h3>
+<p>El archivo <code>app/config/routing.yml</code> es donde asocias la acción de un
+controlador a una URL. Ejemplo:</p>
+<pre class="yaml code"><span class="co1"># app/config/routing.yml</span><span class="co4">
+cotizacion</span>:<span class="co3">
+    path</span><span class="sy2">: </span>/api/<span class="br0">&#123;</span>empresa<span class="br0">&#125;</span><span class="co4">
+    methods</span><span class="sy2">:
+</span>        - GET<span class="co4">
+    defaults</span>:<span class="co3">
+        _controller</span><span class="sy2">: </span>AppBundle:Api:cotizacion
+<span class="co4">
+informacion</span>:<span class="co3">
+    path</span><span class="sy2">: </span>/api/informacion<span class="co4">
+    methods</span><span class="sy2">:
+</span>        - POST<span class="co4">
+    defaults</span>:<span class="co3">
+        _controller</span><span class="sy2">: </span>AppBundle:Api:informacion</pre>
+<p>Como ves, puedes definir las rutas usando <em>placeholders</em> o variables, que
+después estarán disponibles en el controlador vía el objeto <code>Request</code>:</p>
+<pre class="php code"><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">query</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'empresa'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<h3>Controladores, tu punto de entrada</h3>
+<p>Cada ruta se asocia a la acción de un controlador. Un controlador es una clase que se encuentra en <code>src/AppBundle/Controller</code>, con el sufijo <code>Controller</code>.</p>
+<p>Una acción es un método público de un controlador, con el sufijo <code>Action</code>,
+que recibe un parámetro <code>Request $request</code> y debe devolver una instancia del
+objeto <code>Response</code>:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// src/AppBundle/Controller/ApiController.php</span>
+&nbsp;
+<span class="kw2">namespace</span> AppBundle\Controller<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Bundle\FrameworkBundle\Controller\Controller<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Request<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Response<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\JsonResponse<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> ApiController <span class="kw2">extends</span> Controller
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> informacionAction<span class="br0">&#40;</span>Request <span class="re0">$request</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$contenidoDeLaPeticion</span> <span class="sy0">=</span> <span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getContent</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$contenidoEnviado</span> <span class="sy0">=</span> <span class="kw3">json_decode</span><span class="br0">&#40;</span><span class="re0">$contenidoDeLaPeticion</span><span class="sy0">,</span> <span class="kw4">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="kw3">isset</span><span class="br0">&#40;</span><span class="re0">$contenidoEnviado</span><span class="br0">&#91;</span><span class="st_h">'empresa'</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+            <span class="sy0">||</span> <span class="st_h">'ACME'</span> <span class="sy0">!==</span> <span class="re0">$contenidoEnviado</span><span class="br0">&#91;</span><span class="st_h">'empresa'</span><span class="br0">&#93;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="re0">$respuesta</span><span class="br0">&#91;</span><span class="st_h">'mensaje'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'ERROR - Empresa desconocida'</span><span class="sy0">;</span>
+            <span class="re0">$codigoEstado</span> <span class="sy0">=</span> Response<span class="sy0">::</span><span class="me2">HTTP_UNPROCESSABLE_ENTITY</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            <span class="re0">$respuesta</span><span class="br0">&#91;</span><span class="st_h">'mensaje'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'OK'</span><span class="sy0">;</span>
+            <span class="re0">$respuesta</span><span class="br0">&#91;</span><span class="st_h">'empresa'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="sy0">...</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="re0">$codigoEstado</span> <span class="sy0">=</span> Response<span class="sy0">::</span><span class="me2">HTTP_OK</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="kw2">new</span> JsonResponse<span class="br0">&#40;</span><span class="re0">$respuesta</span><span class="sy0">,</span> <span class="re0">$codigoEstado</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<blockquote>
+<p><strong>NOTA</strong> Puedes crear sub-directorios en <code>src/AppBundle/Controller</code>, permitiéndote así categorizar tus controladores. En la definición de tus rutas, se vería así: <code>AppBundle:Subdirectorio\Controller:action</code>.</p>
+</blockquote>
+<h3>Tests funcionales</h3>
+<p>Puedes usar cualquier framework de testing en un proyecto Symfony2. PHPUnit es
+uno de ellos, y muy popular, por lo que es el que usamos en nuestros ejemplos.</p>
+<p>Los tests funcionales replican los controladores y comprueban si el código de
+estado es correcto. Si estás construyendo una API, puedes comprobar en mayor
+profundidad si el código de estado es el esperado:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// src/AppBundle/Tests/Controller/ApiControllerTest.php</span>
+&nbsp;
+<span class="kw2">namespace</span> AppBundle\Tests\Controller<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Bundle\FrameworkBundle\Test\WebTestCase<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Response<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> ApiControllerTest <span class="kw2">extends</span> WebTestCase
+<span class="br0">&#123;</span>
+    <span class="kw2">private</span> <span class="kw2">function</span> post<span class="br0">&#40;</span><span class="re0">$uri</span><span class="sy0">,</span> <span class="kw3">array</span> <span class="re0">$data</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$content</span> <span class="sy0">=</span> <span class="kw3">json_encode</span><span class="br0">&#40;</span><span class="re0">$data</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$client</span> <span class="sy0">=</span> static<span class="sy0">::</span><span class="me2">createClient</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$client</span><span class="sy0">-&gt;</span><span class="me1">request</span><span class="br0">&#40;</span><span class="st_h">'POST'</span><span class="sy0">,</span> <span class="re0">$uri</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$content</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$client</span><span class="sy0">-&gt;</span><span class="me1">getResponse</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> testInformacionSobreEmpresaExistente<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$response</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">post</span><span class="br0">&#40;</span><span class="st_h">'/api/informacion'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'empresa'</span> <span class="sy0">=&gt;</span> <span class="st_h">'ACME'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">assertSame</span><span class="br0">&#40;</span>Response<span class="sy0">::</span><span class="me2">HTTP_OK</span> <span class="sy0">,</span> <span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">getStatusCode</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> testInformacionSobreEmpresaInexistente<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$response</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">post</span><span class="br0">&#40;</span><span class="st_h">'/api/informacion'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'empresa'</span> <span class="sy0">=&gt;</span> <span class="st_h">'NO_EXISTE'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">assertSame</span><span class="br0">&#40;</span>Response<span class="sy0">::</span><span class="me2">HTTP_UNPROCESSABLE_ENTITY</span> <span class="sy0">,</span> <span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">getStatusCode</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>La clase <code>WebTestCase</code> nos la proporciona el framework: crea una aplicación
+(como hacemos nosotros en <code>web/app.php</code>), por lo que puedes enviar peticiones y
+testear las respuestas.</p>
+<h3>Dónde poner tu propio código</h3>
+<p>Puedes poner tu código en cualquier punto de <code>src/AppBundle</code>.</p>
+<p>¿Quién dijo que debes desacoplar tu código de Symfony2? ¡Puedes escribirlo
+desacoplado directamente!</p>
+<p>La convención es crear directorios con nombres relativos a los objetos que
+contienen. Por ejemplo, el directorio <code>Controller</code> contiene clases controladoras (a las que se añade el sufijo <code>Controller</code>). No tienes por qué seguir estas convenciones (salvo para los controladores y los comandos): ¡Organízate como prefieras!</p>
+<h2>Conclusión</h2>
+<p>Symfony2 no se entromete en el desarrollo de tus aplicaciones. Las únicas clases del framework que necesitamos usar son el controlador, la petición y la respuesta.</p>
+<p>El flujo de trabajo es realmente simple:</p>
+<ol>
+<li>Symfony2 convierte la petición HTTP en el objeto <code>Request</code></li>
+<li>El componente de routing permite que se ejecute el controlador relacionado
+con la URL actual</li>
+<li>El controlador recibe el objeto <code>Request</code> como parámetro, y debe devolver
+un objeto <code>Response</code></li>
+<li>Symfony2 convierte el objeto <code>Response</code> en la respuesta HTTP</li>
+</ol>
+<h3>¿Qué debería hacer a continuación?</h3>
+<p><strong>Practicar.</strong></p>
+<p>Sabes lo estrictamente necesario sobre Symfony2, y la única manera de aprender
+más es practicar, encontrar nuevos casos de uso, encontrar respuestas en la
+<a href="http://symfony.com/doc/current/index.html">documentación</a> y preguntar en
+<a href="http://stackoverflow.com/questions/tagged/symfony2">StackOverflow</a> (si nadie
+lo ha preguntado antes) o en <a href="http://librosweb.es/foro">el foro de este sitio web</a>.</p>
+<h2>Sobre el autor</h2>
+<p>Este artículo fue publicado originalmente por <a href="https://github.com/gnugat">Loïc Chardonnet</a> y ha sido traducido con permiso por <a href="https://github.com/mgdepoo">Manuel Gómez</a>.</p>
+<h2>Artículos de la serie Aprende Symfony</h2>
+<ul>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-1-composer/">Aprende Symfony2 (Parte 1): Composer</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-2-aplicacion-vacia/">Aprende Symfony2 (Parte 2): Aplicación vacía</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-3-bundles/">Aprende Symfony2 (Parte 3): Bundles</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-4-controladores/">Aprende Symfony2 (Parte 4): Controladores</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-5-tests/">Aprende Symfony2 (Parte 5): Tests</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-6-conclusion/">Aprende Symfony2 (Parte 6): Conclusión</a></li>
+</ul>
+            ]]></description>
+        <guid isPermaLink="false">http://librosweb.es/tutorial/aprende-symfony2-parte-6-conclusion/</guid>
+        <pubDate>Sun, 05 Oct 2014 00:00:00 +0200</pubDate>
+                    <category><![CDATA[programación]]></category>
+                    <category><![CDATA[php]]></category>
+                    <category><![CDATA[symfony]]></category>
+            </item>
+        <item>
+        <title><![CDATA[ Aprende Symfony2 (Parte 5): Tests ]]></title>
+        <link>http://librosweb.es/tutorial/aprende-symfony2-parte-5-tests/</link>
+        <description><![CDATA[
+            <p>Este es el quinto artículo de la serie para aprender sobre <a href="http://symfony.com/">el framework Symfony2</a>. En los anteriores artículos desarrollamos una aplicación sencilla que muestra información sobre empresas y que contiene los siguientes archivos:</p>
+<pre class="code code">.
+├── app
+│   ├── AppKernel.php
+│   ├── cache
+│   │   └── .gitkeep
+│   ├── config
+│   │   ├── config.yml
+│   │   └── routing.yml
+│   └── logs
+│       └── .gitkeep
+├── composer.json
+├── composer.lock
+├── src
+│    └── AppBundle
+│        ├── Controller
+│        │   └── ApiController.php
+│        └── AppBundle.php
+├── .gitignore
+└── web
+    └── app.php</pre>
+<p>Ejecutar el comando <code>composer install</code> debería crear el directorio <code>vendor/</code>, que hemos ignorado en Git. Si lo necesitas, echa un vistazo al <a href="https://github.com/gnugat/learning-symfony2/">repositorio de código público en el que estamos desarrollando la aplicación</a>. En este artículo crearemos tests funcionales utilizando PHPUnit.</p>
+<h2>Instalando PHPUnit</h2>
+<p><a href="http://phpunit.de/">PHPUnit</a> es un <em>framework</em> muy popular para crear tests.
+Su nombre engaña un poco, ya que no solo sirve para crear test unitarios, sino que puedes crear también tests funcionales, test tipo <em>end to end</em>, etc.</p>
+<p>En primer lugar, instalemos PHPUnit en nuestro proyecto:</p>
+<pre class="cli code">$ composer require --dev phpunit/phpunit</pre>
+<p>La opción <code>--dev</code> evitará que Composer instale PHPUnit cuando ejecutemos
+<code>composer install --no-dev</code>. Esto es especialmente útil en el entorno de producción, donde seguramente no querremos instalar PHPUnit.</p>
+<p>Después necesitamos crear un archivo de configuración que le diga a PHPUnit que
+ejecute los tests que se encuentran en <code>src/AppBundle/Tests</code>, y que use
+Composer como <em>autoloader</em>:</p>
+<pre class="xml code"><span class="sc3"><span class="re1">&lt;?xml</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span> <span class="re0">encoding</span>=<span class="st0">&quot;UTF-8&quot;</span><span class="re2">?&gt;</span></span>
+    <span class="sc-1">&lt;!-- File: app/phpunit.xml.dist --&gt;</span>
+&nbsp;
+    <span class="sc-1">&lt;!-- http://phpunit.de/manual/current/en/appendixes.configuration.html --&gt;</span>
+    <span class="sc3"><span class="re1">&lt;phpunit</span></span>
+<span class="sc3">        <span class="re0">backupGlobals</span>=<span class="st0">&quot;false&quot;</span></span>
+<span class="sc3">        <span class="re0">colors</span>=<span class="st0">&quot;true&quot;</span></span>
+<span class="sc3">        <span class="re0">syntaxCheck</span>=<span class="st0">&quot;false&quot;</span></span>
+<span class="sc3">        <span class="re0">bootstrap</span>=<span class="st0">&quot;../vendor/autoload.php&quot;</span><span class="re2">&gt;</span></span>
+&nbsp;
+        <span class="sc3"><span class="re1">&lt;testsuites<span class="re2">&gt;</span></span></span>
+            <span class="sc3"><span class="re1">&lt;testsuite</span> <span class="re0">name</span>=<span class="st0">&quot;Functional Test Suite&quot;</span><span class="re2">&gt;</span></span>
+                <span class="sc3"><span class="re1">&lt;directory<span class="re2">&gt;</span></span></span>../src/AppBundle/Tests<span class="sc3"><span class="re1">&lt;/directory<span class="re2">&gt;</span></span></span>
+            <span class="sc3"><span class="re1">&lt;/testsuite<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;/testsuites<span class="re2">&gt;</span></span></span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;/phpunit<span class="re2">&gt;</span></span></span></pre>
+<blockquote>
+<p><strong>NOTA</strong> Una de las convenciones de Symfony dice que los tests deberían seguir la misma estructura de archivos y directorios que la aplicación. Por eso los tests deberían crearse en <code>src/AppBundle/Tests</code>. No es obligatorio, pero si quieres que otra gente encuentre las cosas donde esperan encontrarlas, es mejor que lo hagas así.</p>
+</blockquote>
+<p>Este archivo lleva el sufijo <code>.dist</code> porque la idea es que cada desarrollador
+pueda sobreescribir la configuración creando un archivo <code>app/phpunit.xml</code>. Sólo
+el archivo común de tipo <code>.dist</code> debe ser publicado:</p>
+<pre class="cli code">$ echo '/app/phpunit.xml' &gt;&gt; .gitignore
+$ git add -A
+$ git commit -m 'PHPUnit instalado'</pre>
+<h2>Entornos de ejecución</h2>
+<p>Para nuestros tests funcionales, utilizaremos la clase <code>WebTestCase</code>, que instancia nuestro <code>AppKernel</code> con el entorno <code>test</code>. También usa el servicio
+<code>test.client</code>, que está desactivado por defecto.</p>
+<p>Para activarlo, debemos modificar la configuración:</p>
+<pre class="yaml code"><span class="co1"># app/config/config.yml</span><span class="co4">
+framework</span>:<span class="co3">
+    secret</span><span class="sy2">: </span><span class="st0">&quot;El valor de esta opción debe ser una cadena aleatoria.&quot;</span><span class="co4">
+    router</span>:<span class="co3">
+        resource</span><span class="sy2">: </span><span class="co2">%kernel.root_dir%/config/routing.yml</span>
+&nbsp;
+    <span class="co1"># test: ~</span></pre>
+<p>Normalmente no queremos que nuestra configuración sea la misma en nuestros tests y en nuestro servidor de producción. Para eso están los entornos. Coloquemos la configuración específica de nuestros tests en un archivo diferente:</p>
+<pre class="yaml code"><span class="co1"># app/config/config_test.yml</span><span class="co4">
+imports</span>:<span class="co3">
+    - { resource</span><span class="sy2">: </span>config.yml <span class="br0">&#125;</span>
+<span class="co4">
+framework</span>:<span class="co3">
+    test</span><span class="sy2">: </span>~</pre>
+<blockquote>
+<p><strong>NOTA</strong> El parámetro <code>imports</code> te permite incluir otros archivos de configuración. Así, puedes sobreescribir los parámetros incluídos, o añadir nuevos.</p>
+</blockquote>
+<p>Deberíamos cambiar también el método <code>registerContainerConfiguration</code> de la
+clase <code>AppKernel</code> para que cargue la configuración de los tests dependiendo del
+entorno:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// app/AppKernel.php</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\HttpKernel\Kernel<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Config\Loader\LoaderInterface<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> AppKernel <span class="kw2">extends</span> Kernel
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> registerBundles<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="kw2">new</span> Symfony\Bundle\FrameworkBundle\FrameworkBundle<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+            <span class="kw2">new</span> AppBundle\AppBundle<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+        <span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> registerContainerConfiguration<span class="br0">&#40;</span>LoaderInterface <span class="re0">$loader</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$file</span> <span class="sy0">=</span> <span class="st_h">'config'</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="st_h">'test'</span> <span class="sy0">===</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getEnvironment</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="re0">$file</span> <span class="sy0">.=</span> <span class="st_h">'_test'</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="re0">$loader</span><span class="sy0">-&gt;</span><span class="me1">load</span><span class="br0">&#40;</span>__DIR__<span class="sy0">.</span><span class="st0">&quot;/config/<span class="es4">$file</span>.yml&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>Hagamos un commit al repositorio:</p>
+<pre class="cli code">$ git add -A
+$ git commit -m 'Añadida  la configuración de testing'</pre>
+<h2>Tests funcionales</h2>
+<p>Nuestro test debe comprobar que la aplicación se comporta como esperamos. No
+comprobaremos que realmente ejecuta bien toda la lógica de negocio, por lo que comprobar el código de estado HTTP es más que suficiente.</p>
+<p>Creemos el directorio:</p>
+<pre class="cli code">$ mkdir -p src/AppBundle/Tests/Controller</pre>
+<blockquote>
+<p><strong>NOTA</strong> En este caso, también por convención, se recomienda que la estructura de directorios de los tests sea la misma que la del <em>bundle</em>.</p>
+</blockquote>
+<p>Y este es nuestro primer test funcional:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// src/AppBundle/Tests/Controller/ApiControllerTest.php</span>
+<span class="kw2">namespace</span> AppBundle<span class="sy0">/</span>Tests<span class="sy0">/</span>Controller<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Bundle\FrameworkBundle\Test\WebTestCase<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> ApiControllerTest <span class="kw2">extends</span> WebTestCase
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> testInformacionSobreEmpresaExistente<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$method</span> <span class="sy0">=</span> <span class="st_h">'POST'</span><span class="sy0">;</span>
+        <span class="re0">$uri</span> <span class="sy0">=</span> <span class="st_h">'/api/informacion'</span><span class="sy0">;</span>
+        <span class="re0">$parameters</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$files</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$server</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$content</span> <span class="sy0">=</span> <span class="kw3">json_encode</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="st_h">'empresa'</span> <span class="sy0">=&gt;</span> <span class="st_h">'ACME'</span><span class="sy0">,</span>
+        <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$client</span> <span class="sy0">=</span> static<span class="sy0">::</span><span class="me2">createClient</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$client</span><span class="sy0">-&gt;</span><span class="me1">request</span><span class="br0">&#40;</span><span class="re0">$method</span><span class="sy0">,</span> <span class="re0">$uri</span><span class="sy0">,</span> <span class="re0">$parameters</span><span class="sy0">,</span> <span class="re0">$files</span><span class="sy0">,</span> <span class="re0">$server</span><span class="sy0">,</span> <span class="re0">$content</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$response</span> <span class="sy0">=</span> <span class="re0">$client</span><span class="sy0">-&gt;</span><span class="me1">getResponse</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">assertTrue</span><span class="br0">&#40;</span><span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">isSuccessful</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>Para comprobar que pasamos el test, ejecuta el siguiente comando:</p>
+<pre class="cli code">$ ./vendor/bin/phpunit -c app</pre>
+<p>Al instalar PHPUnit, Composer creó un archivo binario llamado <code>phpunit</code> en el directorio <code>vendor/bin</code>. La opción <code>-c</code> le dice a PHPUnit dónde está su archivo de configuración (en el caso de las aplicaciones Symfony, este archivo siempre se encuentra en <code>app/</code>).</p>
+<p>El código de nuestro test es un poco largo por culpa de los parámetros. Para simplificarlo podemos utilizar los métodos auxiliares:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// src/AppBundle/Tests/Controller/ApiControllerTest.php</span>
+&nbsp;
+<span class="kw2">namespace</span> AppBundle<span class="sy0">/</span>Tests<span class="sy0">/</span>Controller<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Bundle\FrameworkBundle\Test\WebTestCase<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> ApiControllerTest <span class="kw2">extends</span> WebTestCase
+<span class="br0">&#123;</span>
+    <span class="kw2">private</span> <span class="kw2">function</span> post<span class="br0">&#40;</span><span class="re0">$uri</span><span class="sy0">,</span> <span class="kw3">array</span> <span class="re0">$data</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$content</span> <span class="sy0">=</span> <span class="kw3">json_encode</span><span class="br0">&#40;</span><span class="re0">$data</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$client</span> <span class="sy0">=</span> static<span class="sy0">::</span><span class="me2">createClient</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$client</span><span class="sy0">-&gt;</span><span class="me1">request</span><span class="br0">&#40;</span><span class="st_h">'POST'</span><span class="sy0">,</span> <span class="re0">$uri</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$content</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$client</span><span class="sy0">-&gt;</span><span class="me1">getResponse</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> testInformacionSobreEmpresaExistente<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$response</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">post</span><span class="br0">&#40;</span><span class="st_h">'/api/informacion'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'empresa'</span> <span class="sy0">=&gt;</span> <span class="st_h">'ACME'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">assertTrue</span><span class="br0">&#40;</span><span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">isSuccessful</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>Ahora comprueba que el test sigue pasando correctamente:</p>
+<pre class="cli code">$ ./vendor/bin/phpunit -c app</pre>
+<p>El método <code>isSuccessful</code> de Response sólo comprueba que el código de estado es
+2xx. Aquí está el test para el caso de error:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// src/AppBundle/Tests/Controller/ApiControllerTest.php</span>
+&nbsp;
+<span class="kw2">namespace</span> AppBundle<span class="sy0">/</span>Tests<span class="sy0">/</span>Controller<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Bundle\FrameworkBundle\Test\WebTestCase<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> ApiControllerTest <span class="kw2">extends</span> WebTestCase
+<span class="br0">&#123;</span>
+    <span class="kw2">private</span> <span class="kw2">function</span> post<span class="br0">&#40;</span><span class="re0">$uri</span><span class="sy0">,</span> <span class="kw3">array</span> <span class="re0">$data</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$content</span> <span class="sy0">=</span> <span class="kw3">json_encode</span><span class="br0">&#40;</span><span class="re0">$data</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$client</span> <span class="sy0">=</span> static<span class="sy0">::</span><span class="me2">createClient</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$client</span><span class="sy0">-&gt;</span><span class="me1">request</span><span class="br0">&#40;</span><span class="st_h">'POST'</span><span class="sy0">,</span> <span class="re0">$uri</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$content</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$client</span><span class="sy0">-&gt;</span><span class="me1">getResponse</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> testInformacionSobreEmpresaExistente<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$response</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">post</span><span class="br0">&#40;</span><span class="st_h">'/api/informacion'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'empresa'</span> <span class="sy0">=&gt;</span> <span class="st_h">'ACME'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">assertTrue</span><span class="br0">&#40;</span><span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">isSuccessful</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> testInformacionSobreEmpresaInexistente<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$response</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">post</span><span class="br0">&#40;</span><span class="st_h">'/api/informacion'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'empresa'</span> <span class="sy0">=&gt;</span> <span class="st_h">'NO_EXISTE'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">assertFalse</span><span class="br0">&#40;</span><span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">isSuccessful</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>Ahora ejecuta de nuevo los tests:</p>
+<pre class="cli code">$ ./vendor/bin/phpunit -c app</pre>
+<blockquote>
+<p><strong>NOTA</strong> A partir de ahora, deberías acostumrbarte a ejecutar los tests continuamente. Asegúrate de ejecutarlos siempre que termines un cambio, y de ejecutarlos de nuevo antes de añadir nada al repositorio.</p>
+</blockquote>
+<h2>Tests funcionales de la API Rest</h2>
+<p>En mi opinión, comprobar que el código de estado es 2xx y no comprobar
+el contenido de la respuesta es más que suficiente para un test funcional.</p>
+<p>Al crear una API REST, puede ser útil testear con más precisión el código de
+estado. Nuestra aplicación es una API REST, así que hagámoslo:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// src/AppBundle/Tests/Controller/ApiControllerTest.php</span>
+&nbsp;
+<span class="kw2">namespace</span> AppBundle<span class="sy0">/</span>Tests<span class="sy0">/</span>Controller<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Bundle\FrameworkBundle\Test\WebTestCase<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Response<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> ApiControllerTest <span class="kw2">extends</span> WebTestCase
+<span class="br0">&#123;</span>
+    <span class="kw2">private</span> <span class="kw2">function</span> post<span class="br0">&#40;</span><span class="re0">$uri</span><span class="sy0">,</span> <span class="kw3">array</span> <span class="re0">$data</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$content</span> <span class="sy0">=</span> <span class="kw3">json_encode</span><span class="br0">&#40;</span><span class="re0">$data</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$client</span> <span class="sy0">=</span> static<span class="sy0">::</span><span class="me2">createClient</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$client</span><span class="sy0">-&gt;</span><span class="me1">request</span><span class="br0">&#40;</span><span class="st_h">'POST'</span><span class="sy0">,</span> <span class="re0">$uri</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$content</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$client</span><span class="sy0">-&gt;</span><span class="me1">getResponse</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> testInformacionSobreEmpresaExistente<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$response</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">post</span><span class="br0">&#40;</span><span class="st_h">'/api/informacion'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'empresa'</span> <span class="sy0">=&gt;</span> <span class="st_h">'ACME'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">assertSame</span><span class="br0">&#40;</span>Response<span class="sy0">::</span><span class="me2">HTTP_OK</span> <span class="sy0">,</span> <span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">getStatusCode</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> testInformacionSobreEmpresaInexistente<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$response</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">post</span><span class="br0">&#40;</span><span class="st_h">'/api/informacion'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'empresa'</span> <span class="sy0">=&gt;</span> <span class="st_h">'NO_EXISTE'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">assertSame</span><span class="br0">&#40;</span>Response<span class="sy0">::</span><span class="me2">HTTP_UNPROCESSABLE_ENTITY</span> <span class="sy0">,</span> <span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">getStatusCode</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>Y ahora ejecuta de nuevo los tests:</p>
+<pre class="cli code">$ ./vendor/bin/phpunit -c app</pre>
+<p>¡Verde! ¡Es suficiente recompensa como para hacer un commit al repositorio
+y dar la jornada por terminada!</p>
+<pre class="cli code">$ git add -A
+$ git commit -m 'Tests añadidos'</pre>
+<h2>Conclusión</h2>
+<p>¡Ejecutar <code>./vendor/bin/phpunit -c app</code> es más sencillo que tener que ejecutar
+manualmente <code>HTTPie</code> (como en el artículo anterior)!</p>
+<p>Escribir tests funcionales es fácil y rápido, lo único que debes hacer es
+comprobar si el código de estado HTTP es correcto (y para una API REST, comprobar con precisión el código de estado HTTP).</p>
+<p>El próximo artículo será un resumen de esta serie, ¡espero que te haya gustado!</p>
+<h2>Sobre el autor</h2>
+<p>Este artículo fue publicado originalmente por <a href="https://github.com/gnugat">Loïc Chardonnet</a> y ha sido traducido con permiso por <a href="https://github.com/mgdepoo">Manuel Gómez</a>.</p>
+<h2>Artículos de la serie Aprende Symfony</h2>
+<ul>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-1-composer/">Aprende Symfony2 (Parte 1): Composer</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-2-aplicacion-vacia/">Aprende Symfony2 (Parte 2): Aplicación vacía</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-3-bundles/">Aprende Symfony2 (Parte 3): Bundles</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-4-controladores/">Aprende Symfony2 (Parte 4): Controladores</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-5-tests/">Aprende Symfony2 (Parte 5): Tests</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-6-conclusion/">Aprende Symfony2 (Parte 6): Conclusión</a></li>
+</ul>
+            ]]></description>
+        <guid isPermaLink="false">http://librosweb.es/tutorial/aprende-symfony2-parte-5-tests/</guid>
+        <pubDate>Sat, 04 Oct 2014 00:00:00 +0200</pubDate>
+                    <category><![CDATA[programación]]></category>
+                    <category><![CDATA[php]]></category>
+                    <category><![CDATA[symfony]]></category>
+                    <category><![CDATA[tests]]></category>
+                    <category><![CDATA[phpunit]]></category>
+            </item>
+        <item>
+        <title><![CDATA[ Aprende Symfony2 (Parte 4): Controladores ]]></title>
+        <link>http://librosweb.es/tutorial/aprende-symfony2-parte-4-controladores/</link>
+        <description><![CDATA[
+            <p>Este es el cuarto artículo de la serie para aprender sobre <a href="http://symfony.com/">el framework Symfony2</a>. En los anteriores artículos comenzamos a crear una aplicación vacía de un solo <em>bundle</em> con los siguientes archivos:</p>
+<pre class="code code">.
+├── app
+│   ├── AppKernel.php
+│   ├── cache
+│   │   └── .gitkeep
+│   ├── config
+│   │   └── config.yml
+│   └── logs
+│       └── .gitkeep
+├── composer.json
+├── composer.lock
+├── src
+│    └── AppBundle
+│         └── AppBundle.php
+├── .gitignore
+└── web
+    └── app.php</pre>
+<p>Ejecutar el comando <code>composer install</code> debería crear el directorio <code>vendor/</code>, que hemos ignorado en Git. Si lo necesitas, echa un vistazo al <a href="https://github.com/gnugat/learning-symfony2/">repositorio de código público en el que estamos desarrollando la aplicación</a>. En este artículo, aprenderemos más sobre el enrutamiento y los controladores.</p>
+<h2>Conociendo el enrutamiento y los controladores</h2>
+<p>Para familiarizarnos con el enrutamiento y los controladores, crearemos una
+ruta que no devuelve nada. Lo primero que hay que hacer es configurar el
+router:</p>
+<pre class="yaml code"><span class="co1"># app/config/app.yml</span><span class="co4">
+framework</span>:<span class="co3">
+    secret</span><span class="sy2">: </span><span class="st0">&quot;El valor de esta opción debe ser una cadena aleatoria.&quot;</span><span class="co4">
+    router</span>:<span class="co3">
+        resource</span><span class="sy2">: </span><span class="co2">%kernel.root_dir%/config/routing.yml</span></pre>
+<p>Ahora podemos escribir nuestras rutas en un archivo aparte:</p>
+<pre class="yaml code"><span class="co1"># app/config/routing.yml</span><span class="co4">
+cotizacion</span>:<span class="co3">
+    path</span><span class="sy2">: </span>/api/<span class="br0">&#123;</span>empresa<span class="br0">&#125;</span><span class="co4">
+    methods</span><span class="sy2">:
+</span>        - GET<span class="co4">
+    defaults</span>:<span class="co3">
+        _controller</span><span class="sy2">: </span>AppBundle:Api:cotizacion</pre>
+<p>Como ves, una ruta tiene:</p>
+<ul>
+<li>un nombre (<code>cotizacion</code>).</li>
+<li>un patrón (<code>/api/{empresa}</code>) en el que las partes encerradas con <code>{</code> y <code>}</code> indican que se trata de una parte variable.</li>
+<li>uno o más <em>verbos</em> HTTP (<code>GET</code>).</li>
+<li>un controlador <code>AppBundle\Controller\ApiController::cotizacionAction()</code></li>
+</ul>
+<blockquote>
+<p><strong>NOTA</strong> El parámetro <code>_controller</code> es un atajo compuesto de  tres partes, que son el nombre del <em>bundle</em>, después el nombre del controlador sin sufijo, y
+finalmente el nombre del método sin sufijo.</p>
+</blockquote>
+<p>Ahora necesitamos crear el siguiente directorio:</p>
+<pre class="cli code">$ mkdir src/AppBundle/Controller</pre>
+<p>Y la siguiente clase o controlador:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// src/AppBundle/Controller/ApiController.php</span>
+&nbsp;
+<span class="kw2">namespace</span> AppBundle\Controller<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Bundle\FrameworkBundle\Controller\Controller<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Request<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Response<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> ApiController <span class="kw2">extends</span> Controller
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> cotizacionAction<span class="br0">&#40;</span>Request <span class="re0">$request</span><span class="sy0">,</span> <span class="re0">$empresa</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="kw2">new</span> Response<span class="br0">&#40;</span><span class="st_h">''</span><span class="sy0">,</span> Response<span class="sy0">::</span><span class="me2">HTTP_NO_CONTENT</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>Para probarlo, te recomiendo usar un cliente HTTP, como por ejemplo <a href="http://httpie.org">HTTPie</a>, que puedes instalar de la siguiente manera en sistemas Linux:</p>
+<pre class="cli code">$ sudo apt-get install python-pip
+$ sudo pip install --upgrade httpie</pre>
+<p>Ya podemos probar nuestro <em>webservice</em> (cambia <code>app.local</code> por el nombre del host local que hayas creado para tu aplicación):</p>
+<pre class="code code">$ http GET app.local/api/cotizacion/ACME</pre>
+<p>La primera línea de la respuesta debería ser <code>HTTP/1.1 204 No Content</code>.</p>
+<h2>Enviando datos a nuestra aplicación</h2>
+<p>Nuestro <em>scrum master</em> y nuestro cliente han escrito un esquema con el funcionamiento deseado para la aplicación:</p>
+<blockquote>
+<p>Como usuario, quiero un nuevo webservice que al pasarle el código de una 
+empresa me devuelva toda su información y no simplemente su última cotización</p>
+</blockquote>
+<p>Esto significa que vamos a necesitar la siguiente ruta:</p>
+<pre class="yaml code"><span class="co1"># app/config/routing.yml</span><span class="co4">
+informacion</span>:<span class="co3">
+    path</span><span class="sy2">: </span>/api/informacion<span class="co4">
+    methods</span><span class="sy2">:
+</span>        - POST<span class="co4">
+    defaults</span>:<span class="co3">
+        _controller</span><span class="sy2">: </span>AppBundle:Api:informacion</pre>
+<p>Nuestro controlador recogerá el valor pasado mediane <code>POST</code> (llamado <code>empresa</code>), comprobará si es un código válido de empresa (por jemplo <code>ACME</code>), y en caso afirmativo, devolverá toda su información. En caso contrario, la respuesta contendrá simplemente un mensaje de error:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// src/AppBundle/Controller/ApiController.php</span>
+&nbsp;
+<span class="kw2">namespace</span> AppBundle\Controller<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Bundle\FrameworkBundle\Controller\Controller<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Request<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Response<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\JsonResponse<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> ApiController <span class="kw2">extends</span> Controller
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> informacionAction<span class="br0">&#40;</span>Request <span class="re0">$request</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$contenidoDeLaPeticion</span> <span class="sy0">=</span> <span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getContent</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$contenidoEnviado</span> <span class="sy0">=</span> <span class="kw3">json_decode</span><span class="br0">&#40;</span><span class="re0">$contenidoDeLaPeticion</span><span class="sy0">,</span> <span class="kw4">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="kw3">isset</span><span class="br0">&#40;</span><span class="re0">$contenidoEnviado</span><span class="br0">&#91;</span><span class="st_h">'empresa'</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+            <span class="sy0">||</span> <span class="st_h">'ACME'</span> <span class="sy0">!==</span> <span class="re0">$contenidoEnviado</span><span class="br0">&#91;</span><span class="st_h">'empresa'</span><span class="br0">&#93;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="re0">$respuesta</span><span class="br0">&#91;</span><span class="st_h">'mensaje'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'ERROR - Empresa desconocida'</span><span class="sy0">;</span>
+            <span class="re0">$codigoEstado</span> <span class="sy0">=</span> Response<span class="sy0">::</span><span class="me2">HTTP_UNPROCESSABLE_ENTITY</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            <span class="re0">$respuesta</span><span class="br0">&#91;</span><span class="st_h">'mensaje'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'OK'</span><span class="sy0">;</span>
+            <span class="re0">$respuesta</span><span class="br0">&#91;</span><span class="st_h">'empresa'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="sy0">...</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="re0">$codigoEstado</span> <span class="sy0">=</span> Response<span class="sy0">::</span><span class="me2">HTTP_OK</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="kw2">new</span> JsonResponse<span class="br0">&#40;</span><span class="re0">$respuesta</span><span class="sy0">,</span> <span class="re0">$codigoEstado</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>La clase <code>JsonResponse</code> convierte el array a JSON y establece las cabeceras
+HTTP correctas. Si ahora intentamos enviar algo incorrecto, como esto:</p>
+<pre class="cli code">$ http POST app.local/api/informacion empresa=NO_EXISTE</pre>
+<p>Deberíamos obtener una respuesta parecida a:</p>
+<pre class="code code">HTTP/1.1 422 Unprocessable Entity
+Cache-Control: no-cache
+Content-Type: application/json
+Date: Thu, 10 Jul 2014 15:23:00 GMT
+Server: Apache
+Transfer-Encoding: chunked
+&nbsp;
+{
+    &quot;mensaje&quot;: &quot;ERROR - Empresa desconocida&quot;
+}</pre>
+<p>Y cuando enviemos la ofrenda correcta:</p>
+<pre class="cli code">$ http POST app.local/api/informacion empresa=ACME</pre>
+<p>Deberíamos obtener algo similar a:</p>
+<pre class="code code">HTTP/1.1 200 OK
+Cache-Control: no-cache
+Content-Type: application/json
+Date: Thu, 10 Jul 2014 21:42:00 GMT
+Server: Apache
+Transfer-Encoding: chunked
+&nbsp;
+{
+    &quot;mensaje&quot;: &quot;OK&quot;,
+    &quot;empresa&quot;: { ... }
+}</pre>
+<h2>La API de la clase <code>Request</code></h2>
+<p>Esta es parte de la API de la clase <code>Request</code>:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">namespace</span> Symfony\Component\HttpFoundation<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> Request
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="re0">$request</span><span class="sy0">;</span> <span class="co1">// parámetros enviados mediante POST ($_POST)</span>
+    <span class="kw2">public</span> <span class="re0">$query</span><span class="sy0">;</span>   <span class="co1">// parámetros enviados en la &quot;query string&quot; ($_GET)</span>
+    <span class="kw2">public</span> <span class="re0">$files</span><span class="sy0">;</span>   <span class="co1">// archivos subidos ($_FILES)</span>
+    <span class="kw2">public</span> <span class="re0">$cookies</span><span class="sy0">;</span> <span class="co1">// cookies $_COOKIE</span>
+    <span class="kw2">public</span> <span class="re0">$headers</span><span class="sy0">;</span> <span class="co1">// cabeceras de la petición obtenidas de $_SERVER</span>
+&nbsp;
+    <span class="kw2">public</span> static <span class="kw2">function</span> createFromGlobals<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">:</span>
+    <span class="kw2">public</span> static <span class="kw2">function</span> create<span class="br0">&#40;</span>
+        <span class="re0">$uri</span><span class="sy0">,</span>
+        <span class="re0">$method</span> <span class="sy0">=</span> <span class="st_h">'GET'</span><span class="sy0">,</span>
+        <span class="re0">$parameters</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+        <span class="re0">$cookies</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+        <span class="re0">$files</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+        <span class="re0">$server</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+        <span class="re0">$content</span> <span class="sy0">=</span> <span class="kw4">null</span>
+    <span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> getContent<span class="br0">&#40;</span><span class="re0">$asResource</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<p>Usamos <code>createFromGlobals</code> en nuestro controlador frontal (<code>web/app.php</code>), y
+hace exactamente lo que dice: inicializa la petición con la información obtenida mediante las variables superglobales de PHP (<code>$_POST</code>, <code>$_GET</code>, etc).</p>
+<p>El método <code>create</code> es realmente útil en tests, dado que no necesitaremos
+sobreescribir los valores de las variables superglobales de PHP.</p>
+<p>Todos los atributos que aparecen listados son instancias de la clase
+<code>Symfony\Component\HttpFoundation\ParameterBag</code>, que es como un array orientado
+a objetos, con los métodos <code>set</code>, <code>has</code> y <code>get</code> (entre otros).</p>
+<p>Cuando envías un formulario, tu navegador establece automáticamente el parámetro <code>Content-Type</code> de la cabecera de la petición HTTP a
+<code>application/x-www-form-urlencoded</code>, y los valores del formulario son enviados
+en el contenido de la peticion de esta forma:</p>
+<pre class="code code">empresa=ACME</pre>
+<p>PHP entiende esta petición, y guarda los valores en la variable superglobal
+<code>$_POST</code>. Por eso puedes acceder a ese valor de la siguiente manera:</p>
+<pre class="php code"><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">request</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'empresa'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>Sin embargo, cuando enviamos algo en JSON con el <code>Content-Type</code> igual a
+<code>application/json</code>, PHP no rellena <code>$_POST</code>. Así que tendrás que recuperar los datos originales enviados mediante <code>getContent</code> y convertirlos después usando <code>json_decode</code>, como hemos hecho en nuestro controlador.</p>
+<h2>La API de la clase <code>Response</code></h2>
+<p>Esta es parte de la API de la clase <code>Response</code>:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">namespace</span> Symfony\Component\HttpFoundation<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> Response
+<span class="br0">&#123;</span>
+    <span class="kw2">const</span> HTTP_OK <span class="sy0">=</span> <span class="nu0">200</span><span class="sy0">;</span>
+    <span class="kw2">const</span> HTTP_CREATED <span class="sy0">=</span> <span class="nu0">201</span><span class="sy0">;</span>
+    <span class="kw2">const</span> HTTP_NO_CONTENT <span class="sy0">=</span> <span class="nu0">204</span><span class="sy0">;</span>
+    <span class="kw2">const</span> HTTP_UNAUTHORIZED <span class="sy0">=</span> <span class="nu0">401</span><span class="sy0">;</span>
+    <span class="kw2">const</span> HTTP_FORBIDDEN <span class="sy0">=</span> <span class="nu0">403</span><span class="sy0">;</span>
+    <span class="kw2">const</span> HTTP_NOT_FOUND <span class="sy0">=</span> <span class="nu0">404</span><span class="sy0">;</span>
+    <span class="kw2">const</span> HTTP_UNPROCESSABLE_ENTITY <span class="sy0">=</span> <span class="nu0">422</span><span class="sy0">;</span> <span class="co1">// RFC4918</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="re0">$headers</span><span class="sy0">;</span> <span class="co1">// @var Symfony\Component\HttpFoundation\ResponseHeaderBag</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span><span class="re0">$content</span> <span class="sy0">=</span> <span class="st_h">''</span><span class="sy0">,</span> <span class="re0">$status</span> <span class="sy0">=</span> <span class="nu0">200</span><span class="sy0">,</span> <span class="re0">$headers</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> getContent<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getStatusCode<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> isSuccessful<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<p>Hay muchas constantes de códigos de estado HTTP, así que he seleccionado
+solamente los que más uso.</p>
+<p>Puedes establecer y recuperar las cabeceras de <code>Response</code> mediante una propiedad pública, que también es de tipo <code>ParameterBag</code>.</p>
+<p>El constructor te permite establecer el contenido, el código de estado y las
+cabeceras. Los otros tres métodos se usan sobre todo en tests. Hay muchos métodos <code>is</code> para comprobar el tipo de petición, pero normalmente lo único que te interesará será saber que la respuesta es correcta.</p>
+<p>Existen además otros tipos de respuesta:</p>
+<ul>
+<li><code>JsonResponse</code>: establece el <code>Content-Type</code> y convierte el contenido a JSON.</li>
+<li><code>BinaryFileResponse</code>: establece las cabeceras y adjunta un archivo a la
+respuesta.</li>
+<li><code>RedirectResponse</code>: establece el destino para una redirección.</li>
+<li><code>StreamedResponse</code>: útil para el <em>streaming</em> de archivos muy grandes.</li>
+</ul>
+<h2>Conclusión</h2>
+<p>Symfony2 es un framework HTTP, cuyas principales API son los controladores:
+reciben como parámetro una petición y devuelven una respuesta. Todo lo que
+tenemos que hacer es crear un controlador, escribir una configuración mínima
+para enlazarlo a una URL ¡y ya está!</p>
+<p>No olvides hacer un commit al repositorio:</p>
+<pre class="cli code">$ git add -A
+$ git commit -m 'Creada la ruta Ni y el controlador'</pre>
+<p>El próximo artículo tratará sobre tests: ¡permanece atento!</p>
+<h2>Sobre el autor</h2>
+<p>Este artículo fue publicado originalmente por <a href="https://github.com/gnugat">Loïc Chardonnet</a> y ha sido traducido con permiso por <a href="https://github.com/mgdepoo">Manuel Gómez</a>.</p>
+<h2>Artículos de la serie Aprende Symfony</h2>
+<ul>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-1-composer/">Aprende Symfony2 (Parte 1): Composer</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-2-aplicacion-vacia/">Aprende Symfony2 (Parte 2): Aplicación vacía</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-3-bundles/">Aprende Symfony2 (Parte 3): Bundles</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-4-controladores/">Aprende Symfony2 (Parte 4): Controladores</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-5-tests/">Aprende Symfony2 (Parte 5): Tests</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-6-conclusion/">Aprende Symfony2 (Parte 6): Conclusión</a></li>
+</ul>
+            ]]></description>
+        <guid isPermaLink="false">http://librosweb.es/tutorial/aprende-symfony2-parte-4-controladores/</guid>
+        <pubDate>Fri, 03 Oct 2014 00:00:00 +0200</pubDate>
+                    <category><![CDATA[programación]]></category>
+                    <category><![CDATA[php]]></category>
+                    <category><![CDATA[symfony]]></category>
+            </item>
+        <item>
+        <title><![CDATA[ Aprende Symfony2 (Parte 3): Bundles ]]></title>
+        <link>http://librosweb.es/tutorial/aprende-symfony2-parte-3-bundles/</link>
+        <description><![CDATA[
+            <p>Este es el tercer artículo de la serie para aprender sobre <a href="http://symfony.com/">el framework Symfony2</a>. En los anteriores artículos empezamos creando nuestro proyecto vacío con los siguientes archivos:</p>
+<pre class="code code">.
+├── app
+│   ├── AppKernel.php
+│   ├── cache
+│   │   └── .gitkeep
+│   ├── config
+│   │   └── config.yml
+│   └── logs
+│       └── .gitkeep
+├── composer.json
+├── composer.lock
+├── .gitignore
+└── web
+    └── app.php</pre>
+<p>Ejecutar el comando <code>composer install</code> debería crear el directorio <code>vendor/</code>, que hemos ignorado en Git. Si lo necesitas, echa un vistazo al <a href="https://github.com/gnugat/learning-symfony2/tree/1-composer">repositorio de código público en el que estamos desarrollando la aplicación</a>. Vamos a ver qué es un <em>bundle</em>.</p>
+<h2>Creando el bundle de la aplicación</h2>
+<p>Para que el código que mostremos tenga algún sentido, vamos a desarrollar una aplicación imaginaria de bolsa que muestre la cotización de algunas empresas.
+Vamos a definir el primer bundle de nuestra aplicación, para tener así un lugar
+en el que poner nuestro código. Para ello necesitamos crear su directorio:</p>
+<pre class="cli code">$ mkdir -p src/AppBundle</pre>
+<p>Después, crea una clase llamada <code>AppBundle</code> que extienda de <code>Symfony\Component\HttpKernel\Bundle\Bundle</code> y tenga el siguiente contenido:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// src/AppBundle/AppBundle.php</span>
+&nbsp;
+<span class="kw2">namespace</span> AppBundle<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\HttpKernel\Bundle\Bundle<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> AppBundle <span class="kw2">extends</span> Bundle
+<span class="br0">&#123;</span>
+    <span class="co1">// ...</span>
+<span class="br0">&#125;</span></pre>
+<p>Finalmente registramos el <em>bundle</em> en nuestra aplicación:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// app/AppKernel.php</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\HttpKernel\Kernel<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Config\Loader\LoaderInterface<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> AppKernel <span class="kw2">extends</span> Kernel
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> registerBundles<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="kw2">new</span> Symfony\Bundle\FrameworkBundle\FrameworkBundle<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+            <span class="kw2">new</span> AppBundle\AppBundle<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="co1">// &lt;-- ¡Añade esta línea!</span>
+        <span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> registerContainerConfiguration<span class="br0">&#40;</span>LoaderInterface <span class="re0">$loader</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$loader</span><span class="sy0">-&gt;</span><span class="me1">load</span><span class="br0">&#40;</span>__DIR__<span class="sy0">.</span><span class="st_h">'/config/config.yml'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>Hagamos un <em>commit</em> al repositorio:</p>
+<pre class="cli code">$ git add -A
+$ git commit -m 'Creado el bundle de la aplicación'</pre>
+<h2>Los Bundles te permiten extender el contenedor de servicios de la aplicación</h2>
+<p>La clase <code>AppBundle</code> creada anteriormente extiende de la siguiente otra clase (sólo se muestran aquellas partes de código relevantes para este tutorial):</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">namespace</span> Symfony\Component\HttpKernel\Bundle<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\DependencyInjection\ContainerAware<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Console\Application<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">abstract</span> <span class="kw2">class</span> Bundle <span class="kw2">extends</span> ContainerAware implements BundleInterface
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getContainerExtension<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> registerCommands<span class="br0">&#40;</span>Application <span class="re0">$application</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<p>Estos dos métodos hacen que el <em>bundle</em> sea capaz de <em>autodescubrir</em> sus comandos y su extensión del Contenedor de Inyección de Dependencias (DIC), siempre que se utilice la siguiente estructura de directorios (el único archivo obligatorio es <code>AppBundle.php</code>):</p>
+<pre class="code code">.
+├── Command
+│   └── *Command.php
+├── DependencyInjection
+│   └── AppExtension.php
+└── AppBundle.php</pre>
+<p>El nombre de un <em>bundle</em> (en nuestro ejemplo <code>AppBundle</code>) se puede componer de tres partes:</p>
+<ul>
+<li>el nombre del <em>vendor</em>, que normalmente es el nombre de la empresa o persona que ha desarrollado el <em>bundle</em> (ejemplo: <code>AcmeAppBundle</code>). A veces se utiliza el nombre del proyecto (ejemplo: <code>ProyectoDemoBundle</code>).</li>
+<li>el nombre real del <em>bundle</em>, que en nuestro caso es simplemente <code>App</code>.</li>
+<li>el sufijo <code>Bundle</code>, que es obligatorio para todos los <em>bundles</em>.</li>
+</ul>
+<p>Por tu bien, elige una palabra corta como nombre del <em>vendor</em> y del <em>bundle</em>, ya que así se simplificará mucho el código de tu aplicación.</p>
+<p>La clase <code>AppExtension</code> te permite manipular el contenedor de servicios. Esto normalmente se hace cargando un archivo de configuración localizado en <code>Resources/config/services.xml</code>.</p>
+<p>Y precisamente ese es el propósito de los <em>bundles</em>: registrar servicios en el
+contenedor de servicios de la aplicación.</p>
+<blockquote>
+<p><strong>NOTA</strong> Los servicios, la inyección de dependencias y los comandos de Symfony no se explican con detalle en esta serie de tutoriales por ser conceptos demasiado avanzados. Si quieres profundizar en ellos, consulta la <a href="http://librosweb.es/symfony_2_x/">documentación de Symfony</a>.</p>
+</blockquote>
+<h2>Tipos de <em>bundles</em></h2>
+<p>Hay dos tipos de <em>bundles</em>:</p>
+<ul>
+<li>de <strong>integración</strong>, que permite utilizar librerías de terceros en tu aplicación. Son reusables y se comparten entre distintas aplicaciones.</li>
+<li>de <strong>aplicación</strong>, que no se reutilizan y son totalmente específicos para tu lógica de negocio.</li>
+</ul>
+<p>Considera por ejemplo la <a href="https://github.com/KnpLabs/snappy">librería snappy de KnpLabs</a> que permite generar un PDF a partir de una página HTML y puede ser usado en cualquier aplicación (aplicaciones que no utilizan Symfony e incluso aplicaciones sin framework).</p>
+<p>La clase que permite esta generación de PDFs es
+<code>Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator</code> y crearla cuesta bastante. Para que sea más fácil de utilizar, podemos definir su construcción en el contenedor de servicios. Afortunadamente ya hay un <em>bundle</em> que hace esto por nosotros: <a href="https://github.com/KnpLabs/KnpSnappyBundle">KnpSnappyBundle</a>.</p>
+<p>Ahí tenemos un buen ejemplo de los <em>bundles</em> del primer tipo.</p>
+<p>Sobre el segundo tipo de <em>bundle</em>: antes o después, necesitaremos integrar nuestro propio código en nuestra aplicación Symfony2. Podríamos elegir la opción difícil y tediosa escribiendo un montón de inicializaciones y configuraciones, ¡o podríamos usar un <em>bundle</em> que haga el trabajo por nosotros automáticamente!</p>
+<p>A veces, encontraremos aplicaciones que tienen muchos <em>bundles</em>, para así poder
+categorizar las funcionalidades en módulos. Esto no es necesario, y es un poco
+tedioso, si se me permite: podemos simplemente crear carpetas en un único <em>bundle</em> para categorizar nuestros módulos.</p>
+<p>La creación de varios <em>bundles</em> nencesita algunos pasos manuales adicionales.
+Además no tiene mucho sentido, ya que un <em>bundle</em> es, teóricamente, una unidad
+desacoplada: si creamos un <code>UserBundle</code>, un <code>FrontendBundle</code>, un <code>BlogBundle</code> y un <code>ForumBundle</code>, nos encontraremos con <em>bundles</em> dependientes unos de otros, a menudo con dependencias cíclicas, y perderemos el tiempo decidiendo dónde poner nuevas clases (que puede que necesiten a los otros tres <em>bundles</em>).</p>
+<p>Mi consejo: <strong>crea un único bundle para tu aplicación</strong>. Si más tarde descubres que has creado un conjunto de clases que tendría sentido reusar en otros proyectos (sean proyectos Symfony2 o no), entonces quizá puedas extraerlas para crear una librería de terceros. Y después podrás finalmente crear un <em>bundle</em> para integrar esa librería en aplicaciones Symfony2.</p>
+<h2>Conclusión</h2>
+<p>Los bundles son una manera de extender el Contenedor de Inyección de
+Dependencias: forman la capa que une tu código y las aplicaciones Symfony2.</p>
+<h2>Recursos</h2>
+<p>Aquí os dejo un buen artículo sobre cómo crear <em>bundles</em> reusables:</p>
+<ul>
+<li><a href="http://elnur.pro/use-only-infrastructural-bundles-in-symfony/">Use only infrastructural bundles in Symfony2, by Elnur Abdurrakhimov</a></li>
+</ul>
+<p>¿No te gusta seguir las convenciones y no te importa tener que escribir un montón de código de inicialización y configuración? Entonces, aunque no te lo recomiendo, puedes leer estos artículos:</p>
+<ul>
+<li><a href="http://stackoverflow.com/questions/9999433/should-everything-really-be-a-bundle-in-symfony-2-x/10001019#10001019">Should everything really be a bundle in Symfony2?</a></li>
+<li><a href="http://danielribeiro.org/blog/yes-you-can-have-low-coupling-in-a-symfony-standard-edition-application/">Yes, you can have low coupling in a Symfony2 application</a></li>
+<li><a href="http://elnur.pro/symfony-without-bundles/">Symfony2 without bundles, by Elnur Abdurrakhimov, by Daniel Ribeiro</a></li>
+<li><a href="http://php-and-symfony.matthiasnoback.nl/2013/10/symfony2-some-things-i-dont-like-about-bundles/">Symfony2 some things I dont like about bundles, by Matthias Noback</a></li>
+<li><a href="http://php-and-symfony.matthiasnoback.nl/2013/10/symfony2-console-commands-as-services-why/">Symfony2 console commands as services why, by Matthias Noback</a></li>
+<li><a href="http://www.slideshare.net/matthiasnoback/high-quality-symfony-bundles-tutorial-dutch-php-conference-2014">Naked bundles, slides by Matthias Noback</a></li>
+</ul>
+<p>Incluyo estos links únicamente porque me gusta cómo explican el funcionamiento
+de Symfony2 por dentro, pero no aplicaría lo que dicen en una aplicación real,
+ya que incluye una complejidad que no compensa (de todos modos, esta es simplemente mi opinión).</p>
+<h2>Sobre el autor</h2>
+<p>Este artículo fue publicado originalmente por <a href="https://github.com/gnugat">Loïc Chardonnet</a> y ha sido traducido con permiso por <a href="https://github.com/mgdepoo">Manuel Gómez</a>.</p>
+<h2>Artículos de la serie Aprende Symfony</h2>
+<ul>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-1-composer/">Aprende Symfony2 (Parte 1): Composer</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-2-aplicacion-vacia/">Aprende Symfony2 (Parte 2): Aplicación vacía</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-3-bundles/">Aprende Symfony2 (Parte 3): Bundles</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-4-controladores/">Aprende Symfony2 (Parte 4): Controladores</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-5-tests/">Aprende Symfony2 (Parte 5): Tests</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-6-conclusion/">Aprende Symfony2 (Parte 6): Conclusión</a></li>
+</ul>
+            ]]></description>
+        <guid isPermaLink="false">http://librosweb.es/tutorial/aprende-symfony2-parte-3-bundles/</guid>
+        <pubDate>Thu, 02 Oct 2014 00:00:00 +0200</pubDate>
+                    <category><![CDATA[programación]]></category>
+                    <category><![CDATA[php]]></category>
+                    <category><![CDATA[symfony]]></category>
+                    <category><![CDATA[composer]]></category>
+            </item>
+        <item>
+        <title><![CDATA[ Aprende Symfony2 (Parte 2): Aplicación vacía ]]></title>
+        <link>http://librosweb.es/tutorial/aprende-symfony2-parte-2-aplicacion-vacia/</link>
+        <description><![CDATA[
+            <p>Este es el segundo artículo de la serie para aprender a programar con
+<a href="http://symfony.com/">el framework Symfony</a>. En el primer artículo empezamos 
+creando nuestro proyecto vacío con los siguientes archivos:</p>
+<pre class="code code">.
+├── composer.json
+├── composer.lock
+└── .gitignore</pre>
+<p>Al ejecutar el comando <code>composer install</code> se debería crear el directorio
+<code>vendor/</code>, que hemos ignorado en Git. Si lo necesitas, echa un vistazo al <a href="https://github.com/gnugat/learning-symfony2/tree/1-composer">repositorio de código público en el que estamos desarrollando la aplicación</a>. Veamos cómo crear una aplicación Symfony2 vacía.</p>
+<h2>El controlador frontal</h2>
+<p>Empecemos por el principio: vamos a crear un archivo que actuará como
+controlador frontal. En otras palabras, este archivo será <strong>el único punto de entrada a nuestra aplicación</strong> y decidirá qué página mostrar.</p>
+<p>Creemos su directorio:</p>
+<pre class="cli code">$ mkdir web</pre>
+<p>Después, crea un archivo llamado <code>app.php</code> con el siguiente contenido:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// web/app.php</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Request<span class="sy0">;</span>
+&nbsp;
+<span class="kw1">require_once</span> __DIR__<span class="sy0">.</span><span class="st_h">'/../vendor/autoload.php'</span><span class="sy0">;</span>
+<span class="kw1">require_once</span> __DIR__<span class="sy0">.</span><span class="st_h">'/../app/AppKernel.php'</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$kernel</span> <span class="sy0">=</span> <span class="kw2">new</span> AppKernel<span class="br0">&#40;</span><span class="st_h">'prod'</span><span class="sy0">,</span> <span class="kw4">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$request</span> <span class="sy0">=</span> Request<span class="sy0">::</span><span class="me2">createFromGlobals</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$response</span> <span class="sy0">=</span> <span class="re0">$kernel</span><span class="sy0">-&gt;</span><span class="me1">handle</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">send</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$kernel</span><span class="sy0">-&gt;</span><span class="me1">terminate</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">,</span> <span class="re0">$response</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>Primero incluímos el <em>autoloader</em> o cargador automático de clases de Composer, que se encarga de incluir todos los archivos necesarios en la aplicación.</p>
+<p>Después creamos una instancia de nuestro kernel, en el entorno de producción
+y con las herramientas de <em>debug</em> o depuración deshabilitadas. Esta clase actúa como un servidor web: recibe una petición HTTP y devuelve una respuesta HTTP.</p>
+<p><code>Request::createFromGlobals()</code> crea un objecto PHP que representa a la petición HTTP. El objeto se rellena con la información contenida originalmente en las variables superglobales de PHP (<code>$_GET</code>, <code>$_POST</code>, etc).</p>
+<p>Después el kernel se hace cargo de la petición. Para no entrar en muchos detalles, diremos que lo que hace es encontrar el controlador asociado
+a la URL solicitada. Es responsabilidad del controlador frontal devolver un objeto (de tipo <code>Symfony\Component\HttpFoundation\Response</code>) que represente a la respuesta HTTP.</p>
+<p>El método <code>$response-&gt;send()</code> simplemente llama a la función <code>header()</code> de PHP, e imprime una cadena de texto que será el contenido de la respuesta (normalmente HTML, JSON o lo que tú quieras).</p>
+<p>Finalmente, el método <code>$kernel-&gt;terminate()</code> ejecuta cualquier tarea asociada al evento <code>kernel.terminate</code>. Esto te permite responder al usuario tan rápido como sea posible y después de enviar la respuesta, seguir ejecutando tareas y código, como por ejemplo enviar emails.</p>
+<blockquote>
+<p><strong>NOTA</strong> El concepto de los eventos Symfony no se trata en este artículo por ser demasiado avanzado, pero nos parecía conveniente al menos mencionarlos.</p>
+</blockquote>
+<h2>Creando el kernel de la aplicación</h2>
+<p><a href="http://symfony.com/doc/current/components/http_kernel/introduction.html">El componente HttpKernel</a> nos da la clase <code>Kernel</code>, de la que extenderemos para crear el núcleo o <em>kernel</em> de nuestra propia aplicación.</p>
+<p>Comienza creando el siguiente directorio:</p>
+<pre class="cli code">$ mkdir app</pre>
+<p>Y después crea el archivo del <code>AppKernel</code> con el siguiente contenido:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// app/AppKernel.php</span>
+<span class="kw2">use</span> Symfony\Component\HttpKernel\Kernel<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Config\Loader\LoaderInterface<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> AppKernel <span class="kw2">extends</span> Kernel
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> registerBundles<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="kw2">new</span> Symfony\Bundle\FrameworkBundle\FrameworkBundle<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+        <span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> registerContainerConfiguration<span class="br0">&#40;</span>LoaderInterface <span class="re0">$loader</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$loader</span><span class="sy0">-&gt;</span><span class="me1">load</span><span class="br0">&#40;</span>__DIR__<span class="sy0">.</span><span class="st_h">'/config/config.yml'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>Esta clase carga la configuración del proyecto. También es aquí donde
+registrarás los <em>bundles</em> del proyecto. Hablaremos más sobre <em>bundles</em> en el
+próximo artículo. Por ahora lo único que necesitas saber es que son una especie
+de <em>plugins</em>.</p>
+<p>El kernel tiene la responsabilidad de buscar todos los <em>bundles</em> registrados para obtener su configuración.</p>
+<p>El bundle <code>FrameworkBundle</code> define algunos servicios que te permiten elegir
+qué activar desde la configuración.</p>
+<blockquote>
+<p><strong>NOTA</strong> Los servicios son objetos que tienen una única responsabilidad.Ofrecen exactamente lo que prometen: un servicio. Aprenderemos más sobre ellos
+en uno de los próximos artículos.</p>
+</blockquote>
+<p>Para que el <em>kernel</em>  funcione correctamente, debemos crear un archivo de configuración.</p>
+<p>Primero crea el directorio <code>config</code>:</p>
+<pre class="cli code">$ mkdir app/config</pre>
+<p>Y después, crea el archivo <code>config.yml</code> con el siguiente contenido:</p>
+<pre class="yaml code"><span class="co1"># app/config/config.yml</span><span class="co4">
+framework</span>:<span class="co3">
+    secret</span><span class="sy2">: </span><span class="st0">&quot;El valor de esta opción debe ser una cadena aleatoria.&quot;</span></pre>
+<p>El parámetro <code>secret</code> se usa como semilla para generar cadenas aleatorias (por
+ejemplo tokens CSRF para proteger a los formularios de las aplicaciones web).</p>
+<p>Ahora que tenemos la estructura de nuestra aplicación, hagamos un commit al
+repositorio:</p>
+<pre class="cli code">$ git add -A
+$ git commit -m 'Creada la estructura básica de la aplicación'</pre>
+<h3>Logs y caché</h3>
+<p>Para completar la aplicación, crea también los directorios <code>logs</code> y <code>cache</code>:</p>
+<pre class="cli code">$ mkdir app/{cache,logs}
+$ touch app/{cache,logs}/.gitkeep</pre>
+<p>Git no permite subir al repositorio directorios vacíos. Por eso tenemos que crear los archivos <code>.gitkeep</code>. Dado que los archivos en estos directorios no deben subirse al repositorio de código, los ignoraremos:</p>
+<pre class="cli code">$ echo '/app/cache/*' &gt;&gt; .gitignore
+$ echo '/app/logs/*' &gt;&gt; .gitignore
+$ git add -A
+$ git add -f app/cache/.gitkeep
+$ git add -f app/logs/.gitkeep
+$ git commit -m 'Directorios temporales creados'</pre>
+<h3>Configuración de Apache</h3>
+<p>Para que tu sitio sea accesible, necesitarás configurar tu servidor web. El
+proceso está muy bien explicado <a href="http://symfony.com/doc/current/cookbook/configuration/web_server_configuration.html">en la documentación</a>,
+así que esta es la pinta que tiene un <em>virtual host</em> de Apache para Symfony:</p>
+<pre class="apache code">&lt;<span class="kw3">VirtualHost</span> *:<span class="nu0">80</span>&gt;
+    <span class="kw1">ServerName</span> knight.local
+&nbsp;
+    <span class="kw1">DocumentRoot</span> /home/loic.chardonnet/Projects/gnugat/knight/web
+&nbsp;
+    <span class="kw1">ErrorLog</span> <span class="st0">&quot;/home/loic.chardonnet/Projects/gnugat/knight/app/logs/apache_errors.log&quot;</span>
+    <span class="kw1">CustomLog</span> <span class="st0">&quot;/home/loic.chardonnet/Projects/gnugat/knight/app/logs/apache_accesses.log&quot;</span> common
+&nbsp;
+    &lt;<span class="kw3">Directory</span> /home/loic.chardonnet/Projects/gnugat/knight/web&gt;
+        <span class="kw1">Options</span> <span class="kw2">Indexes</span> <span class="kw2">FollowSymLinks</span> MultiViews
+        <span class="kw1">AllowOverride</span> <span class="kw2">None</span>
+        <span class="kw1">Order</span> <span class="kw1">allow</span>,<span class="kw1">deny</span>
+        <span class="kw1">allow</span> from <span class="kw2">all</span>
+&nbsp;
+        &lt;<span class="kw3">IfModule</span> mod_rewrite.c&gt;
+            <span class="kw1">RewriteEngine</span> <span class="kw2">On</span>
+            <span class="kw1">RewriteCond</span> %{REQUEST_FILENAME} !-f
+            <span class="kw1">RewriteRule</span> ^(.*)$ /app.php [QSA,L]
+        &lt;/<span class="kw3">IfModule</span>&gt;
+    &lt;/<span class="kw3">Directory</span>&gt;
+&lt;/<span class="kw3">VirtualHost</span>&gt;</pre>
+<p>Si te encuentras con problemas de permisos (como no poder escribir en <code>cache/</code>
+y <code>logs/</code>), puede que quieras cambiar las variables de entorno
+<code>APACHE_RUN_USER</code> y <code>APACHE_RUN_GROUP</code>, presentes en <code>/etc/apache2/envvars</code>,
+por tu propio usuario y su grupo.</p>
+<h2>Conclusión</h2>
+<p>Una aplicación Symfony2 sigue este patrón: un controlador frontal asocia una
+URL a un controlador, que recoge una petición HTTP y devuelve una respuesta
+HTTP.</p>
+<p>El siguiente artículo va sobre bundles, así que permanece atento.</p>
+<h2>Sobre el autor</h2>
+<p>Este artículo fue publicado originalmente por <a href="https://github.com/gnugat">Loïc Chardonnet</a> y ha sido traducido con permiso por <a href="https://github.com/mgdepoo">Manuel Gómez</a>.</p>
+<h2>Artículos de la serie Aprende Symfony</h2>
+<ul>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-1-composer/">Aprende Symfony2 (Parte 1): Composer</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-2-aplicacion-vacia/">Aprende Symfony2 (Parte 2): Aplicación vacía</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-3-bundles/">Aprende Symfony2 (Parte 3): Bundles</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-4-controladores/">Aprende Symfony2 (Parte 4): Controladores</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-5-tests/">Aprende Symfony2 (Parte 5): Tests</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-6-conclusion/">Aprende Symfony2 (Parte 6): Conclusión</a></li>
+</ul>
+            ]]></description>
+        <guid isPermaLink="false">http://librosweb.es/tutorial/aprende-symfony2-parte-2-aplicacion-vacia/</guid>
+        <pubDate>Wed, 01 Oct 2014 00:00:00 +0200</pubDate>
+                    <category><![CDATA[programación]]></category>
+                    <category><![CDATA[php]]></category>
+                    <category><![CDATA[symfony]]></category>
+                    <category><![CDATA[composer]]></category>
+            </item>
+        <item>
+        <title><![CDATA[ Aprende Symfony2 (Parte 1): Composer ]]></title>
+        <link>http://librosweb.es/tutorial/aprende-symfony2-parte-1-composer/</link>
+        <description><![CDATA[
+            <p>¿No sabes nada del framework <a href="http://symfony.com/">Symfony2</a>, y te gustaría
+leer una guía rápida para aprender cómo utilizarlo, y cómo funciona? ¡Entonces este artículo es para ti!</p>
+<p>No me malinterpretes, tarde o temprano tendrás que leer la
+<a href="http://librosweb.es/symfony_2_x/">documentación de Symfony</a>, y deberás 
+practicar mucho si quieres dominarlo. Pero por ahora esta guía debería ser un 
+buen comienzo.</p>
+<p>En el primer artículo de esta serie, conocerás
+<a href="https://getcomposer.org/">Composer</a>, que te ayudará con la instalación y
+actualización de librerías de terceros.</p>
+<blockquote>
+<p><strong>NOTA</strong> Esta serie de tutoriales explica Symfony empezando desde cero y creando todos los archivos a mano para aprender mejor su funcionamiento interno. En la práctica esto no es necesario y existen formas más sencillas de aprender a programar aplicaciones Symfony. Si eres completamente nuevo/a con Symfony, es mejor que leas primero la <a href="http://librosweb.es/symfony_2_x/">documentación de Symfony</a>. Si ya conoces Symfony, estos tutoriales son un buen recurso para profundizar en su conocimiento.</p>
+</blockquote>
+<h2>Creando el proyecto</h2>
+<p>Para entender mejor cómo funciona Symfony2, no usaremos la
+<a href="http://symfony.com/distributions">distribución estándar de Symfony</a>, sino que
+empezaremos desde cero con los archivos estrictamente necesarios.</p>
+<p>Creemos nuestro proyecto:</p>
+<pre class="cli code">$ mkdir knight
+$ cd knight
+$ git init</pre>
+<h2>Instalando Composer</h2>
+<p>Cuando desarrollas un proyecto, lo último que quieres es perder el tiempo
+reinventando la rueda, así que normalmente utilizas librerías de terceros.
+Estas librerías tienen su propio ciclo de desarrollo: pueden reparar bugs y
+lanzar nuevas funcionalidades una vez las has instalado, así que necesitarás
+actualizarlas de vez en cuando.</p>
+<p><a href="https://getcomposer.org/">Composer</a> facilita esta labor de tal manera que
+nunca más tendrás que preocuparte por las nuevas versiones. Primero,
+descárgalo:</p>
+<pre class="cli code">$ curl -sS https://getcomposer.org/installer | php
+$ sudo mv composer.phar /usr/local/bin/composer</pre>
+<p>¡Ya está! Si todos los proyectos fueran tan fáciles de instalar...</p>
+<h2>Instalando y actualizando Symfony2</h2>
+<p>En realidad, Symfony2 es sólo un nombre bajo el que se agrupan muchas librerías
+que podrían ser usadas individualmente (incluso puedes usarlas en otros
+frameworks, CMS o proyectos, como han hecho
+<a href="http://symfony.com/projects/drupal">Drupal</a>,
+<a href="http://symfony.com/projects/phpbb">phpBB</a>,
+<a href="http://symfony.com/projects/laravel">Laravel</a>,
+<a href="http://symfony.com/projects/ezpublish">eZ Publish</a>,
+<a href="http://symfony.com/projects/orocrm">OroCRM</a> o
+<a href="http://symfony.com/projects/piwik">Piwik</a>).</p>
+<blockquote>
+<p><strong>NOTA</strong>: Las librerías de Symfony2 se llaman <strong>componentes</strong>.</p>
+</blockquote>
+<p>Composer se creó para instalar librerías, así que vamos a usarlo:</p>
+<pre class="cli code"># instalamos todas las librerías de sf2
+$ composer require 'symfony/symfony:~2.5'</pre>
+<p>Este comando realizará las siguientes tareas:</p>
+<ol>
+<li>Crear un archivo de configuración llamado <code>composer.json</code> si no existe ya</li>
+<li>Añadir <code>symfony/symfony: ~2.5</code> a ese archivo (útil para futuros
+<code>composer install</code>)</li>
+<li>Descargar efectivamente Symfony en el directorio <code>vendor/symfony/symfony</code></li>
+<li>Crear un archivo <code>composer.lock</code></li>
+</ol>
+<p>Más tarde, para actualizar estas dependencias, bastará con ejecutar <code>composer update</code>.</p>
+<blockquote>
+<p><strong>NOTA</strong>: Las librerías de las que depende tu proyecto se llaman <strong>dependencias</strong>.</p>
+</blockquote>
+<p>El comando recorrerá el archivo <code>composer.lock</code> para saber qué versión ha sido
+instalada (p.e. <code>2.5.0</code>) y comprobará si hay una versión más reciente 
+disponible. Para más información sobre la manera en que Composer maneja las 
+versiones, ver <a href="https://igor.io/2013/01/07/composer-versioning.html">este artículo de Igor</a>.</p>
+<p>Esto significa que puedes ignorar el directorio <code>vendor</code>:</p>
+<pre class="cli code">$ echo '/vendor/*' &gt;&gt; .gitignore</pre>
+<p>Si un miembro de tu equipo quiere instalar el proyecto, sólo necesitará clonar 
+tu repositorio y ejecutar <code>composer install</code>, que realiza las siguientes 
+tareas:</p>
+<ol>
+<li>Lee el archivo <code>composer.json</code> para recoger la lista de dependencias</li>
+<li>Lee el archivo <code>composer.lock</code> para comprobar la versión instalada por el
+<em>commiter</em></li>
+<li>Descarga las dependencias con la versión especificada en el archivo <em>lock</em>
+(aunque haya una nueva versión disponible)</li>
+</ol>
+<p>Si una dependencia aparece en el archivo <code>composer.json</code> pero no en el
+<code>composer.lock</code>, Composer descargará la versión coincidente más reciente que
+esté disponible y la añadirá al <em>lock</em>.</p>
+<p>¡Esto significa que todo el mundo tendrá la misma versión instalada! Si sólo
+permites a una persona ejecutar <code>composer update</code>, está garantizado.</p>
+<h2>Autoloading</h2>
+<p>Gracias a que Composer sabe dónde está cada clase de cada librería instalada,
+ofrece una magnífica funcionalidad:
+<a href="http://www.php.net/manual/es/language.oop5.autoload.php">autoloading</a> o <em>carga automática de clases</em>.</p>
+<p>Para resumir, cada vez que una clase es instanciada, Composer incluye
+automáticamente el archivo en el que fue declarada.</p>
+<p>Tu propio código también puede beneficiarse de ello. Necesitas editar el
+archivo <code>composer.json</code>:</p>
+<pre class="javascript code"><span class="br0">&#123;</span>
+    <span class="st0">&quot;require&quot;</span><span class="sy0">:</span> <span class="br0">&#123;</span>
+        <span class="st0">&quot;symfony/symfony&quot;</span><span class="sy0">:</span> <span class="st0">&quot;~2.5&quot;</span>
+    <span class="br0">&#125;</span><span class="sy0">,</span>
+    <span class="st0">&quot;autoload&quot;</span><span class="sy0">:</span> <span class="br0">&#123;</span>
+        <span class="st0">&quot;psr-4&quot;</span><span class="sy0">:</span> <span class="br0">&#123;</span>
+            <span class="st0">&quot;&quot;</span><span class="sy0">:</span> <span class="st0">&quot;src/&quot;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>Y ejecutar el siguiente comando para que se contemplen los cambios:</p>
+<pre class="cli code">$ composer update</pre>
+<p>Esta configuración le dice a Composer que vamos a seguir el estándar
+<a href="http://www.php-fig.org/psr/psr-4/">PSR-4</a> y que vamos a poner nuestro código
+en el directorio <code>src</code>.</p>
+<blockquote>
+<p><strong>NOTA</strong>: PSR requiere que tu código siga algunas convenciones:</p>
+<ul>
+<li>Crea una clase por cada archivo</li>
+<li>Dale el mismo nombre a tu archivo y tu clase</li>
+<li>Usa la ruta de la clase como namespace</li>
+</ul>
+</blockquote>
+<p>Por ejemplo: el archivo <code>src/AppBundle/Controller/DefaultController.php</code> contiene una clase llamada <code>DefaultController</code> localizada en el namespace <code>AppBundle\Controller</code>.</p>
+<p>No te preocupes demasiado por esto ahora.</p>
+<h2>Conclusión</h2>
+<p>Y esto es todo lo que necesitas saber sobre Composer por ahora. Hagamos un
+<em>commit</em> de nuestro trabajo:</p>
+<pre class="cli code">$ git add -A
+$ git commit -m 'Symfony2 instalado'</pre>
+<p>Espero que te haya servido, ¡permanece atento a los próximos artículos!</p>
+<h2>Sobre el autor</h2>
+<p>Este artículo fue publicado originalmente por <a href="https://github.com/gnugat">Loïc Chardonnet</a> y ha sido traducido con permiso por <a href="https://github.com/mgdepoo">Manuel Gómez</a>.</p>
+<h2>Artículos de la serie Aprende Symfony</h2>
+<ul>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-1-composer/">Aprende Symfony2 (Parte 1): Composer</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-2-aplicacion-vacia/">Aprende Symfony2 (Parte 2): Aplicación vacía</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-3-bundles/">Aprende Symfony2 (Parte 3): Bundles</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-4-controladores/">Aprende Symfony2 (Parte 4): Controladores</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-5-tests/">Aprende Symfony2 (Parte 5): Tests</a></li>
+<li><a href="http://librosweb.es/tutorial/aprende-symfony2-parte-6-conclusion/">Aprende Symfony2 (Parte 6): Conclusión</a></li>
+</ul>
+            ]]></description>
+        <guid isPermaLink="false">http://librosweb.es/tutorial/aprende-symfony2-parte-1-composer/</guid>
+        <pubDate>Tue, 30 Sep 2014 00:00:00 +0200</pubDate>
+                    <category><![CDATA[programación]]></category>
+                    <category><![CDATA[php]]></category>
+                    <category><![CDATA[symfony]]></category>
+                    <category><![CDATA[composer]]></category>
+            </item>
+        <item>
+        <title><![CDATA[ Acelera la ejecución de tus tests con PHPUnit ]]></title>
+        <link>http://librosweb.es/tutorial/acelera-la-ejecucion-de-tus-tests-con-phpunit/</link>
+        <description><![CDATA[
+            <p>Para que una <em>suite</em> de tests unitarios y funcionales sea útil, debe ser muy rápida al ejecutarse. Si desarrollas tus aplicaciones siguiendo metodologías como el <a href="http://es.wikipedia.org/wiki/Desarrollo_guiado_por_pruebas">TDD o desarrollo guiado por pruebas</a>, entonces la rapidez no es recomendable sino totalmente obligatoria.</p>
+<p>Algunos autores sugieren que todos los tests de la aplicación deberían ejecutarse <a href="http://blog.ploeh.dk/2012/05/24/TDDtestsuitesshouldrunin10secondsorless/">en 10 segundos o menos</a>. Por eso en este artículo te explicamos varias técnicas para acelerar la ejecución de tus tests con PHPUnit.</p>
+<h2>Recomendaciones básicas</h2>
+<p><strong>1. No crees más <em>fixtures</em> de los que necesitas</strong>. ¿Para qué insertas 10.000 registros con datos de prueba en la base de datos si a tus tests les basta con tener 20 registros? Genera siempre el mínimo número posible de datos de prueba.</p>
+<p><strong>2. No regeneres la base de datos de prueba para cada test</strong>. Aunque en tus tests utilices bases de datos SQLite en memoria, regenerarlas para cada test es un proceso muy costoso en <em>suites</em> con miles de tests.</p>
+<p>La solución consiste en generar una única base de datos SQLite al comienzo de todos los test y llenarla con todos los datos de prueba. Después, antes de cada test haces una copia de ese archivo para tener una base de datos completamente nueva. Esta técnica es tan habitual entre programadores, que si utilizas Symfony existe un <em>bundle</em> llamado <a href="https://github.com/liip/LiipFunctionalTestBundle">LiipFunctionalTestBundle</a> que lo hace por ti automáticamente.</p>
+<p><strong>3. No abuses de los métodos <code>setUp()</code> y <code>tearDown()</code></strong>. Estos métodos te permiten ejecutar código antes y después de cada test, por lo que son ideales para inicializar objetos y eliminar cualquier elemento generado por los tests.</p>
+<p>El problema es que estos métodos se ejecutan, respectivamente, antes y después de cada test de cada clase, por lo que pueden ralentizar mucho su ejecución. Por eso PHPUnit define también los métodos <code>setUpBeforeClass()</code> y  <code>tearDownAfterClass()</code>, que solamente se ejecutan, respectivamente, antes del primer test de la clase y después del último test. Si has diseñado bien tus clases de test, seguramente podrás reemplazar <code>setUp()</code> y <code>tearDown()</code> por estos otros métodos.</p>
+<p><strong>4. No abuses del <code>dataProvider</code></strong>. Esta característica de PHPUnit te permite ejecutar repetidamente un mismo test utilizando diferentes datos de entrada cada vez. Como resulta tan sencillo añadir nuevos datos de prueba, algunos programadores abusan del <code>dataProvider</code> añadiendo decenas de datos de entrada para aumentar así el número total de <em>asserts</em> y parecer que has hecho muchos tests.</p>
+<p>En realidad tus tests sólo deberían probar los (pocos) casos esperados por tu código y los (pocos) casos límites que podrían romper tu código. Imagina que quieres testear un método que incrementa el <em>stock</em> de un producto en unidades enteras positivas. Los casos a probar podrían ser solamente los siguientes:</p>
+<pre class="php code"><span class="co4">/**
+ * @dataProvider provideIncrementosDeStock
+ */</span>
+<span class="kw2">public</span> testIncrementaStock<span class="br0">&#40;</span><span class="re0">$unidades</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="co1">// ...</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw2">public</span> <span class="kw2">function</span> provideIncrementosDeStock<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="br0">&#91;</span>
+        <span class="co1">// estos son los casos esperados (números enteros positivos)</span>
+        <span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="nu0">5</span><span class="br0">&#93;</span><span class="sy0">,</span>
+        <span class="co1">// estos son los casos límite (ceros, negativos, decimales, letras)</span>
+        <span class="br0">&#91;</span><span class="sy0">-</span><span class="nu0">3</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="nu19">2.3</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="kw4">null</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="st_h">'a'</span><span class="br0">&#93;</span>
+    <span class="br0">&#93;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<h2>Plugins para aumentar el rendimiento de PHPUnit</h2>
+<p>Al margen de las recomendaciones relacionadas con el propio código de tus tests, se han publicado varios plugins para PHPUnit orientados a mejorar su rendimiento. La mayoría de ellos ya vendrán incluidos cuando se publiquen las próximas versiones de PHPUnit.</p>
+<h3>Plugin PHPUnit Accelerator</h3>
+<p>La idea de este plugin consiste en acelerar la ejecución de los tests reduciendo su consumo de memoria. Gracias a esta técnica sus autores aseguran que se pueden <strong>acelerar los tests hasta un 20%</strong>.</p>
+<p>Para <strong>instalarlo</strong>, ejecuta el siguiente comando dentro del directorio de tu proyecto (este comando requiere que <a href="http://librosweb.es/tutorial/como-instalar-composer-globalmente/">Composer esté instalado globalmente</a> en tu sistema):</p>
+<pre class="cli code">$ composer require &quot;mybuilder/phpunit-accelerator&quot;:&quot;~1.0&quot;</pre>
+<p>Para <strong>activarlo</strong>, solamente debes añadir lo siguiente en el archivo de configuración de PHPUnit (que normalmente se llama <code>phpunit.xml</code> y se encuentra en la raíz del proyecto):</p>
+<pre class="xml code"><span class="sc3"><span class="re1">&lt;phpunit<span class="re2">&gt;</span></span></span>
+    <span class="sc-1">&lt;!-- ... --&gt;</span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;listeners<span class="re2">&gt;</span></span></span>
+        <span class="sc-1">&lt;!-- ... --&gt;</span>
+&nbsp;
+        <span class="sc3"><span class="re1">&lt;listener</span> <span class="re0">class</span>=<span class="st0">&quot;\MyBuilder\PhpunitAccelerator\TestListener&quot;</span><span class="re2">/&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;/listeners<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/phpunit<span class="re2">&gt;</span></span></span></pre>
+<p>Este plugin ha sido creado por <a href="https://github.com/keyvanakbary">Keyvan Akbary</a>, de la empresa <a href="https://github.com/mybuilder">MyBuilder</a>, y ha sido publicado en: <a href="https://github.com/mybuilder/phpunit-accelerator">github.com/mybuilder/phpunit-accelerator</a></p>
+<h3>Plugin SpeedTrap</h3>
+<p>Como seguramente sabes, lo que no se puede medir no se puede mejorar. Así que la idea de este plugin es mostrarte cuáles de tus tests son inaceptablemente lentos. Así podrás atacar directamente a los peores tests y conseguir rápidamente reducciones drásticas en el tiempo de ejecución de los tests.</p>
+<p>Para <strong>instalarlo</strong>, ejecuta el siguiente comando dentro del directorio de tu proyecto:</p>
+<pre class="cli code">$ composer require &quot;johnkary/phpunit-speedtrap&quot;:&quot;~1.0@dev&quot;</pre>
+<p>Para <strong>activarlo</strong>, añade lo siguiente en el archivo de configuración de PHPUnit:</p>
+<pre class="xml code"><span class="sc3"><span class="re1">&lt;phpunit<span class="re2">&gt;</span></span></span>
+    <span class="sc-1">&lt;!-- ... --&gt;</span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;listeners<span class="re2">&gt;</span></span></span>
+        <span class="sc-1">&lt;!-- ... --&gt;</span>
+&nbsp;
+        <span class="sc3"><span class="re1">&lt;listener</span> <span class="re0">class</span>=<span class="st0">&quot;JohnKary\PHPUnit\Listener\SpeedTrapListener&quot;</span> <span class="re2">/&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;/listeners<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/phpunit<span class="re2">&gt;</span></span></span></pre>
+<p>La próxima vez que ejecutes los tests, verás una lista con todos aquellos que consumen más de 500 milisegundos al ejecutarse:</p>
+<pre class="cli code">$ phpunit
+&nbsp;
+PHPUnit 4.2.4 by Sebastian Bergmann.
+&nbsp;
+Configuration read from librosweb.es/phpunit.xml
+&nbsp;
+.....................................................  20 / 100 ( 20%)
+.....................................................  40 / 100 ( 40%)
+.....................................................  60 / 100 ( 60%)
+.....................................................  80 / 100 ( 80%)
+..................................................... 100 / 100 (100%)
+&nbsp;
+You should really fix these slow tests (&gt;500ms)...
+ 1. 2517ms to run Librosweb\Tests\...Test:testLoremIpsum()
+ 2. 778ms to run Librosweb\Tests\...Test:testLoremIpsum()
+ 3. 621ms to run Librosweb\Tests\...Test:testLoremIpsum()
+ 4. 1598ms to run Librosweb\Tests\...Test:testLoremIpsum()</pre>
+<p>Si tus tests son buenos, seguramente 500 milisegundos es un valor demasiado alto, así que puedes configurarlo con la opción <code>slowThreshold</code>. Por su parte, la opción <code>reportLength</code> indica el número de tests que deben mostrarse en la lista de tests lentos:</p>
+<pre class="xml code"><span class="sc3"><span class="re1">&lt;phpunit<span class="re2">&gt;</span></span></span>
+    <span class="sc-1">&lt;!-- ... --&gt;</span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;listeners<span class="re2">&gt;</span></span></span>
+        <span class="sc-1">&lt;!-- ... --&gt;</span>
+&nbsp;
+        <span class="sc3"><span class="re1">&lt;listener</span> <span class="re0">class</span>=<span class="st0">&quot;JohnKary\PHPUnit\Listener\SpeedTrapListener&quot;</span><span class="re2">&gt;</span></span>
+            <span class="sc3"><span class="re1">&lt;arguments<span class="re2">&gt;</span></span></span>
+                    <span class="sc3"><span class="re1">&lt;array<span class="re2">&gt;</span></span></span>
+                        <span class="sc3"><span class="re1">&lt;element</span> <span class="re0">key</span>=<span class="st0">&quot;slowThreshold&quot;</span><span class="re2">&gt;</span></span>
+                            <span class="sc3"><span class="re1">&lt;integer<span class="re2">&gt;</span></span></span>20<span class="sc3"><span class="re1">&lt;/integer<span class="re2">&gt;</span></span></span>
+                        <span class="sc3"><span class="re1">&lt;/element<span class="re2">&gt;</span></span></span>
+                        <span class="sc3"><span class="re1">&lt;element</span> <span class="re0">key</span>=<span class="st0">&quot;reportLength&quot;</span><span class="re2">&gt;</span></span>
+                            <span class="sc3"><span class="re1">&lt;integer<span class="re2">&gt;</span></span></span>30<span class="sc3"><span class="re1">&lt;/integer<span class="re2">&gt;</span></span></span>
+                        <span class="sc3"><span class="re1">&lt;/element<span class="re2">&gt;</span></span></span>
+                    <span class="sc3"><span class="re1">&lt;/array<span class="re2">&gt;</span></span></span>
+                <span class="sc3"><span class="re1">&lt;/arguments<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;/listener<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/listeners<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/phpunit<span class="re2">&gt;</span></span></span></pre>
+<p>Si en tu aplicación tienes algunos tests especiales que requieren mucho más tiempo del habitual, puedes añadir la anotación <code>@slowThreshold</code> para indicar el tiempo máximo permitido para ese test específico:</p>
+<pre class="php code"><span class="kw2">class</span> MiTest <span class="kw2">extends</span> \PHPUnit_Framework_TestCase
+<span class="br0">&#123;</span>
+    <span class="co4">/**
+     * @slowThreshold 5000
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> testEsteTestEsMuyLento<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">// este test puede tardar hasta 5 segundos sin levantar sospechas</span>
+        <span class="co1">// ...</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>Este plugin ha sido creado por <a href="https://github.com/johnkary">John Kary</a> y ha sido publicado en: <a href="https://github.com/johnkary/phpunit-speedtrap">github.com/johnkary/phpunit-speedtrap</a>.</p>
+<h3>Plugin Paratest</h3>
+<p>El objetivo de este plugin es aprovechar las CPUs modernas que soportan varios hilos de ejecución simultáneos para ejecutar todos tus tests en paralelo.</p>
+<p>Para <strong>instalarlo</strong>, ejecuta el siguiente comando dentro del directorio de tu proyecto:</p>
+<pre class="cli code">$ composer require &quot;brianium/paratest&quot;:&quot;dev-master&quot;</pre>
+<p>A diferencia de los anteriores este plugin no se activa mediante el archivo de configuración de PHPUnit, sino que se ejecuta a través de su propio comando llamado <code>paratest</code>. Composer instala este comando en el directorio <code>vendor/bin/</code>, por lo que sólo debes ejecutar lo siguiente:</p>
+<pre class="cli code">$ ./vendor/bin/paratest</pre>
+<p>Por defecto este comando ejecuta tus tests en cinco procesos paralelos. En las pruebas que he realizado, el tiempo de ejecución total no se reduce cinco veces, pero sí que baja prácticamente a la mitad.</p>
+<p>Si tu máquina lo soporta, puedes aumentar el número de procesos en paralelo mediante la opción <code>--processes</code>:</p>
+<pre class="cli code">$ ./vendor/bin/paratest --processes=10</pre>
+<p>Este plugin ha sido creado por <a href="https://github.com/brianium">Brian Scaturro</a> y ha sido publicado en: <a href="https://github.com/brianium/paratest">github.com/brianium/paratest</a>.</p>
+<h2>Referencias útiles</h2>
+<ul>
+<li><a href="https://phpunit.de/manual/current/en/">Manual de PHPUnit</a></li>
+</ul>
+            ]]></description>
+        <guid isPermaLink="false">http://librosweb.es/tutorial/acelera-la-ejecucion-de-tus-tests-con-phpunit/</guid>
+        <pubDate>Mon, 08 Sep 2014 00:00:00 +0200</pubDate>
+                    <category><![CDATA[programación]]></category>
+                    <category><![CDATA[php]]></category>
+                    <category><![CDATA[phpunit]]></category>
+                    <category><![CDATA[tests]]></category>
+                    <category><![CDATA[tdd]]></category>
+            </item>
+
+    </channel>
+</rss>

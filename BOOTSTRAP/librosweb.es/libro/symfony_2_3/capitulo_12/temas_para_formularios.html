@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>12.11. Temas para formularios (Symfony 2.3, el libro oficial)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                            
+        <link rel="canonical" href="/libro/symfony_2_x/capitulo_12/temas_para_formularios.html"/>
+                                    <link rel="prev" href="../capitulo_12/embebiendo_formularios.html" />
+                    <link rel="next" href="../capitulo_12/proteccion_csrf.html" />
+                <link rel="start" href="/libro/symfony_2_3/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="12.11. Temas para formularios (Symfony 2.3, el libro oficial)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_2_3"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_3/" itemprop="url">
+                    <span itemprop="title">Symfony 2.3, el libro oficial</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_3/capitulo_12.html" itemprop="url">
+                    <span itemprop="title">Capítulo 12. Formularios</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>12.11. Temas para formularios</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="temas_para_formularios" class="title">
+        <span>12.11.</span> Temas para formularios
+    </h1>
+
+    
+
+<p>Symfony te permite personalizar cómo se muestra cada parte de los formulario. Puedes modificar la estructura de cada fila del formulario, la forma en la que se muestran los mensajes de error e incluso cómo debería renderizarse cada tipo de campo. No hay nada que no puedas modificar y puedes aplicar los cambios formulario por formulario, sin afectar a los demás formularios de la aplicación.</p>
+
+<p>Symfony utiliza plantillas para renderizar todas y cada una de las partes de un formulario, como las etiquetas <code>&lt;label&gt;</code>, las etiquetas <code>&lt;input&gt;</code>, los mensajes de error y todo lo demás.</p>
+
+<p>En las plantillas Twig, cada fragmento del formulario está representado por un bloque de Twig. Para personalizar alguna parte del formulario, sólo hay que reemplazar el bloque adecuado.</p>
+
+<p>En las plantillas PHP, cada fragmento del formulario se renderiza mediante un archivo de plantilla. Para personalizar cualquier parte del formulario, sólo hay que reemplazar la plantilla existente creando una nueva.</p>
+
+<p>Para entender mejor cómo funciona esto, vamos a personalizar el fragmento <code>form_row</code> añadiendo un atributo <code>class</code> al elemento <code>div</code> que agrupa cada fila. Para ello, crea un nuevo archivo de plantilla con el siguiente contenido:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_05aff" class="active"><a data-toggle="tab active" href="#select_tab_1_05aff" onclick="document.getElementById('select_tab_1_05aff').className='active'; document.getElementById('tab_1_05aff').className='tab-pane active';document.getElementById('select_tab_2_05aff').className='';  document.getElementById('tab_2_05aff').className='tab-pane';return false;">TWIG</a></li><li id="select_tab_2_05aff"><a data-toggle="tab" href="#select_tab_2_05aff" onclick="document.getElementById('select_tab_1_05aff').className='';  document.getElementById('tab_1_05aff').className='tab-pane';document.getElementById('select_tab_2_05aff').className='active'; document.getElementById('tab_2_05aff').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_05aff">
+<div class="code twig">
+<pre class="twig"><span class="sc1"><span class="coMULTI">{&#35; src/Acme/TaskBundle/Resources/views/Form/fields.html.twig &#35;}</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">block</span> <span class="re0">form_row</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">spaceless</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;div class=&quot;form_row&quot;&gt;
+        <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">form_label</span><span class="br0">&#40;</span>form<span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>
+        <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">form_errors</span><span class="br0">&#40;</span>form<span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>
+        <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">form_widget</span><span class="br0">&#40;</span>form<span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>
+    &lt;/div&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endspaceless</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endblock</span> <span class="re0">form_row</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_05aff">
+<div class="code php">
+<pre class="php">&lt;!-- src/Acme/TaskBundle/Resources/views/Form/form_row.html.php --&gt;
+&lt;div class=&quot;form_row&quot;&gt;
+    <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'form'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">label</span><span class="br0">&#40;</span><span class="re0">$form</span><span class="sy0">,</span> <span class="re0">$label</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+    <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'form'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">errors</span><span class="br0">&#40;</span><span class="re0">$form</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+    <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'form'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">widget</span><span class="br0">&#40;</span><span class="re0">$form</span><span class="sy0">,</span> <span class="re0">$parameters</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&lt;/div&gt;</pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>El fragmento <code>form_row</code> se usa cuando muestras los campos del formulario a través de la función <code>form_row</code>. Para indicar al componente <code>Form</code> que utilice este nuevo fragmento <code>form_row</code>, añade lo siguiente en la parte superior de la plantilla que muestra el formulario:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_05c24" class="active"><a data-toggle="tab active" href="#select_tab_1_05c24" onclick="document.getElementById('select_tab_1_05c24').className='active'; document.getElementById('tab_1_05c24').className='tab-pane active';document.getElementById('select_tab_2_05c24').className='';  document.getElementById('tab_2_05c24').className='tab-pane';return false;">TWIG</a></li><li id="select_tab_2_05c24"><a data-toggle="tab" href="#select_tab_2_05c24" onclick="document.getElementById('select_tab_1_05c24').className='';  document.getElementById('tab_1_05c24').className='tab-pane';document.getElementById('select_tab_2_05c24').className='active'; document.getElementById('tab_2_05c24').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_05c24">
+<div class="code twig">
+<pre class="twig"><span class="sc1"><span class="coMULTI">{&#35; src/Acme/TaskBundle/Resources/views/Default/new.html.twig &#35;}</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">form_theme</span> <span class="re0">form</span> <span class="st0">'AcmeTaskBundle:Form:fields.html.twig'</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&nbsp;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">form_theme</span> <span class="re0">form</span> <span class="st0">'AcmeTaskBundle:Form:fields.html.twig'</span>
+                   <span class="st0">'AcmeTaskBundle:Form:fields2.html.twig'</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&nbsp;
+<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">form</span><span class="br0">&#40;</span>form<span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_05c24">
+<div class="code php">
+<pre class="php">&lt;!-- src/Acme/TaskBundle/Resources/views/Default/new.html.php --&gt;
+<span class="kw2">&lt;?php</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'form'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">setTheme</span><span class="br0">&#40;</span><span class="re0">$form</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'AcmeTaskBundle:Form'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+<span class="kw2">&lt;?php</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'form'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">setTheme</span><span class="br0">&#40;</span><span class="re0">$form</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'AcmeTaskBundle:Form'</span><span class="sy0">,</span> <span class="st_h">'AcmeTaskBundle:Form'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'form'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="br0">&#40;</span><span class="re0">$form</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>La etiqueta <code>form_theme</code> (en Twig) importa los fragmentos definidos en la plantilla indicada y los utiliza al mostrar el formulario. En otras palabras, cuando más adelante en esta plantilla se utilice la función <code>form_row</code>, se empleará el bloque <code>form_row</code> de tu tema en lugar del bloque <code>form_row</code> predefinido de Symfony.</p>
+
+<p>Los temas personalizados no están obligados a redefinir todos los bloques. Cuando la plantilla requiera un bloque que no se define en tu tema, se utiliza el bloque por defecto global de Symfony.</p>
+
+<p>Si hay varios temas personalizados siempre se busca por orden en cada uno de ellos y si no existe en ninguno, se utiliza de nuevo el bloque definido globalmente.</p>
+
+<p>Para personalizar cualquier parte de un formulario, sólo tienes que reemplazar el fragmento apropiado. La siguiente sección explica cómo saber exactamente qué bloque sustituir.</p>
+
+<div class="code twig">
+<pre class="twig"><span class="sc1"><span class="coMULTI">{&#35; src/Acme/TaskBundle/Resources/views/Default/new.html.twig &#35;}</span></span>
+&nbsp;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">form_theme</span> <span class="re0">form</span> <span class="re0">with</span> <span class="st0">'AcmeTaskBundle:Form:fields.html.twig'</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&nbsp;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">form_theme</span> <span class="re0">form</span> <span class="re0">with</span> <span class="br0">&#91;</span><span class="st0">'AcmeTaskBundle:Form:fields.html.twig'</span>, <span class="st0">'AcmeTaskBundle:Form:fields2.html.twig'</span><span class="br0">&#93;</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<h3 id="sintaxis_de_los_fragmentos_de_formulario">12.11.1. Sintaxis de los fragmentos de formulario</h3>
+
+<p>En Symfony, cada parte de un formulario (elementos HTML, errores, títulos de campo, etc.) se definen en un tema base, que es una colección de bloques en Twig y una colección de plantillas en PHP.</p>
+
+<p>En Twig, todos los bloques se definen en un solo archivo de plantilla llamado <code>form_div_layout.html.twig</code> que se encuentra dentro del <em>bridge</em> de Twig. Si accedes a este archivo, verás todos los bloques que se utilizan para mostrar un formulario y cada uno de los tipos de campo.</p>
+
+<p>En PHP, cada fragmento es una plantilla diferente. Todas las plantillas por defecto se encuentran en el directorio <code>Resources/views/Form</code> del <em>bundle</em> <code>FrameworkBundle</code>.</p>
+
+<p>El nombre de cada fragmento sigue el mismo patrón básico y se divide en dos partes, separadas por un solo carácter de guión bajo (<code>_</code>). Estos son algunos ejemplos:</p>
+
+<ul>
+<li><code>form_row</code>, usado por <code>form_row</code> para mostrar la mayoría de los campos.</li>
+<li><code>textarea_widget</code>, usado por <code>form_widget</code> para mostrar un campo de tipo <code>textarea</code>.</li>
+<li><code>form_errors</code>, usado por <code>form_errors</code> para mostrar los errores de un campo.</li>
+</ul>
+
+<p>Cada fragmento sigue el mismo patrón básico: <code>type_part</code>. La porción <code>type</code> corresponde al tipo del campo que se está mostrando (por ejemplo, <code>textarea</code>, <code>checkbox</code>, <code>date</code>, etc.), mientras que la porción <code>part</code> corresponde a lo que se está mostrando (por ejemplo, <code>label</code>, <code>widget</code>, <code>errors</code>, etc.). Por defecto, hay cuatro posibles valores para el trozo <code>part</code>:</p>
+
+<div class="table" id="table_12_1">
+
+    <table>
+<thead>
+<tr>
+  <th>Nombre</th>
+  <th>Ejemplo</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>label</code></td>
+  <td><code>form_label</code></td>
+  <td>Muestra el título del campo</td>
+</tr>
+<tr>
+  <td><code>widget</code></td>
+  <td><code>form_widget</code></td>
+  <td>Muestra las etiquetas HTML del campo</td>
+</tr>
+<tr>
+  <td><code>errors</code></td>
+  <td><code>form_errors</code></td>
+  <td>Muestra los errores del campo</td>
+</tr>
+<tr>
+  <td><code>row</code></td>
+  <td><code>form_row</code></td>
+  <td>Muestra el título, errores y etiquetas HTML del campo</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<div class="admonition note"><p><strong class="title">Nota</strong> En realidad, existen otras dos partes definidas (<code>rows</code> y <code>rest</code>) pero es casi imposible que tengas que redefinir su contenido.</p></div>
+
+<p>Si conoces el tipo de campo (por ejemplo, <code>textarea</code>) y la parte que deseas personalizar (por ejemplo, <code>widget</code>), puedes construir fácilmente el nombre del fragmento que debes crear (por ejemplo, <code>textarea_widget</code>).</p>
+
+<h3 id="herencia_de_fragmentos_de_plantilla">12.11.2. Herencia de fragmentos de plantilla</h3>
+
+<p>En algunos casos, parece que falta el fragmento que deseas personalizar.
+Por ejemplo, no existe un fragmento llamado <code>textarea_errors</code> en el tema definido por Symfony. Entonces, ¿cómo se muestran los errores de un campo <code>textarea</code>?</p>
+
+<p>La respuesta es: a través del fragmento <code>form_errors</code>. Cuando Symfony renderiza los errores del tipo <code>textarea</code>, primero busca un fragmento llamado <code>textarea_errors</code> y si no existe, utiliza el fragmento <code>form_errors</code>. Cada tipo de campo tiene un <em>"tipo padre"</em> (el tipo primario del <code>textarea</code> es <code>text</code>, y su padre es el <code>form</code>), y Symfony utiliza el fragmento del padre si no existe el fragmento que busca.</p>
+
+<p>Por lo tanto, para sustituir sólo los errores de los campos <code>textarea</code>, copia el fragmento <code>form_errors</code>, renómbralo como <code>textarea_errors</code> y personalízalo. Para modificar cómo se muestran todos los errores, copia y personaliza el fragmento <code>form_errors</code> directamente.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> El tipo padre de cada campo está documentado en la referencia para cada tipo de campo.</p></div>
+
+<h3 id="temas_globales_de_formulario">12.11.3. Temas globales de formulario</h3>
+
+<p>En el ejemplo anterior, se utiliza el <em>helper</em> <code>form_theme</code> (en Twig) para importar fragmentos de formulario personalizados sólo para ese formulario. También puedes decirle a Symfony que aplique el mismo tema personalizado a todos los formularios de la aplicación.</p>
+
+<h4 id="twig">12.11.3.1. Twig</h4>
+
+<p>Para incluir automáticamente en todas las plantillas los bloques personalizados del archivo <code>fields.html.twig</code> definido anteriormente, modifica el archivo de configuración global de tu aplicación:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_05d28" class="active"><a data-toggle="tab active" href="#select_tab_1_05d28" onclick="document.getElementById('select_tab_1_05d28').className='active'; document.getElementById('tab_1_05d28').className='tab-pane active';document.getElementById('select_tab_2_05d28').className='';  document.getElementById('tab_2_05d28').className='tab-pane';document.getElementById('select_tab_3_05d28').className='';  document.getElementById('tab_3_05d28').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_05d28"><a data-toggle="tab" href="#select_tab_2_05d28" onclick="document.getElementById('select_tab_1_05d28').className='';  document.getElementById('tab_1_05d28').className='tab-pane';document.getElementById('select_tab_2_05d28').className='active'; document.getElementById('tab_2_05d28').className='tab-pane active';document.getElementById('select_tab_3_05d28').className='';  document.getElementById('tab_3_05d28').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_05d28"><a data-toggle="tab" href="#select_tab_3_05d28" onclick="document.getElementById('select_tab_1_05d28').className='';  document.getElementById('tab_1_05d28').className='tab-pane';document.getElementById('select_tab_2_05d28').className='';  document.getElementById('tab_2_05d28').className='tab-pane';document.getElementById('select_tab_3_05d28').className='active'; document.getElementById('tab_3_05d28').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_05d28">
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># app/config/config.yml</span><span class="co4">
+twig</span>:<span class="co4">
+    form</span>:<span class="co4">
+        resources</span><span class="sy2">:
+</span>            - 'AcmeTaskBundle:Form:fields.html.twig'
+    <span class="co1"># ...</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_05d28">
+<div class="code xml">
+<pre class="xml"><span class="sc-1">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="sc3"><span class="re1">&lt;twig:config</span> ...<span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;twig:form<span class="re2">&gt;</span></span></span>
+            <span class="sc3"><span class="re1">&lt;resource<span class="re2">&gt;</span></span></span>AcmeTaskBundle:Form:fields.html.twig<span class="sc3"><span class="re1">&lt;/resource<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;/twig:form<span class="re2">&gt;</span></span></span>
+        <span class="sc-1">&lt;!-- ... --&gt;</span>
+<span class="sc3"><span class="re1">&lt;/twig:config<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_05d28">
+<div class="code php">
+<pre class="php"><span class="co1">// app/config/config.php</span>
+<span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">loadFromExtension</span><span class="br0">&#40;</span><span class="st_h">'twig'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'form'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'resources'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="st_h">'AcmeTaskBundle:Form:fields.html.twig'</span><span class="sy0">,</span>
+        <span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="co1">// ...</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Con esta configuración, cualquier bloque que definas en el archivo <code>fields.html.twig</code> se utilizará en todos los formularios de la aplicación.</p>
+
+<div class="admonition sidebar"><p><strong class="title">  Personalizando el aspecto del formulario en un único archivo Twig</strong> Las plantillas Twig también permiten personalizar bloques de formulario específicos dentro de la misma plantilla donde se encuentra el formulario que quieres personalizar:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">extends</span> <span class="st0">'::base.html.twig'</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&nbsp;
+<span class="sc1"><span class="coMULTI">{&#35; importa '_self' como el tema del formulario &#35;}</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">form_theme</span> <span class="re0">form</span> <span class="re0">_self</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&nbsp;
+<span class="sc1"><span class="coMULTI">{&#35; personalizar el fragmento del formulario &#35;}</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">block</span> <span class="re0">form_row</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    <span class="sc1"><span class="coMULTI">{&#35; ... &#35;}</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endblock</span> <span class="re0">form_row</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&nbsp;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">block</span> <span class="re0">content</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    <span class="sc1"><span class="coMULTI">{&#35; ... &#35;}</span></span>
+&nbsp;
+    <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">form_row</span><span class="br0">&#40;</span>form<span class="re1">.task</span><span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endblock</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>La etiqueta <code>{&#37; form_theme form_self &#37;}</code> permite personalizar bloques directamente dentro de la plantilla que utilizará esas personalizaciones. Emplea este método para crear rápidamente formularios personalizados que sólo se utilizan en una única plantilla.</p>
+
+<p>La funcionalidad <code>{&#37; form_theme form _self &#37;}</code> únicamente funciona si tu plantilla extiende a otra. Si no, debes hacer que <code>form_theme</code> apunte a una plantilla distinta.</p></div>
+
+<h4 id="php">12.11.3.2. PHP</h4>
+
+<p>Para incluir automáticamente todas las plantillas personalizadas del directorio <code>Acme/TaskBundle/Resources/views/Form</code> creado anteriormente, modifica el archivo de configuración global de tu aplicación:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_05e78" class="active"><a data-toggle="tab active" href="#select_tab_1_05e78" onclick="document.getElementById('select_tab_1_05e78').className='active'; document.getElementById('tab_1_05e78').className='tab-pane active';document.getElementById('select_tab_2_05e78').className='';  document.getElementById('tab_2_05e78').className='tab-pane';document.getElementById('select_tab_3_05e78').className='';  document.getElementById('tab_3_05e78').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_05e78"><a data-toggle="tab" href="#select_tab_2_05e78" onclick="document.getElementById('select_tab_1_05e78').className='';  document.getElementById('tab_1_05e78').className='tab-pane';document.getElementById('select_tab_2_05e78').className='active'; document.getElementById('tab_2_05e78').className='tab-pane active';document.getElementById('select_tab_3_05e78').className='';  document.getElementById('tab_3_05e78').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_05e78"><a data-toggle="tab" href="#select_tab_3_05e78" onclick="document.getElementById('select_tab_1_05e78').className='';  document.getElementById('tab_1_05e78').className='tab-pane';document.getElementById('select_tab_2_05e78').className='';  document.getElementById('tab_2_05e78').className='tab-pane';document.getElementById('select_tab_3_05e78').className='active'; document.getElementById('tab_3_05e78').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_05e78">
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># app/config/config.yml</span><span class="co4">
+framework</span>:<span class="co4">
+    templating</span>:<span class="co4">
+        form</span>:<span class="co4">
+            resources</span><span class="sy2">:
+</span>                - 'AcmeTaskBundle:Form'
+<span class="co1"># ...</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_05e78">
+<div class="code xml">
+<pre class="xml"><span class="sc-1">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="sc3"><span class="re1">&lt;framework:config</span> ...<span class="re2">&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;framework:templating<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;framework:form<span class="re2">&gt;</span></span></span>
+            <span class="sc3"><span class="re1">&lt;resource<span class="re2">&gt;</span></span></span>AcmeTaskBundle:Form<span class="sc3"><span class="re1">&lt;/resource<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;/framework:form<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/framework:templating<span class="re2">&gt;</span></span></span>
+    <span class="sc-1">&lt;!-- ... --&gt;</span>
+<span class="sc3"><span class="re1">&lt;/framework:config<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_05e78">
+<div class="code php">
+<pre class="php"><span class="co1">// app/config/config.php</span>
+<span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">loadFromExtension</span><span class="br0">&#40;</span><span class="st_h">'framework'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'templating'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'form'</span> <span class="sy0">=&gt;</span>
+        <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'resources'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="st_h">'AcmeTaskBundle:Form'</span><span class="sy0">,</span>
+     <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="co1">// ...</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Con esta configuración, cualquier fragmento dentro del directorio <code>Acme/TaskBundle/Resources/views/Form</code> se aplicará automáticamente a todos los formularios de la aplicación.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_12/embebiendo_formularios.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>12.10. Embebiendo formularios</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_12/proteccion_csrf.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>12.12. Protección CSRF</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Symfony2 y los fundamentos de HTTP</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> De PHP a Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Instalando y configurando Symfony2</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Creando páginas en Symfony2</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> El controlador</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El enrutamiento</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Creando y utilizando plantillas</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> La base de datos y Doctrine</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> La base de datos y Propel</a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Tests unitarios y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Validación</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_12.html">
+                    <span>Capítulo 12.</span> Formularios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/creando_un_formulario_sencillo.html">
+                    <span>12.1.</span>  Creando un formulario sencillo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/validando_formularios.html">
+                    <span>12.2.</span> Validando formularios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/tipos_de_campo_predefinidos.html">
+                    <span>12.3.</span> Tipos de campo predefinidos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/deduciendo_el_tipo_de_campo.html">
+                    <span>12.4.</span> Deduciendo el tipo de campo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/mostrando_un_formulario_en_una_plantilla.html">
+                    <span>12.5.</span> Mostrando un formulario en una plantilla
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/modificando_la_accion_y_el_metodo_de_un_formulario.html">
+                    <span>12.6.</span> Modificando la acción y el método de un formulario
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/creando_clases_de_formulario.html">
+                    <span>12.7.</span> Creando clases de formulario
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/definiendo_formularios_como_servicios.html">
+                    <span>12.8.</span> Definiendo formularios como servicios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/formularios_y_doctrine.html">
+                    <span>12.9.</span> Formularios y Doctrine
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/embebiendo_formularios.html">
+                    <span>12.10.</span> Embebiendo formularios
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_12/temas_para_formularios.html">
+                    <span>12.11.</span> Temas para formularios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/proteccion_csrf.html">
+                    <span>12.12.</span> Protección CSRF
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/usando_un_formulario_sin_clase.html">
+                    <span>12.13.</span> Usando un formulario sin clase
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/consideraciones_finales.html">
+                    <span>12.14.</span> Consideraciones finales
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> La caché de HTTP</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> El contenedor de servicios</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Mejorando el rendimiento</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> El interior de Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> La API estable de Symfony2</a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

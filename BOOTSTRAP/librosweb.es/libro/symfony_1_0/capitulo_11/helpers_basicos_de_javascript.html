@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>11.1. Helpers básicos de JavaScript (Symfony 1.0, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_11.html" />
+                    <link rel="next" href="../capitulo_11/prototype.html" />
+                <link rel="start" href="/libro/symfony_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="11.1. Helpers básicos de JavaScript (Symfony 1.0, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/" itemprop="url">
+                    <span itemprop="title">Symfony 1.0, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/capitulo_11.html" itemprop="url">
+                    <span itemprop="title">Capítulo 11. Integración con Ajax</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>11.1. Helpers básicos de JavaScript</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="helpers_basicos_de_javascript" class="title">
+        <span>11.1.</span> Helpers básicos de JavaScript
+    </h1>
+
+    
+
+<p>JavaScript siempre se había considerado como poco útil en el desarrollo de aplicaciones web profesionales debido a sus problemas de incompatibilidad entre distintos navegadores. Hoy en día, se han resuelto la mayoría de incompatibilidades y se han creado librerías muy completas que permiten programar interacciones complejas de JavaScript sin necesidad de programar cientos de líneas de código y sin perder cientos de horas corrigiendo problemas. El avance más popular se llama Ajax, como se explica más adelante en la sección "Helpers de Ajax".</p>
+
+<p>Sorprendentemente, en este capítulo casi no se incluye código JavaScript. La razón es que Symfony permite la programación de scripts del lado del cliente de forma diferente: encapsula y abstrae toda la lógica JavaScript en <em>helpers</em>, por lo que las plantillas no incluyen código JavaScript. Para el programador, añadir cierta lógica a un elemento de la página solo requiere de una línea de código PHP, pero la llamada a este <em>helper</em> produce código JavaScript, cuya complejidad se puede comprobar al ver el código fuente de la página generada como respuesta. Los <em>helpers</em> se encargan de resolver los problemas de incompatibilidades entre navegadores por lo que la cantidad de código JavaScript que generan puede ser muy importante. Por tanto, en este capítulo se muestra como realizar los efectos que normalmente se programan manualmente con JavaScript sin necesidad de utilizar JavaScript.</p>
+
+<p>Todos los <em>helpers</em> descritos se encuentran disponibles en las plantillas siempre que se declare de forma explícita el uso del <em>helper</em> llamado <code>Javascript</code>.</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> use_helper<span class="br0">&#40;</span><span class="st_h">'Javascript'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Algunos de estos <em>helpers</em> generan código HTML y otros generan directamente código JavaScript.</p>
+
+<h3 id="javascript_en_las_plantillas">11.1.1. JavaScript en las plantillas</h3>
+
+<p>En XHTML, los bloques de código JavaScript deben encerrarse en secciones <code>CDATA</code>. Por eso es tedioso crear páginas que tienen muchos bloques de código JavaScript. Symfony incluye un <em>helper</em> llamado <code>javascript_tag()</code> y que transforma una cadena de texto en una etiqueta <code>&lt;script&gt;</code> válida según los estándares XHTML. El listado 11-1 muestra el uso de este <em>helper</em>.</p>
+
+<p><strong>Listado 11-1 - Incluyendo JavaScript con el <em>helper</em> <code>javascript_tag()</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> javascript_tag<span class="br0">&#40;</span><span class="st0">&quot;
+  function mifuncion()
+  {
+  ...
+  }
+&quot;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;script type=&quot;text/javascript&quot;&gt;
+    //&lt;![CDATA[
+      function mifuncion()
+      {
+        ...
+      }
+    //]]&gt;
+    &lt;/script&gt;</pre>
+</div>
+
+<p>El uso habitual de JavaScript, más que sus bloques de código, es la definición de enlaces que ejecutan un determinado script cuando se pincha en ellos. El <em>helper</em> <code>link_to_function()</code> se encarga exactamente de eso, como muestra el listado 11-2.</p>
+
+<p><strong>Listado 11-2 - Ejecutando JavaScript mediante un enlace con el <em>helper</em> <code>link_to_function()</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to_function<span class="br0">&#40;</span><span class="st_h">'¡Pínchame!'</span><span class="sy0">,</span> <span class="st0">&quot;alert('Me has pinchado')&quot;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;a href=&quot;#&quot; onClick=&quot;alert('Me has pinchado'); return none;&quot;&gt;¡Pínchame!&lt;/a&gt;</pre>
+</div>
+
+<p>Como sucede con el <em>helper</em> <code>link_to()</code>, se pueden añadir opciones a la etiqueta <code>&lt;a&gt;</code> generada mediante un tercer argumento de la función.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> De la misma forma que el <em>helper</em> <code>link_to()</code> tiene una función relacionada llamada <code>button_to()</code>, también es posible ejecutar un script al pulsar un botón (<code>&lt;input type="button"&gt;</code>) utilizando el <em>helper</em> <code>button_to_function()</code>. Si se necesita una imagen pinchable, se puede llamar a <code>link_to_function(image_tag('mi_imagen'), "alert('Me has pinchado')")</code>.</p></div>
+
+<h3 id="actualizando_un_elemento_dom">11.1.2. Actualizando un elemento DOM</h3>
+
+<p>Una de las tareas habituales de las interfaces dinámicas es la actualización de algunos elementos de la página. Normalmente se realiza como se muestra en el listado 11-3.</p>
+
+<p><strong>Listado 11-3 - Actualizando un elemento con JavaScript</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;div id=&quot;indicador&quot;&gt;Comienza el procesamiento de datos&lt;/div&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> javascript_tag<span class="br0">&#40;</span><span class="st0">&quot;
+  document.getElementById(&quot;</span>indicador<span class="st0">&quot;).innerHTML =
+    &quot;</span><span class="sy0">&lt;</span>strong<span class="sy0">&gt;</span>El procesamiento de datos ha concluido<span class="sy0">&lt;/</span>strong<span class="sy0">&gt;</span><span class="st0">&quot;;
+&quot;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Symfony incluye un <em>helper</em> que realiza esta tarea y que genera código JavaScript (no HTML). El <em>helper</em> se denomina <code>update_element_function()</code> y el listado 11-4 muestra su uso.</p>
+
+<p><strong>Listado 11-4 - Actualizar un elemento mediante JavaScript con el <em>helper</em> <code>update_element_function()</code></strong></p>
+
+<div class="code php">
+<pre class="php">&lt;div id=&quot;indicador&quot;&gt;Comienza el procesamiento de datos&lt;/div&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> javascript_tag<span class="br0">&#40;</span>
+  update_element_function<span class="br0">&#40;</span><span class="st_h">'indicador'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'content'</span>  <span class="sy0">=&gt;</span> <span class="st0">&quot;&lt;strong&gt;El procesamiento de datos ha concluido&lt;/strong&gt;&quot;</span><span class="sy0">,</span>
+  <span class="br0">&#41;</span><span class="br0">&#41;</span>
+<span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>A primera vista parece que este <em>helper</em> no es muy útil, ya que el código necesario es tan largo como el código JavaScript original. En realidad su ventaja es la facilidad de lectura del código. Si lo que se necesita es insertar el contenido antes o después de un elemento, eliminarlo en vez de actualizarlo o no hacer nada si no se cumple una condición, el código JavaScript resultante es muy complicado. Sin embargo, el <em>helper</em> <code>update_element_function()</code> permite mantener la facilidad de lectura del código de la plantilla, tal y como se muestra en el listado 11-5.</p>
+
+<p><strong>Listado 11-5 - Opciones del <em>helper</em> <code>update_element_function()</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// Insertar el contenido después del elemento 'indicador'</span>
+update_element_function<span class="br0">&#40;</span><span class="st_h">'indicador'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+  <span class="st_h">'position'</span> <span class="sy0">=&gt;</span> <span class="st_h">'after'</span><span class="sy0">,</span>
+  <span class="st_h">'content'</span>  <span class="sy0">=&gt;</span> <span class="st0">&quot;&lt;strong&gt;El procesamiento de datos ha concluido&lt;/strong&gt;&quot;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Eliminar el elemento anterior a 'indicador', solo si $condicion vale true</span>
+update_element_function<span class="br0">&#40;</span><span class="st_h">'indicador'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+  <span class="st_h">'action'</span>   <span class="sy0">=&gt;</span> <span class="re0">$condicion</span> ? <span class="st_h">'remove'</span> <span class="sy0">:</span> <span class="st_h">'empty'</span><span class="sy0">,</span>
+  <span class="st_h">'position'</span> <span class="sy0">=&gt;</span> <span class="st_h">'before'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>El <em>helper</em> permite que el código de las plantillas sea más fácil de entender que el código JavaScript, además de proporcionar una sintaxis unificada para efectos similares. También esa es la razón por la que el nombre del <em>helper</em> es tan largo: su nombre es tan explícito que no hace falta añadir comentarios que lo expliquen.</p>
+
+<h3 id="aplicaciones_que_se_degradan_correctamente">11.1.3. Aplicaciones que se degradan correctamente</h3>
+
+<p>La etiqueta <code>&lt;noscript&gt;</code> permite especificar cierto código HTML que muestran los navegadores que no tienen soporte de JavaScript. Symfony complementa esta etiqueta con un <em>helper</em> que funciona de forma inversa: asegura que cierto código solo se ejecuta en los navegadores que soportan JavaScript. Los <em>helpers</em> <code>if_javascript()</code> y <code>end_if_javascript()</code> permiten crear aplicaciones que se degradan correctamente en los navegadores que no soportan JavaScript, como muestra el listado 11-6.</p>
+
+<p><strong>Listado 11-6 - Uso del <em>helper</em> <code>if_javascript()</code> para que la aplicación se degrade correctamente</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> if_javascript<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+  &lt;p&gt;Tienes activado JavaScript.&lt;/p&gt;
+<span class="kw2">&lt;?php</span> end_if_javascript<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+&lt;noscript&gt;
+  &lt;p&gt;No tienes activado JavaScript.&lt;/p&gt;
+&lt;/noscript&gt;</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> No es necesario incluir instrucciones <code>echo</code> cuando se llama a los <em>helpers</em> <code>if_javascript()</code> y <code>end_if_javascript()</code>.</p></div>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_11.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 11. Integración con Ajax</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_11/prototype.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>11.2. Prototype</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_11.html">
+                    <span>Capítulo 11.</span> Integración con Ajax
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_11/helpers_basicos_de_javascript.html">
+                    <span>11.1.</span> Helpers básicos de JavaScript
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/prototype.html">
+                    <span>11.2.</span> Prototype
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/helpers_de_ajax.html">
+                    <span>11.3.</span> Helpers de Ajax
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/parametros_para_la_ejecucion_remota.html">
+                    <span>11.4.</span> Parámetros para la ejecución remota
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/creando_efectos_visuales.html">
+                    <span>11.5.</span> Creando efectos visuales
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/json.html">
+                    <span>11.6.</span> JSON
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/interacciones_complejas_con_ajax.html">
+                    <span>11.7.</span> Interacciones complejas con Ajax
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/resumen.html">
+                    <span>11.8.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generadores</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

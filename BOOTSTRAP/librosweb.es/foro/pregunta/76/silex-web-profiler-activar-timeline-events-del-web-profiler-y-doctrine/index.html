@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Silex web-profiler: activar timeline, events del web-profiler y doctrine</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Silex web-profiler: activar timeline, events del web-profiler y doctrine">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-4-2" class="forum forum_discussion"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                    <div class="module module-ad module-ad-responsive module-ad-top">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+    <div itemscope="" itemtype="http://schema.org/Article">
+        <div id="discussion" class="col-sm-9 ">
+            <h1 class="title" itemprop="name">Silex web-profiler: activar timeline, events del web-profiler y doctrine</h1>
+
+            <div id="discussion-content" itemprop="description">
+                <p>Hola buenas.</p>
+
+<p>Estoy usando el <a href="https://github.com/silexphp/Silex-Skeleton">Silex Skeleton</a> de Fabien Potencier y no entiendo por qué al pinchar en <code>events</code> y <code>timeline</code> del <em>web profiler</em> aparecen los mensajes:</p>
+
+<pre class="code code">No events have been recorded. Are you sure that debugging is
+enabled in the kernel?
+&nbsp;
+No timing events have been recorded. Are you sure that debugging
+is enabled in the kernel?</pre>
+
+<p>Otra duda es sobre Doctrine en el <em>web profiler</em>. Creo recordar que haciendo algunas pruebas con Symfony2, el <em>web profiler</em> también mostraba información de Doctrine (número de consultas, tiempo ...). ¿Es posible que el <em>web profiler</em> de Silex también tenga esta información?</p>
+
+<p>Gracias.</p>
+
+            </div>
+
+                            <div id="discussion-tags">
+                    <h3>Etiquetas</h3>
+                    <ul class="tags-list">
+                                                                <li><a href="/foro/doctrine/">doctrine</a></li>
+                                            <li><a href="/foro/php/">php</a></li>
+                                            <li><a href="/foro/profiler/">profiler</a></li>
+                                            <li><a href="/foro/silex/">silex</a></li>
+                                        </ul>
+                </div>
+                    </div>
+
+        <div id="discussion-attributes" class="col-sm-3">
+            <div class="row">
+                <p class="col-xs-3 col-sm-12 avatar">
+                    <img width="73" height="73" itemprop="image"
+                     src="http://pbs.twimg.com/profile_images/1307791385/27485_100000749951788_8900_n_bigger.jpg" />
+                </p>
+
+                <p class="col-xs-8 col-sm-12 col-md-12">
+                    <span class="login">@Yercapa</span>
+                    <meta itemprop="author" content="Yeray Cabrera Padrón" />
+
+                    <span class="published">21 de enero de 2014</span>
+                    <meta itemprop="dateCreated" content="2014-01-21T14:49:58+01:00" />
+                </p>
+
+                <p id="discussion-actions" class="col-sm-12">
+                                    </p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="discussion-comments" class="col-sm-12">
+                    <h2>Respuestas</h2>
+
+                            <div class="row comment"  id="respuesta-1">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/76/silex-web-profiler-activar-timeline-events-del-web-profiler-y-doctrine/#respuesta-1" title="Enlace permanente a esta respuesta">#1</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_1_html">
+                        <p>@Yercapa, la causa más probable es que empezaras a utilizar el <em>Silex Skeleton</em> hace tiempo y que no hayas actualizado el contenido del archivo <code>index_dev.php</code> a los últimos cambios.</p>
+
+<p>Abre el archivo <code>web/index_dev.php</code> y comprueba si tiene el siguiente contenido:</p>
+
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\ClassLoader\DebugClassLoader<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\HttpKernel\Debug\ErrorHandler<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\HttpKernel\Debug\ExceptionHandler<span class="sy0">;</span>
+&nbsp;
+<span class="kw1">require_once</span> __DIR__<span class="sy0">.</span><span class="st_h">'/../vendor/autoload.php'</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw3">error_reporting</span><span class="br0">&#40;</span><span class="sy0">-</span><span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+DebugClassLoader<span class="sy0">::</span><span class="me2">enable</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+ErrorHandler<span class="sy0">::</span><span class="me2">register</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span><span class="st_h">'cli'</span> <span class="sy0">!==</span> <span class="kw3">php_sapi_name</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    ExceptionHandler<span class="sy0">::</span><span class="me2">register</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">// ...</span></pre>
+
+<p>Modifica el anterior contenido por lo siguiente:</p>
+
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\Debug\Debug<span class="sy0">;</span>
+&nbsp;
+<span class="kw1">require_once</span> __DIR__<span class="sy0">.</span><span class="st_h">'/../vendor/autoload.php'</span><span class="sy0">;</span>
+&nbsp;
+Debug<span class="sy0">::</span><span class="me2">enable</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// ...</span></pre>
+
+<p>Ahora ya debería volver a funcionarte la recogida de información detallada sobre los eventos y los tiempos de ejecución de tu aplicación Silex. Puedes consultar <a href="https://github.com/silexphp/Silex-Skeleton/commit/60e31ff8e37e76eb6b76b6cd1b1c066d79266e1c">este commit</a> para ver en detalle los cambios necesarios.</p>
+
+<p>Respecto a Doctrine, el <em>web profiler</em> actual de Silex no lo soporta y no conozco ninguna extensión que lo haga.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    27-ene-14 08:48
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-2">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/76/silex-web-profiler-activar-timeline-events-del-web-profiler-y-doctrine/#respuesta-2" title="Enlace permanente a esta respuesta">#2</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_2_html">
+                        <p>@javiereguiluz mi archivo web/index_dev.php tiene el siguiente contenido.</p>
+
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="kw2">use</span> Symfony\Component\Debug\Debug<span class="sy0">;</span>
+&nbsp;
+<span class="co1">// This check prevents access to debug front controllers that are deployed by accident to production servers.</span>
+<span class="co1">// Feel free to remove this, extend it, or make something more sophisticated.</span>
+<span class="coMULTI">/*if (isset($_SERVER['HTTP_CLIENT_IP'])
+    || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
+    || !in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', 'fe80::1', '::1'))
+) {
+    header('HTTP/1.0 403 Forbidden');
+    exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
+}*/</span>
+&nbsp;
+<span class="kw1">require_once</span> __DIR__<span class="sy0">.</span><span class="st_h">'/../vendor/autoload.php'</span><span class="sy0">;</span>
+&nbsp;
+Debug<span class="sy0">::</span><span class="me2">enable</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$app</span> <span class="sy0">=</span> <span class="kw1">require</span> __DIR__<span class="sy0">.</span><span class="st_h">'/../src/app.php'</span><span class="sy0">;</span>
+<span class="kw1">require</span> __DIR__<span class="sy0">.</span><span class="st_h">'/../config/dev.php'</span><span class="sy0">;</span>
+<span class="kw1">require</span> __DIR__<span class="sy0">.</span><span class="st_h">'/../src/controllers.php'</span><span class="sy0">;</span>
+<span class="re0">$app</span><span class="sy0">-&gt;</span><span class="me1">run</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>y la salida del comando <code>composer show</code>:</p>
+
+<pre class="cli code">installed:
+  doctrine/annotations        v1.1.2  Docblock Annotations Parser
+  doctrine/cache              v1.3.0  Caching library offering an object-orie
+  doctrine/collections        v1.1    Collections Abstraction library
+  doctrine/common             v2.4.1  Common Library for Doctrine projects
+  doctrine/dbal               2.3.4   Database Abstraction Layer
+  doctrine/inflector          v1.0    Common String Manipulations with regard
+  doctrine/lexer              v1.0    Base library for a lexer that can be us
+  monolog/monolog             1.7.0   Sends your logs to files, sockets, inbo
+  pimple/pimple               v1.1.0  Pimple is a simple Dependency Injection
+  psr/log                     1.0.0   Common interface for logging libraries
+  silex/silex                 v1.1.2  The PHP micro-framework based on the Sy
+  silex/web-profiler          v1.0.1  A WebProfiler for Silex
+  swiftmailer/swiftmailer     v5.0.3  Swiftmailer, free feature-rich PHP maile
+  symfony/browser-kit         v2.4.1  Symfony BrowserKit Component
+  symfony/class-loader        v2.4.1  Symfony ClassLoader Component
+  symfony/config              v2.4.1  Symfony Config Component
+  symfony/console             v2.4.1  Symfony Console Component
+  symfony/css-selector        v2.4.1  Symfony CssSelector Component
+  symfony/debug               v2.4.1  Symfony Debug Component
+  symfony/dom-crawler         v2.4.1  Symfony DomCrawler Component
+  symfony/event-dispatcher    v2.4.1  Symfony EventDispatcher Component
+  symfony/filesystem          v2.4.1  Symfony Filesystem Component
+  symfony/finder              v2.4.1  Symfony Finder Component
+  symfony/form                v2.4.1  Symfony Form Component
+  symfony/http-foundation     v2.4.1  Symfony HttpFoundation Component
+  symfony/http-kernel         v2.4.1  Symfony HttpKernel Component
+  symfony/icu                 v1.0.0  Contains an excerpt of the ICU data and
+  symfony/intl                v2.4.1  A PHP replacement layer for the C intl
+  symfony/locale              v2.4.1  Symfony Locale Component
+  symfony/monolog-bridge      v2.4.1  Symfony Monolog Bridge
+  symfony/options-resolver    v2.4.1  Symfony OptionsResolver Component
+  symfony/process             v2.4.1  Symfony Process Component
+  symfony/property-access     v2.4.1  Symfony PropertyAccess Component
+  symfony/routing             v2.4.1  Symfony Routing Component
+  symfony/security            v2.4.1  Symfony Security Component
+  symfony/serializer          v2.4.1  Symfony Serializer Component
+  symfony/stopwatch           v2.4.1  Symfony Stopwatch Component
+  symfony/translation         v2.4.1  Symfony Translation Component
+  symfony/twig-bridge         v2.4.1  Symfony Twig Bridge
+  symfony/validator           v2.4.1  Symfony Validator Component
+  symfony/web-profiler-bundle v2.4.1  Symfony WebProfilerBundle
+  symfony/yaml                v2.4.1  Symfony Yaml Component
+  twig/extensions             v1.0.1  Common additional features for Twig tha
+  twig/twig                   v1.15.0 Twig, the flexible, fast, and secure te</pre>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1307791385/27485_100000749951788_8900_n_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @Yercapa
+                                </span>
+
+                                <span class="published">
+                                    28-ene-14 00:00
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-3">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/76/silex-web-profiler-activar-timeline-events-del-web-profiler-y-doctrine/#respuesta-3" title="Enlace permanente a esta respuesta">#3</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_3_html">
+                        <p>El <em>profiler</em> de Silex se ha roto cuando utilizas Silex 1.* y Symfony 2.4*. Los detalles del error están <a href="https://github.com/silexphp/Silex-WebProfiler/issues/30">en este pull request del repositorio de Silex</a>.</p>
+
+<p>En la rama <code>master</code> ya está corregido, por lo que habrá que esperar a que creen una nueva etiqueta. Si no quieres esperar, cambia la versión de la dependencia <code>silex/web-profiler</code> en tu archivo <code>composer.json</code>:</p>
+
+<pre class="javascript code"><span class="st0">&quot;require&quot;</span><span class="sy0">:</span> <span class="br0">&#123;</span>
+    <span class="st0">&quot;silex/web-profiler&quot;</span> <span class="sy0">:</span> <span class="st0">&quot;dev-master&quot;</span><span class="sy0">,</span>
+    ...
+<span class="br0">&#125;</span></pre>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    28-ene-14 23:09
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-4">
+                                        <i id="ultimo"></i>
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/76/silex-web-profiler-activar-timeline-events-del-web-profiler-y-doctrine/#respuesta-4" title="Enlace permanente a esta respuesta">#4</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_4_html">
+                        <p>Ahora si va el timeline.</p>
+
+<p>Muchas gracias @javiereguiluz.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1307791385/27485_100000749951788_8900_n_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @Yercapa
+                                </span>
+
+                                <span class="published">
+                                    30-ene-14 22:37
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                    
+                    <div id="btn-reply">
+                <a rel="nofollow" href="/foro/pregunta/76/silex-web-profiler-activar-timeline-events-del-web-profiler-y-doctrine/responder/#tu-respuesta" class="btn btn-lg">
+                    Responder pregunta
+                </a>
+            </div>
+            </div>
+
+
+                </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

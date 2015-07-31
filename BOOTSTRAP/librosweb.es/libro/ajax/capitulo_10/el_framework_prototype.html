@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>10.1. El framework Prototype (Introducción a AJAX)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_10.html" />
+                    <link rel="next" href="../capitulo_10/la_libreria_scriptaculous.html" />
+                <link rel="start" href="/libro/ajax/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="10.1. El framework Prototype (Introducción a AJAX)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page ajax"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/ajax/" itemprop="url">
+                    <span itemprop="title">Introducción a AJAX</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/ajax/capitulo_10.html" itemprop="url">
+                    <span itemprop="title">Capítulo 10. Frameworks y librerías</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>10.1. El framework Prototype</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="el_framework_prototype" class="title">
+        <span>10.1.</span> El framework Prototype
+    </h1>
+
+    
+
+<p><a href="http://www.prototypejs.org/">Prototype</a> es un framework que facilita el desarrollo de aplicaciones web con JavaScript y AJAX. Su autor original es <strong>Sam Stephenson</strong>, aunque las últimas versiones incorporan código e ideas de muchos otros programadores. A pesar de que incluye decenas de utilidades, la librería es compacta y está programada de forma muy eficiente.</p>
+
+<p>Prototype se ha convertido en poco tiempo en una referencia básica de AJAX y es la base de muchos otros frameworks y librerías relacionadas como <a href="http://script.aculo.us/">script.aculo.us</a>. Las primeras versiones de Prototype no incluían ningún tipo de documentación, lo que dificultaba su uso y provocaba que la mayoría de usuarios desconocieran su verdadero potencial.</p>
+
+<p>Afortunadamente, las versiones más recientes del framework disponen de una completa documentación de todas las funciones y métodos que componen su API. La documentación incluye la definición completa de cada método, sus atributos y varios ejemplos de uso: http://www.prototypejs.org/api</p>
+
+<h3 id="funciones_y_metodos_basicos">10.1.1. Funciones y métodos básicos</h3>
+
+<p>La primera función que se estudia cuando se está aprendiendo Prototype es tan útil como impronunciable: <code>$()</code>. La <em>"función dólar"</em> es un atajo mejorado de la función <code>document.getElementById()</code>.</p>
+
+<p>Si se le pasa una cadena de texto con el identificador de un elemento, obtiene ese elemento. La función admite uno o más parámetros: si se le pasa un parámetro, devuelve un objeto; si se le pasan varios parámetros, devuelve un array simple con todos los objetos.</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="co1">// Con JavaScript</span>
+<span class="kw1">var</span> elemento <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'primero'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Con Prototype</span>
+<span class="kw1">var</span> elemento <span class="sy0">=</span> $<span class="br0">&#40;</span><span class="st0">'primero'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Con JavaScript</span>
+<span class="kw1">var</span> elemento1 <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'primero'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> elemento2 <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'segundo'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Con Prototype</span>
+<span class="kw1">var</span> elementos <span class="sy0">=</span> $<span class="br0">&#40;</span><span class="st0">'primero'</span><span class="sy0">,</span> <span class="st0">'segundo'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Otra de las funciones más útiles de Prototype es <code>$F()</code>, que es similar a la anterior función, pero se utiliza para obtener directamente el valor de los campos de formulario:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="sy0">&lt;</span>input id<span class="sy0">=</span><span class="st0">&quot;municipio&quot;</span> <span class="sy0">/&gt;</span>
+&nbsp;
+<span class="co1">// Con JavaScript</span>
+document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;municipio&quot;</span><span class="br0">&#41;</span>.<span class="me1">value</span>
+&nbsp;
+<span class="co1">// Con Prototype</span>
+$F<span class="br0">&#40;</span><span class="st0">&quot;municipio&quot;</span><span class="br0">&#41;</span>
+&nbsp;
+&nbsp;
+<span class="sy0">&lt;</span>select id<span class="sy0">=</span><span class="st0">&quot;municipio&quot;</span><span class="sy0">&gt;</span>
+  <span class="sy0">&lt;</span>option<span class="sy0">&gt;</span>...<span class="sy0">&lt;/</span>option<span class="sy0">&gt;</span>
+<span class="sy0">&lt;/</span>select<span class="sy0">&gt;</span>
+&nbsp;
+<span class="co1">// Con JavaScript</span>
+document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;municipio&quot;</span><span class="br0">&#41;</span>.<span class="me1">options</span><span class="br0">&#91;</span>document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;municipio&quot;</span><span class="br0">&#41;</span>.<span class="me1">selectedIndex</span><span class="br0">&#93;</span>.<span class="me1">value</span>
+&nbsp;
+<span class="co1">// Con Prototype</span>
+$F<span class="br0">&#40;</span><span class="st0">&quot;municipio&quot;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Una de las funciones más espectaculares de Prototype y que no tiene equivalente en JavaScript es <code>$$()</code>, que permite seleccionar elementos de la página utilizando selectores de CSS.</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="sy0">&lt;</span>div id<span class="sy0">=</span><span class="st0">&quot;principal&quot;</span><span class="sy0">&gt;</span>
+  <span class="sy0">&lt;</span>p<span class="sy0">&gt;</span>Primer párrafo<span class="sy0">&lt;/</span>p<span class="sy0">&gt;</span>
+  <span class="sy0">&lt;</span>p<span class="sy0">&gt;</span>Segundo párrafo<span class="sy0">&lt;/</span>p<span class="sy0">&gt;</span>
+<span class="sy0">&lt;/</span>div<span class="sy0">&gt;</span>
+<span class="sy0">&lt;</span>p<span class="sy0">&gt;</span>Tercer párrafo<span class="sy0">&lt;/</span>p<span class="sy0">&gt;</span>
+&nbsp;
+<span class="kw1">var</span> todosParrafos <span class="sy0">=</span> $$<span class="br0">&#40;</span><span class="st0">'p'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> parrafosInteriores <span class="sy0">=</span> $$<span class="br0">&#40;</span><span class="st0">'#principal p'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Prototype incluye una función muy útil llamada <code>$A()</code>, para convertir en array <em>"cualquier cosa que se parezca a un array"</em>. Algunas funciones de JavaScript, como por ejemplo <code>getElementsByTagName()</code> devuelven objetos de tipo <code>NodeList</code> o <code>HTMLCollection</code>, que no son arrays, aunque pueden recorrerse como tales.</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="sy0">&lt;</span>select id<span class="sy0">=</span><span class="st0">&quot;lista&quot;</span><span class="sy0">&gt;</span>
+  <span class="sy0">&lt;</span>option value<span class="sy0">=</span><span class="st0">&quot;1&quot;</span><span class="sy0">&gt;</span>Primer valor<span class="sy0">&lt;/</span>option<span class="sy0">&gt;</span>
+  <span class="sy0">&lt;</span>option value<span class="sy0">=</span><span class="st0">&quot;2&quot;</span><span class="sy0">&gt;</span>Segundo valor<span class="sy0">&lt;/</span>option<span class="sy0">&gt;</span>
+  <span class="sy0">&lt;</span>option value<span class="sy0">=</span><span class="st0">&quot;3&quot;</span><span class="sy0">&gt;</span>Tercer valor<span class="sy0">&lt;/</span>option<span class="sy0">&gt;</span>
+<span class="sy0">&lt;/</span>select<span class="sy0">&gt;</span>
+&nbsp;
+<span class="co1">// 'lista_nodos' es una variable de tipo NodeList</span>
+<span class="kw1">var</span> lista_nodos <span class="sy0">=</span> $<span class="br0">&#40;</span><span class="st0">'lista'</span><span class="br0">&#41;</span>.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">'option'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// 'nodos' es una variable de tipo array</span>
+<span class="kw1">var</span> nodos <span class="sy0">=</span> $A<span class="br0">&#40;</span>lista_nodos<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// nodos = [objeto_html_opcion1, objeto_html_opcion2, objeto_html_opcion3]</span></pre>
+</div>
+
+<p>Una función similar a <code>$A()</code> es <code>$H()</code>, que crea <em>arrays asociativos</em> (también llamados <em>"hash"</em>) a partir del argumento que se le pasa:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> usuarios <span class="sy0">=</span> <span class="br0">&#123;</span> usuario1<span class="sy0">:</span> <span class="st0">&quot;password1&quot;</span><span class="sy0">,</span> 
+                 usuario2<span class="sy0">:</span> <span class="st0">&quot;password2&quot;</span><span class="sy0">,</span> 
+                 usuario3<span class="sy0">:</span> <span class="st0">&quot;password3&quot;</span> <span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> hash_usuarios <span class="sy0">=</span> $H<span class="br0">&#40;</span>usuarios<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> logins <span class="sy0">=</span> hash_usuarios.<span class="me1">keys</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// logins = [&quot;usuario1&quot;, &quot;usuario2&quot;, &quot;usuario3&quot;]</span>
+&nbsp;
+<span class="kw1">var</span> passwords <span class="sy0">=</span> hash_usuarios.<span class="me1">values</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// passwords = [&quot;password1&quot;, &quot;password2&quot;, &quot;password3&quot;]</span>
+&nbsp;
+<span class="kw1">var</span> queryString <span class="sy0">=</span> hash_usuarios.<span class="me1">toQueryString</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// queryString = &quot;usuario1=password1&amp;usuario2=password2&amp;usuario3=password3&quot;</span>
+&nbsp;
+<span class="kw1">var</span> debug <span class="sy0">=</span> hash_usuarios.<span class="me1">inspect</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// #&lt;Hash:{'usuario1':'password1', 'usuario2':'password2’,'usuario3':'password3'}&gt;</span></pre>
+</div>
+
+<p>Por último, Prototype incluye la función <code>$R()</code> para crear rangos de valores. El rango de valores se crea desde el valor del primer argumento hasta el valor del segundo argumento. El tercer argumento de la función indica si se excluye o no el último valor (por defecto, el tercer argumento vale <code>false</code>, que indica que sí se incluye el último valor).</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> rango <span class="sy0">=</span> $R<span class="br0">&#40;</span><span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">100</span><span class="sy0">,</span> <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// rango = [0, 1, 2, 3, ..., 100]</span>
+&nbsp;
+<span class="kw1">var</span> rango <span class="sy0">=</span> $R<span class="br0">&#40;</span><span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">100</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// rango = [0, 1, 2, 3, ..., 100]</span>
+&nbsp;
+<span class="kw1">var</span> rango <span class="sy0">=</span> $R<span class="br0">&#40;</span><span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">100</span><span class="sy0">,</span> <span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// rango = [0, 1, 2, 3, ..., 99]</span>
+&nbsp;
+<span class="kw1">var</span> rango2 <span class="sy0">=</span> $R<span class="br0">&#40;</span><span class="nu0">100</span><span class="sy0">,</span> <span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// rango2 = [100]</span>
+&nbsp;
+<span class="kw1">var</span> rango <span class="sy0">=</span> $R<span class="br0">&#40;</span><span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">100</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> incluido <span class="sy0">=</span> rango.<span class="me1">include</span><span class="br0">&#40;</span><span class="nu0">4</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// incluido = true</span>
+&nbsp;
+<span class="kw1">var</span> rango <span class="sy0">=</span> $R<span class="br0">&#40;</span><span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">100</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> incluido <span class="sy0">=</span> rango.<span class="me1">include</span><span class="br0">&#40;</span><span class="nu0">400</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// incluido = false</span></pre>
+</div>
+
+<p>Los rangos que se pueden crear van mucho más allá de simples sucesiones numéricas. La <em>"inteligencia"</em> de la función <code>$R()</code> permite crear rangos tan avanzados como los siguientes:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> rango <span class="sy0">=</span> $R<span class="br0">&#40;</span><span class="st0">'a'</span><span class="sy0">,</span> <span class="st0">'k'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// rango = ['a', 'b', 'c', ..., 'k']</span>
+&nbsp;
+<span class="kw1">var</span> rango <span class="sy0">=</span> $R<span class="br0">&#40;</span><span class="st0">'aa'</span><span class="sy0">,</span> <span class="st0">'ak'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// rango = ['aa', 'ab', 'ac', ..., 'ak']</span>
+&nbsp;
+<span class="kw1">var</span> rango <span class="sy0">=</span> $R<span class="br0">&#40;</span><span class="st0">'a_a'</span><span class="sy0">,</span> <span class="st0">'a_k'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// rango = ['a_a', 'a_b', 'a_c', ..., 'a_k']</span></pre>
+</div>
+
+<p>Por último, una función muy útil que se puede utilizar con cadenas de texto, objetos y arrays de cualquier tipo es <code>inspect()</code>. Esta función devuelve una cadena de texto que es una representación de los contenidos del objeto. Se trata de una utilidad imprescindible cuando se están depurando las aplicaciones, ya que permite visualizar el contenido de variables complejas.</p>
+
+<h3 id="funciones_para_cadenas_de_texto">10.1.2. Funciones para cadenas de texto</h3>
+
+<p>El framework Prototype extiende las cadenas de texto de JavaScript añadiéndoles una serie de funciones que pueden resultar muy útiles:</p>
+
+<p><code>stripTags()</code>: Elimina todas las etiquetas HTML y XML de la cadena de texto</p>
+
+<p><code>stripScripts()</code>: Elimina todos los bloques de tipo <code>&lt;script&gt;&lt;/script&gt;</code> de la cadena de texto</p>
+
+<p><code>escapeHTML()</code>: transforma todos los caracteres <em>problemáticos</em> en HTML a su respectiva entidad HTML (<code>&lt;</code> se transforma en <code>&amp;lt;</code>, <code>&amp;</code> se transforma en <code>&amp;amp;</code>, etc.)</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> cadena <span class="sy0">=</span> <span class="st0">&quot;&lt;p&gt;Prueba de texto &amp; caracteres HTML&lt;/p&gt;&quot;</span>.<span class="me1">escapeHTML</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// cadena = &quot;&amp;lt;p&amp;gt;Prueba de texto &amp;amp; caracteres HTML&amp;lt;/p&amp;gt;&quot;</span></pre>
+</div>
+
+<p><code>unescapeHTML()</code>: función inversa de <code>escapeHTML()</code></p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> cadena <span class="sy0">=</span> <span class="st0">&quot;&lt;p&gt;Prueba de texto &amp; caracteres HTML&lt;/p&gt;&quot;</span>.<span class="me1">unescapeHTML</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// cadena = &quot;Prueba de texto &amp; caracteres HTML&quot;</span>
+&nbsp;
+<span class="kw1">var</span> cadena <span class="sy0">=</span> <span class="st0">&quot;&lt;p&gt;&amp;ntilde; &amp;aacute; &amp;iquest; &amp;amp;&lt;/p&gt;&quot;</span>.<span class="me1">unescapeHTML</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// cadena = &quot;ñ á ¿ &amp;&quot;</span></pre>
+</div>
+
+<p><code>extractScripts()</code>: devuelve un array con todos los bloques <code>&lt;script&gt;&lt;/script&gt;</code> de la cadena de texto</p>
+
+<p><code>evalScripts()</code>: ejecuta cada uno de los bloques <code>&lt;script&gt;&lt;/script&gt;</code> de la cadena de texto</p>
+
+<p><code>toQueryParams()</code>: convierte una cadena de texto de tipo <em>query string</em> en un array asociativo  <em>hash</em>) de pares parámetro/valor</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> cadena <span class="sy0">=</span> <span class="st0">&quot;parametro1=valor1&amp;parametro2=valor2&amp;parametro3=valor3&quot;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> parametros <span class="sy0">=</span> cadena.<span class="me1">toQueryParams</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// $H(parametros).inspect() = #&lt;Hash:{'parametro1':'valor1', 'parametro2':'valor2',' parametro3':'valor3'}&gt;</span></pre>
+</div>
+
+<p><code>toArray()</code>: convierte la cadena de texto en un array que contiene sus letras</p>
+
+<p><code>camelize()</code>: convierte una cadena de texto separada por guiones en una cadena con notación de tipo <em>CamelCase</em></p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> cadena <span class="sy0">=</span> <span class="st0">&quot;el-nombre-de-la-variable&quot;</span>.<span class="me1">camelize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// cadena = &quot;elNombreDeLaVariable&quot;</span></pre>
+</div>
+
+<p><code>underscore()</code>: función inversa de <code>camelize()</code>, ya que convierte una cadena de texto escrita con notación <em>CamelCase</em> en una cadena de texto con las palabras separadas por guiones bajos</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> cadena <span class="sy0">=</span> <span class="st0">&quot;elNombreDeLaVariable&quot;</span>.<span class="me1">underscore</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// cadena = &quot;el_nombre_de_la_variable&quot;</span></pre>
+</div>
+
+<p><code>dasherize()</code>: modifica los guiones bajos (<code>_</code>) de una cadena de texto por guiones medios (<code>-</code>)</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> cadena <span class="sy0">=</span> <span class="st0">&quot;el_nombre_de_la_variable&quot;</span>.<span class="me1">dasherize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// cadena = &quot;el-nombre-de-la-variable&quot;</span></pre>
+</div>
+
+<p>Combinando <code>camelize()</code>, <code>underscore()</code> y <code>dasherize()</code>, se puede obtener el nombre DOM de cada propiedad CSS y viceversa:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> cadena <span class="sy0">=</span> <span class="st0">'borderTopStyle'</span>.<span class="me1">underscore</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">dasherize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// cadena = 'border-top-style'</span>
+&nbsp;
+<span class="kw1">var</span> cadena <span class="sy0">=</span> <span class="st0">'border-top-style'</span>.<span class="me1">camelize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// cadena = 'borderTopStyle'</span></pre>
+</div>
+
+<h3 id="funciones_para_elementos">10.1.3. Funciones para elementos</h3>
+
+<p>Prototype define funciones muy útiles para manipular los elementos incluidos en las páginas HTML. Cualquier elemento obtenido mediante la función <code>$()</code> puede hacer uso de las siguientes funciones:</p>
+
+<p><code>Element.visible()</code>: devuelve <code>true</code>/<code>false</code> si el elemento es visible/oculto (devuelve <code>true</code> para los campos tipo <code>hidden</code>)</p>
+
+<p><code>Element.show()</code> y <code>Element.hide()</code>: muestra y oculta el elemento indicado</p>
+
+<p><code>Element.toggle()</code>: si el elemento es visible, lo oculta. Si es elemento está oculto, lo muestra</p>
+
+<p><code>Element.scrollTo()</code>: baja o sube el <em>scroll</em> de la página hasta la posición del elemento indicado</p>
+
+<p><code>Element.getStyle()</code> y <code>Element.setStyle()</code>: obtiene/establece el valor del estilo CSS del elemento (el estilo completo, no la propiedad <code>className</code>)</p>
+
+<p><code>Element.classNames()</code>, <code>Element.hasClassName()</code>, <code>Element.addClassName()</code>, <code>Element.removeClassName()</code>: obtiene los <code>class</code> del elemento, devuelve <code>true</code>/<code>false</code> si incluye un determinado <code>class</code>, añade un <code>class</code> al elemento y elimina el <code>class</code> al elemento respectivamente</p>
+
+<p>Todas las funciones anteriores se pueden invocar de dos formas diferentes:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="co1">// Las dos instrucciones son equivalentes</span>
+Element.<span class="me1">toggle</span><span class="br0">&#40;</span><span class="st0">'principal'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+$<span class="br0">&#40;</span><span class="st0">'principal'</span><span class="br0">&#41;</span>.<span class="me1">toggle</span><span class="br0">&#40;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<h3 id="funciones_para_formularios">10.1.4. Funciones para formularios</h3>
+
+<p>Prototype incluye muchas utilidades relacionadas con los formularios y sus elementos. A continuación se muestran las más útiles para los campos de un formulario:</p>
+
+<p><code>Field.clear()</code>: borra el valor de cada campo que se le pasa (admite uno o más parámetros)</p>
+
+<p><code>Field.present()</code>: devuelve <code>true</code> si los campos que se le indican han sido rellenados por parte del usuario, es decir, si contienen valores no vacíos (admite uno o más parámetros)</p>
+
+<p><code>Field.focus()</code>: establece el foco del formulario en el campo que se le indica</p>
+
+<p><code>Field.select()</code>: selecciona el valor del campo (solo para los campos en los que se pueda seleccionar su texto)</p>
+
+<p><code>Field.activate()</code>: combina en una única función los métodos <code>focus()</code> y <code>select()</code></p>
+
+<p>A las funciones anteriores se les debe pasar como parámetro una cadena de texto con el identificador del elemento o el propio elemento (obtenido por ejemplo con <code>$()</code>). Las funciones mostradas se pueden invocar de tres formas diferentes:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="co1">// Las 3 instrucciones son equivalentes</span>
+Form.<span class="me1">Element</span>.<span class="me1">focus</span><span class="br0">&#40;</span><span class="st0">'id_elemento'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+Field.<span class="me1">focus</span><span class="br0">&#40;</span><span class="st0">'id_elemento'</span><span class="br0">&#41;</span>
+$<span class="br0">&#40;</span><span class="st0">'id_elemento'</span><span class="br0">&#41;</span>.<span class="me1">focus</span><span class="br0">&#40;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Además de las funciones específicas para los campos de los formularios, Prototype también define utilidades para los propios formularios completos. Todas las funciones requieren un solo parámetro: el identificador o el objeto del formulario.</p>
+
+<p><code>Form.serialize()</code>: devuelve una cadena de texto de tipo <em>"query string"</em> con el valor de todos los campos del formulario (<code>"campo1=valor1&amp;campo2=valor2&amp;campo3=valor3"</code>)</p>
+
+<p><code>Form.findFirstElement()</code>: devuelve el primer campo activo del formulario</p>
+
+<p><code>Form.getElements()</code>: devuelve un array con todos los campos del formulario (incluyendo los elementos ocultos)</p>
+
+<p><code>Form.getInputs()</code>: devuelve un array con todos los elementos de tipo <code>&lt;input&gt;</code> del formulario. Admite otros dos parámetros para filtrar los resultados. El segundo parámetro indica el tipo de <code>&lt;input&gt;</code> que se quiere obtener y el tercer parámetro indica el nombre del elemento <code>&lt;input&gt;</code>.</p>
+
+<p><code>Form.disable()</code>: deshabilita todo el formulario deshabilitando todos sus campos</p>
+
+<p><code>Form.enable()</code>: habilita el formulario completo habilitando todos sus campos</p>
+
+<p><code>Form.focusFirstElement()</code>: pone el foco del formulario en el primer campo que sea visible y esté habilitado</p>
+
+<p><code>Form.reset()</code>: resetea el formulario completo, ya que es equivalente al método <code>reset()</code> de JavaScript</p>
+
+<h3 id="funciones_para_arrays">10.1.5. Funciones para arrays</h3>
+
+<p>Las utilidades añadidas a los arrays de JavaScript es otro de los puntos fuertes de Prototype:</p>
+
+<p><code>clear()</code>: vacía de contenidos el array y lo devuelve</p>
+
+<p><code>compact()</code>: devuelve el array sin elementos <code>null</code> o <code>undefined</code></p>
+
+<p><code>first()</code>: devuelve el primer elemento del array</p>
+
+<p><code>flatten()</code>:  convierte cualquier array que se le pase en un array unidimensional. Se realiza un proceso recursivo que va <em>"aplanando"</em> el array:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> array_original <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">&quot;1&quot;</span><span class="sy0">,</span> <span class="st0">&quot;2&quot;</span><span class="sy0">,</span> <span class="nu0">3</span><span class="sy0">,</span> 
+                       <span class="br0">&#91;</span><span class="st0">&quot;a&quot;</span><span class="sy0">,</span> <span class="st0">&quot;b&quot;</span><span class="sy0">,</span> <span class="st0">&quot;c&quot;</span><span class="sy0">,</span> 
+                         <span class="br0">&#91;</span><span class="st0">&quot;A&quot;</span><span class="sy0">,</span> <span class="st0">&quot;B&quot;</span><span class="sy0">,</span> <span class="st0">&quot;C&quot;</span><span class="br0">&#93;</span>
+                       <span class="br0">&#93;</span>
+                     <span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> array_plano <span class="sy0">=</span> array_original.<span class="me1">flatten</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// array_plano = [&quot;1&quot;, &quot;2&quot;, 3, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;A&quot;, &quot;B&quot;, &quot;C&quot;]</span></pre>
+</div>
+
+<p><code>indexOf(value)</code>: devuelve el valor de la posición del elemento en el array o <code>-1</code> si no lo encuentra</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> array <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">&quot;1&quot;</span><span class="sy0">,</span> <span class="st0">&quot;2&quot;</span><span class="sy0">,</span> <span class="nu0">3</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="st0">&quot;a&quot;</span><span class="sy0">,</span> <span class="st0">&quot;b&quot;</span><span class="sy0">,</span> <span class="st0">&quot;c&quot;</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="st0">&quot;A&quot;</span><span class="sy0">,</span> <span class="st0">&quot;B&quot;</span><span class="sy0">,</span> <span class="st0">&quot;C&quot;</span><span class="br0">&#93;</span> <span class="br0">&#93;</span> <span class="br0">&#93;</span><span class="sy0">;</span>
+array.<span class="me1">indexOf</span><span class="br0">&#40;</span><span class="nu0">3</span><span class="br0">&#41;</span><span class="sy0">;</span>   <span class="co1">// 2</span>
+array.<span class="me1">indexOf</span><span class="br0">&#40;</span><span class="st0">&quot;C&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">// -1</span></pre>
+</div>
+
+<p><code>last()</code>: devuelve el último elemento del array</p>
+
+<p><code>reverse()</code>: devuelve el array original en sentido inverso:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> array <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">&quot;1&quot;</span><span class="sy0">,</span> <span class="st0">&quot;2&quot;</span><span class="sy0">,</span> <span class="nu0">3</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="st0">&quot;a&quot;</span><span class="sy0">,</span> <span class="st0">&quot;b&quot;</span><span class="sy0">,</span> <span class="st0">&quot;c&quot;</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="st0">&quot;A&quot;</span><span class="sy0">,</span> <span class="st0">&quot;B&quot;</span><span class="sy0">,</span> <span class="st0">&quot;C&quot;</span><span class="br0">&#93;</span> <span class="br0">&#93;</span> <span class="br0">&#93;</span><span class="sy0">;</span>
+array.<span class="me1">reverse</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// array = [[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;]], 3, &quot;2&quot;, &quot;1&quot;]</span></pre>
+</div>
+
+<p><code>shift()</code>: devuelve el primer elemento del array y lo extrae del array (el array se modifica y su longitud disminuye en 1 elemento)</p>
+
+<p><code>without()</code>: devuelve el array del que se han eliminado todos los elementos que coinciden con los argumentos que se pasan a la función. Permite filtrar los contenidos de un array</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> array <span class="sy0">=</span> <span class="br0">&#91;</span><span class="nu0">12</span><span class="sy0">,</span> <span class="nu0">15</span><span class="sy0">,</span> <span class="nu0">16</span><span class="sy0">,</span> <span class="nu0">3</span><span class="sy0">,</span> <span class="nu0">40</span><span class="br0">&#93;</span>.<span class="me1">without</span><span class="br0">&#40;</span><span class="nu0">16</span><span class="sy0">,</span> <span class="nu0">12</span><span class="br0">&#41;</span>
+<span class="co1">// array = [15, 3, 40]</span></pre>
+</div>
+
+<h3 id="funciones_para_objetos_enumerables">10.1.6. Funciones para objetos enumerables</h3>
+
+<p>Algunos tipos de objetos en JavaScript se comportan como <em>colecciones</em> de valores, también llamadas <em>"enumeraciones"</em> de valores. Prototype define varias utilidades para este tipo de objetos a través de <code>Enumerable</code>, que es uno de los pilares básicos del framework y una de las formas más sencillas de mejorar la productividad cuando se desarrollan aplicaciones JavaScript.</p>
+
+<p>Algunos de los objetos obtenidos mediante las funciones de Prototype, ya incorporan todos los métodos de <code>Enumerable</code>. Sin embargo, si se quieren añadir estos métodos a un objeto propio, se pueden utilizar las utilidades de Prototype para crear objetos y extenderlos:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> miObjeto <span class="sy0">=</span> Class.<span class="me1">create</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw4">Object</span>.<span class="me1">extend</span><span class="br0">&#40;</span>miObjeto.<span class="kw1">prototype</span><span class="sy0">,</span> Enumerable<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Gracias a <code>Enumerable</code>, se pueden recorrer los arrays de forma mucho más eficiente:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="co1">// Array original</span>
+<span class="kw1">var</span> vocales <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">&quot;a&quot;</span><span class="sy0">,</span> <span class="st0">&quot;e&quot;</span><span class="sy0">,</span> <span class="st0">&quot;i&quot;</span><span class="sy0">,</span> <span class="st0">&quot;o&quot;</span><span class="sy0">,</span> <span class="st0">&quot;u&quot;</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Recorrer el array con JavaScript</span>
+<span class="kw1">for</span><span class="br0">&#40;</span><span class="kw1">var</span> i<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span> i<span class="sy0">&lt;</span>vocales.<span class="me1">length</span><span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  alert<span class="br0">&#40;</span><span class="st0">&quot;Vocal &quot;</span> <span class="sy0">+</span> vocales<span class="br0">&#91;</span>i<span class="br0">&#93;</span> <span class="sy0">+</span> <span class="st0">&quot; está en la posición &quot;</span> <span class="sy0">+</span> i<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">// Recorrer el array con Prototype:</span>
+vocales.<span class="me1">each</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>elemento<span class="sy0">,</span> indice<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  alert<span class="br0">&#40;</span><span class="st0">&quot;Vocal &quot;</span> <span class="sy0">+</span> elemento <span class="sy0">+</span> <span class="st0">&quot; está en la posición &quot;</span> <span class="sy0">+</span> indice<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El método <code>select()</code>, que es un alias del método <code>findAll()</code>, permite filtrar los contenidos de un array:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> numeros <span class="sy0">=</span> <span class="br0">&#91;</span><span class="nu0">1</span><span class="sy0">,</span> <span class="nu0">2</span><span class="sy0">,</span> <span class="nu0">3</span><span class="sy0">,</span> <span class="nu0">4</span><span class="sy0">,</span> <span class="nu0">5</span><span class="sy0">,</span> <span class="nu0">6</span><span class="sy0">,</span> <span class="nu0">7</span><span class="sy0">,</span> <span class="nu0">8</span><span class="sy0">,</span> <span class="nu0">9</span><span class="sy0">,</span> <span class="nu0">10</span><span class="br0">&#93;</span><span class="sy0">;</span>
+resultado <span class="sy0">=</span> numeros.<span class="me1">findAll</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>elemento<span class="br0">&#41;</span> <span class="br0">&#123;</span> <span class="kw1">return</span> elemento <span class="sy0">&gt;</span> <span class="nu0">5</span><span class="sy0">;</span> <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// resultado = [6, 7, 8, 9, 10]</span></pre>
+</div>
+
+<p>Otro método útil es <code>pluck()</code>, que permite obtener el valor de una misma propiedad para todos los elementos de la colección:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> numLetras <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">'hola'</span><span class="sy0">,</span> <span class="st0">'mundo'</span><span class="sy0">,</span> <span class="st0">'que'</span><span class="sy0">,</span> <span class="st0">'bien'</span><span class="sy0">,</span> <span class="st0">'funciona'</span><span class="sy0">,</span> <span class="st0">'Prototype'</span><span class="br0">&#93;</span>.<span class="me1">pluck</span><span class="br0">&#40;</span><span class="st0">'length'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// numLetras = [4, 5, 3, 4, 8, 9]</span></pre>
+</div>
+
+<p><code>Enumerable</code> incluye decenas de utilidades y métodos, algunos tan curiosos como <code>partition()</code> que permite dividir una colección en dos grupos: el de los elementos de tipo <code>true</code> y el de los elementos de tipo <code>false</code> (valores como <code>null</code>, <code>undefined</code>, etc.)</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> valores <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">'nombreElemento'</span><span class="sy0">,</span> <span class="nu0">12</span><span class="sy0">,</span> <span class="kw2">null</span><span class="sy0">,</span> <span class="nu0">2</span><span class="sy0">,</span> <span class="kw2">true</span><span class="sy0">,</span> <span class="sy0">,</span> <span class="kw2">false</span><span class="br0">&#93;</span>.<span class="me1">partition</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// valores = [['nombreElemento', 12, 2, true], [null, undefined, false]]</span></pre>
+</div>
+
+<p>El método <code>partition()</code> permite asignar una función propia para decidir si un elemento se considera <code>true</code> o <code>false</code>. En el siguiente ejemplo, se divide un array con letras en dos grupos, el de las vocales y el de las consonantes:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> letras <span class="sy0">=</span> $R<span class="br0">&#40;</span><span class="st0">'a'</span><span class="sy0">,</span> <span class="st0">'k'</span><span class="br0">&#41;</span>.<span class="me1">partition</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>n<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">return</span> <span class="br0">&#91;</span><span class="st0">'a'</span><span class="sy0">,</span> <span class="st0">'e'</span><span class="sy0">,</span> <span class="st0">'i'</span><span class="sy0">,</span> <span class="st0">'o'</span><span class="sy0">,</span> <span class="st0">'u'</span><span class="br0">&#93;</span>.<span class="me1">include</span><span class="br0">&#40;</span>n<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span>
+<span class="co1">// letras = [['a', 'e', 'i'], ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k']]</span></pre>
+</div>
+
+<p>El método <code>invoke()</code> permite ejecutar una función para todos los elementos de la colección:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> palabras <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">'hola'</span><span class="sy0">,</span> <span class="st0">'mundo'</span><span class="sy0">,</span> <span class="st0">'con'</span><span class="sy0">,</span> <span class="st0">'Prototype'</span><span class="br0">&#93;</span>.<span class="me1">invoke</span><span class="br0">&#40;</span><span class="st0">'toUpperCase'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// palabras = ['HOLA', 'MUNDO', 'CON', 'PROTOTYPE']</span></pre>
+</div>
+
+<p><a href="http://www.prototypejs.org/api/enumerable">La documentación de Enumerable</a> incluye la definición y ejemplos de muchos otros métodos útiles como <code>inGroupsOf()</code> (agrupa elementos en subconjuntos del mismo tamaño), <code>sortBy()</code> (permite definir la ordenación de los elementos mediante una función propia), <code>zip()</code> (asocia uno a uno los elementos de dos colecciones), <code>collect()</code> (permite transformar los elementos de la colección con una función propia), etc.</p>
+
+<h3 id="otras_funciones_utiles">10.1.7. Otras funciones útiles</h3>
+
+<p><code>Try.these()</code>: permite probar varias funciones de forma consecutiva hasta que una de ellas funcione. Es muy útil para las aplicaciones que deben funcionar correctamente en varios navegadores diferentes.</p>
+
+<p>El propio código fuente de Prototype utiliza <code>Try.these()</code> para obtener el objeto encargado de realizar las peticiones AJAX:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> Ajax <span class="sy0">=</span> <span class="br0">&#123;</span>
+  getTransport<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> Try.<span class="me1">these</span><span class="br0">&#40;</span>
+      <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><span class="kw1">return</span> <span class="kw1">new</span> XMLHttpRequest<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#125;</span><span class="sy0">,</span>
+      <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><span class="kw1">return</span> <span class="kw1">new</span> ActiveXObject<span class="br0">&#40;</span><span class="st0">'Msxml2.XMLHTTP'</span><span class="br0">&#41;</span><span class="br0">&#125;</span><span class="sy0">,</span>
+      <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><span class="kw1">return</span> <span class="kw1">new</span> ActiveXObject<span class="br0">&#40;</span><span class="st0">'Microsoft.XMLHTTP'</span><span class="br0">&#41;</span><span class="br0">&#125;</span>
+    <span class="br0">&#41;</span> <span class="sy0">||</span> <span class="kw2">false</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span><span class="sy0">,</span>
+&nbsp;
+  activeRequestCount<span class="sy0">:</span> <span class="nu0">0</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p><code>Class.create()</code>: permite crear clases de una forma elegante y sencilla:</p>
+
+<div class="code javascript">
+<pre class="javascript">MiClase <span class="sy0">=</span> Class.<span class="me1">create</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+MiClase.<span class="kw1">prototype</span> <span class="sy0">=</span> <span class="br0">&#123;</span>
+  initialize<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>a<span class="sy0">,</span> b<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">this</span>.<span class="me1">a</span> <span class="sy0">=</span> a<span class="sy0">;</span>
+    <span class="kw1">this</span>.<span class="me1">b</span> <span class="sy0">=</span> b<span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">var</span> miClase <span class="sy0">=</span> <span class="kw1">new</span> MiClase<span class="br0">&#40;</span><span class="st0">&quot;primer_valor&quot;</span><span class="sy0">,</span> <span class="st0">&quot;segundo_valor&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p><code>Object.extend()</code>: se emplea para añadir o sobrescribir las propiedades de un objeto en otro objeto. Se puede considerar como una forma primitiva y muy básica de herencia entre clases. En la llamada a la función, el primer objeto es el destino en el que se copian las propiedades del segundo objeto pasado como parámetro:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw4">Object</span>.<span class="me1">extend</span><span class="br0">&#40;</span>objetoDestino<span class="sy0">,</span> objetoOrigen<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Esta función es muy útil para que las aplicaciones definan una serie de opciones por defecto y puedan tener en cuenta las opciones establecidas por cada usuario:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="co1">// El array &quot;opciones&quot; guarda las opciones por defecto de la aplicación</span>
+<span class="kw1">var</span> opciones <span class="sy0">=</span> <span class="br0">&#123;</span>campo<span class="sy0">:</span> <span class="st0">&quot;usuario&quot;</span><span class="sy0">,</span> orden<span class="sy0">:</span> <span class="st0">&quot;ASC&quot;</span><span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// El usuario establece sus propias opciones</span>
+<span class="kw1">var</span> opciones_usuario <span class="sy0">=</span> <span class="br0">&#123;</span>orden<span class="sy0">:</span> <span class="st0">&quot;DESC&quot;</span><span class="sy0">,</span> tipoBusqueda<span class="sy0">:</span> <span class="st0">&quot;libre&quot;</span><span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Se mezclan los dos arrays de opciones, dando prioridad</span>
+<span class="co1">// a las opciones establecidas por los usuarios</span>
+<span class="kw4">Object</span>.<span class="me1">extend</span><span class="br0">&#40;</span>opciones<span class="sy0">,</span> opciones_usuario<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Ahora, opciones.orden = &quot;DESC&quot;</span></pre>
+</div>
+
+<p>El código fuente de Prototype utiliza <code>Object.extend()</code> continuamente para añadir propiedades y métodos útiles a los objetos de JavaScript. El código que se muestra a continuación añade cinco métodos al objeto <code>Number</code> original de JavaScript:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw4">Object</span>.<span class="me1">extend</span><span class="br0">&#40;</span><span class="kw4">Number</span>.<span class="kw1">prototype</span><span class="sy0">,</span> <span class="br0">&#123;</span>
+  toColorPart<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">toPaddedString</span><span class="br0">&#40;</span><span class="nu0">2</span><span class="sy0">,</span> <span class="nu0">16</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span><span class="sy0">,</span>
+&nbsp;
+  succ<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="kw1">this</span> <span class="sy0">+</span> <span class="nu0">1</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span><span class="sy0">,</span>
+&nbsp;
+  times<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>iterator<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    $R<span class="br0">&#40;</span><span class="nu0">0</span><span class="sy0">,</span> <span class="kw1">this</span><span class="sy0">,</span> <span class="kw2">true</span><span class="br0">&#41;</span>.<span class="me1">each</span><span class="br0">&#40;</span>iterator<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">return</span> <span class="kw1">this</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span><span class="sy0">,</span>
+&nbsp;
+  toPaddedString<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>length<span class="sy0">,</span> radix<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">var</span> string <span class="sy0">=</span> <span class="kw1">this</span>.<span class="me1">toString</span><span class="br0">&#40;</span>radix <span class="sy0">||</span> <span class="nu0">10</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">return</span> <span class="st0">'0'</span>.<span class="me1">times</span><span class="br0">&#40;</span>length <span class="sy0">-</span> string.<span class="me1">length</span><span class="br0">&#41;</span> <span class="sy0">+</span> string<span class="sy0">;</span>
+  <span class="br0">&#125;</span><span class="sy0">,</span>
+&nbsp;
+  toJSON<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> isFinite<span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span> <span class="sy0">?</span> <span class="kw1">this</span>.<span class="me1">toString</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">:</span> <span class="st0">'null'</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<h3 id="funciones_para_ajax">10.1.8. Funciones para AJAX</h3>
+
+<p>Además de todas las funciones y utilidades para la programación <em>tradicional</em> de JavaScript, Prototype incluye numerosas funciones relacionadas con el desarrollo de aplicaciones AJAX. Los métodos que componen este módulo son <code>Ajax.Request()</code>, <code>Ajax.Updater()</code>, <code>Ajax.PeriodicalUpdater()</code> y <code>Ajax.Responders()</code>.</p>
+
+<p><code>Ajax.Request()</code> es el método principal de este módulo. Se utiliza para realizar peticiones AJAX y procesar sus resultados. Su sintaxis es:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">new</span> Ajax.<span class="me1">Request</span><span class="br0">&#40;</span>url<span class="sy0">,</span> opciones<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El primer parámetro (<code>url</code>) es la URL que solicita la petición AJAX y el segundo parámetro (<code>opciones</code>) es opcional y se emplea para especificar valores diferentes a las opciones por defecto. Las opciones se indican en forma de array asociativo:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">new</span> Ajax.<span class="me1">Request</span><span class="br0">&#40;</span><span class="st0">'/ruta/hasta/pagina.php'</span><span class="sy0">,</span> <span class="br0">&#123;</span>
+  method<span class="sy0">:</span> <span class="st0">'post'</span><span class="sy0">,</span>
+  asynchronous<span class="sy0">:</span> <span class="kw2">true</span><span class="sy0">,</span>
+  postBody<span class="sy0">:</span> <span class="st0">'parametro1=valor1&amp;parametro2=valor2'</span><span class="sy0">,</span>
+  onSuccess<span class="sy0">:</span> procesaRespuesta<span class="sy0">,</span>
+  onFailure<span class="sy0">:</span> muestraError
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Como es habitual, para establecer la función que procesa la respuesta del servidor, se indica el nombre de la función sin paréntesis. Las funciones externas asignadas para procesar la respuesta, reciben como primer parámetro el objeto que representa la respuesta del servidor. Haciendo uso de este objeto, las funciones pueden acceder a todas las propiedades habituales:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> procesaRespuesta<span class="br0">&#40;</span>respuesta<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  alert<span class="br0">&#40;</span>respuesta.<span class="me1">responseText</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>A continuación se incluye una tabla con todas las opciones que se pueden definir para el método <code>Ajax.Request()</code>:</p>
+
+<div class="table" id="table_10_1">
+
+    <table>
+<thead>
+<tr>
+  <th>Opción</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>method</code></td>
+  <td>El método de la petición HTTP. Por defecto es <code>POST</code></td>
+</tr>
+<tr>
+  <td><code>parameters</code></td>
+  <td>Lista de valores que se envían junto con la petición. Deben estar formateados como una <em>query string</em>: <code>parametro1=valor1&amp;parametro2=valor2</code></td>
+</tr>
+<tr>
+  <td><code>encoding</code></td>
+  <td>Indica la codificación de los datos enviados en la petición. Su valor por defecto es <code>UTF-8</code></td>
+</tr>
+<tr>
+  <td><code>asynchronous</code></td>
+  <td>Controla el tipo de petición que se realiza. Por defecto es <code>true</code>, lo que indica que la petición realizada al servidor es asíncrona, el tipo de petición habitual en las aplicaciones AJAX</td>
+</tr>
+<tr>
+  <td><code>postBody</code></td>
+  <td>Contenido que se envía en el cuerpo de la petición de tipo <code>POST</code></td>
+</tr>
+<tr>
+  <td><code>contentType</code></td>
+  <td>Indica el valor de la cabecera <code>Content-Type</code> utilizada para realizar la petición. Su valor por defecto es <code>application/x-www-form-urlencoded</code></td>
+</tr>
+<tr>
+  <td><code>requestHeaders</code></td>
+  <td>Array con todas las cabeceras propias que se quieren enviar junto con la petición</td>
+</tr>
+<tr>
+  <td><code>onComplete</code> <code>onLoaded</code> <code>on404</code>  <code>on500</code></td>
+  <td>Permiten asignar funciones para el manejo de las distintas fases de la petición. Se pueden indicar funciones para todos los códigos de estado válidos de HTTP</td>
+</tr>
+<tr>
+  <td><code>onSuccess</code></td>
+  <td>Permite indicar la función que se encarga de procesar las respuestas correctas de servidor</td>
+</tr>
+<tr>
+  <td><code>onFailure</code></td>
+  <td>Se emplea para indicar la función que se ejecuta cuando la respuesta ha sido incorrecta</td>
+</tr>
+<tr>
+  <td><code>onException</code></td>
+  <td>Permite indicar la función encargada de manejar las peticiones erróneas en las que la respuesta del servidor no es válida, los argumentos que se incluyen en la petición no son válidos, etc.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>La función <code>Ajax.Updater()</code> es una <em>versión especial</em> de <code>Ajax.Request()</code> que se emplea para actualizar el contenido HTML de un elemento de la página con la respuesta del servidor.</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="sy0">&lt;</span>div id<span class="sy0">=</span><span class="st0">&quot;info&quot;</span><span class="sy0">&gt;&lt;/</span>div<span class="sy0">&gt;</span>
+&nbsp;
+<span class="kw1">new</span> Ajax.<span class="me1">Updater</span><span class="br0">&#40;</span><span class="st0">'info'</span><span class="sy0">,</span> <span class="st0">'/ruta/hasta/pagina.php'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Si la respuesta del servidor es</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">ul</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>Lorem ipsum dolor sit amet<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>Consectetuer adipiscing elit<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>Curabitur risus magna, lobortis<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">ul</span>&gt;</span></pre>
+</div>
+
+<p>Después de realizar la petición de tipo <code>Ajax.Updater()</code>, el contenido HTML de la respuesta del servidor se muestra dentro del <code>&lt;div&gt;</code>:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">div</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">&quot;info&quot;</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">ul</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>Lorem ipsum dolor sit amet<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>Consectetuer adipiscing elit<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>Curabitur risus magna, lobortis<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+  <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">ul</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">div</span>&gt;</span></pre>
+</div>
+
+<p>La sintaxis de <code>Ajax.Updater()</code> se muestra a continuación:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">new</span> Ajax.<span class="me1">Updater</span><span class="br0">&#40;</span>elemento<span class="sy0">,</span> url<span class="sy0">,</span> opciones<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Además de todas las opciones de <code>Ajax.Request()</code>, la función <code>Ajax.Updater()</code> permite establecer las siguientes opciones:</p>
+
+<div class="table" id="table_10_2">
+
+    <table>
+<thead>
+<tr>
+  <th>Opción</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>insertion</code></td>
+  <td>Indica cómo se inserta el contenido HTML en el elemento indicado. Puede ser <code>Insertion.Before</code>, <code>Insertion.Top</code>, <code>Insertion.Bottom</code> o <code>Insertion.After</code></td>
+</tr>
+<tr>
+  <td><code>evalScripts</code></td>
+  <td>Si la respuesta del servidor incluye scripts en su contenido, esta opción permite indicar si se ejecutan o no. Su valor por defecto es <code>false</code>, por lo que no se ejecuta ningún script</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>La función <code>Ajax.PeriodicalUpdater()</code> es una versión especializada de <code>Ajax.Updater()</code>, que se emplea cuando se quiere ejecutar de forma repetitiva una llamada a <code>Ajax.Updater()</code>. Esta función puede ser útil para ofercer información <em>en tiempo real</em> como noticias:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="sy0">&lt;</span>div id<span class="sy0">=</span><span class="st0">&quot;titulares&quot;</span><span class="sy0">&gt;&lt;/</span>div<span class="sy0">&gt;</span>
+&nbsp;
+<span class="kw1">new</span> Ajax.<span class="me1">PeriodicalUpdater</span><span class="br0">&#40;</span><span class="st0">'titulares'</span><span class="sy0">,</span> <span class="st0">'/ruta/hasta/pagina.php'</span><span class="sy0">,</span> <span class="br0">&#123;</span> frequency<span class="sy0">:</span><span class="nu0">30</span> <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El código anterior actualiza, cada 30 segundos, el contenido del <code>&lt;div&gt;</code> con la respuesta recibida desde el servidor.</p>
+
+<p>Además de todas las opciones anteriores, <code>Ajax.PeriodicalUpdater()</code> dispone de las siguientes opciones propias:</p>
+
+<div class="table" id="table_10_3">
+
+    <table>
+<thead>
+<tr>
+  <th>Opción</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>frequency</code></td>
+  <td>Número de segundos que se espera entre las peticiones. El valor por defecto es de <code>2</code> segundos</td>
+</tr>
+<tr>
+  <td><code>decay</code></td>
+  <td>Indica el factor que se aplica a la frecuencia de actualización cuando la última respuesta del servidor es igual que la anterior. Ejemplo: si la frecuencia es <code>10</code> segundos y el <code>decay</code> vale <code>3</code>, cuando una respuesta del servidor sea igual a la anterior, la siguiente petición se hará <code>3 * 10 = 30</code> segundos después de la última petición</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Por último, <code>Ajax.Responders</code> permite asignar de forma global las funciones que se encargan de responder a los eventos AJAX. Una de las principales utilidades de <code>Ajax.Responders</code> es la de indicar al usuario en todo momento si se está realizando alguna petición AJAX.</p>
+
+<p>Los dos métodos principales de <code>Ajax.Responders</code> son <code>register()</code> y <code>unregister()</code> a los que se pasa como argumento un objeto de tipo array asociativo que incluye las funciones que responden a cada evento:</p>
+
+<div class="code javascript">
+<pre class="javascript">Ajax.<span class="me1">Responders</span>.<span class="me1">register</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+  onCreate<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">if</span><span class="br0">&#40;</span>$<span class="br0">&#40;</span><span class="st0">'info'</span><span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span> Ajax.<span class="me1">activeRequestCount</span><span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+      $<span class="br0">&#40;</span><span class="st0">'info'</span><span class="br0">&#41;</span>.<span class="me1">innerHTML</span> <span class="sy0">=</span> Ajax.<span class="me1">activeRequestCount</span> <span class="sy0">+</span> <span class="st0">&quot;peticiones pendientes&quot;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span><span class="sy0">,</span>
+  onComplete<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">if</span><span class="br0">&#40;</span>$<span class="br0">&#40;</span><span class="st0">'info'</span><span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span> Ajax.<span class="me1">activeRequestCount</span><span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+      $<span class="br0">&#40;</span><span class="st0">'info'</span><span class="br0">&#41;</span>.<span class="me1">innerHTML</span> <span class="sy0">=</span> Ajax.<span class="me1">activeRequestCount</span> <span class="sy0">+</span> <span class="st0">&quot;peticiones pendientes&quot;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<h3 id="funciones_para_eventos">10.1.9. Funciones para eventos</h3>
+
+<p>El módulo de eventos de Prototype es uno de los menos desarrollados, por lo que va a ser completamente rediseñado en las próximas versiones del framework. Aún así, Prototype ofrece una solución sencilla y compatible con todos los navegadores para manejar los eventos de la aplicación. <code>Event.observe()</code> registra los eventos, <code>Event</code> almacena el objeto con la información del evento producido y <code>Event.stopObserving()</code> permite eliminar los eventos registrados.</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="sy0">&lt;</span>div id<span class="sy0">=</span><span class="st0">&quot;pinchable&quot;</span><span class="sy0">&gt;</span>Si se pulsa en este DIV<span class="sy0">,</span> se muestra un mensaje<span class="sy0">&lt;/</span>div<span class="sy0">&gt;</span>
+&nbsp;
+<span class="co1">// Registrar el evento</span>
+Event.<span class="me1">observe</span><span class="br0">&#40;</span><span class="st0">'pinchable'</span><span class="sy0">,</span> <span class="st0">'click'</span><span class="sy0">,</span> procesaEvento<span class="sy0">,</span> <span class="kw2">false</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+&nbsp;
+<span class="co1">// Eliminar el evento registrado</span>
+<span class="co1">// Event.stopObserving('pinchable', 'click', procesaEvento, false);</span>
+&nbsp;
+<span class="kw1">function</span> procesaEvento<span class="br0">&#40;</span>e<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="co1">// Obtener el elemento que ha originado el evento (el DIV)</span>
+  <span class="kw1">var</span> elemento <span class="sy0">=</span> Event.<span class="me1">element</span><span class="br0">&#40;</span>e<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+  <span class="co1">// Determinar la posicion del puntero del ratón</span>
+  <span class="kw1">var</span> coordenadas <span class="sy0">=</span> <span class="br0">&#91;</span>Event.<span class="me1">pointerX</span><span class="br0">&#40;</span>e<span class="br0">&#41;</span><span class="sy0">,</span> Event.<span class="me1">pointerY</span><span class="br0">&#40;</span>e<span class="br0">&#41;</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+  <span class="co1">// Mostrar mensaje con los datos obtenidos</span>
+  alert<span class="br0">&#40;</span><span class="st0">&quot;Has pinchado el DIV '&quot;</span><span class="sy0">+</span>elemento.<span class="me1">id</span><span class="sy0">+</span><span class="st0">&quot;' con el raton en la posicion (&quot;</span><span class="sy0">+</span>coordenadas<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">+</span><span class="st0">&quot;,&quot;</span><span class="sy0">+</span>coordenadas<span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="sy0">+</span><span class="st0">&quot;)&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+  <span class="co1">// Evitar la propagacion del evento</span>
+  Event.<span class="me1">stop</span><span class="br0">&#40;</span>e<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>La sintaxis completa del método <code>Event.observe()</code> se muestra a continuación:</p>
+
+<div class="code javascript">
+<pre class="javascript">Event.<span class="me1">observe</span><span class="br0">&#40;</span>elemento<span class="sy0">,</span> nombreEvento<span class="sy0">,</span> funcionManejadora<span class="sy0">,</span> <span class="br0">&#91;</span>usarCapture<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El primer argumento (<code>elemento</code>) indica el identificador del elemento o el propio elemento que puede originar el evento. El segundo argumento (<code>nombreEvento</code>) indica el nombre del evento que se quiere manejar, sin incluir el prefijo <code>on</code> (<code>load</code>, <code>click</code>, <code>mouseover</code>, etc.). El tercer argumento (<code>funcionManejadora</code>) es el nombre de la función que procesa el evento cuando se produce. El último parámetro (<code>usarCapture</code>) no se suele emplear, pero indica si se debe utilizar la fase de <code>capture</code> o la fase de <code>bubbling</code>.</p>
+
+<p>El objeto <code>Event</code> incluye la información disponible sobre el evento producido. A continuación se muestra una tabla con sus métodos y propiedades principales:</p>
+
+<div class="table" id="table_10_4">
+
+    <table>
+<thead>
+<tr>
+  <th>Método/Propiedad</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>element()</code></td>
+  <td>Devuelve el elemento que ha originado el evento (un <code>div</code>, un botón, etc.)</td>
+</tr>
+<tr>
+  <td><code>isLeftClick()</code></td>
+  <td>Indica si se ha pulsado el botón izquierdo del ratón</td>
+</tr>
+<tr>
+  <td><code>pointerX()</code> <code>pointerY()</code></td>
+  <td>Posición <code>x</code> e <code>y</code> del puntero del ratón</td>
+</tr>
+<tr>
+  <td><code>stop()</code></td>
+  <td>Detiene la propagación del evento</td>
+</tr>
+<tr>
+  <td><code>observers()</code></td>
+  <td>Devuelve un array con todos los eventos registrados en la página</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Además, <code>Event</code> define una serie de constantes para referirse a las teclas más habituales que se manejan en las aplicaciones (tabulador, <code>ENTER</code>, flechas de dirección, etc.) Las constantes definidas son <code>KEY_BACKSPACE</code>, <code>KEY_TAB</code>, <code>KEY_RETURN</code>, <code>KEY_ESC</code>, <code>KEY_LEFT</code>, <code>KEY_UP</code>, <code>KEY_RIGHT</code>, <code>KEY_DOWN</code>, <code>KEY_DELETE</code>.</p>
+
+<p>Prototype también incluye otros métodos útiles para la gestión de eventos con formularios:</p>
+
+<div class="code javascript">
+<pre class="javascript">Form.<span class="me1">Observer</span><span class="br0">&#40;</span>formulario<span class="sy0">,</span> frecuencia<span class="sy0">,</span> funcionManejadora<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p><code>Form.Observer()</code> permite <em>monitorizar</em> el formulario indicado cada cierto tiempo (el tiempo se indica en segundos mediante el parámetro <code>frecuencia</code>). Si se produce cualquier cambio en el formulario, se ejecuta la función cuyo nombre se indica en el parámetro <code>funcionManejadora</code>. <code>Form.Observer()</code> se emplea para los formularios que contienen elementos sin eventos registrados que procesen sus cambios.</p>
+
+<p>Otra función similar es <code>Form.EventObserver()</code> cuya definición formal es:</p>
+
+<div class="code javascript">
+<pre class="javascript">Form.<span class="me1">EventObserver</span><span class="br0">&#40;</span>formulario<span class="sy0">,</span> funcionManejadora<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>La principal diferencia de <code>Form.EventObserver()</code> respecto a <code>Form.Observer()</code> es que, en este caso, se utilizan los eventos registrados por los elementos del formulario para detectar si se ha producido algún cambio en el formulario.</p>
+
+<h3 id="metodos_para_funciones">10.1.10. Métodos para funciones</h3>
+
+<p>Cuando se pasan referencias a funciones en el código de JavaScript, es posible que se pierda el contexto original de la función. El contexto de las funciones es fundamental para el correcto funcionamiento de la palabra reservada <code>this</code>.</p>
+
+<p>Prototype incluye la posibilidad de asegurar que una función se va a ejecutar en un determinado contexto. Para ello, extiende la clase <code>Function()</code> para añadir el método <code>bind()</code>. Considerando el siguiente ejemplo:</p>
+
+<div class="code javascript">
+<pre class="javascript">nombre <span class="sy0">=</span> <span class="st0">'Estoy fuera'</span><span class="sy0">;</span>
+<span class="kw1">var</span> objeto <span class="sy0">=</span> <span class="br0">&#123;</span>
+  nombre<span class="sy0">:</span> <span class="st0">'Estoy dentro'</span><span class="sy0">,</span>
+  funcion<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    alert<span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">nombre</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">function</span> ejecutaFuncion<span class="br0">&#40;</span>f<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  f<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">var</span> funcion2 <span class="sy0">=</span> objeto.<span class="me1">funcion</span>.<span class="me1">bind</span><span class="br0">&#40;</span>objeto<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+ejecutaFuncion<span class="br0">&#40;</span>objeto.<span class="me1">funcion</span><span class="br0">&#41;</span><span class="sy0">;</span>
+ejecutaFuncion<span class="br0">&#40;</span>funcion2<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El código anterior define en primer lugar la variable global <code>nombre</code> y le asigna el valor <code>Estoy fuera</code>. A continuación, se define un objeto con un atributo llamado también <code>nombre</code> y con un método sencillo que muestra el valor del atributo utilizando la palabra reservada <code>this</code>.</p>
+
+<p>Si se ejecuta la función del objeto a través de una referencia suya (mediante la función <code>ejecutaFuncion()</code>), la palabra reservada <code>this</code> se resuelve en el objeto <code>window</code> y por tanto el mensaje que se muestra es <code>Estoy fuera</code>. Sin embargo, si se utiliza el método <code>bind(objeto)</code> sobre la función, siempre se ejecuta considerando su contexto igual al objeto que se pasa como parámetro al método <code>bind()</code>.</p>
+
+<p>Prototype incluye además el método <code>bindAsEventListener()</code> que es equivalente a <code>bind()</code> pero que se puede emplear para evitar algunos de los problemas comunes de los eventos que se producen en algunos navegadores como Internet Explorer.</p>
+
+<h3 id="rehaciendo_ejemplos_con_prototype">10.1.11. Rehaciendo ejemplos con Prototype</h3>
+
+<p>Las aplicaciones realizadas con el framework Prototype suelen ser muy concisas en comparación con las aplicaciones JavaScript tradicionales, pero siguen manteniendo una gran facilidad para leer su código y entenderlo.</p>
+
+<p>Por ejemplo, el ejercicio que mostraba y ocultaba diferentes secciones de contenidos se realizó de la siguiente manera:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> muestraOculta<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="co1">// Obtener el ID del elemento</span>
+  <span class="kw1">var</span> id <span class="sy0">=</span> <span class="kw1">this</span>.<span class="me1">id</span><span class="sy0">;</span>
+  id <span class="sy0">=</span> id.<span class="me1">split</span><span class="br0">&#40;</span><span class="st0">'_'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  id <span class="sy0">=</span> id<span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+  <span class="kw1">var</span> elemento <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'contenidos_'</span><span class="sy0">+</span>id<span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="kw1">var</span> enlace <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'enlace_'</span><span class="sy0">+</span>id<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+  <span class="kw1">if</span><span class="br0">&#40;</span>elemento.<span class="me1">style</span>.<span class="me1">display</span> <span class="sy0">==</span> <span class="st0">&quot;&quot;</span> <span class="sy0">||</span> elemento.<span class="me1">style</span>.<span class="me1">display</span> <span class="sy0">==</span> <span class="st0">&quot;block&quot;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    elemento.<span class="me1">style</span>.<span class="me1">display</span> <span class="sy0">=</span> <span class="st0">&quot;none&quot;</span><span class="sy0">;</span>
+    enlace.<span class="me1">innerHTML</span> <span class="sy0">=</span> <span class="st0">'Mostrar contenidos'</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+  <span class="kw1">else</span> <span class="br0">&#123;</span>
+    elemento.<span class="me1">style</span>.<span class="me1">display</span> <span class="sy0">=</span> <span class="st0">&quot;block&quot;</span><span class="sy0">;</span>
+    enlace.<span class="me1">innerHTML</span> <span class="sy0">=</span> <span class="st0">'Ocultar contenidos'</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+window.<span class="me1">onload</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'enlace_1'</span><span class="br0">&#41;</span>.<span class="me1">onclick</span> <span class="sy0">=</span> muestraOculta<span class="sy0">;</span>
+  document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'enlace_2'</span><span class="br0">&#41;</span>.<span class="me1">onclick</span> <span class="sy0">=</span> muestraOculta<span class="sy0">;</span>
+  document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'enlace_3'</span><span class="br0">&#41;</span>.<span class="me1">onclick</span> <span class="sy0">=</span> muestraOculta<span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Con Prototype, su código se puede reducir a las siguientes instrucciones:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> muestraOculta<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">var</span> id <span class="sy0">=</span> <span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">id</span><span class="br0">&#41;</span>.<span class="me1">split</span><span class="br0">&#40;</span><span class="st0">'_'</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+  $<span class="br0">&#40;</span><span class="st0">'contenidos_'</span><span class="sy0">+</span>id<span class="br0">&#41;</span>.<span class="me1">toggle</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  $<span class="br0">&#40;</span><span class="st0">'enlace_'</span><span class="sy0">+</span>id<span class="br0">&#41;</span>.<span class="me1">innerHTML</span> <span class="sy0">=</span> <span class="br0">&#40;</span><span class="sy0">!</span>$<span class="br0">&#40;</span><span class="st0">'contenidos_'</span><span class="sy0">+</span>id<span class="br0">&#41;</span>.<span class="me1">visible</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy0">?</span> <span class="st0">'Ocultar contenidos'</span> <span class="sy0">:</span> <span class="st0">'Mostrar contenidos'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+window.<span class="me1">onload</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  $R<span class="br0">&#40;</span><span class="nu0">1</span><span class="sy0">,</span> <span class="nu0">3</span><span class="br0">&#41;</span>.<span class="me1">each</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>n<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    Event.<span class="me1">observe</span><span class="br0">&#40;</span><span class="st0">'enlace_'</span><span class="sy0">+</span>n<span class="sy0">,</span> <span class="st0">'click'</span><span class="sy0">,</span> muestraOculta<span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Los métodos <code>$R()</code>, <code>toggle()</code> y <code>visible()</code> permiten simplificar el código original a una mínima parte de su longitud, pero conservando el mismo funcionamiento, además de ser un código sencillo de entender.</p>
+
+<p>Otro de los ejercicios anteriores realizaba peticiones AJAX al servidor para comprobar si un determinado nombre de usuario estaba libre. El código original de JavaScript era:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> READY_STATE_COMPLETE <span class="sy0">=</span> <span class="nu0">4</span><span class="sy0">;</span>
+<span class="kw1">var</span> peticion_http <span class="sy0">=</span> <span class="kw2">null</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">function</span> inicializa_xhr<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">if</span><span class="br0">&#40;</span>window.<span class="me1">XMLHttpRequest</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="kw1">new</span> XMLHttpRequest<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+  <span class="br0">&#125;</span>
+  <span class="kw1">else</span> <span class="kw1">if</span><span class="br0">&#40;</span>window.<span class="me1">ActiveXObject</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="kw1">new</span> ActiveXObject<span class="br0">&#40;</span><span class="st0">&quot;Microsoft.XMLHTTP&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+  <span class="br0">&#125;</span> 
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">function</span> comprobar<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">var</span> login <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;login&quot;</span><span class="br0">&#41;</span>.<span class="me1">value</span><span class="sy0">;</span>
+  peticion_http <span class="sy0">=</span> inicializa_xhr<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="kw1">if</span><span class="br0">&#40;</span>peticion_http<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    peticion_http.<span class="me1">onreadystatechange</span> <span class="sy0">=</span> procesaRespuesta<span class="sy0">;</span>
+    peticion_http.<span class="me1">open</span><span class="br0">&#40;</span><span class="st0">&quot;POST&quot;</span><span class="sy0">,</span> <span class="st0">&quot;http://localhost/compruebaDisponibilidad.php&quot;</span><span class="sy0">,</span> <span class="kw2">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    peticion_http.<span class="me1">setRequestHeader</span><span class="br0">&#40;</span><span class="st0">&quot;Content-Type&quot;</span><span class="sy0">,</span> <span class="st0">&quot;application/x-www-form-urlencoded&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    peticion_http.<span class="me1">send</span><span class="br0">&#40;</span><span class="st0">&quot;login=&quot;</span><span class="sy0">+</span>login<span class="sy0">+</span><span class="st0">&quot;&amp;nocache=&quot;</span><span class="sy0">+</span><span class="kw4">Math</span>.<span class="me1">random</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">function</span> procesaRespuesta<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">if</span><span class="br0">&#40;</span>peticion_http.<span class="me1">readyState</span> <span class="sy0">==</span> READY_STATE_COMPLETE<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">if</span><span class="br0">&#40;</span>peticion_http.<span class="me1">status</span> <span class="sy0">==</span> <span class="nu0">200</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+      <span class="kw1">var</span> login <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;login&quot;</span><span class="br0">&#41;</span>.<span class="me1">value</span><span class="sy0">;</span>
+      <span class="kw1">if</span><span class="br0">&#40;</span>peticion_http.<span class="me1">responseText</span> <span class="sy0">==</span> <span class="st0">&quot;si&quot;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;disponibilidad&quot;</span><span class="br0">&#41;</span>.<span class="me1">innerHTML</span> <span class="sy0">=</span> <span class="st0">&quot;El nombre elegido [&quot;</span><span class="sy0">+</span>login<span class="sy0">+</span><span class="st0">&quot;] está disponible&quot;</span><span class="sy0">;</span>
+      <span class="br0">&#125;</span>
+      <span class="kw1">else</span> <span class="br0">&#123;</span>
+        document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;disponibilidad&quot;</span><span class="br0">&#41;</span>.<span class="me1">innerHTML</span> <span class="sy0">=</span> <span class="st0">&quot;NO está disponible el nombre elegido [&quot;</span><span class="sy0">+</span>login<span class="sy0">+</span><span class="st0">&quot;]&quot;</span><span class="sy0">;</span>
+      <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+window.<span class="me1">onload</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;comprobar&quot;</span><span class="br0">&#41;</span>.<span class="me1">onclick</span> <span class="sy0">=</span> comprobar<span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Con Prototype se puede conseguir el mismo comportamiento con tres veces menos de líneas de código:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> comprobar<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">var</span> login <span class="sy0">=</span> $F<span class="br0">&#40;</span><span class="st0">'login'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="kw1">var</span> url <span class="sy0">=</span> <span class="st0">'http://localhost/compruebaDisponibilidad.php?nocache='</span> <span class="sy0">+</span> <span class="kw4">Math</span>.<span class="me1">random</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="kw1">var</span> peticion <span class="sy0">=</span> <span class="kw1">new</span> Ajax.<span class="me1">Request</span><span class="br0">&#40;</span>url<span class="sy0">,</span> <span class="br0">&#123;</span>
+    method<span class="sy0">:</span> <span class="st0">'post'</span><span class="sy0">,</span>
+    postBody<span class="sy0">:</span> <span class="st0">'login='</span><span class="sy0">+</span>login<span class="sy0">,</span>
+    onSuccess<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>respuesta<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+      $<span class="br0">&#40;</span><span class="st0">'disponibilidad'</span><span class="br0">&#41;</span>.<span class="me1">innerHTML</span> <span class="sy0">=</span> <span class="br0">&#40;</span>respuesta.<span class="me1">responseText</span> <span class="sy0">==</span> <span class="st0">'si'</span><span class="br0">&#41;</span> <span class="sy0">?</span> 
+        <span class="st0">'El nombre elegido ['</span><span class="sy0">+</span>login<span class="sy0">+</span><span class="st0">'] está disponible'</span> <span class="sy0">:</span> <span class="st0">'NO está disponible el nombre elegido ['</span><span class="sy0">+</span>login<span class="sy0">+</span><span class="st0">']'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span><span class="sy0">,</span> 
+    onFailure<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span> alert<span class="br0">&#40;</span><span class="st0">'Se ha producido un error'</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+window.<span class="me1">onload</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  Event.<span class="me1">observe</span><span class="br0">&#40;</span><span class="st0">'comprobar'</span><span class="sy0">,</span> <span class="st0">'click'</span><span class="sy0">,</span> comprobar<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_10.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 10. Frameworks y librerías</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_10/la_libreria_scriptaculous.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>10.2. La librería scriptaculous</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a AJAX</a>
+            </li>
+                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> JavaScript básico</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> JavaScript avanzado</a>
+            </li>
+                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> DOM (Document Object Model)</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> BOM (Browser Object Model)</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Eventos</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Primeros pasos con AJAX</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Técnicas básicas con AJAX</a>
+            </li>
+                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Técnicas avanzadas con AJAX</a>
+            </li>
+                                                                            <li class="level-1 ">
+                <a href="../capitulo_10.html">
+                    <span>Capítulo 10.</span> Frameworks y librerías
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_10/el_framework_prototype.html">
+                    <span>10.1.</span> El framework Prototype
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/la_libreria_scriptaculous.html">
+                    <span>10.2.</span> La librería scriptaculous
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/la_libreria_jquery.html">
+                    <span>10.3.</span> La librería jQuery
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/otros_frameworks_importantes.html">
+                    <span>10.4.</span> Otros frameworks importantes
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Otras utilidades</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Recursos útiles</a>
+            </li>
+                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Bibliografía</a>
+            </li>
+                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Ejercicios resueltos</a>
+            </li>
+                                                                                                                                                                                                                                                                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

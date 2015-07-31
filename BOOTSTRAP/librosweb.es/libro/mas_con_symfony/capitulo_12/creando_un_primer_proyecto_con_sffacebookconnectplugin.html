@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>12.2. Creando un primer proyecto con &lt;code&gt;sfFacebookConnectPlugin&lt;/code&gt; (Más con Symfony)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_12/desarrollando_aplicaciones_facebook_2.html" />
+                    <link rel="next" href="../capitulo_12/facebook_connect_2.html" />
+                <link rel="start" href="/libro/mas_con_symfony/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="12.2. Creando un primer proyecto con &lt;code&gt;sfFacebookConnectPlugin&lt;/code&gt; (Más con Symfony)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page mas_con_symfony"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/mas_con_symfony/" itemprop="url">
+                    <span itemprop="title">Más con Symfony</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/mas_con_symfony/capitulo_12.html" itemprop="url">
+                    <span itemprop="title">Capítulo 12. Desarrollando aplicaciones Facebook</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>12.2. Creando un primer proyecto con <code>sfFacebookConnectPlugin</code></span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="creando_un_primer_proyecto_con_sffacebookconnectplugin" class="title">
+        <span>12.2.</span> Creando un primer proyecto con <code>sfFacebookConnectPlugin</code>
+    </h1>
+
+    
+
+<h3 id="crear_la_aplicacion_facebook">12.2.1. Crear la aplicación Facebook</h3>
+
+<p>Para crear la aplicación es necesario disponer en primer lugar de una cuenta de
+Facebook con la <a href="http://www.facebook.com/developers">aplicación "Developer"</a>
+instalada. La única información necesaria para crear la aplicación es su nombre.
+Una vez creada, ya no es necesario configurar nada más.</p>
+
+<h3 id="instalar_y_configurar_sffacebookconnectplugin">12.2.2. Instalar y configurar <code>sfFacebookConnectPlugin</code></h3>
+
+<p>El siguiente paso consiste en relacionar los usuarios de Facebook con los usuarios
+de <code>sfGuard</code>. Esta es la principal finalidad del plugin <code>sfFacebookConnectPlugin</code>
+creado por Fabrice Bernhard y que incluye las contribuciones de muchos otros
+programadores de Symfony. Después de instalar el plugin, es obligatorio configurarlo
+correctamente para poder usarlo. Para ello, añade en el archivo de configuración
+<code>app.yml</code> la clave de la API y el <code>ID</code> y el secreto de la aplicación:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># default values</span><span class="co4">
+all</span>:<span class="co4">
+  facebook</span>:<span class="co3">
+    api_key</span><span class="sy2">: </span>xxx<span class="co3">
+    api_secret</span><span class="sy2">: </span>xxx<span class="co3">
+    api_id</span><span class="sy2">: </span>xxx<span class="co3">
+    redirect_after_connect</span><span class="sy2">: </span>false<span class="co3">
+    redirect_after_connect_url</span><span class="sy2">: </span>''<span class="co3">
+    connect_signin_url</span><span class="sy2">: </span>'sfFacebookConnectAuth/signin'<span class="co3">
+    app_url</span><span class="sy2">: </span>'/my-app'<span class="co3">
+    guard_adapter</span><span class="sy2">: </span>~<span class="co3">
+    js_framework</span><span class="sy2">: </span><span class="kw1">none</span> <span class="co1"># none, jQuery or prototype.</span>
+<span class="co4">
+  sf_guard_plugin</span>:<span class="co3">
+    profile_class</span><span class="sy2">: </span>sfGuardUserProfile<span class="co3">
+    profile_field_name</span><span class="sy2">: </span>user_id<span class="co3">
+    profile_facebook_uid_name</span><span class="sy2">: </span>facebook_uid <span class="co1"># WARNING this column must be of type varchar! 100000398093902 is a valid uid for example!</span><span class="co3">
+    profile_email_name</span><span class="sy2">: </span>email<span class="co3">
+    profile_email_hash_name</span><span class="sy2">: </span>email_hash
+<span class="co4">
+  facebook_connect</span>:<span class="co3">
+    load_routing</span><span class="sy2">: </span>    true<span class="co3">
+    user_permissions</span><span class="sy2">: </span><span class="br0">&#91;</span><span class="br0">&#93;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Si utilizas una versión antigua de Symfony, no olvides establecer la opción
+<code>load_routing</code> a <code>false</code>, ya que utiliza el nuevo sistema de enrutamiento.</p></div>
+
+<h3 id="configurar_una_aplicacion_facebook">12.2.3. Configurar una aplicación Facebook</h3>
+
+<p>Si el proyecto es una aplicación Facebook, el otro parámetro importante que se
+debe configurar es <code>app_url</code> que apunta a la ruta relativa de la aplicación en
+Facebook. Si por ejemplo la aplicación se puede acceder en <code>http://apps.facebook.com/my-app</code>
+el valor del parámetro <code>app_url</code> debería ser <code>/my-app</code>.</p>
+
+<h3 id="configurar_un_sitio_web_con_facebook_connect">12.2.4. Configurar un sitio web con Facebook Connect</h3>
+
+<p>Si el proyecto es un sitio web con Facebook Connect, es habitual dejar los valores
+por defecto en el resto de las opciones:</p>
+
+<ul>
+<li><code>redirect_after_connect</code> permite modificar el comportamiento que se produce
+después de pulsar el botón <em>"Connect with Facebook"</em>. Por defecto el plugin
+reproduce el comportamiento de <code>sfGuardPlugin</code> tras el registro de un usuario.</li>
+<li><code>js_framework</code> se emplea para indicar el framework JavaScript utilizado. Se
+recomienda utilizar un framework como jQuery en los sitios web con <em>Facebook
+Connect</em> porque el código JavaScript de Facebook es muy grande y puede causar
+errores en Internet Explorer 6 si no se carga bien.</li>
+<li><code>user_permissions</code> es un array con los permisos que se concederán a los
+nuevos usuarios de <em>Facebook Connect</em>.</li>
+</ul>
+
+<h3 id="relacionando_sfguard_con_facebook">12.2.5. Relacionando sfGuard con Facebook</h3>
+
+<p>La relación entre los usuarios de Facebook y los del plugin <code>sfGuardPlugin</code> se
+realiza mediante una columna llamada <code>facebook_uid</code> en la tabla <code>Profile</code>. El
+plugin supone que la relación entre <code>sfGuardUser</code> y su perfil se realiza mediante
+el método <code>getProfile()</code>. Aunque este es el comportamiento por defecto de
+<code>sfPropelGuardPlugin</code>, en el caso de <code>sfDoctrineGuardPlugin</code> es preciso configurarlo
+a mano. A continuación se muestra un posible archivo <code>schema.yml</code>:</p>
+
+<p>Para Propel:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">sf_guard_user_profile</span>:<span class="co3">
+  _attributes</span><span class="sy2">: </span><span class="br0">&#123;</span> phpName<span class="sy2">: </span>UserProfile <span class="br0">&#125;</span><span class="co4">
+  id</span>:<span class="co3">
+  user_id</span><span class="sy2">: </span>           <span class="br0">&#123;</span> type<span class="sy2">: </span>integer, foreignTable<span class="sy2">: </span>sf_guard_user, foreignReference<span class="sy2">: </span>id, onDelete<span class="sy2">: </span>cascade <span class="br0">&#125;</span><span class="co3">
+  first_name</span><span class="sy2">: </span>        <span class="br0">&#123;</span> type<span class="sy2">: </span>varchar, size<span class="sy2">: </span><span class="nu0">30</span> <span class="br0">&#125;</span><span class="co3">
+  last_name</span><span class="sy2">: </span>         <span class="br0">&#123;</span> type<span class="sy2">: </span>varchar, size<span class="sy2">: </span><span class="nu0">30</span> <span class="br0">&#125;</span><span class="co3">
+  facebook_uid</span><span class="sy2">: </span>      <span class="br0">&#123;</span> type<span class="sy2">: </span>varchar, size<span class="sy2">: </span><span class="nu0">20</span> <span class="br0">&#125;</span><span class="co3">
+  email</span><span class="sy2">: </span>             <span class="br0">&#123;</span> type<span class="sy2">: </span>varchar, size<span class="sy2">: </span><span class="nu0">255</span> <span class="br0">&#125;</span><span class="co3">
+  email_hash</span><span class="sy2">: </span>        <span class="br0">&#123;</span> type<span class="sy2">: </span>varchar, size<span class="sy2">: </span><span class="nu0">255</span> <span class="br0">&#125;</span><span class="co4">
+  _uniques</span>:<span class="co3">
+    facebook_uid_index</span><span class="sy2">: </span><span class="br0">&#91;</span>facebook_uid<span class="br0">&#93;</span><span class="co3">
+    email_index</span><span class="sy2">: </span>       <span class="br0">&#91;</span>email<span class="br0">&#93;</span><span class="co3">
+    email_hash_index</span><span class="sy2">: </span>  <span class="br0">&#91;</span>email_hash<span class="br0">&#93;</span></pre>
+</div>
+
+<p>Para Doctrine:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">sfGuardUserProfile</span>:<span class="co3">
+  tableName</span><span class="sy2">: </span>    sf_guard_user_profile<span class="co4">
+  columns</span>:<span class="co3">
+    user_id</span><span class="sy2">: </span>         <span class="br0">&#123;</span> type<span class="sy2">: </span>integer<span class="br0">&#40;</span><span class="nu0">4</span><span class="br0">&#41;</span>, notnull<span class="sy2">: </span>true <span class="br0">&#125;</span><span class="co3">
+    first_name</span><span class="sy2">: </span>      <span class="br0">&#123;</span> type<span class="sy2">: </span>string<span class="br0">&#40;</span><span class="nu0">30</span><span class="br0">&#41;</span> <span class="br0">&#125;</span><span class="co3">
+    last_name</span><span class="sy2">: </span>       <span class="br0">&#123;</span> type<span class="sy2">: </span>string<span class="br0">&#40;</span><span class="nu0">30</span><span class="br0">&#41;</span> <span class="br0">&#125;</span><span class="co3">
+    facebook_uid</span><span class="sy2">: </span>    <span class="br0">&#123;</span> type<span class="sy2">: </span>string<span class="br0">&#40;</span><span class="nu0">20</span><span class="br0">&#41;</span> <span class="br0">&#125;</span><span class="co3">
+    email</span><span class="sy2">: </span>           <span class="br0">&#123;</span> type<span class="sy2">: </span>string<span class="br0">&#40;</span><span class="nu0">255</span><span class="br0">&#41;</span> <span class="br0">&#125;</span><span class="co3">
+    email_hash</span><span class="sy2">: </span>      <span class="br0">&#123;</span> type<span class="sy2">: </span>string<span class="br0">&#40;</span><span class="nu0">255</span><span class="br0">&#41;</span> <span class="br0">&#125;</span><span class="co4">
+  indexes</span>:<span class="co4">
+    facebook_uid_index</span>:<span class="co3">
+      fields</span><span class="sy2">: </span><span class="br0">&#91;</span>facebook_uid<span class="br0">&#93;</span><span class="co3">
+      unique</span><span class="sy2">: </span>true<span class="co4">
+    email_index</span>:<span class="co3">
+      fields</span><span class="sy2">: </span><span class="br0">&#91;</span>email<span class="br0">&#93;</span><span class="co3">
+      unique</span><span class="sy2">: </span>true<span class="co4">
+    email_hash_index</span>:<span class="co3">
+      fields</span><span class="sy2">: </span><span class="br0">&#91;</span>email_hash<span class="br0">&#93;</span><span class="co3">
+      unique</span><span class="sy2">: </span>true<span class="co4">
+  relations</span>:<span class="co4">
+    sfGuardUser</span>:<span class="co3">
+      type</span><span class="sy2">: </span>one<span class="co3">
+      foreignType</span><span class="sy2">: </span>one<span class="co3">
+      class</span><span class="sy2">: </span>sfGuardUser<span class="co3">
+      local</span><span class="sy2">: </span>user_id<span class="co3">
+      foreign</span><span class="sy2">: </span>id<span class="co3">
+      onDelete</span><span class="sy2">: </span>cascade<span class="co3">
+      foreignAlias</span><span class="sy2">: </span>Profile</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> ¿Qué sucede si el proyecto utiliza Doctrine y el valor de la opción <code>foreignAlias</code>
+no es <code>Profile</code>. En ese caso, el plugin simplemente no funciona. Afortunadamente,
+el problema se puede resolver añadiendo un método <code>getProfile()</code> sencillo en
+la clase <code>sfGuardUser.class.php</code> y que apunte a la tabla <code>Profile</code>.</p></div>
+
+<p>También es importante que la columna <code>facebook_uid</code> sea de tipo <code>varchar</code>, ya
+que los nuevos perfiles de Facebook tienen <code>uids</code> con valores superiores a <code>10^15</code>.
+Resulta más sencillo utilizar una columna de tipo <code>varchar</code> con un índice asociado
+en vez de intentar hacer funcionar las columnas de tipo <code>bigint</code> con los
+diferentes ORM.</p>
+
+<p>Las otras dos columnas (<code>email</code> y <code>email_hash</code>) son menos importantes y sólo son
+necesarias en el caso de los sitios web con <em>Facebook Connect</em> que ya tenían
+usuarios registrados previamente. En ese caso, Facebook realia un proceso un
+poco complicado para tratar de asociar las cuentas existentes con las nuevas
+cuentas de Facebook mediante el <em>hash</em> de un email. El plugin <code>sfFacebookConnectPlugin</code>
+facilita este proceso con una de las tareas que incluye, tal y como se describe
+al final de este capítulo.</p>
+
+<h3 id="symfony_evita_el_problema_de_elegir_entre_fbml_y_xfbml">12.2.6. Symfony evita el problema de elegir entre FBML y XFBML</h3>
+
+<p>Ahora que ya está todo preparado, es posible empezar a programar la aplicación.
+Facebook ofrece muchas etiquetas especiales que permiten mostrar funcionalidades
+completas, como un formulario para invitar a amigos o un sistema completo de
+comentarios. Estas etiquetas se denominan FBML o XFBML. Los dos tipos de etiquetas
+son muy similares y la elección depende de si la aplicación se muestra dentro
+de Facebook o no. Si el proyecto es un sitio web de tipo <em>Facebook Connect</em>, sólo
+se pueden utilizar las etiquetas XFBML. Si se trata de una aplicación Facebook
+se pueden seleccionar cualquiera de las dos opciones:</p>
+
+<ul>
+<li>Si se embebe la aplicación dentro de un <code>&lt;iframe&gt;</code> de la página de la aplicación
+de Facebook, se emplea XFBML.</li>
+<li>Si dejamos que Facebook embeba la aplicación de forma transparente, se utiliza
+FBML.</li>
+</ul>
+
+<p>Facebook aconseja a los programadores que embeban sus aplicaciones de forma
+transparente, por lo que fomenta el uso de las <em>aplicaciones FBML</em>. En efecto,
+esta estrategia tiene algunas características muy interesantes:</p>
+
+<ul>
+<li>No se utiliza ningún <code>&lt;iframe&gt;</code>, que siempre es más complicado de gestionar
+porque tienes que tener en cuenta si los enlaces de la aplicación deben
+apuntar al <code>&lt;iframe&gt;</code> o a la ventana contenedora.</li>
+<li>El servidor de FBML interpreta las etiquetas especiales FBML, por lo que es
+posible mostrar información privada del usuario sin tener que realizar una
+comunicación previa con el servidor de Facebook.</li>
+<li>No es necesario pasar la sesión de Facebook de una página a otra manualmente.</li>
+</ul>
+
+<p>FBML también tiene algunas desventajas importantes:</p>
+
+<ul>
+<li>Todos los archivos JavaScript se incluyen desde un <em>sandbox</em>, por lo que no
+pueden utilizar librerías externas como las de Google Maps, jQuery o cualquier
+otro sistema de estadísticas que no sea Google Analytics (soportado oficialmente
+por Facebook).</li>
+<li>Facebook asegura que es mucho más rápido porque alguna de las peticiones de
+la API se pueden sustituir por etiquetas FBML. No obstante, si la aplicación
+es sencilla, resulta mucho más rápido que disponga de su propio sitio web.</li>
+<li>Resulta más difícil depurar las aplicaciones, sobre todo los errores de tipo
+500, que son interceptados por Facebook y se reemplazan por errores estándar.</li>
+</ul>
+
+<p>¿Cuál es entonces la opción recomendada? La buena noticia es que gracias a
+Symfony y al plugin <code>sfFacebookConnectPlugin</code>, no debes tomar ninguna decisión.
+Se pueden crear aplicaciones <em>agnósticas</em> cuyo código sirva tanto para las
+aplicaciones ejecutadas en un <code>&lt;iframe&gt;</code>, como para las aplicaciones embebidas
+de forma transparente y también para los sitios con <em>Facebook Connect</em>. Esto es
+posible ya que técnicamente, la principal diferencia entre ellas reside en el
+layout, que en Symfony se puede modificar fácilmente. Estos son los ejemplos de
+los dos tipos de layouts:</p>
+
+<p>El layout de una aplicación FBML:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> sfConfig<span class="sy0">::</span><span class="me2">set</span><span class="br0">&#40;</span><span class="st_h">'sf_web_debug'</span><span class="sy0">,</span> <span class="kw4">false</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+&lt;fb:title&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> sfContext<span class="sy0">::</span><span class="me2">getInstance</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getResponse</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getTitle</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/fb:title&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$sf_content</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>El layout de una aplicación XFBML o de tipo <em>Facebook Connect</em>:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> use_helper<span class="br0">&#40;</span><span class="st_h">'sfFacebookConnect'</span><span class="br0">&#41;</span><span class="sy1">?&gt;</span>
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:fb=&quot;http://www.facebook.com/2008/fbml&quot;&gt;
+  &lt;head&gt;
+    <span class="kw2">&lt;?php</span> include_http_metas<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+    <span class="kw2">&lt;?php</span> include_metas<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+    <span class="kw2">&lt;?php</span> include_title<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+    &lt;script type=&quot;text/javascript&quot; src=&quot;/sfFacebookConnectPlugin/js/animation/animation.js&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$sf_content</span> <span class="sy1">?&gt;</span>
+    <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> include_facebook_connect_script<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+
+<p>Para alternar entre uno y otro layout, simplemente añade el siguiente código
+dentro del archivo <code>actions.class.php</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> preExecute<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="kw1">if</span> <span class="br0">&#40;</span>sfFacebook<span class="sy0">::</span><span class="me2">isInsideFacebook</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">setLayout</span><span class="br0">&#40;</span><span class="st_h">'layout_fbml'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+  <span class="kw1">else</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">setLayout</span><span class="br0">&#40;</span><span class="st_h">'layout_connect'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Existe una pequeña diferencia entre FBML y XFBML que no se encuentra en el
+layout: las etiquetas FBML se pueden cerrar y las etiquetas XFBML no se pueden
+cerrar. Así que sustituye este tipo de etiquetas:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;fb:profile-pic uid<span class="sy0">=</span><span class="st0">&quot;12345&quot;</span> <span class="kw3">size</span><span class="sy0">=</span><span class="st0">&quot;normal&quot;</span> <span class="kw3">width</span><span class="sy0">=</span><span class="st0">&quot;400&quot;</span> <span class="sy0">/</span>&gt;</span></pre>
+</div>
+
+<p>por esta otra etiqueta equivalente:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;fb:profile-pic uid<span class="sy0">=</span><span class="st0">&quot;12345&quot;</span> <span class="kw3">size</span><span class="sy0">=</span><span class="st0">&quot;normal&quot;</span> <span class="kw3">width</span><span class="sy0">=</span><span class="st0">&quot;400&quot;</span>&gt;&lt;<span class="sy0">/</span>fb:profile-pic&gt;</span></pre>
+</div>
+
+<p></p></div>
+
+<p>Para que este cambio sea efectivo, la aplicación también debe ser configurada
+como de tipo <em>Facebook Connect</em> dentro de las opciones de la aplicación de
+Facebook, incluso aunque la aplicación sólo esté pensada para FBML. No obstante,
+la enorme ventaja de hacerlo es que se puede probar la aplicación de forma local.</p>
+
+<p>Si vas a crear una aplicación de Facebook que utilice etiquetas FBML, algo casi
+inevitable, la única forma de ver el resultado final es publicar el código de
+la aplicación y ver cómo muestra el resultado Facebook. El uso de <em>Facebook Connect</em>
+permite utilizar las etiquetas XFBML fuera del sitio web facebook.com y como se
+ha explicado anteriormente, la única diferencia entre FBML y XFBML es el layout.</p>
+
+<p>Por tanto, la solución presentada permite mostrar las etiquetas FBML de forma
+local, siempre que dispongas de conexión a Internet. Además, con un entorno de
+desarrollo accesible desde Internet (como por ejemplo un servidor o un simple
+ordenador con el puerto 80 abierto) incluso las partes que dependen de la
+autenticación de Facebook funcionan fuera del dominio facebook.com, gracias al
+sistema <em>Facebook Connect</em>. De esta forma, puedes probar la aplicación completa
+antes de subirla a Facebook.</p>
+
+<h3 id="la_aplicacion_sencilla_hola_tu">12.2.7. La aplicación sencilla <em>Hola, tu</em></h3>
+
+<p>Si añades el siguiente código en la plantilla de la portada del sitio, ya dispones
+de una aplicación que muestra el mensaje <em>Hola, [tu nombre]</em>:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="re0">$sfGuardUser</span> <span class="sy0">=</span> sfFacebook<span class="sy0">::</span><span class="me2">getSfGuardUserByFacebookSession</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+Hello &lt;fb:name uid=&quot;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$sfGuardUser</span>?<span class="re0">$sfGuardUser</span><span class="sy0">-&gt;</span><span class="me1">getProfile</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getFacebookUid</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">:</span><span class="st_h">''</span> <span class="sy1">?&gt;</span>&quot;&gt;&lt;/fb:name&gt;</pre>
+</div>
+
+<p>El plugin <code>sfFacebookConnectPlugin</code> convierte automáticamente a cualquier
+usuario que sea miembro de Facebook en un usuario de tipo <code>sfGuard</code>. Así es muy
+sencillo integrar Facebook con el código Symfony existente que haga uso del
+plugin <code>sfGuardPlugin</code>.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_12/desarrollando_aplicaciones_facebook_2.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>12.1. Desarrollando aplicaciones Facebook</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_12/facebook_connect_2.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>12.3. Facebook Connect</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Enrutamiento avanzado</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Mejora tu productividad</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Emails</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Widgets y validadores propios</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Formularios avanzados</a>
+            </li>
+                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Mejorando la barra de depuración web</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Uso avanzado de Doctrine</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Utilizando la herencia de tablas de Doctrine</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Funcionamiento interno de Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Windows y Symfony</a>
+            </li>
+                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_12.html">
+                    <span>Capítulo 12.</span> Desarrollando aplicaciones Facebook
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/desarrollando_aplicaciones_facebook_2.html">
+                    <span>12.1.</span> Desarrollando aplicaciones Facebook
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_12/creando_un_primer_proyecto_con_sffacebookconnectplugin.html">
+                    <span>12.2.</span> Creando un primer proyecto con <code>sfFacebookConnectPlugin</code>
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/facebook_connect_2.html">
+                    <span>12.3.</span> Facebook Connect
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/buenas_practicas_en_las_aplicaciones_facebook.html">
+                    <span>12.4.</span> Buenas prácticas en las aplicaciones Facebook
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/proximos_pasos.html">
+                    <span>12.5.</span> Próximos pasos
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Descubriendo el poder de la línea de comandos</a>
+            </li>
+                                                                                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Jugando con la cache de configuración de Symfony</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Trabajando con la comunidad Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>A.</span> <a href="../apendice_a.html"> Código JavaScript de sfWidgetFormGMapAddress</a>
+            </li>
+                                            <li class="level-1">
+                <span>B.</span> <a href="../apendice_b.html"> Ejemplo de instalador propio</a>
+            </li>
+                                            <li class="level-1">
+                <span>C.</span> <a href="../apendice_c.html"> Licencia</a>
+            </li>
+                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

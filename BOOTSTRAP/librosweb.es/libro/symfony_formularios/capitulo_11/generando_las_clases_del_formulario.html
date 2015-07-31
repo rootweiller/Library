@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>11.2. Generando las clases del formulario (Los formularios de Symfony 1.4)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_11/antes_de_comenzar.html" />
+                    <link rel="next" href="../capitulo_11/el_generador_crud.html" />
+                <link rel="start" href="/libro/symfony_formularios/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="11.2. Generando las clases del formulario (Los formularios de Symfony 1.4)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_formularios"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_formularios/" itemprop="url">
+                    <span itemprop="title">Los formularios de Symfony 1.4</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_formularios/capitulo_11.html" itemprop="url">
+                    <span itemprop="title">Capítulo 11. Integrando Doctrine</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>11.2. Generando las clases del formulario</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="generando_las_clases_del_formulario" class="title">
+        <span>11.2.</span> Generando las clases del formulario
+    </h1>
+
+    
+
+<p>El gestor de artículos permite modificar la información de las tablas <code>article</code>, <code>author</code>, <code>category</code> y <code>tag</code>. Para ello, es preciso crear formularios asociados a cada tabla y configurar los widgets y validadores necesarios para cumplir las restricciones del esquema de la base de datos. Aunque los formularios se pueden crear a mano, se trata de una tarea repetitiva y tediosa que requiere repetir la misma información una y otra vez en diferentes archivos (el nombre de las columnas y los campos, el tamaño máximo de las columnas y campos, etc.) Además, cada vez que se modifica el modelo, es necesario modificar la clase del formulario asociado. Afortunadamente, el plugin de Doctrine incluye una tarea llamada <code>doctrine:build-forms</code> que automatiza todo este proceso y genera los formularios relacionados con el modelo de objetos:</p>
+
+<div class="code cli">
+<pre class="cli">$ ./symfony doctrine:build-forms frontend</pre>
+</div>
+
+<p>La tarea de generación automática de formularios crea una clase para cada tabla y añade los validadores y widgets necesarios para cada columna mediante la introspección del modelo y teniendo en cuenta las relaciones entre tablas.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Las tareas <code>doctrine:build-all</code> y <code>doctrine:build-all-load</code> también actualizan las clases de los formularios porque invocan automáticamente la tarea <code>doctrine:build-forms</code>.</p></div>
+
+<p>Después de ejecutar estas tareas se crea una estructura de archivos en el directorio <code>lib/form/</code>. El siguiente listado muestra los archivos creados para el esquema utilizado en los ejemplos anteriores:</p>
+
+<div class="code code">
+<pre class="code">lib/
+  form/
+    doctrine/
+      BaseFormDoctrine.class.php
+      ArticleForm.class.php
+      ArticleTagForm.class.php
+      AuthorForm.class.php
+      CategoryForm.class.php
+      TagForm.class.php
+      base/
+        BaseArticleForm.class.php
+        BaseArticleTagForm.class.php
+        BaseAuthorForm.class.php
+        BaseCategoryForm.class.php
+        BaseFormDoctrine.class.php
+        BaseTagForm.class.php</pre>
+</div>
+
+<p>La tarea <code>doctrine:build-forms</code> genera dos clases para cada tabla del esquema, una clase base en el directorio <code>lib/form/base</code> y otra clase en el directorio <code>lib/form/</code>. Si se considera por ejemplo la tabla <code>author</code>, se crean las clases <code>BaseAuthorForm</code> y <code>AuthorForm</code> que se guardan en los archivos <code>lib/form/base/BaseAuthorForm.class.php</code> y <code>lib/form/AuthorForm.class.php</code>.</p>
+
+<p>La siguiente tabla muestra la jerarquía de las diferentes clases relacionadas con el formulario <code>AuthorForm</code>.</p>
+
+<div class="table" id="table_11_1">
+
+    <table>
+<thead>
+<tr>
+  <th>Clase</th>
+  <th>Paquete  <em>package</em></th>
+  <th>Quién utiliza la clase</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>AuthorForm</code></td>
+  <td><code>project</code></td>
+  <td>Programador</td>
+  <td>Redefine el formulario generado</td>
+</tr>
+<tr>
+  <td><code>BaseAuthorForm</code></td>
+  <td><code>project</code></td>
+  <td>Symfony</td>
+  <td>Se basa en el esquema y se genera cada vez que se ejecuta la tarea <code>doctrine:build-forms</code></td>
+</tr>
+<tr>
+  <td><code>BaseFormDoctrine</code></td>
+  <td><code>project</code></td>
+  <td>Programador</td>
+  <td>Permite personalizar los formularios de Doctrine de forma global</td>
+</tr>
+<tr>
+  <td><code>sfFormDoctrine</code></td>
+  <td>Plugin Doctrine</td>
+  <td>Symfony</td>
+  <td>Base de los formularios de Doctrine</td>
+</tr>
+<tr>
+  <td><code>sfForm</code></td>
+  <td><code>symfony</code></td>
+  <td>Symfony</td>
+  <td>Base de los formularios de Symfony</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>El listado 11-2 muestra el código de la clase <code>AuthorForm</code>, utilizada para crear y modificar los objetos de la clase <code>Author</code>. Como se puede observar, esta clase no contiene ningún método, ya que hereda de la clase <code>BaseAuthorForm</code> que se genera a partir de la configuración. La clase <code>AuthorForm</code> se utiliza para personalizar y redefinir la configuración del formulario.</p>
+
+<p><strong>Listado 11-2 - La clase <code>AuthorForm</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> AuthorForm <span class="kw2">extends</span> BaseAuthorForm
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> configure<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El listado 11-3 muestra el código de la clase <code>BaseAuthorForm</code> con los validadores y widgets generados automáticamente mediante la instrospección del modelo de la tabla <code>author</code>.</p>
+
+<p><strong>Listado 11-3 - Clase <code>BaseAuthorForm</code> que representa al formulario de la tabla <code>author</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> BaseAuthorForm <span class="kw2">extends</span> BaseFormDoctrine
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> setup<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">setWidgets</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+      <span class="st_h">'id'</span>         <span class="sy0">=&gt;</span> <span class="kw2">new</span> sfWidgetFormInputHidden<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+      <span class="st_h">'first_name'</span> <span class="sy0">=&gt;</span> <span class="kw2">new</span> sfWidgetFormInput<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+      <span class="st_h">'last_name'</span>  <span class="sy0">=&gt;</span> <span class="kw2">new</span> sfWidgetFormInput<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+      <span class="st_h">'email'</span>      <span class="sy0">=&gt;</span> <span class="kw2">new</span> sfWidgetFormInput<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">setValidators</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+      <span class="st_h">'id'</span>         <span class="sy0">=&gt;</span> <span class="kw2">new</span> sfValidatorDoctrineChoice<span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'model'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Author'</span><span class="sy0">,</span> <span class="st_h">'column'</span> <span class="sy0">=&gt;</span> <span class="st_h">'id'</span><span class="sy0">,</span> <span class="st_h">'required'</span> <span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+      <span class="st_h">'first_name'</span> <span class="sy0">=&gt;</span> <span class="kw2">new</span> sfValidatorString<span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'max_length'</span> <span class="sy0">=&gt;</span> <span class="nu0">20</span><span class="sy0">,</span> <span class="st_h">'required'</span> <span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+      <span class="st_h">'last_name'</span>  <span class="sy0">=&gt;</span> <span class="kw2">new</span> sfValidatorString<span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'max_length'</span> <span class="sy0">=&gt;</span> <span class="nu0">20</span><span class="sy0">,</span> <span class="st_h">'required'</span> <span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+      <span class="st_h">'email'</span>      <span class="sy0">=&gt;</span> <span class="kw2">new</span> sfValidatorString<span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'max_length'</span> <span class="sy0">=&gt;</span> <span class="nu0">255</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">widgetSchema</span><span class="sy0">-&gt;</span><span class="me1">setNameFormat</span><span class="br0">&#40;</span><span class="st_h">'author[%s]'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">errorSchema</span> <span class="sy0">=</span> <span class="kw2">new</span> sfValidatorErrorSchema<span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">validatorSchema</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    parent<span class="sy0">::</span><span class="me2">setup</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> getModelName<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="st_h">'Author'</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>La clase generada es muy similar a la de los formularios creados en los capítulos anteriores, salvo por las siguientes excepciones:</p>
+
+<ul>
+<li>La clase base es <code>BaseFormDoctrine</code> en vez de <code>sfForm</code></li>
+<li>La configuración de los validadores y widgets se realiza en el método <code>setup()</code>, en vez de en el método <code>configure()</code></li>
+<li>El método <code>getModelName()</code> devuelve la clase de Doctrine relacionada con el formulario</li>
+</ul>
+
+<div class="admonition sidebar"><p><strong class="title">Personalizando de forma global los formularios de Doctrine</strong> Además de las clases generadas para cada tabla, la tarea <code>doctrine:build-forms</code> también genera la clase <code>BaseFormDoctrine</code>. Esta clase está vacía inicialmente y es la clase base de todas las clases del directorio <code>lib/form/base/</code>, por lo que permite modificar globalmente el comportamiento de todos los formularios de Doctrine. El siguiente ejemplo muestra cómo modificar el formato de salida de todos los formularios de Doctrine:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">abstract</span> <span class="kw2">class</span> BaseFormDoctrine <span class="kw2">extends</span> sfFormDoctrine
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> setup<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    sfWidgetFormSchema<span class="sy0">::</span><span class="me2">setDefaultFormFormatterName</span><span class="br0">&#40;</span><span class="st_h">'div'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Si te fijas verás que la clase <code>BaseFormDoctrine</code> hereda a su vez de la clase <code>sfFormDoctrine</code>. Esta última clase incluye funcionalidades específicas de Doctrine y entre otras cosas, incluye todo el código necesario para almacenar en la base de datos los objetos con los valores enviados a través de los formularios.</p></div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Las clases base utilizan el método <code>setup()</code> para su configuración en vez del método <code>configure()</code>. De esta forma es posible redefinir la configuración de las clases vacías generadas automáticamente sin utilizar una llamada a <code>parent::configure()</code>.</p></div>
+
+<p>Los nombres de los campos del formulario son idénticos a los nombres de las columnas del esquema de datos: <code>id</code>, <code>first_name</code>, <code>last_name</code> y <code>email</code>.</p>
+
+<p>La tarea <code>doctrine:build-forms</code> genera un widget y un validador para cada columna de la tabla <code>author</code> cumpliendo las restricciones del esquema de datos. Esta tarea siempre genera los validadores más seguros posible. Si se considera el campo <code>id</code>, se podría comprobar simplemente si es un número entero válido. Sin embargo, el validador generado también comprueba que ese identificador exista en la base de datos (para modificar un objeto existente) o sea vacío (para poder crear un nuevo objeto). La validación generada automáticamente es mucho más segura que comprobar simplemente que sea un número entero.</p>
+
+<p>La mayor ventaja de los formularios generados es que se pueden utilizar inmediatamente. Si se añade la instrucción <code>&lt;?php echo $form ?&gt;</code> en la página, ya se dispone de un formulario completamente funcional sin haber escrito ni una sola línea de código.</p>
+
+<p>Además de la posibilidad de crear prototipos rápidamente, los formularios generados se pueden modificar sin necesidad de cambiar las clases generadas automáticamente, gracias a la herencia entre las clases base y las clases de los formularios.</p>
+
+<p>Por último, cada vez que se modifica el esquema de la base de datos, esta tarea genera de nuevo todos los formularios para tener en cuenta las modificaciones manteniendo las modificaciones realizadas en las otras clases.</p>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_11/antes_de_comenzar.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>11.1. Antes de comenzar</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_11/el_generador_crud.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>11.3. El generador CRUD</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Creación de formularios</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Validación de formularios</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Formularios para diseñadores web</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Integración con Propel</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Sin título</a>
+            </li>
+                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Sin título</a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Sin título</a>
+            </li>
+                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Sin título</a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Sin título</a>
+            </li>
+                                            <li class="level-1 ">
+                <a href="../capitulo_11.html">
+                    <span>Capítulo 11.</span> Integrando Doctrine
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/antes_de_comenzar.html">
+                    <span>11.1.</span> Antes de comenzar
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_11/generando_las_clases_del_formulario.html">
+                    <span>11.2.</span> Generando las clases del formulario
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/el_generador_crud.html">
+                    <span>11.3.</span> El generador CRUD
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/personalizando_los_formularios_generados.html">
+                    <span>11.4.</span> Personalizando los formularios generados
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/serializacion_de_formularios.html">
+                    <span>11.5.</span> Serialización de formularios
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Referencia de Widgets</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Validadores</a>
+            </li>
+                                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

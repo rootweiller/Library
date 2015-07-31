@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>4.9. Git en un alojamiento externo (Pro Git, el libro oficial de Git)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_4/el_demonio_git.html" />
+                    <link rel="next" href="../capitulo_4/resumen.html" />
+                <link rel="start" href="/libro/pro_git/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="4.9. Git en un alojamiento externo (Pro Git, el libro oficial de Git)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page pro_git"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/" itemprop="url">
+                    <span itemprop="title">Pro Git, el libro oficial de Git</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/capitulo_4.html" itemprop="url">
+                    <span itemprop="title">Capítulo 4. Git en un servidor</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>4.9. Git en un alojamiento externo</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="git_en_un_alojamiento_externo" class="title">
+        <span>4.9.</span> Git en un alojamiento externo
+    </h1>
+
+    
+
+<p>Si no quieres realizar todo el trabajo de preparar tu propio servidor Git, tienes varias opciones para alojar tus proyectos Git en una ubicación externa dedicada. Esta forma de trabajar tiene varias ventajas: un alberge externo suele ser rápido de configurar y sencillo de iniciar proyectos en él; además de no ser necesario preocuparte de su mantenimiento ni de su monitorización. Incluso en el caso de que tengas tu propio servidor interno, puede resultar interesante utilizar también un lugar público; para albergar tu código abierto — normalmente, ahí suele ser más sencillo de localizar por parte de la comunidad —.</p>
+
+<p>Actualmente tienes un gran número de opciones del alojamiento, cada una con sus ventajas y desventajas. Para obtener una lista actualizada, puedes mirar en la página GitHosting del wiki principal de Git:</p>
+
+<div class="code code">
+<pre class="code">http://git.or.cz/gitwiki/GitHosting</pre>
+</div>
+
+<p>Por ser imposible el cubrir todos ellos, y porque da la casualidad de que trabajo en uno de ellos, concretamente, en esta sección veremos cómo crear una cuenta y nuevos proyectos albergados en <code>GitHub</code>. Así podrás hacerte una idea de cómo suelen funcionar estos alberges externos.</p>
+
+<p>GitHub es, de lejos, el mayor sitio de alberge público de proyectos Git de código abierto. Y es también uno de los pocos que ofrece asimismo opciones de alberge privado; de tal forma que puedes tener tanto tus proyectos de código abierto y como los de código comercial cerrado en un mismo emplazamiento. De hecho, nosotros utilizamos también GitHub para colaborar privadamente en este libro.</p>
+
+<h3 id="github">4.9.1. GitHub</h3>
+
+<p>GitHub es ligeramente distinto a otros sitios de alberge, en tanto en cuanto que contempla espacios de nombres para los proyectos. En lugar de estar focalizado en los proyectos, GitHub gira en torno a los usuarios. Esto significa que, cuando alojo mi proyecto <code>grit</code> en GitHub, no lo encontraras bajo <code>github.com/grit</code>, sino bajo <code>github.com/schacon/grit</code>. No existe una versión canónica de ningún proyecto, lo que permite a cualquiera de ellos ser movido facilmente de un usuario a otro en el caso de que el primer autor lo abandone.</p>
+
+<p>GitHub es también una compañia comercial, que cobra por las cuentas que tienen repositorios privados. Pero, para albergar proyectos públicos de código abierto, cualquiera puede crear una cuenta gratuita. Vamos a ver cómo hacerlo.</p>
+
+<h3 id="configurando_una_cuenta_de_usuario">4.9.2. Configurando una cuenta de usuario</h3>
+
+<p>El primer paso es dar de alta una cuenta gratuita. Si visitas la página de Precios e Inicio de Sesión, en <code>http://github.com/plans</code>, y clicas sobre el botón <em>"Registro"</em> (<em>"Sign Up"</em>) de las cuentas gratuitas, verás una página de registro:</p>
+
+<div class="figure" id="figure_4_2">
+    <img src="/img/pro_git/18333fig0402.png" alt="La página de planes GitHub" />
+
+    <p class="caption"><strong>Figura 4.2</strong> La página de planes GitHub</p>
+</div>
+
+
+<p>En ella, has de elegir un nombre de usuario que esté libre, indicar una cuenta de correo electrónico y poner una contraseña.</p>
+
+<div class="figure" id="figure_4_3">
+    <img src="/img/pro_git/18333fig0403.png" alt="El formulario de registro en GitHub" />
+
+    <p class="caption"><strong>Figura 4.3</strong> El formulario de registro en GitHub</p>
+</div>
+
+
+<p>Si la tuvieras, es también un buen momento para añadir tu clave pública SSH. Veremos cómo generar una de estas claves, más adelante, en la sección <em>"Ajustes Simples"</em>. Pero, si ya tienes un par de claves SSH, puedes coger el contenido correspondiente a la clave pública y pegarlo en la caja de texto preparada para tal fin. El enlace <em>"explicar claves ssh"</em> (<em>"explain ssh keys"</em>) te llevará a unas detalladas instrucciones de cómo generarlas en la mayor parte de los principales sistemas operativos.</p>
+
+<p>Clicando sobre el botón de <em>"Estoy de acuerdo, registramé"</em> (<em>"I agree, sign me up"</em>), irás al panel de control de tu recién creado usuario.</p>
+
+<div class="figure" id="figure_4_4">
+    <img src="/img/pro_git/18333fig0404.png" alt="El panel de control del usuario GitHub" />
+
+    <p class="caption"><strong>Figura 4.4</strong> El panel de control del usuario GitHub</p>
+</div>
+
+
+<p>A continuación, puedes crear nuevos repositorios.</p>
+
+<h3 id="creando_un_nuevo_repositorio">4.9.3. Creando un nuevo repositorio</h3>
+
+<p>Puedes empezar clicando sobre el enlace <em>"crear uno nuevo"</em> (<em>"create a new one"</em>), en la zona <em>"Tus repositorios"</em> (<em>Your Repositories</em>) del panel de control. Irás al formulario de Crear un Nuevo Repositório (ver Figura 4-5).</p>
+
+<div class="figure" id="figure_4_5">
+    <img src="/img/pro_git/18333fig0405.png" alt="Creando un nuevo repositório en GitHub" />
+
+    <p class="caption"><strong>Figura 4.5</strong> Creando un nuevo repositório en GitHub</p>
+</div>
+
+
+<p>Es suficiente con dar un nombre al proyecto, pero también puedes añadirle una descripción. Cuando lo hayas escrito, clica sobre el botón <em>"Crear Repositório"</em> (<em>Create Repository</em>). Y ya tienes un nuevo repositório en GitHub (ver Figura 4-6)</p>
+
+<div class="figure" id="figure_4_6">
+    <img src="/img/pro_git/18333fig0406.png" alt="Información de cabecera de un proyecto GitHub" />
+
+    <p class="caption"><strong>Figura 4.6</strong> Información de cabecera de un proyecto GitHub</p>
+</div>
+
+
+<p>Como aún no tienes código, GitHub mostrará instrucciones sobre cómo iniciar un nuevo proyecto, cómo enviar (<em>push</em>) un proyecto Git preexistente, o cómo importar un proyecto desde un repositório público Subversion (ver Figura 4-7).</p>
+
+<div class="figure" id="figure_4_7">
+    <img src="/img/pro_git/18333fig0407.png" alt="Instrucciones para un nuevo repositório" />
+
+    <p class="caption"><strong>Figura 4.7</strong> Instrucciones para un nuevo repositório</p>
+</div>
+
+
+<p>Estas instrucciones son similares a las que ya hemos visto. Para inicializar un proyecto, no siendo aún un proyecto Git, sueles utilizar:</p>
+
+<div class="code code">
+<pre class="code">$ git init
+$ git add .
+$ git commit -m 'initial commit'</pre>
+</div>
+
+<p>Una vez tengas un repositorio local Git, añadele el sitio GitHub como un remoto y envia (<em>push</em>) allí tu rama principal:</p>
+
+<div class="code code">
+<pre class="code">$ git remote add origin <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="21464855614648554954430f424e4c">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>:testinguser/iphone_project.git
+$ git push origin master</pre>
+</div>
+
+<p>Así, tu proyecto estará alojado en GitHub; y podrás dar su URL a cualquiera con quien desees compartirlo. En este ejemplo, la URL es <code>http://github.com/testinguser/iphone_project</code>. En la página de cabecera de cada uno de tus proyectos, podrás ver dos URLs (ver Figura 4-8).</p>
+
+<div class="figure" id="figure_4_8">
+    <img src="/img/pro_git/18333fig0408.png" alt="Cabecera de proyecto, con una URL pública y otra URL privada" />
+
+    <p class="caption"><strong>Figura 4.8</strong> Cabecera de proyecto, con una URL pública y otra URL privada</p>
+</div>
+
+
+<p>El enlace <em>"Public Clone URL"</em>, es un enlace público, de solo lectura; a través del cual cualquiera puede clonar el proyecto. Puedes comunicar libremente ese URL o puedes publicarlo en tu sitio web o en cualquier otro médio que desees.</p>
+
+<p>El enlace <em>"Your Clone URL"</em>, es un enlace de lectura/escritura basado en SSH; a través del cual puedes leer y escribir, pero solo si te conectas con la clave SSH privada correspondiente a la clave pública que has cargado para tu usuario. Cuando otros usuarios visiten la página del proyecto, no verán esta segunda URL — solo verán la URL pública —.</p>
+
+<h3 id="importacion_desde_subversion">4.9.4. Importación desde Subversion</h3>
+
+<p>Si tienes un proyecto público Subversion que deseas pasar a Git, GitHub suele poder realizar la importación. All fondo de la página de instrucciones, tienes un enlace <em>"Subversion import"</em>. Si clicas sobre dicho enlace, verás un formulario con información sobre el proceso de importación y un cuadro de texto donde puedes pegar la URL de tu proyecto Subversion (ver Figura 4-9).</p>
+
+<div class="figure" id="figure_4_9">
+    <img src="/img/pro_git/18333fig0409.png" alt="El interface de importación desde Subversion" />
+
+    <p class="caption"><strong>Figura 4.9</strong> El interface de importación desde Subversion</p>
+</div>
+
+
+<p>Si tu proyecto es muy grande, no-estandar o privado, es muy posible que no se pueda importar. En el <a href="#capitulo7">capítulo 7</a>, aprenderás cómo realizar importaciones manuales de proyectos complejos.</p>
+
+<h3 id="anadiendo_colaboradores">4.9.5. Añadiendo colaboradores</h3>
+
+<p>Vamos a añadir al resto del equipo. Si tanto John, como Josie, como Jessica, todos ellos registran sus respectivas cuentas en GitHub. Y deseas darles acceso de escritura a tu repositorio. Puedes incluirlos en tu proyecto como colaboradores. De esta forma, funcionarán los envios (<em>push</em>) desde sus respectivas claves públicas.</p>
+
+<p>Has de hacer clic sobre el botón <em>"edit"</em> en la cabecera del proyecto o en la pestaña Admin de la parte superior del proyecto; yendo así a la página de administración del proyecto GitHub.</p>
+
+<div class="figure" id="figure_4_10">
+    <img src="/img/pro_git/18333fig0410.png" alt="Página de administración GitHub" />
+
+    <p class="caption"><strong>Figura 4.10</strong> Página de administración GitHub</p>
+</div>
+
+
+<p>Para dar acceso de escritura a otro usuario, clica sobre el enlace <em>"Add another collaborator"</em>. Aparecerá un cuadro de texto, donde podrás teclear un nombre. Según  tecleas, aparecerá un cuadro de ayuda, mostrando posibles nombres de usuario que encajen con lo tecleado. Cuando localices al usuario deseado, clica sobre el botón <em>"Add"</em> para añadirlo como colaborador en tu proyecto (ver Figura 4-11).</p>
+
+<div class="figure" id="figure_4_11">
+    <img src="/img/pro_git/18333fig0411.png" alt="Añadirendo un colaborador a tu proyecto" />
+
+    <p class="caption"><strong>Figura 4.11</strong> Añadirendo un colaborador a tu proyecto</p>
+</div>
+
+
+<p>Cuando termines de añadir colaboradores, podrás ver a todos ellos en la lista <em>"Repository Collaborators"</em> (ver Figura 4-12).</p>
+
+<div class="figure" id="figure_4_12">
+    <img src="/img/pro_git/18333fig0412.png" alt="Lista de colaboradores en tu proyecto" />
+
+    <p class="caption"><strong>Figura 4.12</strong> Lista de colaboradores en tu proyecto</p>
+</div>
+
+
+<p>Si deseas revocar el acceso a alguno de ellos, puedes clicar sobre el enlace <em>"revoke"</em>, y sus permisos de envio (<em>push</em>) serán revocados. En proyectos futuros, podras incluir también a tu grupo de colaboradores copiando los permisos desde otro proyecto ya existente.</p>
+
+<h3 id="tu_proyecto">4.9.6. Tu proyecto</h3>
+
+<p>Una vez hayas enviado (<em>push</em>) tu proyecto, o lo hayas importado desde Subversion, tendrás una página principal de proyecto tal como:</p>
+
+<div class="figure" id="figure_4_13">
+    <img src="/img/pro_git/18333fig0413.png" alt="Una página principal de proyecto GitHub" />
+
+    <p class="caption"><strong>Figura 4.13</strong> Una página principal de proyecto GitHub</p>
+</div>
+
+
+<p>Cuando la gente visite tu proyecto, verá esta página. Tiene pestañas que llevan a distintos aspectos del proyecto. La pestaña <em>"Commits"</em> muestra una lista de confirmaciones de cambio, en orden cronológico inverso, de forma similar a la salida del comando <code>git log</code>. La pestaña <em>"Network"</em> muestra una lista de toda la gente que ha bifurcado (<em>forked</em>) tu proyecto y ha contribuido a él. La pestaña <em>"Downloads"</em> permite cargar binarios del proyecto y enlaza con tarballs o versiones comprimidas de cualquier punto marcado (<em>tagged</em>) en tu proyecto. La pestaña <em>"Wiki"</em> enlaza con un espacio wiki donde puedes escribir documentación o cualquier otra información relevante sobre tu proyecto. La pestaña "Graphs" muestra diversas visualizaciones sobre contribuciones y estadísticas de tu proyecto. La pestaña principal <em>"Source"</em> en la que aterrizas cuando llegas al proyecto, muestra un listado de la carpeta principal; y muestra también el contenido del archivo <code>README</code>, si tienes uno en ella. Esta pestaña muestra también un cuadro con información sobre la última confirmación de cambio (<em>commit</em>) realizada en el proyecto.</p>
+
+<h3 id="bifurcando_proyectos">4.9.7. Bifurcando proyectos</h3>
+
+<p>Si deseas contribuir a un proyecto ya existente, en el que no tengas permisos de envio (<em>push</em>). GitHub recomienda bifurcar el proyecto. Cuando aterrizas en la página de un proyecto que te parece interesante y con el que deseas trastear un poco, puedes clicar sobre el botón <em>"fork"</em> de la cabecera del proyecto; de tal forma que GitHub haga una copia del proyecto a tu cuenta de usuario y puedas así enviar (<em>push</em>) cambios sobre él.</p>
+
+<p>De esta forma, los proyectos no han de preocuparse de añadir usuarios como colaboradores para darles acceso de envio (<em>push</em>). La gente puede bifurcar (<em>fork</em>) un proyecto y enviar (<em>push</em>) sobre su propia copia. El gestor del proyecto principal, puede recuperar (<em>pull</em>) esos cambios añadiendo las copias como remotos y fusionando (<em>merge</em>) el trabajo en ellas contenido.</p>
+
+<p>Para bifurcar un proyecto, visita su página (en el ejemplo, mojombo/chronic) y clica sobre el botón <em>"fork"</em> de su cabecera (ver Figura 4-14)</p>
+
+<div class="figure" id="figure_4_14">
+    <img src="/img/pro_git/18333fig0414.png" alt="&quot;Obtener una copia sobre la que escribir, clicando sobre el botón &quot;fork&quot; de un repositorio&quot;" />
+
+    <p class="caption"><strong>Figura 4.14</strong> &quot;Obtener una copia sobre la que escribir, clicando sobre el botón &quot;fork&quot; de un repositorio&quot;</p>
+</div>
+
+
+<p>Tras unos segundos, serás redirigido a la página del nuevo proyecto; y en ella se verá que este proyecto es una bifuración (<em>fork</em>) de otro existente (ver Figura 4-15).</p>
+
+<div class="figure" id="figure_4_15">
+    <img src="/img/pro_git/18333fig0415.png" alt="&quot;Tu bifurcación (*fork*) de un proyecto&quot;" />
+
+    <p class="caption"><strong>Figura 4.15</strong> &quot;Tu bifurcación (*fork*) de un proyecto&quot;</p>
+</div>
+
+
+<h3 id="resumen_de_github">4.9.8. Resumen de GitHub</h3>
+
+<p>Esto es todo lo que vamos a ver aquí sobre GitHub, pero merece la pena destacar lo rápido que puedes hacer todo esto. Puedes crear una cuenta, añadir un nuevo proyecto y contribuir a él en cuestión de minutos. Si tu proyecto es de código abierto, puedes tener también una amplia comunidad de desarrolladores que podrán ver tu proyecto, bifurcarlo (<em>fork</em>) y ayudar contribuyendo a él. Y, por último, comentar que esta puede ser una buena manera de iniciarte y comenzar rápidamente a trabajar con Git.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_4/el_demonio_git.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>4.8. El demonio Git</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_4/resumen.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>4.10. Resumen</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Fundamentos de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Trabajando con ramas en Git</a>
+            </li>
+                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_4.html">
+                    <span>Capítulo 4.</span> Git en un servidor
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/los_protocolos.html">
+                    <span>4.1.</span> Los Protocolos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/poniendo_git_en_un_servidor.html">
+                    <span>4.2.</span> Poniendo Git en un Servidor
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/generando_tu_clave_publica_ssh.html">
+                    <span>4.3.</span> Generando tu clave pública SSH
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/preparando_el_servidor.html">
+                    <span>4.4.</span> Preparando el servidor
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/acceso_publico.html">
+                    <span>4.5.</span> Acceso público
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/gitweb.html">
+                    <span>4.6.</span> GitWeb
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/gitosis.html">
+                    <span>4.7.</span> Gitosis
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/el_demonio_git.html">
+                    <span>4.8.</span> El demonio Git
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_4/git_en_un_alojamiento_externo.html">
+                    <span>4.9.</span> Git en un alojamiento externo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/resumen.html">
+                    <span>4.10.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Git en entornos distribuidos</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Las herramientas de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Personalizando Git</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Git y otros sistemas</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Funcionamiento interno de Git</a>
+            </li>
+                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

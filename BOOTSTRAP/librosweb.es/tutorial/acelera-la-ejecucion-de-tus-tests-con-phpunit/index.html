@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Acelera la ejecución de tus tests con PHPUnit</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Acelera la ejecución de tus tests con PHPUnit">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-2-1" class="tutorials"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                            <h1 class="title">Acelera la ejecución de tus tests con PHPUnit</h1>
+
+    <p>Para que una <em>suite</em> de tests unitarios y funcionales sea útil, debe ser muy rápida al ejecutarse. Si desarrollas tus aplicaciones siguiendo metodologías como el <a href="http://es.wikipedia.org/wiki/Desarrollo_guiado_por_pruebas">TDD o desarrollo guiado por pruebas</a>, entonces la rapidez no es recomendable sino totalmente obligatoria.</p>
+<p>Algunos autores sugieren que todos los tests de la aplicación deberían ejecutarse <a href="http://blog.ploeh.dk/2012/05/24/TDDtestsuitesshouldrunin10secondsorless/">en 10 segundos o menos</a>. Por eso en este artículo te explicamos varias técnicas para acelerar la ejecución de tus tests con PHPUnit.</p>
+<h2>Recomendaciones básicas</h2>
+<p><strong>1. No crees más <em>fixtures</em> de los que necesitas</strong>. ¿Para qué insertas 10.000 registros con datos de prueba en la base de datos si a tus tests les basta con tener 20 registros? Genera siempre el mínimo número posible de datos de prueba.</p>
+<p><strong>2. No regeneres la base de datos de prueba para cada test</strong>. Aunque en tus tests utilices bases de datos SQLite en memoria, regenerarlas para cada test es un proceso muy costoso en <em>suites</em> con miles de tests.</p>
+<p>La solución consiste en generar una única base de datos SQLite al comienzo de todos los test y llenarla con todos los datos de prueba. Después, antes de cada test haces una copia de ese archivo para tener una base de datos completamente nueva. Esta técnica es tan habitual entre programadores, que si utilizas Symfony existe un <em>bundle</em> llamado <a href="https://github.com/liip/LiipFunctionalTestBundle">LiipFunctionalTestBundle</a> que lo hace por ti automáticamente.</p>
+<p><strong>3. No abuses de los métodos <code>setUp()</code> y <code>tearDown()</code></strong>. Estos métodos te permiten ejecutar código antes y después de cada test, por lo que son ideales para inicializar objetos y eliminar cualquier elemento generado por los tests.</p>
+<p>El problema es que estos métodos se ejecutan, respectivamente, antes y después de cada test de cada clase, por lo que pueden ralentizar mucho su ejecución. Por eso PHPUnit define también los métodos <code>setUpBeforeClass()</code> y  <code>tearDownAfterClass()</code>, que solamente se ejecutan, respectivamente, antes del primer test de la clase y después del último test. Si has diseñado bien tus clases de test, seguramente podrás reemplazar <code>setUp()</code> y <code>tearDown()</code> por estos otros métodos.</p>
+<p><strong>4. No abuses del <code>dataProvider</code></strong>. Esta característica de PHPUnit te permite ejecutar repetidamente un mismo test utilizando diferentes datos de entrada cada vez. Como resulta tan sencillo añadir nuevos datos de prueba, algunos programadores abusan del <code>dataProvider</code> añadiendo decenas de datos de entrada para aumentar así el número total de <em>asserts</em> y parecer que has hecho muchos tests.</p>
+<p>En realidad tus tests sólo deberían probar los (pocos) casos esperados por tu código y los (pocos) casos límites que podrían romper tu código. Imagina que quieres testear un método que incrementa el <em>stock</em> de un producto en unidades enteras positivas. Los casos a probar podrían ser solamente los siguientes:</p>
+<pre class="php code"><span class="co4">/**
+ * @dataProvider provideIncrementosDeStock
+ */</span>
+<span class="kw2">public</span> testIncrementaStock<span class="br0">&#40;</span><span class="re0">$unidades</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="co1">// ...</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw2">public</span> <span class="kw2">function</span> provideIncrementosDeStock<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="br0">&#91;</span>
+        <span class="co1">// estos son los casos esperados (números enteros positivos)</span>
+        <span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="nu0">5</span><span class="br0">&#93;</span><span class="sy0">,</span>
+        <span class="co1">// estos son los casos límite (ceros, negativos, decimales, letras)</span>
+        <span class="br0">&#91;</span><span class="sy0">-</span><span class="nu0">3</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="nu19">2.3</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="kw4">null</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="st_h">'a'</span><span class="br0">&#93;</span>
+    <span class="br0">&#93;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<h2>Plugins para aumentar el rendimiento de PHPUnit</h2>
+<p>Al margen de las recomendaciones relacionadas con el propio código de tus tests, se han publicado varios plugins para PHPUnit orientados a mejorar su rendimiento. La mayoría de ellos ya vendrán incluidos cuando se publiquen las próximas versiones de PHPUnit.</p>
+<h3>Plugin PHPUnit Accelerator</h3>
+<p>La idea de este plugin consiste en acelerar la ejecución de los tests reduciendo su consumo de memoria. Gracias a esta técnica sus autores aseguran que se pueden <strong>acelerar los tests hasta un 20%</strong>.</p>
+<p>Para <strong>instalarlo</strong>, ejecuta el siguiente comando dentro del directorio de tu proyecto (este comando requiere que <a href="http://librosweb.es/tutorial/como-instalar-composer-globalmente/">Composer esté instalado globalmente</a> en tu sistema):</p>
+<pre class="cli code">$ composer require &quot;mybuilder/phpunit-accelerator&quot;:&quot;~1.0&quot;</pre>
+<p>Para <strong>activarlo</strong>, solamente debes añadir lo siguiente en el archivo de configuración de PHPUnit (que normalmente se llama <code>phpunit.xml</code> y se encuentra en la raíz del proyecto):</p>
+<pre class="xml code"><span class="sc3"><span class="re1">&lt;phpunit<span class="re2">&gt;</span></span></span>
+    <span class="sc-1">&lt;!-- ... --&gt;</span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;listeners<span class="re2">&gt;</span></span></span>
+        <span class="sc-1">&lt;!-- ... --&gt;</span>
+&nbsp;
+        <span class="sc3"><span class="re1">&lt;listener</span> <span class="re0">class</span>=<span class="st0">&quot;\MyBuilder\PhpunitAccelerator\TestListener&quot;</span><span class="re2">/&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;/listeners<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/phpunit<span class="re2">&gt;</span></span></span></pre>
+<p>Este plugin ha sido creado por <a href="https://github.com/keyvanakbary">Keyvan Akbary</a>, de la empresa <a href="https://github.com/mybuilder">MyBuilder</a>, y ha sido publicado en: <a href="https://github.com/mybuilder/phpunit-accelerator">github.com/mybuilder/phpunit-accelerator</a></p>
+<h3>Plugin SpeedTrap</h3>
+<p>Como seguramente sabes, lo que no se puede medir no se puede mejorar. Así que la idea de este plugin es mostrarte cuáles de tus tests son inaceptablemente lentos. Así podrás atacar directamente a los peores tests y conseguir rápidamente reducciones drásticas en el tiempo de ejecución de los tests.</p>
+<p>Para <strong>instalarlo</strong>, ejecuta el siguiente comando dentro del directorio de tu proyecto:</p>
+<pre class="cli code">$ composer require &quot;johnkary/phpunit-speedtrap&quot;:&quot;~1.0@dev&quot;</pre>
+<p>Para <strong>activarlo</strong>, añade lo siguiente en el archivo de configuración de PHPUnit:</p>
+<pre class="xml code"><span class="sc3"><span class="re1">&lt;phpunit<span class="re2">&gt;</span></span></span>
+    <span class="sc-1">&lt;!-- ... --&gt;</span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;listeners<span class="re2">&gt;</span></span></span>
+        <span class="sc-1">&lt;!-- ... --&gt;</span>
+&nbsp;
+        <span class="sc3"><span class="re1">&lt;listener</span> <span class="re0">class</span>=<span class="st0">&quot;JohnKary\PHPUnit\Listener\SpeedTrapListener&quot;</span> <span class="re2">/&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;/listeners<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/phpunit<span class="re2">&gt;</span></span></span></pre>
+<p>La próxima vez que ejecutes los tests, verás una lista con todos aquellos que consumen más de 500 milisegundos al ejecutarse:</p>
+<pre class="cli code">$ phpunit
+&nbsp;
+PHPUnit 4.2.4 by Sebastian Bergmann.
+&nbsp;
+Configuration read from librosweb.es/phpunit.xml
+&nbsp;
+.....................................................  20 / 100 ( 20%)
+.....................................................  40 / 100 ( 40%)
+.....................................................  60 / 100 ( 60%)
+.....................................................  80 / 100 ( 80%)
+..................................................... 100 / 100 (100%)
+&nbsp;
+You should really fix these slow tests (&gt;500ms)...
+ 1. 2517ms to run Librosweb\Tests\...Test:testLoremIpsum()
+ 2. 778ms to run Librosweb\Tests\...Test:testLoremIpsum()
+ 3. 621ms to run Librosweb\Tests\...Test:testLoremIpsum()
+ 4. 1598ms to run Librosweb\Tests\...Test:testLoremIpsum()</pre>
+<p>Si tus tests son buenos, seguramente 500 milisegundos es un valor demasiado alto, así que puedes configurarlo con la opción <code>slowThreshold</code>. Por su parte, la opción <code>reportLength</code> indica el número de tests que deben mostrarse en la lista de tests lentos:</p>
+<pre class="xml code"><span class="sc3"><span class="re1">&lt;phpunit<span class="re2">&gt;</span></span></span>
+    <span class="sc-1">&lt;!-- ... --&gt;</span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;listeners<span class="re2">&gt;</span></span></span>
+        <span class="sc-1">&lt;!-- ... --&gt;</span>
+&nbsp;
+        <span class="sc3"><span class="re1">&lt;listener</span> <span class="re0">class</span>=<span class="st0">&quot;JohnKary\PHPUnit\Listener\SpeedTrapListener&quot;</span><span class="re2">&gt;</span></span>
+            <span class="sc3"><span class="re1">&lt;arguments<span class="re2">&gt;</span></span></span>
+                    <span class="sc3"><span class="re1">&lt;array<span class="re2">&gt;</span></span></span>
+                        <span class="sc3"><span class="re1">&lt;element</span> <span class="re0">key</span>=<span class="st0">&quot;slowThreshold&quot;</span><span class="re2">&gt;</span></span>
+                            <span class="sc3"><span class="re1">&lt;integer<span class="re2">&gt;</span></span></span>20<span class="sc3"><span class="re1">&lt;/integer<span class="re2">&gt;</span></span></span>
+                        <span class="sc3"><span class="re1">&lt;/element<span class="re2">&gt;</span></span></span>
+                        <span class="sc3"><span class="re1">&lt;element</span> <span class="re0">key</span>=<span class="st0">&quot;reportLength&quot;</span><span class="re2">&gt;</span></span>
+                            <span class="sc3"><span class="re1">&lt;integer<span class="re2">&gt;</span></span></span>30<span class="sc3"><span class="re1">&lt;/integer<span class="re2">&gt;</span></span></span>
+                        <span class="sc3"><span class="re1">&lt;/element<span class="re2">&gt;</span></span></span>
+                    <span class="sc3"><span class="re1">&lt;/array<span class="re2">&gt;</span></span></span>
+                <span class="sc3"><span class="re1">&lt;/arguments<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;/listener<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/listeners<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/phpunit<span class="re2">&gt;</span></span></span></pre>
+<p>Si en tu aplicación tienes algunos tests especiales que requieren mucho más tiempo del habitual, puedes añadir la anotación <code>@slowThreshold</code> para indicar el tiempo máximo permitido para ese test específico:</p>
+<pre class="php code"><span class="kw2">class</span> MiTest <span class="kw2">extends</span> \PHPUnit_Framework_TestCase
+<span class="br0">&#123;</span>
+    <span class="co4">/**
+     * @slowThreshold 5000
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> testEsteTestEsMuyLento<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">// este test puede tardar hasta 5 segundos sin levantar sospechas</span>
+        <span class="co1">// ...</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>Este plugin ha sido creado por <a href="https://github.com/johnkary">John Kary</a> y ha sido publicado en: <a href="https://github.com/johnkary/phpunit-speedtrap">github.com/johnkary/phpunit-speedtrap</a>.</p>
+<h3>Plugin Paratest</h3>
+<p>El objetivo de este plugin es aprovechar las CPUs modernas que soportan varios hilos de ejecución simultáneos para ejecutar todos tus tests en paralelo.</p>
+<p>Para <strong>instalarlo</strong>, ejecuta el siguiente comando dentro del directorio de tu proyecto:</p>
+<pre class="cli code">$ composer require &quot;brianium/paratest&quot;:&quot;dev-master&quot;</pre>
+<p>A diferencia de los anteriores este plugin no se activa mediante el archivo de configuración de PHPUnit, sino que se ejecuta a través de su propio comando llamado <code>paratest</code>. Composer instala este comando en el directorio <code>vendor/bin/</code>, por lo que sólo debes ejecutar lo siguiente:</p>
+<pre class="cli code">$ ./vendor/bin/paratest</pre>
+<p>Por defecto este comando ejecuta tus tests en cinco procesos paralelos. En las pruebas que he realizado, el tiempo de ejecución total no se reduce cinco veces, pero sí que baja prácticamente a la mitad.</p>
+<p>Si tu máquina lo soporta, puedes aumentar el número de procesos en paralelo mediante la opción <code>--processes</code>:</p>
+<pre class="cli code">$ ./vendor/bin/paratest --processes=10</pre>
+<p>Este plugin ha sido creado por <a href="https://github.com/brianium">Brian Scaturro</a> y ha sido publicado en: <a href="https://github.com/brianium/paratest">github.com/brianium/paratest</a>.</p>
+<h2>Referencias útiles</h2>
+<ul>
+<li><a href="https://phpunit.de/manual/current/en/">Manual de PHPUnit</a></li>
+</ul>
+
+                    </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+    <div class="module module-share">
+    <h3>Compartir</h3>
+    <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = 'Acelera la ejecución de tus tests con PHPUnit';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+</div>
+
+
+    
+<div class="module module-tags">
+    <h3>Etiquetas populares</h3>
+    <ul class="tags-list">
+                    <li class="">
+                <a href="/tutoriales/composer/">composer</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/css/">css</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/dise%C3%B1o/">diseño</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/html/">html</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/javascript/">javascript</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/php/">php</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/programaci%C3%B3n/">programación</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/sistemas/">sistemas</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/symfony/">symfony</a>
+            </li>
+            </ul>
+</div>
+
+
+    <div class="module module-rss">
+    <h3>Suscríbete gratis</h3>
+    <ul class="list-unstyled text-links module-rss-feeds">
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/todos.xml">
+                <strong>Todos</strong> los tutoriales
+            </a>
+        </li>
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/diseno.xml">
+                Tutoriales de <strong>diseño</strong>
+            </a>
+        </li>
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/programacion.xml">
+                Tutoriales de <strong>programación</strong>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

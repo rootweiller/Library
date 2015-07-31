@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>19.2. Extendiendo la carga automática de clases (Symfony 1.1, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_19/opciones_de_symfony.html" />
+                    <link rel="next" href="../capitulo_19/estructura_de_archivos_propia.html" />
+                <link rel="start" href="/libro/symfony_1_1/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="19.2. Extendiendo la carga automática de clases (Symfony 1.1, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_1"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/" itemprop="url">
+                    <span itemprop="title">Symfony 1.1, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/capitulo_19.html" itemprop="url">
+                    <span itemprop="title">Capítulo 19. Configuración avanzada</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>19.2. Extendiendo la carga automática de clases</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="extendiendo_la_carga_automatica_de_clases" class="title">
+        <span>19.2.</span> Extendiendo la carga automática de clases
+    </h1>
+
+    
+
+<p>La carga automática de clases, explicada brevemente en el capítulo 2, evita tener que incluir manualmente las clases que se utilizan en el código, siempre que esas clases se encuentren en un directorio específico. De esta forma, el framework se encarga automáticamente de cargar solamente las clases que hacen falta y de incluirlas en el momento en el que se necesitan.</p>
+
+<p>El archivo <code>autoload.yml</code> almacena un listado de todas las rutas en las que se encuentran las clases que se cargan automáticamente. La primera vez que se procesa este archivo de configuración, Symfony recorre todos los directorios indicados en el archivo. Cada vez que se encuentra un archivo terminado en <code>.php</code> en alguno de estos directorios, la ruta del archivo y los nombres de las clases que se encuentran en el archivo se añaden a un listado interno de las clases que se cargan automáticamente. El listado se guarda en la cache, en un archivo llamado <code>config/config_autoload.yml.php</code>. Posteriormente, durante la ejecución de la aplicación, cuando se necesita una clase, Symfony busca en esta lista la ruta hasta la clase y añade el archivo <code>.php</code> de forma automática.</p>
+
+<p>La carga automática de clases funciona para todos los archivos de tipo <code>.php</code> que contengan clases y/o interfaces.</p>
+
+<p>Por defecto, las clases que se encuentran en los siguientes directorios de los proyectos se benefician directamente de la carga automática de clases:</p>
+
+<ul>
+<li><code>miproyecto/lib/</code></li>
+<li><code>miproyecto/lib/model</code></li>
+<li><code>miproyecto/apps/frontend/lib/</code></li>
+<li><code>miproyecto/apps/frontend/modules/mimodulo/lib</code></li>
+</ul>
+
+<p>En el directorio de configuración de la aplicación, no existe por defecto un archivo llamado <code>autoload.yml</code>. Si se quieren modificar las opciones del framework, por ejemplo para cargar automáticamente las clases que se encuentran en otro directorio, se crea un archivo <code>autoload.yml</code> vacío y se redefinen las opciones del archivo <code>$sf_symfony_lib_dir/config/config/autoload.yml</code> o se crean nuevas opciones.</p>
+
+<p>El archivo <code>autoload.yml</code> comienza con la clave <code>autoload:</code> e incluye un listado de los directorios en los que Symfony debe buscar las clases existentes. Para cada directorio se debe indicar una etiqueta, de forma que sea posible redefinir las opciones por defecto de Symfony. Para cada directorio se indica un nombre (<code>name</code>) (que aparecerá en forma de comentario en <code>config_autoload.yml.php</code>) y una ruta absoluta (<code>path</code>). A continuación, se define si la búsqueda que realiza Symfony debe ser recursiva (<code>recursive</code>) y por tanto, debe buscar archivos de tipo <code>.php</code> en todos los subdirectorios del directorio indicado; también se pueden indicar los subdirectorios que se excluyen (mediante <code>exclude</code>). El listado 19-4 muestra los directorios utilizados por defecto y la sintaxis empleada.</p>
+
+<p><strong>Listado 19-4 - Configuración por defecto de la carga automática de clases, en <code>$sf_symfony_lib_dir/config/config/autoload.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">autoload</span><span class="sy2">:
+</span>  <span class="co1"># plugins</span><span class="co4">
+  plugins_lib</span>:<span class="co3">
+    name</span><span class="sy2">: </span>          plugins lib<span class="co3">
+    path</span><span class="sy2">: </span>          <span class="co2">%SF_PLUGINS_DIR%/*/lib</span><span class="co3">
+    recursive</span><span class="sy2">: </span>     on
+<span class="co4">
+  plugins_module_lib</span>:<span class="co3">
+    name</span><span class="sy2">: </span>          plugins module lib<span class="co3">
+    path</span><span class="sy2">: </span>          <span class="co2">%SF_PLUGINS_DIR%/*/modules/*/lib</span><span class="co3">
+    prefix</span><span class="sy2">: </span>        <span class="nu0">2</span><span class="co3">
+    recursive</span><span class="sy2">: </span>     on
+&nbsp;
+  <span class="co1"># project</span><span class="co4">
+  project</span>:<span class="co3">
+    name</span><span class="sy2">: </span>          project<span class="co3">
+    path</span><span class="sy2">: </span>          <span class="co2">%SF_LIB_DIR%</span><span class="co3">
+    recursive</span><span class="sy2">: </span>     on<span class="co3">
+    exclude</span><span class="sy2">: </span>       <span class="br0">&#91;</span>model, symfony<span class="br0">&#93;</span>
+<span class="co4">
+  project_model</span>:<span class="co3">
+    name</span><span class="sy2">: </span>          project model<span class="co3">
+    path</span><span class="sy2">: </span>          <span class="co2">%SF_LIB_DIR%/model</span><span class="co3">
+    recursive</span><span class="sy2">: </span>     on
+&nbsp;
+  <span class="co1"># application</span><span class="co4">
+  application</span>:<span class="co3">
+    name</span><span class="sy2">: </span>          application<span class="co3">
+    path</span><span class="sy2">: </span>          <span class="co2">%SF_APP_LIB_DIR%</span><span class="co3">
+    recursive</span><span class="sy2">: </span>     on
+<span class="co4">
+  modules</span>:<span class="co3">
+    name</span><span class="sy2">: </span>          module<span class="co3">
+    path</span><span class="sy2">: </span>          <span class="co2">%SF_APP_DIR%/modules/*/lib</span><span class="co3">
+    prefix</span><span class="sy2">: </span>        <span class="nu0">1</span><span class="co3">
+    recursive</span><span class="sy2">: </span>     on</pre>
+</div>
+
+<p>Las rutas indicadas pueden utilizar comodines y también pueden utilizar los parámetros definidos en las clases de configuración para las rutas más utilizadas (que se explica en la siguiente sección). Si se utilizan estos valores en el archivo de configuración, se deben escribir en mayúsculas y encerrados por caracteres <code>%</code></p>
+
+<p>Aunque modificar el archivo <code>autoload.yml</code> permite indicar nuevas rutas en las que Symfony debe utilizar la carga automática de clases, también es posible extender el mecanismo utilizado por Symfony y añadir un gestor propio para realizar la carga automática de clases. Como Symfony utiliza la función estándar <code>spl_autoload_register()</code> para gestionar la carga automática de clases, resulta muy sencillo registrar otros gestores en la clase de configuración de la aplicación:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> frontendConfiguration <span class="kw2">extends</span> sfApplicationConfiguration
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> initialize<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    parent<span class="sy0">::</span><span class="me2">initialize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">// primero se carga Symfony</span>
+&nbsp;
+    <span class="co1">// aquí se definen los gestores propios para la carga automática de clases</span>
+    <span class="kw3">spl_autoload_register</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'miToolkit'</span><span class="sy0">,</span> <span class="st_h">'autoload'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Cuando el mecanismo de carga automática de clases de PHP encuentra una clase nueva, en primer lugar intenta utilizar el sistema de carga automática de clases de Symfony (utilizando los directorios definidos en el archivo <code>autoload.yml</code>). Si no encuentra la clase, prueba las otras funciones de carga automática registradas con <code>spl_autoload_register()</code>, hasta que encuentra la clase. Por tanto, se pueden añadir tantos mecanismos de carga automática de clases como sean necesarios, por ejemplo para proporcionar enlaces o <em>puentes</em> con los componentes de otros frameworks (ver capítulo 17).</p>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_19/opciones_de_symfony.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>19.1. Opciones de Symfony</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_19/estructura_de_archivos_propia.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>19.3. Estructura de archivos propia</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_19.html">
+                    <span>Capítulo 19.</span> Configuración avanzada
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/opciones_de_symfony.html">
+                    <span>19.1.</span> Opciones de Symfony
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_19/extendiendo_la_carga_automatica_de_clases.html">
+                    <span>19.2.</span> Extendiendo la carga automática de clases
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/estructura_de_archivos_propia.html">
+                    <span>19.3.</span> Estructura de archivos propia
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/comprendiendo_el_funcionamiento_de_los_manejadores_de_configuracion.html">
+                    <span>19.4.</span> Comprendiendo el funcionamiento de los manejadores de configuración
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/resumen.html">
+                    <span>19.5.</span> Resumen
+                </a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

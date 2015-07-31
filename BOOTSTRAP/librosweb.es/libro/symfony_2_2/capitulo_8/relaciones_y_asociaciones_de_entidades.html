@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>8.3. Relaciones y asociaciones de entidades (Symfony 2.2, el libro oficial)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                            
+        <link rel="canonical" href="/libro/symfony_2_x/capitulo_8/relaciones_y_asociaciones_de_entidades.html"/>
+                                    <link rel="prev" href="../capitulo_8/buscando_objetos.html" />
+                    <link rel="next" href="../capitulo_8/configuracion.html" />
+                <link rel="start" href="/libro/symfony_2_2/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="8.3. Relaciones y asociaciones de entidades (Symfony 2.2, el libro oficial)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_2_2"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_2/" itemprop="url">
+                    <span itemprop="title">Symfony 2.2, el libro oficial</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_2/capitulo_8.html" itemprop="url">
+                    <span itemprop="title">Capítulo 8. La base de datos y Doctrine</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>8.3. Relaciones y asociaciones de entidades</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="relaciones_y_asociaciones_de_entidades" class="title">
+        <span>8.3.</span> Relaciones y asociaciones de entidades
+    </h1>
+
+    
+
+<p>Extendiendo el ejemplo de las secciones anteriores, supón que los productos de la aplicación pertenecen a una (y sólo a una) <em>categoría</em>. En este caso, necesitarás un objeto de tipo <code>Category</code> y una manera de relacionar un objeto <code>Product</code> a un objeto <code>Category</code>.</p>
+
+<p>En primer lugar, crea la nueva entidad <code>Category</code>. Para ello puedes utilizar el siguiente comando de Doctrine:</p>
+
+<div class="code cli">
+<pre class="cli">$ php app/console doctrine:generate:entity
+      --entity=&quot;AcmeStoreBundle:Category&quot;
+      --fields=&quot;name:string(255)&quot;</pre>
+</div>
+
+<p>Esta tarea genera la entidad <code>Category</code> con un campo <code>id</code>, un campo <code>name</code> y los <em>getters</em> y <em>setters</em> correspondientes.</p>
+
+<h3 id="mapeando_relaciones">8.3.1. Mapeando relaciones</h3>
+
+<p>Para relacionar las entidades <code>Category</code> y <code>Product</code>, debes crear en primer lugar una propiedad llamada <code>producto</code> en la clase <code>Category</code>:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_5644b" class="active"><a data-toggle="tab active" href="#select_tab_1_5644b" onclick="document.getElementById('select_tab_1_5644b').className='active'; document.getElementById('tab_1_5644b').className='tab-pane active';document.getElementById('select_tab_2_5644b').className='';  document.getElementById('tab_2_5644b').className='tab-pane';return false;">PHP</a></li><li id="select_tab_2_5644b"><a data-toggle="tab" href="#select_tab_2_5644b" onclick="document.getElementById('select_tab_1_5644b').className='';  document.getElementById('tab_1_5644b').className='tab-pane';document.getElementById('select_tab_2_5644b').className='active'; document.getElementById('tab_2_5644b').className='tab-pane active';return false;">YAML</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_5644b">
+<div class="code php">
+<pre class="php"><span class="co1">// src/Acme/StoreBundle/Entity/Category.php</span>
+&nbsp;
+<span class="co1">// ...</span>
+<span class="kw2">use</span> Doctrine\Common\Collections\ArrayCollection<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> Category
+<span class="br0">&#123;</span>
+    <span class="co1">// ...</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Product&quot;, mappedBy=&quot;category&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$products</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">products</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_5644b">
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># src/Acme/StoreBundle/Resources/config/doctrine/Category.orm.yml</span><span class="co4">
+Acme\StoreBundle\Entity\Category</span>:<span class="co3">
+    type</span><span class="sy2">: </span>entity
+    <span class="co1"># ...</span><span class="co4">
+    oneToMany</span>:<span class="co4">
+        products</span>:<span class="co3">
+            targetEntity</span><span class="sy2">: </span>Product<span class="co3">
+            mappedBy</span><span class="sy2">: </span>category
+    <span class="co1"># no olvides inicializar la colección en el método</span>
+    <span class="co1"># __construct() de la entidad</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Como un objeto <code>Category</code> puede estar relacionado con muchos objetos de tipo <code>Product</code>, se define la propiedad <code>products</code> de tipo array para poder almacenar todos esos objetos <code>Product</code>. Una vez más, esto no se hace porque lo necesite Doctrine, sino porque en la aplicación tiene sentido que cada <code>Category</code> almacene un array de objetos <code>Product</code>.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> El código del método <code>__construct()</code> es importante porque Doctrine requiere que la propiedad <code>$products</code> sea un objeto de tipo <code>ArrayCollection</code>. Este objeto se comporta casi exactamente como un array, pero añade cierta flexibilidad. Si utilizar este objeto te parece raro, imagina que es un array normal y ya está.</p></div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> El valor de <code>targetEntity</code> utilizado en el ejemplo anterior puede hacer referencia a cualquier entidad con un espacio de nombres válido, no sólo a las entidades definidas en la misma clase. Para relacionarlo con una entidad definida en una clase o <em>bundle</em> diferente, escribe el espacio de nombres completo.</p></div>
+
+<p>A continuación, como cada clase <code>Product</code> se puede relacionar exactamente con un objeto <code>Category</code>(y sólo uno), puedes añadir una propiedad <code>$category</code> a la clase <code>Product</code>:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_564c3" class="active"><a data-toggle="tab active" href="#select_tab_1_564c3" onclick="document.getElementById('select_tab_1_564c3').className='active'; document.getElementById('tab_1_564c3').className='tab-pane active';document.getElementById('select_tab_2_564c3').className='';  document.getElementById('tab_2_564c3').className='tab-pane';return false;">PHP</a></li><li id="select_tab_2_564c3"><a data-toggle="tab" href="#select_tab_2_564c3" onclick="document.getElementById('select_tab_1_564c3').className='';  document.getElementById('tab_1_564c3').className='tab-pane';document.getElementById('select_tab_2_564c3').className='active'; document.getElementById('tab_2_564c3').className='tab-pane active';return false;">YAML</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_564c3">
+<div class="code php">
+<pre class="php"><span class="co1">// src/Acme/StoreBundle/Entity/Product.php</span>
+&nbsp;
+<span class="co1">// ...</span>
+<span class="kw2">class</span> Product
+<span class="br0">&#123;</span>
+    <span class="co1">// ...</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\ManyToOne(targetEntity=&quot;Category&quot;, inversedBy=&quot;products&quot;)
+     * @ORM\JoinColumn(name=&quot;category_id&quot;, referencedColumnName=&quot;id&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$category</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_564c3">
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># src/Acme/StoreBundle/Resources/config/doctrine/Product.orm.yml</span><span class="co4">
+Acme\StoreBundle\Entity\Product</span>:<span class="co3">
+    type</span><span class="sy2">: </span>entity
+    <span class="co1"># ...</span><span class="co4">
+    manyToOne</span>:<span class="co4">
+        category</span>:<span class="co3">
+            targetEntity</span><span class="sy2">: </span>Category<span class="co3">
+            inversedBy</span><span class="sy2">: </span>products<span class="co4">
+            joinColumn</span>:<span class="co3">
+                name</span><span class="sy2">: </span>category_id<span class="co3">
+                referencedColumnName</span><span class="sy2">: </span>id</pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Por último, ahora que has añadido una nueva propiedad a ambas clases (<code>Category</code> y <code>Product</code>) puedes hacer que Doctrine añada automáticamente los <em>getters</em> y <em>setters</em> que faltan con el siguiente comando:</p>
+
+<div class="code cli">
+<pre class="cli">$ php app/console doctrine:generate:entities Acme</pre>
+</div>
+
+<p>Por el momento no te fijes mucho en los metadatos de las entidades de Doctrine. Piensa que tienes dos clases (<code>Category</code> y <code>Product</code>) con una relación de tipo <em>"uno a muchos"</em>. La clase <code>Category</code> tiene un array de objetos <code>Product</code> y el objeto <code>Producto</code> puede contener un objeto <code>Category</code>. En otras palabras, las clases que has creado tienen sentido desde el punto de vista de tu aplicación. El hecho de que los datos se vayan a persistir en una base de datos, siempre es algo secundario.</p>
+
+<p>Ahora observa los metadatos de la propiedad <code>$category</code> en la clase <code>Product</code>. Esta información le dice a Doctrine que la clase relacionada es <code>Category</code> y que debe guardar el <code>id</code> de la categoría asociada en un campo llamado <code>category_id</code> de la tabla <code>product</code>. En otras palabras, el objeto <code>Category</code> relacionado se almacena en la propiedad <code>$category</code>, pero internamente Doctrine persiste esta relación almacenando el valor del <code>id</code> de la categoría en la columna <code>category_id</code> de la tabla <code>product</code>.</p>
+
+<div class="figure" id="figure_8_3">
+    <img src="/img/symfony_2_0/doctrine_image_2.png" alt="Cómo gestiona Doctrine las entidades relacionadas" />
+
+    <p class="caption"><strong>Figura 8.3</strong> Cómo gestiona Doctrine las entidades relacionadas</p>
+</div>
+
+
+<p>Los metadatos de la propiedad <code>$products</code> del objeto <code>Category</code> son menos importantes, y simplemente le indican a Doctrine que utilice la propiedad <code>Product.category</code> para resolver la relación.</p>
+
+<p>Antes de continuar, asegúrate de decirle a Doctrine que cree la nueva tabla <code>category</code>, la nueva columna <code>product.category_id</code> y la nueva clave externa:</p>
+
+<div class="code cli">
+<pre class="cli">$ php app/console doctrine:schema:update --force</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Ejecuta este comando solamente cuando estés desarrollando la aplicación. En el servidor de producción tienes que utilizar las <em>migraciones</em> que proporciona el <em>bundle</em> <code>DoctrineMigrationsBundle</code>.</p></div>
+
+<h3 id="guardando_las_entidades_relacionadas">8.3.2. Guardando las entidades relacionadas</h3>
+
+<p>El siguiente código muestra un ejemplo de cómo usar las entidades relacionadas dentro de un controlador de Symfony:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// ...</span>
+&nbsp;
+<span class="kw2">use</span> Acme\StoreBundle\Entity\Category<span class="sy0">;</span>
+<span class="kw2">use</span> Acme\StoreBundle\Entity\Product<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Response<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> DefaultController <span class="kw2">extends</span> Controller
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> createProductAction<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$category</span> <span class="sy0">=</span> <span class="kw2">new</span> Category<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$category</span><span class="sy0">-&gt;</span><span class="me1">setName</span><span class="br0">&#40;</span><span class="st_h">'Main Products'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$product</span> <span class="sy0">=</span> <span class="kw2">new</span> Product<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$product</span><span class="sy0">-&gt;</span><span class="me1">setName</span><span class="br0">&#40;</span><span class="st_h">'Foo'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$product</span><span class="sy0">-&gt;</span><span class="me1">setPrice</span><span class="br0">&#40;</span><span class="nu19">19.99</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="co1">// relaciona este producto con una categoría</span>
+        <span class="re0">$product</span><span class="sy0">-&gt;</span><span class="me1">setCategory</span><span class="br0">&#40;</span><span class="re0">$category</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$em</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getDoctrine</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getManager</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$em</span><span class="sy0">-&gt;</span><span class="me1">persist</span><span class="br0">&#40;</span><span class="re0">$category</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$em</span><span class="sy0">-&gt;</span><span class="me1">persist</span><span class="br0">&#40;</span><span class="re0">$product</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$em</span><span class="sy0">-&gt;</span><span class="kw3">flush</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="kw2">new</span> Response<span class="br0">&#40;</span>
+            <span class="st_h">'Created product id: '</span><span class="sy0">.</span><span class="re0">$product</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">' and category id: '</span><span class="sy0">.</span><span class="re0">$category</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+        <span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Después de ejecutar este código, se añade una fila en las tablas <code>category</code> y <code>product</code>. La columna <code>product.category_id</code> para el nuevo producto se establece al valor del <code>id</code> de la nueva categoría. Doctrine se encarga de gestionar estas relaciones automáticamente.</p>
+
+<h3 id="obteniendo_los_objetos_relacionados">8.3.3. Obteniendo los objetos relacionados</h3>
+
+<p>Cuando quieras obtener los objetos asociados, la forma de trabajar es muy similar. Primero buscas un objeto <code>$product</code> y luego accedes a su objeto <code>Category</code> asociado:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> showAction<span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="re0">$product</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getDoctrine</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+        <span class="sy0">-&gt;</span><span class="me1">getRepository</span><span class="br0">&#40;</span><span class="st_h">'AcmeStoreBundle:Product'</span><span class="br0">&#41;</span>
+        <span class="sy0">-&gt;</span><span class="me1">find</span><span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$categoryName</span> <span class="sy0">=</span> <span class="re0">$product</span><span class="sy0">-&gt;</span><span class="me1">getCategory</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// ...</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>En este ejemplo, primero buscas un objeto <code>Product</code> en función del valor de su <code>id</code>. Esto hace que se ejecute una sola sentencia SQL para obtener los datos del objeto <code>$product</code>. Después, cuando se realiza la llamada <code>$product-&gt;getCategory()-&gt;getName()</code>, Doctrine realiza automáticamente otra consulta SQL para obtener los datos del objeto <code>Category</code> relacionado con este <code>Product</code>.</p>
+
+<div class="figure" id="figure_8_4">
+    <img src="/img/symfony_2_0/doctrine_image_3.png" alt="Cómo funciona el lazy loading de Doctrine" />
+
+    <p class="caption"><strong>Figura 8.4</strong> Cómo funciona el lazy loading de Doctrine</p>
+</div>
+
+
+<p>La clave es que puedes acceder fácilmente a los datos de la categoría relacionada con el producto, pero no tienes sus datos hasta que realmente los necesites (esto es lo que se llama <em>"lazy loading"</em> o <em>carga diferida de información</em>).</p>
+
+<p>También puedes realizar búsquedas en el sentido contrario de la relación:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> showProductAction<span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="re0">$category</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getDoctrine</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+        <span class="sy0">-&gt;</span><span class="me1">getRepository</span><span class="br0">&#40;</span><span class="st_h">'AcmeStoreBundle:Category'</span><span class="br0">&#41;</span>
+        <span class="sy0">-&gt;</span><span class="me1">find</span><span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$products</span> <span class="sy0">=</span> <span class="re0">$category</span><span class="sy0">-&gt;</span><span class="me1">getProducts</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// ...</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>En este caso, ocurre lo mismo: primero buscas un único objeto <code>Category</code>, y luego Doctrine hace una segunda consulta para recuperar los objetos <code>Product</code> relacionados, pero sólo si tratas de acceder a su información (es decir, sólo cuando invoques a <code>-&gt;getProducts()</code>). La variable <code>$products</code> es un array de todos los objetos <code>Product</code> relacionados con el objeto <code>Category</code> indicado (y relacionado a través del valor <code>category_id</code> de los productos).</p>
+
+<div class="admonition sidebar"><p><strong class="title"> Relaciones y clases <em>proxy</em></strong> La <em>carga diferida</em> o <em>"lazy loading"</em> es posible porque Doctrine utiliza objetos de tipo <em>proxy</em> en vez de objetos reales. Observa de nuevo el ejemplo anterior:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$product</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getDoctrine</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">getRepository</span><span class="br0">&#40;</span><span class="st_h">'AcmeStoreBundle:Product'</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">find</span><span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$category</span> <span class="sy0">=</span> <span class="re0">$product</span><span class="sy0">-&gt;</span><span class="me1">getCategory</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">echo</span> <span class="kw3">get_class</span><span class="br0">&#40;</span><span class="re0">$category</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// se muestra: 'Proxies\AcmeStoreBundleEntityCategoryProxy'</span></pre>
+</div>
+
+<p>Este <em>proxy</em> u <em>"objeto delegado"</em> extiende del verdadero objeto <code>Category</code> y tiene su mismo aspecto y comportamiento. La diferencia es que los objetos <em>proxy</em> permiten diferir la consulta por el verdadero objeto <code>Category</code> hasta que realmente se necesite (es decir, hasta que ejecutes algo como <code>$category-&gt;getName()</code>).</p>
+
+<p>Las clases <em>proxy</em> las genera Doctrine y se almacenan en el directorio <code>cache/</code>. Aunque en la práctica nunca te des cuenta de que tu objeto <code>$category</code> en realidad es un objeto <em>proxy</em>, es importante tenerlo en cuenta.</p>
+
+<p>En la siguiente sección, al obtener simultáneamente los datos del producto y la categoría (a través de una <em>unión</em>), Doctrine devolverá el verdadero objeto <code>Category</code>, ya que no se tiene que cargar nada de forma diferida.</p></div>
+
+<h3 id="uniendo_registros_relacionados">8.3.4.  Uniendo registros relacionados</h3>
+
+<p>En los ejemplos anteriores, se realizan dos consultas: la primera para el objeto original (<code>Category</code> por ejemplo) y la segunda para el/los objetos relacionados (un array de <code>Product</code> por ejemplo).</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Recuerda que puedes ver todas las consultas SQL realizadas durante una petición a través de la barra de herramientas de depuración web de Symfony2.</p></div>
+
+<p>Si sabes de antemano que vas a necesitar los datos de todos los objetos, puedes ahorrarte una consulta haciendo una <em>unión</em> o <em>"join"</em> en la primera consulta. Añade el siguiente método a la clase <code>ProductRepository</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// src/Acme/StoreBundle/Entity/ProductRepository.php</span>
+<span class="kw2">public</span> <span class="kw2">function</span> findOneByIdJoinedToCategory<span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="re0">$query</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getEntityManager</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+        <span class="sy0">-&gt;</span><span class="me1">createQuery</span><span class="br0">&#40;</span><span class="st_h">'
+            SELECT p, c FROM AcmeStoreBundle:Product p
+            JOIN p.category c
+            WHERE p.id = :id'</span>
+        <span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">setParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="sy0">,</span> <span class="re0">$id</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    try <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$query</span><span class="sy0">-&gt;</span><span class="me1">getSingleResult</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span> catch <span class="br0">&#40;</span>\Doctrine\ORM\NoResultException <span class="re0">$e</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="kw4">null</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Ahora ya puedes utilizar este método en el controlador para obtener un objeto <code>Product</code> y su correspondiente <code>Category</code> con una sola consulta:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> showAction<span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="re0">$product</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getDoctrine</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+        <span class="sy0">-&gt;</span><span class="me1">getRepository</span><span class="br0">&#40;</span><span class="st_h">'AcmeStoreBundle:Product'</span><span class="br0">&#41;</span>
+        <span class="sy0">-&gt;</span><span class="me1">findOneByIdJoinedToCategory</span><span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$category</span> <span class="sy0">=</span> <span class="re0">$product</span><span class="sy0">-&gt;</span><span class="me1">getCategory</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// ...</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<h3 id="mas_informacion_sobre_las_asociaciones">8.3.5. Más información sobre las asociaciones</h3>
+
+<p>Esta sección sólo ha sido una introducción a un tipo de relación entre entidades muy común: la relación <em>uno a muchos</em>. Para obtener detalles más avanzados y ejemplos de cómo utilizar otros tipos de relaciones (por ejemplo, <em>uno a uno</em>, <em>muchos a muchos</em>), consulta la sección <a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/association-mapping.html">Association mapping</a> de la documentación de Doctrine.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Si utilizas anotaciones, tienes que prefijar todas ellas con <code>ORM\</code> (por ejemplo, <code>ORM\OneToMany</code>), algo que no se explica en la documentación de Doctrine. También tendrás que incluir la declaración <code>use Doctrine\ORM\Mapping as ORM;</code> para importar el prefijo <code>ORM</code> de las anotaciones.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_8/buscando_objetos.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>8.2. Buscando objetos</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_8/configuracion.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>8.4. Configuración</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Symfony2 y los fundamentos de HTTP</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> De PHP a Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Instalando y configurando Symfony2</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Creando páginas en Symfony2</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> El controlador</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El enrutamiento</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Creando y utilizando plantillas</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_8.html">
+                    <span>Capítulo 8.</span> La base de datos y Doctrine
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/un_ejemplo_sencillo.html">
+                    <span>8.1.</span> Un ejemplo sencillo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/buscando_objetos.html">
+                    <span>8.2.</span> Buscando objetos
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_8/relaciones_y_asociaciones_de_entidades.html">
+                    <span>8.3.</span> Relaciones y asociaciones de entidades
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/configuracion.html">
+                    <span>8.4.</span> Configuración
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/lifecycle_callbacks.html">
+                    <span>8.5.</span> Lifecycle Callbacks 
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/extensiones_de_doctrine.html">
+                    <span>8.6.</span> Extensiones de Doctrine
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/referencia_de_los_tipos_de_campo_de_doctrine.html">
+                    <span>8.7.</span> Referencia de los tipos de campo de Doctrine
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/comandos_de_consola.html">
+                    <span>8.8.</span>  Comandos de consola
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/resumen.html">
+                    <span>8.9.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> La base de datos y Propel</a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Tests unitarios y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Validación</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Formularios</a>
+            </li>
+                                                                                                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> La caché de HTTP</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> El contenedor de servicios</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Mejorando el rendimiento</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> El interior de Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> La API estable de Symfony2</a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

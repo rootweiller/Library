@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Capítulo 5. Creando un nuevo post (Introducción a Ruby on Rails)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="./capitulo_4.html" />
+                    <link rel="next" href="./capitulo_6.html" />
+                <link rel="start" href="/libro/introduccion_rails/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Capítulo 5. Creando un nuevo post (Introducción a Ruby on Rails)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page introduccion_rails"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/introduccion_rails/" itemprop="url">
+                    <span itemprop="title">Introducción a Ruby on Rails</span>
+                </a>
+            </li>
+
+        
+            <li class="active">
+                <span>Capítulo 5. Creando un nuevo post</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="creando_un_nuevo_post" class="title">
+        <span>Capítulo 5.</span> Creando un nuevo post
+    </h1>
+
+    <p>Ahora que has visto cómo crear un controlador, una acción y una vista, vamos a 
+crear algo un poco más complejo.</p>
+
+<p>En la aplicación de blog, ahora vas a crear un nuevo recurso (<em>resource</em>). Un 
+recurso es el término usado para una colección de objetos similares, como 
+artículos, personas o animales. Puedes crear, leer, actualizar y eliminar 
+objetos para un recurso y estas operaciones son referidas como operaciones
+<em>CRUD</em> (del inglés, <em>Create, Read, Update, Destroy</em>).</p>
+
+<p>Rails incluye un método llamado <code>resources</code> que puedes utilizar para declarar 
+un recurso REST estándar. Este es el aspecto que debería tener el archivo
+<code>config/routes.rb</code> después de haber declarado el recurso <code>article</code>:</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="re2">Blog::Application</span>.<span class="me1">routes</span>.<span class="me1">draw</span> <span class="kw1">do</span>
+  resources <span class="re3">:articles</span>
+  root <span class="st0">'welcome#index'</span>
+<span class="kw1">end</span></pre>
+</div>
+
+<p>Si ejecutas el comando <code>rake routes</code>, verás que se han definido varias rutas 
+para todas las acciones estándar de las aplicaciones RESTful. Más adelante se
+explicará el significado de cada columna. Por ahora sóo fíjate en que Rails ha
+inferido que la palabra en singular del recurso <code>articles</code> es <code>article</code>, con lo
+que el resultado es el siguiente:</p>
+
+<div class="code cli">
+<pre class="cli">$ bin/rake routes
+&nbsp;
+      Prefix Verb   URI Pattern                  Controller#Action
+    articles GET    /articles(.:format)          articles#index
+             POST   /articles(.:format)          articles#create
+ new_article GET    /articles/new(.:format)      articles#new
+edit_article GET    /articles/:id/edit(.:format) articles#edit
+     article GET    /articles/:id(.:format)      articles#show
+             PATCH  /articles/:id(.:format)      articles#update
+             PUT    /articles/:id(.:format)      articles#update
+             DELETE /articles/:id(.:format)      articles#destroy
+        root GET    /                            welcome#index</pre>
+</div>
+
+<p>En las próximas secciones añadirás la funcionalidad de crear artículos en la
+aplicación y también podrás visualizarlos. Estas dos acciones son,
+respectivamente, las letras <em>C</em> y <em>R</em> del conjunto de acciones CRUD. El
+formulario para crear los artículos tendrá este aspecto:</p>
+
+<div class="figure" id="figure_5_1">
+    <img src="/img/introduccion_rails/new_article.png" alt="Formulario para crear artículos en el blog" />
+
+    <p class="caption"><strong>Figura 5.1</strong> Formulario para crear artículos en el blog</p>
+</div>
+
+
+<p>Por el momento será un formulario muy simple. Pero tranquilo porque después ya
+le aplicaremos estilos para mejorarlo.</p>
+
+<h2 id="primeros_pasos">5.1. Primeros pasos</h2>
+
+<p>La primera cosa que necesitaremos para crear un nuevo artículo, es crear una 
+sección especial para esto en nuestra aplicación. Un buen lugar podría ser
+<code>/posts/new</code>. Si tratas de navegar a esa dirección ahora - visitando <a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a> - Rails mostrará el siguiente mensaje de error:</p>
+
+<div class="figure" id="figure_5_2">
+    <img src="/img/introduccion_rails/routing_error_no_controller.png" alt="Error de enrutamiento en Rails (ninguna ruta está configurada para servir /articles/new)" />
+
+    <p class="caption"><strong>Figura 5.2</strong> Error de enrutamiento en Rails (ninguna ruta está configurada para servir /articles/new)</p>
+</div>
+
+
+<p>Este error se produce porque la ruta necesita tener asociado un controlador
+para poder servir las peticiones. Así que la solución es tan sencilla como 
+crear un controllador llamado <code>ArticlesController</code>. Si no quieres crearlo a 
+mano, ejecuta el siguiente comando:</p>
+
+<div class="code cli">
+<pre class="cli">$ bin/rails g controller articles</pre>
+</div>
+
+<p>Si ahora abres el archivo <code>app/controllers/articles_controller.rb</code> que se acaba
+de generar, verás el siguiente controlador vacío:</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="kw1">class</span> ArticlesController <span class="sy0">&lt;</span> ApplicationController
+<span class="kw1">end</span></pre>
+</div>
+
+<p>Un controlador es simplemente una clase que hereda de <code>ApplicationController</code>. 
+Dentro de esta clase defines los métodos que se convertirán en las acciones del
+controlador. Estas acciones son las que se encargan de las operaciones CRUD
+sobre los artículos de la aplicación.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Ruby permite definir métodos públicos, privados y protegidos, pero las acciones
+de los controladores solo pueden ser métodos públicos.</p></div>
+
+<p>Si ahora refrescas la página <a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a>, verás de
+nuevo un error, pero diferente al anterior:</p>
+
+<div class="figure" id="figure_5_3">
+    <img src="/img/introduccion_rails/unknown_action_new_for_articles.png" alt="Error de Rails: no existe la acción new en ArticlesController" />
+
+    <p class="caption"><strong>Figura 5.3</strong> Error de Rails: no existe la acción new en ArticlesController</p>
+</div>
+
+
+<p>Este error significa que Rails no puede encontrar la acción <code>new</code> dentro del
+controlador <code>ArticlesController</code> que acabas de generar. El motivo es que cuando
+se genera un controlador automáticamente, su contenido está vacío a menos que 
+le indiques qué acciones quieres incluir.</p>
+
+<p>Para añadir una acción a mano en un controlador, lo único que necesitas es 
+crear un nuevo método en el controlador. Abre el archivo
+<code>app/controllers/articles_controller.rb</code> y dentro de la clase
+<code>ArticlesController</code> define un nuevo método de esta manera:</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="kw1">def</span> new
+<span class="kw1">end</span></pre>
+</div>
+
+<p>Refresca de nuevo la página <a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a> y verás que
+a pesar de haber añadido el método <code>new</code>, sigues viendo un mensaje de error:</p>
+
+<div class="figure" id="figure_5_4">
+    <img src="/img/introduccion_rails/template_is_missing_articles_new.png" alt="Error de rails: no existe la plantilla para articles/new" />
+
+    <p class="caption"><strong>Figura 5.4</strong> Error de rails: no existe la plantilla para articles/new</p>
+</div>
+
+
+<p>La causa de este error es que Rails espera que las acciones de los 
+controladores tengan asociadas unas <em>vistas</em> para mostrar su información. 
+Cuando no existe la vista, Rails muestra el siguiente mensaje de error.</p>
+
+<div class="code code">
+<pre class="code">Missing template articles/new, application/new with
+{locale:[:en], formats:[:html], handlers:[:erb, :builder, :coffee]}.
+Searched in: * &quot;/path/to/blog/app/views&quot;</pre>
+</div>
+
+<p>Vaya rollo de texto, ¿verdad? Repasemos rápidamente cada parte de ese texto.</p>
+
+<p>La primera parte identifica la plantilla que está faltando. En este caso, es 
+la plantila <code>articles/new</code>. Rails primero buscará esta plantilla. Si no la 
+encuentra, luego tratará de cargar la plantilla llamada <code>application/new</code>. 
+El motivo es que tu controlador <code>ArticlesController</code> hereda del controlador 
+base <code>ApplicationController</code>.</p>
+
+<p>La siguiente parte del mensaje contiene un mapa (en inglés, <em>hash</em>). La clave
+<code>:locale</code> en este mapa simplemente indica el idioma para el que se debe 
+obtener la plantilla. Por defecto, está configurado en inglés (código <code>en</code>).</p>
+
+<p>La siguiente clave, <code>:formats</code> especifica el formato de la plantilla que será
+servido en la respuesta. El formato por defecto es <code>:html</code>, por lo que Rails 
+busca una plantilla HTML. La última clave, <code>:handlers</code>, nos dice qué
+<em>manejador de plantilla</em> (en inglés, <em>template handler</em>) se puede usar para
+renderizar la plantilla. <code>:erb</code> es el manejador más usado para plantillas HTML,
+<code>:builder</code> se usa para plantillas XML, y <code>:coffee</code> usa CoffeeScript para 
+construir plantillas JavaScript.</p>
+
+<p>La última parte del mensaje de error indica los lugares en los que Rails ha
+buscado las plantillas. En una aplicación Rails como esta las plantillas se
+guardan en un único directorio. Pero en aplicaciones más complejas, las 
+plantillas podrían encontrarse repartidas en varias localizaciones.</p>
+
+<p>La plantilla más simple que funcionaría en nuestro caso sería una localizada 
+en <code>app/views/articles/new.html.erb</code>. La extensión de este nombre de archivo 
+es muy importante: la primera extensión define el <em>formato</em> de la plantilla,
+y la segunda extensión el <em>manejador de plantilla</em> que se usará.</p>
+
+<p>Rails tratará de encontrar una plantilla llamada <code>articles/new</code> en el 
+directorio <code>app/views</code>. El formato para esta plantilla sólo puede ser <code>html</code> y 
+el manejador debería  ser <code>erb</code>, <code>builder</code> o <code>coffee</code>. Ya que quieres crear un 
+nuevo formulario HTML, tendrás que usar el lenguaje <code>ERB</code>. Por lo tanto el 
+archivo debería llamarse <code>articles/new.html.erb</code> y debe encontrarse dentro de 
+la carpeta <code>app/views</code> de la aplicación.</p>
+
+<p>Ahora crea un nuevo archivo en <code>app/views/articles/new.html.erb</code> y escribe el 
+siguiente contenido en él:</p>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">h1</span>&gt;</span>New Post<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">h1</span>&gt;</span></pre>
+</div>
+
+<p>Cuando recargues <a href="http://localhost:3000/posts/new">http://localhost:3000/posts/new</a>, verás que la página tiene 
+un título. La ruta, el controlador, la acción y la vista ahora están 
+funcionando todos de manera conjunta y por eso ya no se muestra ningún error.
+Ahora es el momento de crear un formulario para crear artículos.</p>
+
+<h2 id="el_primer_formulario">5.2. El primer formulario</h2>
+
+<p>Para crear un formulario dentro de esta plantilla, se utiliza un <em>constructor 
+de formularios</em> (en inglés, <em>"form builder"</em>). El principal constructor de
+formularios de Rails incluye un <em>helper</em> llamado <code>form_for</code>. Para hacer uso de
+este método, añade el siguiente código a <code>app/views/posts/new.html.erb</code>:</p>
+
+<div class="code rails">
+<pre class="rails"><span class="sy0">&lt;%</span>= <span class="kw5">form_for</span> <span class="re3">:post</span> <span class="kw1">do</span> <span class="sy0">|</span>f<span class="sy0">|</span> <span class="sy0">%&gt;</span>
+  &lt;p&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="me1">label</span> <span class="re3">:title</span> <span class="sy0">%&gt;</span>&lt;br&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="me1">text_field</span> <span class="re3">:title</span> <span class="sy0">%&gt;</span>
+  &lt;/p&gt;
+&nbsp;
+  &lt;p&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="me1">label</span> <span class="re3">:text</span> <span class="sy0">%&gt;</span>&lt;br&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="kw5">text_area</span> <span class="re3">:text</span> <span class="sy0">%&gt;</span>
+  &lt;/p&gt;
+&nbsp;
+  &lt;p&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="me1">submit</span> <span class="sy0">%&gt;</span>
+  &lt;/p&gt;
+<span class="sy0">&lt;%</span> <span class="kw1">end</span> <span class="sy0">%&gt;</span></pre>
+</div>
+
+<p>Si recargas la página, ahora verás el mismo formulario que en el ejemplo.
+¡Crear formularios en Rails es así de sencillo!</p>
+
+<p>Cuando llamas a <code>form_for</code>, le pasas un objeto identificador para este
+formulario, que en este caso, es el símbolo <code>:article</code>. Esto le indica al 
+método <code>form_for</code> para quién es este formulario.</p>
+
+<p>Dentro del bloque para este método, el objeto <code>FormBuilder</code> - representado por 
+<code>f</code> - se usa para construir dos títulos y dos cajas de texto, una para el
+título del artículo y otra para su contenido. Finalmente, la llamada al método 
+<code>submit</code> en el objeto <code>f</code> crea un botón para enviar el formulario.</p>
+
+<p>Sin embargo, existe un problema con este formulario. Si ver el código HTML
+generado en la página, verás que el atributo <code>action</code> de el formulario apunta 
+a <code>/articles/new</code>. Ésto es un problema porque esta ruta va a la misma página 
+donde te encuentras en este momento, cuando en realidad la ruta sólo debería 
+usarse para mostrar el formulario que crea nuevos artículos.</p>
+
+<p>El formulario necesita una URL distinta para poder dirigirse hacia algún otro
+lugar. Conseguirlo es bastante sencillo, ya que basta utilizar la opción
+<code>:url</code> del método <code>form_for</code>. En Rails la acción que se usa normalmente para 
+crear nuevos elementos se llama <code>create</code> (en español, "crear"), por lo que el
+formulario debería apuntar hacia esa acción.</p>
+
+<p>Edita la línea de <code>form_for</code> de la vista <code>app/views/posts/new.html.erb</code> para 
+que se vea así:</p>
+
+<div class="code rails">
+<pre class="rails"><span class="sy0">&lt;%</span>= <span class="kw5">form_for</span> <span class="re3">:article</span>, url: articles_path <span class="kw1">do</span> <span class="sy0">|</span>f<span class="sy0">|</span> <span class="sy0">%&gt;</span></pre>
+</div>
+
+<p>En este ejemplo se pasa el <em>helper</em> <code>articles_path</code> a la opción <code>:url</code>. Para
+comprender qué es lo que hace Rails con este objeto, recuerda cómo era el
+resultado de ejecutar el comando <code>rake routes</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ bin/rake routes
+&nbsp;
+      Prefix Verb   URI Pattern                  Controller#Action
+    articles GET    /articles(.:format)          articles#index
+             POST   /articles(.:format)          articles#create
+ new_article GET    /articles/new(.:format)      articles#new
+edit_article GET    /articles/:id/edit(.:format) articles#edit
+     article GET    /articles/:id(.:format)      articles#show
+             PATCH  /articles/:id(.:format)      articles#update
+             PUT    /articles/:id(.:format)      articles#update
+             DELETE /articles/:id(.:format)      articles#destroy
+        root GET    /                            welcome#index</pre>
+</div>
+
+<p>El <em>helper</em> <code>articles_path</code> le dice a Rails que apunte el formulario a la URI
+asociada con el prefijo <code>articles</code>, por lo que el formulario enviará por 
+defecto peticiones POST a esa ruta. Como ves, esta ruta está asociada con la
+acción <code>create</code> del controlador actual, <code>ArticlesController</code>.</p>
+
+<p>Con el formulario y su ruta asociada definidas, ahora ya puedes rellenar el 
+formulario y pinchar en el botón de enviar para empezar el proceso de creación 
+de un nuevo artículo. No obstante, cuando envíes el formulario verás el 
+siguiente mensaje de error que ya debería resultarte familiar:</p>
+
+<div class="figure" id="figure_5_5">
+    <img src="/img/introduccion_rails/unknown_action_create_for_articles.png" alt="Error de Rails: no existe la acción create en ArticlesController" />
+
+    <p class="caption"><strong>Figura 5.5</strong> Error de Rails: no existe la acción create en ArticlesController</p>
+</div>
+
+
+<p>Para solucionarlo debemos crear la acción <code>create</code> en <code>ArticlesController</code>.</p>
+
+<h2 id="creando_articulos">5.3. Creando artículos</h2>
+
+<p>Para hacer que el error <em>"Unknown action"</em> desaparezca, defini una acción
+<code>create</code> dentro de la clase <code>ArticlesController</code> en
+<code>app/controllers/articles_controller.rb</code>, debajo de la acción <code>new</code>:</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="kw1">class</span> PostsController <span class="sy0">&lt;</span> ApplicationController
+  <span class="kw1">def</span> new
+  <span class="kw1">end</span>
+&nbsp;
+  <span class="kw1">def</span> create
+  <span class="kw1">end</span>
+<span class="kw1">end</span></pre>
+</div>
+
+<p>Si ahora reenvías el formulario, verás otro error común: falta la plantilla. 
+Por el momento vamos a ignorar este error, ya que la acción <code>create</code> sí que
+está al menos guardando el nuevo artículo en la base de datos.</p>
+
+<p>Cuando se envía un formulario, los campos del formulario se envían a Rails 
+como <em>parámetros</em>. Estos parámetros se pueden obtener dentro de las acciones 
+del controlador, ya que normalmente tu código los necesita para completar sus
+tareas. Para ver cómo son parámetros, cambiar la acción <code>create</code> a esto:</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="kw1">def</span> create
+  render plain: params<span class="br0">&#91;</span><span class="re3">:article</span><span class="br0">&#93;</span>.<span class="me1">inspect</span>
+<span class="kw1">end</span></pre>
+</div>
+
+<p>Al método <code>render</code> se le pasa un <em>hash</em> muy simple con la clave <code>text</code> y el 
+valor <code>params[:post].inspect</code>. El método <code>params</code> es el objeto que representa 
+a los parámetros (o campos) que vienen desde el formulario. El método <code>params</code> 
+devuelve un objeto <code>ActiveSupport::HashWithIndifferentAccess</code>, que te permite 
+acceder a las claves del <em>hash</em> usando tanto cadenas de texto como símbolos. 
+En nuestro caso los únicos parámetros que importan son los que vienen del
+formulario.</p>
+
+<p>Si reenvias el formulario una vez más, ya no obtendrás el error que indica que
+falta la plantilla. En su lugar verás algo como lo siguiente:</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="br0">&#123;</span><span class="st0">&quot;title&quot;</span><span class="sy0">=&gt;</span><span class="st0">&quot;First article!&quot;</span>, <span class="st0">&quot;text&quot;</span><span class="sy0">=&gt;</span><span class="st0">&quot;This is my first article.&quot;</span><span class="br0">&#125;</span></pre>
+</div>
+
+<p>Ahora esta acción muestra los parámetros que se envían mediante el formulario
+que crea nuevos artículo. En cualquier caso, de momento esto no nos sirve para
+nada. Aunque es cierto que puedes ver el contenido de los parámetros, no 
+estamos haciendo nada con ellos, por lo que su valor se pierde.</p>
+
+<h2 id="creando_el_modelo_article">5.4. Creando el modelo <code>Article</code></h2>
+
+<p>Los modelos en Rails se escriben en singular y los nombres de sus tablas 
+asociadas se convierten automáticamente en plural. Rails incluye un generador
+para crear modelos que lo utilizan la mayoría de programadores Rails para crear
+al menos el <em>esqueleto</em> del modelo. Para crear el nuevo modelo <code>Article</code> 
+ejecuta el siguiente comando en la consola:</p>
+
+<div class="code cli">
+<pre class="cli">$ bin/rails generate model Article title:string text:text</pre>
+</div>
+
+<p>Con ese comando le decimos a Rails que queremos un modelo llamado <code>Article</code>,
+que contenga un atributo <code>title</code> de tipo cadena de texto y un atributo <code>text</code>
+de tipo texto largo. Esos atributos se añaden automáticamente a la tabla
+<code>articles</code> en la base de datos y se asocian al modelo <code>Article</code>.</p>
+
+<p>El resultado de ejecutar este comando es que Rails ha creado varios archivos.
+Por el momento sólo nos interesan <code>app/models/article.rb</code> y
+<code>db/migrate/20140120191729_create_articles.rb</code> (en tu caso el nombre de este
+archivo será ligeramente diferente). Este último se encarga de crear la 
+estructura de la base de datos, que es lo próximo que vamos a analizar.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> El <em>Active Record</em> es lo suficientemente <em>inteligente</em> para asociar
+automáticamente el nombre de las columnas a los atributos del modelo, lo que 
+significa que no tienes que declarar los atributos dentro de los modelos de 
+Rails, ya que <em>Active Record</em> lo hará por tí automáticamente.</p></div>
+
+<h2 id="migraciones">5.5. Migraciones</h2>
+
+<p>Como hemos visto, el comando <code>rails generate model</code> crea un archivo de
+migración de base de datos en el directorio <code>db/migrate</code>. Las migraciones son 
+clases de Ruby que están diseñadas para simplificar la creación y modificación 
+de las tablas de la base de datos.</p>
+
+<p>Rails usa comandos <code>rake</code> para ejecutar migraciones, y es posible deshacer una 
+migración después de que ha sido aplicada a la base de datos. Los archivos de 
+migraciones incluyen un sello de tiempo con la fecha y hora para que siempre 
+sean procesadas en el mismo orden que fueron creadas.</p>
+
+<p>Si miras el contenido del archivo
+<code>db/migrate/20140120191729_create_articles.rb</code> (recuerda que en tu caso el 
+nombre de este archivo será ligeramente diferente), esto es lo que encontrarás:</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="kw1">class</span> CreateArticles <span class="sy0">&lt;</span> <span class="re2">ActiveRecord::Migration</span>
+  <span class="kw1">def</span> change
+    create_table <span class="re3">:articles</span> <span class="kw1">do</span> <span class="sy0">|</span>t<span class="sy0">|</span>
+      t.<span class="kw3">string</span> <span class="re3">:title</span>
+      t.<span class="me1">text</span> <span class="re3">:text</span>
+&nbsp;
+      t.<span class="me1">timestamps</span>
+    <span class="kw1">end</span>
+  <span class="kw1">end</span>
+<span class="kw1">end</span></pre>
+</div>
+
+<p>La migración de arriba crea un método llamado <code>change</code> que se invoca cuando 
+ejecutas la migración. La acción definida en este método es reversible, lo 
+cual significa que Rails sabe cómo deshacer los cambios realizados en esta 
+migración en caso que necesites hacerlo más adelante.</p>
+
+<p>Cuando ejecutas esta migración se crea una tabla <code>articles</code> con una columna 
+tipo <code>string</code> y otra columna tipo <code>text</code>. También crea dos campos de tipo
+<code>timestamp</code> para que Rails pueda guarda la fecha y hora en la que los 
+artículos se crean y se modifican.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Puedes encontrar más información sobre las migraciones en el artículo
+<a href="http://guides.rubyonrails.org/migrations.html">Rails Database Migrations</a></p></div>
+
+<p>En este punto, puedes usar el comando <code>rake</code> para ejecutar la migración:</p>
+
+<div class="code cli">
+<pre class="cli">$ bin/rake db:migrate</pre>
+</div>
+
+<p>Rails ejecutará este comando de migración y te indicará que ha creado la tabla
+<code>Articles</code>.</p>
+
+<div class="code cli">
+<pre class="cli">==  CreateArticles: migrating ==================================================
+-- create_table(:articles)
+   -&gt; 0.0019s
+==  CreateArticles: migrated (0.0020s) =========================================</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Como por defecto siempre estás trabajando en el entorno de desarrollo, este
+comando se aplica sobre la base de datos definida en la sección <code>development</code>
+del archivo <code>config/database.yml</code>. Si quieres ejecutar migraciones en otro
+entorno, por ejemplo en producción, debes indicarlo en forma explícita cuando
+invoques el comando: <code>rake db:migrate RAILS_ENV=production</code>.</p></div>
+
+<h2 id="guardando_datos_en_el_controlador">5.6. Guardando datos en el controlador</h2>
+
+<p>En <code>ArticlesController</code> debemos cambiar ahora la clase <code>create</code> para que
+utilice el nuevo modelo <code>Article</code> al guardar la información en la base de 
+datos. Abre el archivo <code>app/controllers/articles_controller.rb</code> y modifica la
+acción <code>create</code> para que tenga el siguiente contenido:</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="kw1">def</span> create
+  <span class="re1">@article</span> = Article.<span class="me1">new</span><span class="br0">&#40;</span>params<span class="br0">&#91;</span><span class="re3">:article</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+&nbsp;
+  <span class="re1">@article</span>.<span class="me1">save</span>
+  redirect_to <span class="re1">@article</span>
+<span class="kw1">end</span></pre>
+</div>
+
+<p>Lo que está sucediendo ahora es que cada modelo Rails se inicializa con sus 
+respectivos atributos, que se asocian automáticamente con las columnas
+correspondientes de la base de datos. La primera línea del código anterior hace
+exactamente eso (recuerda que <code>params[:article]</code> contiene los atributos que
+nos interesan). Después, <code>@article.save</code> se encarga de guardar el modelo en la
+base de datos. Por último, redirigimos al usuario a la acción <code>show</code>, que
+definiremos más adelante.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Como veremos después, <code>@article.save</code> devuelve una variable <em>booleana</em> que indica si el modelo fue guardado o no.</p></div>
+
+<p>Si recargas de nuevo la página <a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a> serás casi
+capaz de crear un nuevo artículo. Si lo pruebas, verás que se muestra este
+mensaje de error:</p>
+
+<div class="figure" id="figure_5_6">
+    <img src="/img/introduccion_rails/forbidden_attributes_for_new_article.png" alt="No se permiten esos atributos al crear un artículo" />
+
+    <p class="caption"><strong>Figura 5.6</strong> No se permiten esos atributos al crear un artículo</p>
+</div>
+
+
+<p>Rails incluye varias opciones para ayudarte a desarrollar aplicaciones seguras
+y ahora mismo estás viendo en directo una de ellas. Esta opción se llama
+<code>strong_parameters</code> y obliga a decirle a Rails exactamente qué parametros
+estamos dispuestos a aceptar en nuestros controladores.</p>
+
+<p>Como en este caso sólo nos interesan los atributos <code>title</code> y <code>text</code>, debes
+añadir el siguiente método <code>article_params</code> y cambiar el código de la acción
+<code>create</code>:</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="kw1">def</span> create
+  <span class="re1">@article</span> = Article.<span class="me1">new</span><span class="br0">&#40;</span>article_params<span class="br0">&#41;</span>
+&nbsp;
+  <span class="re1">@article</span>.<span class="me1">save</span>
+  redirect_to <span class="re1">@article</span>
+<span class="kw1">end</span>
+&nbsp;
+private
+  <span class="kw1">def</span> article_params
+    params.<span class="kw3">require</span><span class="br0">&#40;</span><span class="re3">:article</span><span class="br0">&#41;</span>.<span class="me1">permit</span><span class="br0">&#40;</span><span class="re3">:title</span>, <span class="re3">:text</span><span class="br0">&#41;</span>
+  <span class="kw1">end</span></pre>
+</div>
+
+<p>El método <code>permit</code> es lo que nos permite aceptar tanto el <code>title</code> como el
+<code>text</code> en la acción.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Observa que <code>def article_params</code> es un método privado. Esta estrategia impide
+que un atacante pueda establecer los atributos del modelo manipulando el
+<em>hash</em> que se pasa al modelo. Para más información al respecto, consulta este
+<a href="http://weblog.rubyonrails.org/2012/3/21/strong-parameters/">artículo sobre los Strong Parameters</a>.</p></div>
+
+<h2 id="mostrando_articulos">5.7. Mostrando artículos</h2>
+
+<p>Si ahora vuelves a enviar el formulario, Rails mostrará un mensaje de error
+indicando que no encuentra la acción <code>show</code>. Como esto no es muy útil, vamos 
+a crear la acción <code>show</code> antes de continuar.</p>
+
+<p>Como viste en la salida del comando <code>rake routes</code>, la ruta de la acción <code>show</code>
+tiene este aspecto:</p>
+
+<div class="code cli">
+<pre class="cli">$ bin/rake routes
+&nbsp;
+      Prefix Verb   URI Pattern                  Controller#Action
+     article GET    /articles/:id(.:format)      articles#show
+         ...</pre>
+</div>
+
+<p>La sintaxis <code>:id</code> de la ruta indica a Rails que esta ruta espera un parámetro
+llamado <code>:id</code>, que en este caso será el atributo <code>id</code> del artículo que se
+quiere ver. Como hicimos anteriormente, es necesario añadir una nueva acción
+en el archivo <code>app/controllers/articles_controller.rb</code> y también hay que crear
+su vista correspondiente.</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="kw1">def</span> show
+  <span class="re1">@article</span> = Article.<span class="me1">find</span><span class="br0">&#40;</span>params<span class="br0">&#91;</span><span class="re3">:id</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+<span class="kw1">end</span></pre>
+</div>
+
+<p>Un par de cosas que debes tener en cuenta: usamos <code>Article.find</code> para 
+encontrar el artículo que nos interesa, pasándole el valor <code>params[:id]</code> para
+obtener el parámetro <code>:id</code> directamente de la petición. También usamos una 
+variable de instancia (con el prefijo <code>@</code>) para guardar una referencia al 
+objeto del artículo. Hacemos eso porque Rails pasa automáticamente todas las 
+variables de instancia a la vista.</p>
+
+<p>Ahora, crea un nuevo archivo <code>app/view/articles/show.html.erb</code> con el 
+siguiente contenido:</p>
+
+<div class="code rails">
+<pre class="rails">&lt;p&gt;
+  &lt;strong&gt;Title:&lt;/strong&gt;
+  <span class="sy0">&lt;%</span>= <span class="re1">@article</span>.<span class="me1">title</span> <span class="sy0">%&gt;</span>
+&lt;/p&gt;
+&nbsp;
+&lt;p&gt;
+  &lt;strong&gt;Text:&lt;/strong&gt;
+  <span class="sy0">&lt;%</span>= <span class="re1">@article</span>.<span class="me1">text</span> <span class="sy0">%&gt;</span>
+&lt;/p&gt;</pre>
+</div>
+
+<p>Con estos cambios, ya deberíamos poder crear nuevos artículos. Para ello, 
+visita <a href="http://localhost:3000/posts/new">http://localhost:3000/posts/new</a> y
+pruébalo.</p>
+
+<div class="figure" id="figure_5_7">
+    <img src="/img/introduccion_rails/show_action_for_articles.png" alt="La acción que muestra los artículos del blog" />
+
+    <p class="caption"><strong>Figura 5.7</strong> La acción que muestra los artículos del blog</p>
+</div>
+
+
+<h2 id="listando_todos_los_articulos">5.8. Listando todos los artículos</h2>
+
+<p>Todavía no tenemos una forma de listar todos los artículos disponibles, por lo
+que vamos a hacerlo ahora mismo. La ruta que corresponde a esta acción según
+el comando <code>rake routes</code> es:</p>
+
+<div class="code cli">
+<pre class="cli">$ bin/rake routes
+&nbsp;
+      Prefix Verb   URI Pattern                  Controller#Action
+    articles GET    /articles(.:format)          articles#index
+         ...</pre>
+</div>
+
+<p>Y la acción <code>index</code> correspondiente para esta ruta dentro de <code>ActionController</code>
+del archivo <code>app/controllers/articles_controller.rb</code> debería ser:</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="kw1">def</span> index
+  <span class="re1">@articles</span> = Article.<span class="me1">all</span>
+<span class="kw1">end</span></pre>
+</div>
+
+<p>Y por último, añade la vista para esta acción en la plantilla localizada en
+<code>app/views/articles/index.html.erb</code>:</p>
+
+<div class="code rails">
+<pre class="rails">&lt;h1&gt;Listing articles&lt;/h1&gt;
+&nbsp;
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+    &lt;th&gt;Text&lt;/th&gt;
+  &lt;/tr&gt;
+&nbsp;
+  <span class="sy0">&lt;%</span> <span class="re1">@articles</span>.<span class="kw5">each</span> <span class="kw1">do</span> <span class="sy0">|</span>article<span class="sy0">|</span> <span class="sy0">%&gt;</span>
+    &lt;tr&gt;
+      &lt;td&gt;<span class="sy0">&lt;%</span>= article.<span class="me1">title</span> <span class="sy0">%&gt;</span>&lt;/td&gt;
+      &lt;td&gt;<span class="sy0">&lt;%</span>= article.<span class="me1">text</span> <span class="sy0">%&gt;</span>&lt;/td&gt;
+    &lt;/tr&gt;
+  <span class="sy0">&lt;%</span> <span class="kw1">end</span> <span class="sy0">%&gt;</span>
+&lt;/table&gt;</pre>
+</div>
+
+<p>Visita ahora la página <a href="http://localhost:3000/articles">http://localhost:3000/articles</a> y verás el listado de
+todos los artículos que has creado.</p>
+
+<h2 id="anadiendo_enlaces">5.9. Añadiendo enlaces</h2>
+
+<p>En estos momentos puedes crear, mostrar y listar artículos. Pero todas estas
+acciones son independientes y no están conectadas entre sí. Por ello ahora
+vamos a añadir algunos enlaces que nos permitan navegar entre las páginas.</p>
+
+<p>Abre <code>app/views/welcome/index.html.erb</code> y modifícalo como se indica a continuación:</p>
+
+<div class="code rails">
+<pre class="rails">&lt;h1&gt;Hello, Rails!&lt;/h1&gt;
+<span class="sy0">&lt;%</span>= <span class="kw5">link_to</span> <span class="st0">'My Blog'</span>, controller: <span class="st0">'articles'</span> <span class="sy0">%&gt;</span></pre>
+</div>
+
+<p>El método <code>link_to</code> es uno de los <em>helpers</em> que incluye Rails para las vistas.
+Este método crea un enlace utilizando el texto y la ruta indicados, que en este
+caso será la ruta <code>articles</code>.</p>
+
+<p>Vamos a agregar enlaces a las otras vistas, empezando por añadir el enlace
+<em>"New Article"</em> en la vista <code>app/views/articles/index.html.erb</code> justo por
+encima de la etiqueta <code>&lt;table&gt;</code>:</p>
+
+<div class="code erb">
+<pre class="erb">&lt;%= link_to 'New article', new_article_path %&gt;</pre>
+</div>
+
+<p>Este enlace te permite acceder directamente al formulario para crear nuevos
+artículos. Añade también un enlace en <code>app/views/articles/new.html.erb</code>, justo
+debajo del formulario, para volver a la portada del sitio:</p>
+
+<div class="code rails">
+<pre class="rails"><span class="sy0">&lt;%</span>= <span class="kw5">form_for</span> <span class="re3">:article</span>, url: articles_path <span class="kw1">do</span> <span class="sy0">|</span>f<span class="sy0">|</span> <span class="sy0">%&gt;</span>
+  ...
+<span class="sy0">&lt;%</span> <span class="kw1">end</span> <span class="sy0">%&gt;</span>
+&nbsp;
+<span class="sy0">&lt;%</span>= <span class="kw5">link_to</span> <span class="st0">'Back'</span>, articles_path <span class="sy0">%&gt;</span></pre>
+</div>
+
+<p>Finalmente, añade otro enlace a la plantilla <code>app/views/articles/show.html.erb</code>
+para regresar a la acción <code>index</code>, de manera que la persona que está viendo un artículo pueda volver fácilmente a la portada del sitio.</p>
+
+<div class="code rails">
+<pre class="rails">&lt;p&gt;
+  &lt;strong&gt;Title:&lt;/strong&gt;
+  <span class="sy0">&lt;%</span>= <span class="re1">@article</span>.<span class="me1">title</span> <span class="sy0">%&gt;</span>
+&lt;/p&gt;
+&nbsp;
+&lt;p&gt;
+  &lt;strong&gt;Text:&lt;/strong&gt;
+  <span class="sy0">&lt;%</span>= <span class="re1">@article</span>.<span class="me1">text</span> <span class="sy0">%&gt;</span>
+&lt;/p&gt;
+&nbsp;
+<span class="sy0">&lt;%</span>= <span class="kw5">link_to</span> <span class="st0">'Back'</span>, articles_path <span class="sy0">%&gt;</span></pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Si quieres crear un enlace a una acción dentro del mismo controlador, no es
+necesario que especifiques la opción <code>:controller</code>, ya que Rails utiliza por
+defecto el controlador actual.</p></div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> En el entorno de desarrollo, que es el que se utiliza por defecto, Rails
+recarga la aplicación entera con cada petición, por lo que no es necesario
+parar y reiniciar el servidor web con cada cambio.</p></div>
+
+<h2 id="anadiendo_validaciones">5.10. Añadiendo validaciones</h2>
+
+<p>Ahora mismo, el archivo <code>app/models/article.rb</code> del modelo es tan simple como:</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="kw1">class</span> Article <span class="sy0">&lt;</span> <span class="re2">ActiveRecord::Base</span>
+<span class="kw1">end</span></pre>
+</div>
+
+<p>Aunque el archivo está vacío, fíjate que la clase hereda de
+<code>ActiveRecord::Base</code>. El <em>Active Record</em> añade de esta manera muchas 
+funcionalidades a tus modelos de Rails. Entre otras, incluye un CRUD básico,
+validación de datos, búsqueda de información y la posibilidad de relacionar
+modelos entre sí.</p>
+
+<p>Rails incluye por ejemplo métodos que te permiten validar la información que
+envías a los modelos. Para definir esta validación, abre el archivo
+<code>app/models/article.rb</code> y añade lo siguiente:</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="kw1">class</span> Article <span class="sy0">&lt;</span> <span class="re2">ActiveRecord::Base</span>
+  validates <span class="re3">:title</span>, presence: <span class="kw2">true</span>,
+                    length: <span class="br0">&#123;</span> minimum: <span class="nu0">5</span> <span class="br0">&#125;</span>
+<span class="kw1">end</span></pre>
+</div>
+
+<p>Estos cambios aseguran que que todos los artículos tengan un título de al menos
+cinco caracteres de longitud. Rails puede validar diferentes características
+de los modelos, como si incluyen una determinada columna, si su valor es único
+en la base de datos, su formato, y si existen o no objetos relacionados. Las
+validaciones se explican con detalle en el artículo <a href="http://guides.rubyonrails.org/active_record_validations.html">Active Record Validations</a>.</p>
+
+<p>Ahora que ya has configurado la validación, cuando invoques el métood
+<code>@article.save</code> en un artículo inválido, el resultado será <code>false</code>. No 
+obstante, si abres el archivo <code>app/controllers/articles_controller.rb</code>, verás
+que no verificamos el resultado de la llamada a <code>@article.save</code> dentro de la
+acción <code>create</code>. Si el método <code>@article.save</code> devuelve <code>false</code>, deberíamos 
+mostrar de nuevo el formulario al usuario mostrándole los errores que contiene.
+Para ello, cambia las acciones <code>new</code> y <code>create</code> en el archivo
+<code>app/controllers/articles_controller.rb</code>:</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="kw1">def</span> new
+  <span class="re1">@article</span> = Article.<span class="me1">new</span>
+<span class="kw1">end</span>
+&nbsp;
+<span class="kw1">def</span> create
+  <span class="re1">@article</span> = Article.<span class="me1">new</span><span class="br0">&#40;</span>article_params<span class="br0">&#41;</span>
+&nbsp;
+  <span class="kw1">if</span> <span class="re1">@article</span>.<span class="me1">save</span>
+    redirect_to <span class="re1">@article</span>
+  <span class="kw1">else</span>
+    render <span class="st0">'new'</span>
+  <span class="kw1">end</span>
+<span class="kw1">end</span>
+&nbsp;
+private
+  <span class="kw1">def</span> article_params
+    params.<span class="kw3">require</span><span class="br0">&#40;</span><span class="re3">:article</span><span class="br0">&#41;</span>.<span class="me1">permit</span><span class="br0">&#40;</span><span class="re3">:title</span>, <span class="re3">:text</span><span class="br0">&#41;</span>
+  <span class="kw1">end</span></pre>
+</div>
+
+<p>La acción <code>newp  ahora crea una variable de instancia llamada</code>@article` y el
+motivo por el que lo hace lo comprenderás muy pronto.</p>
+
+<p>Observa que en la acción <code>create</code> utilizamos <code>render</code> en vez de <code>redirect_to</code>
+cuando el método <code>save</code> devuelve <code>false</code>. Se utiliza el método <code>render</code> para
+que el objeto <code>@article</code> se pase cuando se renderiza la plantilla. Esta
+renderización se realiza en la misma petición en la que se envió el formulario,
+mientras que <code>redirect_to</code> le dice al navegador que realice otra petición.</p>
+
+<p>Si recargas la página <a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a> y tratas de guardar
+un artículo sin título, Rails te mostrará el mismo formulario vacío, lo cual no
+es muy útil. Lo que debemos hacer es mostrar al usuario qué errores se han 
+producido. Para ello, modifica el archivo <code>app/views/articles/new.html.erb</code> 
+para que compruebe si existen errores:</p>
+
+<div class="code rails">
+<pre class="rails"><span class="sy0">&lt;%</span>= <span class="kw5">form_for</span> <span class="re3">:article</span>, url: articles_path <span class="kw1">do</span> <span class="sy0">|</span>f<span class="sy0">|</span> <span class="sy0">%&gt;</span>
+  <span class="sy0">&lt;%</span> <span class="kw1">if</span> <span class="re1">@article</span>.<span class="kw5">errors</span>.<span class="me1">any</span>? <span class="sy0">%&gt;</span>
+  &lt;div id=&quot;error_explanation&quot;&gt;
+    &lt;h2&gt;<span class="sy0">&lt;%</span>= pluralize<span class="br0">&#40;</span>@article.<span class="kw5">errors</span>.<span class="kw5">count</span>, <span class="st0">&quot;error&quot;</span><span class="br0">&#41;</span> <span class="sy0">%&gt;</span> prohibited
+      this article from being saved:&lt;/h2&gt;
+    &lt;ul&gt;
+    <span class="sy0">&lt;%</span> <span class="re1">@article</span>.<span class="kw5">errors</span>.<span class="me1">full_messages</span>.<span class="kw5">each</span> <span class="kw1">do</span> <span class="sy0">|</span>msg<span class="sy0">|</span> <span class="sy0">%&gt;</span>
+      &lt;li&gt;<span class="sy0">&lt;%</span>= msg <span class="sy0">%&gt;</span>&lt;/li&gt;
+    <span class="sy0">&lt;%</span> <span class="kw1">end</span> <span class="sy0">%&gt;</span>
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  <span class="sy0">&lt;%</span> <span class="kw1">end</span> <span class="sy0">%&gt;</span>
+  &lt;p&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="me1">label</span> <span class="re3">:title</span> <span class="sy0">%&gt;</span>&lt;br&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="me1">text_field</span> <span class="re3">:title</span> <span class="sy0">%&gt;</span>
+  &lt;/p&gt;
+&nbsp;
+  &lt;p&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="me1">label</span> <span class="re3">:text</span> <span class="sy0">%&gt;</span>&lt;br&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="kw5">text_area</span> <span class="re3">:text</span> <span class="sy0">%&gt;</span>
+  &lt;/p&gt;
+&nbsp;
+  &lt;p&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="me1">submit</span> <span class="sy0">%&gt;</span>
+  &lt;/p&gt;
+<span class="sy0">&lt;%</span> <span class="kw1">end</span> <span class="sy0">%&gt;</span>
+&nbsp;
+<span class="sy0">&lt;%</span>= <span class="kw5">link_to</span> <span class="st0">'Back'</span>, articles_path <span class="sy0">%&gt;</span></pre>
+</div>
+
+<p>En este código están sucediendo varias cosas. Primero comprobamos si existen
+errores con el método <code>@article.errors.any?</code>. Si existen, mostramos una lista
+con todos los errores obtenidos mediante <code>@article.errors.full_messages</code>.</p>
+
+<p>El <em>helper</em> <code>pluralize</code> es uno de los <em>helpers</em> incluídos en Rails y que acepta
+como argumentos un número y una cadena de texto. Si el número pasado es mayor
+que <code>1</code>, la cadena de texto se convierte automáticamente en plural..</p>
+
+<p>El motivo por el que añadimos <code>@article = Article.new</code> en el controlador
+<code>ArticlesController</code> es porque si no, <code>@article</code> tendría un valor <code>nil</code> en la
+vista. Así que al ejecutar <code>@article.errors.any?</code> se mostraría un error.</p>
+
+<p>Rails encierra automáticamente con un <code>&lt;div class="field_with_errors"&gt;</code> a los 
+campos de formulario que contienen errores. Así que sólo tienes que definir los
+estilos CSS correspondientes para hacer que los mensajes de error destaquen lo
+suficiente.</p>
+
+<p>Ahora sí verás un mensaje de error cuando trates de guardar un artículo sin
+título en la página <a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a>.</p>
+
+<div class="figure" id="figure_5_8">
+    <img src="/img/introduccion_rails/form_with_errors.png" alt="Formulario con varios mensajes de error asociados" />
+
+    <p class="caption"><strong>Figura 5.8</strong> Formulario con varios mensajes de error asociados</p>
+</div>
+
+
+<h2 id="actualizando_articulos">5.11. Actualizando artículos</h2>
+
+<p>Hasta ahora nos hemos ocupado de la parte <em>CR</em> del acrónimo CRUD. En esta
+sección nos ocuparemos de la parte <em>U</em>, es decir, de actualizar artículos.
+El primer paso consiste en añadir la acción <code>edit</code> a <code>ArticlesController</code>.</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="kw1">def</span> edit
+  <span class="re1">@article</span> = Article.<span class="me1">find</span><span class="br0">&#40;</span>params<span class="br0">&#91;</span><span class="re3">:id</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+<span class="kw1">end</span></pre>
+</div>
+
+<p>La vista contendrá un formulario similar al que hemos usado para crear nuevos
+artículos. Para ello, crea el archivo <code>app/views/articles/edit.html.erb</code> con el
+siguiente contenido:</p>
+
+<div class="code rails">
+<pre class="rails">&lt;h1&gt;Editing article&lt;/h1&gt;
+&nbsp;
+<span class="sy0">&lt;%</span>= <span class="kw5">form_for</span> <span class="re3">:article</span>, url: article_path<span class="br0">&#40;</span>@article<span class="br0">&#41;</span>, method: <span class="re3">:patch</span> <span class="kw1">do</span> <span class="sy0">|</span>f<span class="sy0">|</span> <span class="sy0">%&gt;</span>
+  <span class="sy0">&lt;%</span> <span class="kw1">if</span> <span class="re1">@article</span>.<span class="kw5">errors</span>.<span class="me1">any</span>? <span class="sy0">%&gt;</span>
+  &lt;div id=&quot;error_explanation&quot;&gt;
+    &lt;h2&gt;<span class="sy0">&lt;%</span>= pluralize<span class="br0">&#40;</span>@article.<span class="kw5">errors</span>.<span class="kw5">count</span>, <span class="st0">&quot;error&quot;</span><span class="br0">&#41;</span> <span class="sy0">%&gt;</span> prohibited
+      this article from being saved:&lt;/h2&gt;
+    &lt;ul&gt;
+    <span class="sy0">&lt;%</span> <span class="re1">@article</span>.<span class="kw5">errors</span>.<span class="me1">full_messages</span>.<span class="kw5">each</span> <span class="kw1">do</span> <span class="sy0">|</span>msg<span class="sy0">|</span> <span class="sy0">%&gt;</span>
+      &lt;li&gt;<span class="sy0">&lt;%</span>= msg <span class="sy0">%&gt;</span>&lt;/li&gt;
+    <span class="sy0">&lt;%</span> <span class="kw1">end</span> <span class="sy0">%&gt;</span>
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  <span class="sy0">&lt;%</span> <span class="kw1">end</span> <span class="sy0">%&gt;</span>
+  &lt;p&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="me1">label</span> <span class="re3">:title</span> <span class="sy0">%&gt;</span>&lt;br&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="me1">text_field</span> <span class="re3">:title</span> <span class="sy0">%&gt;</span>
+  &lt;/p&gt;
+&nbsp;
+  &lt;p&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="me1">label</span> <span class="re3">:text</span> <span class="sy0">%&gt;</span>&lt;br&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="kw5">text_area</span> <span class="re3">:text</span> <span class="sy0">%&gt;</span>
+  &lt;/p&gt;
+&nbsp;
+  &lt;p&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="me1">submit</span> <span class="sy0">%&gt;</span>
+  &lt;/p&gt;
+<span class="sy0">&lt;%</span> <span class="kw1">end</span> <span class="sy0">%&gt;</span>
+&nbsp;
+<span class="sy0">&lt;%</span>= <span class="kw5">link_to</span> <span class="st0">'Back'</span>, articles_path <span class="sy0">%&gt;</span></pre>
+</div>
+
+<p>En esta ocasión el formulario apunta a la acción <code>update</code>, que todavía no hemos
+creado. La opción <code>:method =&gt; :patch</code> le dice a Rails que queremos enviar este
+formulario mediante el método <code>PATCH</code> de HTTP que, según el protocolo REST, es 
+el que se debe utilizar al actualizar recursos.</p>
+
+<p>El primer parámetro de <code>form_for</code> puede ser un objeto, por ejemplo <code>@article</code>,
+que se utiliza para rellenar los campos del formulario. Si pasas un símbolo
+(ejemplo <code>:article</code>) cuyo nombre sea idéntico al de una variable de instancia
+(<code>@article</code>) el funcionamiento es el mismo. Esto es precisamente lo que está
+pasando en este ejemplo. Consulta la <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for">documentación de form_for</a>
+para conocer más detalles.</p>
+
+<p>A continuación, crea la acción <code>update</code> en el archivo <code>app/controllers/articles_controller.rb</code>:</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="kw1">def</span> update
+  <span class="re1">@article</span> = Article.<span class="me1">find</span><span class="br0">&#40;</span>params<span class="br0">&#91;</span><span class="re3">:id</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+&nbsp;
+  <span class="kw1">if</span> <span class="re1">@article</span>.<span class="me1">update</span><span class="br0">&#40;</span>article_params<span class="br0">&#41;</span>
+    redirect_to <span class="re1">@article</span>
+  <span class="kw1">else</span>
+    render <span class="st0">'edit'</span>
+  <span class="kw1">end</span>
+<span class="kw1">end</span>
+&nbsp;
+private
+  <span class="kw1">def</span> article_params
+    params.<span class="kw3">require</span><span class="br0">&#40;</span><span class="re3">:article</span><span class="br0">&#41;</span>.<span class="me1">permit</span><span class="br0">&#40;</span><span class="re3">:title</span>, <span class="re3">:text</span><span class="br0">&#41;</span>
+  <span class="kw1">end</span></pre>
+</div>
+
+<p>El nuevo método <code>update</code> se usa al actualizar un registro que ya existe, y 
+acepta como argumento un <em>hash</em> que contiene los atributos que deseas 
+actualizar. Como hicimos anteriormente, si hay un error actualizando el 
+artículo queremos volver a mostrar el formulario al usuario. Para ello se
+reutiliza el método <code>article_params</code> definido anteriormente para la acción
+<code>create</code>.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> No es necesario pasar todos los atributos a <code>update</code>. Por ejemplo, si 
+ejecutaras <code>@article.update(title: 'A new title')</code> Rails solo actualizaría el 
+atributo <code>title</code> sin tocar los otros atributos.</p></div>
+
+<p>Por último, queremos mostrar un enlace a la acción <code>edit</code> en la lista de todos
+los artículos. Así que modifica la vista <code>app/views/articles/index.html.erb</code>
+para añadir un nuevo enlace:</p>
+
+<div class="code rails">
+<pre class="rails">&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+    &lt;th&gt;Text&lt;/th&gt;
+    &lt;th colspan=&quot;2&quot;&gt;&lt;/th&gt;
+  &lt;/tr&gt;
+&nbsp;
+<span class="sy0">&lt;%</span> <span class="re1">@articles</span>.<span class="kw5">each</span> <span class="kw1">do</span> <span class="sy0">|</span>article<span class="sy0">|</span> <span class="sy0">%&gt;</span>
+  &lt;tr&gt;
+    &lt;td&gt;<span class="sy0">&lt;%</span>= article.<span class="me1">title</span> <span class="sy0">%&gt;</span>&lt;/td&gt;
+    &lt;td&gt;<span class="sy0">&lt;%</span>= article.<span class="me1">text</span> <span class="sy0">%&gt;</span>&lt;/td&gt;
+    &lt;td&gt;<span class="sy0">&lt;%</span>= <span class="kw5">link_to</span> <span class="st0">'Show'</span>, article_path<span class="br0">&#40;</span>article<span class="br0">&#41;</span> <span class="sy0">%&gt;</span>&lt;/td&gt;
+    &lt;td&gt;<span class="sy0">&lt;%</span>= <span class="kw5">link_to</span> <span class="st0">'Edit'</span>, edit_article_path<span class="br0">&#40;</span>article<span class="br0">&#41;</span> <span class="sy0">%&gt;</span>&lt;/td&gt;
+  &lt;/tr&gt;
+<span class="sy0">&lt;%</span> <span class="kw1">end</span> <span class="sy0">%&gt;</span>
+&lt;/table&gt;</pre>
+</div>
+
+<p>Añade también un enlace en la vista <code>app/views/articles/show.html.erb</code>, de
+manera que haya un enlace <code>Edit</code> en la página de cada artículo. Añade lo
+siguiente al final de la plantilla:</p>
+
+<div class="code rails">
+<pre class="rails">...
+&nbsp;
+<span class="sy0">&lt;%</span>= <span class="kw5">link_to</span> <span class="st0">'Back'</span>, articles_path <span class="sy0">%&gt;</span>
+| <span class="sy0">&lt;%</span>= <span class="kw5">link_to</span> <span class="st0">'Edit'</span>, edit_article_path<span class="br0">&#40;</span>@article<span class="br0">&#41;</span> <span class="sy0">%&gt;</span></pre>
+</div>
+
+<p>Y este es el aspecto que tiene la aplicación por el momento:</p>
+
+<div class="figure" id="figure_5_9">
+    <img src="/img/introduccion_rails/index_action_with_edit_link.png" alt="La acción index con un enlace a la acción edit" />
+
+    <p class="caption"><strong>Figura 5.9</strong> La acción index con un enlace a la acción edit</p>
+</div>
+
+
+<h2 id="usando_parciales_para_eliminar_las_duplicidades_en_las_vistas">5.12. Usando parciales para eliminar las duplicidades en las vistas</h2>
+
+<p>La página <code>edit</code> se parece mucho a la página <code>new</code> porque utilizan el mismo
+código para mostrar el formulario. Así que vamos a eliminar estas duplicidades
+mediante los <em>parciales</em>. Por convención un <em>parcial</em> es un archivo de 
+plantilla cuyo nombre empieza por un guión bajo y cuyo contenido se reutiliza
+en varias plantillas diferentes.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Puedes aprender más sobre los <em>parciales</em> en la guía
+<a href="http://guides.rubyonrails.org/layouts_and_rendering.html">Layouts and Rendering in Rails</a>.</p></div>
+
+<p>Crea un nuevo archivo llamado <code>app/views/articles/_form.html.erb</code> y que tenga
+el siguiente contenido:</p>
+
+<div class="code rails">
+<pre class="rails"><span class="sy0">&lt;%</span>= <span class="kw5">form_for</span> <span class="re1">@article</span> <span class="kw1">do</span> <span class="sy0">|</span>f<span class="sy0">|</span> <span class="sy0">%&gt;</span>
+  <span class="sy0">&lt;%</span> <span class="kw1">if</span> <span class="re1">@article</span>.<span class="kw5">errors</span>.<span class="me1">any</span>? <span class="sy0">%&gt;</span>
+  &lt;div id=&quot;error_explanation&quot;&gt;
+    &lt;h2&gt;<span class="sy0">&lt;%</span>= pluralize<span class="br0">&#40;</span>@article.<span class="kw5">errors</span>.<span class="kw5">count</span>, <span class="st0">&quot;error&quot;</span><span class="br0">&#41;</span> <span class="sy0">%&gt;</span> prohibited
+      this article from being saved:&lt;/h2&gt;
+    &lt;ul&gt;
+    <span class="sy0">&lt;%</span> <span class="re1">@article</span>.<span class="kw5">errors</span>.<span class="me1">full_messages</span>.<span class="kw5">each</span> <span class="kw1">do</span> <span class="sy0">|</span>msg<span class="sy0">|</span> <span class="sy0">%&gt;</span>
+      &lt;li&gt;<span class="sy0">&lt;%</span>= msg <span class="sy0">%&gt;</span>&lt;/li&gt;
+    <span class="sy0">&lt;%</span> <span class="kw1">end</span> <span class="sy0">%&gt;</span>
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  <span class="sy0">&lt;%</span> <span class="kw1">end</span> <span class="sy0">%&gt;</span>
+  &lt;p&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="me1">label</span> <span class="re3">:title</span> <span class="sy0">%&gt;</span>&lt;br&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="me1">text_field</span> <span class="re3">:title</span> <span class="sy0">%&gt;</span>
+  &lt;/p&gt;
+&nbsp;
+  &lt;p&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="me1">label</span> <span class="re3">:text</span> <span class="sy0">%&gt;</span>&lt;br&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="kw5">text_area</span> <span class="re3">:text</span> <span class="sy0">%&gt;</span>
+  &lt;/p&gt;
+&nbsp;
+  &lt;p&gt;
+    <span class="sy0">&lt;%</span>= f.<span class="me1">submit</span> <span class="sy0">%&gt;</span>
+  &lt;/p&gt;
+<span class="sy0">&lt;%</span> <span class="kw1">end</span> <span class="sy0">%&gt;</span></pre>
+</div>
+
+<p>Todo este contenido, excepto la declaración <code>form_for</code>, es idéntico al 
+contenido que ya teníamos. Como <code>@article</code> es un recurso que incluye todas las
+rutas RESTful y Rails es capaz de inferir qué URI y método se debe utilizar,
+podemos simiplificar al máximo la declaración <code>form_for</code>. Consulta la guía
+<a href="http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for-label-Resource-oriented+style">Resource-oriented style</a>
+para obtener más información sobre este uso de <code>form_for</code>.</p>
+
+<p>Ahora actualiza completmanete la vista <code>app/views/articles/new.html.erb</code> para usar el nuevo parcial:</p>
+
+<div class="code rails">
+<pre class="rails">&lt;h1&gt;New article&lt;/h1&gt;
+&nbsp;
+<span class="sy0">&lt;%</span>= <span class="kw5">render</span> <span class="st0">'form'</span> <span class="sy0">%&gt;</span>
+&nbsp;
+<span class="sy0">&lt;%</span>= <span class="kw5">link_to</span> <span class="st0">'Back'</span>, articles_path <span class="sy0">%&gt;</span></pre>
+</div>
+
+<p>Luego haz lo mismo para la vista <code>app/views/articles/edit.html.erb</code>:</p>
+
+<div class="code rails">
+<pre class="rails">&lt;h1&gt;Edit article&lt;/h1&gt;
+&nbsp;
+<span class="sy0">&lt;%</span>= <span class="kw5">render</span> <span class="st0">'form'</span> <span class="sy0">%&gt;</span>
+&nbsp;
+<span class="sy0">&lt;%</span>= <span class="kw5">link_to</span> <span class="st0">'Back'</span>, articles_path <span class="sy0">%&gt;</span></pre>
+</div>
+
+<h2 id="borrando_articulos">5.13. Borrando artículos</h2>
+
+<p>Ahora ya estamos listos para completar la letra <em>"D"</em> del acrónimo CRUD: 
+borrar artículos de la base de datos. Siguiendo la convención REST, la ruta 
+para borrar artículos debería ser la que indica el comando <code>rake routes</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ bin/rake routes
+&nbsp;
+      Prefix Verb   URI Pattern                  Controller#Action
+&nbsp;
+             DELETE /articles/:id(.:format)      articles#destroy
+      ...</pre>
+</div>
+
+<p>El método <code>delete</code>es el que se debe usar para eliminar recursos de la 
+aplicación. Si esta ruta siguiera el formato <code>GET</code> tradicional, los usuarios
+maliciosos podrían crear enlaces como el siguiente:</p>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">a</span> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">'http://example.com/articles/1/destroy'</span>&gt;</span>¡Mira este precioso gatito!<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span></pre>
+</div>
+
+<p>Para evitarlo se utiliza el método <code>DELETE</code> de HTTP mediante la ruta que está
+asociada con la acción <code>destroy</code> del archivo
+<code>app/controllers/articles_controller.rb</code>. Como esta acción no existe todavía,
+créala con el siguiente contenido:</p>
+
+<div class="code ruby">
+<pre class="ruby"><span class="kw1">def</span> destroy
+  <span class="re1">@article</span> = Article.<span class="me1">find</span><span class="br0">&#40;</span>params<span class="br0">&#91;</span><span class="re3">:id</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+  <span class="re1">@article</span>.<span class="me1">destroy</span>
+&nbsp;
+  redirect_to articles_path
+<span class="kw1">end</span></pre>
+</div>
+
+<p>Puedes invocar el método <code>destroy</code> en cualquier objeto <em>Active Record</em> para
+eliminarlo de la base de datos. Como después del borrado de información se
+redirige al usuario a la acción <code>index</code>, no es necesario crear una vista para
+esta acción <code>destroy</code>.</p>
+
+<p>Finalmente, agrega un enlace a la plantilla de la acción <code>index</code>
+(<code>app/views/articles/index.html.erb</code>) para completar todo.</p>
+
+<div class="code rails">
+<pre class="rails">&lt;h1&gt;Listing Articles&lt;/h1&gt;
+<span class="sy0">&lt;%</span>= <span class="kw5">link_to</span> <span class="st0">'New article'</span>, new_article_path <span class="sy0">%&gt;</span>
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+    &lt;th&gt;Text&lt;/th&gt;
+    &lt;th colspan=&quot;3&quot;&gt;&lt;/th&gt;
+  &lt;/tr&gt;
+&nbsp;
+<span class="sy0">&lt;%</span> <span class="re1">@articles</span>.<span class="kw5">each</span> <span class="kw1">do</span> <span class="sy0">|</span>article<span class="sy0">|</span> <span class="sy0">%&gt;</span>
+  &lt;tr&gt;
+    &lt;td&gt;<span class="sy0">&lt;%</span>= article.<span class="me1">title</span> <span class="sy0">%&gt;</span>&lt;/td&gt;
+    &lt;td&gt;<span class="sy0">&lt;%</span>= article.<span class="me1">text</span> <span class="sy0">%&gt;</span>&lt;/td&gt;
+    &lt;td&gt;<span class="sy0">&lt;%</span>= <span class="kw5">link_to</span> <span class="st0">'Show'</span>, article_path<span class="br0">&#40;</span>article<span class="br0">&#41;</span> <span class="sy0">%&gt;</span>&lt;/td&gt;
+    &lt;td&gt;<span class="sy0">&lt;%</span>= <span class="kw5">link_to</span> <span class="st0">'Edit'</span>, edit_article_path<span class="br0">&#40;</span>article<span class="br0">&#41;</span> <span class="sy0">%&gt;</span>&lt;/td&gt;
+    &lt;td&gt;<span class="sy0">&lt;%</span>= <span class="kw5">link_to</span> <span class="st0">'Destroy'</span>, article_path<span class="br0">&#40;</span>article<span class="br0">&#41;</span>,
+                    method: :<span class="kw5">delete</span>, data: <span class="br0">&#123;</span> confirm: <span class="st0">'Are you sure?'</span> <span class="br0">&#125;</span> <span class="sy0">%&gt;</span>&lt;/td&gt;
+  &lt;/tr&gt;
+<span class="sy0">&lt;%</span> <span class="kw1">end</span> <span class="sy0">%&gt;</span>
+&lt;/table&gt;</pre>
+</div>
+
+<p>En esta plantilla se utiliza <code>link_to</code> de una manera diferente. El nombre de la
+ruta se pasa como segundo argumento y después se indican las opciones mediante
+otro argumento. Las opciones <code>:method</code> y <code>:data-confirm</code> se utilizan como
+atributos HTML5 para que cuando se pinche sobre el enlace Rails muestre un
+mensaje de confirmación al usuario antes de borrar la información.</p>
+
+<p>Este comportamiento es posible gracias al archivo JavaScript llamado
+<code>jquery_ujs</code>, que se incluye automáticamente en el layout de la aplicación
+(<code>app/views/layouts/application.html.erb</code>) que se creó al generar la aplicación
+Rails. Si no se incluye este archivo, el mensaje de confirmación no se muestra.</p>
+
+<div class="figure" id="figure_5_10">
+    <img src="/img/introduccion_rails/confirm_dialog.png" alt="Ventana JavaScript con un mensaje de confirmación para borrar artículos" />
+
+    <p class="caption"><strong>Figura 5.10</strong> Ventana JavaScript con un mensaje de confirmación para borrar artículos</p>
+</div>
+
+
+<p>¡Felicidades! Ahora ya puedes crear, mostrar, listar, actualizar y borrar
+artículos.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Según la filosofía de Rails, es preferible usar objetos que representan a
+recursos, en vez de crear las rutas a mano. Para obtener más información sobre
+el enrutamiento, consulta el artículo <a href="http://guides.rubyonrails.org/routing.html">Rails Routing from the Outside In</a>.</p></div>
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="./capitulo_4.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 4. Hola, Rails!</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="./capitulo_6.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>Capítulo 6. Añadiendo otro modelo</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="./capitulo_1.html"> Antes de empezar</a>
+            </li>
+                                            <li class="level-1">
+                <span>2.</span> <a href="./capitulo_2.html"> ¿Qué es Rails?</a>
+            </li>
+                                            <li class="level-1">
+                <span>3.</span> <a href="./capitulo_3.html"> Creando un nuevo proyecto</a>
+            </li>
+                                            <li class="level-1">
+                <span>4.</span> <a href="./capitulo_4.html"> Hola, Rails!</a>
+            </li>
+                                            <li class="level-1 active">
+                <a href="./capitulo_5.html">
+                    <span>Capítulo 5.</span> Creando un nuevo post
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>6.</span> <a href="./capitulo_6.html"> Añadiendo otro modelo</a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="./capitulo_7.html"> Refactorización</a>
+            </li>
+                                            <li class="level-1">
+                <span>8.</span> <a href="./capitulo_8.html"> Borrando comentarios</a>
+            </li>
+                                            <li class="level-1">
+                <span>9.</span> <a href="./capitulo_9.html"> Seguridad</a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="./capitulo_10.html"> Siguientes pasos</a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

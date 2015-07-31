@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>10.2. Procesadores de contexto (El libro de Django 1.0)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_10/revision_del_lenguaje_de_plantillas.html" />
+                    <link rel="next" href="../capitulo_10/detalles_internos_de_la_carga_de_plantillas.html" />
+                <link rel="start" href="/libro/django_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="10.2. Procesadores de contexto (El libro de Django 1.0)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page django_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/" itemprop="url">
+                    <span itemprop="title">El libro de Django 1.0</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/capitulo_10.html" itemprop="url">
+                    <span itemprop="title">Capítulo 10. Extender el sistema de plantillas</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>10.2. Procesadores de contexto</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="procesadores_de_contexto" class="title">
+        <span>10.2.</span> Procesadores de contexto
+    </h1>
+
+    
+
+<p>Cuando una plantilla debe ser renderizada, necesita un contexto. Normalmente 
+este contexto es una instancia de <code>django.template.Context</code>, pero Django 
+también provee una subclase especial: <code>django.template.RequestContext</code> que 
+actúa de una manera levemente diferente. <code>RequestContext</code> agrega muchas 
+variables al contexto de nuestra plantilla — cosas como el objeto <code>HttpRequest</code>
+o información acerca del usuario que está siendo usado actualmente.</p>
+
+<p>Usa <code>RequestContext</code> cuando no quieras especificar el mismo conjunto de
+variables una y otra vez en una serie de plantillas. Por ejemplo, considera
+estas cuatro vistas:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">template</span> <span class="kw1">import</span> loader<span class="sy0">,</span> Context
+&nbsp;
+<span class="kw1">def</span> view_1<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    <span class="co1"># ...</span>
+    t <span class="sy0">=</span> loader.<span class="me1">get_template</span><span class="br0">&#40;</span><span class="st0">'template1.html'</span><span class="br0">&#41;</span>
+    c <span class="sy0">=</span> Context<span class="br0">&#40;</span><span class="br0">&#123;</span>
+        <span class="st0">'app'</span>: <span class="st0">'My app'</span><span class="sy0">,</span>
+        <span class="st0">'user'</span>: request.<span class="kw3">user</span><span class="sy0">,</span>
+        <span class="st0">'ip_address'</span>: request.<span class="me1">META</span><span class="br0">&#91;</span><span class="st0">'REMOTE_ADDR'</span><span class="br0">&#93;</span><span class="sy0">,</span>
+        <span class="st0">'message'</span>: <span class="st0">'I am view 1.'</span>
+    <span class="br0">&#125;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> t.<span class="me1">render</span><span class="br0">&#40;</span>c<span class="br0">&#41;</span>
+&nbsp;
+<span class="kw1">def</span> view_2<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    <span class="co1"># ...</span>
+    t <span class="sy0">=</span> loader.<span class="me1">get_template</span><span class="br0">&#40;</span><span class="st0">'template2.html'</span><span class="br0">&#41;</span>
+    c <span class="sy0">=</span> Context<span class="br0">&#40;</span><span class="br0">&#123;</span>
+        <span class="st0">'app'</span>: <span class="st0">'My app'</span><span class="sy0">,</span>
+        <span class="st0">'user'</span>: request.<span class="kw3">user</span><span class="sy0">,</span>
+        <span class="st0">'ip_address'</span>: request.<span class="me1">META</span><span class="br0">&#91;</span><span class="st0">'REMOTE_ADDR'</span><span class="br0">&#93;</span><span class="sy0">,</span>
+        <span class="st0">'message'</span>: <span class="st0">'I am the second view.'</span>
+    <span class="br0">&#125;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> t.<span class="me1">render</span><span class="br0">&#40;</span>c<span class="br0">&#41;</span>
+&nbsp;
+<span class="kw1">def</span> view_3<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+<span class="co1"># ...</span>
+    t <span class="sy0">=</span> loader.<span class="me1">get_template</span><span class="br0">&#40;</span><span class="st0">'template3.html'</span><span class="br0">&#41;</span>
+    c <span class="sy0">=</span> Context<span class="br0">&#40;</span><span class="br0">&#123;</span>
+        <span class="st0">'app'</span>: <span class="st0">'My app'</span><span class="sy0">,</span>
+        <span class="st0">'user'</span>: request.<span class="kw3">user</span><span class="sy0">,</span>
+        <span class="st0">'ip_address'</span>: request.<span class="me1">META</span><span class="br0">&#91;</span><span class="st0">'REMOTE_ADDR'</span><span class="br0">&#93;</span><span class="sy0">,</span>
+        <span class="st0">'message'</span>: <span class="st0">'I am the third view.'</span>
+    <span class="br0">&#125;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> t.<span class="me1">render</span><span class="br0">&#40;</span>c<span class="br0">&#41;</span>
+&nbsp;
+<span class="kw1">def</span> view_4<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    <span class="co1"># ...</span>
+    t <span class="sy0">=</span> loader.<span class="me1">get_template</span><span class="br0">&#40;</span><span class="st0">'template4.html'</span><span class="br0">&#41;</span>
+    c <span class="sy0">=</span> Context<span class="br0">&#40;</span><span class="br0">&#123;</span>
+        <span class="st0">'app'</span>: <span class="st0">'My app'</span><span class="sy0">,</span>
+        <span class="st0">'user'</span>: request.<span class="kw3">user</span><span class="sy0">,</span>
+        <span class="st0">'ip_address'</span>: request.<span class="me1">META</span><span class="br0">&#91;</span><span class="st0">'REMOTE_ADDR'</span><span class="br0">&#93;</span><span class="sy0">,</span>
+        <span class="st0">'message'</span>: <span class="st0">'I am the fourth view.'</span>
+    <span class="br0">&#125;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> t.<span class="me1">render</span><span class="br0">&#40;</span>c<span class="br0">&#41;</span></pre>
+</div>
+
+<p>A propósito <em>no</em> hemos usado el atajo <code>render_to_response</code> en
+estos ejemplos — manualmente cargamos las plantillas, construimos el contexto y
+renderizamos las plantillas. Simplemente por claridad, estamos demostrando 
+todos los pasos necesarios.</p>
+
+<p>Cada vista pasa las mismas tres variables — <code>app</code>, <code>user</code> y <code>ip_address</code> — a 
+su plantilla. ¿No sería bueno poder eliminar esa redundancia?</p>
+
+<p><code>RequestContext</code> y los <strong>procesadores de contexto</strong> fueron creado para
+resolver este problema. Los procesadores de contexto te permiten especificar un
+número de variables que son incluidas automáticamente en cada contexto —
+sin la necesidad de tener que hacerlo manualmente en cada llamada a
+<code>render_to_response()</code>. El secreto está en utilizar <code>RequestContext</code> en
+lugar de <code>Context</code> cuando renderizamos una plantilla.</p>
+
+<p>La forma de nivel más bajo de usar procesadores de contexto es crear algunos de
+ellos y pasarlos a <code>RequestContext</code>. A continuación mostramos como el ejemplo
+anterior puede lograrse utilizando procesadores de contexto:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">template</span> <span class="kw1">import</span> loader<span class="sy0">,</span> RequestContext
+&nbsp;
+<span class="kw1">def</span> custom_proc<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    <span class="st0">&quot;A context processor that provides 'app', 'user' and 'ip_address'.&quot;</span>
+    <span class="kw1">return</span> <span class="br0">&#123;</span>
+        <span class="st0">'app'</span>: <span class="st0">'My app'</span><span class="sy0">,</span>
+        <span class="st0">'user'</span>: request.<span class="kw3">user</span><span class="sy0">,</span>
+        <span class="st0">'ip_address'</span>: request.<span class="me1">META</span><span class="br0">&#91;</span><span class="st0">'REMOTE_ADDR'</span><span class="br0">&#93;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">def</span> view_1<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    <span class="co1"># ...</span>
+    t <span class="sy0">=</span> loader.<span class="me1">get_template</span><span class="br0">&#40;</span><span class="st0">'template1.html'</span><span class="br0">&#41;</span>
+    c <span class="sy0">=</span> RequestContext<span class="br0">&#40;</span>request<span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'message'</span>: <span class="st0">'I am view 1.'</span><span class="br0">&#125;</span><span class="sy0">,</span>
+            processors<span class="sy0">=</span><span class="br0">&#91;</span>custom_proc<span class="br0">&#93;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> t.<span class="me1">render</span><span class="br0">&#40;</span>c<span class="br0">&#41;</span>
+&nbsp;
+<span class="kw1">def</span> view_2<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    <span class="co1"># ...</span>
+    t <span class="sy0">=</span> loader.<span class="me1">get_template</span><span class="br0">&#40;</span><span class="st0">'template2.html'</span><span class="br0">&#41;</span>
+    c <span class="sy0">=</span> RequestContext<span class="br0">&#40;</span>request<span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'message'</span>: <span class="st0">'I am the second view.'</span><span class="br0">&#125;</span><span class="sy0">,</span>
+            processors<span class="sy0">=</span><span class="br0">&#91;</span>custom_proc<span class="br0">&#93;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> t.<span class="me1">render</span><span class="br0">&#40;</span>c<span class="br0">&#41;</span>
+&nbsp;
+<span class="kw1">def</span> view_3<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    <span class="co1"># ...</span>
+    t <span class="sy0">=</span> loader.<span class="me1">get_template</span><span class="br0">&#40;</span><span class="st0">'template3.html'</span><span class="br0">&#41;</span>
+    c <span class="sy0">=</span> RequestContext<span class="br0">&#40;</span>request<span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'message'</span>: <span class="st0">'I am the third view.'</span><span class="br0">&#125;</span><span class="sy0">,</span>
+            processors<span class="sy0">=</span><span class="br0">&#91;</span>custom_proc<span class="br0">&#93;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> t.<span class="me1">render</span><span class="br0">&#40;</span>c<span class="br0">&#41;</span>
+&nbsp;
+<span class="kw1">def</span> view_4<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    <span class="co1"># ...</span>
+    t <span class="sy0">=</span> loader.<span class="me1">get_template</span><span class="br0">&#40;</span><span class="st0">'template4.html'</span><span class="br0">&#41;</span>
+    c <span class="sy0">=</span> RequestContext<span class="br0">&#40;</span>request<span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'message'</span>: <span class="st0">'I am the fourth view.'</span><span class="br0">&#125;</span><span class="sy0">,</span>
+            processors<span class="sy0">=</span><span class="br0">&#91;</span>custom_proc<span class="br0">&#93;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> t.<span class="me1">render</span><span class="br0">&#40;</span>c<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Inspeccionemos paso a paso este código:</p>
+
+<ul>
+<li>Primero, definimos una función <code>custom_proc</code>. Este es un procesador de
+contexto — toma un objeto <code>HttpRequest</code> y devuelve un diccionario con
+variables a usar en el contexto de la plantilla. Eso es todo lo que hace.</li>
+<li>Hemos cambiado las cuatro vistas para que usen <code>RequestContext</code>
+en lugar de <code>Context</code>. Hay dos diferencias en cuanto a cómo el
+contexto es construido. Uno, <code>RequestContext</code> requiere que
+el primer argumento sea una instancia de <code>HttpRequest</code> — la cual fue
+pasada a la vista en primer lugar (<code>request</code>). Dos, <code>RequestContext</code>
+recibe un parámetro opcional <code>processors</code>, el cual es una lista o
+tupla de funciones procesadoras de contexto a utilizar. En este caso,
+pasamos <code>custom_proc</code>, nuestro procesador de contexto definido
+previamente.</li>
+<li>Ya no es necesario en cada vista incluir <code>app</code>, <code>user</code> o
+<code>ip_address</code> cuando construimos el contexto, ya que ahora estas
+variables son provistas por <code>custom_proc</code>.</li>
+<li>Cada vista <em>aún</em> posee la flexibilidad como para introducir una o más
+variables en el contexto de la plantilla si es necesario. En este
+ejemplo, la variable de plantilla <code>message</code> es creada de manera
+diferente en cada una de las vistas.</li>
+</ul>
+
+<p>En el Capítulo 4, presentamos el atajo <code>render_to_response()</code>, el cual nos
+ahorra tener que llamar a <code>loader.get_template()</code>, luego crear un <code>Context</code>
+y ademas, llamar al método <code>render()</code> en la plantilla. Para demostrar el
+funcionamiento a bajo nivel de los procesadores de contexto, en los ejemplos
+anteriores no hemos utilizado <code>render_to_response()</code>, pero es posible — y
+preferible — utilizar los procesadores de contexto junto a
+<code>render_to_response()</code>. Esto lo logramos mediante el argumento
+<code>context_instance</code> de la siguiente manera:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">shortcuts</span> <span class="kw1">import</span> render_to_response
+<span class="kw1">from</span> django.<span class="me1">template</span> <span class="kw1">import</span> RequestContext
+&nbsp;
+<span class="kw1">def</span> custom_proc<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    <span class="st0">&quot;A context processor that provides 'app', 'user' and 'ip_address'.&quot;</span>
+    <span class="kw1">return</span> <span class="br0">&#123;</span>
+        <span class="st0">'app'</span>: <span class="st0">'My app'</span><span class="sy0">,</span>
+        <span class="st0">'user'</span>: request.<span class="kw3">user</span><span class="sy0">,</span>
+        <span class="st0">'ip_address'</span>: request.<span class="me1">META</span><span class="br0">&#91;</span><span class="st0">'REMOTE_ADDR'</span><span class="br0">&#93;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">def</span> view_1<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    <span class="co1"># ...</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span><span class="st0">'template1.html'</span><span class="sy0">,</span>
+        <span class="br0">&#123;</span><span class="st0">'message'</span>: <span class="st0">'I am view 1.'</span><span class="br0">&#125;</span><span class="sy0">,</span>
+        context_instance<span class="sy0">=</span>RequestContext<span class="br0">&#40;</span>request<span class="sy0">,</span> processors<span class="sy0">=</span><span class="br0">&#91;</span>custom_proc<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+&nbsp;
+<span class="kw1">def</span> view_2<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    <span class="co1"># ...</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span><span class="st0">'template2.html'</span><span class="sy0">,</span>
+        <span class="br0">&#123;</span><span class="st0">'message'</span>: <span class="st0">'I am the second view.'</span><span class="br0">&#125;</span><span class="sy0">,</span>
+        context_instance<span class="sy0">=</span>RequestContext<span class="br0">&#40;</span>request<span class="sy0">,</span> processors<span class="sy0">=</span><span class="br0">&#91;</span>custom_proc<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+&nbsp;
+<span class="kw1">def</span> view_3<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    <span class="co1"># ...</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span><span class="st0">'template3.html'</span><span class="sy0">,</span>
+        <span class="br0">&#123;</span><span class="st0">'message'</span>: <span class="st0">'I am the third view.'</span><span class="br0">&#125;</span><span class="sy0">,</span>
+        context_instance<span class="sy0">=</span>RequestContext<span class="br0">&#40;</span>request<span class="sy0">,</span> processors<span class="sy0">=</span><span class="br0">&#91;</span>custom_proc<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+&nbsp;
+<span class="kw1">def</span> view_4<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    <span class="co1"># ...</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span><span class="st0">'template4.html'</span><span class="sy0">,</span>
+        <span class="br0">&#123;</span><span class="st0">'message'</span>: <span class="st0">'I am the fourth view.'</span><span class="br0">&#125;</span><span class="sy0">,</span>
+        context_instance<span class="sy0">=</span>RequestContext<span class="br0">&#40;</span>request<span class="sy0">,</span> processors<span class="sy0">=</span><span class="br0">&#91;</span>custom_proc<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Aquí, hemos logrado reducir el código para renderizar las plantillas en
+cada vista a una sola línea.</p>
+
+<p>Esto es una mejora, pero, evaluando la concisión de este código, debemos
+admitir que hemos logrado reducir la redundancia en los datos
+(nuestras variables de plantilla), pero aun así, estamos especificando una
+y otra vez nuestro contexto. Es decir, hasta ahora usar procesadores de
+contexto no nos ahorra mucho código si tenemos que escribir <code>processors</code>
+constantemente.</p>
+
+<p>Por esta razón, Django admite el uso de procesadores de contexto <em>globales</em>. El
+parámetro de configuración <code>TEMPLATE_CONTEXT_PROCESSORS</code> designa cuales serán
+los procesadores de contexto que deberán ser aplicados <em>siempre</em> a
+<code>RequestContext</code>. Esto elimina la necesidad de especificar <code>processors</code> cada
+vez que utilizamos <code>RequestContext</code>.</p>
+
+<p><code>TEMPLATE_CONTEXT_PROCESSORS</code> tiene, por omisión, el siguiente valor:</p>
+
+<div class="code python">
+<pre class="python">TEMPLATE_CONTEXT_PROCESSORS <span class="sy0">=</span> <span class="br0">&#40;</span>
+    <span class="st0">'django.core.context_processors.auth'</span><span class="sy0">,</span>
+    <span class="st0">'django.core.context_processors.debug'</span><span class="sy0">,</span>
+    <span class="st0">'django.core.context_processors.i18n'</span><span class="sy0">,</span>
+    <span class="st0">'django.core.context_processors.media'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Este parámetro de configuración es una tupla de funciones que utilizan la
+misma interfaz que nuestra función <code>custom_proc</code> utilizada previamente —
+funciones que toman un objeto <code>HttpRequest</code> como primer argumento, y
+devuelven un diccionario de items que serán incluidos en el contexto de la
+plantilla. Ten en cuenta que los valores en <code>TEMPLATE_CONTEXT_PROCESSORS</code>
+son especificados como <em>strings</em>, lo cual significa que estos procesadores
+deberán estar en algún lugar dentro de tu <code>PYTHONPATH</code> (para poder referirse
+a ellos desde el archivo de configuración)</p>
+
+<p>Estos procesadores de contexto son aplicados en orden, es decir, si uno de
+estos procesadores añade una variable al contexto y un segundo procesador
+añade otra variable con el mismo nombre, entonces la segunda sobre-escribirá
+a la primera.</p>
+
+<p>Django provee un numero de procesadores de contexto simples, entre ellos los 
+que están activos por defecto.</p>
+
+<h3 id="djangocorecontext_processorsauth">10.2.1.  django.core.context_processors.auth</h3>
+
+<p>Si <code>TEMPLATE_CONTEXT_PROCESSORS</code> contiene este procesador, cada
+<code>RequestContext</code> contendrá las siguientes variables:</p>
+
+<ul>
+<li><code>user</code>: Una instancia de <code>django.contrib.auth.models.User</code>
+representando al usuario actualmente autenticado (o una instancia de
+<code>AnonymousUser</code> si el cliente no se ha autenticado aún).</li>
+<li><code>messages</code>: Una lista de mensajes (como <em>string</em>) para el usuario
+actualmente autenticado. Detrás del telón, esta variable llama a
+<code>request.user.get_and_delete_messages()</code> para cada <em>request</em>. Este
+método colecta los mensajes del usuario, y luego los borra de la base de
+datos.</li>
+<li><code>perms</code>: Instancia de <code>django.core.context_processors.PermWrapper</code>,
+la cual representa los permisos que posee el usuario actualmente
+autenticado.</li>
+</ul>
+
+<p>En el Capítulo 12 encontrarás más información acerca de usuarios, permisos
+y mensajes.</p>
+
+<h3 id="djangocorecontext_processorsdebug">10.2.2. django.core.context_processors.debug</h3>
+
+<p>Este procesador añade información de depuración a la capa de plantillas.
+Si <code>TEMPLATE_CONTEXT_PROCESSORS</code> contiene este procesador, cada
+<code>RequestContext</code> contendrá las siguientes variables:</p>
+
+<ul>
+<li><code>debug</code>: El valor del parámetro de configuración <code>DEBUG</code> (<code>True</code> o
+<code>False</code>). Esta variable puede usarse en las plantillas para saber si
+estás en modo de depuración o no.</li>
+<li><code>sql_queries</code>: Una lista de diccionarios <code>{'sql': ..., 'time': ...}</code>
+representando todas las consultas SQL que se generaron durante la petición
+(<em>request</em>) y cuánto duraron. La lista está ordenada respecto a cuándo fue
+ejecutada cada consulta.</li>
+</ul>
+
+<p>Como la información de depuración es sensible, este procesador de contexto
+sólo agregará las variables al contexto si las dos siguientes condiciones
+son verdaderas.</p>
+
+<ul>
+<li>El parámetro de configuración <code>DEBUG</code> es True</li>
+<li>La solicitud (<em>request</em>) viene de una dirección IP listada en el parámetro de configuración <code>INTERNAL_IPS</code>.</li>
+</ul>
+
+<h3 id="djangocorecontext_processorsi18n">10.2.3. django.core.context_processors.i18n</h3>
+
+<p>Si este procesador está habilitado, cada <code>RequestContext</code> contendrá las
+siguientes variables:</p>
+
+<ul>
+<li><code>LANGUAGES</code>: El valor del parámetro de configuración <code>LANGUAGES</code>.</li>
+<li><code>LANGUAGE_CODE</code>: <code>request.LANGUAGE_CODE</code> si existe; de lo contrario,
+el valor del parámetro de configuración <code>LANGUAGE_CODE</code>.</li>
+</ul>
+
+<p>En el Apéndice E se especifica más información sobre estos parámetros.</p>
+
+<h3 id="djangocorecontext_processorsrequest">10.2.4. django.core.context_processors.request</h3>
+
+<p>Si este procesador está habilitado, cada <code>RequestContext</code> contendrá una
+variable <code>request</code>, la cual es el actual objeto <code>HttpRequest</code>. Este
+procesador no está habilitado por defecto.</p>
+
+<h3 id="consideraciones_para_escribir_tus_propios_procesadores_de_contexto">10.2.5. Consideraciones para escribir tus propios procesadores de contexto</h3>
+
+<p>Algunos puntos a tener en cuenta:</p>
+
+<ul>
+<li>Cada procesador de contexto debe ser responsable por la mínima cantidad de
+funcionalidad posible. Usar muchos procesadores es algo sencillo, es por
+eso que dividir la funcionalidad de tu procesador de manera lógica puede
+ser útil para poder reutilizarlos en el futuro.</li>
+<li>Ten presente que cualquier procesador de contexto en
+<code>TEMPLATE_CONTEXT_PROCESSORS</code> estará disponible en <em>cada</em> plantilla cuya
+configuración esté dictada por ese archivo de configuración, así que trata
+de seleccionar nombres de variables con pocas probabilidades de entrar en
+conflicto con nombre de variables que tus plantillas pudieran usar en
+forma independiente. Como los nombres de variables son sensibles a
+mayúsculas/minúsculas no es una mala idea usar mayúsculas para las
+variables provistas por un procesador.</li>
+<li>No importa dónde residan en el sistema de archivos, mientras se hallen en
+tu ruta de Python de manera que puedas incluirlos en tu variable de
+configuración <code>TEMPLATE_CONTEXT_PROCESSORS</code>. Habiendo dicho eso, diremos
+también que la convención es grabarlos en un archivo llamado
+<code>context_processors.py</code> ubicado en tu aplicación o en tu proyecto.</li>
+</ul>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_10/revision_del_lenguaje_de_plantillas.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>10.1. Revisión del lenguaje de plantillas</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_10/detalles_internos_de_la_carga_de_plantillas.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>10.3. Detalles internos de la carga de plantillas</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Los principios de las páginas Web dinámicas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> El sistema de plantillas de Django</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Interactuar con una base de datos: Modelos</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El sitio de Administración Django</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Procesamiento de formularios</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Vistas avanzadas y URLconfs</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Vistas genéricas</a>
+            </li>
+                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_10.html">
+                    <span>Capítulo 10.</span> Extender el sistema de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/revision_del_lenguaje_de_plantillas.html">
+                    <span>10.1.</span> Revisión del lenguaje de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_10/procesadores_de_contexto.html">
+                    <span>10.2.</span> Procesadores de contexto
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/detalles_internos_de_la_carga_de_plantillas.html">
+                    <span>10.3.</span> Detalles internos de la carga de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/extender_el_sistema_de_plantillas_2.html">
+                    <span>10.4.</span> Extender el sistema de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/escribir_cargadores_de_plantillas_personalizados.html">
+                    <span>10.5.</span> Escribir cargadores de plantillas personalizados
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/usar_la_referencia_de_plantillas_incorporadas.html">
+                    <span>10.6.</span> Usar la referencia de plantillas incorporadas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/configurar_el_sistema_de_plantillas_en_modo_autonomo.html">
+                    <span>10.7.</span> Configurar el sistema de plantillas en modo autónomo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/que_sigue.html">
+                    <span>10.8.</span> ¿Qué sigue?
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Generación de contenido no HTML</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Sesiones, usuario e inscripciones</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Cache</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Otros sub-frameworks contribuidos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Middleware</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Integración con Base de datos y Aplicaciones existentes</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Extender la Interfaz de Administración de Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>20.</span> <a href="../capitulo_20.html"> Puesta en marcha de Django en un servidor</a>
+            </li>
+                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

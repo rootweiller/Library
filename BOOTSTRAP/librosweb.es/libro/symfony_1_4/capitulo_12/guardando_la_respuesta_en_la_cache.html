@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>12.1. Guardando la respuesta en la cache (Symfony 1.4, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_12.html" />
+                    <link rel="next" href="../capitulo_12/eliminando_elementos_de_la_cache.html" />
+                <link rel="start" href="/libro/symfony_1_4/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="12.1. Guardando la respuesta en la cache (Symfony 1.4, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_4"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_4/" itemprop="url">
+                    <span itemprop="title">Symfony 1.4, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_4/capitulo_12.html" itemprop="url">
+                    <span itemprop="title">Capítulo 12. Uso de la cache</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>12.1. Guardando la respuesta en la cache</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="guardando_la_respuesta_en_la_cache" class="title">
+        <span>12.1.</span> Guardando la respuesta en la cache
+    </h1>
+
+    
+
+<p>El principio básico de las caches de HTML es muy sencillo: parte o todo el código HTML que se envía al usuario como respuesta a su petición se puede reutilizar en peticiones similares. El código HTML se almacena en un directorio especial (el directorio <code>cache/</code>) donde el controlador frontal lo busca antes de ejecutar la acción. Si se encuentra el código en la cache, se envía sin ejecutar la acción, por lo que se consigue un gran ahorro de tiempo de ejecución. Si no se encuentra el código, se ejecuta la acción y su respuesta (la vista) se guarda en el directorio de la cache para las futuras peticiones.</p>
+
+<p>Como todas las páginas pueden contener información dinámica, la cache HTML está deshabilitada por defecto. El administrador del sitio web debe activarla para mejorar el rendimiento de la aplicación.</p>
+
+<p>Symfony permite gestionar tres tipos diferentes de cache HTML:</p>
+
+<ul>
+<li>Cache de una acción (con o sin layout)</li>
+<li>Cache de un elemento parcial o un componente</li>
+<li>Cache de un trozo de plantilla</li>
+</ul>
+
+<p>Los dos primeros tipos de cache se controlan mediante archivos YAML de configuración. La cache de trozos de plantillas se controla mediante llamadas a <em>helpers</em> dentro de las propias plantillas.</p>
+
+<h3 id="opciones_de_la_cache_global">12.1.1. Opciones de la cache global</h3>
+
+<p>La cache HTML se puede habilitar y deshabilitar (su valor por defecto) para cada aplicación de un proyecto y para cada entorno mediante la opción <code>cache</code> del archivo <code>settings.yml</code>. El listado 12-1 muestra cómo activar el mecanismo de cache. Activarlo no significa que se empiecen a guardar elementos en la cache, para eso debes activar la cache en cada módulo/acción, como se explica más adelante.</p>
+
+<p><strong>Listado 12-1 - Activando la cache, en <code>frontend/config/settings.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">dev</span>:<span class="co4">
+  .settings</span>:<span class="co3">
+    cache</span><span class="sy2">: </span>  true</pre>
+</div>
+
+<h3 id="guardando_una_accion_en_la_cache">12.1.2. Guardando una acción en la cache</h3>
+
+<p>Las acciones que muestran información estática (que no depende de bases de datos ni de información guardada en la sesión) y las acciones que leen información de una base de datos pero no la modifican (acciones típicas del método GET) son el tipo de acción ideal para almacenar su resultado en la cache. La figura 12-1 muestra los elementos de la página que se guardan en la cache en este caso: o el resultado de la acción (su plantilla) o el resultado de la acción junto con el layout.</p>
+
+<div class="figure" id="figure_12_1">
+    <img src="/img/symfony_1_4/f1201.png" alt="Guardando una acción en la cache" />
+
+    <p class="caption"><strong>Figura 12.1</strong> Guardando una acción en la cache</p>
+</div>
+
+
+<p>Si se dispone por ejemplo de una acción <code>usuario/listado</code> que devuelve un listado de todos los usuarios de un sitio web, a no ser que se modifique, añada o elimine un usuario (que se verá más adelante en la sección "Eliminar elementos de la cache") la lista contiene siempre la misma información, por lo que esta acción es ideal para guardarla en la cache.</p>
+
+<p>La activación de la cache y las opciones para cada acción se definen en el archivo <code>cache.yml</code> del directorio <code>config/</code> del módulo. El listado 12-2 muestra un ejemplo de este archivo.</p>
+
+<p><strong>Listado 12-2 - Activando la cache de una acción, en <code>frontend/modules/usuario/config/cache.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">listado</span>:<span class="co3">
+  enabled</span><span class="sy2">: </span>    true<span class="co3">
+  with_layout</span><span class="sy2">: </span>false   <span class="co1"># Valor por defecto</span><span class="co3">
+  lifetime</span><span class="sy2">: </span>   <span class="nu0">86400</span>   <span class="co1"># Valor por defecto</span></pre>
+</div>
+
+<p>La anterior configuración activa la cache para la acción <code>listado</code> y el layout no se guarda junto con el resultado de la acción (que además, es el comportamiento por defecto). Por tanto, aunque exista en la cache el resultado de la acción, el layout completo (junto con sus elementos parciales y componentes) se sigue ejecutando. Si la opción <code>with_layout</code> vale <code>true</code>, en la cache se guarda el resultado de la acción junto con el layout, por lo que este último no se vuelve a ejecutar.</p>
+
+<p>Para probar las opciones de la cache, se accede con el navegador a la acción en el entorno de desarrollo.</p>
+
+<div class="code code">
+<pre class="code">http://miaplicacion.ejemplo.com/frontend_dev.php/usuario/listado</pre>
+</div>
+
+<p>Ahora se puede apreciar un borde que encierra la zona del área en la página. La primera vez, el área tiene una cabecera azul, lo que indica que no se ha obtenido de la cache. Si se recarga la página, el área de la acción muestra una cabecera amarilla, indicando que esta vez sí se ha obtenido directamente de la cache (resultando en una gran reducción en el tiempo de respuesta de la acción). Más adelante en este capítulo se detallan las formas de probar y monitorizar el funcionamiento de la cache.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Los slots son parte de la plantilla, por lo que si se guarda el resultado de una acción en la cache, también se guarda el valor de los slots definidos en la plantilla de la acción. De esta forma, la cache funciona de forma nativa para los slots.</p></div>
+
+<p>El sistema de cache también funciona para las páginas que utilizan parámetros. El módulo <code>usuario</code> anterior podría disponer de una acción llamada <code>ver</code> y a la que se pasa como parámetro una variable llamada <code>id</code> para poder mostrar los detalles de un usuario. El listado 12-3 muestra como modificar los cambios necesarios en el archivo <code>cache.yml</code> para habilitar la cache también en esta acción.</p>
+
+<p>Se puede organizar de forma más clara el archivo <code>cache.yml</code> reagrupando las opciones comunes a todas las acciones del módulo bajo la clave <code>all:</code>, como también muestra el listado 12-3.</p>
+
+<p><strong>Listado 12-3 - Ejemplo de <code>cache.yml</code> completo, en <code>frontend/modules/usuario/config/cache.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">listado</span>:<span class="co3">
+  enabled</span><span class="sy2">: </span>   true<span class="co4">
+ver</span>:<span class="co3">
+  enabled</span><span class="sy2">: </span>   true
+<span class="co4">
+all</span>:<span class="co3">
+  with_layout</span><span class="sy2">: </span>false   <span class="co1"># Valor por defecto</span><span class="co3">
+  lifetime</span><span class="sy2">: </span>   <span class="nu0">86400</span>   <span class="co1"># Valor por defecto</span></pre>
+</div>
+
+<p>Ahora, cada llamada a la acción <code>usuario/ver</code> que tenga un valor del parámetro <code>id</code> diferente, crea un nuevo archivo en la cache. De esta forma, la cache para la petición:</p>
+
+<div class="code code">
+<pre class="code">http://frontend.ejemplo.com/usuario/ver/id/12</pre>
+</div>
+
+<p>es completamente diferente de la cache de la petición:</p>
+
+<div class="code code">
+<pre class="code">http://frontend.ejemplo.com/usuario/ver/id/25</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Las acciones que se ejecutan mediante el método POST o que tienen parámetros GET no se guardan en la cache.</p></div>
+
+<p>La opción <code>with_layout</code> merece una explicación más detallada. Esta opción determina el tipo de información que se guarda en la cache. Si vale <code>true</code>, solo se almacenan en la cache el resultado de la ejecución de la plantilla y las variables de la acción. Si la opción vale <code>false</code>, se guarda el objeto <code>response</code> entero. Por tanto, la cache en la que se guarda el layout (valor <code>true</code>) es mucho más rápido que la cache sin el layout.</p>
+
+<p>Si es posible, es decir, si el layout no depende por ejemplo de datos de sesión, es conveniente optar por la opción que guarda el layout en la cache. Desgraciadamente, el layout normalmente contiene elementos dinámicos (como por ejemplo el nombre del usuario que está conectado), por lo que la opción habitual es la de no almacenar el layout en la cache. No obstante, las páginas que no depende de cookies, los canales RSS, las ventanas emergentes, etc. se pueden guardar en la cache incluyendo su layout.</p>
+
+<h3 id="guardando_en_la_cache_un_elemento_parcial_o_un_componente">12.1.3. Guardando en la cache un elemento parcial o un componente</h3>
+
+<p>En el Capítulo 7 se explicó la forma de reutilizar trozos de código en varias plantillas mediante el <em>helper</em> <code>include_partial()</code>. Guardar un elemento parcial en la cache es tan sencillo como hacerlo en una acción y se activa de la misma forma, tal y como muestra la figura 12-2.</p>
+
+<div class="figure" id="figure_12_2">
+    <img src="/img/symfony_1_4/f1202.png" alt="Guardando un elemento parcial o un componente en la cache" />
+
+    <p class="caption"><strong>Figura 12.2</strong> Guardando un elemento parcial o un componente en la cache</p>
+</div>
+
+
+<p>El listado 12-4 por ejemplo muestra los cambios necesarios en el archivo <code>cache.yml</code> para activar la cache en el elemento parcial <code>_mi_parcial.php</code> que pertenece al módulo <code>usuario</code>. La opción <code>with_layout</code> no tiene sentido en este caso.</p>
+
+<p><strong>Listado 12-4 - Guardando un elemento parcial en la cache, en <code>frontend/modules/usuario/config/cache.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">_mi_parcial</span>:<span class="co3">
+  enabled</span><span class="sy2">: </span>   true<span class="co4">
+listado</span>:<span class="co3">
+  enabled</span><span class="sy2">: </span>   true
+<span class="sy1">...</span></pre>
+</div>
+
+<p>Ahora todas las plantillas que incluyen este elemento parcial no ejecutan su código PHP, sino que utilizan la versión almacenada en la cache.</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> include_partial<span class="br0">&#40;</span><span class="st_h">'usuario/mi_parcial'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Al igual que sucede en las acciones, la información que se guarda en la cache depende de los parámetros que se pasan al elemento parcial. El sistema de cache almacena tantas versiones diferentes como valores diferentes de parámetros se pasen al elemento parcial.</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> include_partial<span class="br0">&#40;</span><span class="st_h">'usuario/mi_otro_parcial'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'parametro'</span> <span class="sy0">=&gt;</span> <span class="st_h">'valor'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Guardar la acción en la cache es más avanzado que guardar elementos parciales, ya que cuando una acción se encuentra en la cache, la plantilla ni siquiera se ejecuta; si la plantilla incluye elementos parciales, no se realizan las llamadas a esos elementos parciales. Por tanto, guardar elementos parciales en la cache solo es útil cuando no se está guardando en la cache la acción que se ejecuta o para los elementos parciales incluidos en el layout.</p></div>
+
+<p>Recordando lo que se explicó en el Capítulo 7: un componente es una pequeña acción que utiliza como vista un elemento parcial. Como tienen características similares a los elementos parciales, el funcionamiento de su cache es muy parecido. Si el layout global incluye un componente llamado <code>dia</code> mediante <code>include_component('general/dia')</code> para mostrar la fecha, el archivo <code>cache.yml</code> del módulo <code>general</code> debería activar la cache de ese componente de la siguiente forma:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">_dia</span>:<span class="co3">
+  enabled</span><span class="sy2">: </span>true</pre>
+</div>
+
+<p>Cuando se guarda un componente o un elemento parcial en la cache, se debe decidir si se almacena solo una versión para todas las plantillas o una versión para cada plantilla. Por defecto, los componentes se guardan independientemente de la plantilla que lo incluye. No obstante, los componentes contextuales, como por ejemplo los componentes que muestran una zona lateral diferente en cada acción, deben almacenarse tantas veces como el número de plantillas diferentes que los incluyan. El sistema de cache se encarga automáticamente de este último caso, siempre que se establezca el valor <code>true</code> a la opción <code>contextual</code>:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">_dia</span>:<span class="co3">
+  contextual</span><span class="sy2">: </span>true<span class="co3">
+  enabled</span><span class="sy2">: </span>   true</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Los componentes globales (los que se guardan en el directorio <code>templates/</code> de la aplicación) también se pueden guardar en la cache, siempre que se configuren sus opciones de cache en el archivo <code>cache.yml</code> de la aplicación.</p></div>
+
+<h3 id="guardando_un_fragmento_de_plantilla_en_la_cache">12.1.4. Guardando un fragmento de plantilla en la cache</h3>
+
+<p>Guardar en la cache el resultado completo de una acción solamente es posible para algunas acciones. Para el resto de acciones, las que actualizan información y las que muestran en la plantilla información que depende de la sesión, todavía es posible mejorar su rendimiento mediante la cache, pero de forma muy diferente. Symfony incluye un tercer tipo de cache, que se utiliza para los fragmentos de las plantillas y que se activa directamente en la propia plantilla, como se muestra en la figura 12-3.</p>
+
+<div class="figure" id="figure_12_3">
+    <img src="/img/symfony_1_4/f1203.png" alt="Guardando un fragmento de plantilla en la cache" />
+
+    <p class="caption"><strong>Figura 12.3</strong> Guardando un fragmento de plantilla en la cache</p>
+</div>
+
+
+<p>Si por ejemplo se dispone de un listado de usuarios que muestra un enlace al último usuario que se ha accedido, esta última información es dinámica. El <em>helper</em> <code>cache()</code> define las partes de la plantilla que se pueden guardar en la cache. El listado 12-5 muestra los detalles sobre su sintaxis.</p>
+
+<p><strong>Listado 12-5 - Uso del <em>helper</em> <code>cache()</code>, en <code>frontend/modules/usuario/templates/listadoSuccess.php</code></strong></p>
+
+<div class="code php">
+<pre class="php">&lt;!-- Código que se ejecuta cada vez --&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Último usuario accedido'</span><span class="sy0">,</span> <span class="st_h">'usuario/ver?id='</span><span class="sy0">.</span><span class="re0">$id_ultimo_usuario_accedido</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+&lt;!-- Código guardado en la cache --&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>cache<span class="br0">&#40;</span><span class="st_h">'usuarios'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+  <span class="kw2">&lt;?php</span> <span class="kw1">foreach</span> <span class="br0">&#40;</span><span class="re0">$usuarios</span> <span class="kw1">as</span> <span class="re0">$usuario</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+    <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">getNombre</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+  <span class="kw2">&lt;?php</span> <span class="kw1">endforeach</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+  <span class="kw2">&lt;?php</span> cache_save<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">endif</span><span class="sy0">;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Así es como funciona esta cache:</p>
+
+<ul>
+<li>Si se encuentra en la cache una versión del fragmento llamado 'usuarios', se utiliza para reemplazar todo el código existente entre <code>&lt;?php if (!cache('usuarios')): ?&gt;</code> y <code>&lt;?php endif; ?&gt;</code>.</li>
+<li>Si no se encuentra, se ejecuta el código definido entre esas dos líneas y el resultado se guarda en la cache identificado con el nombre indicando en la llamada al <em>helper</em> <code>cache()</code>.</li>
+</ul>
+
+<p>Todo el código que no se incluye entre esas dos líneas, se ejecuta siempre y por tanto nunca se guarda en la cache.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> La acción  (<code>listado</code> en este ejemplo) no puede tener activada la cache, ya que en ese caso, no se ejecutaría la plantilla y se ignoraría por completo la declaración de la cache de los fragmentos.</p></div>
+
+<p>La mejora en la velocidad de la aplicación cuando se utiliza esta cache no es tan significativa como cuando se guarda en la cache la acción entera, ya que en este caso siempre se ejecuta la acción, la plantilla se procesa al menos de forma parcial y siempre se utiliza el layout para decorar la plantilla.</p>
+
+<p>Se pueden guardar otros fragmentos de la misma plantilla en la cache; sin embargo, en este caso se debe indicar un nombre único a cada fragmento, de forma que el sistema de cache de Symfony pueda encontrarlos cuando sea necesario.</p>
+
+<p>Como sucede con las acciones y los componentes, los fragmentos que se guardan en la cache pueden tener definido un tiempo de vida en segundos como segundo argumento de la llamada al <em>helper</em> <code>cache()</code>.</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>cache<span class="br0">&#40;</span><span class="st_h">'usuarios'</span><span class="sy0">,</span> <span class="nu0">43200</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Si no se indica explícitamente en el <em>helper</em>, se utiliza el valor por defecto para el tiempo de vida de la cache (que son 86400 segundos, equivalentes a 1 día).</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Otra forma de hacer que una acción se pueda guardar en la cache es pasar las variables que modifican su comportamiento en el patrón del sistema de enrutamiento de la acción. Si la página principal muestra el nombre del usuario que está conectado, no se puede cachear la página a menos que la URL contenga el nombre del usuario. Otro caso es el de las aplicaciones multi-idioma: si se quiete activar la cache para una página que tiene varias traducciones, el código del idioma debería incluirse dentro del patrón de la URL. Aunque este truco aumenta el número de páginas que se guardan en la cache, puede ser muy útil para acelerar las aplicaciones que son muy interactivas.</p></div>
+
+<h3 id="configuracion_dinamica_de_la_cache">12.1.5. Configuración dinámica de la cache</h3>
+
+<p>El archivo <code>cache.yml</code> es uno de los métodos disponibles para definir las opciones de la cache, pero tiene el inconveniente de que no se puede modificar de forma dinámica. No obstante, como sucede habitualmente en Symfony, se puede utilizar código PHP en vez de archivos YAML, por lo que se puede configurar de forma dinámica la cache.</p>
+
+<p>¿Para qué puede ser útil modificar dinámicamente las opciones de la cache? Un ejemplo práctico puede ser el de una página que es diferente para los usuarios autenticados y para los usuarios anónimos, aunque la URL sea la misma. Si se dispone de una página creada por la acción <code>articulo/ver</code> y que contiene un sistema de puntuación para los artículos, el sistema de puntuación podría estar deshabilitado para los usuarios anónimos. Para este tipo de usuarios, se muestra el formulario para registrarse cuando pinchan en el sistema de puntuación. Esta versión de la página se puede guardar tranquilamente en la cache. Por otra parte, los usuarios autenticados que pinchan sobre el sistema de puntuación, generan una petición POST que se emplea para calcular la nueva puntuación del artículo. En esta ocasión, la cache se debería deshabilitar para que Symfony cree la página de forma dinámica.</p>
+
+<p>El sitio adecuado para definir las opciones dinámicas de la cache es en un filtro que se ejecute antes de <code>sfCacheFilter</code>. De hecho, todo el sistema de cache es un filtro de Symfony, como también lo son las opciones de seguridad. Para habilitar la cache en la acción <code>articulo/ver</code> solo cuando el usuario no está autenticado, se crea el archivo <code>conditionalCacheFilter</code> en el directorio <code>lib/</code> de la aplicación, tal y como se muestra en el listado 12-6.</p>
+
+<p><strong>Listado 12-6 - Configurando la cache mediante PHP, en <code>frontend/lib/conditionalCacheFilter.class.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> conditionalCacheFilter <span class="kw2">extends</span> sfFilter
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> execute<span class="br0">&#40;</span><span class="re0">$filterChain</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$contexto</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getContext</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$contexto</span><span class="sy0">-&gt;</span><span class="me1">getUser</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">isAuthenticated</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="kw1">foreach</span> <span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'pages'</span><span class="br0">&#41;</span> <span class="kw1">as</span> <span class="re0">$pagina</span><span class="br0">&#41;</span>
+      <span class="br0">&#123;</span>
+        <span class="re0">$contexto</span><span class="sy0">-&gt;</span><span class="me1">getViewCacheManager</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">addCache</span><span class="br0">&#40;</span><span class="re0">$pagina</span><span class="br0">&#91;</span><span class="st_h">'module'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="re0">$pagina</span><span class="br0">&#91;</span><span class="st_h">'action'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'lifeTime'</span> <span class="sy0">=&gt;</span> <span class="nu0">86400</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co1">// Ejecutar el siguiente filtro</span>
+    <span class="re0">$filterChain</span><span class="sy0">-&gt;</span><span class="me1">execute</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Este filtro se debe registrar en el archivo <code>filters.yml</code> antes de <code>sfCacheFilter</code>, como se muestra en el listado 12-7.</p>
+
+<p><strong>Listado 12-7 - Registrando un filtro propio, en <code>frontend/config/filters.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="sy1">...</span><span class="co3">
+security</span><span class="sy2">: </span>~
+<span class="co4">
+conditionalCache</span>:<span class="co3">
+  class</span><span class="sy2">: </span>conditionalCacheFilter<span class="co4">
+  param</span>:<span class="co4">
+    pages</span>:<span class="co3">
+      - { module</span><span class="sy2">: </span>articulo, action<span class="sy2">: </span>ver <span class="br0">&#125;</span>
+<span class="co3">
+cache</span><span class="sy2">: </span>~
+<span class="sy1">...</span></pre>
+</div>
+
+<p>Para que la cache condicional pueda utilizarse, solo es necesario borrar la cache de Symfony para que se autocargue la clase del nuevo filtro. La cache solo se habilitará para las páginas definidas en el parámetro <code>pages</code> y solo para los usuarios que no están autenticados.</p>
+
+<p>El método <code>addCache()</code> del objeto <code>sfViewCacheManager</code> requiere como parámetros el nombre de un módulo, el nombre de una acción y un array asociativo con las mismas opciones que se definen en el archivo <code>cache.yml</code>. Si por ejemplo se necesita guardar en la cache la acción <code>articulo/ver</code> con el layout y con un tiempo de vida de 300 segundos, se puede utilizar el siguiente código:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$contexto</span><span class="sy0">-&gt;</span><span class="me1">getViewCacheManager</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">addCache</span><span class="br0">&#40;</span><span class="st_h">'articulo'</span><span class="sy0">,</span> <span class="st_h">'ver'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+  <span class="st_h">'withLayout'</span> <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="sy0">,</span>
+  <span class="st_h">'lifeTime'</span>   <span class="sy0">=&gt;</span> <span class="nu0">3600</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<div class="admonition sidebar"><p><strong class="title">Almacenamiento alternativo para la cache</strong> Por defecto, la cache de Symfony guarda sus datos en archivos almacenados en el disco duro del servidor. No obstante, existen métodos alternativos como almacenar los contenidos en la memoria (utilizando <a href="http://www.danga.com/memcached/">memcached</a> por ejemplo) o en una base de datos (útil si se quiere compartir la cache entre varios servidores o si se quiere poder borrar rápidamente la cache). En cualquier caso, es muy sencillo modificar el modo de almacenamiento de la cache de Symfony porque la clase PHP que utiliza el gestor de la cache está definida en el archivo <code>factories.yml</code>.</p>
+
+<p>La clase <code>sfFileCache</code> es la factoría que emplea por defecto la cache:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">view_cache</span>:<span class="co3">
+  class</span><span class="sy2">: </span>sfFileCache<span class="co4">
+  param</span>:<span class="co3">
+    automaticCleaningFactor</span><span class="sy2">: </span><span class="nu0">0</span><span class="co3">
+    cacheDir</span><span class="sy2">: </span>               <span class="co2">%SF_TEMPLATE_CACHE_DIR%</span></pre>
+</div>
+
+<p>Se puede reemplazar el valor de la opción <code>class</code> con una clase propia de almacenamiento de la cache o con una de las alternativas disponibles en Symfony: <code>sfAPCCache</code>, <code>sfEAcceleratorCache</code>, <code>sfMemcacheCache</code>, <code>sfSQLiteCache</code> y <code>sfXCacheCache</code>. Los parámetros definidos en la clave <code>param</code> se pasan al constructor de la clase de la cache en forma de array asociativo. Cualquier clase definida para controlar el almacenamiento de la cache debe implementar todos los métodos de la clase abstracta <code>sfCache</code>. El capítulo 19 explica más en detalle esta característica.</p>
+
+<p>A continuación se muestra la configuración necesaria para un sistema con dos servidores memcache:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">view_cache</span>:<span class="co3">
+  class</span><span class="sy2">: </span>sfMemcacheCache<span class="co4">
+  param</span>:<span class="co4">
+    servers</span>:<span class="co4">
+      server_1</span>:<span class="co3">
+        host</span><span class="sy2">: </span>192.168.1.10<span class="co4">
+      server_2</span>:<span class="co3">
+        host</span><span class="sy2">: </span>192.168.1.11</pre>
+</div>
+
+<p></p></div>
+
+<h3 id="uso_de_la_cache_super_rapida">12.1.6. Uso de la cache super rápida</h3>
+
+<p>Todas las páginas guardadas en la cache que se han explicado anteriormente implican la ejecución de algo de código PHP. En este tipo de páginas, Symfony carga toda la configuración, crea la respuesta, etc. Si se está completamente seguro de que una página no va a cambiar durante un periodo de tiempo, se puede saltar completamente Symfony si se guarda en la carpeta <code>web/</code> el código HTML completo de la página. Este funcionamiento es posible gracias a las opciones del módulo <code>mod_rewrite</code> de Apache, siempre que la regla de enrutamiento defina un patrón que no termine en ningún sufijo o en <code>.html</code>.</p>
+
+<p>Para guardar las páginas completas en la cache, se puede acceder manualmente a todas las páginas mediante la siguiente instrucción ejecutada en la línea de comandos:</p>
+
+<div class="code cli">
+<pre class="cli">$ curl http://frontend.ejemplo.com/usuario/listado.html &gt; web/usuario/listado.html</pre>
+</div>
+
+<p>Una vez ejecutado el anterior comando, cada vez que se realice una petición a la acción <code>usuario/listado</code>, Apache encuentra la página <code>listado.html</code> y la sirve directamente sin llegar a ejecutar Symfony. Aunque la desventaja es que no se puede controlar mediante Symfony las opciones de esa cache (tiempo de vida, borrado automático, etc.) la gran ventaja es el increíble aumento del rendimiento de la aplicación.</p>
+
+<p>Una forma más cómoda de generar estas páginas estáticas es la de utilizar el plugin <code>sfSuperCache</code>, que automatiza todo el proceso, permite definir el tiempo de vida de la cache e incluso permite el borrado de las páginas guardadas en la cache. El Capítulo 17 incluye más información sobre los plugins.</p>
+
+<div class="admonition sidebar"><p><strong class="title">Otras técnicas para mejorar el rendimiento</strong> Además de la cache de HTML, Symfony dispone de otros dos mecanismos de cache, que son completamente automáticos y transparentes para el programador. En el entorno de producción, la configuración y las traducciones de las plantillas se guardan automáticamente en la cache en los directorios <code>miproyecto/cache/config/</code> y <code>miproyecto/cache/i18n/</code>.</p>
+
+<p>Los aceleradores PHP (eAccelerator, APC, XCache, etc.), también llamados módulos que guardan los <em>opcodes</em> en la cache, mejoran el rendimiento de los scripts PHP al guardar en una cache la versión compilada de los scripts, por lo que se elimina el procesamiento y compilación de los scripts cada vez que se ejecutan. Las clases de los ORM contienen muchísimo código PHP, por lo que son las que más se benefician de esta técnica. Todos estos aceleradores son compatibles con Symfony y pueden fácilmente triplicar el rendimiento de cualquier aplicación. Se recomienda su uso en los servidores de producción de las aplicaciones utilizadas por muchos usuarios.</p>
+
+<p>Con un acelerador PHP, se pueden almacenar datos en la memoria para no tener que realizar el mismo procesamiento en cada petición. Si utilizas por ejemplo APC, dispones de una clase llamada <code>sfAPCCache</code>. Además, si se quiere almacenar el resultado de una función que consume una gran cantidad de CPU para su reutilización posterior, es posible utilizar el objeto <code>sfFunctionCache</code>. El Capítulo 18 muestra los detalles sobre estos dos mecanismos.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_12.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 12. Uso de la cache</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_12/eliminando_elementos_de_la_cache.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>12.2. Eliminando elementos de la cache</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo (Doctrine)</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Emails</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_12.html">
+                    <span>Capítulo 12.</span> Uso de la cache
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_12/guardando_la_respuesta_en_la_cache.html">
+                    <span>12.1.</span> Guardando la respuesta en la cache
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/eliminando_elementos_de_la_cache.html">
+                    <span>12.2.</span> Eliminando elementos de la cache
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/probando_y_monitorizando_la_cache.html">
+                    <span>12.3.</span> Probando y monitorizando la cache
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/http_11_y_la_cache_del_lado_del_cliente.html">
+                    <span>12.4.</span> HTTP 1.1 y la cache del lado del cliente
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/resumen.html">
+                    <span>12.5.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

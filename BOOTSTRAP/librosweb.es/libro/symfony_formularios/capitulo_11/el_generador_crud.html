@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>11.3. El generador CRUD (Los formularios de Symfony 1.4)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_11/generando_las_clases_del_formulario.html" />
+                    <link rel="next" href="../capitulo_11/personalizando_los_formularios_generados.html" />
+                <link rel="start" href="/libro/symfony_formularios/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="11.3. El generador CRUD (Los formularios de Symfony 1.4)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_formularios"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_formularios/" itemprop="url">
+                    <span itemprop="title">Los formularios de Symfony 1.4</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_formularios/capitulo_11.html" itemprop="url">
+                    <span itemprop="title">Capítulo 11. Integrando Doctrine</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>11.3. El generador CRUD</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="el_generador_crud" class="title">
+        <span>11.3.</span> El generador CRUD
+    </h1>
+
+    
+
+<p>Una vez generadas las clases de los formularios, a continuación se crea un módulo de Symfony que permita trabajar con los objetos a través de un navegador. El objetivo es crear, modificar y borrar objetos de las clases <code>Article</code>, <code>Author</code>, <code>Category</code> y <code>Tag</code>.</p>
+
+<p>En primer lugar se crea el módulo correspondiente a la clase <code>Author</code>. Aunque este módulo se puede crear manualmente, el plugin de Doctrine incluye la tarea <code>doctrine:generate-crud</code> para crear un módulo de tipo CRUD basado en la clase de un objeto del modelo. Si se emplea el mismo formulario que en la sección anterior:</p>
+
+<div class="code cli">
+<pre class="cli">$ ./symfony doctrine:generate-crud frontend author Author</pre>
+</div>
+
+<p>La tarea <code>doctrine:generate-crud</code> requiere tres argumentos:</p>
+
+<ul>
+<li><code>frontend</code>: nombre de la aplicación en la que se crea el módulo</li>
+<li><code>author</code>: nombre del módulo creado</li>
+<li><code>Author</code>: nombre de la clase del modelo para la que se crea el módulo</li>
+</ul>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> CRUD es el acrónimo de las palabras inglesas <em>"Creation / Retrieval / Update / Deletion"</em> (Crear, Obtener, Actualizar y Borrar) que resumen las cuatro operaciones básicas que se realizan con los datos del modelo.</p></div>
+
+<p>El listado 11-4 muestra que la tarea genera cinco acciones que permiten listar (<code>index</code>), crear (<code>create</code>), modificar (<code>edit</code>), guardar (<code>update</code>) y borrar (<code>delete</code>) los objetos de la clase <code>Author</code>.</p>
+
+<p><strong>Listado 11-4 - La clase <code>authorActions</code> generada por la tarea</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// apps/frontend/modules/author/actions/actions.class.php</span>
+<span class="kw2">class</span> authorActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeIndex<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">authorList</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getAuthorTable</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">findAll</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> executeCreate<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span> <span class="sy0">=</span> <span class="kw2">new</span> AuthorForm<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">setTemplate</span><span class="br0">&#40;</span><span class="st_h">'edit'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> executeEdit<span class="br0">&#40;</span><span class="re0">$request</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getAuthorForm</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> executeUpdate<span class="br0">&#40;</span><span class="re0">$request</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">forward404Unless</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">isMethod</span><span class="br0">&#40;</span><span class="st_h">'post'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getAuthorForm</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="sy0">-&gt;</span><span class="me1">bind</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'author'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="sy0">-&gt;</span><span class="me1">isValid</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="re0">$author</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="sy0">-&gt;</span><span class="me1">save</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+      <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="st_h">'author/edit?id='</span><span class="sy0">.</span><span class="re0">$author</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">setTemplate</span><span class="br0">&#40;</span><span class="st_h">'edit'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> executeDelete<span class="br0">&#40;</span><span class="re0">$request</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">forward404Unless</span><span class="br0">&#40;</span><span class="re0">$author</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getAuthorById</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$author</span><span class="sy0">-&gt;</span><span class="me1">delete</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="st_h">'author/index'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">private</span> <span class="kw2">function</span> getAuthorTable<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">return</span> Doctrine<span class="sy0">::</span><span class="me2">getTable</span><span class="br0">&#40;</span><span class="st_h">'Author'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">private</span> <span class="kw2">function</span> getAuthorById<span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getAuthorTable</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">find</span><span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">private</span> <span class="kw2">function</span> getAuthorForm<span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$author</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getAuthorById</span><span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$author</span> instanceof Author<span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="kw1">return</span> <span class="kw2">new</span> ArticleForm<span class="br0">&#40;</span><span class="re0">$author</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw1">else</span>
+    <span class="br0">&#123;</span>
+      <span class="kw1">return</span> <span class="kw2">new</span> ArticleForm<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El flujo de trabajo del formulario de este módulo se controla mediante los métodos <code>create</code>, <code>edit</code> y <code>update</code>. Por tanto, la tarea <code>doctrine:generate-crud</code> también puede generar un único método que se encargue de estas funcionalidades mediante la opción <code>--non-atomic-actions</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ ./symfony doctrine:generate-crud frontend author Author --non-atomic-actions</pre>
+</div>
+
+<p>El código generado con la opción <code>--non-atomic-actions</code> (ver listado 11-5) es mucho más conciso.</p>
+
+<p><strong>Listado 11-5 - La clase <code>authorActions</code> generada con la opción <code>--non-atomic-actions</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> authorActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeIndex<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">authorList</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getAuthorTable</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">findAll</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> executeEdit<span class="br0">&#40;</span><span class="re0">$request</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span> <span class="sy0">=</span> <span class="kw2">new</span> AuthorForm<span class="br0">&#40;</span>Doctrine<span class="sy0">::</span><span class="me2">getTable</span><span class="br0">&#40;</span><span class="st_h">'Author'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">find</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">isMethod</span><span class="br0">&#40;</span><span class="st_h">'post'</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="sy0">-&gt;</span><span class="me1">bind</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'author'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="sy0">-&gt;</span><span class="me1">isValid</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+      <span class="br0">&#123;</span>
+        <span class="re0">$author</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="sy0">-&gt;</span><span class="me1">save</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="st_h">'author/edit?id='</span><span class="sy0">.</span><span class="re0">$author</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> executeDelete<span class="br0">&#40;</span><span class="re0">$request</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">forward404Unless</span><span class="br0">&#40;</span><span class="re0">$author</span> <span class="sy0">=</span> Doctrine<span class="sy0">::</span><span class="me2">getTable</span><span class="br0">&#40;</span><span class="st_h">'Author'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">find</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$author</span><span class="sy0">-&gt;</span><span class="me1">delete</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="st_h">'author/index'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Esta tarea también genera dos plantillas, <code>indexSuccess</code> y <code>editSuccess</code>. La plantilla <code>editSuccess</code> generada no utiliza la instrucción <code>&lt;?php echo $form ?&gt;</code>. Se puede modificar este comportamiento con la opción <code>--non-verbose-templates</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ ./symfony doctrine:generate-crud frontend author Author --non-verbose-templates</pre>
+</div>
+
+<p>Esta última opción es muy útil cuando se están creando los prototipos, tal y como muestra el listado 11-6.</p>
+
+<p><strong>Listado 11-6 - La plantilla <code>editSuccess</code></strong></p>
+
+<div class="code php">
+<pre class="php">// apps/frontend/modules/author/templates/editSuccess.php
+<span class="kw2">&lt;?php</span> <span class="re0">$author</span> <span class="sy0">=</span> <span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">getObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&lt;h1&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$author</span><span class="sy0">-&gt;</span><span class="me1">isNew</span><span class="br0">&#40;</span><span class="br0">&#41;</span> ? <span class="st_h">'New'</span> <span class="sy0">:</span> <span class="st_h">'Edit'</span> <span class="sy1">?&gt;</span> Author&lt;/h1&gt;
+&nbsp;
+&lt;form action=&quot;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> url_for<span class="br0">&#40;</span><span class="st_h">'author/edit'</span><span class="sy0">.</span><span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$author</span><span class="sy0">-&gt;</span><span class="me1">isNew</span><span class="br0">&#40;</span><span class="br0">&#41;</span> ? <span class="st_h">'?id='</span><span class="sy0">.</span><span class="re0">$author</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">:</span> <span class="st_h">''</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&quot; method=&quot;post&quot; <span class="kw2">&lt;?php</span> <span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">isMultipart</span><span class="br0">&#40;</span><span class="br0">&#41;</span> and <span class="kw1">print</span> <span class="st_h">'enctype=&quot;multipart/form-data&quot; '</span> <span class="sy1">?&gt;</span>&gt;
+  &lt;table&gt;
+    &lt;tfoot&gt;
+      &lt;tr&gt;
+        &lt;td colspan=&quot;2&quot;&gt;
+          &amp;nbsp;&lt;a href=&quot;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> url_for<span class="br0">&#40;</span><span class="st_h">'author/index'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&quot;&gt;Cancel&lt;/a&gt;
+          <span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$author</span><span class="sy0">-&gt;</span><span class="me1">isNew</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+            &amp;nbsp;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Delete'</span><span class="sy0">,</span> <span class="st_h">'author/delete?id='</span><span class="sy0">.</span><span class="re0">$author</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'post'</span> <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="sy0">,</span> <span class="st_h">'confirm'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Are you sure?'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+          <span class="kw2">&lt;?php</span> <span class="kw1">endif</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+          &lt;input type=&quot;submit&quot; value=&quot;Save&quot; /&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tfoot&gt;
+    &lt;tbody&gt;
+      <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$form</span> <span class="sy1">?&gt;</span>
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/form&gt;</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> La opción <code>--with-show</code> permite generar una acción y una plantilla específicas para visualizar los datos de un objeto. Esta plantilla solamente permite visualizar los datos, no modificarlos.</p></div>
+
+<p>Si accedes ahora a la dirección <code>/frontend_dev.php/author</code> con un navegador, puedes visualizar el módulo generado automáticamente (ver figuras 11-1 y 11-2). Prueba a listar los autores, crear nuevos autores, modificar sus datos e incluso borrarlos gracias a la interfaz generada. Como puedes comprobar, las reglas de validación también se tienen en cuenta al crear o modificar los datos.</p>
+
+<div class="figure" id="figure_11_1">
+    <img src="/img/symfony_formularios/f0401.png" alt="Listado de autores" />
+
+    <p class="caption"><strong>Figura 11.1</strong> Listado de autores</p>
+</div>
+
+
+<div class="figure" id="figure_11_2">
+    <img src="/img/symfony_formularios/f0402.png" alt="Errores de validación al modificar los datos de un autor" />
+
+    <p class="caption"><strong>Figura 11.2</strong> Errores de validación al modificar los datos de un autor</p>
+</div>
+
+
+<p>Si ahora se repite la operación con la clase <code>Article</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ ./symfony doctrine:generate-crud frontend article Article --non-verbose-templates --non-atomic-actions</pre>
+</div>
+
+<p>El código generado es muy parecido al código de la clase <code>Author</code>. No obstante, si intentas crear un nuevo artículo, la aplicación produce el error fatal que se muestra en la figura 11-3.</p>
+
+<div class="figure" id="figure_11_3">
+    <img src="/img/symfony_formularios/f0403.png" alt="Las tablas relacionadas deben definir el método __toString()" />
+
+    <p class="caption"><strong>Figura 11.3</strong> Las tablas relacionadas deben definir el método __toString()</p>
+</div>
+
+
+<p>El formulario <code>ArticleForm</code> utiliza el widget <code>sfWidgetFormDoctrineSelect</code> para representar la relación entre los objetos <code>Article</code> y <code>Author</code>. Este widget crea una lista desplegable con todos los autores disponibles. Cuando la aplicación trata de mostrar los autores, los objetos de tipo <code>Author</code> se convierten en una cadena de texto gracias al método mágico <code>__toString()</code>. Por lo tanto, es obligatorio definir el método <code>__toString()</code> en la clase <code>Author</code> tal y como muestra el listado 11-7.</p>
+
+<p><strong>Listado 11-7 - Definiendo el método <code>__toString()</code> en la clase <code>Author</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> Author <span class="kw2">extends</span> BaseAuthor
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> __toString<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getFirstName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">' '</span><span class="sy0">.</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getLastName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>De la misma forma que en la clase <code>Author</code>, se pueden crear métodos <code>__toString()</code> en las otras clases del modelo: <code>Article</code>, <code>Category</code> y <code>Tag</code>.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> <code>sfDoctrineRecord</code> intenta adivinar cuál es el método <code>__toString()</code> adecuado si no lo encuentra. Para ello comprueba si existen columnas llamadas <code>title</code>, <code>name</code>, <code>subject</code>, etc. Si existe alguna de esas columnas, la utiliza como representación del objeto en forma de cadena de texto.</p></div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> La opción <code>method</code> del widget <code>sfWidgetFormDoctrineSelect</code> establece el método utilizado para obtener la representación del objeto en forma de cadena de texto.</p></div>
+
+<p>La figura 11-4 muestra cómo crear un artículo después de haber incluído el método <code>__toString()</code>.</p>
+
+<div class="figure" id="figure_11_4">
+    <img src="/img/symfony_formularios/f0404.png" alt="Creando un artículo" />
+
+    <p class="caption"><strong>Figura 11.4</strong> Creando un artículo</p>
+</div>
+
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_11/generando_las_clases_del_formulario.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>11.2. Generando las clases del formulario</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_11/personalizando_los_formularios_generados.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>11.4. Personalizando los formularios generados</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Creación de formularios</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Validación de formularios</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Formularios para diseñadores web</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Integración con Propel</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Sin título</a>
+            </li>
+                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Sin título</a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Sin título</a>
+            </li>
+                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Sin título</a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Sin título</a>
+            </li>
+                                            <li class="level-1 ">
+                <a href="../capitulo_11.html">
+                    <span>Capítulo 11.</span> Integrando Doctrine
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/antes_de_comenzar.html">
+                    <span>11.1.</span> Antes de comenzar
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/generando_las_clases_del_formulario.html">
+                    <span>11.2.</span> Generando las clases del formulario
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_11/el_generador_crud.html">
+                    <span>11.3.</span> El generador CRUD
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/personalizando_los_formularios_generados.html">
+                    <span>11.4.</span> Personalizando los formularios generados
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/serializacion_de_formularios.html">
+                    <span>11.5.</span> Serialización de formularios
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Referencia de Widgets</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Validadores</a>
+            </li>
+                                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

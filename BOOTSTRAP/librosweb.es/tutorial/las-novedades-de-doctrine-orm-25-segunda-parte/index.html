@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Las novedades de Doctrine ORM 2.5 (Segunda parte)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Las novedades de Doctrine ORM 2.5 (Segunda parte)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-2-1" class="tutorials"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="https://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                            <h1 class="title">Las novedades de Doctrine ORM 2.5 (Segunda parte)</h1>
+
+    <p>Este tutorial es la segunda parte del artículo sobre las novedades de Doctrine 2.5. La <a href="http://librosweb.es/tutorial/las-novedades-de-doctrine-orm-25-primera-parte/">primera parte</a> se centró en las nuevas funcionalidades más relevantes, como los objetos embebidos y la caché de segundo nivel para Redis, Memcache y Riak.</p>
+<p>En esta segunda parte se explican las mejoras de las funcionalidades que ya existían en Doctrine. Además, se detallan los cambios que Doctrine 2.5 introduce y que son incompatibles con sus versiones anteriores, por lo que te obligarán a cambiar el código de tu aplicación.</p>
+<h2>Mejoras en el lenguaje DQL</h2>
+<p><strong>1.</strong> La cláusula <code>ORDER BY</code> de las consultas DQL ahora permite utilizar funciones:</p>
+<pre class="php code"><span class="re0">$dql</span> <span class="sy0">=</span> <span class="st0">&quot;SELECT u FROM User u ORDER BY CONCAT(u.username, u.name)&quot;</span><span class="sy0">;</span></pre>
+<p><strong>2.</strong> Las expresiones <code>IS_NULL</code> también permiten el uso de funciones:</p>
+<pre class="php code"><span class="re0">$dql</span> <span class="sy0">=</span> <span class="st0">&quot;SELECT u.name FROM User u WHERE MAX(u.name) IS NULL&quot;</span><span class="sy0">;</span></pre>
+<p><strong>3.</strong> La cláusula <code>HAVING</code> ahora permite el uso de expresiones <code>LIKE</code>.</p>
+<p><strong>4.</strong> Las expresiones <code>NEW()</code> ahora soportan el uso de subconsultas:</p>
+<pre class="php code"><span class="re0">$dql</span> <span class="sy0">=</span> <span class="st0">&quot;SELECT new UserDTO(u.name, SELECT count(g.id) FROM Group g WHERE g.id = u.id) FROM User u&quot;</span><span class="sy0">;</span></pre>
+<p><strong>5.</strong> La expresión <code>MEMBER OF</code> ahora permite filtrar por más de un resultado:</p>
+<pre class="php code"><span class="re0">$dql</span> <span class="sy0">=</span> <span class="st0">&quot;SELECT u FROM User u WHERE :groups MEMBER OF u.groups&quot;</span><span class="sy0">;</span>
+<span class="re0">$query</span> <span class="sy0">=</span> <span class="re0">$entityManager</span><span class="sy0">-&gt;</span><span class="me1">createQuery</span><span class="br0">&#40;</span><span class="re0">$dql</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$query</span><span class="sy0">-&gt;</span><span class="me1">setParameter</span><span class="br0">&#40;</span><span class="st_h">'groups'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="nu0">1</span><span class="sy0">,</span> <span class="nu0">2</span><span class="sy0">,</span> <span class="nu0">3</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$users</span> <span class="sy0">=</span> <span class="re0">$query</span><span class="sy0">-&gt;</span><span class="me1">getResult</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p><strong>6.</strong> Ahora es posible utilizar expresiones dentro de <code>COUNT()</code>:</p>
+<pre class="php code"><span class="re0">$dql</span> <span class="sy0">=</span> <span class="st0">&quot;SELECT COUNT(DISTINCT CONCAT(u.name, u.lastname)) FROM User u&quot;</span><span class="sy0">;</span></pre>
+<p><strong>7.</strong> Las funciones <code>DATE_ADD()</code>/<code>DATE_SUB()</code> ahora soportan la expresión <code>HOUR</code>.</p>
+<h2>Añadido soporte para factorías en las funciones DQL</h2>
+<p>En las versiones anteriores de Doctrine, había que indicar la clase completa de las funciones DQL propias. Por eso no era posible utilizar la inyección de dependencias para configurar esas funciones en tiempo de ejecución.</p>
+<p><a href="https://github.com/mnapoli">Matthieu Napoli</a> ha implementado una nueva funcionalidad muy sencilla que permite pasar un <em>callback</em> que es el que se encarga de resolver la función DQL en tiempo de ejecución:</p>
+<pre class="php code"><span class="re0">$config</span> <span class="sy0">=</span> <span class="kw2">new</span> \Doctrine\ORM\Configuration<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$config</span><span class="sy0">-&gt;</span><span class="me1">addCustomNumericFunction</span><span class="br0">&#40;</span>
+    <span class="st_h">'IS_PUBLISHED'</span><span class="sy0">,</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$funcName</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="re0">$currentSiteId</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="kw2">new</span> IsPublishedFunction<span class="br0">&#40;</span><span class="re0">$currentSiteId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+     <span class="br0">&#125;</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<h2>Colecciones como parámetro de las búsquedas <code>WHERE ... IN</code></h2>
+<p>Las consultas de tipo <code>WHERE IN</code> ahora permiten usar directamente el array que contiene la colección de entidades a utilizar en la búsqueda:</p>
+<pre class="php code"><span class="re0">$categories</span> <span class="sy0">=</span> <span class="re0">$rootCategory</span><span class="sy0">-&gt;</span><span class="me1">getChildren</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$queryBuilder</span>
+    <span class="sy0">-&gt;</span><span class="me1">select</span><span class="br0">&#40;</span><span class="st_h">'p'</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">from</span><span class="br0">&#40;</span><span class="st_h">'Product'</span><span class="sy0">,</span> <span class="st_h">'p'</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">where</span><span class="br0">&#40;</span><span class="st_h">'p.category IN (:categories)'</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">setParameter</span><span class="br0">&#40;</span><span class="st_h">'categories'</span><span class="sy0">,</span> <span class="re0">$categories</span><span class="br0">&#41;</span>
+<span class="sy0">;</span></pre>
+<p>Esta funcionalidad ha sido desarrollada por <a href="https://github.com/michaelperrin">Michael Perrin</a>.</p>
+<ul>
+<li><a href="https://github.com/doctrine/doctrine2/pull/590">Ver Pull Request</a></li>
+<li><a href="http://doctrine-project.org/jira/browse/DDC-2319">Ver discusión DDC-2319</a></li>
+</ul>
+<h2>Posibilidad de definir <em>Query Hints</em> por defecto para todas las consultas</h2>
+<p>Doctrine soporta los <em>query hints</em> desde la versión 2.0, ya que se utiliza en varios elementos, como el AST, los <em>fetch modes</em>, el <em>locking</em> y otras funcionalidades relacionads con la generación de código DQL.</p>
+<p>La novedad es que ahora es posible definir <em>query hints</em> por defecto que están activados para todas las consultas:</p>
+<pre class="php code"><span class="re0">$config</span> <span class="sy0">=</span> <span class="kw2">new</span> \Doctrine\ORM\Configuration<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="sy0">-&gt;</span><span class="me1">setDefaultQueryHints</span><span class="br0">&#40;</span>
+    <span class="st_h">'doctrine.customOutputWalker'</span> <span class="sy0">=&gt;</span> <span class="st_h">'MyProject\CustomOutputWalker'</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>Esta funcionalidad ha sido desarrollada por <a href="https://github.com/Strate">Artur Eshenbrener</a>.</p>
+<ul>
+<li><a href="https://github.com/doctrine/doctrine2/pull/863">Ver Pull Request</a></li>
+</ul>
+<h2>ResultSetMappingBuilder soporta herencia de tipo <em>Single-Table</em></h2>
+<p>En las versiones anteriores, <code>ResultSetMappingBuilder</code> no funcionaba con las entidades que utilizaban herencia de tipo <em>single table</em>. En Doctrine ORM 2.5 esta limitación ha desaparecido.</p>
+<h2>Definición simple de relaciones <em>many-to-many</em> cuando se usa YAML</h2>
+<p>La configuración basada en XML y la configuración basada en anotaciones permiten definir relaciones de tipo <em>many-to-many</em> muy fácilmente, ya que no requiren definir la columna de tipo <em>join</em> utilizada en la relación.</p>
+<p>A partir de Doctrine 2.5, la configuración basada en YAML también permite utilizar este atajo para definir relaciones <em>many-to-many</em>:</p>
+<pre class="yaml code"><span class="co4">manyToMany</span>:<span class="co4">
+    groups</span>:<span class="co3">
+        targetEntity</span><span class="sy2">: </span>Group<span class="co4">
+        joinTable</span>:<span class="co3">
+            name</span><span class="sy2">: </span>users_groups</pre>
+<h2>Mayor control sobre el comando que valida el esquema</h2>
+<p>El comando que valida el esquema ejecuta dos validaciones adicionales para comprobar la validez de los <em>mappings</em> y para comprobar si el esquema está correctamente sincronizado. Ahora es posible saltarse cualquiera de estas dos comprobaciones:</p>
+<pre class="cli code">$ php vendor/bin/doctrine orm:validate-schema --skip-mapping
+$ php vendor/bin/doctrine orm:validate-schema --skip-sync</pre>
+<p>La ventaja de deshabilitar estas comprobaciones es que ahora puedes crear por ejemplo <em>scripts</em> de integración continua más especializados. Si no se encuentra ningún error, el comando devuelve <code>0</code>; si se produce un error de <em>mapping</em>, devuelve <code>1</code>; si se produce un error de sincronización, devuelve <code>2</code>; y si se producen ambos errores, se devuelve <code>3</code>.</p>
+<h2>Evitar las copias de seguridad al generar las entidades</h2>
+<p>Cuando se ejecuta el comando que genera las entidades, Doctrine hace una copia de seguridad del archivo que se está modificando para evitar la pérdida de información. Utiliza la nueva opción <code>-no-backup</code> para no generar esas copias de seguridad:</p>
+<pre class="cli code">$ php vendor/bin/doctrine orm:generate-entities src/ --no-backup</pre>
+<h2>Uso de objetos como identificadores de entidades</h2>
+<p>Ahora es posible utilizar objetos como identificadores de las entidades, siempre que implementen el método mágico <code>__toString()</code>.</p>
+<pre class="php code"><span class="kw2">class</span> UserId
+<span class="br0">&#123;</span>
+    <span class="kw2">private</span> <span class="re0">$value</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span><span class="re0">$value</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">value</span> <span class="sy0">=</span> <span class="re0">$value</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __toString<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="br0">&#40;</span>string<span class="br0">&#41;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">value</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw2">class</span> User
+<span class="br0">&#123;</span>
+    <span class="co4">/** @Id @Column(type=&quot;userid&quot;) */</span>
+    <span class="kw2">private</span> <span class="re0">$id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span>UserId <span class="re0">$id</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">id</span> <span class="sy0">=</span> <span class="re0">$id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw2">class</span> UserIdType <span class="kw2">extends</span> \Doctrine\DBAL\Types\Type
+<span class="br0">&#123;</span>
+    <span class="co1">// ...</span>
+<span class="br0">&#125;</span>
+&nbsp;
+Doctrine\DBAL\Types\Type<span class="sy0">::</span><span class="me2">addType</span><span class="br0">&#40;</span><span class="st_h">'userid'</span><span class="sy0">,</span> <span class="st_h">'MyProject\UserIdType'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<h2>Cambios incompatibles con las versiones anteriores de Doctrine</h2>
+<p>En esta sección se muestran todos los cambios de tipo <em>BC Break (Backwards compatibility Break)</em> introducidos por Doctrine ORM 2.5. Si utilizas alguna de estas funcionalidades, tendrás que actualizar el código de tu aplicación antes de pasar a Doctrine 2.5.</p>
+<h3>La interfaz NamingStrategy ha cambiado</h3>
+<p>La interfaz <code>Doctrine\ORM\Mapping\NamingStrategyInterface</code> ha cambiado ligeramente para pasar el nombre de la clase de la entidad en el método que genera el nombre de la columna <em>join</em> de la relación:</p>
+<pre class="php code"><span class="co1">// antes</span>
+<span class="kw2">function</span> joinColumnName<span class="br0">&#40;</span><span class="re0">$propertyName</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// ahora</span>
+<span class="kw2">function</span> joinColumnName<span class="br0">&#40;</span><span class="re0">$propertyName</span><span class="sy0">,</span> <span class="re0">$className</span> <span class="sy0">=</span> <span class="kw4">null</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>También se ha añadido un nuevo método necesario para tratar los objetos embebidos, una de las principales novedades de Doctrine 2.5:</p>
+<pre class="php code"><span class="kw2">public</span> <span class="kw2">function</span> embeddedFieldToColumnName<span class="br0">&#40;</span><span class="re0">$propertyName</span><span class="sy0">,</span> <span class="re0">$embeddedColumnName</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<h3>Los <em>type-hints</em> utilizan <code>EntityManagerInterface</code> en vez de <code>EntityManager</code></h3>
+<p>Todas las clases que requieren la clase <code>EntityManager</code> en cualquiera de sus métodos ahora requieren la interfaz <code>EntityManagerInterface</code>.</p>
+<p>Así que si tu aplicación extiende cualquiera de las siguientes clases, asegúrate de cambiar estas llamadas a métodos:</p>
+<ul>
+<li><code>Doctrine\ORM\Tools\DebugUnitOfWorkListener#dumpIdentityMap(EntityManagerInterface $em)</code></li>
+<li><code>Doctrine\ORM\Mapping\ClassMetadataFactory#setEntityManager(EntityManagerInterface $em)</code></li>
+</ul>
+<h3>Modificada la API de los <em>hydrators</em> propios</h3>
+<p>La API de <code>AbstractHydrator</code> ya no obliga a usar una caché. Además, se ha añadido el método <code>hydrateColumnInfo($column)</code> para obtener información sobre una columna.</p>
+<p>Por otra parte, la variable que representaba a la caché ya no se pasa por referencia entre los diferentes métodos, ya que no es necesario hacerlo desde la versión 2.4 de Doctrine en la que los <em>hydrators</em> se instancian para cada consulta.</p>
+<ul>
+<li><a href="http://doctrine-project.org/jira/browse/DDC-3060">Ver discusión DDC-3060</a></li>
+</ul>
+<h3>El <em>inheritance map</em> debe contener todas las clases de una herencia de entidades</h3>
+<p>Hasta ahora, era posible no añadir en el <em>inheritance map</em> la clase padre de una herencia de entidades. En Doctrine 2.5 esto ya no es posible, por lo que si no quieres persistir las instancias de esa clase padre, debes aplicar una de las dos siguientes soluciones:</p>
+<ul>
+<li>convierte la clase padre en abstracta.</li>
+<li>añade la clase padre al <em>inheritance map</em>.</li>
+</ul>
+<p>Si no lo haces así, la aplicación lanzará una excepción de tipo <code>Doctrine\ORM\Mapping\MappingException</code>.</p>
+<ul>
+<li><a href="http://doctrine-project.org/jira/browse/DDC-3300">Ver discusión DDC-3300</a></li>
+<li><a href="http://doctrine-project.org/jira/browse/DDC-3503">Ver discusión DDC-3503</a></li>
+</ul>
+<h3>El método <code>EntityManager#clear()</code> también se ejecuta en las asociaciones</h3>
+<p>En Doctrine 2.4 y versiones anteriores, cuando se invoca el método <code>EntityManager#clear()</code> pasándole el nombre de una entidad, sólo se aplica el proceso de <em>detach</em> a la entidad indicada.</p>
+<p>En Doctrine 2.5, este mismo método también sigue todos los <em>cascades</em> configurados en la entidad. Esto hace por ejemplo que se reduzca el consumo de memoria en tareas complejas, ya que se aplica el <em>recolector de basura</em> a esas asociaciones configuradas en los <em>cascades</em>.</p>
+<h3>Las actualizaciones sobre las entidades borradas ya no se aplican</h3>
+<p>En Doctrine 2.4, cuando modificas una propiedad que se ha marcado como borrada, se ejecuta una sentencia de tipo <code>UPDATE</code> justo antes de la sentencia <code>DELETE</code>. Y lo que es peor, también se ejecutan los <em>listeners</em> <code>preUpdate</code> y
+<code>postUpdate</code>, que en este caso no sirven para nada más que para penalizar el rendimiento de la aplicación.</p>
+<p>Por otra parte, en los <em>listeners</em> de <code>preFlush</code> era posible hacer que una entidad marcada para borrar ya no se borrara. El truco consistía en llamar al método <code>persist()</code> si la entidad se encontraba tanto en <code>entityUpdates</code> como en <code>entityDeletions</code>. En Doctrine 2.5 este truco ya no funciona porque se ha cambiado gran parte de la lógica que determina qué cambios se han producido en las entidades.</p>
+<h3>El modo de bloqueo por defecto ahora es <code>null</code> en vez de <code>LockMode::NONE</code></h3>
+<p><em>(Este cambio sólo afecta a las bases de datos tipo Microsoft SQL Server)</em></p>
+<p>Debido a una confusión sobre el modo de bloqueo (<em>lock mode</em>) por defecto usado en los métodos, se producían algunos errores no deseados en bases de datos de tipo SQL Server.</p>
+<p>Como el modo de bloqueo por defecto (<code>LockMode::NONE</code>) se utilizaba en todos los métodos, todas las consultas relacionadas con el <em>locking</em> añadían automáticamente el <code>WITH (NOLOCK)</code>.</p>
+<p>El resultado era impredecible porque cuando la consulta incluye el <code>WITH (NOLOCK)</code>, la base de datos SQL Server ejecuta la consulta en una transacción de tipo <code>READ UNCOMMITTED</code> en vez de <code>READ COMMITTED</code>.</p>
+<p>Por todo ello, ahora se distingue entre el <em>locking</em> de tipo <code>LockMode::NONE</code> y el <em>locking</em> de tipo <code>null</code>. Así Doctrine sabe cuándo añadir la información del <em>locking</em> en las consultas y cuándo no hacerlo. De esta manera, los siguientes métodos han cambiado su declaración para usar <code>$lockMode = null</code> en vez de <code>$lockMode = LockMode::NONE</code>:</p>
+<ul>
+<li><code>Doctrine\ORM\Cache\Persister\AbstractEntityPersister#getSelectSQL()</code></li>
+<li><code>Doctrine\ORM\Cache\Persister\AbstractEntityPersister#load()</code></li>
+<li><code>Doctrine\ORM\Cache\Persister\AbstractEntityPersister#refresh()</code></li>
+<li><code>Doctrine\ORM\Decorator\EntityManagerDecorator#find()</code></li>
+<li><code>Doctrine\ORM\EntityManager#find()</code></li>
+<li><code>Doctrine\ORM\EntityRepository#find()</code></li>
+<li><code>Doctrine\ORM\Persisters\BasicEntityPersister#getSelectSQL()</code></li>
+<li><code>Doctrine\ORM\Persisters\BasicEntityPersister#load()</code></li>
+<li><code>Doctrine\ORM\Persisters\BasicEntityPersister#refresh()</code></li>
+<li><code>Doctrine\ORM\Persisters\EntityPersister#getSelectSQL()</code></li>
+<li><code>Doctrine\ORM\Persisters\EntityPersister#load()</code></li>
+<li><code>Doctrine\ORM\Persisters\EntityPersister#refresh()</code></li>
+<li><code>Doctrine\ORM\Persisters\JoinedSubclassPersister#getSelectSQL()</code></li>
+</ul>
+<p>Si has extendido alguna de estas clases, no olvides actualizar la declaración de todos estos métodos. Y por supuesto, comprueba también el código que hace llamadas a estos métodos.</p>
+<h3>El método <code>__clone()</code> ya no se invoca al instanciar nuevas entidades</h3>
+<p>En las aplicaciones que utilizan PHP 5.6, la instanciación de nuevas entidades se realiza mediante <a href="https://github.com/doctrine/instantiator">la librería doctrine/instantiator</a>, que no ejecuta ni el método mágico <code>__clone()</code> ni ningún otro método del objeto instanciado.</p>
+<h3><code>DefaultRepositoryFactory</code> se ha declarado como <code>final</code></h3>
+<p>Debido a este cambio, en vez de extender la clase <code>Doctrine\ORM\Repository\DefaultRepositoryFactory</code>, ahora debes implementar la interfaz <code>Doctrine\ORM\Repository\RepositoryFactory</code>.</p>
+<h3>Las consultas que crean objetos respetan los <em>alias</em> indicados</h3>
+<p>Cuando se ejecutan consultas DQL que crean nuevos objetos, en vez de devolver los datos todos juntos en un array escalar, ahora se respetan los <em>alias</em> utilizados en la consulta. Así por ejemplo, la siguiente consulta DQL:</p>
+<pre class="sql code"><span class="kw1">SELECT</span> <span class="kw1">NEW</span> UserDTO<span class="br0">&#40;</span>u<span class="sy0">.</span>id<span class="sy0">,</span> u<span class="sy0">.</span>name<span class="br0">&#41;</span> <span class="kw1">AS</span> <span class="kw1">USER</span><span class="sy0">,</span>
+       <span class="kw1">NEW</span> AddressDTO<span class="br0">&#40;</span>a<span class="sy0">.</span>street<span class="sy0">,</span> a<span class="sy0">.</span>postalCode<span class="br0">&#41;</span> <span class="kw1">AS</span> address<span class="sy0">,</span>
+       a<span class="sy0">.</span>id <span class="kw1">AS</span> addressId
+<span class="kw1">FROM</span> <span class="kw1">USER</span> u
+<span class="kw1">INNER</span> <span class="kw1">JOIN</span> u<span class="sy0">.</span>addresses a <span class="kw1">WITH</span> a<span class="sy0">.</span>isPrimary <span class="sy0">=</span> <span class="kw1">TRUE</span></pre>
+<p>Doctrine 2.4 devolvería como resultado el siguiente array:</p>
+<pre class="php code"><span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="nu0">0</span><span class="sy0">=&gt;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="nu0">0</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>UserDTO object<span class="br0">&#125;</span><span class="sy0">,</span>
+        <span class="nu0">1</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>AddressDTO object<span class="br0">&#125;</span><span class="sy0">,</span>
+        <span class="nu0">2</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>u<span class="sy0">.</span>id scalar<span class="br0">&#125;</span><span class="sy0">,</span>
+        <span class="nu0">3</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>u<span class="sy0">.</span>name scalar<span class="br0">&#125;</span><span class="sy0">,</span>
+        <span class="nu0">4</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>a<span class="sy0">.</span>street scalar<span class="br0">&#125;</span><span class="sy0">,</span>
+        <span class="nu0">5</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>a<span class="sy0">.</span>postalCode scalar<span class="br0">&#125;</span><span class="sy0">,</span>
+        <span class="st_h">'addressId'</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>a<span class="sy0">.</span>id scalar<span class="br0">&#125;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="sy0">...</span>
+<span class="br0">&#41;</span></pre>
+<p>En Doctrine 2.5 el resultado devuelto es el que se espera:</p>
+<pre class="php code"><span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="nu0">0</span><span class="sy0">=&gt;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'user'</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>UserDTO object<span class="br0">&#125;</span><span class="sy0">,</span>
+        <span class="st_h">'address'</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>AddressDTO object<span class="br0">&#125;</span><span class="sy0">,</span>
+        <span class="st_h">'addressId'</span><span class="sy0">=&gt;</span><span class="br0">&#123;</span>a<span class="sy0">.</span>id scalar<span class="br0">&#125;</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="sy0">...</span>
+<span class="br0">&#41;</span></pre>
+<h2>Recursos</h2>
+<ul>
+<li><a href="http://librosweb.es/tutorial/las-novedades-de-doctrine-orm-25-primera-parte/">Las novedades de Doctrine ORM 2.5 (Primera parte)</a></li>
+</ul>
+
+                    </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+    <div class="module module-share">
+    <h3>Compartir</h3>
+    <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = 'Las novedades de Doctrine ORM 2.5 (Segunda parte)';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+</div>
+
+
+    
+<div class="module module-tags">
+    <h3>Etiquetas populares</h3>
+    <ul class="tags-list">
+                    <li class="">
+                <a href="/tutoriales/composer/">composer</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/css/">css</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/dise%C3%B1o/">diseño</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/html/">html</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/javascript/">javascript</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/php/">php</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/programaci%C3%B3n/">programación</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/sistemas/">sistemas</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/symfony/">symfony</a>
+            </li>
+            </ul>
+</div>
+
+
+    <div class="module module-rss">
+    <h3>Suscríbete gratis</h3>
+    <ul class="list-unstyled text-links module-rss-feeds">
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/todos.xml">
+                <strong>Todos</strong> los tutoriales
+            </a>
+        </li>
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/diseno.xml">
+                Tutoriales de <strong>diseño</strong>
+            </a>
+        </li>
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/programacion.xml">
+                Tutoriales de <strong>programación</strong>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

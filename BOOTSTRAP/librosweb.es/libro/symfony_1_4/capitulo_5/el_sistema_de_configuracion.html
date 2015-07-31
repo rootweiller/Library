@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>5.1. El sistema de configuración (Symfony 1.4, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_5.html" />
+                    <link rel="next" href="../capitulo_5/un_vistazo_general_a_los_archivos_de_configuracion.html" />
+                <link rel="start" href="/libro/symfony_1_4/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="5.1. El sistema de configuración (Symfony 1.4, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_4"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_4/" itemprop="url">
+                    <span itemprop="title">Symfony 1.4, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_4/capitulo_5.html" itemprop="url">
+                    <span itemprop="title">Capítulo 5. Configurar Symfony</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>5.1. El sistema de configuración</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="el_sistema_de_configuracion" class="title">
+        <span>5.1.</span> El sistema de configuración
+    </h1>
+
+    
+
+<p>La mayoría de aplicaciones web comparten una serie de características, independientemente de su finalidad. Por ejemplo, es habitual restringir algunas partes de la aplicación a una serie de usuarios, utilizar un layout común para mostrar todas las páginas, los formularios deben volver a mostrar los datos que ha introducido el usuario después de una validación errónea. El framework define el comportamiento básico de estas características y el programador puede adaptar cada una mediante las opciones de configuración. Esta forma de trabajar ahorra mucho tiempo de desarrollo, ya que muchos cambios importantes no necesitan modificar ni siquiera una línea de código, aunque estos cambios impliquen muchos cambios internos. Además se trata de una forma mucho más eficiente, ya que permite asegurar que toda la configuración se encuentra en un lugar único y fácilmente localizable.</p>
+
+<p>No obstante, este método también tiene dos inconvenientes muy importantes:</p>
+
+<ul>
+<li>Los programadores acaban escribiendo archivos XML complejos y muy largos.</li>
+<li>En una arquitectura basada en PHP, cada petición consumiría mucho más tiempo de proceso.</li>
+</ul>
+
+<p>Considerando todas estas desventajas, Symfony utiliza solamente lo mejor de los archivos de configuración. De hecho, el objetivo del sistema de configuración de Symfony es ser:</p>
+
+<ul>
+<li>Potente: todo lo que puede ser gestionado con archivos de configuración, se gestiona con archivos de configuración.</li>
+<li>Simple: muchas de las características de la configuración no se utilizan habitualmente, por lo que las aplicaciones normales no tienen que tratar con ellas.</li>
+<li>Sencillo: los archivos de configuración son sencillos de leer, de modificar y de crear por parte de los desarrolladores.</li>
+<li>Personalizable: el lenguaje que se utiliza por defecto en los archivos de configuración es YAML, pero se puede cambiar por archivos INI, XML o cualquier otro formato que prefiera el programador.</li>
+<li>Rápido: la aplicación nunca procesa los archivos de configuración, sino que se encarga de ello el sistema de configuración, que compila todos los archivos de configuración en trozos de código PHP que se pueden procesar muy rápidamente.</li>
+</ul>
+
+<h3 id="sintaxis_yaml_y_convenciones_de_symfony">5.1.1. Sintaxis YAML y convenciones de Symfony</h3>
+
+<p>Symfony utiliza por defecto el formato YAML para la configuración, en vez de los tradicionales formatos INI y XML. El formato YAML estructura sus contenidos mediante la tabulación con espacios en blanco y es muy rápido de escribir. El Capítulo 1 ya describe algunas de sus ventajas y las reglas más básicas. No obstante, debes tener en cuenta algunas convenciones al escribir archivos YAML. En esta sección sólo se mencionan las convenciones o normas más importantes, pero el <a href="http://www.symfony-project.org/reference/1_4/en/02-YAML">capítulo 2 de la referencia de Symfony</a> contiene todos los detalles.</p>
+
+<p>En primer lugar, <strong>nunca utilices tabuladores en los archivos YAML</strong>, utiliza en su lugar espacios en blanco. Los sistemas que procesan YAML no son capaces de tratar con los tabuladores, por lo que la tabulación de los archivos se debe crear con espacios en blanco como se muestra en el listado 5-1 (en YAML un tabulador se indica mediante dos espacios en blanco seguidos).</p>
+
+<p>**Listado 5-1 - Los archivos YAML no permiten los tabuladores **</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># No utilices tabuladores</span><span class="co4">
+all</span>:<span class="co4">
+  -&gt; mail</span>:<span class="co3">
+  -&gt; -&gt; webmaster</span><span class="sy2">: </span> <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="5c2b393e313d2f28392e1c393639312c3033723f3331">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>
+&nbsp;
+<span class="co1"># Utiliza espacios en blanco</span><span class="co4">
+all</span>:<span class="co4">
+  mail</span>:<span class="co3">
+    webmaster</span><span class="sy2">: </span><a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="136476717e7260677661537679767e637f7c3d707c7e">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script></pre>
+</div>
+
+<p>Si los parámetros son cadenas de texto que contienen espacios en blanco al principio o al final, caracteres especiales como almohadillas (<code>#</code>) y comas (<code>,</code>) o valores como <code>true</code> o <code>false</code>, debes encerrar su valor entre comillas simples para que se interpreten como cadenas de texto, tal y como muestra el listado 5-2.</p>
+
+<p><strong>Listado 5-2 - Las cadenas de texto <em>especiales</em> deben encerrarse entre comillas simples</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co3">error1</span><span class="sy2">: </span>Este campo es obligatorio
+<span class="co3">
+error2</span><span class="sy2">: </span>'  Este campo es obligatorio  '
+&nbsp;
+<span class="co1"># Las comillas simples que aparecen dentro de las cadenas de</span>
+<span class="co1"># texto, se deben escribir dos veces</span><span class="co3">
+error3</span><span class="sy2">: </span>'Este `campo` es obligatorio'
+<span class="co3">
+error4</span><span class="sy2">: </span>'Para indicar la extensión telefónica, utiliza el símbolo <span class="co1">#' </span>
+&nbsp;
+<span class="co1"># Si no se utilizan las comillas, se interpreta como un valor booleano falso</span><span class="co3">
+i18n</span><span class="sy2">: </span>  'false'</pre>
+</div>
+
+<p>Se pueden escribir cadenas de texto muy largas en varias líneas, además de juntar cadenas escritas en varias líneas. En este último caso, se debe utilizar un carácter especial para indicar que se van a escribir varias líneas (se puede utilizar <code>&gt;</code> o <code>|</code>) y se debe añadir una pequeña tabulación (dos espacios en blanco) a cada línea del grupo de cadenas de texto. El listado 5-3 muestra este caso.</p>
+
+<p><strong>Listado 5-3 - Definir cadenas de texto muy largas y cadenas de texto multi-línea</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># Las cadenas de texto muy largas se pueden escribir en</span>
+<span class="co1"># varias líneas utilizando el carácter &gt;</span>
+<span class="co1"># Posteriormente, cada nueva línea se transforma en un</span>
+<span class="co1"># espacio en blanco para formar la cadena de texto original.</span>
+<span class="co1"># De esta forma, el archivo YAML es más fácil de leer</span><span class="co3">
+frase_para_recordar</span><span class="sy2">: &gt;
+</span><span class="co0">  Vive como si fueras a morir mañana y
+  aprende como si fueras a vivir para siempre.
+</span>
+<span class="co1"># Si un texto está formado por varias líneas, se utiliza</span>
+<span class="co1"># el carácter | para separar cada nueva línea. Los espacios</span>
+<span class="co1"># en blanco utilizados para tabular las líneas no se tienen</span>
+<span class="co1"># en cuenta.</span><span class="co3">
+direccion</span><span class="sy2">: |
+</span><span class="co0">  Mi calle, número X
+  Nombre de mi ciudad
+  CP XXXXX</span></pre>
+</div>
+
+<p>Los arrays se definen mediante corchetes que encierran a los elementos o mediante la sintaxis expandida que utiliza guiones medios para cada elemento del array, como se muestra en el listado 5-4.</p>
+
+<p><strong>Listado 5-4 - Sintaxis de YAML para incluir arrays</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># Sintaxis abreviada para los arrays</span><span class="co3">
+idiomas</span><span class="sy2">: </span><span class="br0">&#91;</span> Alemán, Francés, Inglés, Italiano <span class="br0">&#93;</span>
+&nbsp;
+<span class="co1"># Sintaxis expandida para los arrays</span><span class="co4">
+idiomas</span><span class="sy2">:
+</span>  - Alemán
+  - Francés
+  - Inglés
+  - Italiano</pre>
+</div>
+
+<p>Para definir arrays asociativos, se deben encerrar los elementos mediante llaves (<code>{</code> y <code>}</code>) y siempre se debe insertar un espacio en blanco entre la clave y el valor de cada par <code>clave: valor</code> y otro espacio en blanco después de la coma que separa cada elemento del array. También existe una sintaxis expandida que requiere indicar cada par <code>clave: valor</code> en una nueva línea y con una tabulación (es decir, con dos espacios en blanco delante) como se muestra en el listado 5-5.</p>
+
+<p><strong>Listado 5-5 - Sintaxis de YAML para incluir arrays asociativos</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># Sintaxis incorrecta, falta un espacio después de los 2 puntos y de la coma</span><span class="co3">
+mail</span><span class="sy2">: </span><span class="br0">&#123;</span>webmaster:<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="760113141b170502130436131c131b061a195815191b">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>,contacto:<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="b7d4d8d9c3d6d4c3d8f7d2ddd2dac7dbd899d4d8da">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script><span class="br0">&#125;</span>
+&nbsp;
+<span class="co1"># Sintaxis abreviada correcta para los array asociativos</span><span class="co3">
+mail</span><span class="sy2">: </span><span class="br0">&#123;</span> webmaster<span class="sy2">: </span><a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="ee998b8c838f9d9a8b9cae8b848b839e8281c08d8183">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>, contacto<span class="sy2">: </span><a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="89eae6e7fde8eafde6c9ece3ece4f9e5e6a7eae6e4">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script> <span class="br0">&#125;</span>
+&nbsp;
+<span class="co1"># Sintaxis expandida para los arrays asociativos</span><span class="co4">
+mail</span>:<span class="co3">
+  webmaster</span><span class="sy2">: </span><a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="166173747b776562736456737c737b667a793875797b">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script><span class="co3">
+  contacto</span><span class="sy2">: </span> <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="60030f0e140103140f20050a050d100c0f4e030f0d">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script></pre>
+</div>
+
+<p>Para los parámetros booleanos, se utilizan los valores <code>true</code> y <code>false</code>, siempre que estos valores no estén encerrados entre comillas.</p>
+
+<p><strong>Listado 5-6 - Sintaxis de YAML para los valores booleanos</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co3">valor_verdaderos</span><span class="sy2">: </span>  true<span class="co3">
+valor_falsos</span><span class="sy2">: </span>      false</pre>
+</div>
+
+<p>Es recomendable añadir comentarios (que se definen mediante el carácter <code>#</code>) y todos los espacios en blanco adicionales que hagan falta para hacer más fáciles de leer los archivos YAML, como se muestra en el listado 5-7.</p>
+
+<p><strong>Listado 5-7 - Comentarios en YAML y espacios adicionales para alinear valores</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># Esta línea es un comentario</span><span class="co4">
+mail</span>:<span class="co3">
+  webmaster</span><span class="sy2">: </span><a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="522537303f3321263720123738373f223e3d7c313d3f">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script><span class="co3">
+  contacto</span><span class="sy2">: </span> <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="1c7f7372687d7f68735c797679716c7073327f7371">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script><span class="co3">
+  admin</span><span class="sy2">: </span>    <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="8cede8e1e5e2cce9e6e9e1fce0e3a2efe3e1">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>   <span class="co1"># se añaden espacios en blanco para alinear los valores</span></pre>
+</div>
+
+<p>En algunos archivos de configuración de Symfony, se ven líneas que empiezan por <code>#</code> (y por tanto se consideran comentarios y se ignoran) pero que parecen opciones de configuración correctas. Se trata de una de las convenciones de Symfony: la configuración por defecto, heredada de los archivos YAML del núcleo de Symfony, se repite en forma de líneas comentadas a lo largo de los archivos de configuracion de cada aplicación, con el único objetivo de informar al desarrollador. De esta forma, para modificar esa opción de configuración, solamente es necesario eliminar el carácter de los comentarios y establecer su nuevo valor. El listado 5-8 muestra un ejemplo.</p>
+
+<p><strong>Listado 5-8 - La configuración por defecto se muestra en forma de comentarios</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># Por defecto la cache está desactivada</span><span class="co4">
+settings</span><span class="sy2">:
+</span><span class="co1"># cache: false</span>
+&nbsp;
+<span class="co1"># Para modificar esta opción, se debe descomentar la línea</span><span class="co4">
+settings</span>:<span class="co3">
+  cache</span><span class="sy2">: </span>true</pre>
+</div>
+
+<p>En ocasiones, Symfony agrupa varias opciones de configuración en categorías. Todas las opciones que pertenecen a una categoría se muestran tabuladas y bajo el nombre de esa categoría. La configuración es más sencilla de leer si se agrupan las listas largas de pares <code>clave: valor</code>. Los nombres de las categorías comienzan siempre con un punto (<code>.</code>) y el listado 5-19 muestra un ejemplo de uso de categorías.</p>
+
+<p><strong>Listado 5-9 - Los nombres de categorías son como los nombres de las clave, pero empiezan con un punto</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co4">
+  .general</span>:<span class="co3">
+    impuestos</span><span class="sy2">: </span> <span class="nu0">19.6</span>
+<span class="co4">
+mail</span>:<span class="co3">
+  webmaster</span><span class="sy2">: </span>   <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="83f4e6e1eee2f0f7e6f1c3e6e9e6eef3efecade0ecee">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script></pre>
+</div>
+
+<p>En el ejemplo anterior, <code>mail</code> es una clave y <code>general</code> sólo es el nombre de la categoría. En realidad, el archivo YAML se procesa como si no existiera el nombre de la categoría, es decir, como se muestra en el listado 5-10. El parámetro <code>impuestos</code> realmente es descendiente directo de la clave <code>all</code>. No obstante, el uso de nombres de categorías facilita a Symfony el manejo de los arrays que se encuentran bajo la clave <code>all</code>.</p>
+
+<p><strong>Listado 5-10 - Los nombres de categorías solo se utilizan para hacer más fácil de leer los archivos YAML y la aplicación los ignora</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co3">
+  impuestos</span><span class="sy2">: </span>   <span class="nu0">19.6</span>
+<span class="co4">
+mail</span>:<span class="co3">
+  webmaster</span><span class="sy2">: </span>   <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="f88f9d9a95998b8c9d8ab89d929d95889497d69b9795">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script></pre>
+</div>
+
+<div class="admonition sidebar"><p><strong class="title">Si no te gusta YAML</strong> YAML solamente es una interfaz para definir las opciones que utiliza el código PHP, por lo que la configuración definida mediante YAML se transforma en código PHP. Si ya has accedido al menos una vez a la aplicación, comprueba la cache de su configuración (por ejemplo en <code>cache/frontend/dev/config/</code>). En ese directorio se encuentran los archivos PHP generados por la configuración YAML. Más adelante se detalla la cache de la configuración.</p>
+
+<p>Lo mejor de todo es que si no quieres utilizar archivos YAML, puedes realizar la misma configuración a mano o mediante otros formatos (XML, INI, etc.) Más adelante en este libro se comentan otras formas alternativas a YAML para realizar la configuración e incluso se muestra como modificar las funciones de Symfony que se encargan de procesar la configuración (en el Capítulo 19). Utilizando estas técnicas, es posible evitar los archivos de configuración e incluso definir tu propio formato de configuración.</p></div>
+
+<h3 id="socorro_los_archivos_yaml_han_roto_la_aplicacion">5.1.2. ¡Socorro, los archivos YAML han roto la aplicación!</h3>
+
+<p>Los archivos YAML se procesan y se transforman en array asociativos y arrays normales de PHP. Después, estos valores transformados son los que se utilizan en la aplicación para modificar el comportamiento de la vista, el modelo y el controlador. Por este motivo, cuando existe un error en un archivo YAML, normalmente no se detecta hasta que se utiliza ese valor específico. Para complicar las cosas, el error o la excepción que se muestra no siempre indica de forma clara que puede tratarse de un error en los archivos YAML de configuración.</p>
+
+<p>Si la aplicación deja de funcionar después de un cambio en la configuración, se debe comprobar que no se ha cometido alguno de los errores típicos de los desarrolladores principiantes con YAML:</p>
+
+<ul>
+<li>No existe un espacio en blanco entre la clave y su valor:</li>
+</ul>
+
+<div class="code yaml">
+<pre class="yaml">clave1:valor1      <span class="co1"># Falta un espacio después del :</span></pre>
+</div>
+
+<ul>
+<li>Alguna clave de una secuencia de valores está mal tabulada:</li>
+</ul>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co3">
+  clave1</span><span class="sy2">: </span> valor1<span class="co3">
+   clave2</span><span class="sy2">: </span>valor2  <span class="co1"># Su tabulación no es igual que los otros miembros de la secuencia</span><span class="co3">
+  clave3</span><span class="sy2">: </span> valor3</pre>
+</div>
+
+<ul>
+<li>Alguna clave o valor contiene caracteres reservados por YAML que no han sido encerrados por las comillas simples:</li>
+</ul>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co3">mensaje</span><span class="sy2">: </span>dile lo siguiente<span class="sy2">: </span>hola    <span class="co1"># :, [, ], { y } están reservados por YAML</span><span class="co3">
+mensaje</span><span class="sy2">: </span>'dile lo siguiente<span class="sy2">: </span>hola'  <span class="co1"># Sintaxis correcta</span></pre>
+</div>
+
+<ul>
+<li>La línea que se modifica está comentada:</li>
+</ul>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># clave: valor     # No se tiene en cuenta porque empieza por #</span></pre>
+</div>
+
+<ul>
+<li>Existen 2 claves iguales con diferentes valores dentro del mismo nivel:</li>
+</ul>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co3">clave1</span><span class="sy2">: </span>valor1<span class="co3">
+clave2</span><span class="sy2">: </span>valor2<span class="co3">
+clave1</span><span class="sy2">: </span>valor3     <span class="co1"># clave1 está definida 2 veces, solo se tiene en cuenta su último valor</span></pre>
+</div>
+
+<ul>
+<li>Todos los valores se consideran cadenas de texto, salvo que se convierta de forma explícita su valor:</li>
+</ul>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co3">ingresos</span><span class="sy2">: </span><span class="nu0">12</span>,<span class="nu0">345</span>   <span class="co1"># El valor es una cadena de texto y no un número, salvo que se convierta</span></pre>
+</div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_5.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 5. Configurar Symfony</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_5/un_vistazo_general_a_los_archivos_de_configuracion.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>5.2. Un vistazo general a los archivos de configuración</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_5.html">
+                    <span>Capítulo 5.</span> Configurar Symfony
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_5/el_sistema_de_configuracion.html">
+                    <span>5.1.</span> El sistema de configuración
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/un_vistazo_general_a_los_archivos_de_configuracion.html">
+                    <span>5.2.</span> Un vistazo general a los archivos de configuración
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/entornos.html">
+                    <span>5.3.</span> Entornos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/la_cache_de_configuracion.html">
+                    <span>5.4.</span> La cache de configuración
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/accediendo_a_la_configuracion_desde_la_aplicacion.html">
+                    <span>5.5.</span> Accediendo a la configuración desde la aplicación
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/trucos_para_los_archivos_de_configuracion.html">
+                    <span>5.6.</span> Trucos para los archivos de configuración
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/resumen.html">
+                    <span>5.7.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo (Doctrine)</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Emails</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

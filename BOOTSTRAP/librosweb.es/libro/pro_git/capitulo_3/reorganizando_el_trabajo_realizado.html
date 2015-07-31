@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>3.6. Reorganizando el trabajo realizado (Pro Git, el libro oficial de Git)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_3/ramas_remotas.html" />
+                    <link rel="next" href="../capitulo_3/resumen.html" />
+                <link rel="start" href="/libro/pro_git/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="3.6. Reorganizando el trabajo realizado (Pro Git, el libro oficial de Git)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page pro_git"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/" itemprop="url">
+                    <span itemprop="title">Pro Git, el libro oficial de Git</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/capitulo_3.html" itemprop="url">
+                    <span itemprop="title">Capítulo 3. Trabajando con ramas en Git</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>3.6. Reorganizando el trabajo realizado</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="reorganizando_el_trabajo_realizado" class="title">
+        <span>3.6.</span> Reorganizando el trabajo realizado
+    </h1>
+
+    
+
+<p>En Git tenemos dos formas de integrar cambios de una rama en otra: la fusión (<em>merge</em>) y la reorganización (<em>rebase</em>). En esta sección vas a aprender en qué consiste la reorganización, como utilizarla, por qué es una herramienta sorprendente y en qué casos no es conveniente utilizarla.</p>
+
+<h3 id="reorganizacion_basica">3.6.1. Reorganización básica</h3>
+
+<p>Volviendo al ejemplo anterior, en la sección sobre fusiones (ver Figura 3-27), puedes ver que has separado  tu trabajo y realizado confirmaciones (<em>commit</em>) en dos ramas diferentes.</p>
+
+<div class="figure" id="figure_3_27">
+    <img src="/img/pro_git/18333fig0327.png" alt="El registro de confirmaciones inicial" />
+
+    <p class="caption"><strong>Figura 3.27</strong> El registro de confirmaciones inicial</p>
+</div>
+
+
+<p>La manera más sencilla de integrar ramas, tal y como hemos visto, es el comando <code>git merge</code>. Realiza una fusión a tres bandas entre las dos últimas instantáneas de cada rama (C3 y C4) y el ancestro común a ambas (C2); creando una nueva instantánea (<em>snapshot</em>)  y la correspondiente confirmación (<em>commit</em>), según se muestra en la Figura 3-28.</p>
+
+<div class="figure" id="figure_3_28">
+    <img src="/img/pro_git/18333fig0328.png" alt="Fusionando una rama para integrar el registro de trabajos divergentes" />
+
+    <p class="caption"><strong>Figura 3.28</strong> Fusionando una rama para integrar el registro de trabajos divergentes</p>
+</div>
+
+
+<p>Aunque también hay otra forma de hacerlo: puedes coger los cambios introducidos en C3 y reaplicarlos encima de C4. Esto es lo que en Git llamamos <em>reorganizar</em>. Con el comando <code>git rebase</code>, puedes coger todos los cambios confirmados en una rama, y reaplicarlos sobre otra.</p>
+
+<p>Por ejemplo, puedes lanzar los comandos:</p>
+
+<div class="code code">
+<pre class="code">$ git checkout experiment
+$ git rebase master
+First, rewinding head to replay your work on top of it...
+Applying: added staged command</pre>
+</div>
+
+<p>Haciendo que Git: vaya al ancestro común de ambas ramas (donde estás actualmente y de donde quieres reorganizar), saque las diferencias introducidas por cada confirmación en la rama donde estás, guarde esas diferencias en archivos temporales, reinicie (reset) la rama actual hasta llevarla a la misma confirmación en la rama de donde quieres reorganizar, y, finalmente, vuelva a aplicar ordenadamente los cambios. El proceso se muestra en la Figura 3-29.</p>
+
+<div class="figure" id="figure_3_29">
+    <img src="/img/pro_git/18333fig0329.png" alt="Reorganizando sobre C4 los cambios introducidos en C3" />
+
+    <p class="caption"><strong>Figura 3.29</strong> Reorganizando sobre C4 los cambios introducidos en C3</p>
+</div>
+
+
+<p>En este momento, puedes volver a la rama <code>master</code> y hacer una fusión con avance rápido (fast-forward merge). (ver Figura 3-30)</p>
+
+<div class="figure" id="figure_3_30">
+    <img src="/img/pro_git/18333fig0330.png" alt="Avance rápido de la rama <code>master</code>" />
+
+    <p class="caption"><strong>Figura 3.30</strong> Avance rápido de la rama <code>master</code></p>
+</div>
+
+
+<p>Así, la instantánea apuntada por C3 aquí es exactamente la misma apuntada por C5 en el ejemplo de la fusión. No hay ninguna diferencia en el resultado final de la integración, pero el haberla hecho reorganizando nos deja un registro más claro. Si examinas el registro de una rama reorganizada, este aparece siempre como un registro lineal: como si todo el trabajo se hubiera realizado en series, aunque realmente se haya hecho en paralelo.</p>
+
+<p>Habitualmente, optarás por esta vía cuando quieras estar seguro de que tus confirmaciones de cambio (<em>commits</em>) se pueden aplicar limpiamente sobre una rama remota; posiblemente, en un proyecto donde estés intentando colaborar, pero lleves tu el mantenimiento. En casos como esos, puedes trabajar sobre una rama y luego reorgainzar lo realizado en la rama <code>origin/master</code> cuando lo tengas todo listo para enviarlo al proyecto principal. De esta forma, la persona que mantiene el proyecto no necesitará hacer ninguna integración con tu trabajo; le bastará con un avance rápido o una incorporación limpia.</p>
+
+<p>Cabe destacar que la instantánea (<em>snapshot</em>) apuntada por la confirmación (<em>commit</em>) final, tanto si es producto de una regorganización (<em>rebase</em>) como si lo es de una fusión (<em>merge</em>), es exactamente la misma instantánea. Lo único diferente es el registro. La reorganización vuelve a aplicar cambios de una rama de trabajo sobre otra rama, en el mismo orden en que fueron introducidos en la primera. Mientras que la fusión combina entre sí los dos puntos finales de ambas ramas.</p>
+
+<h3 id="algunas_otras_reorganizaciones_interesantes">3.6.2. Algunas otras reorganizaciones interesantes</h3>
+
+<p>También puedes aplicar una reorganización (<em>rebase</em>) sobre otra cosa además de sobre la rama de reorganización. Por ejemplo, sea un registro como el de la Figura 3-31. Has ramificado a una rama puntual (<code>server</code>) para añadir algunas funcionalidades al proyecto, y luego has confirmado los cambios. Despues, vuelves a la rama original para hacer algunos cambios en la parte cliente (rama <code>client</code>), y confirmas también esos cambios. Por último, vuelves sobre la rama <code>server</code> y haces algunos cambios más.</p>
+
+<div class="figure" id="figure_3_31">
+    <img src="/img/pro_git/18333fig0331.png" alt="Un registro con una rama puntual sobre otra rama puntual" />
+
+    <p class="caption"><strong>Figura 3.31</strong> Un registro con una rama puntual sobre otra rama puntual</p>
+</div>
+
+
+<p>Imagina que decides incorporar tus cambios de la parte cliente sobre el proyecto principal, para hacer un lanzamiento de versión; pero no quieres lanzar aún los cambios de la parte server porque no están aún suficientemente probados. Puedes coger los cambios del cliente que no estan en server (C8 y C9), y reaplicarlos sobre tu rama principal usando la opción <code>--onto</code> del comando <code>git rebase</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git rebase --onto master server client</pre>
+</div>
+
+<p>Esto viene a decir: "Activa la rama <code>client</code>, averigua los cambios desde el ancestro común entre las ramas <code>client</code> y <code>server</code>, y aplicalos en la rama <code>master</code>. Puede parecer un poco complicado, pero los resultados, mostrados en la Figura 3-32, son realmente interesantes.</p>
+
+<div class="figure" id="figure_3_32">
+    <img src="/img/pro_git/18333fig0332.png" alt="Reorganizando una rama puntual fuera de otra rama puntual" />
+
+    <p class="caption"><strong>Figura 3.32</strong> Reorganizando una rama puntual fuera de otra rama puntual</p>
+</div>
+
+
+<p>Y, tras esto, ya puedes avanzar la rama principal (ver Figura 3-33):</p>
+
+<div class="code code">
+<pre class="code">$ git checkout master
+$ git merge client</pre>
+</div>
+
+<div class="figure" id="figure_3_33">
+    <img src="/img/pro_git/18333fig0333.png" alt="Avance rápido de tu rama <code>master</code>, para incluir los cambios de la rama 'client'" />
+
+    <p class="caption"><strong>Figura 3.33</strong> Avance rápido de tu rama <code>master</code>, para incluir los cambios de la rama 'client'</p>
+</div>
+
+
+<p>Ahora supongamos que decides traerlos (<em>pull</em>) también sobre tu rama <code>server</code>. Puedes reorganizar (<em>rebase</em>) la rama <code>server</code> sobre la rama <code>master</code> sin necesidad siquiera de comprobarlo previamente, usando el comando <code>git rebase [ramabase] [ramapuntual]</code>. El cual activa la rama puntual (<code>server</code> en este caso) y la aplica sobre la rama base (<code>master</code> en este caso):</p>
+
+<div class="code code">
+<pre class="code">$ git rebase master server</pre>
+</div>
+
+<p>Esto vuelca el trabajo de <code>server</code> sobre el de <code>master</code>, tal y como se muestra en la Figura 3-34.</p>
+
+<div class="figure" id="figure_3_34">
+    <img src="/img/pro_git/18333fig0334.png" alt="Reorganizando la rama 'server' sobre la rama 'branch'" />
+
+    <p class="caption"><strong>Figura 3.34</strong> Reorganizando la rama 'server' sobre la rama 'branch'</p>
+</div>
+
+
+<p>Después, puedes avanzar rápidamente la rama base (<code>master</code>):</p>
+
+<div class="code code">
+<pre class="code">$ git checkout master
+$ git merge server</pre>
+</div>
+
+<p>Y por último puedes eliminar las ramas <code>client</code> y <code>server</code> porque ya todo su contenido ha sido integrado y no las vas a necesitar más. Dejando tu registro tras todo este proceso tal y como se muestra en la Figura 3-35:</p>
+
+<div class="code code">
+<pre class="code">$ git branch -d client
+$ git branch -d server</pre>
+</div>
+
+<div class="figure" id="figure_3_35">
+    <img src="/img/pro_git/18333fig0335.png" alt="Registro final de confirmaciones de cambio" />
+
+    <p class="caption"><strong>Figura 3.35</strong> Registro final de confirmaciones de cambio</p>
+</div>
+
+
+<h3 id="los_peligros_de_la_reorganizacion">3.6.3. Los peligros de la reorganización</h3>
+
+<p>No obstante, la reorganización también presenta sus propios problemas:</p>
+
+<p><strong>Nunca reorganices confirmaciones de cambio (<em>commits</em>) que hayas enviado (<em>push</em>) a un repositorio público.</strong></p>
+
+<p>Siguiendo esta recomendación, no tendrás problemas. Pero si no la sigues, la gente te odiará y serás despreciado por tus familiares y amigos.</p>
+
+<p>Cuando reorganizas algo, estás abandonando las confirmaciones de cambio ya creadas y estás creando unas nuevas; que son similares, pero diferentes. Si envias (<em>push</em>) confirmaciones (<em>commits</em>) a alguna parte, y otros las recogen (<em>pull</em>) de allí. Y después vas tu y las reescribes con <code>git rebase</code> y las vuelves a enviar (<em>push</em>) de nuevo. Tus colaboradores tendrán que refusionar (re-merge) su trabajo  y todo se volverá tremendamente complicado cuando intentes recoger (<em>pull</em>) su trabajo de vuelta sobre el tuyo.</p>
+
+<p>Vamos a verlo con un ejemplo. Imaginate que haces un clon desde un servidor central, y luego trabajas sobre él. Tu registro de cambios puede ser algo como lo de la Figura 3-36.</p>
+
+<div class="figure" id="figure_3_36">
+    <img src="/img/pro_git/18333fig0336.png" alt="Clonar un repositorio y trabajar sobre él" />
+
+    <p class="caption"><strong>Figura 3.36</strong> Clonar un repositorio y trabajar sobre él</p>
+</div>
+
+
+<p>Ahora, otra persona trabaja también sobre ello, realiza una fusión (<em>merge</em>) y lleva (<em>push</em>) su trabajo al servidor central. Tu te traes (<em>fetch</em>) sus trabajos y los fusionas (<em>merge</em>) sobre una nueva rama en tu trabajo. Quedando tu registro de confirmaciones como en la Figura 3-37.</p>
+
+<div class="figure" id="figure_3_37">
+    <img src="/img/pro_git/18333fig0337.png" alt="Traer (*fetch*) algunas confirmaciones de cambio (*commits*) y fusionarlas (*merge*) sobre tu trabajo" />
+
+    <p class="caption"><strong>Figura 3.37</strong> Traer (*fetch*) algunas confirmaciones de cambio (*commits*) y fusionarlas (*merge*) sobre tu trabajo</p>
+</div>
+
+
+<p>A continuación, la persona que habia llevado cambios al servidor central decide retroceder y reorganizar su trabajo; haciendo un <code>git push --force</code> para sobreescribir el registro en el servidor. Tu te traes (<em>fetch</em>) esos nuevos cambios desde el servidor.</p>
+
+<div class="figure" id="figure_3_38">
+    <img src="/img/pro_git/18333fig0338.png" alt="Alguien envia (*push*) confirmaciones (*commits*) reorganizadas, abandonando las confirmaciones en las que tu habias basado tu trabajo" />
+
+    <p class="caption"><strong>Figura 3.38</strong> Alguien envia (*push*) confirmaciones (*commits*) reorganizadas, abandonando las confirmaciones en las que tu habias basado tu trabajo</p>
+</div>
+
+
+<p>En ese momento, tu te ves obligado a fusionar (<em>merge</em>) tu trabajo de nuevo, aunque creias que ya lo habias hecho antes. La reorganización cambia los resumenes (<em>hash</em>) SHA-1 de esas confirmaciones (<em>commits</em>), haciendo que Git se crea que son nuevas confirmaciones. Cuando realmente tu ya tenias el trabajo de C4 en tu registro.</p>
+
+<div class="figure" id="figure_3_39">
+    <img src="/img/pro_git/18333fig0339.png" alt="Vuelves a fusionar el mismo trabajo en una nueva fusión confirmada" />
+
+    <p class="caption"><strong>Figura 3.39</strong> Vuelves a fusionar el mismo trabajo en una nueva fusión confirmada</p>
+</div>
+
+
+<p>Te ves obligado a fusionar (<em>merge</em>) ese trabajo en algún punto, para poder seguir adelante con otros desarrollos en el futuro. Tras todo esto, tu registro de confirmaciones de cambio (<em>commit history</em>) contendrá tanto la confirmación C4 como la C4'; teniendo ambas el mismo contenido y el mismo mensaje de confirmación. Si lanzas un <code>git log</code> en un registro como este, verás dos confirmaciones  con el mismo autor, misma fecha y mismo mensaje. Lo que puede llevar a confusiones. Es más, si luego tu envías (<em>push</em>) ese registro de vuelta al servidor, vas a introducir todas esas confirmaciones reorganizadas en el servidor central. Lo que puede confundir aún más a la gente.</p>
+
+<p>Si solo usas la reorganización como una vía para hacer limpieza y organizar confirmaciones de cambio antes de enviarlas, y si únicamente reorganizas confirmaciones que nunca han sido públicas. Entonces no tendrás problemas. Si, por el contrario, reorganizas confirmaciones que alguna vez han sido públicas y otra gente ha basado su trabajo  en ellas. Entonces estarás en un aprieto.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_3/ramas_remotas.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>3.5. Ramas Remotas</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_3/resumen.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>3.7. Resumen</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Fundamentos de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_3.html">
+                    <span>Capítulo 3.</span> Trabajando con ramas en Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/que_es_una_rama.html">
+                    <span>3.1.</span> ¿Qué es una rama?
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/procedimientos_basicos_para_ramificar_y_fusionar.html">
+                    <span>3.2.</span> Procedimientos básicos para ramificar y fusionar
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/gestion_de_ramificaciones.html">
+                    <span>3.3.</span> Gestión de ramificaciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/flujos_de_trabajo_ramificados.html">
+                    <span>3.4.</span> Flujos de trabajo ramificados
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/ramas_remotas.html">
+                    <span>3.5.</span> Ramas Remotas
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_3/reorganizando_el_trabajo_realizado.html">
+                    <span>3.6.</span> Reorganizando el trabajo realizado
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/resumen.html">
+                    <span>3.7.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Git en un servidor</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Git en entornos distribuidos</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Las herramientas de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Personalizando Git</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Git y otros sistemas</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Funcionamiento interno de Git</a>
+            </li>
+                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

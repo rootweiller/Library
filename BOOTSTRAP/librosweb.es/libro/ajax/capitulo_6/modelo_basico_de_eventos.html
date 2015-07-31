@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>6.1. Modelo básico de eventos (Introducción a AJAX)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_6.html" />
+                    <link rel="next" href="../capitulo_6/el_flujo_de_eventos.html" />
+                <link rel="start" href="/libro/ajax/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="6.1. Modelo básico de eventos (Introducción a AJAX)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page ajax"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/ajax/" itemprop="url">
+                    <span itemprop="title">Introducción a AJAX</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/ajax/capitulo_6.html" itemprop="url">
+                    <span itemprop="title">Capítulo 6. Eventos</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>6.1. Modelo básico de eventos</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="modelo_basico_de_eventos" class="title">
+        <span>6.1.</span> Modelo básico de eventos
+    </h1>
+
+    
+
+<p>El modelo simple de eventos se introdujo en la versión 4 del estándar HTML y se considera parte del nivel más básico de DOM. Aunque sus características son limitadas, es el único modelo que es compatible con todos los navegadores y por tanto, el único que permite crear aplicaciones que funcionan de la misma manera en todos los navegadores.</p>
+
+<h3 id="tipos_de_eventos">6.1.1. Tipos de eventos</h3>
+
+<p>Cada elemento XHTML tiene definida su propia lista de posibles eventos que se le pueden asignar. Un mismo tipo de evento (por ejemplo, pinchar el botón izquierdo del ratón) puede estar definido para varios elementos XHTML y un mismo elemento XHTML puede tener asociados diferentes eventos.</p>
+
+<p>El nombre de los eventos se construye mediante el prefijo <code>on</code>, seguido del nombre en inglés de la acción asociada al evento. Así, el evento de pinchar un elemento con el ratón se denomina <code>onclick</code> y el evento asociado a la acción de mover el ratón se denomina <code>onmousemove</code>.</p>
+
+<p>La siguiente tabla resume los eventos más importantes definidos por JavaScript:</p>
+
+<div class="table" id="table_6_1">
+
+    <table>
+<thead>
+<tr>
+  <th>Evento</th>
+  <th>Descripción</th>
+  <th>Elementos para los que está definido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>onblur</code></td>
+  <td>Deseleccionar el elemento</td>
+  <td><code>&lt;button&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;label&gt;</code>, <code>&lt;select&gt;</code>, <code>&lt;textarea&gt;</code>, <code>&lt;body&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onchange</code></td>
+  <td>Deseleccionar un elemento que se ha modificado</td>
+  <td><code>&lt;input&gt;</code>, <code>&lt;select&gt;</code>, <code>&lt;textarea&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onclick</code></td>
+  <td>Pinchar y soltar el ratón</td>
+  <td>Todos los elementos</td>
+</tr>
+<tr>
+  <td><code>ondblclick</code></td>
+  <td>Pinchar dos veces seguidas con el ratón</td>
+  <td>Todos los elementos</td>
+</tr>
+<tr>
+  <td><code>onfocus</code></td>
+  <td>Seleccionar un elemento</td>
+  <td><code>&lt;button&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;label&gt;</code>, <code>&lt;select&gt;</code>, <code>&lt;textarea&gt;</code>, <code>&lt;body&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onkeydown</code></td>
+  <td>Pulsar una tecla y no soltarla</td>
+  <td>Elementos de formulario y <code>&lt;body&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onkeypress</code></td>
+  <td>Pulsar una tecla</td>
+  <td>Elementos de formulario y <code>&lt;body&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onkeyup</code></td>
+  <td>Soltar una tecla pulsada</td>
+  <td>Elementos de formulario y <code>&lt;body&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onload</code></td>
+  <td>Página cargada completamente</td>
+  <td><code>&lt;body&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onmousedown</code></td>
+  <td>Pulsar un botón del ratón y no soltarlo</td>
+  <td>Todos los elementos</td>
+</tr>
+<tr>
+  <td><code>onmousemove</code></td>
+  <td>Mover el ratón</td>
+  <td>Todos los elementos</td>
+</tr>
+<tr>
+  <td><code>onmouseout</code></td>
+  <td>El ratón <em>"sale"</em> del elemento</td>
+  <td>Todos los elementos</td>
+</tr>
+<tr>
+  <td><code>onmouseover</code></td>
+  <td>El ratón <em>"entra"</em> en el elemento</td>
+  <td>Todos los elementos</td>
+</tr>
+<tr>
+  <td><code>onmouseup</code></td>
+  <td>Soltar el botón del ratón</td>
+  <td>Todos los elementos</td>
+</tr>
+<tr>
+  <td><code>onreset</code></td>
+  <td>Inicializar el formulario</td>
+  <td><code>&lt;form&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onresize</code></td>
+  <td>Modificar el tamaño de la ventana</td>
+  <td><code>&lt;body&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onselect</code></td>
+  <td>Seleccionar un texto</td>
+  <td><code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onsubmit</code></td>
+  <td>Enviar el formulario</td>
+  <td><code>&lt;form&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onunload</code></td>
+  <td>Se abandona la página, por ejemplo al cerrar el navegador</td>
+  <td><code>&lt;body&gt;</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Algunos de los eventos anteriores (<code>onclick</code>, <code>onkeydown</code>, <code>onkeypress</code>, <code>onreset</code> y <code>onsubmit</code>) permiten evitar el comportamiento por defecto del evento si se devuelve el valor <code>false</code>, tal y como se verá más adelante.</p>
+
+<p>Por otra parte, las acciones típicas que realiza un usuario en una página web pueden dar lugar a una sucesión de eventos. Si se pulsa por ejemplo sobre un botón de tipo <code>submit</code> se desencadenan los eventos <code>onmousedown</code>, <code>onmouseup</code>, <code>onclick</code> y <code>onsubmit</code>.</p>
+
+<h3 id="manejadores_de_eventos">6.1.2. Manejadores de eventos</h3>
+
+<p>En la programación orientada a eventos, las aplicaciones esperan a que se produzcan los eventos. Una vez que se produce un evento, la aplicación responde ejecutando cierto código especialmente preparado. Este tipo de código se denomina <em>"manejadores de eventos"</em> (del inglés <em>"event handlers"</em>) y las funciones externas que se definen para responder a los eventos se suelen denominar <em>"funciones manejadoras"</em>.</p>
+
+<p>En las siguientes secciones se presentan las tres formas más utilizadas para indicar el código que se ejecuta cuando se produce un evento.</p>
+
+<h4 id="manejadores_como_atributos_xhtml">6.1.2.1. Manejadores como atributos XHTML</h4>
+
+<p>La forma más sencilla de incluir un manejador de evento es mediante un atributo de XHTML. El siguiente ejemplo muestra un mensaje cuando el usuario pincha en el botón:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">input</span> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">&quot;button&quot;</span> <span class="kw3">value</span><span class="sy0">=</span><span class="st0">&quot;Pinchame y verás&quot;</span> <span class="kw3">onclick</span><span class="sy0">=</span><span class="st0">&quot;alert('Gracias por pinchar');&quot;</span> <span class="sy0">/</span>&gt;</span></pre>
+</div>
+
+<div class="figure" id="figure_6_1">
+    <img src="/img/ajax/f0601.gif" alt="Página HTML" />
+
+    <p class="caption"><strong>Figura 6.1</strong> Página HTML</p>
+</div>
+
+
+<div class="figure" id="figure_6_2">
+    <img src="/img/ajax/f0602.gif" alt="El usuario pincha con el ratón sobre el botón que se muestra" />
+
+    <p class="caption"><strong>Figura 6.2</strong> El usuario pincha con el ratón sobre el botón que se muestra</p>
+</div>
+
+
+<div class="figure" id="figure_6_3">
+    <img src="/img/ajax/f0603.gif" alt="Después de pinchar con el ratón, se muestra un mensaje en una nueva ventana" />
+
+    <p class="caption"><strong>Figura 6.3</strong> Después de pinchar con el ratón, se muestra un mensaje en una nueva ventana</p>
+</div>
+
+
+<p>El método consiste en incluir un atributo XHTML con el mismo nombre del evento que se quiere procesar. En este caso, como se quiere mostrar un mensaje cuando se pincha con el ratón sobre un botón, el evento es <code>onclick</code>.</p>
+
+<p>El contenido del atributo es una cadena de texto que contiene todas las instrucciones JavaScript que se ejecutan cuando se produce el evento. En este caso, el código JavaScript es muy sencillo, ya que solamente se trata de mostrar un mensaje mediante la función <code>alert()</code>.</p>
+
+<p>En este otro ejemplo, se muestra un mensaje cuando la página se ha cargado completamente:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">body</span> <span class="kw3">onload</span><span class="sy0">=</span><span class="st0">&quot;alert('La página se ha cargado completamente');&quot;</span>&gt;</span>
+...
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">body</span>&gt;</span></pre>
+</div>
+
+<p>El evento <code>onload</code> es uno de los más utilizados porque, como se vio en el capítulo de DOM, las funciones de acceso y manipulación de los nodos del árbol DOM solamente están disponibles cuando la página se carga por completo.</p>
+
+<h4 id="manejadores_de_eventos_y_variable_this">6.1.2.2. Manejadores de eventos y variable this</h4>
+
+<p>En los eventos de JavaScript, se puede utilizar la palabra reservada <code>this</code> para referirse al elemento XHTML sobre el que se está ejecutando el evento. Esta técnica es útil para ejemplos como el siguiente, en el que se modifican las propiedades del elemento que provoca el evento.</p>
+
+<p>En el siguiente ejemplo, se muestra un borde destacado en el elemento <code>&lt;div&gt;</code> cuando el usuario pasa el ratón por encima. Cuando el ratón sale del <code>&lt;div&gt;</code>, se vuelve a mostrar el borde original:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">div</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">&quot;elemento&quot;</span> <span class="kw3">style</span><span class="sy0">=</span><span class="st0">&quot;padding: .2em; width: 150px; height: 60px; border: thin solid silver&quot;</span> <span class="kw3">onmouseover</span> <span class="sy0">=</span> <span class="st0">&quot;document.getElementById('elemento').style.borderColor = 'black'&quot;</span> <span class="kw3">onmouseout</span> <span class="sy0">=</span> <span class="st0">&quot;document.getElementById('elemento').style.borderColor = 'silver'&quot;</span>&gt;</span>
+  Sección de contenidos...
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">div</span>&gt;</span></pre>
+</div>
+
+<p>El evento <code>onmouseover</code> se activa cuando el ratón pasa por encima del elemento, en este caso el <code>&lt;div&gt;</code>. Para cambiar el color del borde, se utiliza la propiedad <code>border-color</code> de CSS. Por lo tanto, en primer lugar se obtiene la referencia del elemento mediante <code>document.getElementById('elemento')</code>. A continuación, se utiliza la propiedad <code>style</code> para acceder a las propiedades CSS y se modifica el nombre de <code>border-color</code> por el de <code>borderColor</code>. Para volver al color original cuando el ratón sale del elemento, se realiza la misma operación sobre el evento <code>onmouseout</code>.</p>
+
+<p>El uso de la variable <code>this</code> puede simplificar todos estos pasos, ya que dentro de un manejador de eventos, la variable <code>this</code> equivale al elemento que ha provocado el evento. Así, la variable <code>this</code> es igual al <code>&lt;div&gt;</code> de la página y por tanto <code>this.style.borderColor</code> permite cambiar de forma directa el color del borde del <code>&lt;div&gt;</code>:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">div</span> <span class="kw3">style</span><span class="sy0">=</span><span class="st0">&quot;padding: .2em; width: 150px; height: 60px; border: thin solid silver&quot;</span> <span class="kw3">onmouseover</span><span class="sy0">=</span><span class="st0">&quot;this.style.borderColor='black'&quot;</span> <span class="kw3">onmouseout</span><span class="sy0">=</span><span class="st0">&quot;this.style.borderColor='silver'&quot;</span>&gt;</span>
+  Sección de contenidos...
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">div</span>&gt;</span></pre>
+</div>
+
+<p>Haciendo uso de la variable <code>this</code>, el código es mucho más sencillo de escribir, leer y mantener.</p>
+
+<h4 id="manejadores_de_eventos_como_funciones_externas">6.1.2.3. Manejadores de eventos como funciones externas</h4>
+
+<p>La definición de manejadores de eventos en los atributos XHTML es un método sencillo pero poco aconsejable para tratar con los eventos en JavaScript. El principal inconveniente es que se complica en exceso en cuanto se añaden algunas pocas instrucciones, por lo que solamente es recomendable para los casos más sencillos.</p>
+
+<p>Cuando el código de la función manejadora es más complejo, como por ejemplo la validación de un formulario, es aconsejable agrupar todo el código JavaScript en una función externa que se invoca desde el código XHTML cuando se produce el evento.</p>
+
+<p>De esta forma, el siguiente ejemplo:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">input</span> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">&quot;button&quot;</span> <span class="kw3">value</span><span class="sy0">=</span><span class="st0">&quot;Pinchame y verás&quot;</span> <span class="kw3">onclick</span><span class="sy0">=</span><span class="st0">&quot;alert('Gracias por pinchar');&quot;</span> <span class="sy0">/</span>&gt;</span></pre>
+</div>
+
+<p>Se puede transformar en:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> muestraMensaje<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  alert<span class="br0">&#40;</span><span class="st0">'Gracias por pinchar'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="sy0">&lt;</span>input type<span class="sy0">=</span><span class="st0">&quot;button&quot;</span> value<span class="sy0">=</span><span class="st0">&quot;Pinchame y verás&quot;</span> onclick<span class="sy0">=</span><span class="st0">&quot;muestraMensaje()&quot;</span> <span class="sy0">/&gt;</span></pre>
+</div>
+
+<p>En las funciones externas no es posible utilizar la variable <code>this</code> de la misma forma que en los manejadores insertados en los atributos XHTML. Por tanto, es necesario pasar la variable <code>this</code> como parámetro a la función manejadora:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> resalta<span class="br0">&#40;</span>elemento<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">switch</span><span class="br0">&#40;</span>elemento.<span class="me1">style</span>.<span class="me1">borderColor</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">case</span> <span class="st0">'silver'</span><span class="sy0">:</span>
+    <span class="kw1">case</span> <span class="st0">'silver silver silver silver'</span><span class="sy0">:</span>
+    <span class="kw1">case</span> <span class="st0">'#c0c0c0'</span><span class="sy0">:</span>
+      elemento.<span class="me1">style</span>.<span class="me1">borderColor</span> <span class="sy0">=</span> <span class="st0">'black'</span><span class="sy0">;</span>
+      <span class="kw1">break</span><span class="sy0">;</span>
+    <span class="kw1">case</span> <span class="st0">'black'</span><span class="sy0">:</span>
+    <span class="kw1">case</span> <span class="st0">'black black black black'</span><span class="sy0">:</span>
+    <span class="kw1">case</span> <span class="st0">'#000000'</span><span class="sy0">:</span>
+      elemento.<span class="me1">style</span>.<span class="me1">borderColor</span> <span class="sy0">=</span> <span class="st0">'silver'</span><span class="sy0">;</span>
+      <span class="kw1">break</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="sy0">&lt;</span>div style<span class="sy0">=</span><span class="st0">&quot;padding: .2em; width: 150px; height: 60px; border: thin solid silver&quot;</span> onmouseover<span class="sy0">=</span><span class="st0">&quot;resalta(this)&quot;</span> onmouseout<span class="sy0">=</span><span class="st0">&quot;resalta(this)&quot;</span><span class="sy0">&gt;</span>
+  Sección de contenidos...
+<span class="sy0">&lt;/</span>div<span class="sy0">&gt;</span></pre>
+</div>
+
+<p>En el ejemplo anterior, a la función externa se le pasa el parámetro <code>this</code>, que dentro de la función se denomina <code>elemento</code>. Al pasar <code>this</code> como parámetro, es posible acceder de forma directa desde la función externa a las propiedades del elemento que ha provocado el evento.</p>
+
+<p>Por otra parte, el ejemplo anterior se complica por la forma en la que los distintos navegadores almacenan el valor de la propiedad <code>borderColor</code>. Mientras que Firefox almacena (en caso de que los cuatro bordes coincidan en color) el valor simple <code>black</code>, Internet Explorer lo almacena como <code>black black black black</code> y Opera almacena su representación hexadecimal <code>#000000</code>.</p>
+
+<h4 id="manejadores_de_eventos_semanticos">6.1.2.4. Manejadores de eventos semánticos</h4>
+
+<p>Utilizar los atributos XHTML o las funciones externas para añadir manejadores de eventos tiene un grave inconveniente: <em>"ensucian"</em> el código XHTML de la página.</p>
+
+<p>Como es conocido, al crear páginas web se recomienda separar los contenidos (XHTML) de la presentación (CSS). En lo posible, también se recomienda separar los contenidos (XHTML) de la programación (JavaScript). Mezclar JavaScript y XHTML complica excesivamente el código fuente de la página, dificulta su mantenimiento y reduce la semántica del documento final producido.</p>
+
+<p>Afortunadamente, existe un método alternativo para definir los manejadores de eventos de JavaScript. Esta técnica consiste en asignar las funciones externas mediante las propiedades DOM de los elementos XHTML. Así, el siguiente ejemplo:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">input</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">&quot;pinchable&quot;</span> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">&quot;button&quot;</span> <span class="kw3">value</span><span class="sy0">=</span><span class="st0">&quot;Pinchame y verás&quot;</span> <span class="kw3">onclick</span><span class="sy0">=</span><span class="st0">&quot;alert('Gracias por pinchar');&quot;</span> <span class="sy0">/</span>&gt;</span></pre>
+</div>
+
+<p>Se puede transformar en:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> muestraMensaje<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  alert<span class="br0">&#40;</span><span class="st0">'Gracias por pinchar'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;pinchable&quot;</span><span class="br0">&#41;</span>.<span class="me1">onclick</span> <span class="sy0">=</span> muestraMensaje<span class="sy0">;</span>
+&nbsp;
+<span class="sy0">&lt;</span>input id<span class="sy0">=</span><span class="st0">&quot;pinchable&quot;</span> type<span class="sy0">=</span><span class="st0">&quot;button&quot;</span> value<span class="sy0">=</span><span class="st0">&quot;Pinchame y verás&quot;</span> <span class="sy0">/&gt;</span></pre>
+</div>
+
+<p>El código XHTML resultante es muy <em>"limpio"</em>, ya que no se mezcla con el código JavaScript. La técnica de los manejadores semánticos consiste en:</p>
+
+<ol>
+<li>Asignar un identificador único al elemento XHTML mediante el atributo <code>id</code>.</li>
+<li>Crear una función de JavaScript encargada de manejar el evento.</li>
+<li>Asignar la función a un evento concreto del elemento XHTML mediante DOM.</li>
+</ol>
+
+<p>Otra ventaja adicional de esta técnica es que las funciones externas pueden utilizar la variable <code>this</code> referida al elemento que original el evento.</p>
+
+<p>Asignar la función manejadora mediante DOM es un proceso que requiere una explicación detallada. En primer lugar, se obtiene la referencia del elemento al que se va a asignar el manejador:</p>
+
+<div class="code javascript">
+<pre class="javascript">document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;pinchable&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>A continuación, se asigna la función externa al evento deseado mediante una propiedad del elemento con el mismo nombre del evento:</p>
+
+<div class="code javascript">
+<pre class="javascript">document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;pinchable&quot;</span><span class="br0">&#41;</span>.<span class="me1">onclick</span> <span class="sy0">=</span> ...</pre>
+</div>
+
+<p>Por último, se asigna la función externa. Como ya se ha comentado en capítulos anteriores, lo más importante (y la causa más común de errores) es indicar solamente el nombre de la función, es decir, prescindir de los paréntesis al asignar la función:</p>
+
+<div class="code javascript">
+<pre class="javascript">document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;pinchable&quot;</span><span class="br0">&#41;</span>.<span class="me1">onclick</span> <span class="sy0">=</span> muestraMensaje<span class="sy0">;</span></pre>
+</div>
+
+<p>Si se añaden los paréntesis al final, en realidad se está invocando la función y asignando el valor devuelto por la función al evento <code>onclick</code> de elemento.</p>
+
+<p>El único inconveniente de este método es que los manejadores se asignan mediante las funciones DOM, que solamente se pueden utilizar después de que la página se ha cargado completamente. De esta forma, para que la asignación de los manejadores no resulte errónea, es necesario asegurarse de que la página ya se ha cargado.</p>
+
+<p>Una de las formas más sencillas de asegurar que cierto código se va a ejecutar después de que la página se cargue por completo es utilizar el evento <code>onload</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript">window.<span class="me1">onload</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;pinchable&quot;</span><span class="br0">&#41;</span>.<span class="me1">onclick</span> <span class="sy0">=</span> muestraMensaje<span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>La técnica anterior utiliza una función anónima para asignar algunas instrucciones al evento <code>onload</code> de la página (en este caso se ha establecido mediante el objeto <code>window</code>). De esta forma, para asegurar que cierto código se va a ejecutar después de que la página se haya cargado, sólo es necesario incluirlo en el interior de la siguiente construcción:</p>
+
+<div class="code javascript">
+<pre class="javascript">window.<span class="me1">onload</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  ...
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p><div class="exercise"><p class="title">Ejercicio 10</p> <p>A partir de la página web proporcionada y utilizando manejadores de eventos semánticos, completar el código JavaScript para que:</p>
+
+<ol>
+<li>Cuando se pinche sobre el primer enlace, se oculte su sección relacionada</li>
+<li>Cuando se vuelva a pinchar sobre el mismo enlace, se muestre otra vez esa sección de contenidos</li>
+<li>Completar el resto de enlaces de la página para que su comportamiento sea idéntico al del primer enlace </li>
+</ol>
+
+<p>Cuando la sección se oculte, debe cambiar el mensaje del enlace asociado (pista: propiedad <code>innerHTML</code>).</p>
+
+<p><a href="/ejercicios/ajax/ejercicio10/ejercicio10.zip">Descargar archivo ZIP con la página HTML</a></p>
+
+<p><a href="http://www.librosweb.es/ajax/capitulo14/ejercicio_10.html">Ver solución</a></p></div></p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_6.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 6. Eventos</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_6/el_flujo_de_eventos.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>6.2. El flujo de eventos</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a AJAX</a>
+            </li>
+                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> JavaScript básico</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> JavaScript avanzado</a>
+            </li>
+                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> DOM (Document Object Model)</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> BOM (Browser Object Model)</a>
+            </li>
+                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_6.html">
+                    <span>Capítulo 6.</span> Eventos
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_6/modelo_basico_de_eventos.html">
+                    <span>6.1.</span> Modelo básico de eventos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/el_flujo_de_eventos.html">
+                    <span>6.2.</span> El flujo de eventos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/handlers_y_listeners.html">
+                    <span>6.3.</span> Handlers y listeners
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/el_objeto_event.html">
+                    <span>6.4.</span> El objeto event
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/tipos_de_eventos_2.html">
+                    <span>6.5.</span> Tipos de eventos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/solucion_cross_browser.html">
+                    <span>6.6.</span> Solución cross browser
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Primeros pasos con AJAX</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Técnicas básicas con AJAX</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Técnicas avanzadas con AJAX</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Frameworks y librerías</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Otras utilidades</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Recursos útiles</a>
+            </li>
+                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Bibliografía</a>
+            </li>
+                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Ejercicios resueltos</a>
+            </li>
+                                                                                                                                                                                                                                                                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

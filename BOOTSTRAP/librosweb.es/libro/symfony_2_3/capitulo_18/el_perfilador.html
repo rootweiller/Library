@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>18.4. El perfilador (Symfony 2.3, el libro oficial)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                            
+        <link rel="canonical" href="/libro/symfony_2_x/capitulo_18/el_perfilador.html"/>
+                                    <link rel="prev" href="../capitulo_18/el_event_dispatcher.html" />
+                    <link rel="next" href="../capitulo_19.html" />
+                <link rel="start" href="/libro/symfony_2_3/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="18.4. El perfilador (Symfony 2.3, el libro oficial)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_2_3"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_3/" itemprop="url">
+                    <span itemprop="title">Symfony 2.3, el libro oficial</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_3/capitulo_18.html" itemprop="url">
+                    <span itemprop="title">Capítulo 18. El interior de Symfony2</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>18.4. El perfilador</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="el_perfilador" class="title">
+        <span>18.4.</span> El perfilador
+    </h1>
+
+    
+
+<p>Cuando se encuentra activado, el perfilador de Symfony2 recoge información útil sobre cada petición recibida por tu aplicación y la almacena para su posterior análisis. Utiliza el perfilador en el entorno de desarrollo para que te ayude a depurar tu código y mejorar el rendimiento; actívalo en el entorno de producción para descubrir la causa de los errores.</p>
+
+<p>Normalmente no tendrás que lidiar con el perfilador directamente, ya que Symfony2 proporciona herramientas visuales como la barra de depuración web y el perfilador web. Si utilizas la edición estándar de Symfony2, el perfilador, la barra de depuración web, y el perfilador web, ya están preconfigurados.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> El perfilador recopila información para todas las peticiones (peticiones simples, redirecciones, excepciones, peticiones Ajax, peticiones ESI, y para todos los métodos HTTP y todos los formatos). Esto significa que para una única URL, puedes tener varios perfiles de datos asociados.</p></div>
+
+<h3 id="visualizando_la_informacion_del_perfilador">18.4.1. Visualizando la información del perfilador</h3>
+
+<h4 id="usando_la_barra_de_depuracion_web">18.4.1.1. Usando la barra de depuración web</h4>
+
+<p>En el entorno de desarrollo, la barra de depuración web está disponible en la parte inferior de todas las páginas. Esta barra muestra un completo resumen de los datos perfilados y te da acceso instantáneo a una gran cantidad de información útil cuando algo no funciona como esperabas.</p>
+
+<p>Si el resumen presentado por la barra de depuración web no es suficiente, puedes acceder al perfilador web pinchando en el enlace del <em>token</em>, que es una cadena compuesta por 13 caracteres aleatorios.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Si no se puede hacer clic en el <em>token</em>, eso significa que las rutas del perfilador no están registradas (tal y como se explica más adelante).</p></div>
+
+<h4 id="analizando_los_datos_con_el_perfilador_web">18.4.1.2. Analizando los datos con el perfilador web</h4>
+
+<p>El perfilador web es una herramienta que muestra visualmente los datos recolectados por el perfilador. Puedes usarlo en el entorno de desarrollo para depurar tu código y mejorar el rendimiento; pero también lo puedes utilizar para descubrir la causa de los problemas que ocurren en producción. El perfilador web muestra toda la información recogida por el perfilador en una interfaz web.</p>
+
+<h4 id="accediendo_a_la_informacion_del_perfilador">18.4.1.3. Accediendo a la información del perfilador</h4>
+
+<p>Si no quieres, no es obligatorio utilizar el visualizador para acceder a la información del perfilador. ¿Cómo se puede recuperar la información sobre una petición concreta, después de que se haya producido? Cuando el perfilador almacena datos sobre una petición, le asocia un <em>token</em>, cuyo valor está disponible en la cabecera <code>X-Debug-Token</code> de la respuesta:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$profile</span> <span class="sy0">=</span> <span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'profiler'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">loadProfileFromResponse</span><span class="br0">&#40;</span><span class="re0">$response</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$profile</span> <span class="sy0">=</span> <span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'profiler'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">loadProfile</span><span class="br0">&#40;</span><span class="re0">$token</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Cuando el perfilador está habilitado pero no así la barra de depuración web, o cuando desees obtener el <em>token</em> de una petición Ajax, utiliza una herramienta como Firebug para obtener el valor de la cabecera <code>X-Debug-Token</code>.</p></div>
+
+<p>Usa el método <code>Profiler::find()</code> para acceder a los <em>tokens</em> en función de algún criterio de búsqueda:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// obtiene los 10 últimos tokens</span>
+<span class="re0">$tokens</span> <span class="sy0">=</span> <span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'profiler'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">find</span><span class="br0">&#40;</span><span class="st_h">''</span><span class="sy0">,</span> <span class="st_h">''</span><span class="sy0">,</span> <span class="nu0">10</span><span class="sy0">,</span> <span class="st_h">''</span><span class="sy0">,</span> <span class="st_h">''</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// obtiene los 10 últimos tokens de todas las URL que contienen /admin/</span>
+<span class="re0">$tokens</span> <span class="sy0">=</span> <span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'profiler'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">find</span><span class="br0">&#40;</span><span class="st_h">''</span><span class="sy0">,</span> <span class="st_h">'/admin/'</span><span class="sy0">,</span> <span class="nu0">10</span><span class="sy0">,</span> <span class="st_h">''</span><span class="sy0">,</span> <span class="st_h">''</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// obtiene los 10 últimos tokens de peticiones locales</span>
+<span class="re0">$tokens</span> <span class="sy0">=</span> <span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'profiler'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">find</span><span class="br0">&#40;</span><span class="st_h">'127.0.0.1'</span><span class="sy0">,</span> <span class="st_h">''</span><span class="sy0">,</span> <span class="nu0">10</span><span class="sy0">,</span> <span class="st_h">''</span><span class="sy0">,</span> <span class="st_h">''</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// obtiene los 10 últimos tokens de las peticiones</span>
+<span class="co1">// realizadas entre 2 y 4 días atrás</span>
+<span class="re0">$tokens</span> <span class="sy0">=</span> <span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'profiler'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">find</span><span class="br0">&#40;</span><span class="st_h">''</span><span class="sy0">,</span> <span class="st_h">''</span><span class="sy0">,</span> <span class="nu0">10</span><span class="sy0">,</span> <span class="st_h">'4 days ago'</span><span class="sy0">,</span> <span class="st_h">'2 days ago'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Si deseas obtener los datos del perfilador en una máquina diferente a la que generó la información, utiliza los métodos <code>Profiler::export()</code> e <code>Profiler::import()</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// en la máquina de producción</span>
+<span class="re0">$profile</span> <span class="sy0">=</span> <span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'profiler'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">loadProfile</span><span class="br0">&#40;</span><span class="re0">$token</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$data</span> <span class="sy0">=</span> <span class="re0">$profiler</span><span class="sy0">-&gt;</span><span class="me1">export</span><span class="br0">&#40;</span><span class="re0">$profile</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// en la máquina de desarrollo</span>
+<span class="re0">$profiler</span><span class="sy0">-&gt;</span><span class="me1">import</span><span class="br0">&#40;</span><span class="re0">$data</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<h4 id="configuracion">18.4.1.4. Configuración</h4>
+
+<p>Por defecto el perfilador de Symfony2, la barra de depuración web, y el perfilador web ya vienen preconfigurados. Esta es por ejemplo la configuración para el entorno de desarrollo:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_2bbe2" class="active"><a data-toggle="tab active" href="#select_tab_1_2bbe2" onclick="document.getElementById('select_tab_1_2bbe2').className='active'; document.getElementById('tab_1_2bbe2').className='tab-pane active';document.getElementById('select_tab_2_2bbe2').className='';  document.getElementById('tab_2_2bbe2').className='tab-pane';document.getElementById('select_tab_3_2bbe2').className='';  document.getElementById('tab_3_2bbe2').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_2bbe2"><a data-toggle="tab" href="#select_tab_2_2bbe2" onclick="document.getElementById('select_tab_1_2bbe2').className='';  document.getElementById('tab_1_2bbe2').className='tab-pane';document.getElementById('select_tab_2_2bbe2').className='active'; document.getElementById('tab_2_2bbe2').className='tab-pane active';document.getElementById('select_tab_3_2bbe2').className='';  document.getElementById('tab_3_2bbe2').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_2bbe2"><a data-toggle="tab" href="#select_tab_3_2bbe2" onclick="document.getElementById('select_tab_1_2bbe2').className='';  document.getElementById('tab_1_2bbe2').className='tab-pane';document.getElementById('select_tab_2_2bbe2').className='';  document.getElementById('tab_2_2bbe2').className='tab-pane';document.getElementById('select_tab_3_2bbe2').className='active'; document.getElementById('tab_3_2bbe2').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_2bbe2">
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># carga el perfilador</span><span class="co4">
+framework</span>:<span class="co3">
+    profiler</span><span class="sy2">: </span><span class="br0">&#123;</span> only_exceptions<span class="sy2">: </span>false <span class="br0">&#125;</span>
+&nbsp;
+<span class="co1"># activa el perfilador web</span><span class="co4">
+web_profiler</span>:<span class="co3">
+    toolbar</span><span class="sy2">: </span>            true<span class="co3">
+    intercept_redirects</span><span class="sy2">: </span>true</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_2bbe2">
+<div class="code xml">
+<pre class="xml"><span class="sc-1">&lt;!-- xmlns:webprofiler=&quot;http://symfony.com/schema/dic/webprofiler&quot; --&gt;</span>
+<span class="sc-1">&lt;!-- xsi:schemaLocation=&quot;http://symfony.com/schema/dic/webprofiler http://symfony.com/schema/dic/webprofiler/webprofiler-1.0.xsd&quot;&gt; --&gt;</span>
+&nbsp;
+<span class="sc-1">&lt;!-- carga el perfilador --&gt;</span>
+<span class="sc3"><span class="re1">&lt;framework:config<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;framework:profiler</span> <span class="re0">only-exceptions</span>=<span class="st0">&quot;false&quot;</span> <span class="re2">/&gt;</span></span>
+<span class="sc3"><span class="re1">&lt;/framework:config<span class="re2">&gt;</span></span></span>
+&nbsp;
+<span class="sc-1">&lt;!-- activa el perfilador web --&gt;</span>
+<span class="sc3"><span class="re1">&lt;webprofiler:config</span></span>
+<span class="sc3">    <span class="re0">toolbar</span>=<span class="st0">&quot;true&quot;</span></span>
+<span class="sc3">    <span class="re0">intercept-redirects</span>=<span class="st0">&quot;true&quot;</span></span>
+<span class="sc3"><span class="re2">/&gt;</span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_2bbe2">
+<div class="code php">
+<pre class="php"><span class="co1">// carga el perfilador</span>
+<span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">loadFromExtension</span><span class="br0">&#40;</span><span class="st_h">'framework'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'profiler'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'only-exceptions'</span> <span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// activa el perfilador web</span>
+<span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">loadFromExtension</span><span class="br0">&#40;</span><span class="st_h">'web_profiler'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'toolbar'</span>             <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="sy0">,</span>
+    <span class="st_h">'intercept-redirects'</span> <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Cuando la opción <code>only-exceptions</code> se establece a <code>true</code>, el perfilador sólo recoge datos cuando tu aplicación lanza una excepción.</p>
+
+<p>Cuando la opción <code>intercept-redirects</code> está establecida en <code>true</code>, el perfilador web intercepta las redirecciones y te permite analizar los datos recogidos antes de seguir la redirección.</p>
+
+<p>Si activas el perfilador web, también debes importar sus rutas:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_2bd2a" class="active"><a data-toggle="tab active" href="#select_tab_1_2bd2a" onclick="document.getElementById('select_tab_1_2bd2a').className='active'; document.getElementById('tab_1_2bd2a').className='tab-pane active';document.getElementById('select_tab_2_2bd2a').className='';  document.getElementById('tab_2_2bd2a').className='tab-pane';document.getElementById('select_tab_3_2bd2a').className='';  document.getElementById('tab_3_2bd2a').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_2bd2a"><a data-toggle="tab" href="#select_tab_2_2bd2a" onclick="document.getElementById('select_tab_1_2bd2a').className='';  document.getElementById('tab_1_2bd2a').className='tab-pane';document.getElementById('select_tab_2_2bd2a').className='active'; document.getElementById('tab_2_2bd2a').className='tab-pane active';document.getElementById('select_tab_3_2bd2a').className='';  document.getElementById('tab_3_2bd2a').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_2bd2a"><a data-toggle="tab" href="#select_tab_3_2bd2a" onclick="document.getElementById('select_tab_1_2bd2a').className='';  document.getElementById('tab_1_2bd2a').className='tab-pane';document.getElementById('select_tab_2_2bd2a').className='';  document.getElementById('tab_2_2bd2a').className='tab-pane';document.getElementById('select_tab_3_2bd2a').className='active'; document.getElementById('tab_3_2bd2a').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_2bd2a">
+<div class="code yaml">
+<pre class="yaml"><span class="co4">_profiler</span>:<span class="co3">
+    resource</span><span class="sy2">: </span>@WebProfilerBundle/Resources/config/routing/profiler.xml<span class="co3">
+    prefix</span><span class="sy2">: </span>  /_profiler</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_2bd2a">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;import</span> <span class="re0">resource</span>=<span class="st0">&quot;@WebProfilerBundle/Resources/config/routing/profiler.xml&quot;</span></span>
+<span class="sc3">    <span class="re0">prefix</span>=<span class="st0">&quot;/_profiler&quot;</span> <span class="re2">/&gt;</span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_2bd2a">
+<div class="code php">
+<pre class="php"><span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">addCollection</span><span class="br0">&#40;</span>
+  <span class="re0">$loader</span><span class="sy0">-&gt;</span><span class="me1">import</span><span class="br0">&#40;</span><span class="st0">&quot;@WebProfilerBundle/Resources/config/routing/profiler.xml&quot;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+  <span class="st_h">'/_profiler'</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Dado que el perfilador añade algo de sobrecarga, en el entorno de producción sólo deberías activarlo si se producen ciertas circunstancias. La opción <code>only-exceptions</code> limita al perfilador a solamente las excepciones, pero ¿qué sucede si quieres obtener información cuando la petición viene de una determinada IP? ¿y qué sucede si quieres obtener información detallada sobre una parte del sitio web? En estos casos puedes utilizar la opción <code>matcher</code>:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_2bf6f" class="active"><a data-toggle="tab active" href="#select_tab_1_2bf6f" onclick="document.getElementById('select_tab_1_2bf6f').className='active'; document.getElementById('tab_1_2bf6f').className='tab-pane active';document.getElementById('select_tab_2_2bf6f').className='';  document.getElementById('tab_2_2bf6f').className='tab-pane';document.getElementById('select_tab_3_2bf6f').className='';  document.getElementById('tab_3_2bf6f').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_2bf6f"><a data-toggle="tab" href="#select_tab_2_2bf6f" onclick="document.getElementById('select_tab_1_2bf6f').className='';  document.getElementById('tab_1_2bf6f').className='tab-pane';document.getElementById('select_tab_2_2bf6f').className='active'; document.getElementById('tab_2_2bf6f').className='tab-pane active';document.getElementById('select_tab_3_2bf6f').className='';  document.getElementById('tab_3_2bf6f').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_2bf6f"><a data-toggle="tab" href="#select_tab_3_2bf6f" onclick="document.getElementById('select_tab_1_2bf6f').className='';  document.getElementById('tab_1_2bf6f').className='tab-pane';document.getElementById('select_tab_2_2bf6f').className='';  document.getElementById('tab_2_2bf6f').className='tab-pane';document.getElementById('select_tab_3_2bf6f').className='active'; document.getElementById('tab_3_2bf6f').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_2bf6f">
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># activa el perfilador sólo para peticiones entrantes de la red 192.168.0.0</span><span class="co4">
+framework</span>:<span class="co4">
+    profiler</span>:<span class="co3">
+        matcher</span><span class="sy2">: </span><span class="br0">&#123;</span> ip<span class="sy2">: </span>192.168.0.0/<span class="nu0">24</span> <span class="br0">&#125;</span>
+&nbsp;
+<span class="co1"># activa el perfilador sólo para las URL /admin</span><span class="co4">
+framework</span>:<span class="co4">
+    profiler</span>:<span class="co3">
+        matcher</span><span class="sy2">: </span><span class="br0">&#123;</span> path<span class="sy2">: </span><span class="st0">&quot;^/admin/&quot;</span> <span class="br0">&#125;</span>
+&nbsp;
+<span class="co1"># ejemplo que combina las dos reglas anteriores</span><span class="co4">
+framework</span>:<span class="co4">
+    profiler</span>:<span class="co3">
+        matcher</span><span class="sy2">: </span><span class="br0">&#123;</span> ip<span class="sy2">: </span>192.168.0.0/<span class="nu0">24</span>, path<span class="sy2">: </span><span class="st0">&quot;^/admin/&quot;</span> <span class="br0">&#125;</span>
+&nbsp;
+<span class="co1"># utiliza un servicio propio para determinar si se activa el perfilador</span><span class="co4">
+framework</span>:<span class="co4">
+    profiler</span>:<span class="co3">
+        matcher</span><span class="sy2">: </span><span class="br0">&#123;</span> service<span class="sy2">: </span>custom_matcher <span class="br0">&#125;</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_2bf6f">
+<div class="code xml">
+<pre class="xml"><span class="sc-1">&lt;!-- activa el perfilador sólo para peticiones entrantes de la red 192.168.0.0 --&gt;</span>
+<span class="sc3"><span class="re1">&lt;framework:config<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;framework:profiler<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;framework:matcher</span> <span class="re0">ip</span>=<span class="st0">&quot;192.168.0.0/24&quot;</span> <span class="re2">/&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;/framework:profiler<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/framework:config<span class="re2">&gt;</span></span></span>
+&nbsp;
+<span class="sc-1">&lt;!-- activa el perfilador sólo para las URL /admin --&gt;</span>
+<span class="sc3"><span class="re1">&lt;framework:config<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;framework:profiler<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;framework:matcher</span> <span class="re0">path</span>=<span class="st0">&quot;^/admin/&quot;</span> <span class="re2">/&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;/framework:profiler<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/framework:config<span class="re2">&gt;</span></span></span>
+&nbsp;
+<span class="sc-1">&lt;!-- ejemplo que combina las dos reglas anteriores --&gt;</span>
+<span class="sc3"><span class="re1">&lt;framework:config<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;framework:profiler<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;framework:matcher</span> <span class="re0">ip</span>=<span class="st0">&quot;192.168.0.0/24&quot;</span> <span class="re0">path</span>=<span class="st0">&quot;^/admin/&quot;</span> <span class="re2">/&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;/framework:profiler<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/framework:config<span class="re2">&gt;</span></span></span>
+&nbsp;
+<span class="sc-1">&lt;!-- utiliza un servicio propio para determinar si se activa el perfilador --&gt;</span>
+<span class="sc3"><span class="re1">&lt;framework:config<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;framework:profiler<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;framework:matcher</span> <span class="re0">service</span>=<span class="st0">&quot;custom_matcher&quot;</span> <span class="re2">/&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;/framework:profiler<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/framework:config<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_2bf6f">
+<div class="code php">
+<pre class="php"><span class="co1">// activa el perfilador sólo para peticiones entrantes de la red 192.168.0.0</span>
+<span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">loadFromExtension</span><span class="br0">&#40;</span><span class="st_h">'framework'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'profiler'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'matcher'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'ip'</span> <span class="sy0">=&gt;</span> <span class="st_h">'192.168.0.0/24'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// activa el perfilador sólo para las URL /admin</span>
+<span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">loadFromExtension</span><span class="br0">&#40;</span><span class="st_h">'framework'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'profiler'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'matcher'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'^/admin/'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// ejemplo que combina las dos reglas anteriores</span>
+<span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">loadFromExtension</span><span class="br0">&#40;</span><span class="st_h">'framework'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'profiler'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'matcher'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'ip'</span> <span class="sy0">=&gt;</span> <span class="st_h">'192.168.0.0/24'</span><span class="sy0">,</span> <span class="st_h">'path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'^/admin/'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co2"># utiliza un servicio propio para determinar si se activa el perfilador
+</span><span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">loadFromExtension</span><span class="br0">&#40;</span><span class="st_h">'framework'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'profiler'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'matcher'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'service'</span> <span class="sy0">=&gt;</span> <span class="st_h">'custom_matcher'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_18/el_event_dispatcher.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>18.3. El <em>event dispatcher</em></small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_19.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>Capítulo 19. La API estable de Symfony2</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Symfony2 y los fundamentos de HTTP</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> De PHP a Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Instalando y configurando Symfony2</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Creando páginas en Symfony2</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> El controlador</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El enrutamiento</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Creando y utilizando plantillas</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> La base de datos y Doctrine</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> La base de datos y Propel</a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Tests unitarios y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Validación</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Formularios</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> La caché de HTTP</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> El contenedor de servicios</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Mejorando el rendimiento</a>
+            </li>
+                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_18.html">
+                    <span>Capítulo 18.</span> El interior de Symfony2
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_18/una_vision_general_del_funcionamiento_de_symfony2.html">
+                    <span>18.1.</span> Una visión general del funcionamiento de Symfony2
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_18/el_kernel.html">
+                    <span>18.2.</span> El <em>kernel</em>
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_18/el_event_dispatcher.html">
+                    <span>18.3.</span> El <em>event dispatcher</em>
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_18/el_perfilador.html">
+                    <span>18.4.</span> El perfilador
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> La API estable de Symfony2</a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Traducción de base de datos, symfony 2.4</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Traducción de base de datos, symfony 2.4">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-4-2" class="forum forum_discussion"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                    <div class="module module-ad module-ad-responsive module-ad-top">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+    <div itemscope="" itemtype="http://schema.org/Article">
+        <div id="discussion" class="col-sm-9 ">
+            <h1 class="title" itemprop="name">Traducción de base de datos, symfony 2.4</h1>
+
+            <div id="discussion-content" itemprop="description">
+                <p>Hola, necesito hacer una web que esté en dos idiomas (es, en) y no consigo hacer la traducción con la base de datos.</p>
+
+<p>Estoy usando <a href="https://github.com/l3pp4rd/DoctrineExtensions">l3pp4rd/DoctrineExtensions</a> que me funciona, pero lo que no consigo hacer es lo de un formulario con los campos para traducir.</p>
+
+<p>He estado mirando y está esto: <a href="https://github.com/a2lix/TranslationFormBundle">a2lix/TranslationFormBundle</a>, pero no conseguí que funcionase. Me mostraba unos campos pero no los de la tabla sino los que generaba el para el tratamiento de la traducción.</p>
+
+<p>Al no ir opté por <a href="https://gist.github.com/qrizly/2437078">qrizly/2437078</a> como recomienda el <em>bundle</em> de <code>l3pp4rd</code>, aunque he tenido que actualizar varias cosas por el tema de que está hecho para la versión 2.1 de formularios y yo estoy con symfony 2.4. Aún así, no consigo que me muestre la caja de texto de forma adecuada. Pongo el código para que lo veáis y lo que genera Twig al final del todo.</p>
+
+<p>PD: lo pongo en varios porque está limitado el texto a 5000 bytes</p>
+
+<p>El formulario:</p>
+
+<pre class="php code"><span class="co1">// ...</span>
+&nbsp;
+<span class="kw2">class</span> CorrespondenciaType <span class="kw2">extends</span> AbstractType
+<span class="br0">&#123;</span>
+    <span class="co4">/**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> buildForm<span class="br0">&#40;</span>FormBuilderInterface <span class="re0">$builder</span><span class="sy0">,</span> <span class="kw3">array</span> <span class="re0">$options</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$builder</span>
+            <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'titulo'</span><span class="br0">&#41;</span>
+            <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'direccion'</span><span class="br0">&#41;</span>
+            <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'telefono'</span><span class="br0">&#41;</span>
+            <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'email'</span><span class="sy0">,</span> <span class="st_h">'email'</span><span class="br0">&#41;</span>
+            <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'precioVisitantes'</span><span class="br0">&#41;</span>
+            <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'precioClub'</span><span class="br0">&#41;</span>
+            <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'imagen'</span><span class="sy0">,</span> <span class="st_h">'hidden'</span><span class="br0">&#41;</span>
+            <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'foto'</span><span class="sy0">,</span> <span class="st_h">'file'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+                <span class="st_h">'mapped'</span> <span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="sy0">,</span>
+                <span class="st_h">'required'</span> <span class="sy0">=&gt;</span> <span class="kw4">false</span>
+            <span class="br0">&#41;</span><span class="br0">&#41;</span>
+            <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'titulo_ingles'</span><span class="sy0">,</span> <span class="st_h">'translated_field'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+                <span class="st_h">'field'</span>          <span class="sy0">=&gt;</span> <span class="st_h">'titulo'</span><span class="sy0">,</span>
+                <span class="st_h">'property_path'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'translations'</span><span class="sy0">,</span>
+                <span class="st_h">'locales'</span>        <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'en'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+                <span class="st_h">'personal_translation'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Escuela\BackendBundle\Entity\CorrespondenciaTranslation'</span>
+            <span class="br0">&#41;</span><span class="br0">&#41;</span>
+        <span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co1">// ...</span>
+<span class="br0">&#125;</span></pre>
+
+<p>TranslatedFieldType:</p>
+
+<pre class="php code"><span class="kw2">namespace</span> Escuela\BackendBundle\Form\Type<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\Form\AbstractType<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Form\FormBuilderInterface<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\DependencyInjection\ContainerInterface<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\OptionsResolver\OptionsResolverInterface<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Escuela\BackendBundle\Form\EventListener\AddTranslatedFieldSubscriber<span class="sy0">;</span>
+&nbsp;
+<span class="co4">/**
+ * Class TranslatedFieldType
+ * @package Escuela\BackendBundle\Form\Type
+ */</span>
+<span class="kw2">class</span> TranslatedFieldType <span class="kw2">extends</span> AbstractType
+<span class="br0">&#123;</span>
+    <span class="kw2">protected</span> <span class="re0">$container</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @param ContainerInterface $container
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span>ContainerInterface <span class="re0">$container</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">container</span> <span class="sy0">=</span> <span class="re0">$container</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @throws \InvalidArgumentException
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> buildForm<span class="br0">&#40;</span>FormBuilderInterface <span class="re0">$builder</span><span class="sy0">,</span> <span class="kw3">array</span> <span class="re0">$options</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span><span class="sy0">!</span><span class="kw3">class_exists</span><span class="br0">&#40;</span><span class="re0">$options</span><span class="br0">&#91;</span><span class="st_h">'personal_translation'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            <span class="kw1">Throw</span> <span class="kw2">new</span> \InvalidArgumentException<span class="br0">&#40;</span><span class="kw3">sprintf</span><span class="br0">&#40;</span><span class="st0">&quot;Unable to find personal translation class: '<span class="es6">%s</span>'&quot;</span><span class="sy0">,</span> <span class="re0">$options</span><span class="br0">&#91;</span><span class="st_h">'personal_translation'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span><span class="sy0">!</span> <span class="re0">$options</span><span class="br0">&#91;</span><span class="st_h">'field'</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+        <span class="br0">&#123;</span>
+            <span class="kw1">Throw</span> <span class="kw2">new</span> \InvalidArgumentException<span class="br0">&#40;</span><span class="st0">&quot;You should provide a field to translate&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="re0">$subscriber</span> <span class="sy0">=</span> <span class="kw2">new</span> AddTranslatedFieldSubscriber<span class="br0">&#40;</span><span class="re0">$builder</span><span class="sy0">-&gt;</span><span class="me1">getFormFactory</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">container</span><span class="sy0">,</span> <span class="re0">$options</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$builder</span><span class="sy0">-&gt;</span><span class="me1">addEventSubscriber</span><span class="br0">&#40;</span><span class="re0">$subscriber</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * @param OptionsResolverInterface $resolver
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setDefaultOptions<span class="br0">&#40;</span>OptionsResolverInterface <span class="re0">$resolver</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$resolver</span><span class="sy0">-&gt;</span><span class="me1">setDefaults</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="st_h">'remove_empty'</span> <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="sy0">,</span>
+            <span class="st_h">'csrf_protection'</span> <span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="sy0">,</span>
+            <span class="st_h">'personal_translation'</span> <span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="sy0">,</span> <span class="co1">//Personal Translation class</span>
+            <span class="st_h">'locales'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'es'</span><span class="sy0">,</span> <span class="st_h">'en'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="co1">//the locales you wish to edit</span>
+            <span class="st_h">'required_locale'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'en'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="co1">//the required locales cannot be blank</span>
+            <span class="st_h">'field'</span> <span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="sy0">,</span> <span class="co1">//the field that you wish to translate</span>
+            <span class="st_h">'widget'</span> <span class="sy0">=&gt;</span> <span class="st0">&quot;text&quot;</span><span class="sy0">,</span> <span class="co1">//change this to another widget like 'texarea' if needed</span>
+            <span class="st_h">'entity_manager_removal'</span> <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="sy0">,</span> <span class="co1">//aut</span>
+        <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> getName<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="st_h">'translated_field'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+            </div>
+
+                            <div id="discussion-tags">
+                    <h3>Etiquetas</h3>
+                    <ul class="tags-list">
+                                                                <li><a href="/foro/i18n/">i18n</a></li>
+                                            <li><a href="/foro/symfony/">symfony</a></li>
+                                        </ul>
+                </div>
+                    </div>
+
+        <div id="discussion-attributes" class="col-sm-3">
+            <div class="row">
+                <p class="col-xs-3 col-sm-12 avatar">
+                    <img width="73" height="73" itemprop="image"
+                     src="http://pbs.twimg.com/profile_images/2891511974/228a4f9ce28dd1be35a4ff0aed5558f2_bigger.jpeg" />
+                </p>
+
+                <p class="col-xs-8 col-sm-12 col-md-12">
+                    <span class="login">@AlbertoVioque</span>
+                    <meta itemprop="author" content="Alberto Vioque Muñoz" />
+
+                    <span class="published">3 de julio de 2014</span>
+                    <meta itemprop="dateCreated" content="2014-07-03T20:44:22+02:00" />
+                </p>
+
+                <p id="discussion-actions" class="col-sm-12">
+                                    </p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="discussion-comments" class="col-sm-12">
+                    <h2>Respuestas</h2>
+
+                            <div class="row comment"  id="respuesta-1">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/166/traduccion-de-base-de-datos-symfony-24/#respuesta-1" title="Enlace permanente a esta respuesta">#1</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_1_html">
+                        <p>AddTranslatedFieldSubscriber:</p>
+
+<pre class="php code"><span class="kw2">namespace</span> Escuela\BackendBundle\Form\EventListener<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\EventDispatcher\EventSubscriberInterface<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\DependencyInjection\ContainerInterface<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Form\FormEvents<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Form\FormEvent<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Form\FormError<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Form\FormFactoryInterface<span class="sy0">;</span>
+&nbsp;
+<span class="co4">/**
+* Class AddTranslatedFieldSubscriber
+* @package ExampleBundle\Form\EventListener
+*/</span>
+<span class="kw2">class</span> AddTranslatedFieldSubscriber implements EventSubscriberInterface
+<span class="br0">&#123;</span>
+  <span class="kw2">private</span> <span class="re0">$factory</span><span class="sy0">;</span>
+  <span class="kw2">private</span> <span class="re0">$options</span><span class="sy0">;</span>
+  <span class="kw2">private</span> <span class="re0">$container</span><span class="sy0">;</span>
+  <span class="co4">/**
+  * @param FormFactoryInterface $factory
+  * @param ContainerInterface $container
+  * @param array $options
+  */</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span>FormFactoryInterface <span class="re0">$factory</span><span class="sy0">,</span> ContainerInterface <span class="re0">$container</span><span class="sy0">,</span> <span class="kw3">Array</span> <span class="re0">$options</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">factory</span> <span class="sy0">=</span> <span class="re0">$factory</span><span class="sy0">;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">options</span> <span class="sy0">=</span> <span class="re0">$options</span><span class="sy0">;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">container</span> <span class="sy0">=</span> <span class="re0">$container</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> static <span class="kw2">function</span> getSubscribedEvents<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Tells the dispatcher that we want to listen on the form.pre_set_data</span>
+    <span class="co1">// , form.post_data and form.bind_norm_data event</span>
+    <span class="kw1">return</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+      FormEvents<span class="sy0">::</span><span class="me2">PRE_SET_DATA</span> <span class="sy0">=&gt;</span> <span class="st_h">'preSetData'</span><span class="sy0">,</span>
+      FormEvents<span class="sy0">::</span><span class="me2">POST_SUBMIT</span> <span class="sy0">=&gt;</span> <span class="st_h">'postSubmit'</span><span class="sy0">,</span>
+      FormEvents<span class="sy0">::</span><span class="me2">SUBMIT</span> <span class="sy0">=&gt;</span> <span class="st_h">'submit'</span>
+    <span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">private</span> <span class="kw2">function</span> bindTranslations<span class="br0">&#40;</span><span class="re0">$data</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">//Small helper function to extract all Personal Translation</span>
+    <span class="co1">//from the Entity for the field we are interested in</span>
+    <span class="co1">//and combines it with the fields</span>
+&nbsp;
+    <span class="re0">$collection</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$availableTranslations</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">foreach</span><span class="br0">&#40;</span><span class="re0">$data</span> <span class="kw1">as</span> <span class="re0">$Translation</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+      <span class="kw1">if</span><span class="br0">&#40;</span><span class="kw3">strtolower</span><span class="br0">&#40;</span><span class="re0">$Translation</span><span class="sy0">-&gt;</span><span class="me1">getField</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="kw3">strtolower</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">options</span><span class="br0">&#91;</span><span class="st_h">'field'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$availableTranslations</span><span class="br0">&#91;</span> <span class="kw3">strtolower</span><span class="br0">&#40;</span><span class="re0">$Translation</span><span class="sy0">-&gt;</span><span class="me1">getLocale</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$Translation</span><span class="sy0">;</span>
+      <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">foreach</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getFieldNames</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw1">as</span> <span class="re0">$locale</span> <span class="sy0">=&gt;</span> <span class="re0">$fieldName</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+      <span class="kw1">if</span><span class="br0">&#40;</span><span class="kw3">isset</span><span class="br0">&#40;</span><span class="re0">$availableTranslations</span><span class="br0">&#91;</span> <span class="kw3">strtolower</span><span class="br0">&#40;</span><span class="re0">$locale</span><span class="br0">&#41;</span> <span class="br0">&#93;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$Translation</span> <span class="sy0">=</span> <span class="re0">$availableTranslations</span><span class="br0">&#91;</span> <span class="kw3">strtolower</span><span class="br0">&#40;</span><span class="re0">$locale</span><span class="br0">&#41;</span> <span class="br0">&#93;</span><span class="sy0">;</span>
+      <span class="br0">&#125;</span>
+      <span class="kw1">else</span><span class="br0">&#123;</span>
+        <span class="re0">$Translation</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">createPersonalTranslation</span><span class="br0">&#40;</span><span class="re0">$locale</span><span class="sy0">,</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">options</span><span class="br0">&#91;</span><span class="st_h">'field'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="kw4">NULL</span><span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="br0">&#125;</span>
+&nbsp;
+      <span class="re0">$collection</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'locale'</span>      <span class="sy0">=&gt;</span> <span class="re0">$locale</span><span class="sy0">,</span>
+        <span class="st_h">'fieldName'</span>   <span class="sy0">=&gt;</span> <span class="re0">$fieldName</span><span class="sy0">,</span>
+        <span class="st_h">'translation'</span> <span class="sy0">=&gt;</span> <span class="re0">$Translation</span><span class="sy0">,</span>
+      <span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="re0">$collection</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">private</span> <span class="kw2">function</span> getFieldNames<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="co1">//helper function to generate all field names in format:</span>
+    <span class="co1">// '&lt;locale&gt;' =&gt; '&lt;field&gt;:&lt;locale&gt;'</span>
+    <span class="re0">$collection</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">foreach</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">options</span><span class="br0">&#91;</span><span class="st_h">'locales'</span><span class="br0">&#93;</span> <span class="kw1">as</span> <span class="re0">$locale</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+      <span class="re0">$collection</span><span class="br0">&#91;</span> <span class="re0">$locale</span> <span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">options</span><span class="br0">&#91;</span><span class="st_h">'field'</span><span class="br0">&#93;</span> <span class="sy0">.</span><span class="st0">&quot;:&quot;</span><span class="sy0">.</span> <span class="re0">$locale</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="re0">$collection</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">private</span> <span class="kw2">function</span> createPersonalTranslation<span class="br0">&#40;</span><span class="re0">$locale</span><span class="sy0">,</span> <span class="re0">$field</span><span class="sy0">,</span> <span class="re0">$content</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="co1">//creates a new Personal Translation</span>
+    <span class="re0">$className</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">options</span><span class="br0">&#91;</span><span class="st_h">'personal_translation'</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$Translation</span> <span class="sy0">=</span> <span class="kw2">new</span> <span class="re0">$className</span><span class="br0">&#40;</span><span class="re0">$locale</span><span class="sy0">,</span> <span class="re0">$field</span><span class="sy0">,</span> <span class="re0">$content</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="re0">$Translation</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> submit<span class="br0">&#40;</span>FormEvent <span class="re0">$event</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="co1">//Validates the submitted form</span>
+    <span class="re0">$data</span> <span class="sy0">=</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getData</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$form</span> <span class="sy0">=</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getForm</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$validator</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">container</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'validator'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">foreach</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getFieldNames</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw1">as</span> <span class="re0">$locale</span> <span class="sy0">=&gt;</span> <span class="re0">$fieldName</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+      <span class="re0">$content</span> <span class="sy0">=</span> <span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="re0">$fieldName</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getData</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+      <span class="kw1">if</span><span class="br0">&#40;</span><span class="kw4">NULL</span> <span class="sy0">===</span> <span class="re0">$content</span> <span class="sy0">&amp;&amp;</span> <span class="kw3">in_array</span><span class="br0">&#40;</span><span class="re0">$locale</span><span class="sy0">,</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">options</span><span class="br0">&#91;</span><span class="st_h">'required_locale'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">addError</span><span class="br0">&#40;</span><span class="kw2">new</span> FormError<span class="br0">&#40;</span><span class="kw3">sprintf</span><span class="br0">&#40;</span><span class="st0">&quot;Field '<span class="es6">%s</span>' for locale '<span class="es6">%s</span>' cannot be blank&quot;</span><span class="sy0">,</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">options</span><span class="br0">&#91;</span><span class="st_h">'field'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="re0">$locale</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="br0">&#125;</span><span class="kw1">else</span><span class="br0">&#123;</span>
+        <span class="re0">$Translation</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">createPersonalTranslation</span><span class="br0">&#40;</span><span class="re0">$locale</span><span class="sy0">,</span> <span class="re0">$fieldName</span><span class="sy0">,</span> <span class="re0">$content</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$errors</span> <span class="sy0">=</span> <span class="re0">$validator</span><span class="sy0">-&gt;</span><span class="me1">validate</span><span class="br0">&#40;</span><span class="re0">$Translation</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="kw3">sprintf</span><span class="br0">&#40;</span><span class="st0">&quot;<span class="es6">%s</span>:<span class="es6">%s</span>&quot;</span><span class="sy0">,</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">options</span><span class="br0">&#91;</span><span class="st_h">'field'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="re0">$locale</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span><span class="br0">&#40;</span><span class="kw3">count</span><span class="br0">&#40;</span><span class="re0">$errors</span><span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+          <span class="kw1">foreach</span><span class="br0">&#40;</span><span class="re0">$errors</span> <span class="kw1">as</span> <span class="re0">$error</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+           <span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">addError</span><span class="br0">&#40;</span><span class="kw2">new</span> FormError<span class="br0">&#40;</span><span class="re0">$error</span><span class="sy0">-&gt;</span><span class="me1">getMessage</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+          <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+      <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> postSubmit<span class="br0">&#40;</span>FormEvent <span class="re0">$event</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="co1">//if the form passed the validattion then set the corresponding Personal Translations</span>
+    <span class="re0">$form</span> <span class="sy0">=</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getForm</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$data</span> <span class="sy0">=</span> <span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">getData</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$entity</span> <span class="sy0">=</span> <span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">getParent</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getData</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">foreach</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">bindTranslations</span><span class="br0">&#40;</span><span class="re0">$data</span><span class="br0">&#41;</span> <span class="kw1">as</span> <span class="re0">$binded</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+      <span class="re0">$content</span> <span class="sy0">=</span> <span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="re0">$binded</span><span class="br0">&#91;</span><span class="st_h">'fieldName'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getData</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="re0">$Translation</span> <span class="sy0">=</span> <span class="re0">$binded</span><span class="br0">&#91;</span><span class="st_h">'translation'</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+      <span class="co1">// set the submitted content</span>
+      <span class="re0">$Translation</span><span class="sy0">-&gt;</span><span class="me1">setContent</span><span class="br0">&#40;</span><span class="re0">$content</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+      <span class="co1">//test if its new</span>
+      <span class="kw1">if</span><span class="br0">&#40;</span><span class="re0">$Translation</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="co1">//Delete the Personal Translation if its empty</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span><span class="kw4">NULL</span> <span class="sy0">===</span> <span class="re0">$content</span> <span class="sy0">&amp;&amp;</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">options</span><span class="br0">&#91;</span><span class="st_h">'remove_empty'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="re0">$data</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$Translation</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+          <span class="kw1">if</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">options</span><span class="br0">&#91;</span><span class="st_h">'entity_manager_removal'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">container</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'doctrine.orm.entity_manager'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">remove</span><span class="br0">&#40;</span><span class="re0">$Translation</span><span class="br0">&#41;</span><span class="sy0">;</span>
+          <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+      <span class="br0">&#125;</span><span class="kw1">elseif</span><span class="br0">&#40;</span><span class="kw4">NULL</span> <span class="sy0">!==</span> <span class="re0">$content</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="co1">//add it to entity</span>
+        <span class="re0">$entity</span><span class="sy0">-&gt;</span><span class="me1">addTranslation</span><span class="br0">&#40;</span><span class="re0">$Translation</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span><span class="br0">&#40;</span><span class="sy0">!</span> <span class="re0">$data</span><span class="sy0">-&gt;</span><span class="me1">contains</span><span class="br0">&#40;</span><span class="re0">$Translation</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+          <span class="re0">$data</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="re0">$Translation</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+      <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> preSetData<span class="br0">&#40;</span>FormEvent <span class="re0">$event</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="co1">//Builds the custom 'form' based on the provided locales</span>
+    <span class="re0">$data</span> <span class="sy0">=</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getData</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$form</span> <span class="sy0">=</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getForm</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// During form creation setData() is called with null as an argument</span>
+    <span class="co1">// by the FormBuilder constructor. We're only concerned with when</span>
+    <span class="co1">// setData is called with an actual Entity object in it (whether new,</span>
+    <span class="co1">// or fetched with Doctrine). This if statement let's us skip right</span>
+    <span class="co1">// over the null condition.</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw4">null</span> <span class="sy0">===</span> <span class="re0">$data</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+      <span class="kw1">return</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">foreach</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">bindTranslations</span><span class="br0">&#40;</span><span class="re0">$data</span><span class="br0">&#41;</span> <span class="kw1">as</span> <span class="re0">$binded</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+      <span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">factory</span><span class="sy0">-&gt;</span><span class="me1">createNamed</span><span class="br0">&#40;</span>
+        <span class="re0">$binded</span><span class="br0">&#91;</span><span class="st_h">'fieldName'</span><span class="br0">&#93;</span><span class="sy0">,</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">options</span><span class="br0">&#91;</span><span class="st_h">'widget'</span><span class="br0">&#93;</span><span class="sy0">,</span>
+        <span class="re0">$binded</span><span class="br0">&#91;</span><span class="st_h">'translation'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">getContent</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+        <span class="kw3">array</span><span class="br0">&#40;</span>
+          <span class="st_h">'label'</span> <span class="sy0">=&gt;</span> <span class="re0">$binded</span><span class="br0">&#91;</span><span class="st_h">'locale'</span><span class="br0">&#93;</span><span class="sy0">,</span>
+          <span class="st_h">'required'</span> <span class="sy0">=&gt;</span> <span class="kw3">in_array</span><span class="br0">&#40;</span><span class="re0">$binded</span><span class="br0">&#91;</span><span class="st_h">'locale'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">options</span><span class="br0">&#91;</span><span class="st_h">'required_locale'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+          <span class="st_h">'mapped'</span><span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="sy0">,</span>
+          <span class="st_h">'auto_initialize'</span> <span class="sy0">=&gt;</span> <span class="kw4">false</span>
+        <span class="br0">&#41;</span>
+      <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/2891511974/228a4f9ce28dd1be35a4ff0aed5558f2_normal.jpeg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @AlbertoVioque
+                                </span>
+
+                                <span class="published">
+                                    03-jul-14 20:45
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-2">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/166/traduccion-de-base-de-datos-symfony-24/#respuesta-2" title="Enlace permanente a esta respuesta">#2</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_2_html">
+                        <p>Services:</p>
+
+<pre class="yml code">services:
+        form.type.translatable:
+        class: Escuela\BackendBundle\Form\Type\TranslatedFieldType
+        arguments: [ @service_container ]
+        tags:
+            - { name: form.type, alias: translated_field }</pre>
+
+<p>La vista:</p>
+
+<pre class="twig code"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">block</span> <span class="re0">contenido</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+...
+  <span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">form_theme</span> <span class="re0">edit_form</span> <span class="re0">with</span> <span class="st0">'BootstrapBundle:Default/Backend/Form:fields.html.twig'</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+     <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">form_start</span><span class="br0">&#40;</span>edit_form, <span class="br0">&#123;</span><span class="st0">'attr'</span><span class="sy0">:</span> <span class="br0">&#123;</span><span class="st0">'role'</span><span class="sy0">:</span> <span class="st0">'form'</span><span class="br0">&#125;</span> <span class="br0">&#125;</span><span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>
+         ...
+         <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">form_row</span><span class="br0">&#40;</span>edit_form<span class="re1">.titulo_ingles</span><span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>
+         ...
+     <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">form_end</span><span class="br0">&#40;</span>edit_form<span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>
+     ...
+ <span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endblock</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+
+<p>Lo que ocurre es como si intentase mostrar dos veces el campo <code>titulo_ingles</code></p>
+
+<p>HTML Generado:</p>
+
+<pre class="html5 code"><span class="sc2">&lt;<span class="kw2">div</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;form-group&quot;</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">label</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;required&quot;</span>&gt;</span>Titulo ingles<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">label</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">div</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">&quot;escuela_backendbundle_correspondencia_titulo_ingles&quot;</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;form-control&quot;</span>&gt;</span>
+        <span class="sc2">&lt;<span class="kw2">div</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;form-group&quot;</span>&gt;</span>
+            <span class="sc2">&lt;<span class="kw2">label</span> <span class="kw3">for</span><span class="sy0">=</span><span class="st0">&quot;escuela_backendbundle_correspondencia_titulo_ingles_titulo:en&quot;</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;required&quot;</span>&gt;</span>en<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">label</span>&gt;</span>
+            <span class="sc2">&lt;<span class="kw2">input</span> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">&quot;text&quot;</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">&quot;escuela_backendbundle_correspondencia_titulo_ingles_titulo:en&quot;</span> <span class="kw3">name</span><span class="sy0">=</span><span class="st0">&quot;escuela_backendbundle_correspondencia[titulo_ingles][titulo:en]&quot;</span> <span class="kw3">required</span><span class="sy0">=</span><span class="st0">&quot;required&quot;</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;form-control&quot;</span>&gt;</span>
+        <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">div</span>&gt;</span>
+    <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">div</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">div</span>&gt;</span></pre>
+
+<p>A ver si sabéis que ocurre o si se os ocurre otra forma más sencilla, fácil y rápida.
+Gracias!!!</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/2891511974/228a4f9ce28dd1be35a4ff0aed5558f2_normal.jpeg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @AlbertoVioque
+                                </span>
+
+                                <span class="published">
+                                    03-jul-14 20:46
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-3">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/166/traduccion-de-base-de-datos-symfony-24/#respuesta-3" title="Enlace permanente a esta respuesta">#3</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_3_html">
+                        <p>Aunque nunca he usado nunca la extensión <em>translatable</em> de Doctrine en aplicaciones reales, sí que veo una cosa rara en el código que has compartido. En el formulario estás añadiendo un campo llamado <code>titulo</code> y otro <code>titulo_ingles</code>:</p>
+
+<pre class="php code"><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'titulo'</span><span class="br0">&#41;</span>
+<span class="co1">// ...</span>
+<span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'titulo_ingles'</span><span class="sy0">,</span> <span class="st_h">'translated_field'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'field'</span>          <span class="sy0">=&gt;</span> <span class="st_h">'titulo'</span><span class="sy0">,</span>
+    <span class="st_h">'property_path'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'translations'</span><span class="sy0">,</span>
+    <span class="st_h">'locales'</span>        <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'en'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="st_h">'personal_translation'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Escuela\BackendBundle\Entity\CorrespondenciaTranslation'</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span></pre>
+
+<p>Creo que la gracia de estas extensiones es que tu defines un solo campo (<code>titulo</code>) y le dices en cuántos idiomas está disponible. Luego el ya se encarga de guardar la información correspondiente para cada traducción de cada campo de formulario. No se si este código funciona, pero debería ser algo así:</p>
+
+<pre class="php code"><span class="co1">// ...</span>
+<span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'titulo'</span><span class="sy0">,</span> <span class="st_h">'translated_field'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'field'</span>          <span class="sy0">=&gt;</span> <span class="st_h">'titulo'</span><span class="sy0">,</span>
+    <span class="st_h">'property_path'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'translations'</span><span class="sy0">,</span>
+    <span class="st_h">'locales'</span>        <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'es'</span><span class="sy0">,</span> <span class="st_h">'en'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="st_h">'personal_translation'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Escuela\BackendBundle\Entity\CorrespondenciaTranslation'</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span></pre>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    04-jul-14 12:46
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-4">
+                                        <i id="ultimo"></i>
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/166/traduccion-de-base-de-datos-symfony-24/#respuesta-4" title="Enlace permanente a esta respuesta">#4</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_4_html">
+                        <p>Hola Javier, la extensión translatable lo que hace es gestionar la traducción en la base de datos, en la forma de guardarlos, pero no hace nada con los formularios, tienes que crear el formulario para traducir y luego tratar los datos para guardarlo con otro idioma.
+El bundle que te he puesto: <a href="https://github.com/a2lix/TranslationFormBundle">enlace</a> si hace eso, pero trabaja con otros bundles como el de doctrineExtensions, el de a2lix se encarga de crear un formulario con las distintas traducciones que tu le dices y doctrineExtensions se encarga de guardarlo, lo que pasa que no conseguí hacerlo funcionar, en vez de crearme los campos que quería traducir en la vista, este creaba los campos de la base de datos que se encarga de gestionar la traducción, por eso lo deseche.</p>
+
+<p>Lo que quiero es un formulario que tenga la información en español y luego los campos que necesito para traducir en ingles, todo en la misma vista, pero poder elegir donde va a salir estos campos.</p>
+
+<p>Sobre mi código, no sé si lo estoy haciendo del todo bien, lo que pasa es que me pone dos veces el <code>label</code>, el guardar en la base de datos lo hace bien, he probado a quitar el TranslatedFieldTypem y añadir el AddTranslatedFieldSubscriber directamente en el form, y así no me muestra repetido el <code>label</code> en la vista pero de la otra manera no hay manera, es como si me añadiese el label por el TranslatedFielType y otro por el campo añadido en el Subscriber, en la vista si pongo solo el:</p>
+
+<pre class="php code"><span class="br0">&#123;</span><span class="br0">&#123;</span> form_row<span class="br0">&#40;</span>edit_form<span class="sy0">.</span>titulo_ingles<span class="br0">&#41;</span> <span class="br0">&#125;</span><span class="br0">&#125;</span></pre>
+
+<p>Me imprime dos label y un input, si pongo</p>
+
+<pre class="php code"><span class="br0">&#123;</span><span class="br0">&#123;</span> form_widget<span class="br0">&#40;</span>edit_form<span class="sy0">.</span>titulo_ingles<span class="br0">&#41;</span> <span class="br0">&#125;</span><span class="br0">&#125;</span></pre>
+
+<p>Me imprime un label y un input, cuando solo debería crear un input</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/2891511974/228a4f9ce28dd1be35a4ff0aed5558f2_normal.jpeg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @AlbertoVioque
+                                </span>
+
+                                <span class="published">
+                                    05-jul-14 17:37
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                    
+                    <div id="btn-reply">
+                <a rel="nofollow" href="/foro/pregunta/166/traduccion-de-base-de-datos-symfony-24/responder/#tu-respuesta" class="btn btn-lg">
+                    Responder pregunta
+                </a>
+            </div>
+            </div>
+
+
+                </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

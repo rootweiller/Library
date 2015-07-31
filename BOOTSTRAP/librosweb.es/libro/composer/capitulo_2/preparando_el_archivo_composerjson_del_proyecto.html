@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>2.2. Preparando el archivo &lt;code&gt;composer.json&lt;/code&gt; del proyecto (Composer, el manual oficial)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_2.html" />
+                    <link rel="next" href="../capitulo_2/instalando_las_dependencias.html" />
+                <link rel="start" href="/libro/composer/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="2.2. Preparando el archivo &lt;code&gt;composer.json&lt;/code&gt; del proyecto (Composer, el manual oficial)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page composer"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+            <div class="module module-ad module-ad-responsive module-ad-top">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/composer/" itemprop="url">
+                    <span itemprop="title">Composer, el manual oficial</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/composer/capitulo_2.html" itemprop="url">
+                    <span itemprop="title">Capítulo 2. Primeros pasos</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>2.2. Preparando el archivo <code>composer.json</code> del proyecto</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="preparando_el_archivo_composerjson_del_proyecto" class="title">
+        <span>2.2.</span> Preparando el archivo <code>composer.json</code> del proyecto
+    </h1>
+
+    
+
+<p>Lo único que necesitas para empezar a utilizar Composer en tu proyecto es crear un archivo llamado <code>composer.json</code>. En este archivo se describen las dependencias del proyecto y también puede contener otro tipo de información.</p>
+
+<p>El archivo utiliza el <a href="http://json.org/">formato JSON</a> y es muy fácil tanto de leer como de escribir. El contenido del archivo normalmente consiste en una serie de estructuras de información anidadas.</p>
+
+<h3 id="la_clave_require">2.2.1. La clave <code>require</code></h3>
+
+<p>Lo primero (y a menudo lo único) que debes añadir en el archivo <code>composer.json</code> es una clave llamada <code>require</code>. De esta forma dices a Composer cuáles son los paquetes de los que depende tu proyecto.</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="br0">&#123;</span>
+    <span class="st0">&quot;require&quot;</span><span class="sy0">:</span> <span class="br0">&#123;</span>
+        <span class="st0">&quot;monolog/monolog&quot;</span><span class="sy0">:</span> <span class="st0">&quot;1.0.*&quot;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El valor de <code>require</code> es un objeto que mapea <strong>nombres de paquetes</strong> (en este caso, <code>monolog/monolog</code>) con <strong>versiones de paquetes</strong> (en este caso, <code>1.0.*</code>).</p>
+
+<h3 id="nombres_de_paquetes">2.2.2. Nombres de paquetes</h3>
+
+<p>El nombre de cada paquete está formado por dos partes. La primera indica quién es su <em>"vendor"</em> o creador (una persona o una empresa) y la segunda indica el nombre del proyecto. A menudo las dos partes son idénticas, pero el nombre del creador es importante para evitar colisiones entre proyectos con el mismo nombre. Así es posible por ejemplo que dos personas diferentes creen un proyecto llamado <code>json</code>, de forma que sus paquetes podrían llamarse <code>igorw/json</code> y <code>seldaek/json</code>.</p>
+
+<p>En este ejemplo se está requiriendo el paquete <code>monolog/monolog</code>, así que el nombre del creador es el mismo que el del proyecto. Esta es la práctica recomendada para aquellos proyectos que sean únicos. De esta forma, si esos proyectos en el futuro lanzan otros proyectos, el mismo nombre del creador se podrá utilizar en todos ellos.</p>
+
+<p>Si desarrollas una librería, esta técnica también te permitirá dividir el proyecto en varias partes más pequeñas y desacopladas, manteniendo todas ellas bajo el mismo creador.</p>
+
+<h3 id="versiones_de_paquetes">2.2.3. Versiones de paquetes</h3>
+
+<p>En el ejemplo anterior, la versión requerida de la librería es <code>1.0.*</code>, lo que significa que se puede utilizar cualquier versión de la rama <code>1.0</code> (como por ejemplo <code>1.0.0</code>, <code>1.0.2</code> o <code>1.0.20</code>).</p>
+
+<p>Las versiones requeridas se pueden especificar de muchas maneras diferentes, lo que da una gran versatilidad a Composer:</p>
+
+<ul>
+<li><strong>Versión exacta</strong>: indica exactamente la versión específica que requieres, como por ejemplo <code>1.0.2</code>.</li>
+<li><strong>Rango de versiones</strong>: que se indican mediante los siguientes operadores de comparación: <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>!=</code>. Así podrías indicar la versión requerida como <code>&gt;=1.0</code> o combinar varios rangos separándolos por comas: <code>&gt;=1.0,&lt;2.0</code>.</li>
+<li><strong>Comodines</strong>: indican la versión requerida con un comodín (<code>*</code>) mediante un patrón similar al de las expresiones regulares. La versión <code>1.0.*</code> por ejemplo es equivalente a <code>&gt;=1.0,&lt;1.1</code>.</li>
+<li><strong>La siguiente versión significativa</strong>: que se indica mediante el operador <code>~</code> y se interprea de la siguiente manera: <code>~1.2</code> es equivalente a <code>&gt;=1.2,&lt;2.0</code>, mientras que <code>~1.2.3</code> es equivalente a <code>&gt;=1.2.3,&lt;1.3</code>.</li>
+</ul>
+
+<p>La última forma de indicar las versiones es sobre todo útil para aquellos proyectos que siguen el <a href="http://semver.org/">versionado semántico</a>. Normalmente se utiliza para indicar la mínima versión que requieres de una librería, como por ejemplo <code>~1.2</code>, que permite cualquier versión hasta la <code>2.0</code> (sin incluir la <code>2.0</code>). Como en teoría no deberían producirse problemas de retrocompatibilidad hasta la versión 2.0, esta técnica debería funcionar bien para los proyectos buenos que cumplen las normas.</p>
+
+<p>Otra forma de entender el operador <code>~</code> es que simplemente especifica la versión mínima requerida pero permite que el último dígito crezca tanto como quiera.</p>
+
+<p>Composer por defecto sólo tiene en consideración las versiones estables de cada paquete. Si en tu proyecto necesitas versiones <em>Release Candidate</em>, beta, alpha o dev, tienes que usar las <a href="#enlazando-paquetes">opciones de estabilidad</a>. Si en vez de una versión inestable de un paquete necesitas las de todos los paquetes del proyecto, puedes utilizar la <a href="#minimum-stability">opción minimum-stability</a>.</p>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_2.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 2. Primeros pasos</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_2/instalando_las_dependencias.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>2.3. Instalando las dependencias</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción</a>
+            </li>
+                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_2.html">
+                    <span>Capítulo 2.</span> Primeros pasos
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_2/preparando_el_archivo_composerjson_del_proyecto.html">
+                    <span>2.2.</span> Preparando el archivo <code>composer.json</code> del proyecto
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/instalando_las_dependencias.html">
+                    <span>2.3.</span> Instalando las dependencias
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/el_archivo_composerlock.html">
+                    <span>2.4.</span> El archivo <code>composer.lock</code>
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/packagist.html">
+                    <span>2.5.</span> Packagist
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/cargando_clases_de_forma_automatica.html">
+                    <span>2.6.</span> Cargando clases de forma automática
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Librerías</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> La interfaz de línea de comandos</a>
+            </li>
+                                                                                                                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> El archivo composer.json</a>
+            </li>
+                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Repositorios</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La comunidad de Composer</a>
+            </li>
+                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

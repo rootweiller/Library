@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>8.3. Autocompletar (Introducción a AJAX)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_8/teclado_virtual.html" />
+                    <link rel="next" href="../capitulo_9.html" />
+                <link rel="start" href="/libro/ajax/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="8.3. Autocompletar (Introducción a AJAX)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page ajax"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/ajax/" itemprop="url">
+                    <span itemprop="title">Introducción a AJAX</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/ajax/capitulo_8.html" itemprop="url">
+                    <span itemprop="title">Capítulo 8. Técnicas básicas con AJAX</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>8.3. Autocompletar</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="autocompletar" class="title">
+        <span>8.3.</span> Autocompletar
+    </h1>
+
+    
+
+<h3 id="contexto_3">8.3.1. Contexto</h3>
+
+<p>Algunas veces, se presenta al usuario un cuadro de texto en el que tiene que introducir un valor que pertenece a un grupo muy grande de datos. Algunos casos habituales son: una dirección de correo electrónico que pertenezca a la libreta de direcciones del usuario, el nombre válido de un municipio de un país, el nombre de un empleado de una empresa grande, etc.</p>
+
+<p>En la mayoría de casos, utilizar una lista desplegable que muestre todos los valores es completamente inviable, ya que pueden existir miles de posibles valores. Por otra parte, un cuadro de texto simple resulta de poca utilidad para el usuario. La solución consiste en combinar un cuadro de texto y una lista desplegable mediante AJAX.</p>
+
+<p>Al usuario se le presenta un cuadro de texto simple en el que puede introducir la información. A medida que el usuario escribe en el cuadro de texto, la aplicación solicita al servidor aquellos términos que estén relacionados con lo escrito por el usuario. Cuando la aplicación recibe la respuesta del servidor, la muestra al usuario a modo de ayuda para autocompletar la información.</p>
+
+<h3 id="solucion_propuesta_3">8.3.2. Solución propuesta</h3>
+
+<p>A continuación se muestra la interacción del sistema de autocompletado propuesto:</p>
+
+<div class="figure" id="figure_8_10">
+    <img src="/img/ajax/f0810.gif" alt="Interacción completa del usuario con el sistema de autocompletado" />
+
+    <p class="caption"><strong>Figura 8.10</strong> Interacción completa del usuario con el sistema de autocompletado</p>
+</div>
+
+
+<p><div class="exercise"><p class="title">Ejercicio 19</p> <p>A partir del formulario proporcionado, añadir la opción de autocompletar el nombre del municipio que está escribiendo el usuario. El esquema del funcionamiento propuesto es el siguiente:</p>
+
+<p>1) Al cargar la página, se debe crear un elemento HTML de tipo <code>&lt;div&gt;</code> en el que se van a mostrar las sugerencias enviadas por el servidor.</p>
+
+<p>Además, se debe establecer el evento de teclado adecuado en el cuadro de texto y también se debe posicionar el cursor en ese cuadro de texto para poder escribir en el directamente (Pista: <code>focus()</code>).</p>
+
+<p>2) Cuando se pulse una tecla sobre el cuadro de texto, se debe ejecutar la función <code>autocompleta()</code>. Desde esta función, se debe llamar a la función responsable de obtener la lista de municipios del servidor. El script se llama <code>autocompletaMunicipios.php</code>, el parámetro que se envía mediante <code>POST</code>, se llama <code>municipio</code> y debe contener la cadena de texto escrita por el usuario.</p>
+
+<p>El servidor responde con un array en formato JSON con la lista de municipios cuyo nombre comienza por el texto enviado. Ejemplo de respuesta del servidor:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="br0">&#91;</span> <span class="st0">&quot;Alegría-Dulantzi&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Amurrio&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Añana&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Aramaio&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Armiñón&quot;</span><span class="sy0">,</span> ... <span class="br0">&#93;</span></pre>
+</div>
+
+<p>3) Una vez obtenido el array de sugerencias, se debe mostrar en forma de lista de elementos (etiqueta <code>&lt;ul&gt;</code> de HTML). Para transformar el array en la lista <code>&lt;ul&gt;</code>, modificar el <code>prototype</code> del objeto <code>Array</code> y añadir una función específica que realice la transformación.</p>
+
+<p>4) Modificar la función <code>autocompleta()</code> para tener en consideración 3 teclas especiales: las flechas superior e inferior y la tecla <code>Enter</code>. (Pista: propiedad <code>keyCode</code>). Cuando se utilizan las flechas del teclado hacia arriba y hacia abajo, se van seleccionando los elementos de la lista. Cuando se pulsa el <code>Enter</code>, se selecciona el elemento copiando su valor al cuadro de texto y ocultando la lista de sugerencias. (Pista: variable global <code>elementoSeleccionado</code>)</p>
+
+<p>5) Para mejorar el rendimiento de la aplicación, añadir una cache para las sugerencias. Cada vez que se recibe una lista de sugerencias del servidor, se almacena en un objeto que relaciona el texto que ha introducido el usuario y la respuesta del servidor. Ejemplo:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="br0">&#123;</span>
+<span class="st0">&quot;a&quot;</span><span class="sy0">:</span> <span class="br0">&#91;</span><span class="st0">&quot;Ababuj&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abades&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abadía&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abadín&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abadiño&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abáigar&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abajas&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abaltzisketa&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abánades&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abanilla&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abanto y Ciérvana-Abanto Zierbena&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abanto&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abarán&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abarca de Campos&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abárzuza&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abaurregaina/Abaurrea Alta&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abaurrepea/Abaurrea Baja&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abegondo&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abejar&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abejuela&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Abella de la Conca&quot;</span><span class="br0">&#93;</span><span class="sy0">,</span>
+&nbsp;
+<span class="st0">&quot;al&quot;</span><span class="sy0">:</span> <span class="br0">&#91;</span><span class="st0">&quot;Alacón&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Aladrén&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alaejos&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alagón&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alaior&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alájar&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alajeró&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alameda de Gardón (La)&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alameda de la Sagra&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alameda del Valle&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alameda&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alamedilla (La)&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alamedilla&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alamillo&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alaminos&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alamús (Els)&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alange&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alanís&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alaquàs&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alar del Rey&quot;</span><span class="sy0">,</span> <span class="st0">&quot;Alaraz&quot;</span><span class="br0">&#93;</span><span class="sy0">,</span>
+...
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>De esta forma, antes de realizar una petición al servidor, se comprueba si ya está disponible una lista de sugerencias para ese texto. Además, cuando se realiza una consulta al servidor, la respuesta se almacena en la cache para su posible reutilización futura.</p>
+
+<p>6) Mostrar un mensaje adecuado cuando el servidor devuelva un array vacío por no haber sugerencias para el texto introducido por el usuario.</p>
+
+<p><a href="/ejercicios/ajax/ejercicio19/ejercicio19.zip">Descargar archivo ZIP con el script autocompletaMunicipios.php</a></p>
+
+<p><a href="http://www.librosweb.es/ajax/capitulo14/ejercicio_19.html">Ver solución</a></p></div></p>
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_8/teclado_virtual.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>8.2. Teclado virtual</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_9.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>Capítulo 9. Técnicas avanzadas con AJAX</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a AJAX</a>
+            </li>
+                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> JavaScript básico</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> JavaScript avanzado</a>
+            </li>
+                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> DOM (Document Object Model)</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> BOM (Browser Object Model)</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Eventos</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Primeros pasos con AJAX</a>
+            </li>
+                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_8.html">
+                    <span>Capítulo 8.</span> Técnicas básicas con AJAX
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/teclado_virtual.html">
+                    <span>8.2.</span> Teclado virtual
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_8/autocompletar.html">
+                    <span>8.3.</span> Autocompletar
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Técnicas avanzadas con AJAX</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Frameworks y librerías</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Otras utilidades</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Recursos útiles</a>
+            </li>
+                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Bibliografía</a>
+            </li>
+                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Ejercicios resueltos</a>
+            </li>
+                                                                                                                                                                                                                                                                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>8.1. Git y Subversion (Pro Git, el libro oficial de Git)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_8.html" />
+                    <link rel="next" href="../capitulo_8/migrando_a_git.html" />
+                <link rel="start" href="/libro/pro_git/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="8.1. Git y Subversion (Pro Git, el libro oficial de Git)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page pro_git"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/" itemprop="url">
+                    <span itemprop="title">Pro Git, el libro oficial de Git</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/capitulo_8.html" itemprop="url">
+                    <span itemprop="title">Capítulo 8. Git y otros sistemas</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>8.1. Git y Subversion</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="git_y_subversion" class="title">
+        <span>8.1.</span> Git y Subversion
+    </h1>
+
+    
+
+<p>Hasta hace poco tiempo, la mayoría de los proyectos en desarrollo de código abierto y un gran número de proyectos corporativos usaban Subversion para manejar su código fuente. Además de que era el VCS más popular, ha existido desde hace casi una década. También es muy similar en muchos aspectos a CVS, que antes fue el sistema de control de fuentes más utilizado.</p>
+
+<p>Una de las grandes características de Git es el puente bidireccional llamado <code>git svn</code>. Esta herramienta permite el uso de Git como un cliente válido para un servidor Subversion, así que puedes utilizar todas las características locales de Git y luego hacer un <em>"push"</em> al servidor de Subversion como si estuvieras usando Subversion localmente. Esto significa que puedes hacer <em>"branching"</em> y <em>"merging"</em> localmente, usar el área de <em>"staging"</em>, usar <em>"rebasing"</em> y <em>"cherry-picking"</em>, y todo esto, mientras tus colaboradores continuan trabajando <em>a la antigua usanza</em>. Es una buena forma de migrar a Git dentro de un ambiente corporativo y ayudar a tus buenos desarrolladores a hacerse más eficientes mientras tu haces presión para que puedan cambiar la infraestructura y así soportar Git completamente. El puente de Subversion es la puerta de enlace hacia el mundo de DVCS.</p>
+
+<h3 id="git_svn">8.1.1. git svn</h3>
+
+<p>El comando básico de Git para todas las operaciones relacionadas con Subversion es <code>git svn</code>. Escribe ese comando como prefijo de todas las demás operaciones. En realidad son pocos comandos, así que vamos a aprender los más comunes mientras presentamos varios flujos de trabajo sencillos.</p>
+
+<p>Resulta importante destacar que cuando utilizas <code>git svn</code>, estás interactuando con Subversion, que es un sistema mucho menos sofisticado que Git. Aunque puedes hacer fácilmente ramas y fusiones en local, es mejor que el historial de tu código sea lo más lineal posible reorganizando (<em>rebase</em>) tu código y evitando interactuar simultáneamente con un repositorio git remoto.</p>
+
+<p>No reescribas la historia de tu proyecto y trates de enviar (<em>push</em>) los cambios. Tampoco envíes (<em>push</em>) cambios a un repositorio Git para colaborar a la vez con otros programadores que utilicen Git. Subversion solo puede manejar un historial de código lineal y es fácil estropearlo. Si trabajas en equipo y algunos utilizan Subversion y otros Git, asegúrate de que todos utilizan el servidor SVN para colaborar; esto hará que tu trabajo sea mucho más sencillo.</p>
+
+<h3 id="preparacion">8.1.2. Preparación</h3>
+
+<p>Para probar el comando <code>git svn</code>, necesitas un repositorio SVN típico para el que tengas acceso de escritura. Si quieres seguir los mismos ejemplos de este libro, haz una copia de mi repositorio <code>test-svn</code>. Para que sea más sencillo, puedes emplear una herramienta llamada <code>svnsync</code> que incluyen las versiones más recientes de Subversion — se incluye al menos desde la versión 1.4. Para estas pruebas, he creado un repositorio Subversion en el sitio Google Code y que es una copia parcial del proyecto <code>protobuf</code>, que a su vez es una herramienta que codifica información para transmitirla a través de redes de comunicaciones.</p>
+
+<p>En primer lugar, crea un nuevo repositorio Subversion local:</p>
+
+<div class="code code">
+<pre class="code">$ mkdir /tmp/test-svn
+$ svnadmin create /tmp/test-svn</pre>
+</div>
+
+<p>Después, permite que todos los usuarios puedan cambiar <code>revprops</code>. Lo más fácil es que crees un archivo llamado <code>revprop-change</code> que siempre devuelva <code>0</code>:</p>
+
+<div class="code code">
+<pre class="code">$ cat /tmp/test-svn/hooks/pre-revprop-change 
+#!/bin/sh
+exit 0;
+$ chmod +x /tmp/test-svn/hooks/pre-revprop-change</pre>
+</div>
+
+<p>Ahora ya puedes sincronizar este proyecto en tu máquina local ejecutando el comando <code>svnsync init</code> e indicando los dos repositorios (<em>a dónde</em> y <em>desde dónde</em>):</p>
+
+<div class="code code">
+<pre class="code">$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ </pre>
+</div>
+
+<p>El comando anterior prepara las propiedades necesarias para la sincronización. Después, clona el código ejecutando el siguiente comando:</p>
+
+<div class="code code">
+<pre class="code">$ svnsync sync file:///tmp/test-svn
+Committed revision 1.
+Copied properties for revision 1.
+Committed revision 2.
+Copied properties for revision 2.
+Committed revision 3.
+...</pre>
+</div>
+
+<p>Completar esta operación cuesta solo unos minutos, pero si tratas de copiar el repositorio original a otro repositorio remoto en vez de a uno local, el proceso entero puede llevar casi una hora, aunque hay menos de 100 <em>commits</em>. Subversion clona una revisión cada vez y después envía los cambios a otro repositorio — es tan ineficiente que resulta ridículo, pero es la única forma sencilla de hacerlo.</p>
+
+<h3 id="comenzando">8.1.3. Comenzando</h3>
+
+<p>Ahora que ya tienes un repositorio Subversion con permiso de escritura, puedes seguir el flujo de trabajo habitual. Comienza ejecutando el comando <code>git svn clone</code>, que importa un repositorio Subversion completo en un repositorio Git local. Recuerda que si estás importando desde un repositorio Subversion alojado remotamente, debes reemplaazar <code>file:///tmp/test-svn</code> por la URL de ese repositorio remoto:</p>
+
+<div class="code code">
+<pre class="code">$ git svn clone file:///tmp/test-svn -T trunk -b branches -t tags
+Initialized empty Git repository in /Users/schacon/projects/testsvnsync/svn/.git/
+r1 = b4e387bc68740b5af56c2a5faf4003ae42bd135c (trunk)
+      A    m4/acx_pthread.m4
+      A    m4/stl_hash.m4
+...
+r75 = d1957f3b307922124eec6314e15bcda59e3d9610 (trunk)
+Found possible branch point: file:///tmp/test-svn/trunk =&gt; \
+    file:///tmp/test-svn /branches/my-calc-branch, 75
+Found branch parent: (my-calc-branch) d1957f3b307922124eec6314e15bcda59e3d9610
+Following parent with do_switch
+Successfully followed parent
+r76 = 8624824ecc0badd73f40ea2f01fce51894189b01 (my-calc-branch)
+Checked out HEAD:
+ file:///tmp/test-svn/branches/my-calc-branch r76</pre>
+</div>
+
+<p>Lo anterior es equivalente a ejecutar el comando <code>git svn init</code> seguido de <code>git svn fetch</code> sobre la URL indicada. Este proceso puede tardar un tiempo. Como el proyecto de prueba solo tiene 75 <em>commits</em> y el código entero no es muy grande, solo tarda unos minutos. No obstante, Git tiene que descargar (<em>checkout</em>) cada versión una por una y confirmarlas (<em>commit</em>) individualmente. Si el proyecto tiene cientos o miles de confirmaciones (<em>commits</em>) este proceso puede tardar desde horas hasta días enteros.</p>
+
+<p>Las opciones <code>-T trunk -b branches -t tags</code> indican a Git que este repositorio Subversion sigue las convenciones comunes para las ramas y las etiquetas. Si utilizas nombres diferentes para el <em>trunk</em>, las ramas (<em>branches</em>) o las etiquetas (<em>tags</em>), indícalo con estas opciones. Como es tan común usar las convenciones anteriores, exsite un atajo llamado <code>-s</code> que indica que el repositorio sigue la convención estándar. Así que el siguiente comando es equivalente al anterior:</p>
+
+<div class="code code">
+<pre class="code">$ git svn clone file:///tmp/test-svn -s</pre>
+</div>
+
+<p>Después de ejecutar el comando anterior, ya deberías tener un repositorio Git válido con todas las ramas y etiquetas importadas:</p>
+
+<div class="code code">
+<pre class="code">$ git branch -a
+* master
+  my-calc-branch
+  tags/2.0.2
+  tags/release-2.0.1
+  tags/release-2.0.2
+  tags/release-2.0.2rc1
+  trunk</pre>
+</div>
+
+<p>Fíjate como esta herramienta prefija las referencias externas de forma diferente. Cuando clonas un repositorio Git normal, todas las ramas remotas están disponibles localmente con el nombre <code>origin/[nombre-rama]</code> y prefijadas con el nombre de la referencia remota. No obstante, el comando <code>git svn</code> supone que no vas a utilizar varias referencias remotas y por eso no prefija nada al nombre de las ramas. Si utilizas el comando de bajo nivel <code>show-ref</code>, puedes ver el nombre completo de todas las referencias:</p>
+
+<div class="code code">
+<pre class="code">$ git show-ref
+1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/heads/master
+aee1ecc26318164f355a883f5d99cff0c852d3c4 refs/remotes/my-calc-branch
+03d09b0e2aad427e34a6d50ff147128e76c0e0f5 refs/remotes/tags/2.0.2
+50d02cc0adc9da4319eeba0900430ba219b9c376 refs/remotes/tags/release-2.0.1
+4caaa711a50c77879a91b8b90380060f672745cb refs/remotes/tags/release-2.0.2
+1c4cb508144c513ff1214c3488abe66dcb92916f refs/remotes/tags/release-2.0.2rc1
+1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/remotes/trunk</pre>
+</div>
+
+<p>Un repositorio Git normal tiene la siguiente pinta:</p>
+
+<div class="code code">
+<pre class="code">$ git show-ref
+83e38c7a0af325a9722f2fdc56b10188806d83a1 refs/heads/master
+3e15e38c198baac84223acfc6224bb8b99ff2281 refs/remotes/gitserver/master
+0a30dd3b0c795b80212ae723640d4e5d48cabdff refs/remotes/origin/master
+25812380387fdd55f916652be4881c6f11600d6f refs/remotes/origin/testing</pre>
+</div>
+
+<p>En el ejemplo anterior, dispones de dos servidores remotos: uno se llama <code>gitserver</code> y tiene una rama <code>master</code>; el otro se llama <code>origin</code> y tiene dos ramas: <code>master</code> y <code>testing</code>.</p>
+
+<p>Observa como en el ejemplo de las referencias importadas con el comando <code>git svn</code>, las etiquetas se añaden como ramas remotas, no como etiquetas de Git. La importación de Subversion parece que tuviera una referencia remota llamada <code>tags</code> y las etiquetas fueran ramas suyas.</p>
+
+<h3 id="confirmando_cambios_al_repositorio_subversion">8.1.4. Confirmando cambios al repositorio Subversion</h3>
+
+<p>Ahora que ya tienes un repositorio funcional, puedes trabajar sobre el proyecto para después confirmar (<em>commit</em>) los cambios al repositorio, utilizando Git como si fuera un cliente de Subversion. Si modificas un archivo y lo confirmas (<em>commit</em>), tienes una confirmación (<em>commit</em>) local en Git que no existe todavía en el servidor de Subversion:</p>
+
+<div class="code code">
+<pre class="code">$ git commit -am 'Adding git-svn instructions to the README'
+[master 97031e5] Adding git-svn instructions to the README
+ 1 files changed, 1 insertions(+), 1 deletions(-)</pre>
+</div>
+
+<p>Ahora debes enviar el cambio al repositorio. Observa cómo esto cambia la forma en la que trabajas con Subversion: puedes hacer varias confirmaciones (<em>commit</em>) por una parte y después enviarlas (<em>push</em>) todas a la vez al servidor de Subversion. Para enviar los cambios, ejecuta el comando <code>git svn dcommit</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git svn dcommit
+Committing to file:///tmp/test-svn/trunk ...
+       M      README.txt
+Committed r79
+       M      README.txt
+r79 = 938b1a547c2cc92033b74d32030e86468294a5c8 (trunk)
+No changes between current HEAD and refs/remotes/trunk
+Resetting to the latest refs/remotes/trunk</pre>
+</div>
+
+<p>Este comando obtiene todas las confirmaciones (<em>commits</em>) que has realizado en el código, realiza un <em>commit</em> de Subversion para cada una y después reescribe tu <em>commit</em> local de Git para añadirle un identificador único. Esto es importante porque significa que cambian las sumas de compronación SHA-1 de tus <em>commits</em>. Esta es una de las razones por las que no se recomienda trabajar a la vez en un repositorio Git y en otro de tipo Subversion. Si observas el último <em>commit</em>, puedes ver el nuevo valor <code>git-svn-id</code> que se ha añadido:</p>
+
+<div class="code code">
+<pre class="code">$ git log -1
+commit 938b1a547c2cc92033b74d32030e86468294a5c8
+Author: schacon &lt;schacon@4c93b258-373f-11de-be05-5f7a86268029&gt;
+Date:   Sat May 2 22:06:44 2009 +0000</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    Adding git-svn instructions to the README</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    git-svn-id: file:///tmp/test-svn/trunk@79 4c93b258-373f-11de-be05-5f7a86268029</pre>
+</div>
+
+<p>La suma de comprobación SHA que antes empezaba por <code>97031e5</code> ahora comienza por <code>938b1a5</code>. Si quieres enviar cambios tanto a un repositorio Git como a uno de tipo Subversion, debes enviar los cambios (<code>dcommit</code>) primero al repositorio Subversion, porque eso hace que cambien los datos de tu <em>commit</em>.</p>
+
+<h3 id="descargando_los_cambios">8.1.5. Descargando los cambios</h3>
+
+<p>Cuando trabajas con otros programadores en el mismo proyecto, en algún momento alguien enviará un cambio y después otra persona tratará de enviar un cambio diferente pero no podrá porque se producirán conflictos. Los cambios no se podrán subir hasta que se resuelvan los conflictos. Utilizando <code>git svn</code> los conflictos tienen la siguiente pinta:</p>
+
+<div class="code code">
+<pre class="code">$ git svn dcommit
+Committing to file:///tmp/test-svn/trunk ...
+Merge conflict during commit: Your file or directory 'README.txt' is probably \
+out-of-date: resource out of date; try updating at /Users/schacon/libexec/git-\
+core/git-svn line 482</pre>
+</div>
+
+<p>Para resolver este problema, ejecuta el comando <code>git svn rebase</code>, que descarga todos los cambios del servidor que todavía no has aplicado y reorganiza (<em>rebase</em>) el código propio que has modificado localmente:</p>
+
+<div class="code code">
+<pre class="code">$ git svn rebase
+       M      README.txt
+r80 = ff829ab914e8775c7c025d741beb3d523ee30bc4 (trunk)
+First, rewinding head to replay your work on top of it...
+Applying: first user change</pre>
+</div>
+
+<p>Ahora tus cambios están por delante de los últimos cambios del servidor Subversion, por lo que ya puedes enviarlos con el comando <code>dcommit</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git svn dcommit
+Committing to file:///tmp/test-svn/trunk ...
+       M      README.txt
+Committed r81
+       M      README.txt
+r81 = 456cbe6337abe49154db70106d1836bc1332deed (trunk)
+No changes between current HEAD and refs/remotes/trunk
+Resetting to the latest refs/remotes/trunk</pre>
+</div>
+
+<p>Recuerda que Git que obliga a fusionar todos los cambios remotos que no hayas aplicado localmente antes de poder subir (<em>push</em>) tus cambios. Sin embargo, <code>git svn</code> solo te obliga a hacerlo si los cambios generan conflictos. Si alguien cambia un archivo y después tu subes cambios a otro archivo diferente, el comando <code>dcommit</code> funcionará sin ningún problema:</p>
+
+<div class="code code">
+<pre class="code">$ git svn dcommit
+Committing to file:///tmp/test-svn/trunk ...
+       M      configure.ac
+Committed r84
+       M      autogen.sh
+r83 = 8aa54a74d452f82eee10076ab2584c1fc424853b (trunk)
+       M      configure.ac
+r84 = cdbac939211ccb18aa744e581e46563af5d962d0 (trunk)
+W: d2f23b80f67aaaa1f6f5aaef48fce3263ac71a92 and refs/remotes/trunk differ, \
+  using rebase:
+:100755 100755 efa5a59965fbbb5b2b0a12890f1b351bb5493c18 \
+  015e4c98c482f0fa71e4d5434338014530b37fa6 M   autogen.sh
+First, rewinding head to replay your work on top of it...
+Nothing to do.</pre>
+</div>
+
+<p>Resulta importante que siempre tengas presente este comportamiento, ya que el resultado es que el proyecto se encuentra en un estado que no existe en ninguno de los dos ordenadores locales que han subido los cambios. Si los cambios son incompatibles pero no generan ningún conflicto, puedes encontrarte con errores que son muy difíciles de detectar. Git se comporta de forma muy diferente. En Git puedes comprobar localmente el estado completo del proyecto antes de subir los cambios, mientras que en Subversion nunca puedes estar seguro de que el estado anterior y posterior al cambio sea idéntico.</p>
+
+<p>Utiliza también este comando para obtener (<em>pull</em>) los cambios del repositorio Subversion incluso aunque tu no hayas hecho cambios locales. Ejecuta <code>git svn fetch</code> para obtener los cambios y <code>git svn rebase</code> para obtener los cambios y después actualizar tus <em>commits</em> locales.</p>
+
+<div class="code code">
+<pre class="code">$ git svn rebase
+       M      generate_descriptor_proto.sh
+r82 = bd16df9173e424c6f52c337ab6efa7f7643282f1 (trunk)
+First, rewinding head to replay your work on top of it...
+Fast-forwarded master to refs/remotes/trunk.</pre>
+</div>
+
+<p>Ejecutar el comando <code>git svn rebase</code> de vez en cuando te asegura que tu código siempre está actualizado. Asegúrate de que tu directorio de trabajo está <em>limpio</em> antes de ejecutar el comando. Si tienes cambios locales, guarda temporalmente (<em>stash</em>) esos cambios o confírmalos (<em>commit</em>) antes de ejecutar <code>git svn rebase</code>. Si no, el comando no se ejecuta porque detecta que la reorganización del código (<em>rebase</em>) va a provocar algún conflicto.</p>
+
+<h3 id="problemas_con_las_ramas_de_git">8.1.6. Problemas con las ramas de Git</h3>
+
+<p>Las personas acostumbradas a trabajar con Git suelen crear ramas para solucionar errores o añadir funcionalidades. Después de trabajar en ellas, las fusionan con la rama de integración (<code>dev</code>, <code>master</code>, etc.) Si subes los cambios a un repositorio Subversion con el comando <code>git svn</code>, seguramente querrás reorganizar (<em>rebase</em>) el código en una única rama en vez de fusionar varias ramas. El principal motivo es que Subersion tiene un historial de código lineal y no trata las fusiones (<em>merges</em>) de la misma manera que Git, así que <code>git svn</code> solo continúa hasta el primer padre cuando realiza la conversión de los cambios a <em>commits</em> de Subversion.</p>
+
+<p>Imagina que el historial de tu código es el siguiente: has creado una rama llamada <code>experiment</code>, has realizado dos <em>commits</em> y después la has fusionado con la rama <code>master</code>. Al ejecutar el comando <code>dcommit</code>, obtienes el siguiente resultado:</p>
+
+<div class="code code">
+<pre class="code">$ git svn dcommit
+Committing to file:///tmp/test-svn/trunk ...
+       M      CHANGES.txt
+Committed r85
+       M      CHANGES.txt
+r85 = 4bfebeec434d156c36f2bcd18f4e3d97dc3269a2 (trunk)
+No changes between current HEAD and refs/remotes/trunk
+Resetting to the latest refs/remotes/trunk
+COPYING.txt: locally modified
+INSTALL.txt: locally modified
+       M      COPYING.txt
+       M      INSTALL.txt
+Committed r86
+       M      INSTALL.txt
+       M      COPYING.txt
+r86 = 2647f6b86ccfcaad4ec58c520e369ec81f7c283c (trunk)
+No changes between current HEAD and refs/remotes/trunk
+Resetting to the latest refs/remotes/trunk</pre>
+</div>
+
+<p>Ejecutar el comando <code>dcommit</code> en una rama con los cambios ya fusionado funciona bien. El problema es que si ves el historial de tu proyecto Git, no ha reescrito ninguno de los <em>commits</em> que has realizado en la rama <code>experiment</code>. En su lugar, todos los cambios aparecen en el <em>commit</em> utilizado para fusionar los cambios en el repositorio de Subversion.</p>
+
+<p>Si otra persona clona ese trabajo, todo lo que verá será un único <em>commit</em> que contiene todos los cambios, así que no verá ni la información sobre los <em>commits</em> ni cuándo se realizaron.</p>
+
+<h3 id="creando_ramas_en_subversion">8.1.7. Creando ramas en Subversion</h3>
+
+<p>Crear ramas en Subversion es muy diferente a hacerlo en Git. Si puedes evitarlas, es mejor que lo hagas. En cualquier caso, puedes crear ramas en Subversion con el comando <code>git svn</code>.</p>
+
+<h4 id="creando_una_nueva_rama_en_subversion">8.1.7.1. Creando una nueva rama en Subversion</h4>
+
+<p>Para crear una nueva rama en Subversion, ejecuta <code>git svn branch [nombre-rama]</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git svn branch opera
+Copying file:///tmp/test-svn/trunk at r87 to file:///tmp/test-svn/branches/opera...
+Found possible branch point: file:///tmp/test-svn/trunk =&gt; \
+  file:///tmp/test-svn/branches/opera, 87
+Found branch parent: (opera) 1f6bfe471083cbca06ac8d4176f7ad4de0d62e5f
+Following parent with do_switch
+Successfully followed parent
+r89 = 9b6fe0b90c5c9adf9165f700897518dbc54a7cbf (opera)</pre>
+</div>
+
+<p>Este comando es equivalente a ejecutar <code>svn copy trunk branches/opera</code> sobre el repositorio de Subversion. Cuidado porque este comando no te cambia de rama después de crearla, por lo que si haces algún cambio, se realizará sobre la rama <code>trunk</code>, no sobre la rama <code>opera</code>.</p>
+
+<h3 id="cambiando_la_rama_activa">8.1.8. Cambiando la rama activa</h3>
+
+<p>Git detecta a qué rama envía los cambios <code>dcommits</code> observando el último cambio de todas las ramas de Subversion en tu historial. Así que debería haber solo una y debería ser la última con un valor <code>git-svn-id</code> en tu historial de ramas.</p>
+
+<p>Si quieres trabajar en más de una rama a la vez, puedes hacer que las ramas locales envíen los cambios con <code>dcommit</code> a alguna rama específica de Subversion. Para ello, debes crearlas en el <em>commit</em> que se utilizó para importar la rama de Subversion. Si quieres crear una rama <code>opera</code> para trabajar independientemente, ejecuta lo siguiente:</p>
+
+<div class="code code">
+<pre class="code">$ git branch opera remotes/opera</pre>
+</div>
+
+<p>Si ahora quieres fusionar la rama <code>opera</code> dentro de <code>trunk</code> (que en realidad corresponde a la rama <code>master</code>), puedes hacerlo con un comando <code>git merge</code> normal. No olvides añadir algún comentario descriptivo (con la opción <code>-m</code>), ya que si no, la fusión incluirá el siguiente mensaje automático <em>"Merge branch opera"</em>.</p>
+
+<p>Ten en cuenta que, aunque estás utilizando <code>git merge</code> para hacer esta operación, y la fusión (<em>merge</em>) será mucho más sencilla de lo que sería en Subversion (porque Git detecta automáticamente la base a partir de la cual hay que fusionar) esto no un <em>commit</em> normal de Git para fusionar cambios. Pero como estás enviando los cambios a un servidor Subversion que no es capaz de manejar los <em>commits</em> que están relacionados con más de un padre, los cambios se mostrarán como un único <em>commit</em> con todas las modificaciones enviadas.</p>
+
+<p>Después de fusionar una rama dentro de otra, no es fáicl volver atrás y continuar trabajando en esa rama, tal y como haces normalmente en Git. El comando <code>dcommit</code> ejecutado borra toda la información sobre la fusión de la rama, por lo que los cálculos realizados para las futuras fusiones serán incorrectos. En otras palabras, el comando <code>dcommit</code> hace que el comando <code>git merge</code> parezca en realidad el comando <code>git merge --squash</code>.</p>
+
+<p>Lamentablemente no es sencillo solucionar este problema, ya que Subversion no puede almacenar esta información y siempre estarás limitado mientras utilices Subversion. Para evitar más problemas, borra la rama local (en este caso, la rama <code>opera</code>) después de fusionarla en la rama <code>trunk</code>.</p>
+
+<h3 id="comandos_de_subversion">8.1.9. Comandos de Subversion</h3>
+
+<p>La utilidad <code>git svn</code> proporciona varios comandos para facilitar la transición a Git mediante el uso de funcionalidades similares a las que dispones en Subversion. Estos son algunos de los comandos que te ofrecen lo mismo que tenías en Subversion.</p>
+
+<h4 id="historial_con_el_estilo_de_subversion">8.1.9.1. Historial con el estilo de Subversion</h4>
+
+<p>Si estás acostumbrado a Subversion y quieres ver el historial de tu código con ese mismo estilo, ejecuta <code>git svn log</code>:</p>
+
+<div class="code code">
+## <pre class="code">$ git svn logr87 | schacon | 2009-05-02 16:07:37 -0700 (Sat, 02 May 2009) | 2 lines</pre>
+</div>
+
+<div class="code code">
+<pre class="code">autogen change</pre>
+</div>
+
+<div class="code code">
+<pre class="code">------------------------------------------------------------------------
+r86 | schacon | 2009-05-02 16:00:21 -0700 (Sat, 02 May 2009) | 2 lines</pre>
+</div>
+
+<div class="code code">
+<pre class="code">Merge branch 'experiment'</pre>
+</div>
+
+<div class="code code">
+<pre class="code">------------------------------------------------------------------------
+r85 | schacon | 2009-05-02 16:00:09 -0700 (Sat, 02 May 2009) | 2 lines
+&nbsp;
+updated the changelog</pre>
+</div>
+
+<p>Debes tener en cuenta dos cosas importantes relacionadas con <code>git svn log</code>. En primer lugar, funciona sin conectarse al servidor, al contrario del comando <code>svn log</code> que obtiene su información del repositorio Subversion. En segudo lugar, solo muestra los cambios (<em>commits</em>) que se han subido al servidor. Los cambios locales que no has enviado con <code>dcommit</code> no se muestran y tampoco lo hacen los cambios subidos por otras personas al repositorio desde la última vez que te trajiste los cambios remotos. Más que un historial en realidad muestra el último estado conocido de los <em>commits</em> del servidor Subversion.</p>
+
+<h4 id="anotaciones_de_subversion">8.1.9.2. Anotaciones de Subversion</h4>
+
+<p>Al igual que el comando <code>git svn log</code> simula el comportamiento del comando <code>svn log</code>, existe un equivalente del comando <code>svn annotate</code> llamado <code>git svn blame [FILE]</code>. Su aspecto es el siguiente:</p>
+
+<div class="code code">
+<pre class="code">$ git svn blame README.txt 
+ 2   temporal Protocol Buffers - Google's data interchange format
+ 2   temporal Copyright 2008 Google Inc.
+ 2   temporal http://code.google.com/apis/protocolbuffers/
+ 2   temporal 
+22   temporal C++ Installation - Unix
+22   temporal =======================
+ 2   temporal 
+79    schacon Committing in git-svn.
+78    schacon 
+ 2   temporal To build and install the C++ Protocol Buffer runtime and the Protocol
+ 2   temporal Buffer compiler (protoc) execute the following:
+ 2   temporal </pre>
+</div>
+
+<p>De nuevo este comando no muestra los cambios locales no subidos o los cambios remotos que no te has descargado.</p>
+
+<h4 id="informacion_del_servidor_de_subversion">8.1.9.3. Información del servidor de Subversion</h4>
+
+<p>Para obtener la misma información que proporciona <code>svn info</code>, ejecuta el comando <code>git svn info</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git svn info
+Path: .
+URL: https://schacon-test.googlecode.com/svn/trunk
+Repository Root: https://schacon-test.googlecode.com/svn
+Repository UUID: 4c93b258-373f-11de-be05-5f7a86268029
+Revision: 87
+Node Kind: directory
+Schedule: normal
+Last Changed Author: schacon
+Last Changed Rev: 87
+Last Changed Date: 2009-05-02 16:07:37 -0700 (Sat, 02 May 2009)</pre>
+</div>
+
+<p>Al igual que <code>blame</code> y <code>log</code>, este comando no se conecta al servidor y por tanto solo muestra la información de la última vez que te comunicaste con el servidor Subversion.</p>
+
+<h4 id="ignorando_lo_que_subversion_ignora">8.1.9.4. Ignorando lo que Subversion ignora</h4>
+
+<p>Al clonar un repositorio Subversion que utiliza la propiedad <code>svn:ignore</code>, seguramente querrás que el archivo <code>.gitignore</code> contenga los mismos archivos para no subir accidentalmente al repositorio un archivo que no debería subirse. La utilidad <code>git svn</code> tiene dos comandos para ayudarte a conseguirlo. El primero es <code>git svn create-ignore</code>, que crea automáticamente todos los archivos <code>.gitignore</code> correspondientes para que puedas subirlos en el próximo <em>commit</em>.</p>
+
+<p>El segundo comando es <code>git svn show-ignore</code>, que muestra en la consola las líneas que deberías añadir a tu archivo <code>.gitignore</code>. Si quieres, puedes redirigir la salida de este comando directamente al archivo de exclusiones de tu proyecto:</p>
+
+<div class="code code">
+<pre class="code">$ git svn show-ignore &gt; .git/info/exclude</pre>
+</div>
+
+<p>De esta forma no creas archivos varios archivos <code>.gitignore</code> en los diferentes directorios del proyecto. Esta es una buena práctica recomendada cuando eres el único usuario de Git dentro de un equipo de trabajo Subversion y tus compañeros de trabajo no quieren encontrarse con multitud de archivos <code>.gitignore</code>.</p>
+
+<h3 id="resumen_de_git_subversion">8.1.10. Resumen de Git-Subversion</h3>
+
+<p>La herramienta <code>git svn</code> es muy útil si te ves obligado a utilizar un servidor Subversion o si el proyecto en el que estás trabajando todavía depende de un servidor Subversion. Piensa siempre que Subversion es una especie de Git limitado, ya que si no, te encontrarás con problemas durante esa transición y esto podría afectar a tus compañeros. Para evitar problemas, sigue estas recomendaciones:</p>
+
+<ul>
+<li>Mantén un historial de Git lineal que no contenga fusiones realizadas con el comando <code>git merge</code>. Reorganiza (<em>rebase</em>) cualquier código que realices en ramas diferentes a la principal, no hagas fusiones.</li>
+<li>No utilices un servidor Git a la vez. Quizás quieras tener uno para que sea más rápido clonar el repositorio para los nuevos programadores que se incorporen al proyecto, pero no subas cambios a ese repositorio que no tengan un valor <code>git-svn-id</code>. Puede ser útil configurar un enganche (<em>hook</em>) <code>pre-receive</code> que compruebe para cada <em>commit</em> si contiene un valor <code>git-svn-id</code> y rechace automáticamente todos los cambios que no lo tengan.</li>
+</ul>
+
+<p>Siguiendo estas recomendaciones, puede resultar hasta soportable trabajar ocn un repositorio Subversion. En cualquier caso, si es posible migrar a un repositorio Git de verdad, hazlo y mejorarás el trabajo de todo el equipo.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_8.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 8. Git y otros sistemas</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_8/migrando_a_git.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>8.2. Migrando a Git</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Fundamentos de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Trabajando con ramas en Git</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Git en un servidor</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Git en entornos distribuidos</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Las herramientas de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Personalizando Git</a>
+            </li>
+                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_8.html">
+                    <span>Capítulo 8.</span> Git y otros sistemas
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_8/git_y_subversion.html">
+                    <span>8.1.</span> Git y Subversion
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/migrando_a_git.html">
+                    <span>8.2.</span> Migrando a Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/resumen.html">
+                    <span>8.3.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Funcionamiento interno de Git</a>
+            </li>
+                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

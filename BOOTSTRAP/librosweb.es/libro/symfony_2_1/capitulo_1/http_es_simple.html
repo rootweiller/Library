@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>1.1. HTTP es simple (Symfony 2.1, el libro oficial)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                            
+        <link rel="canonical" href="/libro/symfony_2_x/capitulo_1/http_es_simple.html"/>
+                                    <link rel="prev" href="../capitulo_1.html" />
+                    <link rel="next" href="../capitulo_1/peticiones_y_respuestas_en_php.html" />
+                <link rel="start" href="/libro/symfony_2_1/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="1.1. HTTP es simple (Symfony 2.1, el libro oficial)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_2_1"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_1/" itemprop="url">
+                    <span itemprop="title">Symfony 2.1, el libro oficial</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_1/capitulo_1.html" itemprop="url">
+                    <span itemprop="title">Capítulo 1. Symfony2 y los fundamentos de HTTP</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>1.1. HTTP es simple</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="http_es_simple" class="title">
+        <span>1.1.</span> HTTP es simple
+    </h1>
+
+    
+
+<p>HTTP (<em>"HyperText Transfer Protocol"</em>) es un lenguaje basado en texto que permite a dos máquinas comunicarse entre sí. ¡Eso es todo! La siguiente <em>conversación</em> es la que por ejemplo tiene lugar cuando quieres acceder a la última tira cómica publicada por el sitio <a href="http://xkcd.com/">xkcd</a>:</p>
+
+<div class="figure" id="figure_1_1">
+    <img src="/img/symfony_2_0/http-xkcd.png" alt="Flujo HTTP para obtener la tira cómica más reciente de Xkcd" />
+
+    <p class="caption"><strong>Figura 1.1</strong> Flujo HTTP para obtener la tira cómica más reciente de Xkcd</p>
+</div>
+
+
+<p>Y aunque el lenguaje realmente utilizado es un poco más formal, sigue siendo bastante simple.</p>
+
+<p>HTTP es el término utilizado para describir este lenguaje simple basado en texto. Y no importa cómo desarrolles en la web, el objetivo de tu servidor siempre es entender las peticiones de texto simple, y devolver respuestas en texto simple.</p>
+
+<p>Symfony2 está diseñado en base a esa realidad. Aunque a veces no te des cuenta, HTTP es algo que usas todos los días. Con Symfony2, aprenderás a dominarlo.</p>
+
+<h3 id="paso_1_el_cliente_envia_una_peticion">1.1.1. Paso 1: El cliente envía una petición</h3>
+
+<p>Todas las conversaciones en la web comienzan con una <strong>petición</strong>. La petición es un mensaje de texto creado por un cliente (por ejemplo un navegador, una aplicación para el iPhone, etc.) en un formato especial conocido como HTTP. El cliente envía la petición a un servidor, y luego espera la respuesta.</p>
+
+<p>Echa un vistazo a la primera parte de la interacción (la petición) entre un navegador y el servidor web del sitio <code>xkcd</code>:</p>
+
+<div class="figure" id="figure_1_2">
+    <img src="/img/symfony_2_0/http-xkcd-request.png" alt="Petición HTTP para obtener la tira cómica más reciente de Xkcd" />
+
+    <p class="caption"><strong>Figura 1.2</strong> Petición HTTP para obtener la tira cómica más reciente de Xkcd</p>
+</div>
+
+
+<p>Utilizando el lenguaje HTTP, esta petición en realidad sería algo parecido a lo siguiente:</p>
+
+<div class="code code">
+<pre class="code">GET / HTTP/1.1
+Host: xkcd.com
+Accept: text/html
+User-Agent: Mozilla/5.0 (Macintosh)</pre>
+</div>
+
+<p>Este sencillo mensaje comunica todo lo necesario sobre qué recursos exactamente solicita el cliente. La primera línea de una petición HTTP es la más importante y contiene dos cosas: la URI y el método HTTP.</p>
+
+<p>La URI (por ejemplo, <code>/</code>, <code>/contacto</code>, etc.) es la dirección o ubicación que identifica unívocamente al recurso que solicita el cliente. El método HTTP (por ejemplo, <code>GET</code>) define lo que quieres hacer con el recurso. Los métodos HTTP son los <em>verbos</em> de la petición y definen las pocas formas en que puedes actuar sobre el recurso:</p>
+
+<div class="table" id="table_1_1">
+
+    <table>
+<thead>
+<tr>
+  <th>Método</th>
+  <th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>GET</code></td>
+  <td>Recupera el recurso desde el servidor</td>
+</tr>
+<tr>
+  <td><code>POST</code></td>
+  <td>Crea un recurso en el servidor</td>
+</tr>
+<tr>
+  <td><code>PUT</code></td>
+  <td>Actualiza el recurso en el servidor</td>
+</tr>
+<tr>
+  <td><code>DELETE</code></td>
+  <td>Elimina el recurso del servidor</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Teniendo esto en cuenta, puedes imaginar cómo sería por ejemplo la petición HTTP necesaria para borar un artículo específico de un blog:</p>
+
+<div class="code code">
+<pre class="code">DELETE /blog/15 HTTP/1.1</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> En realidad, hay nueve métodos HTTP definidos por la especificación HTTP, pero muchos de ellos no se utilizan o no están soportados. De hecho, muchos navegadores modernos no soportan los métodos <code>PUT</code> y <code>DELETE</code>.</p></div>
+
+<p>Además de la primera línea, una petición HTTP contiene también otras líneas de información conocidas como <strong>cabeceras de petición</strong>. Las cabeceras proporcionan mucha información, como el servidor (o <code>host</code>) solicitado, los formatos de respuesta que acepta el cliente (<code>Accept</code>) y la aplicación que utiliza el cliente para realizar la petición (<code>User-Agent</code>). Existen muchas otras cabeceras y se pueden encontrar en el artículo <em><a href="http://en.wikipedia.org/wiki/List_of_HTTP_header_fields">Lista de campos de las cabeceras HTTP</a></em> en la Wikipedia.</p>
+
+<h3 id="paso_2_el_servidor_devuelve_una_respuesta">1.1.2. Paso 2: El servidor devuelve una respuesta</h3>
+
+<p>Una vez que un servidor ha recibido la petición, sabe exactamente qué recursos necesita el cliente (a través de la URI) y lo que el cliente quiere hacer con ese recurso (a través del método). Por ejemplo, en el caso de una petición <code>GET</code>, el servidor prepara el recurso y lo devuelve en una respuesta HTTP. Considera la respuesta del servidor web del sitio <code>xkcd</code>:</p>
+
+<div class="figure" id="figure_1_3">
+    <img src="/img/symfony_2_0/http-xkcd.png" alt="Respuesta HTTP para obtener la tira cómica más reciente de Xkcd" />
+
+    <p class="caption"><strong>Figura 1.3</strong> Respuesta HTTP para obtener la tira cómica más reciente de Xkcd</p>
+</div>
+
+
+<p>Traducida a HTTP, la respuesta enviada de vuelta al navegador es similar a lo siguiente:</p>
+
+<div class="code code">
+<pre class="code">HTTP/1.1 200 OK
+Date: Sat, 02 Apr 2011 21:05:05 GMT
+Server: lighttpd/1.4.19
+Content-Type: text/html
+&nbsp;
+&lt;html&gt;
+  &lt;!-- HTML de la tira cómica de Xkcd --&gt;
+&lt;/html&gt;</pre>
+</div>
+
+<p>La respuesta HTTP contiene el recurso solicitado (en este caso, el contenido HTML de una página web), así como otra información acerca de la respuesta. La primera línea es especialmente importante y contiene el código de estado HTTP (<code>200</code> en este caso) de la respuesta. El código de estado indica el resultado global de la petición devuelta al cliente. ¿Tuvo éxito la petición? ¿Hubo algún error? Existen diferentes códigos de estado que indican éxito, error o qué más se necesita hacer con el cliente (por ejemplo, redirigirlo a otra página). La lista completa se puede encontrar en el artículo <em><a href="http://es.wikipedia.org/wiki/Anexo:C%C3%B3digos_de_estado_HTTP">Lista de códigos de estado HTTP</a></em> en la Wikipedia.</p>
+
+<p>Al igual que la petición, una respuesta HTTP contiene datos adicionales conocidos como cabeceras HTTP. Por ejemplo, una cabecera importante de la respuesta HTTP es <code>Content-Type</code>. Un mismo recurso se puede devolver en varios formatos diferentes (HTML, XML, JSON, etc.) y la cabecera <code>Content-Type</code> dice al cliente qué formato se ha utilizado (para ello utiliza valores estándar como <code>text/html</code> que se conocen como <em>Internet Media Types</em>). Puedes encontrar la lista completa de tipos de contenido en el artículo <em><a href="http://en.wikipedia.org/wiki/Internet_media_type#List_of_common_media_types">Lista de tipos de contenido de Internet</a></em> en la Wikipedia.</p>
+
+<p>Existen muchas otras cabeceras, algunas de las cuales son muy importantes. Por ejemplo, ciertas cabeceras se pueden usar para crear un sistema de memoria caché bastante interesante.</p>
+
+<h3 id="peticiones_respuestas_y_desarrollo_web">1.1.3. Peticiones, respuestas y desarrollo web</h3>
+
+<p>Esta conversación petición-respuesta es el proceso fundamental en el que se basa toda la comunicación en la web. Y a pesar de ser tan importante y poderoso, al mismo tiempo es muy sencillo.</p>
+
+<p>El concepto más importante es el siguiente: independientemente del lenguaje que utilices, el tipo de aplicación que construyas (web, móvil, API), o la filosofía de desarrollo que sigas, el objetivo final de una aplicación siempre es entender cada petición y crear y devolver la respuesta adecuada.</p>
+
+<p>Symfony está diseñado para adaptarse a esta realidad.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Puedes obtener más información acerca de la especificación HTTP, en la referencia original <a href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">HTTP 1.1 RFC</a>. También puedes leer la referencia <a href="http://datatracker.ietf.org/wg/httpbis/">HTTP Bis</a>, que es una versión actualizada y más detallada de la referencia anterior. Una gran herramienta para comprobar tanto la petición como las cabeceras de la respuesta mientras navegas es la extensión <em><a href="https://addons.mozilla.org/en-US/firefox/addon/live-http-headers/">Live HTTP Headers</a></em> de Firefox o el <em>Inspector Web</em> de los navegadores Chrome y Safari.</p></div>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_1.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 1. Symfony2 y los fundamentos de HTTP</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_1/peticiones_y_respuestas_en_php.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>1.2. Peticiones y respuestas en PHP</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1 ">
+                <a href="../capitulo_1.html">
+                    <span>Capítulo 1.</span> Symfony2 y los fundamentos de HTTP
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_1/http_es_simple.html">
+                    <span>1.1.</span> HTTP es simple
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_1/peticiones_y_respuestas_en_php.html">
+                    <span>1.2.</span> Peticiones y respuestas en PHP
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_1/peticiones_y_respuestas_en_symfony.html">
+                    <span>1.3.</span> Peticiones y respuestas en Symfony
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_1/el_viaje_desde_la_peticion_hasta_la_respuesta.html">
+                    <span>1.4.</span> El viaje desde la petición hasta la respuesta
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_1/symfony2_construye_tu_aplicacion_no_tus_herramientas.html">
+                    <span>1.5.</span> Symfony2: construye tu aplicación, no tus herramientas
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> De PHP a Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Instalando y configurando Symfony2</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Creando páginas en Symfony2</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> El controlador</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El enrutamiento</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Creando y utilizando plantillas</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> La base de datos y Doctrine</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> La base de datos y Propel</a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Tests unitarios y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Validación</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Formularios</a>
+            </li>
+                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> La caché de HTTP</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> El contenedor de servicios</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Mejorando el rendimiento</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> El interior de Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> La API estable de Symfony2</a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

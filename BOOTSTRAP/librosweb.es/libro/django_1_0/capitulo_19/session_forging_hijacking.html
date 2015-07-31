@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>19.5. Session Forging/Hijacking (El libro de Django 1.0)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_19/cross_site_request_forgery.html" />
+                    <link rel="next" href="../capitulo_19/inyeccion_de_cabeceras_de_email.html" />
+                <link rel="start" href="/libro/django_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="19.5. Session Forging/Hijacking (El libro de Django 1.0)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page django_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/" itemprop="url">
+                    <span itemprop="title">El libro de Django 1.0</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/capitulo_19.html" itemprop="url">
+                    <span itemprop="title">Capítulo 19. Seguridad</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>19.5. Session Forging/Hijacking</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="session_forging_hijacking" class="title">
+        <span>19.5.</span> Session Forging/Hijacking
+    </h1>
+
+    
+
+<p>No se trata de un ataque específico, sino una clase general de ataques sobre
+los datos de sesión de un usuario. Puede tomar diferentes formas:</p>
+
+<p><strong>1.</strong> Un ataque del tipo <em>man-in-the-middle</em>, en el cual un atacante espía 
+datos de sesión mientras estos viajan por la red (cableada o inalámbrica).</p>
+
+<p><strong>2. Session forging</strong> (Falsificación de sesión), en la cual un atacante usa un
+identificador de sesión (posiblemente obtenido mediante un ataque
+man-in-the-middle) para simular ser otro usuario.</p>
+
+<p>Un ejemplo de los dos primeros sería una atacante en una cafetería usando
+la red inalámbrica del lugar para capturar una cookie de sesión. Podría
+usar esa cookie para hacerse pasar por el usuario original.</p>
+
+<p><strong>3. Un ataque de falsificación de cookies</strong> en el cual un atacante
+sobrescribe los datos almacenados en una cookie que en teoría no son
+modificables. El Capítulo 12 explica en detalle cómo funcionan las
+cookies, y uno de los puntos salientes es que es trivial para los
+navegadores y usuarios maliciosos el cambiar las cookies sin tu
+conocimiento.</p>
+
+<p>Existe una larga historia de sitios Web que han almacenado una cookie del
+tipo <code>IsLoggedIn=1</code> o aun <code>LoggedInAsUser=jacob</code>. Es trivialmente
+simple sacar provecho de ese tipo de cookies.</p>
+
+<p>En un nivel aun más sutil, nunca será una buena idea confiar en
+nada que se almacene en cookies; nunca sabes quién puede haber estado
+manoseando las mismas.</p>
+
+<p><strong>4. Session fixation</strong> (fijación de sesión), en la cual un atacante engaña a
+un usuario y logra asignar un nuevo valor o limpiar el valor existente del
+identificador de su sesión.</p>
+
+<p>Por ejemplo, PHP permite que los identificadores de sesión se pasen en la
+URL (por ejemplo,
+<code>http://example.com/?PHPSESSID=fa90197ca25f6ab40bb1374c510d7a32</code>).
+Un atacante que logre engañar a un usuario para que haga click en un link
+que posea un identificador de sesión fijo causará que ese usuario comience
+a usar esa sesión.</p>
+
+<p>La fijación de sesión se ha usado en ataques de <em>phishing</em> para engañar a
+usuarios e inducirlos a ingresar información personal en una cuenta que
+está bajo el control de atacante. Este puede luego conectarse al sitio con
+dicho usuario y obtener datos.</p>
+
+<p><strong>5. Session poisoning</strong> (envenenamiento de sesión), en el cual in atacante
+inyecta datos potencialmente peligrosos en la sesión de un usuario —
+normalmente a través de un formulario que el usuario envía con datos de su
+sesión.</p>
+
+<p>Un ejemplo canónico es un sitio que almacena un valor de preferencia
+simple (como el color de fondo de una página) en una cookie. Un atacante
+podría engañar a un usuario e inducirlo a hacer click en un link que envía
+un "color" que en realidad contiene un ataque XSS; si dicho color no está
+siendo <em>escapado</em>, el usuario podría insertar nuevamente código malicioso
+en el entorno del usuario.</p>
+
+<h3 id="la_solucion_3">19.5.1. La solución</h3>
+
+<p>Existe un número de principios generales que pueden protegerte de estos
+ataques:</p>
+
+<p><strong>1.</strong> Nunca permitas que exista información sobre sesiones contenida en las 
+URLs.</p>
+
+<p>El framework de sesiones de Django (ver Capítulo 12) simplemente no
+permite que las URLs contengan sesiones.</p>
+
+<p><strong>2.</strong> No almacenes datos en cookies en forma directa; en cambio, almacena un
+identificador de sesión que esté relacionado a datos de sesión almacenados
+en el back-end.</p>
+
+<p>Si usas el framework de sesiones incluido en Django (o sea
+<code>request.session</code>), eso es manejado en forma automática. La única cookie
+que usa el framework de sesiones es un identificador de sesión; todos los
+datos de la sesiones se almacenan en la base de datos.</p>
+
+<p><strong>3.</strong> Recuerda <em>escapar</em> los datos de la sesión si los visualizas en la
+plantilla.  Revisa la sección previa sobre XSS y recuerda que esto se
+aplica a cualquier contenido creado por el usuario así como a cualquier
+dato enviado por el navegador. Debes considerar la información de sesiones
+como datos creados por el usuario.</p>
+
+<p><strong>4.</strong> Previene la falsificación de de identificadores de sesión por parte de 
+un atacante siempre que sea posible.</p>
+
+<p>A pesar de que es prácticamente imposible detectar a alguien que se ha
+apropiado de un identificador de sesión, Django incluye protección contra
+un ataque de sesiones de fuerza bruta. Los identificadores de sesión se
+almacenan como hashes (en vez de números secuenciales) lo que previene un
+ataque por fuerza bruta, y un usuario siempre obtendrá un nuevo
+identificador de sesión si intenta usar uno no existente, lo que previene
+la <em>session fixation</em>.</p>
+
+<p>Nota que ninguno de estos principios y herramientas previene ante ataques
+man-in-the-middle. Dichos tipos de ataques son prácticamente imposibles de
+detectar. Si tu sitio permite que usuarios identificados visualicen algún tipo
+de datos importantes debes, <em>siempre</em>, publicar dicho sitio vía HTTPS.
+Adicionalmente, si tienes un sitio con SSL, debes asignar a la variable de
+configuración <code>SESSION_COOKIE_SECURE</code> el valor <code>True</code>; esto hará que Django
+envíe las cookies de sesión vía HTTPS.</p>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_19/cross_site_request_forgery.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>19.4. Cross-Site Request Forgery</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_19/inyeccion_de_cabeceras_de_email.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>19.6. Inyección de cabeceras de email</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Los principios de las páginas Web dinámicas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> El sistema de plantillas de Django</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Interactuar con una base de datos: Modelos</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El sitio de Administración Django</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Procesamiento de formularios</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Vistas avanzadas y URLconfs</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Vistas genéricas</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Extender el sistema de plantillas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Generación de contenido no HTML</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Sesiones, usuario e inscripciones</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Cache</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Otros sub-frameworks contribuidos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Middleware</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Integración con Base de datos y Aplicaciones existentes</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Extender la Interfaz de Administración de Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_19.html">
+                    <span>Capítulo 19.</span> Seguridad
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/el_tema_de_la_seguridad_en_la_web.html">
+                    <span>19.1.</span> El tema de la seguridad en la Web
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/inyeccion_de_sql.html">
+                    <span>19.2.</span> Inyección de SQL
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/cross_site_scripting_xss.html">
+                    <span>19.3.</span> Cross-Site Scripting (XSS)
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/cross_site_request_forgery.html">
+                    <span>19.4.</span> Cross-Site Request Forgery
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_19/session_forging_hijacking.html">
+                    <span>19.5.</span> Session Forging/Hijacking
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/inyeccion_de_cabeceras_de_email.html">
+                    <span>19.6.</span> Inyección de cabeceras de email
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/directory_traversal.html">
+                    <span>19.7.</span> Directory Traversal
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/exposicion_de_mensajes_de_error.html">
+                    <span>19.8.</span> Exposición de mensajes de error
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/palabras_finales_sobre_la_seguridad.html">
+                    <span>19.9.</span> Palabras finales sobre la seguridad
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/que_sigue.html">
+                    <span>19.10.</span> ¿Qué sigue?
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>20.</span> <a href="../capitulo_20.html"> Puesta en marcha de Django en un servidor</a>
+            </li>
+                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

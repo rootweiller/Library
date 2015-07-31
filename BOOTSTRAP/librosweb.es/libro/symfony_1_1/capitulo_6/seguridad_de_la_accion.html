@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>6.5. Seguridad de la Acción (Symfony 1.1, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_6/sesiones_de_usuario.html" />
+                    <link rel="next" href="../capitulo_6/metodos_de_validacion_y_manejo_de_errores.html" />
+                <link rel="start" href="/libro/symfony_1_1/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="6.5. Seguridad de la Acción (Symfony 1.1, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_1"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/" itemprop="url">
+                    <span itemprop="title">Symfony 1.1, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/capitulo_6.html" itemprop="url">
+                    <span itemprop="title">Capítulo 6. El Controlador</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>6.5. Seguridad de la Acción</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="seguridad_de_la_accion" class="title">
+        <span>6.5.</span> Seguridad de la Acción
+    </h1>
+
+    
+
+<p>La posibilidad de ejecutar una acción puede ser restringida a usuarios con ciertos privilegios. Las herramientas proporcionadas por Symfony para este propósito permiten la creación de aplicaciones seguras, en las que los usuarios necesitan estar autenticados antes de acceder a alguna característica o a partes de la aplicación. Añadir esta seguridad a una aplicación requiere dos pasos: declarar los requerimientos de seguridad para cada acción y autenticar a los usuarios con privilegios para que puedan acceder estas acciones seguras.</p>
+
+<h3 id="restriccion_de_acceso">6.5.1. Restricción de Acceso</h3>
+
+<p>Antes de ser ejecutada, cada acción pasa por un filtro especial que verifica si el usuario actual tiene privilegios de acceder a la acción requerida. En Symfony, los privilegios estan compuestos por dos partes:</p>
+
+<ul>
+<li>Las acciones seguras requieren que los usuarios esten autenticados.</li>
+<li>Las credenciales son privilegios de seguridad agrupados bajo un nombre y que permiten organizar la seguridad en grupos.</li>
+</ul>
+
+<p>Para restringir el acceso a una acción se crea y se edita un archivo de configuración YAML llamado <code>security.yml</code> en el directorio <code>config/</code> del módulo. En este archivo, se pueden especificar los requerimientos de seguridad que los usuarios deberán satisfacer para cada acción o para todas (<code>all</code>) las acciones. El listado 6-21 muestra un ejemplo de <code>security.yml</code>.</p>
+
+<p><strong>Listado 6-21 - Estableciendo restricciones de acceso, en <code>apps/frontend/modules/mimodulo/config/security.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">ver</span>:<span class="co3">
+  is_secure</span><span class="sy2">: </span>  off       <span class="co1"># Todos los usuarios pueden ejecutar la acción &quot;ver&quot;</span>
+<span class="co4">
+modificar</span>:<span class="co3">
+  is_secure</span><span class="sy2">: </span>  on        <span class="co1"># La acción &quot;modificar&quot; es sólo para usuarios autenticados</span>
+<span class="co4">
+borrar</span>:<span class="co3">
+  is_secure</span><span class="sy2">: </span>  on        <span class="co1"># Sólo para usuarios autenticados</span><span class="co3">
+  credentials</span><span class="sy2">: </span>admin     <span class="co1"># Con credencial &quot;admin&quot;</span>
+<span class="co4">
+all</span>:<span class="co3">
+  is_secure</span><span class="sy2">: </span> off        <span class="co1"># off es el valor por defecto</span></pre>
+</div>
+
+<p>Las acciones no incluyen restricciones de seguridad por defecto, asi que cuando no existe el archivo <code>security.yml</code> o no se indica ninguna acción en ese archivo, todas las acciones son accesibles por todos los usuarios. Si existe un archivo <code>security.yml</code>, Syfmony busca por el nombre de la acción y si existe, verifica que se satisfagan los requerimientos de seguridad. Lo que sucede cuando un usuario trata de acceder una acción restringida depende de sus credenciales:</p>
+
+<ul>
+<li>Si el usuario está autenticado y tiene las credenciales apropiadas, entonces la acción se ejecuta.</li>
+<li>Si el usuario no está autenticado, es redireccionado a la acción de login.</li>
+<li>Si el usuario está autenticado, pero no posee las credenciales apropiadas, será redirigido a la acción segura por defecto, como muestra la figura 6-1.</li>
+</ul>
+
+<p>Las páginas <code>login</code> y <code>secure</code> son bastante simples, por lo que seguramente será necesario personalizarlas. Se puede configurar que acciones se ejecutan en caso de no disponer de suficientes privilegios en el archivo <code>settings.yml</code> de la aplicación cambiando el valor de las propiedades mostradas en el listado 6-22.</p>
+
+<div class="figure" id="figure_6_1">
+    <img src="/img/symfony_1_1/f0601.jpg" alt="La página por defecto de la acción <code>secure</code>" />
+
+    <p class="caption"><strong>Figura 6.1</strong> La página por defecto de la acción <code>secure</code></p>
+</div>
+
+
+<p><strong>Listado 6-22 - Las acciones de seguridad por defecto se definen en <code>apps/frontend/config/settings.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co4">
+  .actions</span>:<span class="co3">
+    login_module</span><span class="sy2">: </span> default<span class="co3">
+    login_action</span><span class="sy2">: </span> login
+<span class="co3">
+    secure_module</span><span class="sy2">: </span>default<span class="co3">
+    secure_action</span><span class="sy2">: </span>secure</pre>
+</div>
+
+<h3 id="otorgando_acceso">6.5.2. Otorgando Acceso</h3>
+
+<p>Para obtener acceso a áreas restringidas, los usuarios necesitan estar autenticados y/o poseer ciertas credenciales. Puedes extender los privilegios del usuario mediante llamadas a métodos del objeto <code>sfUser</code>. El estado autenticado se establece con el método <code>setAuthenticated()</code> y se puede comprobar con el método <code>isAuthenticated()</code>. El listado 6-23 muestra un ejemplo sencillo de autenticación.</p>
+
+<p><strong>Listado 6-23 - Estableciendo el estado de autenticación del usuario</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> miCuentaActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeLogin<span class="br0">&#40;</span><span class="re0">$peticion</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$peticion</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'login'</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="st_h">'valor'</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getUser</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">setAuthenticated</span><span class="br0">&#40;</span><span class="kw4">true</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> executeLogout<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getUser</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">setAuthenticated</span><span class="br0">&#40;</span><span class="kw4">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Las credenciales son un poco más complejas de tratar, ya que se pueden verificar, agregar, quitar y borrar. El listado 6-24 describe los métodos de las credenciales de la clase <code>sfUser</code>.</p>
+
+<p><strong>Listado 6-24 - Manejando las credenciales del usuario en la acción</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> miCuentaActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeEjemploDeCredenciales<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$usuario</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getUser</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Agrega una o más credenciales</span>
+    <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">addCredential</span><span class="br0">&#40;</span><span class="st_h">'parametro'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">addCredentials</span><span class="br0">&#40;</span><span class="st_h">'parametro'</span><span class="sy0">,</span> <span class="st_h">'valor'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Verifica si el usuario tiene una credencial</span>
+    <span class="kw1">echo</span> <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">hasCredential</span><span class="br0">&#40;</span><span class="st_h">'parametro'</span><span class="br0">&#41;</span><span class="sy0">;</span>                         <span class="sy0">=&gt;</span> <span class="kw4">true</span>
+&nbsp;
+    <span class="co1">// Verifica si un usuario tiene una de las credenciales</span>
+    <span class="kw1">echo</span> <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">hasCredential</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'parametro'</span><span class="sy0">,</span> <span class="st_h">'valor'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>         <span class="sy0">=&gt;</span> <span class="kw4">true</span>
+&nbsp;
+    <span class="co1">// Verifica si el usuario tiene ambas credenciales</span>
+    <span class="kw1">echo</span> <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">hasCredential</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'parametro'</span><span class="sy0">,</span> <span class="st_h">'valor'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw4">true</span><span class="br0">&#41;</span><span class="sy0">;</span>   <span class="sy0">=&gt;</span> <span class="kw4">true</span>
+&nbsp;
+    <span class="co1">// Quitar una credencial</span>
+    <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">removeCredential</span><span class="br0">&#40;</span><span class="st_h">'parametro'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">echo</span> <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">hasCredential</span><span class="br0">&#40;</span><span class="st_h">'parametro'</span><span class="br0">&#41;</span><span class="sy0">;</span>                         <span class="sy0">=&gt;</span> <span class="kw4">false</span>
+&nbsp;
+    <span class="co1">// Elimina todas las credenciales (útil en el proceso de logout)</span>
+    <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">clearCredentials</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">echo</span> <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">hasCredential</span><span class="br0">&#40;</span><span class="st_h">'valor'</span><span class="br0">&#41;</span><span class="sy0">;</span>                             <span class="sy0">=&gt;</span> <span class="kw4">false</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Si el usuario tiene la credencial <code>"parametro"</code>, entonces ese usuario podrá acceder a las acciones para las cuales el archivo <code>security.yml</code> requiere esa credencial. Las credenciales se pueden utilizar también para mostrar contenido autenticado en una plantilla, como se muestra en el listado 6-25.</p>
+
+<p><strong>Listado 6-25 - Tratando con credenciales de usuario en una plantilla</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;ul&gt;
+  &lt;li&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'seccion1'</span><span class="sy0">,</span> <span class="st_h">'content/seccion1'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/li&gt;
+  &lt;li&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'seccion2'</span><span class="sy0">,</span> <span class="st_h">'content/seccion2'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/li&gt;
+  <span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$sf_user</span><span class="sy0">-&gt;</span><span class="me1">hasCredential</span><span class="br0">&#40;</span><span class="st_h">'seccion3'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+  &lt;li&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'seccion3'</span><span class="sy0">,</span> <span class="st_h">'content/seccion3'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/li&gt;
+  <span class="kw2">&lt;?php</span> <span class="kw1">endif</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+&lt;/ul&gt;</pre>
+</div>
+
+<p>Y para el estado de autenticación, las credenciales normalmente se dan a los usuarios durante el proceso de login. Este es el motivo por el que el objeto <code>sfUser</code> normalmente se extiende para añadir métodos de login y de logout, de forma que se pueda establecer el estado de seguridad del usuario de forma centralizada.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Entre los plugins de Symfony, <a href="http://trac.symfony-project.org/wiki/sfGuardPlugin">sfGuardPlugin</a> extiende la clase de sesión para facilitar el proceso de login y logout. El Capitulo 17 contiene más información al respecto.</p></div>
+
+<h3 id="credenciales_complejas">6.5.3. Credenciales Complejas</h3>
+
+<p>La sintaxis YAML utilizada en el archivo <code>security.yml</code> permite restringir el acceso a usuarios que tienen una combinación de credenciales, usando asociaciones de tipo AND y OR. Con estas combinaciones, se pueden definir flujos de trabajo y sistemas de manejo de privilegios muy complejos -- como por ejemplo, un sistema de gestión de contenidos (CMS) cuya parte de gestión sea accesible solo a usuarios con credencial <code>admin</code>, donde los artículos pueden ser editados solo por usuarios con credenciales de <code>editor</code> y publicados solo por aquellos que tienen credencial de <code>publisher</code>. El listado 6-26 muestra este ejemplo.</p>
+
+<p><strong>Listado 6-26 - Sintaxis de combinación de credenciales</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">editarArticulo</span>:<span class="co3">
+  credentials</span><span class="sy2">: </span><span class="br0">&#91;</span> admin, editor <span class="br0">&#93;</span>              <span class="co1"># admin AND editor</span>
+<span class="co4">
+publicarArticulo</span>:<span class="co3">
+  credentials</span><span class="sy2">: </span><span class="br0">&#91;</span> admin, publisher <span class="br0">&#93;</span>           <span class="co1"># admin AND publisher</span>
+<span class="co4">
+gestionUsuarios</span>:<span class="co3">
+  credentials</span><span class="sy2">: </span><span class="br0">&#91;</span><span class="br0">&#91;</span> admin, superuser <span class="br0">&#93;</span><span class="br0">&#93;</span>         <span class="co1"># admin OR superuser</span></pre>
+</div>
+
+<p>Cada vez que se añade un nuevo nivel de corchetes, la lógica cambia entre AND y OR. Así que se pueden crear combinaciones muy complejas de credenciales, como la siguiente:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co3">credentials</span><span class="sy2">: </span><span class="br0">&#91;</span><span class="br0">&#91;</span>root, <span class="br0">&#91;</span>supplier, <span class="br0">&#91;</span>owner, quasiowner<span class="br0">&#93;</span><span class="br0">&#93;</span>, accounts<span class="br0">&#93;</span><span class="br0">&#93;</span>
+             <span class="co1"># root OR (supplier AND (owner OR quasiowner)) OR accounts</span></pre>
+</div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_6/sesiones_de_usuario.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>6.4. Sesiones de Usuario</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_6/metodos_de_validacion_y_manejo_de_errores.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>6.6. Métodos de Validación y Manejo de Errores</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_6.html">
+                    <span>Capítulo 6.</span> El Controlador
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/el_controlador_frontal.html">
+                    <span>6.1.</span> El Controlador Frontal
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/acciones.html">
+                    <span>6.2.</span> Acciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/accediendo_a_la_peticion.html">
+                    <span>6.3.</span> Accediendo a la petición
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/sesiones_de_usuario.html">
+                    <span>6.4.</span> Sesiones de Usuario
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_6/seguridad_de_la_accion.html">
+                    <span>6.5.</span> Seguridad de la Acción
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/metodos_de_validacion_y_manejo_de_errores.html">
+                    <span>6.6.</span> Métodos de Validación y Manejo de Errores
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/filtros.html">
+                    <span>6.7.</span> Filtros
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/configuracion_del_modulo.html">
+                    <span>6.8.</span> Configuración del Módulo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/resumen.html">
+                    <span>6.9.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

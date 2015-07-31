@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>6.5. Tipos de eventos (Introducción a AJAX)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_6/el_objeto_event.html" />
+                    <link rel="next" href="../capitulo_6/solucion_cross_browser.html" />
+                <link rel="start" href="/libro/ajax/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="6.5. Tipos de eventos (Introducción a AJAX)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page ajax"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/ajax/" itemprop="url">
+                    <span itemprop="title">Introducción a AJAX</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/ajax/capitulo_6.html" itemprop="url">
+                    <span itemprop="title">Capítulo 6. Eventos</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>6.5. Tipos de eventos</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="tipos_de_eventos_2" class="title">
+        <span>6.5.</span> Tipos de eventos
+    </h1>
+
+    
+
+<p>La lista completa de eventos que se pueden generar en un navegador se puede dividir en cuatro grandes grupos. La especificación de DOM define los siguientes grupos:</p>
+
+<ul>
+<li>Eventos de ratón: se originan cuando el usuario emplea el ratón para realizar algunas acciones.</li>
+<li>Eventos de teclado: se originan cuando el usuario pulsa sobre cualquier tecla de su teclado.</li>
+<li>Eventos HTML: se originan cuando se producen cambios en la ventana del navegador o cuando se producen ciertas interacciones entre el cliente y el servidor.</li>
+<li>Eventos DOM: se originan cuando se produce un cambio en la estructura DOM de la página. También se denominan "eventos de mutación".</li>
+</ul>
+
+<h3 id="eventos_de_raton">6.5.1. Eventos de ratón</h3>
+
+<p>Los eventos de ratón son, con mucha diferencia, los más empleados en las aplicaciones web. Los eventos que se incluyen en esta clasificación son los siguientes:</p>
+
+<div class="table" id="table_6_4">
+
+    <table>
+<thead>
+<tr>
+  <th>Evento</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>click</code></td>
+  <td>Se produce cuando se pulsa el botón izquierdo del ratón. También se produce cuando el foco de la aplicación está situado en un botón y se pulsa la tecla <code>ENTER</code></td>
+</tr>
+<tr>
+  <td><code>dblclick</code></td>
+  <td>Se produce cuando se pulsa dos veces el botón izquierdo del ratón</td>
+</tr>
+<tr>
+  <td><code>mousedown</code></td>
+  <td>Se produce cuando se pulsa cualquier botón del ratón</td>
+</tr>
+<tr>
+  <td><code>mouseout</code></td>
+  <td>Se produce cuando el puntero del ratón se encuentra en el interior de un elemento y el usuario mueve el puntero a un lugar fuera de ese elemento</td>
+</tr>
+<tr>
+  <td><code>mouseover</code></td>
+  <td>Se produce cuando el puntero del ratón se encuentra fuera de un elemento y el usuario mueve el puntero hacia un lugar en el interior del elemento</td>
+</tr>
+<tr>
+  <td><code>mouseup</code></td>
+  <td>Se produce cuando se suelta cualquier botón del ratón que haya sido pulsado</td>
+</tr>
+<tr>
+  <td><code>mousemove</code></td>
+  <td>Se produce (de forma continua) cuando el puntero del ratón se encuentra sobre un elemento</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Todos los elementos de las páginas soportan los eventos de la tabla anterior.</p>
+
+<h4 id="propiedades">6.5.1.1. Propiedades</h4>
+
+<p>El objeto <code>event</code> contiene las siguientes propiedades para los eventos de ratón:</p>
+
+<ul>
+<li>Las coordenadas del ratón (todas las coordenadas diferentes relativas a los distintos elementos)</li>
+<li>La propiedad <code>type</code></li>
+<li>La propiedad <code>srcElement</code> (Internet Explorer) o <code>target</code> (DOM)</li>
+<li>Las propiedades <code>shiftKey</code>, <code>ctrlKey</code>, <code>altKey</code> y <code>metaKey</code> (sólo DOM)</li>
+<li>La propiedad <code>button</code> (sólo en los eventos <code>mousedown</code>, <code>mousemove</code>, <code>mouseout</code>, <code>mouseover</code> y <code>mouseup</code>)</li>
+</ul>
+
+<p>Los eventos <code>mouseover</code> y <code>mouseout</code> tienen propiedades adicionales. Internet Explorer define la propiedad <code>fromElement</code>, que hace referencia al elemento desde el que el puntero del ratón se ha movido y <code>toElement</code> que es el elemento al que el puntero del ratón se ha movido. De esta forma, en el evento <code>mouseover</code>, la propiedad <code>toElement</code> es idéntica a <code>srcElement</code> y en el evento <code>mouseout</code>, la propiedad <code>fromElement</code> es idéntica a <code>srcElement</code>.</p>
+
+<p>En los navegadores que soportan el estándar DOM, solamente existe una propiedad denominada <code>relatedTarget</code>. En el evento <code>mouseout</code>, <code>relatedTarget</code> apunta al elemento al que se ha movido el ratón. En el evento <code>mouseover</code>, <code>relatedTarget</code> apunta al elemento desde el que se ha movido el puntero del ratón.</p>
+
+<p>Cuando se pulsa un botón del ratón, la secuencia de eventos que se produce es la siguiente: <code>mousedown</code>, <code>mouseup</code>, <code>click</code>. Por tanto, la secuencia de eventos necesaria para llegar al doble click llega a ser tan compleja como la siguiente: <code>mousedown</code>, <code>mouseup</code>, <code>click</code>, <code>mousedown</code>, <code>mouseup</code>, <code>click</code>, <code>dblclick</code>.</p>
+
+<h3 id="eventos_de_teclado">6.5.2. Eventos de teclado</h3>
+
+<p>Los eventos que se incluyen en esta clasificación son los siguientes:</p>
+
+<div class="table" id="table_6_5">
+
+    <table>
+<thead>
+<tr>
+  <th>Evento</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>keydown</code></td>
+  <td>Se produce cuando se pulsa cualquier tecla del teclado. También se produce de forma continua si se mantiene pulsada la tecla</td>
+</tr>
+<tr>
+  <td><code>keypress</code></td>
+  <td>Se produce cuando se pulsa una tecla correspondiente a un carácter alfanumérico (no se tienen en cuenta telas como <code>SHIFT</code>, <code>ALT</code>, etc.). También se produce de forma continua si se mantiene pulsada la tecla</td>
+</tr>
+<tr>
+  <td><code>keyup</code></td>
+  <td>Se produce cuando se suelta cualquier tecla pulsada</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<h4 id="propiedades_2">6.5.2.1. Propiedades</h4>
+
+<p>El objeto event contiene las siguientes propiedades para los eventos de teclado:</p>
+
+<ul>
+<li>La propiedad <code>keyCode</code></li>
+<li>La propiedad <code>charCode</code> (sólo DOM)</li>
+<li>La propiedad <code>srcElement</code> (Internet Explorer) o <code>target</code> (DOM)</li>
+<li>Las propiedades <code>shiftKey</code>, <code>ctrlKey</code>, <code>altKey</code> y <code>metaKey</code> (sólo DOM)</li>
+</ul>
+
+<p>Cuando se pulsa una tecla correspondiente a un carácter alfanumérico, se produce la siguiente secuencia de eventos: <code>keydown</code>, <code>keypress</code>, <code>keyup</code>. Cuando se pulsa otro tipo de tecla, se produce la siguiente secuencia de eventos: <code>keydown</code>, <code>keyup</code>. Si se mantiene pulsada la tecla, en el primer caso se repiten de forma continua los eventos <code>keydown</code> y <code>keypress</code> y en el segundo caso, se repite el evento <code>keydown</code> de forma continua.</p>
+
+<h3 id="eventos_html">6.5.3. Eventos HTML</h3>
+
+<p>Los eventos HTML definidos se recogen en la siguiente tabla:</p>
+
+<div class="table" id="table_6_6">
+
+    <table>
+<thead>
+<tr>
+  <th>Evento</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>load</code></td>
+  <td>Se produce en el objeto <code>window</code> cuando la página se carga por completo. En el elemento <code>&lt;img&gt;</code> cuando se carga por completo la imagen. En el elemento <code>&lt;object&gt;</code> cuando se carga el objeto</td>
+</tr>
+<tr>
+  <td><code>unload</code></td>
+  <td>Se produce en el objeto <code>window</code> cuando la página desaparece por completo (al cerrar la ventana del navegador por ejemplo). En el elemento <code>&lt;object&gt;</code> cuando desaparece el objeto.</td>
+</tr>
+<tr>
+  <td><code>abort</code></td>
+  <td>Se produce en un elemento <code>&lt;object&gt;</code> cuando el usuario detiene la descarga del elemento antes de que haya terminado</td>
+</tr>
+<tr>
+  <td><code>error</code></td>
+  <td>Se produce en el objeto <code>window</code> cuando se produce un error de JavaScript. En el elemento <code>&lt;img&gt;</code> cuando la imagen no se ha podido cargar por completo y en el elemento <code>&lt;object&gt;</code> cuando el elemento no se carga correctamente</td>
+</tr>
+<tr>
+  <td><code>select</code></td>
+  <td>Se produce cuando se seleccionan varios caracteres de un cuadro de texto (<code>&lt;input&gt;</code> y <code>&lt;textarea&gt;</code>)</td>
+</tr>
+<tr>
+  <td><code>change</code></td>
+  <td>Se produce cuando un cuadro de texto (<code>&lt;input&gt;</code> y <code>&lt;textarea&gt;</code>) pierde el foco y su contenido ha variado. También se produce cuando varía el valor de un elemento <code>&lt;select&gt;</code></td>
+</tr>
+<tr>
+  <td><code>submit</code></td>
+  <td>Se produce cuando se pulsa sobre un botón de tipo submit (<code>&lt;input type="submit"&gt;</code>)</td>
+</tr>
+<tr>
+  <td><code>reset</code></td>
+  <td>Se produce cuando se pulsa sobre un botón de tipo reset (<code>&lt;input type="reset"&gt;</code>)</td>
+</tr>
+<tr>
+  <td><code>resize</code></td>
+  <td>Se produce en el objeto <code>window</code> cuando se redimensiona la ventana del navegador</td>
+</tr>
+<tr>
+  <td><code>scroll</code></td>
+  <td>Se produce en cualquier elemento que tenga una barra de scroll, cuando el usuario la utiliza. El elemento <code>&lt;body&gt;</code> contiene la barra de scroll de la página completa</td>
+</tr>
+<tr>
+  <td><code>focus</code></td>
+  <td>Se produce en cualquier elemento (incluido el objeto <code>window</code>) cuando el elemento obtiene el foco</td>
+</tr>
+<tr>
+  <td><code>blur</code></td>
+  <td>Se produce en cualquier elemento (incluido el objeto <code>window</code>) cuando el elemento pierde el foco</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Uno de los eventos más utilizados es el evento <code>load</code>, ya que todas las manipulaciones que se realizan mediante DOM requieren que la página esté cargada por completo y por tanto, el árbol DOM se haya construido completamente.</p>
+
+<p>El elemento <code>&lt;body&gt;</code> define las propiedades <code>scrollLeft</code> y <code>scrollTop</code> que se pueden emplear junto con el evento <code>scroll</code>.</p>
+
+<h3 id="eventos_dom_2">6.5.4. Eventos DOM</h3>
+
+<p>Aunque los eventos de este tipo son parte de la especificación oficial de DOM, aún no han sido implementados en todos los navegadores. La siguiente tabla recoge los eventos más importantes de este tipo:</p>
+
+<div class="table" id="table_6_7">
+
+    <table>
+<thead>
+<tr>
+  <th>Evento</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>DOMSubtreeModified</code></td>
+  <td>Se produce cuando se añaden o eliminan nodos en el subárbol de un documento o elemento</td>
+</tr>
+<tr>
+  <td><code>DOMNodeInserted</code></td>
+  <td>Se produce cuando se añade un nodo como hijo de otro nodo</td>
+</tr>
+<tr>
+  <td><code>DOMNodeRemoved</code></td>
+  <td>Se produce cuando se elimina un nodo que es hijo de otro nodo</td>
+</tr>
+<tr>
+  <td><code>DOMNodeRemovedFromDocument</code></td>
+  <td>Se produce cuando se elimina un nodo del documento</td>
+</tr>
+<tr>
+  <td><code>DOMNodeInsertedIntoDocument</code></td>
+  <td>Se produce cuando se añade un nodo al documento</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_6/el_objeto_event.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>6.4. El objeto event</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_6/solucion_cross_browser.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>6.6. Solución cross browser</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a AJAX</a>
+            </li>
+                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> JavaScript básico</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> JavaScript avanzado</a>
+            </li>
+                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> DOM (Document Object Model)</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> BOM (Browser Object Model)</a>
+            </li>
+                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_6.html">
+                    <span>Capítulo 6.</span> Eventos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/modelo_basico_de_eventos.html">
+                    <span>6.1.</span> Modelo básico de eventos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/el_flujo_de_eventos.html">
+                    <span>6.2.</span> El flujo de eventos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/handlers_y_listeners.html">
+                    <span>6.3.</span> Handlers y listeners
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/el_objeto_event.html">
+                    <span>6.4.</span> El objeto event
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_6/tipos_de_eventos_2.html">
+                    <span>6.5.</span> Tipos de eventos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/solucion_cross_browser.html">
+                    <span>6.6.</span> Solución cross browser
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Primeros pasos con AJAX</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Técnicas básicas con AJAX</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Técnicas avanzadas con AJAX</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Frameworks y librerías</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Otras utilidades</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Recursos útiles</a>
+            </li>
+                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Bibliografía</a>
+            </li>
+                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Ejercicios resueltos</a>
+            </li>
+                                                                                                                                                                                                                                                                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

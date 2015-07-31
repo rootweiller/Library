@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Trucos y ejemplos de configuración del archivo htaccess de Apache</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Trucos y ejemplos de configuración del archivo htaccess de Apache">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-2-1" class="tutorials"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                            <h1 class="title">Trucos y ejemplos de configuración del archivo htaccess de Apache</h1>
+
+    <p>Este artículo recopila los trucos y ejemplos de configuración más útiles para el arhivo <code>.htaccess</code> del servidor web Apache.</p>
+<h2>Redirección y reescritura de URL</h2>
+<p>Para que funcionen correctamente los ejemplos de configuración mostrados en esta sección, debes tener el módulo <code>mod_rewrite</code> instalado y activado en el servidor.</p>
+<h3>Forzar a que todas las URL empiecen por www</h3>
+<p>Esta configuración funciona solamente para las URL no seguras que empiezan por <code>http://</code>:</p>
+<pre class="apache code"><span class="kw1">RewriteEngine</span> <span class="kw2">on</span>
+<span class="kw1">RewriteCond</span> %{HTTP_HOST} ^ejemplo\.com [NC]
+<span class="kw1">RewriteRule</span> ^(.*)$ http://www.ejemplo.com/$1 [L,R=<span class="nu0">301</span>,NC]</pre>
+<p>Esta configuración funciona tanto para las URL seguras (<code>https://</code>) como para las URL normales (<code>http://</code>):</p>
+<pre class="apache code"><span class="kw1">RewriteCond</span> %{HTTP_HOST} !^$
+<span class="kw1">RewriteCond</span> %{HTTP_HOST} !^www\. [NC]
+<span class="kw1">RewriteCond</span> %{HTTPS}s ^on(s)|
+<span class="kw1">RewriteRule</span> ^ http%1://www.%{HTTP_HOST}%{REQUEST_URI} [R=<span class="nu0">301</span>,L]</pre>
+<h3>Forzar a que ninguna URL empiece por www</h3>
+<p>Esta configuración funciona solamente para las URL no seguras que empiezan por <code>http://</code>:</p>
+<pre class="apache code"><span class="kw1">RewriteEngine</span> <span class="kw2">on</span>
+<span class="kw1">RewriteCond</span> %{HTTP_HOST} ^www\.ejemplo\.com [NC]
+<span class="kw1">RewriteRule</span> ^(.*)$ http://ejemplo.com/$1 [L,R=<span class="nu0">301</span>]</pre>
+<h3>Forzar a que todas las URL sean seguras y empiecen por https</h3>
+<pre class="apache code"><span class="kw1">RewriteEngine</span> <span class="kw2">on</span>
+<span class="kw1">RewriteCond</span> %{HTTPS} !<span class="kw2">on</span>
+<span class="kw1">RewriteRule</span> (.*) https://%{HTTP_HOST}%{REQUEST_URI}</pre>
+<h3>Forzar a que todas las URL acaben con la barra /</h3>
+<pre class="apache code"><span class="kw1">RewriteCond</span> %{REQUEST_URI} /+[^\.]+$
+<span class="kw1">RewriteRule</span> ^(.+[^/])$ %{REQUEST_URI}/ [R=<span class="nu0">301</span>,L]</pre>
+<h3>Redirigir páginas individuales</h3>
+<pre class="apache code"><span class="kw1">Redirect</span> <span class="nu0">301</span> /pagina_antigua.html http://www.ejemplo.com/nueva_pagina.html
+<span class="kw1">Redirect</span> <span class="nu0">301</span> /pagina_antigua_2.html http://www.ejemplo.com/directorio/</pre>
+<h3>Redirigir todo un sitio web</h3>
+<pre class="apache code"><span class="kw1">Redirect</span> <span class="nu0">301</span> / http://nuevo_sitio.com/</pre>
+<p>A pesar de que esta configuración sencilla no lo parezca, en realidad se están redirigiendo todos los enlaces viejos al nuevo sitio, no solo la portada del sitio.</p>
+<h2>Seguridad</h2>
+<h3>Impedir cualquier acceso a un sitio web</h3>
+<p>La siguiente configuración impide, sin excepción, todas las conexiones a tu sitio web, por lo que es una forma rápida de "apagarlo" y hacerlo desaparecer de Internet:</p>
+<pre class="apache code"><span class="kw1">Deny</span> from <span class="kw2">All</span>
+&nbsp;
+<span class="co1"># en Apache 2.4, utiliza lo siguiente</span>
+<span class="co1"># Require all denied</span></pre>
+<h3>Impedir cualquier acceso salvo aquellos autorizados</h3>
+<pre class="apache code"><span class="kw1">Order</span> <span class="kw1">deny</span>, <span class="kw1">allow</span>
+<span class="kw1">Deny</span> from <span class="kw2">All</span>
+<span class="kw1">Allow</span> from xxx.xxx.xxx.xxx
+&nbsp;
+<span class="co1"># en Apache 2.4, utiliza lo siguiente</span>
+<span class="co1"># Require ip xxx.xxx.xxx.xxx</span></pre>
+<p>Sustituye <code>xxx.xxx.xxx.xxx</code> por la dirección IP desde la que quieres permitir el acceso al sitio. Esta configuración también soporta la definición de rangos de direcciones IP.</p>
+<h3>Permitir todos los accesos salvo aquellos desautorizados</h3>
+<p>La siguiente configuración es la contraria de la configuración mostrada anteriormente, ya que permite el acceso desde cualquier dirección IP salvo las indicadas explícitamente:</p>
+<pre class="apache code"><span class="kw1">Order</span> <span class="kw1">deny</span>, <span class="kw1">allow</span>
+<span class="kw1">Allow</span> from <span class="kw2">All</span>
+<span class="kw1">Deny</span> from xxx.xxx.xxx.xxx
+<span class="kw1">Deny</span> from xxx.xxx.xxx.yyy
+&nbsp;
+<span class="co1"># en Apache 2.4, utiliza lo siguiente</span>
+<span class="co1"># Require not ip xxx.xxx.xxx.xxx</span>
+<span class="co1"># Require not ip xxx.xxx.xxx.yyy</span></pre>
+<h3>Impedir el acceso a los archivos y directorios ocultos</h3>
+<p>Los archivos y directorios ocultos (es decir, aquellos cuyo nombre empieza con un punto) normalmente no son públicos, por lo que el servidor web no debería servirlos:</p>
+<pre class="apache code"><span class="kw1">RewriteCond</span> %{SCRIPT_FILENAME} -d [OR]
+<span class="kw1">RewriteCond</span> %{SCRIPT_FILENAME} -f
+<span class="kw1">RewriteRule</span> <span class="st0">&quot;(^|/)<span class="es0">\.</span>&quot;</span> - [F]</pre>
+<p>Entre otros, esta configuración protege archivos como <code>.htaccess</code> y <code>.htpasswd</code> y directorios como <code>.git</code> y <code>.hg</code>.</p>
+<p>Si lo prefieres, también puedes devolver un error de tipo <code>404</code> (<em>Not Found</em>) para confundir un poco más a los atacantes:</p>
+<pre class="apache code"><span class="kw1">RedirectMatch</span> <span class="nu0">404</span> /\..*$</pre>
+<h3>Impedir que se pueda acceder a archivos con contenidos sensibles</h3>
+<p>Las siguientes extensiones corresponden a los archivos que pueden contener información sensible, como por ejemplo: archivos de log con información detallada del servidor (<code>.log</code>), copias de seguridad creadas por editores como Vi/Vim (<code>.swp</code>), comandos de consola (<code>.sh</code>), archivos de configuración (<code>.config</code>, <code>.ini</code>), etc.</p>
+<pre class="apache code">&lt;<span class="kw3">FilesMatch</span> <span class="st0">&quot;(<span class="es0">\.</span>(bak|config|dist|fla|inc|ini|log|psd|sh|sql|swp)|~)$&quot;</span>&gt;
+    <span class="kw1">Order</span> <span class="kw1">allow</span>,<span class="kw1">deny</span>
+    <span class="kw1">Deny</span> from <span class="kw2">all</span>
+    <span class="kw1">Satisfy</span> <span class="kw2">All</span>
+&lt;/<span class="kw3">FilesMatch</span>&gt;</pre>
+<h3>Impedir que se pueda ver el listado de contenidos de un directorio</h3>
+<pre class="apache code"><span class="kw1">Options</span> <span class="kw2">All</span> -<span class="kw2">Indexes</span></pre>
+<h3>Impedir que otros sitios web enlacen a tus imágenes</h3>
+<p>La siguiente configuración impide que cualquier sitio web externo pueda enlazar a tus imágenes para "robártelas". Cambia el valor <code>ejemplo.com</code> por tu propio dominio, de manera que solamente tu puedas enlazar a tus imágenes:</p>
+<pre class="apache code"><span class="kw1">RewriteEngine</span> <span class="kw2">on</span>
+<span class="kw1">RewriteCond</span> %{HTTP_REFERER} !^$
+<span class="kw1">RewriteCond</span> %{HTTP_REFERER} !^http(s)?://(www\.)?ejemplo.com [NC]
+<span class="kw1">RewriteRule</span> \.(jpg|jpeg|png|gif)$ - [NC,F,L]</pre>
+<h3>Proteger el acceso a un directorio mediante contraseña</h3>
+<p>Primero debes crear un archivo llamado <code>.htpasswd</code> con el comando <code>htpasswd</code>. Este archivo se debe guardar en cualquier directorio que no sea directamente accesible mediante el servidor web:</p>
+<pre class="cli code">$ htpasswd -c /home/usuario/.htpasswd nombre_usuario</pre>
+<p>Y ahora ya puedes usar este archivo para proteger con contraseña el acceso a cualquier directorio:</p>
+<pre class="apache code"><span class="kw1">AuthType</span> Basic
+<span class="kw1">AuthName</span> <span class="st0">&quot;Zona Segura&quot;</span>
+<span class="kw1">AuthUserFile</span> /home/usuario/.htpasswd
+<span class="kw1">Require</span> valid-<span class="kw1">user</span></pre>
+<h3>Proteger uno o varios archivos mediante contraseña</h3>
+<pre class="apache code"><span class="kw1">AuthName</span> <span class="st0">&quot;Zona Segura&quot;</span>
+<span class="kw1">AuthType</span> Basic
+<span class="kw1">AuthUserFile</span> /home/usuario/.htpasswd
+&nbsp;
+&lt;<span class="kw3">Files</span> <span class="st0">&quot;archivo_secreto.zip&quot;</span>&gt;
+<span class="kw1">Require</span> valid-<span class="kw1">user</span>
+&lt;/<span class="kw3">Files</span>&gt;
+&nbsp;
+&lt;<span class="kw3">FilesMatch</span> ^(factura\d+\.pdf)$&gt;
+<span class="kw1">Require</span> valid-<span class="kw1">user</span>
+&lt;/<span class="kw3">FilesMatch</span>&gt;</pre>
+<h2>Mejorar el rendimiento</h2>
+<h3>Comprimir archivos</h3>
+<pre class="apache code">&lt;<span class="kw3">IfModule</span> mod_deflate.c&gt;
+&nbsp;
+    <span class="co1"># Forzar compresión también para las cabeceras malformadas</span>
+    <span class="co1"># http://developer.yahoo.com/blogs/ydn/posts/2010/12/pushing-beyond-gzipping</span>
+    &lt;<span class="kw3">IfModule</span> mod_setenvif.c&gt;
+        &lt;<span class="kw3">IfModule</span> mod_headers.c&gt;
+            <span class="kw1">SetEnvIfNoCase</span> ^(Accept-EncodXng|X-cept-Encoding|X{<span class="nu0">15</span>}|~{<span class="nu0">15</span>}|-{<span class="nu0">15</span>})$ ^((gzip|deflate)\s*,?\s*)+|[X~-]{<span class="nu0">4</span>,<span class="nu0">13</span>}$ HAVE_Accept-Encoding
+            <span class="kw1">RequestHeader</span> append Accept-Encoding <span class="st0">&quot;gzip,deflate&quot;</span> env=HAVE_Accept-Encoding
+        &lt;/<span class="kw3">IfModule</span>&gt;
+    &lt;/<span class="kw3">IfModule</span>&gt;
+&nbsp;
+    <span class="co1"># Comprimir los contenidos que sean de cualquiera de estos tipos</span>
+    &lt;<span class="kw3">IfModule</span> mod_filter.c&gt;
+        <span class="kw1">AddOutputFilterByType</span> DEFLATE application/atom+xml \
+                                      application/javascript \
+                                      application/json \
+                                      application/rss+xml \
+                                      application/vnd.ms-fontobject \
+                                      application/x-font-ttf \
+                                      application/x-web-app-manifest+json \
+                                      application/xhtml+xml \
+                                      application/xml \
+                                      font/opentype \
+                                      image/svg+xml \
+                                      image/x-icon \
+                                      text/css \
+                                      text/html \
+                                      text/plain \
+                                      text/x-component \
+                                      text/xml
+    &lt;/<span class="kw3">IfModule</span>&gt;
+&nbsp;
+&lt;/<span class="kw3">IfModule</span>&gt;</pre>
+<h3>Utilizar la cabecera <code>Expires</code> de HTTP</h3>
+<p>La cabecera <code>Expires</code> de HTTP indica al navegador la fecha a partir de la cual un recurso se considera <em>"no válido"</em> y debe volver a solicitarse al servidor en vez de servirse directamente desde la caché.</p>
+<p>La recomendación para muchos de los archivos estáticos (CSS, JavaScript, imágenes, etc.) consiste en establecer una fecha de expiración muy lejana (1 año por ejemplo). No obstante, si los nombres de los archivos no incluyen información sobre su versión, entonces es mejor que la expiración no sea tan lejana (1 semana por ejemplo).</p>
+<p>Utiliza la siguiente configuración para indicar la fecha de expiración de todos los archivos estáticos habituales de las aplicaciones web:</p>
+<pre class="apache code">&lt;<span class="kw3">IfModule</span> mod_expires.c&gt;
+    <span class="kw1">ExpiresActive</span> <span class="kw2">on</span>
+    <span class="kw1">ExpiresDefault</span>                                      <span class="st0">&quot;access plus 1 month&quot;</span>
+&nbsp;
+  <span class="co1"># CSS</span>
+    <span class="kw1">ExpiresByType</span> text/css                              <span class="st0">&quot;access plus 1 year&quot;</span>
+&nbsp;
+  <span class="co1"># Archivos relacionados con AJAX y Web Sockets</span>
+    <span class="kw1">ExpiresByType</span> application/json                      <span class="st0">&quot;access plus 0 seconds&quot;</span>
+    <span class="kw1">ExpiresByType</span> application/xml                       <span class="st0">&quot;access plus 0 seconds&quot;</span>
+    <span class="kw1">ExpiresByType</span> text/xml                              <span class="st0">&quot;access plus 0 seconds&quot;</span>
+&nbsp;
+  <span class="co1"># Favicon</span>
+    <span class="kw1">ExpiresByType</span> image/x-icon                          <span class="st0">&quot;access plus 1 week&quot;</span>
+&nbsp;
+  <span class="co1"># Componentes HTML (HTCs)</span>
+    <span class="kw1">ExpiresByType</span> text/x-component                      <span class="st0">&quot;access plus 1 month&quot;</span>
+&nbsp;
+  <span class="co1"># HTML</span>
+    <span class="kw1">ExpiresByType</span> text/html                             <span class="st0">&quot;access plus 0 seconds&quot;</span>
+&nbsp;
+  <span class="co1"># JavaScript</span>
+    <span class="kw1">ExpiresByType</span> application/javascript                <span class="st0">&quot;access plus 1 year&quot;</span>
+&nbsp;
+  <span class="co1"># Manifest</span>
+    <span class="kw1">ExpiresByType</span> application/x-web-app-manifest+json   <span class="st0">&quot;access plus 0 seconds&quot;</span>
+    <span class="kw1">ExpiresByType</span> text/cache-manifest                   <span class="st0">&quot;access plus 0 seconds&quot;</span>
+&nbsp;
+  <span class="co1"># Fotos, vídeos y audio</span>
+    <span class="kw1">ExpiresByType</span> audio/ogg                             <span class="st0">&quot;access plus 1 month&quot;</span>
+    <span class="kw1">ExpiresByType</span> image/gif                             <span class="st0">&quot;access plus 1 month&quot;</span>
+    <span class="kw1">ExpiresByType</span> image/jpeg                            <span class="st0">&quot;access plus 1 month&quot;</span>
+    <span class="kw1">ExpiresByType</span> image/png                             <span class="st0">&quot;access plus 1 month&quot;</span>
+    <span class="kw1">ExpiresByType</span> video/mp4                             <span class="st0">&quot;access plus 1 month&quot;</span>
+    <span class="kw1">ExpiresByType</span> video/ogg                             <span class="st0">&quot;access plus 1 month&quot;</span>
+    <span class="kw1">ExpiresByType</span> video/webm                            <span class="st0">&quot;access plus 1 month&quot;</span>
+&nbsp;
+  <span class="co1"># Canales RSS y Atom</span>
+    <span class="kw1">ExpiresByType</span> application/atom+xml                  <span class="st0">&quot;access plus 1 hour&quot;</span>
+    <span class="kw1">ExpiresByType</span> application/rss+xml                   <span class="st0">&quot;access plus 1 hour&quot;</span>
+&nbsp;
+  <span class="co1"># Fuentes web</span>
+    <span class="kw1">ExpiresByType</span> application/font-woff                 <span class="st0">&quot;access plus 1 month&quot;</span>
+    <span class="kw1">ExpiresByType</span> application/vnd.ms-fontobject         <span class="st0">&quot;access plus 1 month&quot;</span>
+    <span class="kw1">ExpiresByType</span> application/x-font-ttf                <span class="st0">&quot;access plus 1 month&quot;</span>
+    <span class="kw1">ExpiresByType</span> font/opentype                         <span class="st0">&quot;access plus 1 month&quot;</span>
+    <span class="kw1">ExpiresByType</span> image/svg+xml                         <span class="st0">&quot;access plus 1 month&quot;</span>
+&lt;/<span class="kw3">IfModule</span>&gt;</pre>
+<h3>Desactivar la cabecera <code>ETag</code> de HTTP</h3>
+<p>Eliminar la cabecera <code>ETag</code> de HTTP puede ser útil en algunas situaciones, ya que impide a los proxys y a los navegadores cachear los contenidos en función de esta cabecera. En la práctica, esto fuerza a que los proxys y navegadores utilicen en su lugar las cabeceras <code>Cache-Control</code> o <code>Expires</code>:</p>
+<pre class="apache code">&lt;<span class="kw3">IfModule</span> mod_headers.c&gt;
+    <span class="kw1">Header</span> unset ETag
+&lt;/<span class="kw3">IfModule</span>&gt;
+<span class="kw1">FileETag</span> <span class="kw2">None</span></pre>
+<h2>Otros trucos</h2>
+<h3>Definir opciones de configuración PHP</h3>
+<p>Utiliza la directiva especial <code>php_value</code> y a continuación, indica el nombre de la opción y su valor separado por un espacio:</p>
+<pre class="apache code"><span class="kw1">php_value</span> &lt;nombre-opcion&gt; &lt;valor-opcion&gt;</pre>
+<p>Este ejemplo define el tiempo máximo de ejecución de los <em>scripts</em> PHP y el tamaño máximo de los archivos que se pueden subir:</p>
+<pre class="apache code"><span class="co1"># For example:</span>
+<span class="kw1">php_value</span> upload_max_filesize 30M
+<span class="kw1">php_value</span> max_execution_time <span class="nu0">600</span></pre>
+<h3>Páginas de error personalizadas</h3>
+<pre class="apache code"><span class="kw1">ErrorDocument</span> <span class="nu0">400</span> /errores/error400.html
+<span class="kw1">ErrorDocument</span> <span class="nu0">401</span> /errores/error401.html
+<span class="kw1">ErrorDocument</span> <span class="nu0">403</span> /errores/error403.html
+<span class="kw1">ErrorDocument</span> <span class="nu0">404</span> /errores/error404.html
+<span class="kw1">ErrorDocument</span> <span class="nu0">500</span> /errores/error500.html</pre>
+<h3>Forzar a que el navegador baje un archivo en vez de mostrarlo</h3>
+<p>La siguiente configuración hace que todos los archivos de tipo Markdown (extensión <code>.md</code>) se descarguen en vez de mostrarse dentro del navegador. Cambia la extensión <code>.md</code> por la extensión de los archivos que quieres forzar que se descarguen:</p>
+<pre class="apache code">&lt;<span class="kw3">Files</span> *.md&gt;
+    <span class="kw1">ForceType</span> application/octet-stream
+    <span class="kw1">Header</span> set Content-Disposition attachment
+&lt;/<span class="kw3">Files</span>&gt;</pre>
+<h3>Permitir la carga de fuentes desde diferentes dominios</h3>
+<p>Debido a las restricciones del <em><a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">Cross-origin Resource Sharing</a></em>, es posible que algunas fuentes servidas a través de una CDN no funcionen en Firefox o Internet Explorer. Para solucionarlo, utiliza la siguiente configuración:</p>
+<pre class="apache code">&lt;<span class="kw3">IfModule</span> mod_headers.c&gt;
+    &lt;<span class="kw3">FilesMatch</span> <span class="st0">&quot;<span class="es0">\.</span>(eot|otf|ttc|ttf|woff)$&quot;</span>&gt;
+        <span class="kw1">Header</span> set Access-Control-Allow-Origin <span class="st0">&quot;*&quot;</span>
+    &lt;/<span class="kw3">FilesMatch</span>&gt;
+&lt;/<span class="kw3">IfModule</span>&gt;</pre>
+<h3>Forzar el uso de la codificación UTF-8</h3>
+<pre class="apache code"><span class="co1"># Servir contenidos de tipo text/plain o text/html usando la codificación UTF-8</span>
+<span class="kw1">AddDefaultCharset</span> utf-<span class="nu0">8</span>
+&nbsp;
+<span class="co1"># Forzar la codificación UTF-8 en varios tipos de archivos</span>
+<span class="kw1">AddCharset</span> utf-<span class="nu0">8</span> .atom .css .js .json .rss .vtt .xml</pre>
+<h2>Recursos</h2>
+<ul>
+<li><a href="https://github.com/phanan/htaccess">Listado original de trucos htaccess en inglés</a></li>
+</ul>
+
+                    </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+    <div class="module module-share">
+    <h3>Compartir</h3>
+    <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = 'Trucos y ejemplos de configuración del archivo htaccess de Apache';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+</div>
+
+
+    
+<div class="module module-tags">
+    <h3>Etiquetas populares</h3>
+    <ul class="tags-list">
+                    <li class="">
+                <a href="/tutoriales/composer/">composer</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/css/">css</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/dise%C3%B1o/">diseño</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/html/">html</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/javascript/">javascript</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/php/">php</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/programaci%C3%B3n/">programación</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/sistemas/">sistemas</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/symfony/">symfony</a>
+            </li>
+            </ul>
+</div>
+
+
+    <div class="module module-rss">
+    <h3>Suscríbete gratis</h3>
+    <ul class="list-unstyled text-links module-rss-feeds">
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/todos.xml">
+                <strong>Todos</strong> los tutoriales
+            </a>
+        </li>
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/diseno.xml">
+                Tutoriales de <strong>diseño</strong>
+            </a>
+        </li>
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/programacion.xml">
+                Tutoriales de <strong>programación</strong>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>14.1. Generación de código en función del modelo (Symfony 1.0, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_14.html" />
+                    <link rel="next" href="../capitulo_14/scaffolding.html" />
+                <link rel="start" href="/libro/symfony_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="14.1. Generación de código en función del modelo (Symfony 1.0, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/" itemprop="url">
+                    <span itemprop="title">Symfony 1.0, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/capitulo_14.html" itemprop="url">
+                    <span itemprop="title">Capítulo 14. Generadores</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>14.1. Generación de código en función del modelo</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="generacion_de_codigo_en_funcion_del_modelo" class="title">
+        <span>14.1.</span> Generación de código en función del modelo
+    </h1>
+
+    
+
+<p>En las aplicaciones web, las operaciones de acceso a los datos se pueden clasificar en una de las siguientes categorías:</p>
+
+<ul>
+<li>Insertar un registro  <em>creation</em>, en inglés)</li>
+<li>Obtener registros  <em>retrieval</em>, en inglés)</li>
+<li>Modificar un registro o alguna de sus columnas  <em>update</em>, en inglés)</li>
+<li>Borrar un registro  <em>deletion</em>, en inglés)</li>
+</ul>
+
+<p>Como estas operaciones son tan comunes, se ha creado un acrónimo para referirse a todas ellas: CRUD (por las iniciales de sus nombres en inglés). Muchas páginas se reducen a alguna de esas operaciones. En un foro por ejemplo, el listado de los últimos mensajes es una operación de obtener registros y responder a un mensaje se corresponde con la opción de insertar un registro.</p>
+
+<p>En muchas aplicaciones web se crean continuamente acciones y plantillas que realizan las operaciones CRUD para una determinada tabla de datos. En Symfony, el modelo contiene la información necesaria para poder generar de forma automática el código de las operaciones CRUD, de forma que se simplifica el desarrollo inicial de la aplicación y las interfaces de la parte de gestión de las aplicaciones.</p>
+
+<p>Las tareas de generación de código a partir del modelo de datos crean un módulo entero, y se pueden ejecutar mediante el siguiente comando de Symfony:</p>
+
+<div class="code cli">
+<pre class="cli">&gt; symfony &lt;NOMBRE_TAREA&gt; &lt;NOMBRE_APLICACION&gt; &lt;NOMBRE_MODULO&gt; &lt;NOMBRE_CLASE&gt;</pre>
+</div>
+
+<p>Las tareas de generación de código son <code>propel-init-crud</code>, <code>propel-generate-crud</code> y <code>propel-init-admin</code>.</p>
+
+<h3 id="scaffolding_y_administracion">14.1.1. Scaffolding y administración</h3>
+
+<p>Durante la fase de desarrollo de una aplicación, se puede utilizar la generación de código para alguna de las siguientes tareas:</p>
+
+<ul>
+<li>El <em>"scaffolding"</em> es una estructura básica de acciones y plantillas para poder realizar las operaciones CRUD en una tabla de la base de datos. El código generado es mínimo, ya que solo es una guía para seguir desarrollando. Se trata de la base inicial que debe adaptarse para seguir los requerimientos de lógica y presentación de la aplicación. El <em>"scaffolding"</em> se utiliza durante la fase de desarrollo de la aplicación para crear una acceso vía web a la base de datos, para construir un prototipo rápido o para realizar automáticamente el código básico de un módulo basado en una tabla de la base de datos.</li>
+<li>La <em>"administración"</em> es una interfaz avanzada para manipular los datos y que se emplea en la parte de gestión o administración de las aplicaciones. La principal diferencia con el <em>"scaffolding"</em> es que el programador no modifica el código generado para la parte de administración. Mediante archivos de configuración y herencia de clases se puede personalizar y extender la parte de administración generada. La presentación de la interfaz es importante y por eso incluyen opciones como el filtrado, la paginación y la ordenación de datos. La parte de administración generada automáticamente con Symfony tiene calidad suficiente como para entregarla al cliente formando parte de la aplicación que se le ha desarrollado.</li>
+</ul>
+
+<p>La línea de comandos de Symfony utiliza la palabra <code>crud</code> para referirse al <em>"scaffolding"</em> y <code>admin</code> para referirse a la parte de administración de la aplicación.</p>
+
+<h3 id="generando_e_iniciando_el_codigo">14.1.2. Generando e iniciando el código</h3>
+
+<p>Symfony dispone de dos formas para generar el código: mediante herencia (<code>init</code>) o mediante la generación automática de código (<code>generate</code>).</p>
+
+<p>Los módulos se pueden "iniciar", esto es, crear una serie de clases vacías que heredan de las del framework. Este método enmascara el código PHP de las acciones y de las plantillas para evitar que sean modificadas. Se trata de un método útil cuando la estructura de datos puede variar o cuando se necesita crear rápidamente un interfaz para el acceso a la base de datos. El código que se ejecuta durante la ejecución de la aplicación no se encuentra en la aplicación, sino en la cache. Las tareas de la línea de comandos utilizadas para este tipo de generación comienzan con <code>propel-init-</code>.</p>
+
+<p>El código de la acción generada está vacío. Si por ejemplo se inicia un módulo llamado <code>articulo</code>, el código de las acciones será el siguiente:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> articuloActions <span class="kw2">extends</span> autoarticuloActions
+<span class="br0">&#123;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Por otra parte, también es posible generar el código completo de las acciones y plantillas para que pueda ser modificado. El módulo resultante es por tanto, independiente de las clases del framework y no es posible adaptarlo utilizando exclusivamente archivos de configuración. Las tareas de la línea de comandos utilizadas para este tipo de generación comienzan con <code>propel-generate-</code>.</p>
+
+<p>Como el objetivo del <em>"scaffolding"</em> es generar la base para futuros desarrollos, es mejor generar el <em>"scaffolding"</em> y no solo iniciarlo. Por otra parte, la parte de administración es fácil de actualizar mediante un cambio en los archivos de configuración y sigue siendo usable aunque se modifique el modelo de datos. Esta es la razón por la que en las administraciones el código de "inicia" y no sólo se "genera".</p>
+
+<h3 id="modelo_de_datos_de_ejemplo">14.1.3. Modelo de datos de ejemplo</h3>
+
+<p>A lo largo de este capítulo, los listados de código muestran las posibilidades de los generadores de Symfony mediante un ejemplo sencillo, similar al utilizado en el Capítulo 8. Se trata de la típica aplicación para crear un blog, que contiene las clases <code>Article</code> y <code>Comment</code>. El listado 14-1 muestra el esquema de datos y la figura 14-1 lo ilustra.</p>
+
+<p><strong>Listado 14-1 - Archivo <code>schema.yml</code> de la aplicación de ejemplo</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">propel</span>:<span class="co4">
+  blog_article</span>:<span class="co3">
+    _attributes</span><span class="sy2">: </span><span class="br0">&#123;</span> phpName<span class="sy2">: </span>Article <span class="br0">&#125;</span><span class="co4">
+    id</span>:<span class="co3">
+    title</span><span class="sy2">: </span>      varchar<span class="br0">&#40;</span><span class="nu0">255</span><span class="br0">&#41;</span><span class="co3">
+    content</span><span class="sy2">: </span>    longvarchar<span class="co4">
+    created_at</span>:<span class="co4">
+  blog_comment</span>:<span class="co3">
+    _attributes</span><span class="sy2">: </span><span class="br0">&#123;</span> phpName<span class="sy2">: </span>Comment <span class="br0">&#125;</span><span class="co4">
+    id</span>:<span class="co4">
+    article_id</span>:<span class="co3">
+    author</span><span class="sy2">: </span>     varchar<span class="br0">&#40;</span><span class="nu0">255</span><span class="br0">&#41;</span><span class="co3">
+    content</span><span class="sy2">: </span>    longvarchar
+    created_at:</pre>
+</div>
+
+<div class="figure left" id="figure_14_1">
+    <img src="/img/symfony_1_0/f1401.png" alt="Modelo de datos de ejemplo" />
+
+    <p class="caption"><strong>Figura 14.1</strong> Modelo de datos de ejemplo</p>
+</div>
+
+
+<p>La generación de código no impone ninguna regla o restricción a la creación del esquema. Symfony utiliza el esquema tal y como se ha definido, interpreta sus atributos y genera el <em>"scaffolding"</em> o la parte de administración de la aplicación.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Para aprovechar al máximo este capítulo, deberías hacer todos los ejemplos que se incluyen. Si se realizan todos los pasos descritos en los listados de código, se obtiene un mejor conocimiento de lo que genera Symfony y de lo que se puede llegar a hacer con el código generado. La recomendación es que crees una estructura de datos como la descrita anteriormente para crear una base de datos con las tablas <code>blog_article</code> y <code>blog_comment</code>, rellenándolas con datos de prueba.</p></div>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_14.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 14. Generadores</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_14/scaffolding.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>14.2. Scaffolding</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_14.html">
+                    <span>Capítulo 14.</span> Generadores
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_14/generacion_de_codigo_en_funcion_del_modelo.html">
+                    <span>14.1.</span> Generación de código en función del modelo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/scaffolding.html">
+                    <span>14.2.</span> Scaffolding
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/creando_la_parte_de_administracion_de_las_aplicaciones.html">
+                    <span>14.3.</span> Creando la parte de administración de las aplicaciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/configuracion_del_generador.html">
+                    <span>14.4.</span> Configuración del generador
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/modificando_el_aspecto_de_los_modulos_generados.html">
+                    <span>14.5.</span> Modificando el aspecto de los módulos generados
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/resumen.html">
+                    <span>14.6.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

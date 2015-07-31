@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>20.4. Usando Django con FastCGI (El libro de Django 1.0)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_20/usando_django_con_apache_y_mod_python.html" />
+                    <link rel="next" href="../capitulo_20/escalabilidad.html" />
+                <link rel="start" href="/libro/django_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="20.4. Usando Django con FastCGI (El libro de Django 1.0)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page django_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/" itemprop="url">
+                    <span itemprop="title">El libro de Django 1.0</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/capitulo_20.html" itemprop="url">
+                    <span itemprop="title">Capítulo 20. Puesta en marcha de Django en un servidor</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>20.4. Usando Django con FastCGI</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="usando_django_con_fastcgi" class="title">
+        <span>20.4.</span> Usando Django con FastCGI
+    </h1>
+
+    
+
+<p>Aunque Django bajo Apache y mod_python es la configuración más robusta de
+implementación, mucha gente usa hosting compartido, en los que FastCGI es
+la única opción de implementación.</p>
+
+<p>Adicionalmente, en algunas situaciones, FastCGI permite mayor seguridad
+y posiblemente un mejor rendimiento que mod_python. Para sitios pequeños,
+FastCGI además puede ser más liviano que Apache.</p>
+
+<h3 id="descripcion_de_fastcgi">20.4.1. Descripción de FastCGI</h3>
+
+<p>FastCGI es una manera eficiente de dejar que una aplicación externa genere 
+páginas para un servidor Web. El servidor delega las peticiones Web entrantes (
+a través de un socket) a FastCGI, quien ejecuta el código y devuelve la 
+respuesta al servidor, quien, a su turno, la remitirá al navegador del cliente.</p>
+
+<p>Como mod_python, FastCGI permite que el código permanezca en memoria, logrando
+que las peticiones sean servidas sin tiempo de inicialización. A diferencia
+de mod_python, un proceso FastCGI no corre dentro del proceso del servidor Web,
+sino en un proceso separado y persistente.</p>
+
+<div class="admonition sidebar"><p><strong class="title"> ¿Por qué ejecutar código en un proceso separado?</strong> Los módulos tradicionales <code>mod_*</code> en Apache embeben varios lenguajes de
+scripting (los más notables son PHP, Python/mod_python, y Perl/mod_perl)
+dentro del espacion de procesos de tu servidor Web. A pesar de que esto
+reduce el tiempo de inicio (porque el código no tiene que ser leído del
+disco para cara consulta), lo hace al costo de ocupar espacio en memoria.</p>
+
+<p>Cada proceso Apache consigue una copia completa del motor de Apache, con
+todas las características de Apache que Django simplemente no aprovecha.
+Los procesos FastCGI, por otro lado, solo tienen el overhead de memoria de
+Python y Django.</p>
+
+<p>Debido a la naturaleza de FastCGI, también es posible tener procesos
+ejecutando bajo una cuenta de usuario diferente de la del proceso del
+servidor Web. Este es un buen beneficio de seguridad es sistemas
+compartidos, dado que significa que puedes asegurar tu código de otros
+usuarios.</p></div>
+
+<p>Antes de que puedas empezar a usar FastCGI con Django, necesitas instalar
+<code>flup</code>, una librería Python para manejar FastCGI. Algunos usuarios han
+reportado páginas que explotaron con versiones antiguas de <code>flup</code>, por lo
+cual puedes querer utilizar la última versión SVN. Puedes conseguir <code>flup</code> en
+http://www.djangoproject.com/r/flup/.</p>
+
+<h3 id="ejecutando_tu_servidor_fastcgi">20.4.2. Ejecutando tu Servidor FastCGI</h3>
+
+<p>FastCGI opera sobre un modelo cliente/servidor, y en la mayoría de los casos
+estarás iniciando el proceso servidor FastCGI por tu cuenta. Tu servidor Web
+(ya sea Apache, lighttpd, o algún otro) hace contacto con tu proceso Django-
+FastCGI solo cuando el servidor necesita cargar una página dinámica. Como el
+demonio ya está ejecutando su código en memoria, puede servir la respuesta muy
+rápido.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Si estás en un sistema de hosting compartido, probablemente estés forzado
+a usar procesos FastCGI manejados por el Web server. Si estás en esta
+situación, debes leer la sección titulada "<code>Ejecutando Django en un
+proveedor de Hosting compartido con Apache</code>_", más abajo.</p></div>
+
+<p>Un servidor Web puede conectarse a un servidor FastCGI de dos formas: usando
+un socket de dominio Unix, (un <em>named pipe</em> en sistemas Win32) o un socket
+TCP. Lo que elijas es una cuestión de preferencias; normalmente un socket TCP
+es más fácil debido a cuestiones de permisos.</p>
+
+<p>Para iniciar tu servidor, primero cambia al directorio de tu proyecto (donde
+está tu <code>manage.py</code>), y ejecuta <code>manage.py</code> con el comando <code>runfcgi</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ ./manage.py runfcgi [options]</pre>
+</div>
+
+<p>Si especificas <code>help</code> como única opción después de <code>runfcgi</code>, se mostrará
+una lista de todas las opciones disponibles.</p>
+
+<p>Necesitarás especificar un <code>socket</code> o si no <code>host</code> y <code>port</code>.
+Entonces, cuando configures tu servidor Web, solo necesitas apuntarlo al
+socket o host/port que especificaste cuando iniciaste el servidor FastCGI.</p>
+
+<p>Algunos ejemplos pueden ayudar a explicarlo:</p>
+
+<p>Ejecutar un servidor 'threaded' en un puerto TCP:</p>
+
+<div class="code cli">
+<pre class="cli">$ ./manage.py runfcgi method=threaded host=127.0.0.1 port=3033</pre>
+</div>
+
+<p>Ejecutar un servidor preforked sobre un socket de dominio Unix:</p>
+
+<div class="code cli">
+<pre class="cli">$ ./manage.py runfcgi method=prefork socket=/home/user/mysite.sock pidfile=django.pid</pre>
+</div>
+
+<p>Ejecutar sin demonizar (ejecutar en segundo plano) el proceso (es bueno
+para el debugging):</p>
+
+<div class="code cli">
+<pre class="cli">$ ./manage.py runfcgi daemonize=false socket=/tmp/mysite.sock</pre>
+</div>
+
+<h4 id="detener_el_demonio_fastcgi">20.4.2.1. Detener el Demonio FastCGI</h4>
+
+<p>Si tienes el proceso ejecutando en primer plano, es fácil detenerlo:
+simplemente presiona Ctrl+C para detenerlo y salir del servidor FastCGI. Si
+estás tratando con procesos en segundo plano, necesitarás recurrir al comando
+<code>kill</code> de Unix.</p>
+
+<p>Si especificas la opción <code>pidfile</code> en  <code>manage.py runfcgi</code>, puedes detener
+el demonio FastCGI en ejecución de esta forma:</p>
+
+<div class="code cli">
+<pre class="cli">$ kill `cat $PIDFILE`</pre>
+</div>
+
+<p>donde <code>$PIDFILE</code> es el <code>pidfile</code> que especificaste.</p>
+
+<p>Para reiniciar con facilidad tu demonio FastCGI en Unix, pedes usar este
+breve script en la línea de comandos:</p>
+
+<div class="code bash">
+<pre class="bash"><span class="co0">#!/bin/bash</span>
+&nbsp;
+<span class="co0"># Replace these three settings.</span>
+<span class="re2">PROJDIR</span>=<span class="st0">&quot;/home/user/myproject&quot;</span>
+<span class="re2">PIDFILE</span>=<span class="st0">&quot;<span class="es2">$PROJDIR</span>/mysite.pid&quot;</span>
+<span class="re2">SOCKET</span>=<span class="st0">&quot;<span class="es2">$PROJDIR</span>/mysite.sock&quot;</span>
+&nbsp;
+<span class="kw3">cd</span> <span class="re1">$PROJDIR</span>
+<span class="kw1">if</span> <span class="br0">&#91;</span> <span class="re5">-f</span> <span class="re1">$PIDFILE</span> <span class="br0">&#93;</span>; <span class="kw1">then</span>
+    <span class="kw2">kill</span> <span class="sy0">`</span><span class="kw2">cat</span> <span class="re5">--</span> <span class="re1">$PIDFILE</span><span class="sy0">`</span>
+    <span class="kw2">rm</span> <span class="re5">-f</span> <span class="re5">--</span> <span class="re1">$PIDFILE</span>
+<span class="kw1">fi</span>
+&nbsp;
+<span class="kw3">exec</span> <span class="sy0">/</span>usr<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw2">env</span> - \
+  <span class="re2">PYTHONPATH</span>=<span class="st0">&quot;../python:..&quot;</span> \
+  .<span class="sy0">/</span>manage.py runfcgi <span class="re2">socket</span>=<span class="re1">$SOCKET</span> <span class="re2">pidfile</span>=<span class="re1">$PIDFILE</span></pre>
+</div>
+
+<h3 id="usando_django_con_apache_y_fastcgi">20.4.3. Usando Django con Apache y FastCGI</h3>
+
+<p>Para usar Django con Apache y FastCGI, necesitarás que Apache esté instalado y
+configurado, con mod_fastcgi instalado y habilitado. Consulta la documentación
+de Apache y  mod_fastcgi para instrucciones detalladas:
+http://www.djangoproject.com/r/mod_fastcgi/.</p>
+
+<p>Una vez que hayas completado la configuración, apunta Apache a tu instancia
+FastCGI de Django editando el archivo <code>httpd.conf</code> (de la configuración de
+Apache). Necesitarás hacer dos cosas:</p>
+
+<ul>
+<li>Usar la directiva <code>FastCGIExternalServer</code> para especificar la
+localización de tu servidor FastCGI.</li>
+<li>Usar <code>mod_rewrite</code> para apuntar las URLs a FastCGI según sea necesario.</li>
+</ul>
+
+<h4 id="especificando_la_localizacion_del_servidor_fastcgi">20.4.3.1. Especificando la Localización del Servidor FastCGI</h4>
+
+<p>La directiva <code>FastCGIExternalServer</code> le dice a Apache como encontrar tu
+servidor FastCGI. Como se explica en los documentos de FastCGIExternalServer
+(http://www.djangoproject.com/r/mod_fastcgi/FastCGIExternalServer/), puedes
+especificar un <code>socket</code> o un <code>host</code>. Aquí hay ejemplos de ambos:</p>
+
+<p>Conectar con FastCGI mediante un socket o un <em>pipe</em> con nombre:</p>
+
+<div class="code apache">
+<pre class="apache">FastCGIExternalServer /home/<span class="kw1">user</span>/public_html/mysite.fcgi -socket /home/<span class="kw1">user</span>/
+mysite.sock</pre>
+</div>
+
+<p>Conectar con FastCGI mediante TCP:</p>
+
+<div class="code apache">
+<pre class="apache">FastCGIExternalServer /home/<span class="kw1">user</span>/public_html/mysite.fcgi -host 127.0.0.1:<span class="nu0">3033</span></pre>
+</div>
+
+<p>En los dos casos, el directorio /home/user/public_html/ debe existir,
+aunque el archivo <code>/home/user/public_html/mysite.fcgi</code> no necesariamente
+tiene que existir. Es solo una URL usada por el servidor Web internamente --
+un enganche para indicar que las consultas en esa URL deben ser manejadas por
+FastCGI. (Más sobre esto en la siguiente sección.)</p>
+
+<h4 id="usando_mod_rewrite_para_apuntar_urls_hacia_fastcgi">20.4.3.2. Usando mod_rewrite para apuntar URLs hacia FastCGI</h4>
+
+<p>El segundo paso es decirle a Apache que use FastCGI para las URLS que coincidan
+con cierto patrón. PAra hacer esto, usa el módulo mod_rewrite y reescribe las
+URLs hacia <code>mysite.fcgi</code> (o donde hayas especificado en la directiva
+<code>FastCGIExternalServer</code>, como se explicó en la sección anterior).</p>
+
+<p>En este ejemplo, le decimos a Apache que use FastCGI para manejar cualquier
+consulta que no represente un archivo del sistema de archivos y no empiece con
+<code>/media/</code>. Probablemente éste sea el caso más común, si estás usando el sitio
+de administración de Django:</p>
+
+<div class="code apache">
+<pre class="apache">&lt;<span class="kw3">VirtualHost</span> 12.34.56.78&gt;
+  <span class="kw1">ServerName</span> example.com
+  <span class="kw1">DocumentRoot</span> /home/<span class="kw1">user</span>/public_html
+  <span class="kw1">Alias</span> /media /home/<span class="kw1">user</span>/python/django/contrib/admin/media
+  <span class="kw1">RewriteEngine</span> <span class="kw2">On</span>
+  <span class="kw1">RewriteRule</span> ^/(media.*)$ /$1 [QSA,L]
+  <span class="kw1">RewriteCond</span> %{REQUEST_FILENAME} !-f
+  <span class="kw1">RewriteRule</span> ^/(.*)$ /mysite.fcgi/$1 [QSA,L]
+&lt;/<span class="kw3">VirtualHost</span>&gt;</pre>
+</div>
+
+<h3 id="fastcgi_y_lighttpd">20.4.4. FastCGI y lighttpd</h3>
+
+<p>lighttpd (http://www.djangoproject.com/r/lighttpd/) es un servidor Web liviano
+usado habitualmente para servir archivos estáticos. Admite FastCGI en forma
+nativa y por lo tanto es también una opción ideal para servir tanto páginas
+estáticas como dinámicas, si tu sitio no tiene necesidades específicas de
+Apache.</p>
+
+<p>Asegúrate que <code>mod_fastcgi</code> está en tu lista de modulos, en algún lugar
+después  de <code>mod_rewrite</code> y <code>mod_access</code>, y antes de <code>mod_accesslog</code>.
+Probablemente desees también <code>mod_alias</code>, para servir medios de
+administración.</p>
+
+<p>Agrega lo siguiente a tu archivo de configuración de lighttpd:</p>
+
+<div class="code lighttpd">
+<pre class="lighttpd">server.document-root = &quot;/home/user/public_html&quot;
+fastcgi.server = (
+    &quot;/mysite.fcgi&quot; =&gt; (
+        &quot;main&quot; =&gt; (
+            # Use host / port instead of socket for TCP fastcgi
+            # &quot;host&quot; =&gt; &quot;127.0.0.1&quot;,
+            # &quot;port&quot; =&gt; 3033,
+            &quot;socket&quot; =&gt; &quot;/home/user/mysite.sock&quot;,
+            &quot;check-local&quot; =&gt; &quot;disable&quot;,
+        )
+    ),
+)
+alias.url = (
+    &quot;/media/&quot; =&gt; &quot;/home/user/django/contrib/admin/media/&quot;,
+)
+&nbsp;
+url.rewrite-once = (
+    &quot;^(/media.*)$&quot; =&gt; &quot;$1&quot;,
+    &quot;^/favicon\.ico$&quot; =&gt; &quot;/media/favicon.ico&quot;,
+    &quot;^(/.*)$&quot; =&gt; &quot;/mysite.fcgi$1&quot;,
+)</pre>
+</div>
+
+<h4 id="ejecutando_multiples_sitios_django_en_una_instancia_lighttpd">20.4.4.1. Ejecutando Múltiples Sitios Django en Una Instancia lighttpd</h4>
+
+<p>lighttpd te permite usar "configuración condicional" para permitir la
+configuración personalizada para cada host. Para especificar múltiples sitios
+FastCGI, solo agrega un bloque condicional en torno a tu configuración  FastCGI
+para cada sitio:</p>
+
+<div class="code python">
+<pre class="python"><span class="co1"># If the hostname is 'www.example1.com'...</span>
+$HTTP<span class="br0">&#91;</span><span class="st0">&quot;host&quot;</span><span class="br0">&#93;</span> <span class="sy0">==</span> <span class="st0">&quot;www.example1.com&quot;</span> <span class="br0">&#123;</span>
+    server.<span class="me1">document</span>-root <span class="sy0">=</span> <span class="st0">&quot;/foo/site1&quot;</span>
+    fastcgi.<span class="me1">server</span> <span class="sy0">=</span> <span class="br0">&#40;</span>
+       ...
+    <span class="br0">&#41;</span>
+    ...
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1"># If the hostname is 'www.example2.com'...</span>
+$HTTP<span class="br0">&#91;</span><span class="st0">&quot;host&quot;</span><span class="br0">&#93;</span> <span class="sy0">==</span> <span class="st0">&quot;www.example2.com&quot;</span> <span class="br0">&#123;</span>
+    server.<span class="me1">document</span>-root <span class="sy0">=</span> <span class="st0">&quot;/foo/site2&quot;</span>
+    fastcgi.<span class="me1">server</span> <span class="sy0">=</span> <span class="br0">&#40;</span>
+       ...
+    <span class="br0">&#41;</span>
+    ...
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Puedes también ejecutar múltiples instalaciones de Django en el mismo sitio
+simplemente especificando múltiples entradas en la directiva <code>fastcgi.server</code>.
+Agrega un host FastCGI para cada una.</p>
+
+<h3 id="ejecutando_django_en_un_proveedor_de_hosting_compartido_con_apache">20.4.5. Ejecutando Django en un Proveedor de Hosting Compartido con Apache</h3>
+
+<p>Muchos proveedores de hosting compartido no te permiten ejecutar tus propios
+demonios servidores o editar el archivo <code>httpd.conf</code>. En estos casos, aún es
+posible ejecutar Django usando procesos iniciados por el sevidor Web.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Si estás usando procesos iniciados por el servidor Web, como se explica en
+esta sección, no necesitas iniciar el servidor FastCGI por tu cuenta.
+Apache iniciará una cantidad de procesos, escalando según lo necesite.</p></div>
+
+<p>En el directorio raíz de tu Web, agrega esto a un archivo llamado <code>.htaccess</code>:</p>
+
+<div class="code apache">
+<pre class="apache"><span class="kw1">AddHandler</span> fastcgi-<span class="kw1">script</span> .fcgi
+<span class="kw1">RewriteEngine</span> <span class="kw2">On</span>
+<span class="kw1">RewriteCond</span> %{REQUEST_FILENAME} !-f
+<span class="kw1">RewriteRule</span> ^(.*)$ mysite.fcgi/$1 [QSA,L]</pre>
+</div>
+
+<p>Después, crea un pequeño script que le diga a Apache como iniciar tu programa
+FastCGI. Crea un archivo <code>mysite.fcgi</code>, colócalo en tu directorio Web, y
+asegúrate de hacerlo ejecutable:</p>
+
+<div class="code bash">
+<pre class="bash"><span class="co0">#!/usr/bin/python</span>
+import sys, os
+&nbsp;
+<span class="co0"># Add a custom Python path.</span>
+sys.path.insert<span class="br0">&#40;</span><span class="nu0">0</span>, <span class="st0">&quot;/home/user/python&quot;</span><span class="br0">&#41;</span>
+&nbsp;
+<span class="co0"># Switch to the directory of your project. (Optional.)</span>
+<span class="co0"># os.chdir(&quot;/home/user/myproject&quot;)</span>
+&nbsp;
+<span class="co0"># Set the DJANGO_SETTINGS_MODULE environment variable.</span>
+os.environ<span class="br0">&#91;</span><span class="st_h">'DJANGO_SETTINGS_MODULE'</span><span class="br0">&#93;</span> = <span class="st0">&quot;myproject.settings&quot;</span>
+&nbsp;
+from django.core.servers.fastcgi import runfastcgi
+runfastcgi<span class="br0">&#40;</span><span class="re2">method</span>=<span class="st0">&quot;threaded&quot;</span>, <span class="re2">daemonize</span>=<span class="st0">&quot;false&quot;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<h4 id="reiniciando_el_server_iniciado">20.4.5.1. Reiniciando el Server Iniciado</h4>
+
+<p>Si cambias cualquier código Python en tu sitio, necesitarás decirle a FastCGI
+que el código ha cambiado. Pero no hay necesidad de reiniciar Apache en este
+caso the. Sólo volver a subir <code>mysite.fcgi</code> — o editar el archivo — de
+manera que la fecha y hora del archivo cambien. Cuando Apache ve que el archivo
+ha sido actualizado, reiniciará tu aplicación Django por ti.</p>
+
+<p>Si tienen acceso a la línea de comandos en un sistema Unix system, puedes hacer
+esto fácilmente usando el comando <code>touch</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ touch mysite.fcgi</pre>
+</div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_20/usando_django_con_apache_y_mod_python.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>20.3. Usando Django con Apache y mod_python</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_20/escalabilidad.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>20.5. Escalabilidad</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Los principios de las páginas Web dinámicas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> El sistema de plantillas de Django</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Interactuar con una base de datos: Modelos</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El sitio de Administración Django</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Procesamiento de formularios</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Vistas avanzadas y URLconfs</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Vistas genéricas</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Extender el sistema de plantillas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Generación de contenido no HTML</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Sesiones, usuario e inscripciones</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Cache</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Otros sub-frameworks contribuidos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Middleware</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Integración con Base de datos y Aplicaciones existentes</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Extender la Interfaz de Administración de Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_20.html">
+                    <span>Capítulo 20.</span> Puesta en marcha de Django en un servidor
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_20/nada_compartido.html">
+                    <span>20.1.</span> Nada Compartido
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_20/un_nota_sobre_preferencias_personales.html">
+                    <span>20.2.</span> Un nota sobre preferencias personales
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_20/usando_django_con_apache_y_mod_python.html">
+                    <span>20.3.</span> Usando Django con Apache y mod_python
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_20/usando_django_con_fastcgi.html">
+                    <span>20.4.</span> Usando Django con FastCGI
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_20/escalabilidad.html">
+                    <span>20.5.</span> Escalabilidad
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_20/ajuste_de_rednimiento.html">
+                    <span>20.6.</span> Ajuste de rednimiento
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_20/que_sigue.html">
+                    <span>20.7.</span> ¿Qué sigue?
+                </a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>8.7. Sintaxis extendida del esquema (Symfony 1.1, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_8/extender_el_modelo.html" />
+                    <link rel="next" href="../capitulo_8/no_crees_el_modelo_dos_veces.html" />
+                <link rel="start" href="/libro/symfony_1_1/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="8.7. Sintaxis extendida del esquema (Symfony 1.1, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_1"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/" itemprop="url">
+                    <span itemprop="title">Symfony 1.1, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/capitulo_8.html" itemprop="url">
+                    <span itemprop="title">Capítulo 8. El modelo</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>8.7. Sintaxis extendida del esquema</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="sintaxis_extendida_del_esquema" class="title">
+        <span>8.7.</span> Sintaxis extendida del esquema
+    </h1>
+
+    
+
+<p>Un archivo <code>schema.yml</code> puede ser tan sencillo como el mostrado en el listado 8-3. Sin embargo, los modelos relacionales suelen ser complejos. Este es el motivo por el que existe una sintaxis extendida del esquema para que se pueda utilizar en cualquier caso.</p>
+
+<h3 id="atributos">8.7.1. Atributos</h3>
+
+<p>Se pueden definir atributos específicos para las conexiones y las tablas, tal y como se muestra en el listado 8-24. Estas opciones se establecen bajo la clave <code>_attributes</code>.</p>
+
+<p><strong>Listado 8-24 - Atributos de las conexiones y las tablas</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">propel</span>:<span class="co3">
+  _attributes</span><span class="sy2">: </span>  <span class="br0">&#123;</span> noXsd<span class="sy2">: </span>false, defaultIdMethod<span class="sy2">: </span><span class="kw1">none</span>, package<span class="sy2">: </span>lib.model <span class="br0">&#125;</span><span class="co4">
+  blog_articulo</span>:<span class="co3">
+    _attributes</span><span class="sy2">: </span><span class="br0">&#123;</span> phpName<span class="sy2">: </span>Articulo <span class="br0">&#125;</span></pre>
+</div>
+
+<p>Si se quiere validar el esquema antes de que se genere el código asociado, se debe desactivar en la conexión el atributo <code>noXSD</code>. La conexión también permite que se le indique el atributo <code>defaultIdMethod</code>. Si no se indica, se utilizará el método nativo de generación de IDs --por ejemplo, <code>autoincrement</code> en MySQL o <code>sequences</code> en PostgreSQL. El otro valor permitido es <code>none</code>.</p>
+
+<p>El atributo <code>package</code> es como un namespace; indica la ruta donde se guardan las clases generadas automáticamente. Su valor por defecto es <code>lib/model/</code>, pero se puede modificar para organizar el modelo en una estructura de subpaquetes. Si por ejemplo no se quieren mezclar en el mismo directorio las clases del núcleo de la aplicación con las clases de un sistema de estadísticas, se pueden definir dos esquemas diferentes con los paquetes <code>lib.model.business</code> y <code>lib.model.stats</code>.</p>
+
+<p>Ya se ha visto el atributo de tabla <code>phpName</code>, que se utiliza para establecer el nombre de la clase generada automáticamente para manejar cada tabla de la base de datos.</p>
+
+<p>Las tablas que guardan contenidos adaptados para diferentes idiomas (es decir, varias versiones del mismo contenido en una tabla relacionada, para conseguir la internacionalización) también pueden definir dos atributos adicionales (explicados detalladamente en el Capítulo 13), tal y como se muestra en el listado 8-25.</p>
+
+<p><strong>Listado 8-25 - Atributos para las tablas de internacionalización</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">propel</span>:<span class="co4">
+  blog_articulo</span>:<span class="co3">
+    _attributes</span><span class="sy2">: </span><span class="br0">&#123;</span> isI18N<span class="sy2">: </span>true, i18nTable<span class="sy2">: </span>db_group_i18n <span class="br0">&#125;</span></pre>
+</div>
+
+<div class="admonition sidebar"><p><strong class="title"> Trabajando con varios esquemas</strong> Cada aplicación puede tener más de un esquema. Symfony tiene en cuenta todos los archivos que acaben en <code>schema.yml</code> o <code>schema.xml</code> que están en el directorio <code>config/</code>. Se trata de una estrategia muy útil cuando la aplicación tiene muchas tablas o si algunas de las tablas no comparten la misma conexión.</p>
+
+<p>Si se consideran los dos siguientes esquemas:</p>
+
+<div class="code yaml">
+<pre class="yaml">// En config/business-schema.yml<span class="co4">
+propel</span>:<span class="co4">
+  blog_articulo</span>:<span class="co3">
+    _attributes</span><span class="sy2">: </span><span class="br0">&#123;</span> phpName<span class="sy2">: </span>Articulo <span class="br0">&#125;</span><span class="co4">
+  id</span>:<span class="co3">
+  titulo</span><span class="sy2">: </span>varchar<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span></pre>
+</div>
+
+<div class="code yaml">
+<pre class="yaml">// En config/stats-schema.yml<span class="co4">
+propel</span>:<span class="co4">
+  estadisticas_visita</span>:<span class="co3">
+    _attributes</span><span class="sy2">: </span><span class="br0">&#123;</span> phpName<span class="sy2">: </span>Visita <span class="br0">&#125;</span><span class="co4">
+  id</span>:<span class="co3">
+  recurso</span><span class="sy2">: </span>varchar<span class="br0">&#40;</span><span class="nu0">100</span><span class="br0">&#41;</span>
+  created_at:</pre>
+</div>
+
+<p>Los dos esquemas comparten la misma conexión (<code>propel</code>), y las clases <code>Articulo</code> y <code>Visita</code> se generarán en el mismo directorio <code>lib/model/</code>. El resultado es equivalente a si se hubiera escrito solamente un esquema.</p>
+
+<p>También es posible definir esquemas que utilicen diferentes conexiones (por ejemplo <code>propel</code> y <code>propel_bis</code> definidas en <code>databases.yml</code>) y cuyas clases generadas se guarden en subdirectorios diferentes:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># En config/business-schema.yml</span><span class="co4">
+propel</span>:<span class="co4">
+  blog_articulo</span>:<span class="co3">
+    _attributes</span><span class="sy2">: </span><span class="br0">&#123;</span> phpName<span class="sy2">: </span>Articulo, package<span class="sy2">: </span>lib.model.business <span class="br0">&#125;</span><span class="co4">
+  id</span>:<span class="co3">
+  titulo</span><span class="sy2">: </span>varchar<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span></pre>
+</div>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># En config/stats-schema.yml</span><span class="co4">
+propel_bis</span>:<span class="co4">
+  estadisticas_visita</span>:<span class="co3">
+    _attributes</span><span class="sy2">: </span><span class="br0">&#123;</span> phpName<span class="sy2">: </span>Visita, package<span class="sy2">: </span>lib.model.stat <span class="br0">&#125;</span><span class="co4">
+  id</span>:<span class="co3">
+  recurso</span><span class="sy2">: </span>varchar<span class="br0">&#40;</span><span class="nu0">100</span><span class="br0">&#41;</span>
+  created_at:</pre>
+</div>
+
+<p>Muchas aplicaciones utilizan más de un esquema. Sobre todo los plugins, muchos de los cuales definen su propio esquema y paquete para evitar errores y duplicidades con las clases propias de la aplicación (más detalles en el Capítulo 17).</p></div>
+
+<h3 id="detalles_de_las_columnas">8.7.2. Detalles de las columnas</h3>
+
+<p>La sintaxis básica ofrece dos posibilidades: dejar que Symfony deduzca las características de una columna a partir de su nombre (indicando un valor vacío para esa columna) o definir el tipo de columna con uno de los tipos predefinidos. El listado 8-26 muestra estas 2 opciones.</p>
+
+<p><strong>Listado 8-26 - Atributos básicos de columna</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">propel</span>:<span class="co4">
+  blog_articulo</span>:<span class="co3">
+    id</span><span class="sy2">: </span>                <span class="co1"># Symfony se encarga de esta columna</span><span class="co3">
+    titulo</span><span class="sy2">: </span>varchar<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span>  <span class="co1"># Definir el tipo explícitamente</span></pre>
+</div>
+
+<p>Se pueden definir muchos más aspectos de cada columna. Si se definen, se utiliza un array asociativo para indicar las opciones de la columna, tal y como muestra el listado 8-27.</p>
+
+<p><strong>Listado 8-27 - Atributos avanzados de columna</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">propel</span>:<span class="co4">
+  blog_articulo</span>:<span class="co3">
+    id</span><span class="sy2">: </span>      <span class="br0">&#123;</span> type<span class="sy2">: </span>integer, required<span class="sy2">: </span>true, primaryKey<span class="sy2">: </span>true, autoIncrement<span class="sy2">: </span>true <span class="br0">&#125;</span><span class="co3">
+    name</span><span class="sy2">: </span>    <span class="br0">&#123;</span> type<span class="sy2">: </span>varchar<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span>, default<span class="sy2">: </span>foobar, index<span class="sy2">: </span>true <span class="br0">&#125;</span><span class="co3">
+    group_id</span><span class="sy2">: </span><span class="br0">&#123;</span> type<span class="sy2">: </span>integer, foreignTable<span class="sy2">: </span>db_group, foreignReference<span class="sy2">: </span>id, onDelete<span class="sy2">: </span>cascade <span class="br0">&#125;</span></pre>
+</div>
+
+<p>Los parámetros de las columnas son los siguientes:</p>
+
+<ul>
+<li><code>type</code>: Tipo de columna. Se puede elegir entre <code>boolean</code>, <code>tinyint</code>, <code>smallint</code>, <code>integer</code>, <code>bigint</code>, <code>double</code>, <code>float</code>, <code>real</code>, <code>decimal</code>, <code>char</code>, <code>varchar(tamano)</code>, <code>longvarchar</code>, <code>date</code>, <code>time</code>, <code>timestamp</code>, <code>bu_date</code>, <code>bu_timestamp</code>, <code>blob</code> y <code>clob</code>.</li>
+<li><code>required</code>: valor booleano. Si vale <code>true</code> la columna debe tener obligatoriamente un valor.</li>
+<li><code>default</code>: el valor por defecto.</li>
+<li><code>primaryKey</code>: valor booleano. Si vale <code>true</code> indica que es una clave primaria.</li>
+<li><code>autoIncrement</code>: valor booleano. Si se indica <code>true</code> para las columnas de tipo <code>integer</code>, su valor se auto-incrementará.</li>
+<li><code>sequence</code>: el nombre de la secuencia para las bases de datos que utilizan secuencias para las columnas <code>autoIncrement</code> (por ejemplo PostgreSQL y Oracle).</li>
+<li><code>index</code>: valor booleano. Si vale <code>true</code>, se construye un índice simple; si vale <code>unique</code> se construye un índice único para la columna.</li>
+<li><code>foreignTable</code>: el nombre de una tabla, se utiliza para crear una clave externa a otra tabla.</li>
+<li><code>foreignReference</code>: el nombre de la columna relacionada si las claves externas se definen mediante <code>foreignTable</code>.</li>
+<li><code>onDelete</code>: determina la acción que se ejecuta cuando se borra un registro en una tabla relacionada. Si su valor es <code>setnull</code>, la columna de la clave externa se establece a <code>null</code>. Si su valor es <code>cascade</code>, se borra el registro relacionado. Si el sistema gestor de bases de datos no soporta este comportamiento, el ORM lo emula. Esta opción solo tiene sentido para las columnas que definen una <code>foreignTable</code> y una <code>foreignReference</code>.</li>
+<li><code>isCulture</code>: valor booleano. Su valor es <code>true</code> para las columnas de tipo <em>culture</em> en las tablas de contenidos adaptados a otros idiomas (más detalles en el Capítulo 13).</li>
+</ul>
+
+<h3 id="claves_externas">8.7.3. Claves externas</h3>
+
+<p>Además de los atributos de columna <code>foreignTable</code> y <code>foreignReference</code>, es posible añadir claves externas bajo la clave <code>_foreignKeys:</code> de cada tabla. El esquema del listado 8-28 crea una clave externa en la columna <code>usuario_id</code>, que hace referencia a la columna <code>id</code> de la tabla <code>blog_usuario</code>.</p>
+
+<p><strong>Listado 8-28 - Sintaxis alternativa para las claves externas</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">propel</span>:<span class="co4">
+  blog_articulo</span>:<span class="co4">
+    id</span>:<span class="co3">
+    titulo</span><span class="sy2">: </span>    varchar<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span><span class="co3">
+    usuario_id</span><span class="sy2">: </span><span class="br0">&#123;</span> type<span class="sy2">: </span>integer <span class="br0">&#125;</span><span class="co4">
+    _foreignKeys</span><span class="sy2">:
+</span>      -<span class="co3">
+        foreignTable</span><span class="sy2">: </span>blog_usuario<span class="co3">
+        onDelete</span><span class="sy2">: </span>    cascade<span class="co4">
+        references</span>:<span class="co3">
+          - { local</span><span class="sy2">: </span>usuario_id, foreign<span class="sy2">: </span>id <span class="br0">&#125;</span></pre>
+</div>
+
+<p>La sintaxis alternativa es muy útil para las claves externas múltiples y para indicar un nombre a cada clave externa, tal y como muestra el listado 8-29.</p>
+
+<p><strong>Listado 8-29 - La sintaxis alternativa de las claves externas aplicada a una clave externa múltiple</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">_foreignKeys</span>:<span class="co4">
+  mi_clave_externa</span>:<span class="co3">
+    foreignTable</span><span class="sy2">: </span> db_usuario<span class="co3">
+    onDelete</span><span class="sy2">: </span>     cascade<span class="co4">
+    references</span>:<span class="co3">
+      - { local</span><span class="sy2">: </span>usuario_id, foreign<span class="sy2">: </span>id <span class="br0">&#125;</span><span class="co3">
+      - { local</span><span class="sy2">: </span>post_id, foreign<span class="sy2">: </span>id <span class="br0">&#125;</span></pre>
+</div>
+
+<h3 id="indices">8.7.4. Índices</h3>
+
+<p>Además del atributo de columna <code>index</code>, es posible añadir claves índices bajo la clave <code>_indexes:</code> de cada tabla. Si se quieren crean índices únicos, se debe utilizar la clave <code>_uniques:</code>. En las columnas que requieren un tamaño, por ejemplo por ser columnas de texto, el tamaño del índice se indica entre paréntesis, de la misma forma que se indica el tamaño de cualquier columna. El listado 8-30 muestra la sintaxis alternativa para los índices.</p>
+
+<p><strong>Listado 8-30 - Sintaxis alternativa para los índices y los índices únicos</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">propel</span>:<span class="co4">
+  blog_articulo</span>:<span class="co4">
+    id</span>:<span class="co3">
+    titulo</span><span class="sy2">: </span>           varchar<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span><span class="co4">
+    created_at</span>:<span class="co4">
+    _indexes</span>:<span class="co3">
+      mi_indice</span><span class="sy2">: </span>     <span class="br0">&#91;</span>titulo<span class="br0">&#40;</span><span class="nu0">10</span><span class="br0">&#41;</span>, usuario_id<span class="br0">&#93;</span><span class="co4">
+    _uniques</span>:<span class="co3">
+      mi_otro_indice</span><span class="sy2">: </span><span class="br0">&#91;</span>created_at<span class="br0">&#93;</span></pre>
+</div>
+
+<p>La sintaxis alternativa solo es útil para los índices que se construyen con más de una columna.</p>
+
+<h3 id="columnas_vacias">8.7.5. Columnas vacías</h3>
+
+<p>Cuando Symfony se encuentra con una columna sin ningún valor, utiliza algo de <em>magia</em> para determinar su valor. El listado 8-31 muestra los detalles del tratamiento de las columnas vacías.</p>
+
+<p><strong>Listado 8-31 - Los detalles deducidos para las columnas vacías en función de su nombre</strong></p>
+
+<div class="code yaml">
+<pre class="yaml">// Las columnas vacías llamadas <span class="st0">&quot;id&quot;</span> se consideran claves primarias<span class="co3">
+id</span><span class="sy2">: </span>        <span class="br0">&#123;</span> type<span class="sy2">: </span>integer, required<span class="sy2">: </span>true, primaryKey<span class="sy2">: </span>true, autoIncrement<span class="sy2">: </span>true <span class="br0">&#125;</span>
+&nbsp;
+// Las columnas vacías llamadas <span class="st0">&quot;XXX_id&quot;</span> se consideran claves externas<span class="co3">
+loquesea_id</span><span class="sy2">: </span> <span class="br0">&#123;</span> type<span class="sy2">: </span>integer, foreignTable<span class="sy2">: </span>db_loquesea, foreignReference<span class="sy2">: </span>id <span class="br0">&#125;</span>
+&nbsp;
+// Las columnas vacías llamadas created_at, updated at, created_on y updated_on
+// se consideran fechas y automáticamente se les asigna el tipo <span class="st0">&quot;timestamp&quot;</span><span class="co3">
+created_at</span><span class="sy2">: </span><span class="br0">&#123;</span> type<span class="sy2">: </span>timestamp <span class="br0">&#125;</span><span class="co3">
+updated_at</span><span class="sy2">: </span><span class="br0">&#123;</span> type<span class="sy2">: </span>timestamp <span class="br0">&#125;</span></pre>
+</div>
+
+<p>Para las claves externas, Symfony busca una tabla cuyo <code>phpName</code> sea igual al principio del nombre de la columna; si se encuentra, se utiliza ese nombre de tabla como <code>foreignTable</code>.</p>
+
+<h3 id="tablas_i18n">8.7.6. Tablas i18n</h3>
+
+<p>Symfony permite internacionalizar los contenidos mediante tablas relacionadas. De esta forma, cuando se dispone de contenido que debe ser internacionalizado, se guarda en 2 tablas distintas: una contiene las columnas invariantes y otra las columnas que permiten la internacionalización.</p>
+
+<p>Todo lo anterior se considera de forma implícita cuando en el archivo <code>schema.yml</code> se dispone de una tabla con el nombre <code>cualquiernombre_i18n</code>. Por ejemplo, el esquema que muestra el listado 8-32 se completa automáticamente con los atributos de columna y de tabla necesarios para que funcione el mecanismo de internacionalización. De forma interna, Symfony entiende ese listado como si se hubiera escrito tal y como se muestra en el listado 8-33. El Capítulo 13 explica en detalle la internacionalización.</p>
+
+<p><strong>Listado 8-32 - Mecanismo i18n implícito</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">propel</span>:<span class="co4">
+  db_group</span>:<span class="co4">
+    id</span>:<span class="co4">
+    created_at</span><span class="sy2">:
+</span><span class="co4">
+  db_group_i18n</span>:<span class="co3">
+    name</span><span class="sy2">: </span>       varchar<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p><strong>Listado 8-33 - Mecanismo i18n explícito</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">propel</span>:<span class="co4">
+  db_group</span>:<span class="co3">
+    _attributes</span><span class="sy2">: </span><span class="br0">&#123;</span> isI18N<span class="sy2">: </span>true, i18nTable<span class="sy2">: </span>db_group_i18n <span class="br0">&#125;</span><span class="co4">
+    id</span>:<span class="co4">
+    created_at</span><span class="sy2">:
+</span><span class="co4">
+  db_group_i18n</span>:<span class="co3">
+    id</span><span class="sy2">: </span>      <span class="br0">&#123;</span> type<span class="sy2">: </span>integer, required<span class="sy2">: </span>true, primaryKey<span class="sy2">: </span>true, foreignTable<span class="sy2">: </span>db_group, foreignReference<span class="sy2">: </span>id, onDelete<span class="sy2">: </span>cascade <span class="br0">&#125;</span><span class="co3">
+    culture</span><span class="sy2">: </span> <span class="br0">&#123;</span> isCulture<span class="sy2">: </span>true, type<span class="sy2">: </span>varchar<span class="br0">&#40;</span><span class="nu0">7</span><span class="br0">&#41;</span>, required<span class="sy2">: </span>true, primaryKey<span class="sy2">: </span>true <span class="br0">&#125;</span><span class="co3">
+    name</span><span class="sy2">: </span>    varchar<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span></pre>
+</div>
+
+<h3 id="comportamientos">8.7.7. Comportamientos</h3>
+
+<p>Los comportamientos son plugins que modifican el modelo de datos para añadir nuevas funcionalidades a las clases de Propel. El capítulo 17 explica los comportamientos en detalle. Desde la versión 1.1 de Symfony también es posible definir los comportamientos directamente en el esquema. Para ello, se añade su nombre y sus opciones bajo la clave <code>_behaviors</code> de cada tabla. El listado 8-34 muestra un ejemplo que extiende la clase <code>BlogArticulo</code> con el comportamiento llamado <code>paranoid</code>.</p>
+
+<p><strong>Listado 8-34 - Declarando los comportamientos</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">propel</span>:<span class="co4">
+  blog_articulo</span>:<span class="co3">
+    titulo</span><span class="sy2">: </span>        varchar<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span><span class="co4">
+    _behaviors</span>:<span class="co3">
+      paranoid</span><span class="sy2">: </span>    <span class="br0">&#123;</span> column<span class="sy2">: </span>deleted_at <span class="br0">&#125;</span></pre>
+</div>
+
+<h3 id="mas_alla_del_schemayml_schemaxml">8.7.8. Más allá del schema.yml: schema.xml</h3>
+
+<p>En realidad, el formato de <code>schema.yml</code> es propio de Symfony. Cuando se ejecuta un comando que empieza por <code>propel-</code>, Symfony transforma ese archivo en otro archivo llamado <code>generated-schema.xml</code>, que es el tipo de archivo que necesita Propel para realizar sus tareas sobre el modelo.</p>
+
+<p>El archivo <code>schema.xml</code> contiene la misma información que su equivalente en formato YAML. Por ejemplo, el listado 8-3 se convierte en el archivo XML del listado 8-35.</p>
+
+<p><strong>Listado 8-35 - Ejemplo de <code>schema.xml</code>, que se corresponde con el listado 8-3</strong></p>
+
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;?xml</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span> <span class="re0">encoding</span>=<span class="st0">&quot;UTF-8&quot;</span><span class="re2">?&gt;</span></span>
+ <span class="sc3"><span class="re1">&lt;database</span> <span class="re0">name</span>=<span class="st0">&quot;propel&quot;</span> <span class="re0">defaultIdMethod</span>=<span class="st0">&quot;native&quot;</span> <span class="re0">noXsd</span>=<span class="st0">&quot;true&quot;</span> <span class="re0">package</span>=<span class="st0">&quot;lib.model&quot;</span><span class="re2">&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;table</span> <span class="re0">name</span>=<span class="st0">&quot;blog_articulo&quot;</span> <span class="re0">phpName</span>=<span class="st0">&quot;Articulo&quot;</span><span class="re2">&gt;</span></span>
+      <span class="sc3"><span class="re1">&lt;column</span> <span class="re0">name</span>=<span class="st0">&quot;id&quot;</span> <span class="re0">type</span>=<span class="st0">&quot;integer&quot;</span> <span class="re0">required</span>=<span class="st0">&quot;true&quot;</span> <span class="re0">primaryKey</span>=<span class="st0">&quot;true&quot;</span> <span class="re0">autoIncrement</span>=<span class="st0">&quot;true&quot;</span> <span class="re2">/&gt;</span></span>
+      <span class="sc3"><span class="re1">&lt;column</span> <span class="re0">name</span>=<span class="st0">&quot;titulo&quot;</span> <span class="re0">type</span>=<span class="st0">&quot;varchar&quot;</span> <span class="re0">size</span>=<span class="st0">&quot;255&quot;</span> <span class="re2">/&gt;</span></span>
+      <span class="sc3"><span class="re1">&lt;column</span> <span class="re0">name</span>=<span class="st0">&quot;contenido&quot;</span> <span class="re0">type</span>=<span class="st0">&quot;longvarchar&quot;</span> <span class="re2">/&gt;</span></span>
+      <span class="sc3"><span class="re1">&lt;column</span> <span class="re0">name</span>=<span class="st0">&quot;created_at&quot;</span> <span class="re0">type</span>=<span class="st0">&quot;timestamp&quot;</span> <span class="re2">/&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;/table<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;table</span> <span class="re0">name</span>=<span class="st0">&quot;blog_comentario&quot;</span> <span class="re0">phpName</span>=<span class="st0">&quot;Comentario&quot;</span><span class="re2">&gt;</span></span>
+      <span class="sc3"><span class="re1">&lt;column</span> <span class="re0">name</span>=<span class="st0">&quot;id&quot;</span> <span class="re0">type</span>=<span class="st0">&quot;integer&quot;</span> <span class="re0">required</span>=<span class="st0">&quot;true&quot;</span> <span class="re0">primaryKey</span>=<span class="st0">&quot;true&quot;</span> <span class="re0">autoIncrement</span>=<span class="st0">&quot;true&quot;</span> <span class="re2">/&gt;</span></span>
+      <span class="sc3"><span class="re1">&lt;column</span> <span class="re0">name</span>=<span class="st0">&quot;articulo_id&quot;</span> <span class="re0">type</span>=<span class="st0">&quot;integer&quot;</span> <span class="re2">/&gt;</span></span>
+      <span class="sc3"><span class="re1">&lt;foreign-key</span> <span class="re0">foreignTable</span>=<span class="st0">&quot;blog_articulo&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;reference</span> <span class="re0">local</span>=<span class="st0">&quot;articulo_id&quot;</span> <span class="re0">foreign</span>=<span class="st0">&quot;id&quot;</span><span class="re2">/&gt;</span></span>
+      <span class="sc3"><span class="re1">&lt;/foreign-key<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;column</span> <span class="re0">name</span>=<span class="st0">&quot;autor&quot;</span> <span class="re0">type</span>=<span class="st0">&quot;varchar&quot;</span> <span class="re0">size</span>=<span class="st0">&quot;255&quot;</span> <span class="re2">/&gt;</span></span>
+      <span class="sc3"><span class="re1">&lt;column</span> <span class="re0">name</span>=<span class="st0">&quot;contenido&quot;</span> <span class="re0">type</span>=<span class="st0">&quot;longvarchar&quot;</span> <span class="re2">/&gt;</span></span>
+      <span class="sc3"><span class="re1">&lt;column</span> <span class="re0">name</span>=<span class="st0">&quot;created_at&quot;</span> <span class="re0">type</span>=<span class="st0">&quot;timestamp&quot;</span> <span class="re2">/&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;/table<span class="re2">&gt;</span></span></span>
+ <span class="sc3"><span class="re1">&lt;/database<span class="re2">&gt;</span></span></span></pre>
+</div>
+
+<p>La descripción del formato <code>schema.xml</code> se puede consultar en la documentación y la sección <em>"Getting started"</em> del sitio web del proyecto Propel (http://propel.phpdb.org/docs/usuario_guide/chapters/appendices/AppendixB-SchemaReference.html).</p>
+
+<p>El formato del esquema en YAML se diseñó para que los esquemas fueran fáciles de leer y escribir, pero su inconveniente es que los esquemas más complejos no se pueden describir solamente con un archivo <code>schema.yml</code>. Por otra parte, el formato XML permite describir completamente el esquema, independientemente de su complejidad e incluye la posibilidad de incluir opciones propias de algunas bases de datos, herencia de tablas, etc.</p>
+
+<p>Symfony también puede trabajar con esquemas escritos en formato XML. Así que no es necesario utilizar el formato YAML propio de Symfony si el esquema es demasiado complejo, si ya dispones de un esquema en formato XML o si estás acostumbrado a trabajar con la sintaxis XML de Propel. Solamente es necesario crear el archivo <code>schema.xml</code> en el directorio <code>config/</code> del proyecto y construir el modelo.</p>
+
+<div class="admonition sidebar"><p><strong class="title">Propel en Symfony</strong> Todos los detalles incluidos en este capítulo no son específicos de Symfony sino de Propel. Propel es la capa de abstracción de objetos/relacional preferida por Symfony, pero se puede utilizar cualquier otra. No obstante, Symfony se integra mucho mejor con Propel por las siguientes razones:</p>
+
+<p>Todas las clases del modelo de objetos de datos y las clases <code>Criteria</code> se cargan de forma automática. La primera vez que se utilizan, Symfony incluye los archivos adecuados y no es necesario preocuparse por añadir las instrucciones que incluyen esos archivos. En Symfony no es necesario arrancar o inicializar Propel. Cuando un objeto utiliza Propel, la librería se inicia automáticamente. Algunos de los <em>helpers</em> de Symfony utilizan objetos Propel como parámetros para realizar tareas complejas, como la paginación y el filtrado. Los objetos Propel permiten crear prototipos rápidamente y generar de forma automática la parte de gestión de la aplicación (el Capítulo 14 incluye más detalles). El esquema es mucho más fácil de escribir mediante el archivo <code>schema.yml</code>.</p>
+
+<p>Y, como Propel es independiente de la base de datos utilizada, también lo es Symfony.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_8/extender_el_modelo.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>8.6. Extender el modelo</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_8/no_crees_el_modelo_dos_veces.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>8.8. No crees el modelo dos veces</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_8.html">
+                    <span>Capítulo 8.</span> El modelo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/por_que_utilizar_un_orm_y_una_capa_de_abstraccion.html">
+                    <span>8.1.</span> ¿Por qué utilizar un ORM y una capa de abstracción?
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/esquema_de_base_de_datos_de_symfony.html">
+                    <span>8.2.</span> Esquema de base de datos de Symfony
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/las_clases_del_modelo.html">
+                    <span>8.3.</span> Las clases del modelo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/acceso_a_los_datos.html">
+                    <span>8.4.</span> Acceso a los datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/conexiones_con_la_base_de_datos.html">
+                    <span>8.5.</span> Conexiones con la base de datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/extender_el_modelo.html">
+                    <span>8.6.</span> Extender el modelo
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_8/sintaxis_extendida_del_esquema.html">
+                    <span>8.7.</span> Sintaxis extendida del esquema
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/no_crees_el_modelo_dos_veces.html">
+                    <span>8.8.</span> No crees el modelo dos veces
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/resumen.html">
+                    <span>8.9.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

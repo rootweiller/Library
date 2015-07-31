@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>3.2. Mapeando URLs a Vistas (El libro de Django 1.0)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_3/tu_primera_vista_contenido_dinamico.html" />
+                    <link rel="next" href="../capitulo_3/como_procesa_una_peticion_django.html" />
+                <link rel="start" href="/libro/django_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="3.2. Mapeando URLs a Vistas (El libro de Django 1.0)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page django_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/" itemprop="url">
+                    <span itemprop="title">El libro de Django 1.0</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/capitulo_3.html" itemprop="url">
+                    <span itemprop="title">Capítulo 3. Los principios de las páginas Web dinámicas</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>3.2. Mapeando URLs a Vistas</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="mapeando_urls_a_vistas" class="title">
+        <span>3.2.</span> Mapeando URLs a Vistas
+    </h1>
+
+    
+
+<p>Repasemos, esta función de vista retorna un página HTML que contiene la fecha y
+hora actual. ¿Pero cómo le decimos a Django que utilice ese código?. Ahí es
+donde vienen las <em>URLconfs</em>.</p>
+
+<p>Una <em>URLconf</em> es como una tabla de contenido para tu sitio web hecho con Django. Básicamente, es un mapeo entre los patrones URL y las funciones de vista que deben ser llamadas por esos patrones URL. Es como decirle a Django, <em>"Para esta URL, llama a este código, y para esta URL, llama a este otro código"</em>. Recuerda que estas funciones de vista deben estar en tu Python path.</p>
+
+<div class="admonition sidebar"><p><strong class="title"> Python Path</strong> <em>Python path</em> es la lista de directorios en tu sistema en donde Python
+buscará cuando uses la sentencia <code>import</code> de Python.</p>
+
+<p>Por ejemplo, supongamos que tu Python path tiene el valor <code>['',
+'/usr/lib/python2.4/site-packages', '/home/username/djcode/']</code>. Si ejecutas
+el código Python <code>from foo import bar</code>, Python en primer lugar va a buscar
+el módulo llamado <code>foo.py</code> en el directorio actual. (La primera entrada
+en el Python path, una cadena de caracteres vacía, significa <em>"el directorio
+actual."</em>) Si ese archivo no existe, Python va a buscar el módulo en
+<code>/usr/lib/python2.4/site-packages/foo.py</code>. Si ese archivo no existe,
+entonces probará en <code>/home/username/djcode/foo.py</code>. Finalmente, si <em>ese</em>
+archivo no existe, Python lanzará <code>ImportError</code></p>
+
+<p>Si estás interesado en ver el valor de tu Python path, abre un interprete
+interactivo de Python y escribe <code>import sys</code>, seguido de <code>print sys.path</code>.</p>
+
+<p>Generalmente no tienes que preocuparte de asigarle valores al Python path —
+Python y Django se encargan automáticamente de hacer esas cosas por ti entre
+bastidores. (Si eres curioso, establecer el Python path es una de las cosas
+que hace el archivo <code>manage.py</code>).</p></div>
+
+<p>Cuando ejecutaste <code>django-admin.py startproject</code> en el capítulo anterior, el
+script creó automáticamente una URLconf por tí: el archivo <code>urls.py</code>.
+Editemos ese archivo. Por omisión, se verá como:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="co1"># Example:</span>
+    <span class="co1"># (r'^mysite/', include('mysite.apps.foo.urls.foo')),</span>
+&nbsp;
+    <span class="co1"># Uncomment this for admin:</span>
+<span class="co1">#     (r'^admin/', include('django.contrib.admin.urls')),</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Repasemos el código anterior línea a línea:</p>
+
+<ul>
+<li>La primera línea importa todos los objetos desde el módulo <code>django.conf.urls.defaults</code>, incluyendo una función llamada <code>patterns</code>.</li>
+<li>La segunda línea llama a la función <code>patterns()</code> y guarda el resultado
+en una variable llamada <code>urlpatterns</code>. La función <code>patterns()</code> sólo
+recibe un argumento — la cadena de caracteres vacía. El resto de las
+líneas están comentadas. (La cadena de caracteres puede ser usada para
+proveer un prefijo común para las funciones de vista, pero dejemos este
+uso más avanzado para más adelante).</li>
+</ul>
+
+<p>Lo principal que debemos notar aquí es la variable <code>urlpatterns</code>, la cual
+Django espera encontrar en tu módulo <code>ROOT_URLCONF</code>. Esta variable define
+el mapeo entre las URLs y el código que manejan esas URLs.</p>
+
+<p>Por defecto, todo lo que está en URLconf está comentado — tu aplicación de
+Django es una pizarra blanca. (Como nota adicional, esta es la forma en la que
+Django sabía que debía mostrar la página <em>"It worked!"</em> en el capítulo 
+anterior. Si la URLconf esta vacía, Django asume que acabas de crear el 
+proyecto, por lo tanto, muestra ese mensaje).</p>
+
+<p>Editemos este archivo para exponer nuestra vista <code>current_datetime</code>:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+<span class="kw1">from</span> mysite.<span class="me1">views</span> <span class="kw1">import</span> current_datetime
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^time/$'</span><span class="sy0">,</span> current_datetime<span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Hicimos dos cambios aquí. Primero, importamos la vista <code>current_datetime</code>
+desde el módulo (<code>mysite/views.py</code>, que en la sintaxis de import de Python se
+traduce a <code>mysite.views</code>). Luego, agregamos la línea
+<code>(r'^time/$', current_datetime),</code>. Esta línea hace referencia a un
+<em>URLpattern</em> — es una tupla de Python en dónde el primer elemento es una
+expresión regular simple y el segundo elemento es la función de vista que usa
+para ese patrón.</p>
+
+<p>En pocas palabras, le estamos diciendo a Django que cualquier petición a la
+URL <code>/time</code> será manejada por la función de vista <code>current_datetime</code>.</p>
+
+<p>Algunas cosas que vale la pena resaltar:</p>
+
+<ul>
+<li>Notemos que, en este ejemplo, pasamos la función de vista
+<code>current_datetime</code> como un objeto sin llamar a la función. Esto es una
+característica de Python (y otros lenguajes dinámicos): las funciones son
+objetos de primera clase, lo cual significa que puedes pasarlas como
+cualquier otra variable. ¡Qué bueno!, ¿no?</li>
+<li>La <code>r</code> en <code>r'^time/$'</code> significa que <code>'^time/$'</code> es una cadena de
+caracteres en crudo de Python. Esto permite que las expresiones
+regulares sean escritas sin demasiadas sentencias de escape.</li>
+<li>Puedes excluir la barra al comienzo de la expresión
+<code>'^time/$'</code> para que coincida con <code>/time/</code>. Django automáticamente agrega 
+una barra antes de toda expresión. A primera vista esto parece raro, pero 
+una URLconf puede ser incluida en otra URLconf, y el dejar la barra de 
+lado simplifica mucho las cosas. Esto se retoma en el Capítulo 8.</li>
+<li>El caracter <em>acento circunflejo</em> (<code>^</code>) y el carácter <em>signo de dólar</em>
+(<code>$</code>) son importantes. El acento circunflejo significa que "requiere
+que el patrón concuerde con el inicio de la cadena de caracteres", y el
+signo de dólar significa que "exige que el patrón concuerde con el fin
+de la cadena".
+Este concepto se explica mejor con un ejemplo. Si hubiéramos utilizado el
+patrón <code>'^time/'</code> (sin el signo de dólar al final), entonces <em>cualquier</em>
+URL que comience con <code>time/</code> concordaría, así como <code>/time/foo</code> y
+<code>/time/bar</code>, no sólo <code>/time/</code>. Del mismo modo, si dejamos de lado el
+carácter acento circunflejo inicial (<code>'time/$'</code>), Django concordaría con
+<em>cualquier</em> URL que termine con <code>time/</code>, así como <code>/foo/bar/time/</code>.
+Por lo tanto, usamos tanto el acento circunflejo como el signo de dólar
+para asegurarnos que sólo la URL <code>/time/</code> concuerde. Nada más y nada
+menos.
+Quizás te preguntes qué pasa si alguien intenta acceder a <code>/time</code>. Esto
+es manejado como esperarías (a través de un redireccionamiento) siempre y
+cuando <code>APPEND_SLASH</code> tenga asignado el valor <code>True</code>. (Veáse el
+Apéndice E para una buena lectura sobre este tema).</li>
+</ul>
+
+<p>Para probar nuestro cambios en la URLconf, inicia el servidor de
+desarrollo de Django, como hiciste en el Capítulo 2, ejecutando el comando
+<code>python manage.py runserver</code>. (Si ya lo tenías corriendo, está bien también. El
+servidor de desarrollo automáticamente detecta los cambios en tu código de
+Python y recarga de ser necesario, así no tienes que reiniciar el servidor al
+hacer cambios). El servidor está corriendo en la dirección
+<code>http://127.0.0.1:8000/</code>, entonces abre tu navegador web y ve a
+<code>http://127.0.0.1:8000/time/</code>. Deberías ver la salida de tu vista de Django.</p>
+
+<p>¡Enhorabuena! Has creado tu primera página Web hecha con Django.</p>
+
+<h3 id="expresiones_regulares">3.2.1. Expresiones Regulares</h3>
+
+<p>Las <em>Expresiones Regulares</em> (o <em>regexes</em>) son la forma compacta de
+especificar patrones en un texto. Aunque las URLconfs de Django permiten el
+uso de regexes arbitrarias para tener un potente sistema de definición de
+URLs, probablemente en la práctica no utilices más que un par de patrones
+regex. Esta es una pequeña selección de patrones comunes:</p>
+
+<div class="table" id="table_3_1">
+
+    <table>
+<thead>
+<tr>
+  <th>Símbolo</th>
+  <th>Coincide con</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>.</code></td>
+  <td>Cualquier carácter</td>
+</tr>
+<tr>
+  <td><code>\d</code></td>
+  <td>Cualquier dígito</td>
+</tr>
+<tr>
+  <td><code>[A-Z]</code></td>
+  <td>Cualquier carácter, A-Z (mayúsculas)</td>
+</tr>
+<tr>
+  <td><code>[a-z]</code></td>
+  <td>Cualquier carácter, a-z (minúsculas)</td>
+</tr>
+<tr>
+  <td><code>[A-Za-z]</code></td>
+  <td>Cualquier carácter, a-z (no distingue entre mayúscula y minúscula)</td>
+</tr>
+<tr>
+  <td><code>+</code></td>
+  <td>Una o más ocurrencias de la expresión anterior (ejemplo, <code>\d+</code>coincidirá con uno o más dígitos)</td>
+</tr>
+<tr>
+  <td><code>[^/]+</code></td>
+  <td>Todos los caracteres excepto la barra</td>
+</tr>
+<tr>
+  <td><code>*</code></td>
+  <td>Cero o más ocurrencias de la expresión anterior (ejemplo, <code>\d*</code>coincidirá con cero o más dígitos)</td>
+</tr>
+<tr>
+  <td><code>{1,3}</code></td>
+  <td>Entre una y tres (inclusive) ocurrencias de la expresión anterior</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Para más información acerca de las expresiones regulares, mira el <a href="https://docs.python.org/2/library/re.html">módulo re-module</a>.</p>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_3/tu_primera_vista_contenido_dinamico.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>3.1. Tu primera Vista: Contenido dinámico</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_3/como_procesa_una_peticion_django.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>3.3. Cómo procesa una petición Django</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_3.html">
+                    <span>Capítulo 3.</span> Los principios de las páginas Web dinámicas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/tu_primera_vista_contenido_dinamico.html">
+                    <span>3.1.</span> Tu primera Vista: Contenido dinámico
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_3/mapeando_urls_a_vistas.html">
+                    <span>3.2.</span> Mapeando URLs a Vistas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/como_procesa_una_peticion_django.html">
+                    <span>3.3.</span> Cómo procesa una petición Django
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/urlconfs_y_el_acoplamiento_debil.html">
+                    <span>3.4.</span> URLconfs y el acoplamiento débil
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/errores_404.html">
+                    <span>3.5.</span> Errores 404
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/tu_segunda_vista_urls_dinamicas.html">
+                    <span>3.6.</span> Tu segunda Vista: URLs dinámicas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/paginas_de_error_bonitas_con_django.html">
+                    <span>3.7.</span> Páginas de error bonitas con Django
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/que_sigue.html">
+                    <span>3.8.</span> ¿Qué sigue?
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> El sistema de plantillas de Django</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Interactuar con una base de datos: Modelos</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El sitio de Administración Django</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Procesamiento de formularios</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Vistas avanzadas y URLconfs</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Vistas genéricas</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Extender el sistema de plantillas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Generación de contenido no HTML</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Sesiones, usuario e inscripciones</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Cache</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Otros sub-frameworks contribuidos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Middleware</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Integración con Base de datos y Aplicaciones existentes</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Extender la Interfaz de Administración de Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>20.</span> <a href="../capitulo_20.html"> Puesta en marcha de Django en un servidor</a>
+            </li>
+                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>2.6. Creando etiquetas (Pro Git, el libro oficial de Git)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_2/trabajando_con_repositorios_remotos.html" />
+                    <link rel="next" href="../capitulo_2/consejos_y_trucos.html" />
+                <link rel="start" href="/libro/pro_git/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="2.6. Creando etiquetas (Pro Git, el libro oficial de Git)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page pro_git"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/" itemprop="url">
+                    <span itemprop="title">Pro Git, el libro oficial de Git</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/capitulo_2.html" itemprop="url">
+                    <span itemprop="title">Capítulo 2. Fundamentos de Git</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>2.6. Creando etiquetas</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="creando_etiquetas" class="title">
+        <span>2.6.</span> Creando etiquetas
+    </h1>
+
+    
+
+<p>Como muchos VCSs, Git tiene la habilidad de etiquetar (<em>tag</em>) puntos específicos en la historia como importantes. Generalmente la gente usa esta funcionalidad para marcar puntos donde se ha lanzado alguna versión (v1.0, y así sucesivamente). En esta sección aprenderás cómo listar las etiquetas disponibles, crear nuevas etiquetas y qué tipos diferentes de etiquetas hay.</p>
+
+<h3 id="listando_tus_etiquetas">2.6.1. Listando tus etiquetas</h3>
+
+<p>Listar las etiquetas disponibles en Git es sencillo, Simplemente escribe <code>git tag</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ git tag
+v0.1
+v1.3</pre>
+</div>
+
+<p>Este comando lista las etiquetas en orden alfabético; el orden en el que aparecen no es realmente importante.</p>
+
+<p>También puedes buscar etiquetas de acuerdo a un patrón en particular. El repositorio fuente de Git, por ejemplo, contiene mas de 240 etiquetas. Si solo estas interesado en la serie 1.4.2, puedes ejecutar esto:</p>
+
+<div class="code cli">
+<pre class="cli">$ git tag -l 'v1.4.2.*'
+v1.4.2.1
+v1.4.2.2
+v1.4.2.3
+v1.4.2.4</pre>
+</div>
+
+<h3 id="creando_etiquetas_2">2.6.2. Creando etiquetas</h3>
+
+<p>Git usa dos tipos principales de etiquetas: ligeras y anotadas. Una etiqueta ligera es muy parecida a una rama que no cambia — un puntero a una confirmación específica —. Sin embargo, las etiquetas anotadas son almacenadas como objetos completos en la base de datos de Git. Tienen suma de comprobación; contienen el nombre del etiquetador, correo electrónico y fecha; tienen mensaje de etiquetado; y pueden estar firmadas y verificadas con GNU Privacy Guard (GPG). Generalmente se recomienda crear etiquetas anotadas para disponer de toda esta información; pero si por alguna razón quieres una etiqueta temporal y no quieres almacenar el resto de información, también tiene disponibles las etiquetas ligeras.</p>
+
+<h3 id="etiquetas_anotadas">2.6.3. Etiquetas anotadas</h3>
+
+<p>Crear una etiqueta anotada en Git es simple. La forma más fácil es especificar <code>-a</code> al ejecutar el comando <code>tag</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ git tag -a v1.4 -m 'my version 1.4'
+$ git tag
+v0.1
+v1.3
+v1.4</pre>
+</div>
+
+<p>El parámetro <code>-m</code> especifica el mensaje, el cual se almacena con la etiqueta. Si no se especifica un mensaje para la etiqueta anotada, Git lanza tu editor para poder escribirlo.</p>
+
+<p>Puedes ver los datos de la etiqueta junto con la confirmación que fue etiquetada usando el comando <code>git show</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ git show v1.4
+tag v1.4
+Tagger: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="80f3e3e8e1e3efeec0e7e5e5adede1e9ecaee3efed">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Mon Feb 9 14:45:11 2009 -0800
+&nbsp;
+my version 1.4
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
+Author: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="7407171c15171b1a341311115919151d185a171b19">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Sun Feb 8 19:02:46 2009 -0800
+&nbsp;
+    Merge branch 'experiment'</pre>
+</div>
+
+<p>Esto muestra la información del autor de la etiqueta, la fecha en la que la confirmación fue etiquetada, y el mensaje de anotación antes de mostrar la información de la confirmación.</p>
+
+<h3 id="etiquetas_firmadas">2.6.4. Etiquetas firmadas</h3>
+
+<p>También puedes firmar tus etiquetas con GPG, siempre que tengas una clave privada. Lo único que debes hacer es usar <code>-s</code> en vez de <code>-a</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ git tag -s v1.5 -m 'my signed 1.5 tag'
+You need a passphrase to unlock the secret key for
+user: &quot;Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="4437272c25272b2a042321216929252d286a272b29">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;&quot;
+1024-bit DSA key, ID F721C45A, created 2009-02-09</pre>
+</div>
+
+<p>Si ejecutas <code>git show</code> en esa etiqueta, puedes ver la firma GPG adjunta a ella:</p>
+
+<div class="code cli">
+<pre class="cli">$ git show v1.5
+tag v1.5
+Tagger: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="daa9b9b2bbb9b5b49abdbfbff7b7bbb3b6f4b9b5b7">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Mon Feb 9 15:22:20 2009 -0800
+&nbsp;
+my signed 1.5 tag
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.8 (Darwin)
+&nbsp;
+iEYEABECAAYFAkmQurIACgkQON3DxfchxFr5cACeIMN+ZxLKggJQf0QYiQBwgySN
+Ki0An2JeAVUCAiJ7Ox6ZEtK+NvZAj82/
+=WryJ
+-----END PGP SIGNATURE-----
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
+Author: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="82f1e1eae3e1edecc2e5e7e7afefe3ebeeace1edef">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Sun Feb 8 19:02:46 2009 -0800
+&nbsp;
+    Merge branch 'experiment'</pre>
+</div>
+
+<p>Más tarde, aprenderás cómo verificar etiquetas firmadas.</p>
+
+<h3 id="etiquetas_ligeras">2.6.5. Etiquetas ligeras</h3>
+
+<p>Otra forma de etiquetar confirmaciones es con una etiqueta ligera. Esto es básicamente la suma de comprobación de la confirmación almacenada en un archivo — ninguna otra información es guardada —. Para crear una etiqueta ligera no añadas las opciones <code>-a</code>, <code>-s</code> o <code>-m</code>:</p>
+
+<div class="code cli">
+<pre class="cli">$ git tag v1.4-lw
+$ git tag
+v0.1
+v1.3
+v1.4
+v1.4-lw
+v1.5</pre>
+</div>
+
+<p>Esta vez, si ejecutas el comando <code>git show</code> en la etiqueta, no verás ninguna información extra. El comando simplemente muestra la confirmación.</p>
+
+<div class="code cli">
+<pre class="cli">$ git show v1.4-lw
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
+Author: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="b1c2d2d9d0d2dedff1d6d4d49cdcd0d8dd9fd2dedc">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Sun Feb 8 19:02:46 2009 -0800
+&nbsp;
+    Merge branch 'experiment'</pre>
+</div>
+
+<h3 id="verificando_etiquetas">2.6.6. Verificando etiquetas</h3>
+
+<p>Para verificar una etiqueta firmada, debes usar <code>git tag -v [tag-name]</code>. Este comando utiliza GPG para verificar la firma. Necesitas la clave pública del autor de la firma en tu llavero para que funcione correctamente.</p>
+
+<div class="code cli">
+<pre class="cli">$ git tag -v v1.4.2.1
+object 883653babd8ee7ea23e6a5c392bb739348b1eb61
+type commit
+tag v1.4.2.1
+tagger Junio C Hamano &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="bdd7c8d3d6d4d2fdded2c593d3d8c9">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt; 1158138501 -0700
+&nbsp;
+GIT 1.4.2.1
+&nbsp;
+Minor fixes since 1.4.2, including git-mv and git-http with alternates.
+gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
+gpg: Good signature from &quot;Junio C Hamano &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="d9b3acb7b2b0b699bab6a1f7b7bcad">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;&quot;
+gpg:                 aka &quot;[jpeg image of size 1513]&quot;
+Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A</pre>
+</div>
+
+<p>Si no tienes la clave pública del autor de la firma, se obtiene algo parecido a:</p>
+
+<div class="code code">
+<pre class="code">gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
+gpg: Can't check signature: public key not found
+error: could not verify the tag 'v1.4.2.1'</pre>
+</div>
+
+<h3 id="etiquetando_mas_tarde">2.6.7. Etiquetando más tarde</h3>
+
+<p>Puedes incluso etiquetar confirmaciones después de avanzar sobre ellos. Supón que tu historico de confirmaciones se parece a esto:</p>
+
+<div class="code cli">
+<pre class="cli">$ git log --pretty=oneline
+15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
+a6b4c97498bd301d84096da251c98a07c7723e65 beginning write support
+0d52aaab4479697da7686c15f77a3d64d9165190 one more thing
+6d52a271eda8725415634dd79daabbc4d9b6008e Merge branch 'experiment'
+0b7434d86859cc7b8c3d5e1dddfed66ff742fcbc added a commit function
+4682c3261057305bdd616e23b64b0857d832627b added a todo file
+166ae0c4d3f420721acbb115cc33848dfcc2121a started write support
+9fceb02d0ae598e95dc970b74767f19372d61af8 updated rakefile
+964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
+8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme</pre>
+</div>
+
+<p>Ahora, supón que olvidaste etiquetar el proyecto en v1.2, que estaba en la confirmación <em>"updated rakefile"</em>. Puedes hacerlo ahora. Para etiquetar esa confirmación especifica la suma de comprobación de la confirmación (o una parte de la misma) al final del comando:</p>
+
+<div class="code cli">
+<pre class="cli">$ git tag -a v1.2 9fceb02</pre>
+</div>
+
+<p>Puedes ver que has etiquetado la confirmación:</p>
+
+<div class="code cli">
+<pre class="cli">$ git tag
+v0.1
+v1.2
+v1.3
+v1.4
+v1.4-lw
+v1.5
+&nbsp;
+$ git show v1.2
+tag v1.2
+Tagger: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="1e6d7d767f7d71705e797b7b33737f7772307d7173">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Mon Feb 9 15:32:16 2009 -0800
+&nbsp;
+version 1.2
+commit 9fceb02d0ae598e95dc970b74767f19372d61af8
+Author: Magnus Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="80ede3e8e1e3efeec0e7e5e5adede1e9ecaee3efed">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Sun Apr 27 20:43:35 2008 -0700
+&nbsp;
+    updated rakefile
+...</pre>
+</div>
+
+<h3 id="compartiendo_etiquetas">2.6.8. Compartiendo etiquetas</h3>
+
+<p>Por defecto, el comando <code>git push</code> no transfiere etiquetas a servidores remotos. Tienes que enviarlas explicitamente a un servidor compartido después de haberlas creado. Este proceso es igual a compartir ramas remotas, por lo que puedes ejecutar <code>git push origin [tagname]</code>.</p>
+
+<div class="code cli">
+<pre class="cli">$ git push origin v1.5
+Counting objects: 50, done.
+Compressing objects: 100% (38/38), done.
+Writing objects: 100% (44/44), 4.56 KiB, done.
+Total 44 (delta 18), reused 8 (delta 1)
+To <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="73141a0733141a071b06115d101c1e">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>:schacon/simplegit.git
+* [new tag]         v1.5 -&gt; v1.5</pre>
+</div>
+
+<p>Si tienes un montón de etiquetas que quieres enviar a la vez, también puedes usar la opción <code>--tags</code> en el comando <code>git push</code>. Esto transifere todas tus etiquetas que no estén ya en el servidor remoto.</p>
+
+<div class="code cli">
+<pre class="cli">$ git push origin --tags
+Counting objects: 50, done.
+Compressing objects: 100% (38/38), done.
+Writing objects: 100% (44/44), 4.56 KiB, done.
+Total 44 (delta 18), reused 8 (delta 1)
+To <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="86e1eff2c6e1eff2eef3e4a8e5e9eb">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>:schacon/simplegit.git
+ * [new tag]         v0.1 -&gt; v0.1
+ * [new tag]         v1.2 -&gt; v1.2
+ * [new tag]         v1.4 -&gt; v1.4
+ * [new tag]         v1.4-lw -&gt; v1.4-lw
+ * [new tag]         v1.5 -&gt; v1.5</pre>
+</div>
+
+<p>Ahora, cuando alguien clone o reciba de tu repositorio, obtendrá también todas tus etiquetas.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_2/trabajando_con_repositorios_remotos.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>2.5. Trabajando con repositorios remotos</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_2/consejos_y_trucos.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>2.7. Consejos y trucos</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_2.html">
+                    <span>Capítulo 2.</span> Fundamentos de Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/obteniendo_un_repositorio_git.html">
+                    <span>2.1.</span> Obteniendo un repositorio Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/guardando_cambios_en_el_repositorio.html">
+                    <span>2.2.</span> Guardando cambios en el repositorio
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/viendo_el_historico_de_confirmaciones.html">
+                    <span>2.3.</span> Viendo el histórico de confirmaciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/deshaciendo_cosas.html">
+                    <span>2.4.</span> Deshaciendo cosas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/trabajando_con_repositorios_remotos.html">
+                    <span>2.5.</span> Trabajando con repositorios remotos
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_2/creando_etiquetas.html">
+                    <span>2.6.</span> Creando etiquetas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/consejos_y_trucos.html">
+                    <span>2.7.</span> Consejos y trucos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/resumen.html">
+                    <span>2.8.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Trabajando con ramas en Git</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Git en un servidor</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Git en entornos distribuidos</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Las herramientas de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Personalizando Git</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Git y otros sistemas</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Funcionamiento interno de Git</a>
+            </li>
+                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

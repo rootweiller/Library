@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>10.5. El &lt;code&gt;Crawler&lt;/code&gt; (Symfony 2.0, el libro oficial)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                            
+        <link rel="canonical" href="/libro/symfony_2_x/capitulo_10/el_crawler.html"/>
+                                    <link rel="prev" href="../capitulo_10/trabajando_con_el_cliente_de_los_tests.html" />
+                    <link rel="next" href="../capitulo_10/configurando_los_tests.html" />
+                <link rel="start" href="/libro/symfony_2_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="10.5. El &lt;code&gt;Crawler&lt;/code&gt; (Symfony 2.0, el libro oficial)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_2_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_0/" itemprop="url">
+                    <span itemprop="title">Symfony 2.0, el libro oficial</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_0/capitulo_10.html" itemprop="url">
+                    <span itemprop="title">Capítulo 10. Tests unitarios y funcionales</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>10.5. El <code>Crawler</code></span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="el_crawler" class="title">
+        <span>10.5.</span> El <code>Crawler</code>
+    </h1>
+
+    
+
+<p>Cada vez que haces una petición, el cliente devuelve una instancia del <code>Crawler</code>. Este objeto permite recorrer documentos HTML, seleccionar nodos, encontrar enlaces y formularios.</p>
+
+<h3 id="recorriendo_documentos_html_y_xml">10.5.1. Recorriendo documentos HTML y XML</h3>
+
+<p>Al igual que jQuery, el <code>Crawler</code> tiene métodos para recorrer el DOM de un documento HTML/XML. El siguiente código por ejemplo encuentra todos los elementos <code>input[type=submit]</code>, selecciona el último en la página, y luego selecciona su elemento padre :</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$newCrawler</span> <span class="sy0">=</span> <span class="re0">$crawler</span><span class="sy0">-&gt;</span><span class="me1">filter</span><span class="br0">&#40;</span><span class="st_h">'input[type=submit]'</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">last</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">parents</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">first</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="sy0">;</span></pre>
+</div>
+
+<p>Este objeto dispone de muchos otros métodos:</p>
+
+<div class="table" id="table_10_1">
+
+    <table>
+<thead>
+<tr>
+  <th>Método</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>filter('h1.title')</code></td>
+  <td>Nodos que coinciden con el selector CSS indicado</td>
+</tr>
+<tr>
+  <td><code>filterXpath('h1')</code></td>
+  <td>Nodos que coinciden con la expresión XPath indicada</td>
+</tr>
+<tr>
+  <td><code>eq(1)</code></td>
+  <td>Nodo correspondiente al índice especificado</td>
+</tr>
+<tr>
+  <td><code>first()</code></td>
+  <td>El primer nodo</td>
+</tr>
+<tr>
+  <td><code>last()</code></td>
+  <td>El último nodo</td>
+</tr>
+<tr>
+  <td><code>siblings()</code></td>
+  <td>Los nodos hermanos del nodo seleccionado</td>
+</tr>
+<tr>
+  <td><code>nextAll()</code></td>
+  <td>Los nodos hermanos siguientes</td>
+</tr>
+<tr>
+  <td><code>previousAll()</code></td>
+  <td>Los nodos hermanos anteriores</td>
+</tr>
+<tr>
+  <td><code>parents()</code></td>
+  <td>Los nodos padre del nodo seleccionado</td>
+</tr>
+<tr>
+  <td><code>children()</code></td>
+  <td>Los nodos hijo del nodo seleccionado</td>
+</tr>
+<tr>
+  <td><code>reduce($lambda)</code></td>
+  <td>Devuelve los nodos para los que la función anónima <code>$lambda</code> no devuelve <code>false</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Como cada uno de estos métodos devuelve una nueva instancia del <code>Crawler</code>, puedes seleccionar nodos encadenando varios métodos:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$crawler</span>
+    <span class="sy0">-&gt;</span><span class="me1">filter</span><span class="br0">&#40;</span><span class="st_h">'h1'</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">reduce</span><span class="br0">&#40;</span><span class="kw2">function</span> <span class="br0">&#40;</span><span class="re0">$node</span><span class="sy0">,</span> <span class="re0">$i</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$node</span><span class="sy0">-&gt;</span><span class="me1">getAttribute</span><span class="br0">&#40;</span><span class="st_h">'class'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">return</span> <span class="kw4">false</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">first</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Puedes utilizar la función <code>count()</code> para obtener el número de nodos almacenados en un <code>Crawler</code>: <code>count($crawler)</code></p></div>
+
+<h3 id="extrayendo_informacion">10.5.2. Extrayendo información</h3>
+
+<p>El <code>Crawler</code> también puede extraer información de los nodos:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// Devuelve el valor del atributo del primer nodo</span>
+<span class="re0">$crawler</span><span class="sy0">-&gt;</span><span class="me1">attr</span><span class="br0">&#40;</span><span class="st_h">'class'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Devuelve el valor del nodo para el primer nodo</span>
+<span class="re0">$crawler</span><span class="sy0">-&gt;</span><span class="me1">text</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Extrae un array de atributos de todos los nodos</span>
+<span class="co1">// (_text devuelve el valor del nodo)</span>
+<span class="co1">// devuelve un array de cada elemento en 'crawler',</span>
+<span class="co1">// cada uno con su valor y href</span>
+<span class="re0">$info</span> <span class="sy0">=</span> <span class="re0">$crawler</span><span class="sy0">-&gt;</span><span class="kw3">extract</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'_text'</span><span class="sy0">,</span> <span class="st_h">'href'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Ejecuta una función anónima por cada nodo y</span>
+<span class="co1">// devuelve un array de resultados</span>
+<span class="re0">$data</span> <span class="sy0">=</span> <span class="re0">$crawler</span><span class="sy0">-&gt;</span><span class="kw3">each</span><span class="br0">&#40;</span><span class="kw2">function</span> <span class="br0">&#40;</span><span class="re0">$node</span><span class="sy0">,</span> <span class="re0">$i</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="re0">$node</span><span class="sy0">-&gt;</span><span class="me1">attr</span><span class="br0">&#40;</span><span class="st_h">'href'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<h3 id="enlaces">10.5.3. Enlaces</h3>
+
+<p>Para seleccionar enlaces, puedes usar los métodos anteriores para recorrer el código HTML de la página o mejor utilizar el atajo <code>selectLink()</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$crawler</span><span class="sy0">-&gt;</span><span class="me1">selectLink</span><span class="br0">&#40;</span><span class="st_h">'Click here'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Este método selecciona todos los enlaces que contienen el texto indicado o todas las imágenes pinchables cuyo atributo <code>alt</code> contiene el texto indicado. Al igual que los otros métodos de filtrado, también devuelve un objeto <code>Crawler</code>.</p>
+
+<p>Una vez seleccionado un enlace, puedes acceder a un objeto especial de tipo <code>Link</code> que contiene métodos útiles y específicos para enlaces (tales como <code>getMethod()</code> y <code>getUri()</code>). Para pinchar el enlace, usa el método <code>click()</code> del cliente y pásale un objeto <code>Link</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$link</span> <span class="sy0">=</span> <span class="re0">$crawler</span><span class="sy0">-&gt;</span><span class="me1">selectLink</span><span class="br0">&#40;</span><span class="st_h">'Click here'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="kw3">link</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$client</span><span class="sy0">-&gt;</span><span class="me1">click</span><span class="br0">&#40;</span><span class="re0">$link</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<h3 id="formularios">10.5.4. Formularios</h3>
+
+<p>Al igual que sucede con los enlaces, existe un método para seleccionar directamente los formularios:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$buttonCrawlerNode</span> <span class="sy0">=</span> <span class="re0">$crawler</span><span class="sy0">-&gt;</span><span class="me1">selectButton</span><span class="br0">&#40;</span><span class="st_h">'submit'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Observa que el código anterior selecciona un botón de formulario y no el propio formulario. Esto es especialmente importante porque los formularios pueden contener varios botones y debes tenerlo en cuenta al recorrer el contenido de la página.</p></div>
+
+<p>El método <code>selectButton()</code> puede seleccionar etiquetas <code>&lt;button&gt;</code> y etiquetas <code>&lt;input&gt;</code> de envío de formularios. Para encontrar estos últimos botones, utiliza diferentes estrategias:</p>
+
+<ul>
+<li>El valor del atributo <code>value</code> del botón.</li>
+<li>El valor del atributo <code>id</code> o <code>alt</code> de botones creados con imágenes.</li>
+<li>El valor del atributo <code>id</code> o <code>name</code> de las etiquetas <code>&lt;button&gt;</code>.</li>
+</ul>
+
+<p>Una vez que tienes un <code>Crawler</code> que representa un botón, utiliza el método <code>form()</code> para obtener el formulario que contiene a ese botón. El resultado que obtienes es una instancia de la clase <code>Form</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$form</span> <span class="sy0">=</span> <span class="re0">$buttonCrawlerNode</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Cuando utilizas el método <code>form()</code>, también puedes pasar un array de valores para reemplazar a los valores originales del formulario:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$form</span> <span class="sy0">=</span> <span class="re0">$buttonCrawlerNode</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'name'</span>              <span class="sy0">=&gt;</span> <span class="st_h">'Fabien'</span><span class="sy0">,</span>
+    <span class="st_h">'my_form[subject]'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'Symfony rocks!'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Y si quieres simular un método HTTP específico para el formulario, pásalo como segundo argumento:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$form</span> <span class="sy0">=</span> <span class="re0">$buttonCrawlerNode</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'DELETE'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Por último, envía el formulario pasando el objeto <code>Form</code> al cliente con el que realizas las peticiones:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$client</span><span class="sy0">-&gt;</span><span class="me1">submit</span><span class="br0">&#40;</span><span class="re0">$form</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El formulario también se puede rellenar pasando un array de valores como segundo parámetro del método <code>submit()</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$client</span><span class="sy0">-&gt;</span><span class="me1">submit</span><span class="br0">&#40;</span><span class="re0">$form</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'name'</span>              <span class="sy0">=&gt;</span> <span class="st_h">'Fabien'</span><span class="sy0">,</span>
+    <span class="st_h">'my_form[subject]'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'Symfony rocks!'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Para tests más complejos, utiliza la instancia de <code>Form</code> como un array para establecer el valor de cada campo individualmente:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// Cambia el valor de un campo</span>
+<span class="re0">$form</span><span class="br0">&#91;</span><span class="st_h">'name'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'Fabien'</span><span class="sy0">;</span>
+<span class="re0">$form</span><span class="br0">&#91;</span><span class="st_h">'my_form[subject]'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'Symfony rocks!'</span><span class="sy0">;</span></pre>
+</div>
+
+<p>También existe una API bastante completa para manipular los valores de los campos de acuerdo a su tipo:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// selecciona una opción o radiobutton</span>
+<span class="re0">$form</span><span class="br0">&#91;</span><span class="st_h">'country'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">select</span><span class="br0">&#40;</span><span class="st_h">'France'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// marca una casilla de verificación (checkbox)</span>
+<span class="re0">$form</span><span class="br0">&#91;</span><span class="st_h">'like_symfony'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">tick</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// carga un archivo</span>
+<span class="re0">$form</span><span class="br0">&#91;</span><span class="st_h">'photo'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">upload</span><span class="br0">&#40;</span><span class="st_h">'/ruta/a/lucas.jpg'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Puedes utilizar el método <code>getValues()</code> del objeto <code>Form</code> para acceder a los valores que contiene el formulario que se va a enviar. Los archivos subidos están disponibles en un array separado devuelto por <code>getFiles()</code>. Los métodos <code>getPhpValues()</code> y <code>getPhpFiles()</code> también devuelven los valores enviados, pero en <em>"formato PHP"</em> (transforma las claves con corchetes como <code>my_form[subject]</code> a valores normales de un array PHP).</p></div>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_10/trabajando_con_el_cliente_de_los_tests.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>10.4. Trabajando con el cliente de los tests</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_10/configurando_los_tests.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>10.6. Configurando los tests</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Symfony2 y los fundamentos de HTTP</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> De PHP a Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Instalando y configurando Symfony2</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Creando páginas en Symfony2</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> El controlador</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El enrutamiento</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Creando y utilizando plantillas</a>
+            </li>
+                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> La base de datos y Doctrine</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> La base de datos y Propel</a>
+            </li>
+                                            <li class="level-1 ">
+                <a href="../capitulo_10.html">
+                    <span>Capítulo 10.</span> Tests unitarios y funcionales
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/el_framework_de_pruebas_phpunit.html">
+                    <span>10.1.</span> El framework de pruebas PHPUnit
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/tests_unitarios.html">
+                    <span>10.2.</span> Tests unitarios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/tests_funcionales.html">
+                    <span>10.3.</span> Tests funcionales
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/trabajando_con_el_cliente_de_los_tests.html">
+                    <span>10.4.</span> Trabajando con el cliente de los tests
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_10/el_crawler.html">
+                    <span>10.5.</span> El <code>Crawler</code>
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/configurando_los_tests.html">
+                    <span>10.6.</span> Configurando los tests
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Validación</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Formularios</a>
+            </li>
+                                                                                                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> La caché de HTTP</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> El contenedor de servicios</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Mejorando el rendimiento</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> El interior de Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> La API estable de Symfony2</a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

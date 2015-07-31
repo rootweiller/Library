@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>17.1. Mixins (Symfony 1.0, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_17.html" />
+                    <link rel="next" href="../capitulo_17/factorias.html" />
+                <link rel="start" href="/libro/symfony_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="17.1. Mixins (Symfony 1.0, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/" itemprop="url">
+                    <span itemprop="title">Symfony 1.0, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/capitulo_17.html" itemprop="url">
+                    <span itemprop="title">Capítulo 17. Personalizar Symfony</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>17.1. Mixins</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="mixins" class="title">
+        <span>17.1.</span> Mixins
+    </h1>
+
+    
+
+<p>Una de las limitaciones actuales de PHP más molestas es que una clase no puede heredar de más de una clase. Además, tampoco se pueden añadir nuevos métodos a una clase ya existente y no se pueden redefinir los métodos existentes. Para paliar estas dos limitaciones y para hacer el framework realmente modificable, Symfony proporciona una clase llamada <code>sfMixer</code>. Su nombre viene del concepto de <em>mixin</em> utilizado en la programación orientada a objetos. Un <em>mixin</em> es un grupo de métodos o funciones que se juntan en una clase para que otras clases hereden de ella.</p>
+
+<h3 id="comprendiendo_la_herencia_multiple">17.1.1. Comprendiendo la herencia múltiple</h3>
+
+<p>La herencia múltiple es la cualidad por la que una clase hereda de varias clases a la vez, heredando todas sus propiedades y métodos. A continuación se utiliza el ejemplo de una clase llamada <code>Story</code> (historia, relato) y otra clase llamada <code>Book</code> (libro), cada una de las cuales tiene sus propios métodos y propiedades, que se muestran en el listado 17-1.</p>
+
+<p><strong>Listado 17-1 - Dos clases de ejemplo</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> Story
+<span class="br0">&#123;</span>
+  <span class="kw2">protected</span> <span class="re0">$title</span> <span class="sy0">=</span> <span class="st_h">''</span><span class="sy0">;</span>
+  <span class="kw2">protected</span> <span class="re0">$topic</span> <span class="sy0">=</span> <span class="st_h">''</span><span class="sy0">;</span>
+  <span class="kw2">protected</span> <span class="re0">$characters</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span><span class="re0">$title</span> <span class="sy0">=</span> `<span class="sy0">,</span> <span class="re0">$topic</span> <span class="sy0">=</span> `<span class="sy0">,</span> <span class="re0">$characters</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">title</span> <span class="sy0">=</span> <span class="re0">$title</span><span class="sy0">;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">topic</span> <span class="sy0">=</span> <span class="re0">$topic</span><span class="sy0">;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">characters</span> <span class="sy0">=</span> <span class="re0">$characters</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> getSummary<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">title</span><span class="sy0">.</span><span class="st_h">', a story about '</span><span class="sy0">.</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">topic</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw2">class</span> Book
+<span class="br0">&#123;</span>
+  <span class="kw2">protected</span> <span class="re0">$isbn</span> <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+&nbsp;
+  <span class="kw2">function</span> setISBN<span class="br0">&#40;</span><span class="re0">$isbn</span> <span class="sy0">=</span> <span class="nu0">0</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">isbn</span> <span class="sy0">=</span> <span class="re0">$isbn</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> getISBN<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">isbn</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Una clase llamada <code>ShortStory</code> (relato corto) hereda de <code>Story</code>, una clase <code>ComputerBook</code> (libro sobre informática) hereda de <code>Book</code>, y como es lógico, una clase llamada <code>Novel</code> (novela) debería heredar tanto de <code>Story</code> como de <code>Book</code> para aprovechar todos sus métodos. Desafortunadamente, PHP no permite realizar esta herencia múltiple. No es posible crear una declaración para la clase <code>Novel</code> como la que se muestra en el listado 17-2.</p>
+
+<p><strong>Listado 17-2 - PHP no permite la herencia múltiple</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> Novel <span class="kw2">extends</span> Story<span class="sy0">,</span> Book
+<span class="br0">&#123;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="re0">$myNovel</span> <span class="sy0">=</span> <span class="kw2">new</span> Novel<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$myNovel</span><span class="sy0">-&gt;</span><span class="me1">getISBN</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Una posibilidad para este ejemplo es que la clase <code>Novel</code> implemente dos interfaces en vez de heredar de dos clases, pero esta solución implica que las clases padre no pueden contener código en los métodos que definen.</p>
+
+<h3 id="clases_de_tipo_mixing">17.1.2. Clases de tipo mixing</h3>
+
+<p>La clase <code>sfMixer</code> intenta solucionar este problema desde otro punto de vista, permitiendo heredar de una clase a posteriori , siempre que la clase esté diseñada de forma adecuada. El proceso completo está formado por 2 pasos:</p>
+
+<ul>
+<li>Declarar que una clase puede heredar de otras</li>
+<li>Registrar las herencias realizadas (o <em>mixins</em>), después de la declaración de la clase</li>
+</ul>
+
+<p>El listado 17-3 muestra cómo implementar la clase <code>Novel</code> anterior mediante <code>sfMixer</code>.</p>
+
+<p><strong>Listado 17-3 - <code>sfMixer</code> permite la herencia múltiple</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> Novel <span class="kw2">extends</span> Story
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> __call<span class="br0">&#40;</span><span class="re0">$method</span><span class="sy0">,</span> <span class="re0">$arguments</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">return</span> sfMixer<span class="sy0">::</span><span class="me2">callMixins</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+sfMixer<span class="sy0">::</span><span class="me2">register</span><span class="br0">&#40;</span><span class="st_h">'Novel'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'Book'</span><span class="sy0">,</span> <span class="st_h">'getISBN'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$miNovela</span> <span class="sy0">=</span> <span class="kw2">new</span> Novel<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$miNovela</span><span class="sy0">-&gt;</span><span class="me1">getISBN</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Una de las clases que se quieren heredar (en este caso, <code>Story</code>) se utiliza como clase padre principal, de forma que la clase hereda de ella directamente mediante PHP. La clase <code>Novel</code> se declara que es extensible mediante el código del método <code>__call()</code>. El método de la otra clase de la que se quiere heredar (en este caso, <code>Book</code>) se añade posteriormente a la clase <code>Novel</code> mediante la llamada a <code>sfMixer::register()</code>. Las próximas secciones detallan el funcionamiento completo de este proceso.</p>
+
+<p>Cuando se invoca el método <code>getISBN()</code> de la clase <code>Novel</code>, el funcionamiento es idéntico a si la clase <code>Novel</code> hubiera heredado también de la otra clase (como en el listado 17-2), salvo que en este caso, el funcionamiento se debe a la <em>magia</em> del método <code>__call()</code> y a los métodos estáticos de la clase <code>sfMixer</code>. El método <code>getISBN()</code> se dice que ha sido <em>mezclado</em> (en inglés, <em>"mixed"</em>, y de ahí el nombre <em>mixin</em>) en la clase <code>Novel</code>.</p>
+
+<div class="admonition sidebar"><p><strong class="title"> Cuando utilizar los mixins</strong> El mecanismo de mixin que utiliza Symfony es muy útil en muchas situaciones. La simulación de una herencia múltiple descrita anteriormente es sólo una de sus posibilidades.</p>
+
+<p>Los mixins también se pueden utilizar para modificar un método después de haber sido declarado. Si se crea por ejemplo una librería gráfica, es probable que se defina un objeto de tipo <code>Line</code> para representar una línea. Su clase dispone de 4 atributos (las coordenadas de sus 2 extremos) y un método llamado <code>draw()</code> para dibujar la propia línea. Un objeto llamado <code>ColoredLine</code> debería disponer de las mismas propiedades y argumentos, pero debería añadir un atributo adicional llamado <code>color</code> para especificar su color. Además, el método <code>draw()</code> de <code>ColoredLine</code> debería ser diferente al de <code>Line</code>, para tener en consideración el color de la línea. Por otra parte, todas las funciones relativas al color se podrían encapsular en una clase llamada <code>ColoredElement</code>. De esta forma, se podrían reutilizar los métodos del color para otros elementos gráficos (<code>Dot</code>, <code>Polygon</code>, etc). En este caso, la forma ideal de implementar la clase <code>ColoredLine</code> sería como heredera de la clase <code>Line</code> y con una mezcla (mixin) de métodos de la clase <code>ColoredElement</code>. El método <code>draw()</code> final es una mezcla del método original de <code>Line</code> y del método de <code>ColoredElement</code>.</p>
+
+<p>Los mixins también se pueden utilizar para añadir nuevos métodos a clases ya existentes. La clase <code>sfActions</code>, por ejemplo, la utiliza Symfony para manejar las acciones y se define en el propio framework. Una de las limitaciones de PHP es que no se puede modificar la definición de <code>sfActions</code> después de su declaración inicial. Si una aplicación tiene un requerimiento muy específico (por ejemplo, redirigir una petición a un servicio web especial), PHP no permitiría redefinir los métodos de <code>sfActions</code>, pero el mecanismo de mixins de Symfony es una solución ideal en este caso.</p></div>
+
+<h3 id="declarar_que_una_clase_se_puede_extender">17.1.3. Declarar que una clase se puede extender</h3>
+
+<p>Para declarar que una clase puede ser extendida, se debe preparar su código de forma que la clase <code>sfMixer</code> pueda identicarla como tal. Para preparar la clase, se añaden lo que se denomina <em>"hooks"</em>, que en este caso consisten en llamadas al método <code>sfMixer::callMixins()</code>. Muchas de las clases propias de Symfony ya incluyen estos <em>hooks</em>, entre otras, <code>sfRequest</code>, <code>sfResponse</code>, <code>sfController</code>, <code>sfUser</code> y <code>sfAction</code>.</p>
+
+<p>En función del grado hasta el que se quiere hacer extensible a una clase, los <em>hooks</em> se colocan en diferentes partes de la clase.:</p>
+
+<ul>
+<li>Para permitir que se puedan añadir métodos a una clase, se inserta el <em>hook</em> en el método <code>__call()</code> y se devuelve su valor, como se muestra en el listado 17-4.</li>
+</ul>
+
+<p><strong>Listado 17-4 - Permitiendo que se puedan añadir nuevos métodos a una clase</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> unaClase
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> __call<span class="br0">&#40;</span><span class="re0">$method</span><span class="sy0">,</span> <span class="re0">$arguments</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">return</span> sfMixer<span class="sy0">::</span><span class="me2">callMixins</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<ul>
+<li>Para permitir modificar la forma en la que funciona un método, se debe insertar el <em>hook</em> dentro de ese método, como muestra el listado 17-5. El código que añade la clase de tipo <em>mixin</em> se ejecuta en el mismo lugar en el que se encuentra el <em>hook</em>.</li>
+</ul>
+
+<p><strong>Listado 17-5 - Permitiendo que se pueda modificar un método</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> otraClase
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> unMetodo<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">echo</span> <span class="st0">&quot;Haciendo cosas...&quot;</span><span class="sy0">;</span>
+    sfMixer<span class="sy0">::</span><span class="me2">callMixins</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>En ocasiones es necesario insertar más de un <em>hook</em> en un método. En este caso, se debe asignar un nombre a cada <em>hook</em>, de forma que posteriormente se pueda definir el <em>hook</em> que se quiere utilizar, tal y como muestra el listado 17-6. Para crear un <em>hook</em> con nombre, se utiliza el mismo método <code>callMixins()</code>, pero con un argumento que indica el nombre del <em>hook</em>. Cuando se registra el <em>mixin</em> posteriormente, se utiliza este nombre para indicar en que lugar del método se debe ejecutar el código del <em>mixin</em>.</p>
+
+<p><strong>Listado 17-6 - Si un método contiene más de un <em>hook</em>, se les debe asignar un nombre</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> otraClase
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> otroMetodo<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">echo</span> <span class="st0">&quot;Empezando...&quot;</span><span class="sy0">;</span>
+    sfMixer<span class="sy0">::</span><span class="me2">callMixins</span><span class="br0">&#40;</span><span class="st_h">'comienzo'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">echo</span> <span class="st0">&quot;Haciendo cosas...&quot;</span><span class="sy0">;</span>
+    sfMixer<span class="sy0">::</span><span class="me2">callMixins</span><span class="br0">&#40;</span><span class="st_h">'fin'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">echo</span> <span class="st0">&quot;Finalizado&quot;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Como muestra el listado 17-7, se pueden combinar todas estas técnicas para crear clases con la habilidad de poder insertar y/o modificar sus métodos.</p>
+
+<p><strong>Listado 17-7 - Extendiendo una clase de diversas formas a la vez</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> BicycleRider
+    <span class="br0">&#123;</span>
+      <span class="kw2">protected</span> <span class="re0">$name</span> <span class="sy0">=</span> <span class="st_h">'John'</span><span class="sy0">;</span>
+&nbsp;
+      <span class="kw2">public</span> <span class="kw2">function</span> getName<span class="br0">&#40;</span><span class="br0">&#41;</span>
+      <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">name</span><span class="sy0">;</span>
+      <span class="br0">&#125;</span>
+&nbsp;
+      <span class="kw2">public</span> <span class="kw2">function</span> sprint<span class="br0">&#40;</span><span class="re0">$distance</span><span class="br0">&#41;</span>
+      <span class="br0">&#123;</span>
+        <span class="kw1">echo</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">name</span><span class="sy0">.</span><span class="st0">&quot; sprints &quot;</span><span class="sy0">.</span><span class="re0">$distance</span><span class="sy0">.</span><span class="st0">&quot; meters<span class="es1">\n</span>&quot;</span><span class="sy0">;</span>
+        sfMixer<span class="sy0">::</span><span class="me2">callMixins</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">// El método sprint() se puede extender</span>
+      <span class="br0">&#125;</span>
+&nbsp;
+      <span class="kw2">public</span> <span class="kw2">function</span> climb<span class="br0">&#40;</span><span class="br0">&#41;</span>
+      <span class="br0">&#123;</span>
+        <span class="kw1">echo</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">name</span><span class="sy0">.</span><span class="st_h">' climbs'</span><span class="sy0">;</span>
+        sfMixer<span class="sy0">::</span><span class="me2">callMixins</span><span class="br0">&#40;</span><span class="st_h">'slope'</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">// El método climb() se puede extender aquí...</span>
+        <span class="kw1">echo</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">name</span><span class="sy0">.</span><span class="st_h">' gets to the top'</span><span class="sy0">;</span>
+        sfMixer<span class="sy0">::</span><span class="me2">callMixins</span><span class="br0">&#40;</span><span class="st_h">'top'</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">// ...y en este otro punto también</span>
+      <span class="br0">&#125;</span>
+&nbsp;
+      <span class="kw2">public</span> <span class="kw2">function</span> __call<span class="br0">&#40;</span><span class="re0">$method</span><span class="sy0">,</span> <span class="re0">$arguments</span><span class="br0">&#41;</span>
+      <span class="br0">&#123;</span>
+        <span class="kw1">return</span> sfMixer<span class="sy0">::</span><span class="me2">callMixins</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">// La clase BicyleRider se puede extender</span>
+      <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+</div>
+
+<div class="admonition caution"><p><strong class="title">Advertencia</strong> <code>sfMixer</code> solamente puede extender las clases que lo han declarado de forma explícita. Por tanto, no se puede utilizar este mecanismo para modificar una clase que no lo ha indicado en su código. En otras palabras, es como si las clases que quieren utilizar los servicios de <code>sfMixer</code> debieran <em>suscribirse</em> antes a esos servicios.</p></div>
+
+<h3 id="registrando_las_extensiones">17.1.4. Registrando las extensiones</h3>
+
+<p>Para registrar una extensión en un <em>hook</em> previamente definido, se utiliza el método <code>sfMixer::register()</code>. El primer argumento de este método es el elemento que se va a extender y el segundo argumento es una función de PHP que representa el <em>mixin</em> que se va a incluir.</p>
+
+<p>El formato del primer argumento depende de lo que se quiere extender:</p>
+
+<ul>
+<li>Si se extiende una clase, se utiliza el nombre de la clase.</li>
+<li>Si se extiende un método con un <em>hook</em> sin nombre, se utiliza el patrón <code>clase:metodo</code>.</li>
+<li>Si se extiende un método con un <em>hook</em> que dispone de nombre, se utiliza el patrón <code>clase:metodo:hook</code>.</li>
+</ul>
+
+<p>El listado 17-8 ilustra estas normas extendiendo la clase que se definió en el listado 17-7. El objeto que se extiende se pasa automáticamente como el primer argumento a los métodos del <em>mixin</em> (salvo, evidentemente, si el método que se ha extendido es de tipo <code>static</code>). El método del <em>mixin</em> también puede acceder a los parámetros de la llamada al método original.</p>
+
+<p><strong>Listado 17-8 - Registrando extensiones</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> Steroids
+<span class="br0">&#123;</span>
+  <span class="kw2">protected</span> <span class="re0">$brand</span> <span class="sy0">=</span> <span class="st_h">'foobar'</span><span class="sy0">;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> partyAllNight<span class="br0">&#40;</span><span class="re0">$bicycleRider</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">echo</span> <span class="re0">$bicycleRider</span><span class="sy0">-&gt;</span><span class="me1">getName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st0">&quot; spends the night dancing.<span class="es1">\n</span>&quot;</span><span class="sy0">;</span>
+    <span class="kw1">echo</span> <span class="st0">&quot;Thanks &quot;</span><span class="sy0">.</span><span class="re0">$brand</span><span class="sy0">.</span><span class="st0">&quot;!<span class="es1">\n</span>&quot;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> breakRecord<span class="br0">&#40;</span><span class="re0">$bicycleRider</span><span class="sy0">,</span> <span class="re0">$distance</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">echo</span> <span class="st0">&quot;Nobody ever made &quot;</span><span class="sy0">.</span><span class="re0">$distance</span><span class="sy0">.</span><span class="st0">&quot; meters that fast before!<span class="es1">\n</span>&quot;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  static <span class="kw2">function</span> pass<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">echo</span> <span class="st0">&quot; and passes half the peloton.<span class="es1">\n</span>&quot;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+sfMixer<span class="sy0">::</span><span class="me2">register</span><span class="br0">&#40;</span><span class="st_h">'BicycleRider'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'Steroids'</span><span class="sy0">,</span> <span class="st_h">'partyAllNight'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+sfMixer<span class="sy0">::</span><span class="me2">register</span><span class="br0">&#40;</span><span class="st_h">'BicycleRider:sprint'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'Steroids'</span><span class="sy0">,</span> <span class="st_h">'breakRecord'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+sfMixer<span class="sy0">::</span><span class="me2">register</span><span class="br0">&#40;</span><span class="st_h">'BicycleRider:climb:slope'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'Steroids'</span><span class="sy0">,</span> <span class="st_h">'pass'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+sfMixer<span class="sy0">::</span><span class="me2">register</span><span class="br0">&#40;</span><span class="st_h">'BicycleRider:climb:top'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'Steroids'</span><span class="sy0">,</span> <span class="st_h">'pass'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$superRider</span> <span class="sy0">=</span> <span class="kw2">new</span> BicycleRider<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$superRider</span><span class="sy0">-&gt;</span><span class="me1">climb</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="sy0">=&gt;</span> John climbs and passes half the peloton
+<span class="sy0">=&gt;</span> John gets to the top and passes half the peloton
+<span class="re0">$superRider</span><span class="sy0">-&gt;</span><span class="me1">sprint</span><span class="br0">&#40;</span><span class="nu0">2000</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="sy0">=&gt;</span> John sprints <span class="nu0">2000</span> meters
+<span class="sy0">=&gt;</span> Nobody ever made <span class="nu0">2000</span> meters that fast before<span class="sy0">!</span>
+<span class="re0">$superRider</span><span class="sy0">-&gt;</span><span class="me1">partyAllNight</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="sy0">=&gt;</span> John spends the night dancing<span class="sy0">.</span>
+<span class="sy0">=&gt;</span> Thanks foobar<span class="sy0">!</span></pre>
+</div>
+
+<p>Le mecanismo de extensiones no solo permite añadir nuevos métodos. El método <code>partyAllNight()</code> anterior utiliza un atributo de la clase <code>Steroids</code>. Por tanto, cuando se extiende la clase <code>BicycleRider</code> con un método de la clase <code>Steroids</code>, en realidad se está creando una nueva instancia de la clase <code>Steroids</code> dentro del objeto <code>BicycleRider</code>.</p>
+
+<div class="admonition caution"><p><strong class="title">Advertencia</strong> No se pueden añadir 2 métodos con el mismo nombre a una clase ya existente. La razón es que la llamada a <code>callMixins()</code> en los métodos <code>__call()</code> utiliza el nombre del método del <em>mixin</em> como una clave. Además, no se puede añadir un método a una clase que ya dispone de un método con el mismo nombre, ya que el mecanismo de <em>mixin</em> depende del método mágico <code>__call()</code>, por lo que en este caso, nunca se llamaría a este segundo método.</p></div>
+
+<p>El segundo argumento de la llamada al método <code>register()</code> debe ser cualquier elemento PHP que se pueda invocar, por lo que puede ser un array de <code>clase::metodo</code>, un array de <code>objeto-&gt;metodo</code> o incluso el nombre de una función. El listado 17-9 muestra algunos ejemplos:</p>
+
+<p><strong>Listado 17-9 - Cualquier código PHP que se pueda invocar puede ser utilizado para registrar una extensión</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// Registrnado el método de una clase</span>
+sfMixer<span class="sy0">::</span><span class="me2">register</span><span class="br0">&#40;</span><span class="st_h">'BicycleRider'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'Steroids'</span><span class="sy0">,</span> <span class="st_h">'partyAllNight'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Registrando el método de un objeto</span>
+<span class="re0">$mySteroids</span> <span class="sy0">=</span> <span class="kw2">new</span> Steroids<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+sfMixer<span class="sy0">::</span><span class="me2">register</span><span class="br0">&#40;</span><span class="st_h">'BicycleRider'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="re0">$mySteroids</span><span class="sy0">,</span> <span class="st_h">'partyAllNight'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Registrando una función</span>
+sfMixer<span class="sy0">::</span><span class="me2">register</span><span class="br0">&#40;</span><span class="st_h">'BicycleRider'</span><span class="sy0">,</span> <span class="st_h">'die'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El mecanismo de extensión es dinámico, lo que significa que si ya se ha instanciado un objeto, puede tener acceso a las extensiones realizadas en su clase. El listado 17-10 muestra un ejemplo.</p>
+
+<p><strong>Listado 17-10 - El mecanismo de extensión es dinámico y se puede utilizar incluso después de instanciar los objetos</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$simpleRider</span> <span class="sy0">=</span> <span class="kw2">new</span> BicycleRider<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$simpleRider</span><span class="sy0">-&gt;</span><span class="me1">sprint</span><span class="br0">&#40;</span><span class="nu0">500</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="sy0">=&gt;</span> John sprints <span class="nu0">500</span> meters
+sfMixer<span class="sy0">::</span><span class="me2">register</span><span class="br0">&#40;</span><span class="st_h">'BicycleRider:sprint'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'Steroids'</span><span class="sy0">,</span> <span class="st_h">'breakRecord'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$simpleRider</span><span class="sy0">-&gt;</span><span class="me1">sprint</span><span class="br0">&#40;</span><span class="nu0">500</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="sy0">=&gt;</span> John sprints <span class="nu0">500</span> meters
+<span class="sy0">=&gt;</span> Nobody ever made <span class="nu0">500</span> meters that fast before<span class="sy0">!</span></pre>
+</div>
+
+<h3 id="extendiendo_de_forma_mas_precisa">17.1.5. Extendiendo de forma más precisa</h3>
+
+<p>La instrucción <code>sfMixer::callMixins()</code> en realidad es un atajo de algo mucho más complejo. Esta instrucción recorre todos los elementos de la lista de <em>mixins</em> que se han registrado y se van ejecutando uno a uno, pasandoles el objeto actual y los parámetros del método que se está ejecutando. En otras palabras, una llamada a la función <code>sfMixer::callMixins()</code> se comporta más o menos como el código del listado 17-11.</p>
+
+<p><strong>Listado 17-11 - <code>callMixin()</code> recorre todos los <em>mixins</em> registrados y los ejecuta</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw1">foreach</span> <span class="br0">&#40;</span>sfMixer<span class="sy0">::</span><span class="me2">getCallables</span><span class="br0">&#40;</span><span class="re0">$class</span><span class="sy0">.</span><span class="st_h">':'</span><span class="sy0">.</span><span class="re0">$method</span><span class="sy0">.</span><span class="st_h">':'</span><span class="sy0">.</span><span class="re0">$hookName</span><span class="br0">&#41;</span> <span class="kw1">as</span> <span class="re0">$callable</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="kw3">call_user_func_array</span><span class="br0">&#40;</span><span class="re0">$callable</span><span class="sy0">,</span> <span class="re0">$parameters</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Si se necesitan pasar otros parámetros o se quiere procesar de forma especial el valor devuelto, se puede recorrer la lista de <em>mixins</em> de forma explícita en lugar de utilizar <code>sfMixer::callMixins()</code>. El listado 17-12 muestra un ejemplo de un <em>mixin</em> más integrado en la propia clase.</p>
+
+<p><strong>Listado 17-12 - Reemplazando <code>callMixin()</code> por un código propio</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> Income
+<span class="br0">&#123;</span>
+  <span class="kw2">protected</span> <span class="re0">$amount</span> <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> calculateTaxes<span class="br0">&#40;</span><span class="re0">$rate</span> <span class="sy0">=</span> <span class="nu0">0</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$taxes</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">amount</span> <span class="sy0">*</span> <span class="re0">$rate</span><span class="sy0">;</span>
+    <span class="kw1">foreach</span> <span class="br0">&#40;</span>sfMixer<span class="sy0">::</span><span class="me2">getCallables</span><span class="br0">&#40;</span><span class="st_h">'Income:calculateTaxes'</span><span class="br0">&#41;</span> <span class="kw1">as</span> <span class="re0">$callable</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="re0">$taxes</span> <span class="sy0">+=</span> <span class="kw3">call_user_func</span><span class="br0">&#40;</span><span class="re0">$callable</span><span class="sy0">,</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">amount</span><span class="sy0">,</span> <span class="re0">$rate</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="re0">$taxes</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw2">class</span> FixedTax
+<span class="br0">&#123;</span>
+  <span class="kw2">protected</span> <span class="re0">$minIncome</span> <span class="sy0">=</span> <span class="nu0">10000</span><span class="sy0">;</span>
+  <span class="kw2">protected</span> <span class="re0">$taxAmount</span> <span class="sy0">=</span> <span class="nu0">500</span><span class="sy0">;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> calculateTaxes<span class="br0">&#40;</span><span class="re0">$amount</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="br0">&#40;</span><span class="re0">$amount</span> <span class="sy0">&gt;</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">minIncome</span><span class="br0">&#41;</span> ? <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">taxAmount</span> <span class="sy0">:</span> <span class="nu0">0</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+sfMixer<span class="sy0">::</span><span class="me2">register</span><span class="br0">&#40;</span><span class="st_h">'Income:calculateTaxes'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'FixedTax'</span><span class="sy0">,</span> <span class="st_h">'calculateTaxes'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<div class="admonition sidebar"><p><strong class="title"> Behaviors de Propel</strong> Los behaviors de Propel, que se vieron en el capítulo 8, son un tipo especial de <em>mixin</em>, ya que extienden los objetos generados por Propel. A continuación se muestra un ejemplo.</p>
+
+<p>Los objetos Propel correspondientes a las tablas de la base de datos disponen de un método llamado <code>delete()</code>, que borra el registro correspondiente de la base de datos. Sin embargo, si se dispone de una clase llamada <code>Factura</code>, para la que no se deben borrar las filas de datos, se podría modificar el método <code>delete()</code> para mantener el registro en la base de datos y modificar el valor de una columna llamada <code>is_deleted</code> que indica si el registro ha sido borrado. Los métodos que se utilizan para obtener los registros (<code>doSelect()</code>, <code>retrieveByPk()</code>) solamente deberían tener en cuenta las filas de datos para las que la columna <code>is_deleted</code> vale <code>false</code>. Además, se debería añadir otro método llamado <code>forceDelete()</code>, que es el que borraría realmente de la base de datos. Todas las modificaciones anteriores se podrían encapsular en una nueva clase llamada por ejemplo <code>ParanoidBehavior</code>. La clase <code>Factura</code> completa extiende la clase <code>BaseFactura</code> de Propel y tiene los métodos de <code>ParanoidBehavior</code> mediante un <em>mixin</em>.</p>
+
+<p>De esta forma, un behavior en realidad es un <em>mixin</em> realizado sobre un objeto Propel. Además, la palabra "behavior" en Symfony implica otra característica: el hecho de que el <em>mixin</em> se encapsula en forma de plugin. La clase <code>ParanoidBehavior</code> mencionada anteriormente se corresponde con un plugin real de Symfony, llamado <code>sfPropelParanoidBehaviorPlugin</code>. El wiki de Symfony (http://trac.symfony-project.org/wiki/sfPropelParanoidBehaviorPlugin) dispone de más detalles sobre la instalación y uso de este plugin.</p>
+
+<p>Un último comentario sobre los behaviors: para poder utilizarlos, los objetos generados por Propel deben contener un gran número de <em>hooks</em>. Como esto puede penalizar el rendimiento de la aplicación si no se utilizan los behaviors, por defecto los <em>hooks</em> no están activados. Para añadir los <em>hooks</em> y activar el soporte de los behaviors, se debe establecer la propiedad <code>propel.builder.addBehaviors</code> a <code>true</code> en el archivo <code>propel.ini</code> y se debe volver a construir el modelo.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_17.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 17. Personalizar Symfony</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_17/factorias.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>17.2. Factorías</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generadores</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_17.html">
+                    <span>Capítulo 17.</span> Personalizar Symfony
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_17/mixins.html">
+                    <span>17.1.</span> Mixins
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_17/factorias.html">
+                    <span>17.2.</span> Factorías
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_17/utilizando_componentes_de_otros_frameworks.html">
+                    <span>17.3.</span> Utilizando componentes de otros frameworks
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_17/plugins.html">
+                    <span>17.4.</span> Plugins
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_17/resumen.html">
+                    <span>17.5.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

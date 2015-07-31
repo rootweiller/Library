@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>4.3. Etiquetas básicas de plantillas y filtros (El libro de Django 1.0)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_4/usando_el_sistema_de_plantillas.html" />
+                    <link rel="next" href="../capitulo_4/filosofia_y_limitaciones.html" />
+                <link rel="start" href="/libro/django_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="4.3. Etiquetas básicas de plantillas y filtros (El libro de Django 1.0)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page django_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/" itemprop="url">
+                    <span itemprop="title">El libro de Django 1.0</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/capitulo_4.html" itemprop="url">
+                    <span itemprop="title">Capítulo 4. El sistema de plantillas de Django</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>4.3. Etiquetas básicas de plantillas y filtros</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="etiquetas_basicas_de_plantillas_y_filtros" class="title">
+        <span>4.3.</span> Etiquetas básicas de plantillas y filtros
+    </h1>
+
+    
+
+<p>Como hemos mencionado, el sistema de plantillas se distribuye con etiquetas y
+filtros incorporados. Las secciones que siguen proveen un resumen de la mayoría
+de las etiquetas y filtros.</p>
+
+<h3 id="etiquetas">4.3.1. Etiquetas</h3>
+
+<h4 id="las_etiquetas_if_else">4.3.1.1. Las etiquetas <code>if</code> / <code>else</code></h4>
+
+<p>La etiqueta <code>{&#37; if &#37;}</code> evalúa una variable, y si esta es "true" (esto es,
+existe, no está vacía y no es un valor <em>booleano</em> falso), el sistema mostrará
+todo lo que hay entre <code>{&#37; if &#37;}</code> y <code>{&#37; endif &#37;}</code>, por ejemplo:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">if</span> <span class="re0">today_is_weekend</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;p&gt;Welcome to the weekend!&lt;/p&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endif</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>La etiqueta <code>{&#37; else &#37;}</code> es opcional:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">if</span> <span class="re0">today_is_weekend</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;p&gt;Welcome to the weekend!&lt;/p&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">else</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;p&gt;Get back to work.&lt;/p&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endif</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> En Python, la lista vacía (<code>[]</code>), la tupla vacía (<code>()</code>), el diccionario
+vacío (<code>{}</code>), la cadena vacía (<code>''</code>), el cero (<code>0</code>), y el objeto especial
+<code>None</code> son <code>False</code> en un contexto booleano.  Todo lo demás es <code>True</code>.</p></div>
+
+<p>La etiqueta <code>{&#37; if &#37;}</code> acepta <code>and</code>, <code>or</code>, o <code>not</code> para testear
+múltiples variables, o para negarlas. Por ejemplo:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">if</span> <span class="re0">athlete_list</span> <span class="kw5">and</span> <span class="re0">coach_list</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    Both athletes and coaches are available.
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endif</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&nbsp;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">if</span> <span class="kw5">not</span> <span class="re0">athlete_list</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    There are no athletes.
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endif</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&nbsp;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">if</span> <span class="re0">athlete_list</span> <span class="kw5">or</span> <span class="re0">coach_list</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    There are some athletes or some coaches.
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endif</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&nbsp;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">if</span> <span class="kw5">not</span> <span class="re0">athlete_list</span> <span class="kw5">or</span> <span class="re0">coach_list</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    There are no athletes or there are some coaches. (OK, so
+    writing English translations of Boolean logic sounds
+    stupid; it's not our fault.)
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endif</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&nbsp;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">if</span> <span class="re0">athlete_list</span> <span class="kw5">and</span> <span class="kw5">not</span> <span class="re0">coach_list</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    There are some athletes and absolutely no coaches.
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endif</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Las etiquetas <code>{&#37; if &#37;}</code> no permiten las cláusulas <code>and</code> y <code>or</code> en la
+misma etiqueta, porque el orden de evaluación lógico puede ser ambiguo. Por
+ejemplo, esto es inválido:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">if</span> <span class="re0">athlete_list</span> <span class="kw5">and</span> <span class="re0">coach_list</span> <span class="kw5">or</span> <span class="re0">cheerleader_list</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>No se admite el uso de paréntesis para controlar el orden de las operaciones.
+Si necesitas paréntesis, considera efectuar la lógica en el código de la
+vista para simplificar las plantillas. Aún así, si necesitas combinar
+<code>and</code> y <code>or</code> para hacer lógica avanzada, usa etiquetas
+<code>{&#37; if &#37;}</code> anidadas, por ejemplo:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">if</span> <span class="re0">athlete_list</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    <span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">if</span> <span class="re0">coach_list</span> <span class="kw5">or</span> <span class="re0">cheerleader_list</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+        We have athletes, and either coaches or cheerleaders!
+    <span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endif</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endif</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Usar varias veces el mismo operador lógico están bien, pero no puedes combinar
+diferentes operadores. Por ejemplo, esto es válido:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">if</span> <span class="re0">athlete_list</span> <span class="kw5">or</span> <span class="re0">coach_list</span> <span class="kw5">or</span> <span class="re0">parent_list</span> <span class="kw5">or</span> <span class="re0">teacher_list</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Ahí no hay una etiqueta <code>{&#37; elif &#37;}</code>. Usa etiquetas <code>{&#37; if &#37;}</code> anidadas
+para conseguir alguna cosa:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">if</span> <span class="re0">athlete_list</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;p&gt;Here are the athletes: <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">athlete_list</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>.&lt;/p&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">else</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;p&gt;No athletes are available.&lt;/p&gt;
+    <span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">if</span> <span class="re0">coach_list</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+        &lt;p&gt;Here are the coaches: <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">coach_list</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>.&lt;/p&gt;
+    <span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endif</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endif</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Asegúrate de cerrar cada <code>{&#37; if &#37;}</code> con un <code>{&#37; endif &#37;}</code>. En otro caso,
+Django levantará la excepción <code>TemplateSyntaxError</code>.</p>
+
+<h4 id="la_etiqueta_for">4.3.1.2. La etiqueta <code>for</code></h4>
+
+<p>La etiqueta <code>{&#37; for &#37;}</code> permite iterar sobre cada uno de los elementos de una
+secuencia. Como en la sentencia <code>for</code> de Python, la sintaxis es <code>for X in
+Y</code>, dónde <code>Y</code> es la secuencia sobre la que se hace el bucle y <code>X</code> es el
+nombre de la variable que se usará para cada uno de los ciclos del bucle. Cada
+vez que atravesamos el bucle, el sistema de plantillas renderizará todo entre
+<code>{&#37; for &#37;}</code> y <code>{&#37; endfor &#37;}</code>.</p>
+
+<p>Por ejemplo, puedes usar lo siguiente para mostrar una lista de atletas tomadas
+de la variable <code>athlete_list</code>:</p>
+
+<div class="code twig">
+<pre class="twig">&lt;ul&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">for</span> <span class="re0">athlete</span> <span class="kw5">in</span> <span class="re0">athlete_list</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;li&gt;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">athlete</span><span class="re1">.name</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&lt;/li&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endfor</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&lt;/ul&gt;</pre>
+</div>
+
+<p>Agrega <code>reversed</code> a la etiqueta para iterar sobre la lista en orden inverso:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">for</span> <span class="re0">athlete</span> <span class="kw5">in</span> <span class="re0">athlete_list</span> <span class="re0">reversed</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+...
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endfor</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Es posible anidar etiquetas <code>{&#37; for &#37;}</code>:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">for</span> <span class="re0">country</span> <span class="kw5">in</span> <span class="re0">countries</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;h1&gt;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">country</span><span class="re1">.name</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&lt;/h1&gt;
+    &lt;ul&gt;
+    <span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">for</span> <span class="re0">city</span> <span class="kw5">in</span> <span class="re0">country</span><span class="re1">.city_list</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+        &lt;li&gt;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">city</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&lt;/li&gt;
+    <span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endfor</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;/ul&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endfor</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>No se admite la "ruptura" de un bucle antes de que termine. Si quieres 
+conseguir esto, cambia la variable sobre la que estás iterando para que 
+incluya sólo los valores sobre los cuales quieres iterar. De manera similar, 
+no se soporta la sentencia <code>continue</code> que se encarga de retornar 
+inmediatamente al inicio del bucle. (Lee la sección <em>Filosofía y limitaciones</em> 
+al final de este capítulo para comprender el razonamiento detrás de este 
+decisión de diseño.)</p>
+
+<p>La etiqueta <code>{&#37; for &#37;}</code> asigna la variable <code>forloop</code> mágica a la plantilla
+con el bucle. Esta variable tiene algunos atributos que toman información 
+acerca del progreso del bucle:</p>
+
+<ul>
+<li><code>forloop.counter</code> es siempre asignada a un número entero representando
+el número de veces que se ha entrado en el bucle. Esta es indexada a
+partir de 1, por lo que la primera vez que se ingresa al bucle,
+<code>forloop.counter</code> será <code>1</code>. Aquí un ejemplo:</li>
+</ul>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">for</span> <span class="re0">item</span> <span class="kw5">in</span> <span class="re0">todo_list</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;p&gt;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">forloop</span><span class="re1">.counter</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>: <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">item</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&lt;/p&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endfor</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<ul>
+<li><code>forloop.counter0</code> es como <code>forloop.counter</code>, excepto que esta es
+indexada a partir de cero. Contendrá el valor <code>0</code> la primera vez que se
+atraviese el bucle.</li>
+<li><code>forloop.revcounter</code> es siempre asignada a un entero que representa
+el número de iteraciones que faltan para terminar el bucle. La primera vez
+que se ejecuta el bucle <code>forloop.revcounter</code> será igual al número de
+elementos que hay en la secuencia. La última vez que se atraviese el
+bucle, a <code>forloop.revcounter</code> se la asignará el valor <code>1</code>.</li>
+<li><code>forloop.revcounter0</code> es como <code>forloop.revcounter</code>, a excepción de que
+está indexada a partir de cero. La primera vez que se atraviesa el bucle,
+<code>forloop.revcounter0</code> es asignada al número de elementos que hay en la
+secuencia menos 1. La última vez que se atraviese el bucle, el valor de
+esta será <code>0</code>.</li>
+<li><code>forloop.first</code> es un valor booleano asignado a <code>True</code> si es la
+primera vez que se pasa por el bucle. Esto es conveniente para ocasiones
+especiales:</li>
+</ul>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">for</span> <span class="re0">object</span> <span class="kw5">in</span> <span class="re0">objects</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    <span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">if</span> <span class="re0">forloop</span><span class="sy0">.</span><span class="kw2">first</span> <span class="kw6">%<span class="br0">&#125;</span></span>&lt;li class=&quot;first&quot;&gt;<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">else</span> <span class="kw6">%<span class="br0">&#125;</span></span>&lt;li&gt;<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endif</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">object</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>
+    &lt;/li&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endfor</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<ul>
+<li><code>forloop.last</code> es un valor booleano asignado a <code>True</code> si es la última
+pasada por el bucle. Un uso común es para esto es poner un carácter pipe
+entre una lista de enlaces:</li>
+</ul>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">for</span> <span class="re0">link</span> <span class="kw5">in</span> <span class="re0">links</span> <span class="kw6">%<span class="br0">&#125;</span></span><span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">link</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">if</span> <span class="kw5">not</span> <span class="re0">forloop</span><span class="sy0">.</span><span class="kw2">last</span> <span class="kw6">%<span class="br0">&#125;</span></span> | <span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endif</span> <span class="kw6">%<span class="br0">&#125;</span></span><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endfor</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>El código de la plantilla de arriba puede mostrar algo parecido a esto: <code>Link1 | Link2 | Link3 | Link4</code></p>
+
+<ul>
+<li><code>forloop.parentloop</code> esta es una referencia al objeto <em>padre</em> de
+<code>forloop</code>, en el caso de bucles anidados. Aquí un ejemplo::</li>
+</ul>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">for</span> <span class="re0">country</span> <span class="kw5">in</span> <span class="re0">countries</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;table&gt;
+    <span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">for</span> <span class="re0">city</span> <span class="kw5">in</span> <span class="re0">country</span><span class="re1">.city_list</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+        &lt;tr&gt;
+        &lt;td&gt;Country #<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">forloop</span><span class="re1">.parentloop</span><span class="re1">.counter</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&lt;/td&gt;
+        &lt;td&gt;City #<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">forloop</span><span class="re1">.counter</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&lt;/td&gt;
+        &lt;td&gt;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">city</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&lt;/td&gt;
+        &lt;/tr&gt;
+    <span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endfor</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;/table&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endfor</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>La variable mágica <code>forloop</code> está sólo disponible dentro de bucles. Después de
+que el analizados sintáctico encuentra <code>{&#37; endfor &#37;}</code>, <code>forloop</code> desaparece.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Dentro de un bloque <code>{&#37; for &#37;}</code>, las variables existentes se
+mueven fuera de tal manera de evitar sobreescribir la variable mágica
+<code>forloop</code>. Django expone ese contexto movido en <code>forloop.parentloop</code>.
+Generalmente no necesitas preocuparte por esto, si provees una variable a
+la plantilla llamada <code>forloop</code> (a pesar de que no lo recomendamos), se
+llamará <code>forloop.parentloop</code> mientras esté dentro del bloque
+   <code>{&#37; for &#37;}</code>.</p></div>
+
+<h4 id="las_etiquetas_ifequal_ifnotequal">4.3.1.3. Las etiquetas <code>ifequal</code> / <code>ifnotequal</code></h4>
+
+<p>El sistema de plantillas de Django a propósito no es un lenguaje de
+programación completo y por lo tanto no permite ejecutar sentencias
+arbitrarias de Python. (Más sobre esta idea en la sección <em>Filosofía y
+limitaciones</em> al final de este capítulo).</p>
+
+<p>Sin embargo, es bastante común que una plantilla requiera
+comparar dos valores y mostrar algo si ellos son iguales — Django provee la
+etiqueta <code>{&#37; ifequal &#37;}</code> para este propósito.</p>
+
+<p>La etiqueta <code>{&#37; ifequal &#37;}</code>  compara dos valores y muestra todo lo que se
+encuentra entre <code>{&#37; ifequal &#37;}</code>  y <code>{&#37; endifequal &#37;}</code> si el valor es igual.</p>
+
+<p>Este ejemplo compara las variables <code>user</code> y <code>currentuser</code> de la plantilla:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">ifequal</span> <span class="re0">user</span> <span class="re0">currentuser</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;h1&gt;Welcome!&lt;/h1&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">endifequal</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Los argumentos pueden ser cadenas de texto encerradas con comillas simples o
+dobles. Ejemplo:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">ifequal</span> <span class="re0">section</span> <span class="st0">'sitenews'</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;h1&gt;Site News&lt;/h1&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">endifequal</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&nbsp;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">ifequal</span> <span class="re0">section</span> <span class="st0">&quot;community&quot;</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;h1&gt;Community&lt;/h1&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">endifequal</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Como <code>{&#37; if &#37;}</code>, la etiqueta <code>{&#37; ifequal &#37;}</code> admite un opcional <code>{&#37; else &#37;}</code>:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">ifequal</span> <span class="re0">section</span> <span class="st0">'sitenews'</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;h1&gt;Site News&lt;/h1&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">else</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;h1&gt;No News Here&lt;/h1&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">endifequal</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Sólo las variables de la plantilla, cadenas, enteros y números decimales son
+permitidos como argumentos para <code>{&#37; ifequal &#37;}</code>. Estos son ejemplos válidos:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">ifequal</span> <span class="re0">variable</span> <span class="nu0">1</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">ifequal</span> <span class="re0">variable</span> <span class="nu0">1.23</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">ifequal</span> <span class="re0">variable</span> <span class="st0">'foo'</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">ifequal</span> <span class="re0">variable</span> <span class="st0">&quot;foo&quot;</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Cualquier otro tipo de variables, tales como diccionarios de Python, listas, o
+booleanos, no pueden ser comparados en <code>{&#37; ifequal &#37;}</code>. Estos ejemplos son
+inválidos:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">ifequal</span> <span class="re0">variable</span> <span class="re0">True</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">ifequal</span> <span class="re0">variable</span> <span class="br0">&#91;</span><span class="nu0">1</span>, <span class="nu0">2</span>, <span class="nu0">3</span><span class="br0">&#93;</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">ifequal</span> <span class="re0">variable</span> <span class="br0">&#123;</span><span class="st0">'key'</span><span class="sy0">:</span> <span class="st0">'value'</span><span class="br0">&#125;</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Si necesitas comprobar cuando algo es verdadero o falso, usa la etiqueta
+<code>{&#37; if &#37;}</code> en vez de <code>{&#37; ifequal &#37;}</code>.</p>
+
+<h4 id="comentarios">4.3.1.4. Comentarios</h4>
+
+<p>Al igual que en HTML o en un lenguaje de programación como Python, el lenguaje
+de plantillas de Django permite comentarios. Para designar un comentario, usa
+<code>{&#35; &#35;}</code>:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="sc1"><span class="coMULTI">{&#35; Esto es un comentario &#35;}</span></span></pre>
+</div>
+
+<p>Este comentario no será mostrado cuando la plantilla sea renderizada.</p>
+
+<p>Un comentario no puede abarcar múltiples líneas. Esta limitación mejora el
+rendimiento del analizador sintáctico de plantillas. En la siguiente plantilla,
+la salida del renderizado mostraría exactamente lo mismo que la plantilla
+(esto es, la etiqueta comentario no será tomada como comentario):</p>
+
+<div class="code twig">
+<pre class="twig">This is a <span class="sc1"><span class="coMULTI">{&#35; this is not</span>
+<span class="sc1">a comment &#35;}</span></span>
+test.</pre>
+</div>
+
+<h3 id="filtros">4.3.2. Filtros</h3>
+
+<p>Como explicamos anteriormente en este capítulo, los filtros de plantillas son
+formas simples de alterar el valor de una variable antes de mostrarla. Los
+filtros se parecen a esto:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">name</span><span class="sy0">|</span><span class="kw2">lower</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Esto muestra el valor de <code>{&#123; name &#125;}</code> después de aplicarle el filtro
+<code>lower</code>, el cual convierte el texto a minúscula. Usa un pipe (<code>|</code>)  para
+aplicar el filtro.</p>
+
+<p>Los filtros pueden estar en <em>cadena</em> — eso es, la salida del uno de los filtros
+puede ser aplicada al próximo. Aquí un modismo común para escapar contenido del
+texto, y entonces convertir los saltos de líneas en etiquetas <code>&lt;p&gt;</code>:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">my_text</span><span class="sy0">|</span><span class="kw2">escape</span><span class="sy0">|</span>linebreaks <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Algunos filtros toman argumentos. Un filtro con argumento se ve de este modo:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">bio</span><span class="sy0">|</span>truncatewords<span class="sy0">:</span><span class="st0">&quot;30&quot;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Esto muestra las primeras 30 palabras de la variable <code>bio</code>. Los argumentos de
+los filtros están siempre entre comillas dobles.</p>
+
+<p>Los siguientes son algunos de los filtros más importantes; el Apéndice F cubre
+el resto.</p>
+
+<ul>
+<li><code>addslashes</code>: Agrega una con contra-barra antes de cualquier
+contra-barra, comilla simple o comilla doble. Esto es útil si el texto
+producido está incluido en un string de JavaScript.</li>
+<li><code>date</code>: Formatea un objeto <code>date</code> o <code>datetime</code> de acuerdo al formato
+tomado como parámetro (el formato de los strings está definido en el Apéndice F). Ejemplo:</li>
+</ul>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">pub_date</span><span class="sy0">|</span><span class="kw2">date</span><span class="sy0">:</span><span class="st0">&quot;F j, Y&quot;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span></pre>
+</div>
+
+<ul>
+<li><p><code>escape</code>: Escapa <em>ampersands</em> (&amp;), comillas, y corchetes del string tomado.
+Esto es usado para desinfectar datos suministrados por el usuario y
+asegurar que los datos son válidos para XML y XHTML. Específicamente,
+<code>escape</code> hace estas conversiones:</p>
+
+<ul>
+<li>Convierte <code>&amp;</code> en <code>&amp;amp;</code></li>
+<li>Convierte <code>&lt;</code> en <code>&amp;lt;</code></li>
+<li>Convierte <code>&gt;</code> en <code>&amp;gt;</code></li>
+<li>Convierte <code>"</code> (comilla doble) en <code>&amp;quot;</code></li>
+<li>Convierte <code>'</code> (comilla simple) en <code>&amp;#39;</code></li>
+</ul></li>
+<li><p><code>length</code>: Retorna la longitud del valor. Puedes usar este con una lista
+o con un string, o con cualquier objeto Python que sepa como determinar
+su longitud (o sea cualquier objeto que tenga el método <code>__len__()</code>).</p></li>
+</ul>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_4/usando_el_sistema_de_plantillas.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>4.2. Usando el sistema de plantillas</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_4/filosofia_y_limitaciones.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>4.4. Filosofía y Limitaciones</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Los principios de las páginas Web dinámicas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_4.html">
+                    <span>Capítulo 4.</span> El sistema de plantillas de Django
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/introduccion_al_sistema_de_plantillas.html">
+                    <span>4.1.</span> Introducción al sistema de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/usando_el_sistema_de_plantillas.html">
+                    <span>4.2.</span> Usando el sistema de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_4/etiquetas_basicas_de_plantillas_y_filtros.html">
+                    <span>4.3.</span> Etiquetas básicas de plantillas y filtros
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/filosofia_y_limitaciones.html">
+                    <span>4.4.</span> Filosofía y Limitaciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/uso_de_plantillas_en_las_vistas.html">
+                    <span>4.5.</span> Uso de plantillas en las vistas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/cargadores_de_plantillas.html">
+                    <span>4.6.</span> Cargadores de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/herencia_de_plantillas.html">
+                    <span>4.7.</span> Herencia de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/que_sigue.html">
+                    <span>4.8.</span> ¿Qué sigue?
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Interactuar con una base de datos: Modelos</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El sitio de Administración Django</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Procesamiento de formularios</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Vistas avanzadas y URLconfs</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Vistas genéricas</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Extender el sistema de plantillas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Generación de contenido no HTML</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Sesiones, usuario e inscripciones</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Cache</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Otros sub-frameworks contribuidos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Middleware</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Integración con Base de datos y Aplicaciones existentes</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Extender la Interfaz de Administración de Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>20.</span> <a href="../capitulo_20.html"> Puesta en marcha de Django en un servidor</a>
+            </li>
+                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

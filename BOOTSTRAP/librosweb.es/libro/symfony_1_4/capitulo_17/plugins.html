@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>17.4. Plugins (Symfony 1.4, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_17/integrando_componentes_de_otros_frameworks.html" />
+                    <link rel="next" href="../capitulo_17/resumen.html" />
+                <link rel="start" href="/libro/symfony_1_4/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="17.4. Plugins (Symfony 1.4, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_4"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_4/" itemprop="url">
+                    <span itemprop="title">Symfony 1.4, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_4/capitulo_17.html" itemprop="url">
+                    <span itemprop="title">Capítulo 17. Personalizar Symfony</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>17.4. Plugins</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="plugins" class="title">
+        <span>17.4.</span> Plugins
+    </h1>
+
+    
+
+<p>En ocasiones, es necesario reutilizar una porción de código desarrollada para alguna aplicación Symfony. Si se puede encapsular ese código en una clase, tan sólo es necesario guardar la clase en algún directorio <code>lib/</code> para que otras aplicaciones puedan encontrarla. Sin embargo, si el código se encuentra desperdigado en varios archivos, como por ejemplo un tema para el generador de administraciones o una serie de archivos JavaScript y <em>helpers</em> que permiten utilizar fácilmente un efecto visual complejo, es muy complicado copiar todo este código en una clase.</p>
+
+<p>Los plugins permiten agrupar todo el código diseminado por diferentes archivos y reutilizar este código en otros proyectos. Los plugins permiten encapsular clases, filtros, <em>event listeners</em>, <em>helpers</em>, archivos de configuración, tareas, módulos, esquemas y extensiones para el modelo, <em>fixtures</em>, archivos estáticos, etc. Los plugins son fáciles de instalar, de actualizar y de desinstalar. Se pueden distribuir en forma de archivo comprimido <code>.tgz</code>, un paquete PEAR o directamente desde el repositorio de código. La ventaja de los paquetes PEAR es que pueden controlar las dependencias, lo que simplifica su actualización. La forma en la que Symfony carga los plugins permite que los proyectos puedan utilizarlos como si fueran parte del propio framework.</p>
+
+<p>Básicamente, un plugin es una extensión encapsulada para un proyecto Symfony. Los plugins permiten no solamente reutilizar código propio, sino que permiten aprovechar los desarrollos realizados por otros programadores y permiten añadir al núcleo de Symfony extensiones realizadas por otros desarrolladores.</p>
+
+<h3 id="plugins_disponibles_para_symfony">17.4.1. Plugins disponibles para Symfony</h3>
+
+<p>El sitio web del proyecto Symfony dispone de una página dedicada a los plugins de Symfony. La página se encuentra dentro del wiki de Symfony, en la dirección: http://www.symfony-project.org/plugins/</p>
+
+<p>Cada plugin que se muestra en ese listado, cuenta con su propia página con instrucciones para su instalación y toda la documentación necesaria.</p>
+
+<p>Algunos plugins están desarrollados por voluntarios de la comunidad Symfony y otros han sido desarrollados por los mismos creadores de Symfony. Entre estos últimos se encuentran los siguientes:</p>
+
+<ul>
+<li><code>sfFeed2Plugin</code>: automatiza la manipulación de los canales RSS y Atom.</li>
+<li><code>sfThumbnailPlugin</code>: crea imágenes en miniatura, por ejemplo para las imágenes subidas por los usuarios.</li>
+<li><code>sfMediaLibraryPlugin</code>: permite gestionar la subida de archivos multimedia, incluyendo una extensión para los editores avanzados de texto que permite incluir las imágenes denro de los textos creados.</li>
+<li><code>sfShoppingCartPlugin</code>: permite gestionar un carrito de la compra.</li>
+<li><code>sfPagerNavigationPlugin</code>: dispone de controles para paginar elementos  de forma clásica y mediante Ajax, basados en el objeto <code>sfPager</code>.</li>
+<li><code>sfGuardPlugin</code>: permite incluir autenticación, autorización y otras opciones de gestión de usuarios más avanzadas que las que proporciona por defecto Symfony.</li>
+<li><code>sfPrototypePlugin</code>: permite incluir los archivos de prototype y script.aculo.us como librerías de JavaScript independientes.</li>
+<li><code>sfSuperCachePlugin</code>: crea versiones cacheadas de las páginas web en el directorio de la cache bajo el directorio web raíz del proyecto, de forma que el servidor web pueda servirlas lo más rápidamente posible.</li>
+<li><code>sfOptimizerPlugin</code>: optimiza el código fuente de la aplicación para que se ejecute más rápidamente en el entorno de producción (el próximo capítulo muestra los detalles).</li>
+<li><code>sfErrorLoggerPlugin</code>: guarda un registro de todos los errores de tipo <code>404</code> y <code>500</code> en una base de datos e incluye un módulo de administración para gestionar estos errores.</li>
+<li><code>sfSslRequirementPlugin</code>: proporciona soporte para la encriptación SSL en las acciones.</li>
+</ul>
+
+<p>El wiki también contiene otros plugins utilizados para extender los objetos Propel, que también se suelen llamar behaviors. Entre otros, están disponibles los siguientes:</p>
+
+<ul>
+<li><code>sfPropelParanoidBehaviorPlugin</code>: deshabilita el borrado de los objetos y lo reemplaza por la actualización de una columna llamada <code>deleted_at</code>.</li>
+<li><code>sfPropelOptimisticLockBehaviorPlugin</code>: implementa la estrategia <em>optimistic locking</em> para los objetos Propel.</li>
+</ul>
+
+<p>Se recomienda visitar de forma habitual el wiki de Symfony, ya que se añaden plugins constantemente y normalmente proporcionan utilidades muy empleadas en el desarrollo de aplicaciones web.</p>
+
+<p>Además del wiki de Symfony, también se pueden distribuir los plugins en forma de archivo para bajar, se puede crear un canal PEAR o se pueden almacenar en un repositorio público.</p>
+
+<h3 id="instalando_un_plugin">17.4.2. Instalando un plugin</h3>
+
+<p>El proceso de instalación de los plugins varía en función del método utilizado para distribuirlo. Siempre es recomendable leer el archivo <code>README</code> incluido en el plugin o las instrucciones de instalación disponibles en la página de descarga del plugin.</p>
+
+<p>Los plugins se instalan en cada proyecto. Todos los métodos descritos en las siguientes secciones resultan en la copia de los archivos de cada plugin en el directorio <code>miproyecto/plugins/[NOMBRE PLUGIN]/</code>.</p>
+
+<h4 id="plugins_pear">17.4.2.1. Plugins PEAR</h4>
+
+<p>Los plugins listados en el wiki de Symfony se distribuyen en forma de paquetes PEAR asociados con una página del wiki y disponiles en el canal PEAR oficial de los plugins de Symfony: <code>plugins.symfony-project.org</code>. Para instalar un plugin de este tipo, se utiliza la tarea <code>plugin:install</code> indicando el nombre del plugin, tal y como muestra el listado 17-10.</p>
+
+<p><strong>Listado 17-10 - Instalando un plugin del wiki de Symfony a través del canal PEAR oficial de los plugins de Symfony</strong></p>
+
+<div class="code cli">
+<pre class="cli">&gt; cd miproyecto
+&gt; php symfony plugin:install nombrePlugin</pre>
+</div>
+
+<p>También es posible descargar los archivos del plugin e instalarlo desde un directorio del sistema. En este caso, se utiliza la ruta absoluta hasta el archivo del paquete descargado, como se muestra en el listado 17-11.</p>
+
+<p><strong>Listado 17-11 - Instalando un plugin mediante un paquete PEAR descargado</strong></p>
+
+<div class="code cli">
+<pre class="cli">&gt; cd miproyecto
+&gt; php symfony plugin:install /ruta/hasta/el/archivo/descargado/nombrePlugin.tgz</pre>
+</div>
+
+<p>Algunos plugins están alojados en canales PEAR externos. En este caso, se pueden instalar mediante la tarea <code>plugin:install</code> después de registar el canal PEAR e indicando el nombre del canal, como se muestra en el listado 17-12.</p>
+
+<p><strong>Listado 17-12 - Instalando un plugin desde un canal PEAR externo</strong></p>
+
+<div class="code cli">
+<pre class="cli">&gt; cd miproyecto
+&gt; php symfony plugin:add-channel canal.symfony.pear.ejemplo.com
+&gt; php symfony plugin:install --channel=canal.symfony.pear.ejemplo.com nombrePlugin</pre>
+</div>
+
+<p>Estas tres formas de instalar plugins utilizan paquetes PEAR, por lo que se utiliza el término <em>"Plugins PEAR"</em> para referirse de forma indistinta a los plugins del canal PEAR oficial, los de canales PEAR externos y los que se descargan en forma de paquete PEAR.</p>
+
+<p>La tarea <code>plugin:install</code> dispone de varias opciones, tal y como se muestra en el listado 17-13.</p>
+
+<p><strong>Listado 17-13 - Utilizando opciones al instalar un plugin</strong></p>
+
+<div class="code cli">
+<pre class="cli">&gt; php symfony plugin:install --stability=beta nombrePlugin
+&gt; php symfony plugin:install --release=1.0.3 nombrePlugin
+&gt; php symfony plugin:install --install-deps nombrePlugin</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Como sucede con todas las tareas de Symfony, puedes obtener ayuda sobre las opciones y argumentos de <code>plugin:install</code> ejecutando el comando <code>php symfony help plugin:install</code></p></div>
+
+<h4 id="plugins_de_archivo">17.4.2.2. Plugins de archivo</h4>
+
+<p>Algunos plugins se distribuyen en forma de un archivo o un conjunto de archivos. Para instalarlos, simplemente se descomprimen los archivos en el directorio <code>plugins/</code> del proyecto. Si el plugin contiene un subdirectorio llamado <code>web/</code>, se copia o se realiza un enlace simbólico a este directorio desde el directorio <code>web/</code> del proyecto, como se muestra en el listado 17-14. Por último, siempre se debe borrar la cache después de instalar el plugin.</p>
+
+<p><strong>Listado 17-14 - Instalando un plugin desde un archivo</strong></p>
+
+<div class="code cli">
+<pre class="cli">&gt; cd plugins
+&gt; tar -zxpf miPlugin.tgz
+&gt; cd ..
+&gt; ln -sf plugins/miPlugin/web web/miPlugin
+&gt; php symfony cc</pre>
+</div>
+
+<h4 id="instalando_plugins_desde_un_repositorio_de_codigo">17.4.2.3. Instalando plugins desde un repositorio de código</h4>
+
+<p>En ocasiones, los plugins disponen de su propio repositorio de código para el versionado de su código fuente. Estos plugins se pueden instalar simplemente descargando el código desde el repositorio hasta el directorio <code>plugins/</code>, pero este método puede ser problemático si el propio proyecto también utiliza el versionado de su código fuente.</p>
+
+<p>Un método alternativo consiste en declarar el plugin como una dependencia externa, de forma que cada vez que se actualice el código fuente del proyecto, también se actualice el código fuente del plugin. Los repositorios de tipo Subversion, guardan las dependencias externas en la propiedad <code>svn:externals</code>. Como se muestra en el listado 17-15, se puede añadir un plugin simplemente editando esta propiedad y actualizando posteriormente el código fuente del proyecto.</p>
+
+<p><strong>Listado 17-15 - Instalando un plugin desde un repositorio de código</strong></p>
+
+<div class="code cli">
+<pre class="cli">&gt; cd miproyecto
+&gt; svn propedit svn:externals plugins
+  nombrePlugin   http://svn.ejemplo.com/nombrePlugin/trunk
+&gt; svn up
+&gt; php symfony cc</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Si el plugin contiene un directorio llamado <code>web/</code>, se debe crear un enlace simbólico de la misma forma que la explicada para los plugins de archivos.</p></div>
+
+<h4 id="activando_el_modulo_de_un_plugin">17.4.2.4. Activando el módulo de un plugin</h4>
+
+<p>Algunos plugins contienen módulos enteros. La única diferencia entre los módulos de plugins y los módulos normales es que los de los plugins no se guardan en el directorio <code>miproyecto/apps/frontend/modules/</code> (para facilitar su actualización). Además, se deben activar en el archivo <code>settings.yml</code>, como se muestra en el listado 17-16.</p>
+
+<p><strong>Listado 17-16 - Activando un módulo de plugin, en <code>frontend/config/settings.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co4">
+      .settings</span>:<span class="co3">
+        enabled_modules</span><span class="sy2">: </span> <span class="br0">&#91;</span>default, sfMiPluginModule<span class="br0">&#93;</span></pre>
+</div>
+
+<p>Este funcionamiento se ha establecido para evitar las situaciones en las que los módulos de un plugin se puedan habilitar de forma errónea para una aplicación que no los requiere, lo que podría provocar un agujero de seguridad. Si un plugin dispone de dos módulos llamados <code>frontend</code> y <code>backend</code>, se debería habilitar el módulo <code>frontend</code> solamente para la aplicación <code>frontend</code> y el módulo <code>backend</code> en la aplicación <code>backend</code>. Este es el motivo por el que los módulos de los plugins no se activan automáticamente.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> El módulo <code>default</code> es el único módulo activado por defecto. Realmente no es un módulo de plugin, ya que es del propio framework (se guarda en el directorio <code>sfConfig::get('sf_symfony_lib_dir')/controller/default/</code>). Este módulo se encarga de mostrar las páginas de bienvenida, las páginas de error 404 y las de los errores de seguridad por no haber proporcionado las credenciales adecuadas. Si no se quieren utilizar las páginas por defecto de Symfony, se puede eliminar este módulo de la opción <code>enabled_modules</code>.</p></div>
+
+<h4 id="listando_los_plugins_instalados">17.4.2.5. Listando los plugins instalados</h4>
+
+<p>Accediendo al directorio <code>plugins/</code> del proyecto, se pueden observar los plugins instalados, pero la tarea <code>plugin:list</code> proporciona más información: el número de versión y el nombre del canal para cada plugin instalado (ver el listado 17-17).</p>
+
+<p><strong>Listado 17-17 - Listando los plugins instalados</strong></p>
+
+<div class="code cli">
+<pre class="cli">&gt; cd miproyecto
+&gt; php symfony plugin:list
+&nbsp;
+Installed plugins:
+sfPrototypePlugin               1.0.0-stable # plugins.symfony-project.com (symfony)
+sfSuperCachePlugin              1.0.0-stable # plugins.symfony-project.com (symfony)
+sfThumbnail                     1.1.0-stable # plugins.symfony-project.com (symfony)</pre>
+</div>
+
+<h4 id="actualizando_y_desinstalando_plugins">17.4.2.6. Actualizando y desinstalando plugins</h4>
+
+<p>Los plugins PEAR se pueden desinstalar ejecutando la tarea <code>plugin:uninstall</code> desde el directorio raíz del proyecto, como muestra el listado 17-18. Si el plugin se instaló desde un canal PEAR diferente al canal oficial de Symfony, para desinstalar el plugin también se debe indicar el nombre del canal (se puede obtener el nombre del canal mediante la tarea <code>plugin:list</code>).</p>
+
+<p><strong>Listado 17-18 - Desinstalando un plugin</strong></p>
+
+<div class="code cli">
+<pre class="cli">&gt; cd miproyecto
+&gt; php symfony plugin:uninstall sfPrototypePlugin
+&gt; php symfony cc</pre>
+</div>
+
+<p>Para desinstalar un plugin de archivo o un plugin instalado desde un repositorio, se borran manualmente los archivos del plugin que se encuentran en los directorios <code>plugins/</code> y <code>web/</code> y se borra la cache.</p>
+
+<p>Para actualizar un plugin, se puede utilizar la tarea <code>plugin:upgrade</code> (para los plugins PEAR) o se puede ejecutar directamente <code>svn update</code> (si el plugin se ha instalado desde un repositorio de código). Los plugins de archivo no se pueden actualizar de una forma tan sencilla.</p>
+
+<h3 id="estructura_de_un_plugin">17.4.3. Estructura de un plugin</h3>
+
+<p>Los plugins se crean mediante el lenguaje PHP. Si se entiende la forma en la que se estructura una aplicación, es posible comprender la estructura de un plugin.</p>
+
+<h4 id="estructura_de_archivos_de_un_plugin">17.4.3.1. Estructura de archivos de un plugin</h4>
+
+<p>El directorio de un plugin se organiza de forma muy similar al directorio de un proyecto. Los archivos de un plugin se deben organizar de forma adecuada para que Symfony pueda cargarlos automáticamente cuando sea necesario. El listado 17-19 muestra la estructura de archivos de un plugin.</p>
+
+<p><strong>Listado 17-19 - Estructura de archivos de un plugin</strong></p>
+
+<div class="code code">
+<pre class="code">nombrePlugin/
+  config/
+    *schema.yml        // Esquema de datos
+    *schema.xml
+    config.php         // Configuración específica del plugin
+  data/
+    generator/
+      sfPropelAdmin
+        */             // Temas para el generador de administraciones
+          template/
+          skeleton/
+    fixtures/
+      *.yml            // Archivos de fixtures
+  lib/
+    *.php              // Clases
+    helper/
+      *.php            // Helpers
+    model/
+      *.php            // Clases del modelo
+    task/
+      *Task.class.php  // Tareas de la línea de comandos
+  modules/
+    */                 // Módulos
+      actions/
+        actions.class.php
+      config/
+        module.yml
+        view.yml
+        security.yml
+      templates/
+        *.php
+      validate/
+        *.yml
+  web/
+    *                  // Archivos estáticos</pre>
+</div>
+
+<h4 id="posibilidades_de_los_plugins">17.4.3.2. Posibilidades de los plugins</h4>
+
+<p>Los plugins pueden contener numerosos elementos. Su contenido se tiene en consideración durante la ejecución de la aplicación y cuando se ejecutan tareas mediante la línea de comandos. Sin embargo, para que los plugins funcionen correctamente, es necesario seguir una serie de convenciones:</p>
+
+<ul>
+<li>Los esquemas de bases de datos los detectan las tareas <code>propel-</code>. Cuando se ejecuta la tarea <code>propel-build-model</code> para el proyecto, se reconstruye el modelo del proyecto y los modelos de todos los plugins que dispongan de un modelo. Los esquemas de los plugins siempre deben contener un atributo <code>package</code> que siga la notación <code>plugins.nombrePlugin</code>. <code>lib.model</code>, como se muestra en el listado 17-20.</li>
+</ul>
+
+<p><strong>Listado 17-20 - Ejemplo de declaración de un esquema de un plugin, en <code>miPlugin/config/schema.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">propel</span>:<span class="co3">
+  _attributes</span><span class="sy2">: </span>     <span class="br0">&#123;</span> package<span class="sy2">: </span>plugins.miPlugin.lib.model <span class="br0">&#125;</span><span class="co4">
+  mi_plugin_foobar</span>:<span class="co3">
+    _attributes</span><span class="sy2">: </span>   <span class="br0">&#123;</span> phpName<span class="sy2">: </span>miPluginFoobar <span class="br0">&#125;</span><span class="co4">
+      id</span>:<span class="co3">
+      name</span><span class="sy2">: </span>        <span class="br0">&#123;</span> type<span class="sy2">: </span>varchar, size<span class="sy2">: </span><span class="nu0">255</span>, index<span class="sy2">: </span>unique <span class="br0">&#125;</span>
+      <span class="sy1">...</span></pre>
+</div>
+
+<ul>
+<li>La configuración del plugin se incluye en el script de inicio del plugin (<code>config.php</code>). Este archivo se ejecuta después de las configuraciones de la aplicación y del proyecto, por lo que Symfony ya se ha iniciado cuando se procesa esta configuración. Se puede utilizar este archivo por ejemplo para extender las clases existentes con <em>event listeners</em> y comportamientos.</li>
+<li>Los archivos de datos o <em>fixtures</em> del directorio <code>data/fixtures/</code> del plugin se procesan mediante la tarea <code>propel:data-load</code>.</li>
+<li>Las clases propias se cargan automáticamente de la misma forma que las clases que se guardan en las carpetas <code>lib/</code> del proyecto.</li>
+<li>Cuando se realiza una llamada a <code>use_helper()</code> en las plantillas, se cargan automáticamente los <em>helpers</em> de los plugins. Estos <em>helpers</em> deben encontrarse en un subdirectorio llamado <code>helper/</code> dentro de cualquier directorio <code>lib/</code> del plugin.</li>
+<li>Las clases del modelo en el directorio <code>miplugin/lib/model/</code> se utilizan para especializar las clases del modelo generadas por Propel (en <code>miplugin/lib/model/om/</code> y <code>miplugin/lib/model/map/</code>). Todas estas clases también se cargan automáticamente. Las clases del modelo generado para un plugin no se pueden redefinir en los directorios del proyecto.</li>
+<li>Las tareas del plugin están disponibles en la línea de comandos de Symfony tan pronto como se instala el plugin. Los plugins pueden crear nuevas tareas o redefinir el comportamiento de las tareas existentes. Una buena práctica consiste en utilizar el nombre del plugin como <em>namespace</em> de sus tareas. Si se ejecuta el comando <code>php symfony</code> en la línea de comandos, se puede ver la lista completa de tareas disponibles, incluyendo las tareas proporcionadas por todos los plugins instalados.</li>
+<li>Los módulos proporcionan nuevas acciones, siempre que se declaren en la opción <code>enabled_modules</code> de la aplicación.</li>
+<li>Los archivos estáticos (imágenes, scripts, hojas de estilos, etc.) se sirven como el resto de archivos estáticos del proyecto. Cuando se instala un plugin mediante la línea de comandos, Symfony crea un enlace simbólico al directorio <code>web/</code> del proyecto si el sistema operativo lo permite, o copia el contenido del directorio <code>web/</code> del módulo en el directorio <code>web/</code> del proyecto. Si el plugin se instala mediante un archivo o mediante un repositorio de código, se debe copiar manualmente el directorio <code>web/</code> del plugin (como debería indicar el archivo <code>README</code> incluido en el plugin).</li>
+</ul>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> <strong>Registrar rutas con un plugin</strong></p>
+
+<p>Los plugins pueden añadir nuevas rutas al sistema de enrutamiento, pero no es recomendable que utilicen su propio archivo de configuración <code>routing.yml</code>. El motivo es que el orden en el que se definen las reglas es muy importante y la configuración en cascada de Symfony mezclaría todas las rutas de los archivos YAML. Por lo tanto, los plugins que añaden rutas deben registrar un <em>event listener</em> para el evento <code>routing.load_configuration</code> y deben añadir las rutas directamente en el <em>listener</em>:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// en plugins/miPlugin/config/config.php</span>
+<span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">dispatcher</span><span class="sy0">-&gt;</span><span class="me1">connect</span><span class="br0">&#40;</span><span class="st_h">'routing.load_configuration'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'miPluginEnrutamiento'</span><span class="sy0">,</span> <span class="st_h">'listenerEventoCargaConfiguracionEnrutamiento'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// en plugins/miPlugin/lib/miPluginEnrutamiento.php</span>
+<span class="kw2">class</span> miPluginEnrutamiento
+<span class="br0">&#123;</span>
+  static <span class="kw2">public</span> <span class="kw2">function</span> listenerEventoCargaConfiguracionEnrutamiento<span class="br0">&#40;</span>sfEvent <span class="re0">$evento</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$enrutamiento</span> <span class="sy0">=</span> <span class="re0">$evento</span><span class="sy0">-&gt;</span><span class="me1">getSubject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="co1">// se añaden las reglas de enrutamiento del plugin antes que todas las demás reglas</span>
+    <span class="re0">$enrutamiento</span><span class="sy0">-&gt;</span><span class="me1">prependRoute</span><span class="br0">&#40;</span><span class="st_h">'mi_ruta'</span><span class="sy0">,</span> <span class="kw2">new</span> sfRoute<span class="br0">&#40;</span><span class="st_h">'/my_plugin/:action'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'module'</span> <span class="sy0">=&gt;</span> <span class="st_h">'miPluginInterfazAdministracion'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p></p></div>
+
+<h4 id="configuracion_manual_de_plugins">17.4.3.3. Configuración manual de plugins</h4>
+
+<p>Algunas tareas no las puede realizar automáticamente el comando <code>plugin:install</code>, por lo que se deben realizar manualmente durante la instalación del plugin:</p>
+
+<ul>
+<li>El código de los plugins puede hacer uso de una configuración propia (por ejemplo mediante <code>sfConfig::get('app_miplugin_opcion')</code>), pero no se pueden indicar los valores por defecto en un archivo de configuración <code>app.yml</code> dentro del directorio <code>config/</code> del plugin. Para trabajar con valores por defecto, se utilizan los segundos argumentos opcionales en las llamadas a los métodos <code>sfConfig::get()</code>. Las opciones de configuración se pueden redefinir en el nivel de la aplicación (el listado 17-26 muestra un ejemplo).</li>
+<li>Las reglas de enrutamiento propias se deben añadir manualmente en el archivo <code>routing.yml</code>.</li>
+<li>Los filtros propios también se deben añadir manualmente al archivo <code>filters.yml</code> de la aplicación.</li>
+<li>Las factorías propias se deben añadir manualmente al archivo <code>factories.yml</code> de la aplicación.</li>
+</ul>
+
+<p>En general, todas las configuraciones que deben realizarse sobre los archivos de configuración de las aplicaciones, se tienen que añadir manualmente. Los plugins que requieran esta instalación manual, deberían indicarlo en el archivo <code>README</code> incluido.</p>
+
+<h4 id="personalizando_un_plugin_para_una_aplicacion">17.4.3.4. Personalizando un plugin para una aplicación</h4>
+
+<p>Cuando se necesita personalizar el funcionamiento de un plugin, nunca se debería modificar el código del directorio <code>plugins/</code>. Si se realizan cambios en ese directorio, se perderían todos los cambios al actualizar el plugin. Los plugins disponen de opciones y la posibilidad de redefinir su funcionamiento, de forma que se puedan personalizar sus características.</p>
+
+<p>Los plugins que están bien diseñados disponen de opciones que se pueden modificar en el archivo <code>app.yml</code> de la aplicación, tal y como se muestra en el listado 17-21.</p>
+
+<p><strong>Listado 17-21 - Personalizando un plugin que utiliza la configuración de la aplicación</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// Ejemplo de código del plugin</span>
+<span class="re0">$foo</span> <span class="sy0">=</span> sfConfig<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'app_mi_plugin_opcion'</span><span class="sy0">,</span> <span class="st_h">'valor'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># Modificar el valor por defecto de 'opcion' en el archivo</span>
+<span class="co1"># app.yml de la aplicación</span><span class="co4">
+all</span>:<span class="co4">
+  mi_plugin</span>:<span class="co3">
+    opcion</span><span class="sy2">: </span>      otrovalor</pre>
+</div>
+
+<p>Las opciones del módulo y sus valores por defecto normalmente se describen en el archivo <code>README</code> del plugin.</p>
+
+<p>Se pueden modificar los contenidos por defecto de un módulo del plugin creando un módulo con el mismo nombre en la aplicación. Realmente no se redefine el comportamiento del módulo original, sino que se sustituye, ya que se utilizan los elementos del módulo de la aplicación y no los del plugin. Funciona correctamente si se crean plantillas y archivos de configuración con el mismo nombre que los del plugin.</p>
+
+<p>Por otra parte, si un plugin quiere ofrecer un módulo cuyo comportamiento se pueda redefinir, el archivo <code>actions.class.php</code> del módulo del plugin debe estar vacío y heredar de una clase que se cargue automáticamente, de forma que esta clase pueda ser heredada también por el <code>actions.class.php</code> del módulo de la aplicación. El listado 17-22 muestra un ejemplo.</p>
+
+<p><strong>Listado 17-22 - Personalizando la acción de un plugin</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// En miPlugin/modules/mimodulo/lib/miPluginmimoduloActions.class.php</span>
+<span class="kw2">class</span> miPluginmimoduloActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeIndex<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Instrucciones y código</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">// En miPlugin/modules/mimodulo/actions/actions.class.php</span>
+&nbsp;
+<span class="kw1">require_once</span> <span class="kw3">dirname</span><span class="br0">&#40;</span><span class="kw4">__FILE__</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/../lib/miPluginmimoduloActions.class.php'</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> mimoduloActions <span class="kw2">extends</span> miPluginmimoduloActions
+<span class="br0">&#123;</span>
+  <span class="co1">// Vacío</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">// En frontend/modules/mimodulo/actions/actions.class.php</span>
+<span class="kw2">class</span> mimoduloActions <span class="kw2">extends</span> miPluginmimoduloActions
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeIndex<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Aquí se redefine el código del plugin</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<div class="admonition sidebar"><p><strong class="title">Personalizando el esquema de datos del plugin</strong> A partir de Symfony 1.1, cuando se construyen las clases del modelo, Symfony también busca los posibles archivos YAML utilizados para personalizar cada esquema de datos. La búsqueda se realiza incluso para los plugins, siguiendo la nomenclatura que se muestra a continuación:</p>
+
+<div class="table" id="table_17_2">
+
+    <table>
+<thead>
+<tr>
+  <th>Nombre original del esquema</th>
+  <th>Nombre del esquema personalizado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>config/schema.yml</code></td>
+  <td><code>schema.custom.yml</code></td>
+</tr>
+<tr>
+  <td><code>config/loquesea_schema.yml</code></td>
+  <td><code>loquesea_schema.custom.yml</code></td>
+</tr>
+<tr>
+  <td><code>plugins/miPlugin/config/schema.yml</code></td>
+  <td><code>miPlugin_schema.custom.yml</code></td>
+</tr>
+<tr>
+  <td><code>plugins/miPlugin/config/loquesea_schema.yml</code></td>
+  <td><code>miPlugin_loquesea_schema.custom.yml</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Los esquemas personalizados se buscan en los directorios <code>config/</code> de la aplicación y de los plugins, por lo que un plugin puede redefinir el esquema de otros plugins y puede haber varias modificaciones para cada esquema de datos.</p>
+
+<p>A continuación, Symfony fusiona los dos esquemas en base al valor <code>phpName</code> de cada tabla. El proceso de fusión de esquemas permite añadir o modificar tablas, columnas y atributos de columnas. El siguiente listado muestra por ejemplo cómo un esquema de datos personalizado añade columnas a una tabla definida en el esquema de datos de un plugin.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># Esquema original, en plugins/miPlugin/config/schema.yml</span><span class="co4">
+propel</span>:<span class="co4">
+  articulo</span>:<span class="co3">
+    _attributes</span><span class="sy2">: </span>   <span class="br0">&#123;</span> phpName<span class="sy2">: </span>Articulo <span class="br0">&#125;</span><span class="co3">
+    titulo</span><span class="sy2">: </span>        varchar<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span><span class="co3">
+    usuario_id</span><span class="sy2">: </span>    <span class="br0">&#123;</span> type<span class="sy2">: </span>integer <span class="br0">&#125;</span><span class="co4">
+    created_at</span><span class="sy2">:
+</span>
+<span class="co1"># Esquema personalizado, en miPlugin_schema.custom.yml</span><span class="co4">
+propel</span>:<span class="co4">
+  articulo</span>:<span class="co3">
+    _attributes</span><span class="sy2">: </span>   <span class="br0">&#123;</span> phpName<span class="sy2">: </span>Articulo, package<span class="sy2">: </span>valor1.valor2.lib.model <span class="br0">&#125;</span><span class="co3">
+    titulo_corto</span><span class="sy2">: </span>  varchar<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span>
+&nbsp;
+<span class="co1"># Esquema resultante de la fusión realizada por Symfony</span>
+<span class="co1"># Este esquema es el que se utiliza para generar el modelo </span><span class="co4">
+propel</span>:<span class="co4">
+  articulo</span>:<span class="co3">
+    _attributes</span><span class="sy2">: </span>   <span class="br0">&#123;</span> phpName<span class="sy2">: </span>Articulo, package<span class="sy2">: </span>valor1.valor2.lib.model <span class="br0">&#125;</span><span class="co3">
+    titulo</span><span class="sy2">: </span>        varchar<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span><span class="co3">
+    usuario_id</span><span class="sy2">: </span>    <span class="br0">&#123;</span> type<span class="sy2">: </span>integer <span class="br0">&#125;</span><span class="co4">
+    created_at</span>:<span class="co3">
+    titulo_corto</span><span class="sy2">: </span>  varchar<span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Como la fusión de los esquemas se realiza mediante el valor del atributo <code>phpName</code> de la tabla, es posible incluso modificar el nombre de la tabla de la base de datos que utiliza el plugin, siempre que se mantenga el mismo valor en el atributo <code>phpName</code> del esquema.</p></div>
+
+<h3 id="como_crear_un_plugin">17.4.4. Cómo crear un plugin</h3>
+
+<p>Solamente los plugins creados como paquetes PEAR se pueden instalar mediante la tarea <code>plugin:install</code>. Este tipo de plugins se pueden distribuir mediante el wiki de Symfony, mediante un canal PEAR o mediante la descarga de un archivo. Por tanto, si que quiere crear un plugin, es mejor publicarlo como paquete PEAR en vez de como archivo normal y corriente. Además, los plugins instalados mediante paquetes PEAR son más fáciles de actualizar, pueden declarar las dependencias que tienen y copian automáticamente los archivos estáticos en el directorio <code>web/</code>.</p>
+
+<h4 id="organizacion_de_archivos">17.4.4.1. Organización de archivos</h4>
+
+<p>Si se ha creado una nueva característica para Symfony, puede ser útil encapsularla en un plugin para poder reutilizarla en otros proyectos. El primer paso es el de organizar los archivos de forma lógica para que los mecanismos de carga automática de Symfony puedan cargarlos cuando sea necesario. Para ello, se debe seguir la estructura de archivos mostrada en el listado 17-19. El listado 17-23 muestra un ejemplo de estructura de archivos para un plugin llamado <code>sfSamplePlugin</code>.</p>
+
+<p><strong>Listado 17-23 - Ejemplo de los archivos que se encapsulan en un plugin</strong></p>
+
+<div class="code code">
+<pre class="code">sfSamplePlugin/
+  README
+  LICENSE
+  config/
+    schema.yml
+  data/
+    fixtures/
+      fixtures.yml
+  lib/
+    model/
+      sfSampleFooBar.php
+      sfSampleFooBarPeer.php
+    tasks/
+      sfSampleTask.class.php
+    validator/
+      sfSampleValidator.class.php
+  modules/
+    sfSampleModule/
+      actions/
+        actions.class.php
+      config/
+        security.yml
+      lib/
+        BasesfSampleModuleActions.class.php
+      templates/
+        indexSuccess.php
+  web/
+    css/
+      sfSampleStyle.css
+    images/
+      sfSampleImage.png</pre>
+</div>
+
+<p>Para la creación de los plugins, no es importante la localización del directorio del plugin (<code>sfSamplePlugin/</code> en el caso del listado 17-23), ya que puede encontrarse en cualquier sitio del sistema de archivos.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Se aconseja ver la estructura de archivos de los plugins existentes antes de crear plugins propios, de forma que se puedan utilizar las mismas convenciones para el nombrado de archivos y la misma estructura de archivos.</p></div>
+
+<h4 id="creando_el_archivo_packagexml">17.4.4.2. Creando el archivo package.xml</h4>
+
+<p>El siguiente paso en la creación del plugin es añadir un archivo llamado <code>package.xml</code> en el directorio raíz del plugin. El archivo <code>package.xml</code> sigue la misma sintaxis de PEAR. El listado 17-24 muestra el aspecto típico de un archivo <code>package.xml</code> de un plugin.</p>
+
+<p><strong>Listado 17-24 - Ejemplo de archivo <code>package.xml</code> de un plugin de Symfony</strong></p>
+
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;?xml</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span> <span class="re0">encoding</span>=<span class="st0">&quot;UTF-8&quot;</span><span class="re2">?&gt;</span></span>
+<span class="sc3"><span class="re1">&lt;package</span> <span class="re0">packagerversion</span>=<span class="st0">&quot;1.4.6&quot;</span> <span class="re0">version</span>=<span class="st0">&quot;2.0&quot;</span></span>
+<span class="sc3">    <span class="re0">xmlns</span>=<span class="st0">&quot;http://pear.php.net/dtd/package-2.0&quot;</span></span>
+<span class="sc3">    <span class="re0">xmlns:tasks</span>=<span class="st0">&quot;http://pear.php.net/dtd/tasks-1.0&quot;</span></span>
+<span class="sc3">    <span class="re0">xmlns:xsi</span>=<span class="st0">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="sc3">    <span class="re0">xsi:schemaLocation</span>=<span class="st0">&quot;http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd&quot;</span><span class="re2">&gt;</span></span>
+  <span class="sc3"><span class="re1">&lt;name<span class="re2">&gt;</span></span></span>sfSamplePlugin<span class="sc3"><span class="re1">&lt;/name<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;channel<span class="re2">&gt;</span></span></span>plugins.symfony-project.org<span class="sc3"><span class="re1">&lt;/channel<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;summary<span class="re2">&gt;</span></span></span>symfony sample plugin<span class="sc3"><span class="re1">&lt;/summary<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;description<span class="re2">&gt;</span></span></span>Just a sample plugin to illustrate PEAR packaging<span class="sc3"><span class="re1">&lt;/description<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;lead<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;name<span class="re2">&gt;</span></span></span>Fabien POTENCIER<span class="sc3"><span class="re1">&lt;/name<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;user<span class="re2">&gt;</span></span></span>fabpot<span class="sc3"><span class="re1">&lt;/user<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;email<span class="re2">&gt;</span></span></span><a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="cdabacafa4a8a3e3bda2b9a8a3aea4a8bf8dbeb4a0aba2a3b4e0bdbfa2a7a8aeb9e3aea2a0">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script><span class="sc3"><span class="re1">&lt;/email<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;active<span class="re2">&gt;</span></span></span>yes<span class="sc3"><span class="re1">&lt;/active<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;/lead<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;date<span class="re2">&gt;</span></span></span>2006-01-18<span class="sc3"><span class="re1">&lt;/date<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;time<span class="re2">&gt;</span></span></span>15:54:35<span class="sc3"><span class="re1">&lt;/time<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;version<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;release<span class="re2">&gt;</span></span></span>1.0.0<span class="sc3"><span class="re1">&lt;/release<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;api<span class="re2">&gt;</span></span></span>1.0.0<span class="sc3"><span class="re1">&lt;/api<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;/version<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;stability<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;release<span class="re2">&gt;</span></span></span>stable<span class="sc3"><span class="re1">&lt;/release<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;api<span class="re2">&gt;</span></span></span>stable<span class="sc3"><span class="re1">&lt;/api<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;/stability<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;license</span> <span class="re0">uri</span>=<span class="st0">&quot;http://www.symfony-project.org/license&quot;</span><span class="re2">&gt;</span></span>MIT license<span class="sc3"><span class="re1">&lt;/license<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;notes<span class="re2">&gt;</span></span></span>-<span class="sc3"><span class="re1">&lt;/notes<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;contents<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;dir</span> <span class="re0">name</span>=<span class="st0">&quot;/&quot;</span><span class="re2">&gt;</span></span>
+      <span class="sc3"><span class="re1">&lt;file</span> <span class="re0">role</span>=<span class="st0">&quot;data&quot;</span> <span class="re0">name</span>=<span class="st0">&quot;README&quot;</span> <span class="re2">/&gt;</span></span>
+      <span class="sc3"><span class="re1">&lt;file</span> <span class="re0">role</span>=<span class="st0">&quot;data&quot;</span> <span class="re0">name</span>=<span class="st0">&quot;LICENSE&quot;</span> <span class="re2">/&gt;</span></span>
+      <span class="sc3"><span class="re1">&lt;dir</span> <span class="re0">name</span>=<span class="st0">&quot;config&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc-1">&lt;!-- model --&gt;</span>
+        <span class="sc3"><span class="re1">&lt;file</span> <span class="re0">role</span>=<span class="st0">&quot;data&quot;</span> <span class="re0">name</span>=<span class="st0">&quot;schema.yml&quot;</span> <span class="re2">/&gt;</span></span>
+      <span class="sc3"><span class="re1">&lt;/dir<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;dir</span> <span class="re0">name</span>=<span class="st0">&quot;data&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;dir</span> <span class="re0">name</span>=<span class="st0">&quot;fixtures&quot;</span><span class="re2">&gt;</span></span>
+          <span class="sc-1">&lt;!-- fixtures --&gt;</span>
+          <span class="sc3"><span class="re1">&lt;file</span> <span class="re0">role</span>=<span class="st0">&quot;data&quot;</span> <span class="re0">name</span>=<span class="st0">&quot;fixtures.yml&quot;</span> <span class="re2">/&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;/dir<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;/dir<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;dir</span> <span class="re0">name</span>=<span class="st0">&quot;lib&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;dir</span> <span class="re0">name</span>=<span class="st0">&quot;model&quot;</span><span class="re2">&gt;</span></span>
+          <span class="sc-1">&lt;!-- model classes --&gt;</span>
+          <span class="sc3"><span class="re1">&lt;file</span> <span class="re0">role</span>=<span class="st0">&quot;data&quot;</span> <span class="re0">name</span>=<span class="st0">&quot;sfSampleFooBar.php&quot;</span> <span class="re2">/&gt;</span></span>
+          <span class="sc3"><span class="re1">&lt;file</span> <span class="re0">role</span>=<span class="st0">&quot;data&quot;</span> <span class="re0">name</span>=<span class="st0">&quot;sfSampleFooBarPeer.php&quot;</span> <span class="re2">/&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;/dir<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;dir</span> <span class="re0">name</span>=<span class="st0">&quot;tasks&quot;</span><span class="re2">&gt;</span></span>
+          <span class="sc-1">&lt;!-- tasks --&gt;</span>
+          <span class="sc3"><span class="re1">&lt;file</span> <span class="re0">role</span>=<span class="st0">&quot;data&quot;</span> <span class="re0">name</span>=<span class="st0">&quot;sfSampleTask.class.php&quot;</span> <span class="re2">/&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;/dir<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;dir</span> <span class="re0">name</span>=<span class="st0">&quot;validator&quot;</span><span class="re2">&gt;</span></span>
+          <span class="sc-1">&lt;!-- validators --&gt;</span>
+          <span class="sc3"><span class="re1">&lt;file</span> <span class="re0">role</span>=<span class="st0">&quot;data&quot;</span> <span class="re0">name</span>=<span class="st0">&quot;sfSampleValidator.class.php&quot;</span> <span class="re2">/&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;/dir<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;/dir<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;dir</span> <span class="re0">name</span>=<span class="st0">&quot;modules&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;dir</span> <span class="re0">name</span>=<span class="st0">&quot;sfSampleModule&quot;</span><span class="re2">&gt;</span></span>
+          <span class="sc3"><span class="re1">&lt;file</span> <span class="re0">role</span>=<span class="st0">&quot;data&quot;</span> <span class="re0">name</span>=<span class="st0">&quot;actions/actions.class.php&quot;</span> <span class="re2">/&gt;</span></span>
+          <span class="sc3"><span class="re1">&lt;file</span> <span class="re0">role</span>=<span class="st0">&quot;data&quot;</span> <span class="re0">name</span>=<span class="st0">&quot;config/security.yml&quot;</span> <span class="re2">/&gt;</span></span>
+          <span class="sc3"><span class="re1">&lt;file</span> <span class="re0">role</span>=<span class="st0">&quot;data&quot;</span> <span class="re0">name</span>=<span class="st0">&quot;lib/BasesfSampleModuleActions.class.php&quot;</span> <span class="re2">/&gt;</span></span>
+          <span class="sc3"><span class="re1">&lt;file</span> <span class="re0">role</span>=<span class="st0">&quot;data&quot;</span> <span class="re0">name</span>=<span class="st0">&quot;templates/indexSuccess.php&quot;</span> <span class="re2">/&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;/dir<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;/dir<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;dir</span> <span class="re0">name</span>=<span class="st0">&quot;web&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;dir</span> <span class="re0">name</span>=<span class="st0">&quot;css&quot;</span><span class="re2">&gt;</span></span>
+          <span class="sc-1">&lt;!-- stylesheets --&gt;</span>
+          <span class="sc3"><span class="re1">&lt;file</span> <span class="re0">role</span>=<span class="st0">&quot;data&quot;</span> <span class="re0">name</span>=<span class="st0">&quot;sfSampleStyle.css&quot;</span> <span class="re2">/&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;/dir<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;dir</span> <span class="re0">name</span>=<span class="st0">&quot;images&quot;</span><span class="re2">&gt;</span></span>
+          <span class="sc-1">&lt;!-- images --&gt;</span>
+          <span class="sc3"><span class="re1">&lt;file</span> <span class="re0">role</span>=<span class="st0">&quot;data&quot;</span> <span class="re0">name</span>=<span class="st0">&quot;sfSampleImage.png&quot;</span> <span class="re2">/&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;/dir<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;/dir<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/dir<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;/contents<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;dependencies<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;required<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;php<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;min<span class="re2">&gt;</span></span></span>5.1.0<span class="sc3"><span class="re1">&lt;/min<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;/php<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;pearinstaller<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;min<span class="re2">&gt;</span></span></span>1.4.1<span class="sc3"><span class="re1">&lt;/min<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;/pearinstaller<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;package<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;name<span class="re2">&gt;</span></span></span>symfony<span class="sc3"><span class="re1">&lt;/name<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;channel<span class="re2">&gt;</span></span></span>pear.symfony-project.com<span class="sc3"><span class="re1">&lt;/channel<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;min<span class="re2">&gt;</span></span></span>1.1.0<span class="sc3"><span class="re1">&lt;/min<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;max<span class="re2">&gt;</span></span></span>1.2.0<span class="sc3"><span class="re1">&lt;/max<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;exclude<span class="re2">&gt;</span></span></span>1.2.0<span class="sc3"><span class="re1">&lt;/exclude<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;/package<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/required<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;/dependencies<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;phprelease</span> <span class="re2">/&gt;</span></span>
+  <span class="sc3"><span class="re1">&lt;changelog</span> <span class="re2">/&gt;</span></span>
+<span class="sc3"><span class="re1">&lt;/package<span class="re2">&gt;</span></span></span></pre>
+</div>
+
+<p>Las partes más interesates del archivo anterior son las etiquetas <code>&lt;contents&gt;</code> y <code>&lt;dependencies&gt;</code>, que se describen a continuación. Como el resto de etiquetas no son específicas de Symfony, se puede consultar la documentación de PEAR (http://pear.php.net/manual/en/) para obtener más información sobre el formato de <code>package.xml</code>.</p>
+
+<h4 id="contenidos">17.4.4.3. Contenidos</h4>
+
+<p>La etiqueta <code>&lt;contents&gt;</code> se utiliza para describir la estructura de archivos de los plugins. Mediante esta etiqueta se dice a PEAR los archivos que debe copiar y el lugar en el que los debe copiar. La estructura de archivos se define mediante etiquetas <code>&lt;dir&gt;</code> y <code>&lt;file&gt;</code>. Todas las etiquetas de tipo <code>&lt;file&gt;</code> deben contener un atributo <code>role="data"</code>. La sección <code>&lt;contents&gt;</code> del listado 17-24 describe la estructura de directorios exacta del listado 17-23.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> El uso de etiquetas <code>&lt;dir&gt;</code> no es obligatorio, ya que se pueden utilizar rutas relativas como valor de los atributos <code>name</code> de las etiquetas <code>&lt;file&gt;</code>. No obstante, se recomienda utilizarlas para que el archivo <code>package.xml</code> sea fácil de leer.</p></div>
+
+<h4 id="dependencias_de_los_plugins">17.4.4.4. Dependencias de los plugins</h4>
+
+<p>Los plugins están diseñados para funcionar con una serie de versiones de PHP, PEAR, Symfony, paquetes PEAR y otros plugins. La etiqueta <code>&lt;dependencies&gt;</code> declara todas estas dependencias y ayuda a PEAR a comprobar si se encuentran instalados todos los paquetes requeridos, lanzando una excepción si alguno no está disponible.</p>
+
+<p>Siempre se deberían declarar las dependencias de PHP, PEAR y Symfony; al menos se deberían declarar las correspondientes a la instalación propia del autor del plugin, como requerimiento mínimo de instalación. Si no se sabe qué requerimientos establecer, se pueden indicar como requisitos PHP 5.1, PEAR 1.4 y Symfony 1.1.</p>
+
+<p>También es recomendable añadir un número correspondiente a la versión más avanzada de Symfony para la que el plugin funciona correctamente. De esta forma, se producirá un error al intentar utilizar un plugin con una versión muy avanzada de Symfony. Así, el autor del plugin se ve obligado a asegurar que el plugin funciona con las nuevas versiones de Symfony antes de lanzar una nueva versión del plugin. Siempre es mejor que se muestre un mensaje de error y se obligue a actualizar el plugin, que no simplemente dejar que el plugin no funcione y no avise de ninguna manera.</p>
+
+<p>Si especificas los plugins como dependencias, los usuarios pueden instalar tu plugin y todas sus dependencias con un solo comando:</p>
+
+<div class="code cli">
+<pre class="cli">&gt; php symfony plugin:install --install-deps sfSamplePlugin</pre>
+</div>
+
+<h4 id="construyendo_el_plugin">17.4.4.5. Construyendo el plugin</h4>
+
+<p>PEAR dispone de un comando (<code>pear package</code>) que construye un archivo comprimido de tipo <code>.tgz</code> con los contenidos del paquete, siempre que se ejecute el comando desde un directorio que contiene un archivo <code>package.xml</code>, tal y como muestra el listado 17-25:</p>
+
+<p><strong>Listado 17-25 - Creando un paquete PEAR para el plugin</strong></p>
+
+<div class="code cli">
+<pre class="cli">&gt; cd sfSamplePlugin
+&gt; pear package
+&nbsp;
+Package sfSamplePlugin-1.0.0.tgz done</pre>
+</div>
+
+<p>Una vez construido el plugin, se puede comprobar que funciona correctamente instalandolo en el propio sistema, como se muestra en el listado 17-26.</p>
+
+<p><strong>Listado 17-26 - Instalando el plugin</strong></p>
+
+<div class="code cli">
+<pre class="cli">&gt; cp sfSamplePlugin-1.0.0.tgz /home/production/miproyecto/
+&gt; cd /home/production/miproyecto/
+&gt; php symfony plugin:install sfSamplePlugin-1.0.0.tgz</pre>
+</div>
+
+<p>Según la descripción de la etiqueta <code>&lt;contents&gt;</code>, los archivos del plugin se instalarán en diferentes directorios del proyecto. El listado 17-27 muestra donde acaban los archivos del plugin <code>sfSamplePlugin</code> después de su instalación.</p>
+
+<p><strong>Listado 17-27 - Los archivos del plugin se instalan en los directorios <code>plugins/</code> y <code>web/</code></strong></p>
+
+<div class="code code">
+<pre class="code">plugins/
+  sfSamplePlugin/
+    README
+    LICENSE
+    config/
+      schema.yml
+    data/
+      fixtures/
+        fixtures.yml
+    lib/
+      model/
+        sfSampleFooBar.php
+        sfSampleFooBarPeer.php
+      tasks/
+        sfSampleTask.class.php
+      validator/
+        sfSampleValidator.class.php
+    modules/
+      sfSampleModule/
+        actions/
+          actions.class.php
+        config/
+          security.yml
+        lib/
+          BasesfSampleModuleActions.class.php
+        templates/
+          indexSuccess.php
+web/
+  sfSamplePlugin/   ## Copia o enlace simbólico, dependiendo del sistema operativo
+    css/
+      sfSampleStyle.css
+    images/
+      sfSampleImage.png</pre>
+</div>
+
+<p>Posteriormente, se comprueba si el plugin funciona correctamente dentro de la aplicación. Si todo funciona bien, el plugin ya está listo para ser utilizado en otros proyectos y para compartirlo con el resto de la comunidad de Symfony.</p>
+
+<h4 id="distribuir_un_plugin_desde_el_sitio_web_del_proyecto_symfony">17.4.4.6. Distribuir un plugin desde el sitio web del proyecto Symfony</h4>
+
+<p>La mejor forma de publicitar un plugin es distribuirlo desde el sitio web <code>symfony-project.org</code>. Cualquier plugin desarrollado por cualquier programador se puede distribuir desde este sitio web, siempre que se sigan los siguientes pasos:</p>
+
+<ol>
+<li>El archivo <code>README</code> del plugin debe describir la instalación y uso del plugin y el archivo <code>LICENSE</code> debe indicar el tipo de licencia de uso del plugin. El formato de <code>README</code> debe seguir la sintaxis de <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a>.</li>
+<li>Entra en el sitio web oficial de Symfony, <a href="http://www.symfony-project.org/user/new">crea una cuenta de usuario</a> y después <a href="http://www.symfony-project.org/plugins/new">crea tu nuevo plugin</a>.</li>
+<li>Crea un paquete PEAR para el plugin mediante el comando <code>pear package</code> y comprueba que se ha creado correctamente. El nombre del paquete PEAR debe seguir la notación <code>sfSamplePlugin-1.0.0.tgz</code> (<code>1.0.0</code> es la versión del plugin).</li>
+<li>Sube el paquete PEAR (por ejemplo <code>sfSamplePlugin-1.0.0.tgz</code>) desde la sección de administración de la página de tu plugin en el sitio web oficial de Symfony.</li>
+<li>Ahora tu plugin ya debería aparecer en el listado oficial de plugins en http://www.symfony-project.org/plugins/</li>
+</ol>
+
+<p>Si se siguen todos estos pasos, cualquier usuario puede instalar el plugin ejecutando el siguiente comando en el directorio de un proyecto Symfony:</p>
+
+<div class="code cli">
+<pre class="cli">&gt; php symfony plugin:install sfSamplePlugin</pre>
+</div>
+
+<h4 id="convenciones_sobre_el_nombre_de_los_plugins">17.4.4.7. Convenciones sobre el nombre de los plugins</h4>
+
+<p>Para mantener el directorio <code>plugins/</code> limpio, todos los nombres de los plugins deberían seguir la notación <em>camelCase</em> y deben contener el sufijo <code>Plugin</code>, como por ejemplo <code>carritoCompraPlugin</code>, <code>feedPlugin</code>, etc. Antes de elegir el nombre de un plugin, se debe comprobar que no exista otro plugin con el mismo nombre.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Los plugins relacionados con Propel deberían contener la palabra <code>Propel</code> en su nombre. Un plugin que por ejemplo se encargue de la autenticación mediante el uso de objetos Propel, podría llamarse <code>sfPropelAuth</code>.</p></div>
+
+<p>Los plugins siempre deberían incluir un archivo <code>LICENSE</code> que desriba las condiciones de uso del plugin y la licencia seleccionada por su autor. También se debería incluir en el archivo <code>README</code> información sobre los cambios producidos en cada versión, lo que realiza el plugin, las instrucciones sobre su intalación y configuración, etc.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_17/integrando_componentes_de_otros_frameworks.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>17.3. Integrando componentes de otros frameworks</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_17/resumen.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>17.5. Resumen</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo (Doctrine)</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Emails</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_17.html">
+                    <span>Capítulo 17.</span> Personalizar Symfony
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_17/eventos.html">
+                    <span>17.1.</span> Eventos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_17/factorias.html">
+                    <span>17.2.</span> Factorías
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_17/integrando_componentes_de_otros_frameworks.html">
+                    <span>17.3.</span> Integrando componentes de otros frameworks
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_17/plugins.html">
+                    <span>17.4.</span> Plugins
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_17/resumen.html">
+                    <span>17.5.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

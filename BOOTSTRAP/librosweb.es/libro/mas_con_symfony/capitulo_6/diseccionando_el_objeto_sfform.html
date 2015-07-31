@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>6.6. Diseccionando el objeto sfForm (Más con Symfony)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_6/refactorizando.html" />
+                    <link rel="next" href="../capitulo_6/mostrando_los_formularios_embebidos.html" />
+                <link rel="start" href="/libro/mas_con_symfony/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="6.6. Diseccionando el objeto sfForm (Más con Symfony)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page mas_con_symfony"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/mas_con_symfony/" itemprop="url">
+                    <span itemprop="title">Más con Symfony</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/mas_con_symfony/capitulo_6.html" itemprop="url">
+                    <span itemprop="title">Capítulo 6. Formularios avanzados</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>6.6. Diseccionando el objeto sfForm</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="diseccionando_el_objeto_sfform" class="title">
+        <span>6.6.</span> Diseccionando el objeto sfForm
+    </h1>
+
+    
+
+<p>En esencia, un formulario web es una colección de campos que se muestran y se
+vuelven a enviar al servidor. Igualmente, el objeto <code>sfForm</code> es básicamente
+un array de <em>campos</em> de formulario. <code>sfForm</code> gestiona el proceso completo,
+pero los campos individuales son los responsables de mostrarse y validarse.</p>
+
+<p>En Symfony, cada <em>campo</em> de formulario se define mediante dos objetos diferentes:</p>
+
+<ul>
+<li>Un <em>widget</em> que muestra el código XHTML del campo de formulario</li>
+<li>Un <em>validador</em> que <em>limpia</em> y valida los datos enviados en ese campo</li>
+</ul>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> En Symfony, un <em>widget</em> se define como cualquier objeto cuya única tarea consiste
+en generar código XHTML. Aunque normalmente se utilizan en los formularios,
+se puede crear un objeto de tipo widget para generar cualquier tipo de código.</p></div>
+
+<h3 id="un_formulario_es_un_array">6.6.1. Un formulario es un array</h3>
+
+<p>Recuerda que un objeto <code>sfForm</code> es básicamente un array de <em>campos</em> de
+formulario. De forma más precisa, <code>sfForm</code> incluye un array de widgets y un
+array de validadores para todos los campos del formularios. Estos dos arrays,
+llamados <code>widgetSchema</code> y <code>validatorSchema</code> son propiedades de la clase <code>sfForm</code>.
+Para añadir un nuevo campo al formulario, simplemente se añade el widget del
+campo en el array <code>widgetSchema</code> y el validador del campo en el array
+<code>validatorSchema</code>. El siguiente código por ejemplo añade un campo <code>email</code> en
+el formulario:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> configure<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">widgetSchema</span><span class="br0">&#91;</span><span class="st_h">'email'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw2">new</span> sfWidgetFormInputText<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">validatorSchema</span><span class="br0">&#91;</span><span class="st_h">'email'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw2">new</span> sfValidatorEmail<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Los arrays <code>widgetSchema</code> y <code>validatorSchema</code> en realidad son clases llamadas
+<code>sfWidgetFormSchema</code> y <code>sfValidatorSchema</code> que implementan la interfaz
+<code>ArrayAccess</code>.</p></div>
+
+<h3 id="diseccionando_el_formulario_productform">6.6.2. Diseccionando el formulario <code>ProductForm</code></h3>
+
+<p>Como la clase <code>ProductForm</code> hereda de <code>sfForm</code>, también incluye todos sus
+widgets y validadores en los arrays <code>widgetSchema</code> y <code>validatorSchema</code>. A
+continuación se muestra cómo se organiza cada array en el objeto <code>ProductForm</code>
+final.</p>
+
+<div class="code php">
+<pre class="php">widgetSchema    <span class="sy0">=&gt;</span> <span class="kw3">array</span>
+<span class="br0">&#40;</span>
+  <span class="br0">&#91;</span>id<span class="br0">&#93;</span>          <span class="sy0">=&gt;</span> sfWidgetFormInputHidden<span class="sy0">,</span>
+  <span class="br0">&#91;</span>name<span class="br0">&#93;</span>        <span class="sy0">=&gt;</span> sfWidgetFormInputText<span class="sy0">,</span>
+  <span class="br0">&#91;</span>price<span class="br0">&#93;</span>       <span class="sy0">=&gt;</span> sfWidgetFormInputText<span class="sy0">,</span>
+  <span class="br0">&#91;</span>newPhotos<span class="br0">&#93;</span>   <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>           <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+      <span class="br0">&#91;</span>id<span class="br0">&#93;</span>          <span class="sy0">=&gt;</span> sfWidgetFormInputHidden<span class="sy0">,</span>
+      <span class="br0">&#91;</span>filename<span class="br0">&#93;</span>    <span class="sy0">=&gt;</span> sfWidgetFormInputFile<span class="sy0">,</span>
+      <span class="br0">&#91;</span>caption<span class="br0">&#93;</span>     <span class="sy0">=&gt;</span> sfWidgetFormInputText<span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span>           <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+      <span class="br0">&#91;</span>id<span class="br0">&#93;</span>          <span class="sy0">=&gt;</span> sfWidgetFormInputHidden<span class="sy0">,</span>
+      <span class="br0">&#91;</span>filename<span class="br0">&#93;</span>    <span class="sy0">=&gt;</span> sfWidgetFormInputFile<span class="sy0">,</span>
+      <span class="br0">&#91;</span>caption<span class="br0">&#93;</span>     <span class="sy0">=&gt;</span> sfWidgetFormInputText<span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+  <span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span>
+&nbsp;
+validatorSchema <span class="sy0">=&gt;</span> <span class="kw3">array</span>
+<span class="br0">&#40;</span>
+  <span class="br0">&#91;</span>id<span class="br0">&#93;</span>          <span class="sy0">=&gt;</span> sfValidatorDoctrineChoice<span class="sy0">,</span>
+  <span class="br0">&#91;</span>name<span class="br0">&#93;</span>        <span class="sy0">=&gt;</span> sfValidatorString<span class="sy0">,</span>
+  <span class="br0">&#91;</span>price<span class="br0">&#93;</span>       <span class="sy0">=&gt;</span> sfValidatorNumber<span class="sy0">,</span>
+  <span class="br0">&#91;</span>newPhotos<span class="br0">&#93;</span>   <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>           <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+      <span class="br0">&#91;</span>id<span class="br0">&#93;</span>          <span class="sy0">=&gt;</span> sfValidatorDoctrineChoice<span class="sy0">,</span>
+      <span class="br0">&#91;</span>filename<span class="br0">&#93;</span>    <span class="sy0">=&gt;</span> sfValidatorFile<span class="sy0">,</span>
+      <span class="br0">&#91;</span>caption<span class="br0">&#93;</span>     <span class="sy0">=&gt;</span> sfValidatorString<span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span>           <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+      <span class="br0">&#91;</span>id<span class="br0">&#93;</span>          <span class="sy0">=&gt;</span> sfValidatorDoctrineChoice<span class="sy0">,</span>
+      <span class="br0">&#91;</span>filename<span class="br0">&#93;</span>    <span class="sy0">=&gt;</span> sfValidatorFile<span class="sy0">,</span>
+      <span class="br0">&#91;</span>caption<span class="br0">&#93;</span>     <span class="sy0">=&gt;</span> sfValidatorString<span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+  <span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Al igual que <code>widgetSchema</code> y <code>validatorSchema</code> son realmente objetos que se
+comportan como arrays, los arrays anteriores definidos mediante las claves
+<code>newPhotos</code>, <code>0</code> y <code>1</code> son objetos <code>sfWidgetSchema</code> y <code>sfValidatorSchema</code>.</p></div>
+
+<p>Como era de esperar, los campos básicos (<code>id</code>, <code>name</code> y <code>price</code>) se representan
+en el primer nivel de cada array. En los formularios que no embeben otros
+formularios, tanto <code>widgetSchema</code> como <code>validatorSchema</code> solamente tienen un
+nivel, que representa los campos básicos del formulario. Los widgets y validadores
+de cualquier formulario embebido se representan como subarrays de <code>widgetSchema</code>
+y <code>validatorSchema</code>. A continuación se explica el método que se encarga de este
+proceso.</p>
+
+<h3 id="entendiendo_el_metodo_sfformembedform">6.6.3. Entendiendo el método <code>sfForm::embedForm()</code></h3>
+
+<p>Como un formulario está compuesto por un array de widgets y otro de validadores,
+embeber un formulario en otro consiste fundamentalmente en añadir los arrays de
+widgets y validadores de un formulario dentro de los arrays de widgets y
+validadores del formulario principal. Este proceso lo realiza completamente el
+método <code>sfForm::embedForm()</code>. El resultado siempre es la creación de unos arrays
+<code>widgetSchema</code> y <code>validatorSchema</code> multidimensionales, tal y como se mostró
+anteriormente.</p>
+
+<p>A continuación se explica la configuración de <code>ProductPhotoCollectionForm</code>, que
+asocia objetos <code>ProductPhotoForm</code> individuales consigo mismo. Este formulario
+intermedio actúa como un <em>formulario contenedor</em> y facilita la organización de
+todos los formularios. En primer lugar, veamos el siguiente código extraído de
+<code>ProductPhotoCollectionForm::configure()</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$form</span> <span class="sy0">=</span> <span class="kw2">new</span> ProductPhotoForm<span class="br0">&#40;</span><span class="re0">$productPhoto</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">embedForm</span><span class="br0">&#40;</span><span class="re0">$i</span><span class="sy0">,</span> <span class="re0">$form</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El propio formulario <code>ProductPhotoCollectionForm</code> comienza como un nuevo objeto
+de tipo <code>sfForm</code>. Por tanto, sus arrays <code>widgetSchema</code> y <code>validatorSchema</code> están
+vacíos.</p>
+
+<div class="code php">
+<pre class="php">widgetSchema    <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+validatorSchema <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Por su parte, cada formulario <code>ProductPhotoForm</code> ya contiene tres campos
+(<code>id</code>, <code>filename</code> y <code>caption</code>) y sus correspondientes tres elementos en los
+arrays <code>widgetSchema</code> y <code>validatorSchema</code>.</p>
+
+<div class="code php">
+<pre class="php">widgetSchema    <span class="sy0">=&gt;</span> <span class="kw3">array</span>
+<span class="br0">&#40;</span>
+  <span class="br0">&#91;</span>id<span class="br0">&#93;</span>            <span class="sy0">=&gt;</span> sfWidgetFormInputHidden<span class="sy0">,</span>
+  <span class="br0">&#91;</span>filename<span class="br0">&#93;</span>      <span class="sy0">=&gt;</span> sfWidgetFormInputFile<span class="sy0">,</span>
+  <span class="br0">&#91;</span>caption<span class="br0">&#93;</span>       <span class="sy0">=&gt;</span> sfWidgetFormInputText<span class="sy0">,</span>
+<span class="br0">&#41;</span>
+&nbsp;
+validatorSchema <span class="sy0">=&gt;</span> <span class="kw3">array</span>
+<span class="br0">&#40;</span>
+  <span class="br0">&#91;</span>id<span class="br0">&#93;</span>            <span class="sy0">=&gt;</span> sfValidatorDoctrineChoice<span class="sy0">,</span>
+  <span class="br0">&#91;</span>filename<span class="br0">&#93;</span>      <span class="sy0">=&gt;</span> sfValidatorFile<span class="sy0">,</span>
+  <span class="br0">&#91;</span>caption<span class="br0">&#93;</span>       <span class="sy0">=&gt;</span> sfValidatorString<span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>El método <code>sfForm::embedForm()</code> simplemente añade los arrays <code>widgetSchema</code>
+y <code>validatorSchema</code> de cada <code>ProductPhotoForm</code> dentro de los arrays <code>widgetSchema</code>
+y <code>validatorSchema</code> del objeto <code>ProductPhotoCollectionForm</code> vacío.</p>
+
+<p>Al finalizar, los arrays <code>widgetSchema</code> y <code>validatorSchema</code> del formulario
+contenedor (<code>ProductPhotoCollectionForm</code>) son arrays multidimensionales que
+contienen los widgets y validadores de los dos formularios <code>ProductPhotoForm</code>.</p>
+
+<div class="code php">
+<pre class="php">widgetSchema    <span class="sy0">=&gt;</span> <span class="kw3">array</span>
+<span class="br0">&#40;</span>
+  <span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>             <span class="sy0">=&gt;</span> <span class="kw3">array</span>
+  <span class="br0">&#40;</span>
+    <span class="br0">&#91;</span>id<span class="br0">&#93;</span>            <span class="sy0">=&gt;</span> sfWidgetFormInputHidden<span class="sy0">,</span>
+    <span class="br0">&#91;</span>filename<span class="br0">&#93;</span>      <span class="sy0">=&gt;</span> sfWidgetFormInputFile<span class="sy0">,</span>
+    <span class="br0">&#91;</span>caption<span class="br0">&#93;</span>       <span class="sy0">=&gt;</span> sfWidgetFormInputText<span class="sy0">,</span>
+  <span class="br0">&#41;</span><span class="sy0">,</span>
+  <span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span>             <span class="sy0">=&gt;</span> <span class="kw3">array</span>
+  <span class="br0">&#40;</span>
+    <span class="br0">&#91;</span>id<span class="br0">&#93;</span>            <span class="sy0">=&gt;</span> sfWidgetFormInputHidden<span class="sy0">,</span>
+    <span class="br0">&#91;</span>filename<span class="br0">&#93;</span>      <span class="sy0">=&gt;</span> sfWidgetFormInputFile<span class="sy0">,</span>
+    <span class="br0">&#91;</span>caption<span class="br0">&#93;</span>       <span class="sy0">=&gt;</span> sfWidgetFormInputText<span class="sy0">,</span>
+  <span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span>
+&nbsp;
+validatorSchema <span class="sy0">=&gt;</span> <span class="kw3">array</span>
+<span class="br0">&#40;</span>
+  <span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>             <span class="sy0">=&gt;</span> <span class="kw3">array</span>
+  <span class="br0">&#40;</span>
+    <span class="br0">&#91;</span>id<span class="br0">&#93;</span>            <span class="sy0">=&gt;</span> sfValidatorDoctrineChoice<span class="sy0">,</span>
+    <span class="br0">&#91;</span>filename<span class="br0">&#93;</span>      <span class="sy0">=&gt;</span> sfValidatorFile<span class="sy0">,</span>
+    <span class="br0">&#91;</span>caption<span class="br0">&#93;</span>       <span class="sy0">=&gt;</span> sfValidatorString<span class="sy0">,</span>
+  <span class="br0">&#41;</span><span class="sy0">,</span>
+  <span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span>             <span class="sy0">=&gt;</span> <span class="kw3">array</span>
+  <span class="br0">&#40;</span>
+    <span class="br0">&#91;</span>id<span class="br0">&#93;</span>            <span class="sy0">=&gt;</span> sfValidatorDoctrineChoice<span class="sy0">,</span>
+    <span class="br0">&#91;</span>filename<span class="br0">&#93;</span>      <span class="sy0">=&gt;</span> sfValidatorFile<span class="sy0">,</span>
+    <span class="br0">&#91;</span>caption<span class="br0">&#93;</span>       <span class="sy0">=&gt;</span> sfValidatorString<span class="sy0">,</span>
+  <span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>En el último paso de este proceso, el formulario contenedor resultante
+(<code>ProductPhotoCollectionForm</code>) se embebe directamente en <code>ProductForm</code>. Esto
+se realiza dentro del método <code>ProductForm::configure()</code>, que aprovecha todo el
+trabajo realizado dentro de <code>ProductPhotoCollectionForm</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$form</span> <span class="sy0">=</span> <span class="kw2">new</span> ProductPhotoCollectionForm<span class="br0">&#40;</span><span class="kw4">null</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+  <span class="st_h">'product'</span> <span class="sy0">=&gt;</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+  <span class="st_h">'size'</span>    <span class="sy0">=&gt;</span> <span class="nu0">2</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">embedForm</span><span class="br0">&#40;</span><span class="st_h">'newPhotos'</span><span class="sy0">,</span> <span class="re0">$form</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El código anterior produce la estructura definitiva de los arrays <code>widgetSchema</code>
+y <code>validatorSchema</code> que se mostró anteriormente. En realidad, el método <code>embedForm()</code>
+es similar a combinar manualmente los arrays <code>widgetSchema</code> y <code>validatorSchema</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">widgetSchema</span><span class="br0">&#91;</span><span class="st_h">'newPhotos'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">getWidgetSchema</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">validatorSchema</span><span class="br0">&#91;</span><span class="st_h">'newPhotos'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">getValidatorSchema</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_6/refactorizando.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>6.5. Refactorizando</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_6/mostrando_los_formularios_embebidos.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>6.7. Mostrando los formularios embebidos</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Enrutamiento avanzado</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Mejora tu productividad</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Emails</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Widgets y validadores propios</a>
+            </li>
+                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_6.html">
+                    <span>Capítulo 6.</span> Formularios avanzados
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/mini_proyecto_productos_y_fotos.html">
+                    <span>6.1.</span> Mini-proyecto: productos y fotos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/aprendiendo_mas_haciendo_los_ejemplos.html">
+                    <span>6.2.</span> Aprendiendo más haciendo los ejemplos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/configuracion_basica_del_formulario.html">
+                    <span>6.3.</span> Configuración básica del formulario
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/embebiendo_formularios.html">
+                    <span>6.4.</span> Embebiendo formularios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/refactorizando.html">
+                    <span>6.5.</span> Refactorizando
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_6/diseccionando_el_objeto_sfform.html">
+                    <span>6.6.</span> Diseccionando el objeto sfForm
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/mostrando_los_formularios_embebidos.html">
+                    <span>6.7.</span> Mostrando los formularios embebidos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/guardando_formularios_de_objetos.html">
+                    <span>6.8.</span> Guardando formularios de objetos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/ignorando_los_formularios_embebidos.html">
+                    <span>6.9.</span> Ignorando los formularios embebidos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/embebiendo_facilmente_formularios_relacionados_con_doctrine.html">
+                    <span>6.10.</span> Embebiendo fácilmente formularios relacionados con Doctrine
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/eventos_de_formulario.html">
+                    <span>6.11.</span> Eventos de formulario
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/aplicando_estilos_diferentes_para_los_elementos_con_errores.html">
+                    <span>6.12.</span> Aplicando estilos diferentes para los elementos con errores
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/conclusion.html">
+                    <span>6.13.</span> Conclusión
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Mejorando la barra de depuración web</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Uso avanzado de Doctrine</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Utilizando la herencia de tablas de Doctrine</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Funcionamiento interno de Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Windows y Symfony</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Desarrollando aplicaciones Facebook</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Descubriendo el poder de la línea de comandos</a>
+            </li>
+                                                                                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Jugando con la cache de configuración de Symfony</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Trabajando con la comunidad Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>A.</span> <a href="../apendice_a.html"> Código JavaScript de sfWidgetFormGMapAddress</a>
+            </li>
+                                            <li class="level-1">
+                <span>B.</span> <a href="../apendice_b.html"> Ejemplo de instalador propio</a>
+            </li>
+                                            <li class="level-1">
+                <span>C.</span> <a href="../apendice_c.html"> Licencia</a>
+            </li>
+                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

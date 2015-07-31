@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>15.3. Pruebas funcionales (Symfony 1.0, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_15/pruebas_unitarias.html" />
+                    <link rel="next" href="../capitulo_15/recomendaciones_sobre_el_nombre_de_las_pruebas.html" />
+                <link rel="start" href="/libro/symfony_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="15.3. Pruebas funcionales (Symfony 1.0, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/" itemprop="url">
+                    <span itemprop="title">Symfony 1.0, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/capitulo_15.html" itemprop="url">
+                    <span itemprop="title">Capítulo 15. Pruebas unitarias y funcionales</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>15.3. Pruebas funcionales</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="pruebas_funcionales" class="title">
+        <span>15.3.</span> Pruebas funcionales
+    </h1>
+
+    
+
+<p>Las pruebas funcionales validan partes de las aplicaciones. Estas pruebas simulan la navegación del usuario, realizan peticiones y comprueban los elementos de la respuesta, tal y como lo haría manualmente un usuario para validar que una determinada acción hace lo que se supone que tiene que hacer. En las pruebas funcionales, se ejecuta un escenario correspondiente a lo que se denomina un "caso de uso".</p>
+
+<h3 id="como_son_las_pruebas_funcionales">15.3.1. ¿Cómo son las pruebas funcionales?</h3>
+
+<p>Las pruebas funcionales se podrían realizar mediante un navegador en forma de texto y un montón de asertos definidos con expresiones regulares complejas, pero sería una pérdida de tiempo muy grande. Symfony dispone de un objeto especial, llamado <code>sfBrowser</code>, que actua como un navegador que está accediendo a una aplicación Symfony, pero sin necesidad de utilizar un servidor web real (y sin la penalización de las conexiones HTTP). Este objeto permite el acceso directo a los objetos que forman cada petición (el objeto petición, el objeto sesión, el objeto contexto y el objeto respuesta). Symfony también dispone de una extensión de esta clase llamada <code>sfTestBrowser</code>, que está especialmente diseñada para las pruebas funcionales y que tiene todas las características de <code>sfBrowser</code>, además de algunos métodos muy útiles para los asertos.</p>
+
+<p>Una prueba funcional suele comenzar con la inicialización del objeto del navegador para pruebas. Este objeto permite realizar una petición a una acción de la aplicación y permite verificar que algunos elementos están presentes en la respuesta.</p>
+
+<p>Por ejemplo, cada vez que se genera el esqueleto de un módulo mediante las tareas <code>init-module</code> o <code>propel-init-crud</code>, Symfony crea una prueba funciona de prueba para este módulo. La prueba realiza una petición a la acción por defecto del módulo y comprueba el código de estado de la respuesta, el módulo y la acción calculados por el sistema de enrutamiento y la presencia de una frase específica en el contenido de la respuesta. Si el módulo se llama <code>foobar</code>, el archivo <code>foobarActionsTest.php</code> generado es similar al del listado 15-9.</p>
+
+<p><strong>Listado 15-9 - Prueba funcional por defecto para un módulo nuevo, en <code>tests/functional/frontend/foobarActionsTest.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw1">include</span><span class="br0">&#40;</span><span class="kw3">dirname</span><span class="br0">&#40;</span><span class="kw4">__FILE__</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/../../bootstrap/functional.php'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Create a new test browser</span>
+<span class="re0">$browser</span> <span class="sy0">=</span> <span class="kw2">new</span> sfTestBrowser<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$browser</span><span class="sy0">-&gt;</span><span class="me1">initialize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$browser</span><span class="sy0">-&gt;</span>
+  <span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'/foobar/index'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+  <span class="me1">isStatusCode</span><span class="br0">&#40;</span><span class="nu0">200</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+  <span class="me1">isRequestParameter</span><span class="br0">&#40;</span><span class="st_h">'module'</span><span class="sy0">,</span> <span class="st_h">'foobar'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+  <span class="me1">isRequestParameter</span><span class="br0">&#40;</span><span class="st_h">'action'</span><span class="sy0">,</span> <span class="st_h">'index'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+  <span class="me1">checkResponseElement</span><span class="br0">&#40;</span><span class="st_h">'body'</span><span class="sy0">,</span> <span class="st_h">'!/This is a temporary page/'</span><span class="br0">&#41;</span>
+<span class="sy0">;</span></pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Todos los métodos del navegador de Symfony devuelven un objeto <code>sfTestBrowser</code>, por lo que se pueden encadenar las llamadas a los métodos para que los archivos de prueba sean más fáciles de leer. Esta estrategia se llama "interfaz fluida con el objeto", ya que nada puede parar el flujo de llamadas a los métodos del objeto.</p></div>
+
+<p>Las pruebas funcionales pueden contener varias peticiones y asertos más complejos, como se mostrará en las próximas secciones.</p>
+
+<p>Para ejecutar una prueba funcional, se utiliza la tarea <code>test-functional</code> de la línea de comandos de Symfony, como se muestra en el listado 15-10. Los argumentos que se indican a la tarea son el nombre de la aplicación y el nombre de la prueba (omitiendo el sufijo <code>Test.php</code>).</p>
+
+<p><strong>Listado 15-10 - Ejecutando una prueba funcional mediante la línea de comandos</strong></p>
+
+<div class="code cli">
+<pre class="cli">&gt; symfony test-functional frontend foobarActions
+&nbsp;
+# get /comment/index
+ok 1 - status code is 200
+ok 2 - request parameter module is foobar
+ok 3 - request parameter action is index
+not ok 4 - response selector body does not match regex /This is a temporary page/
+# Looks like you failed 1 tests of 4.
+1..4</pre>
+</div>
+
+<p>Por defecto, las pruebas funcionales generadas automáticamente para un módulo nuevo no pasan correctamente todas las pruebas. El motivo es que en los módulos nuevos, la acción <code>index</code> redirige a una página de bienvenida (que pertenece al módulo <code>default</code> de Symfony) que contiene la frase <em>"This is a temporary page"</em>. Mientras no se modifique la acción <code>index</code> del módulo, las pruebas funcionales de este módulo no se pasarán correctamente, lo que garantiza que no se ejecuten correctamente todas las pruebas para un módulo que está sin terminar.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> En las pruebas funcionales, la carga automática de clases está activada, por lo que no se deben incluir los archivos manualmente.</p></div>
+
+<h3 id="navegando_con_el_objeto_sftestbrowser">15.3.2. Navegando con el objeto sfTestBrowser</h3>
+
+<p>El navegador para pruebas permite realizar peticiones GET y POST. En ambos casos se utiliza una URI real como parámetro. El listado 15-11 muestra cómo crear peticiones con el objeto <code>sfTestBrowser</code> para simular peticiones reales.</p>
+
+<p><strong>Listado 15-11 - Simulando peticiones con el objeto <code>sfTestBrowser</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw1">include</span><span class="br0">&#40;</span><span class="kw3">dirname</span><span class="br0">&#40;</span><span class="kw4">__FILE__</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/../../bootstrap/functional.php'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Se crea un nuevo navegador de pruebas</span>
+<span class="re0">$b</span> <span class="sy0">=</span> <span class="kw2">new</span> sfTestBrowser<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">initialize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'/foobar/show/id/1'</span><span class="br0">&#41;</span><span class="sy0">;</span>                   <span class="co1">// Petición GET</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">post</span><span class="br0">&#40;</span><span class="st_h">'/foobar/show'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'id'</span> <span class="sy0">=&gt;</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>     <span class="co1">// Petición POST</span>
+&nbsp;
+<span class="co1">// Los métodos get() y post() son atajos del método call()</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">call</span><span class="br0">&#40;</span><span class="st_h">'/foobar/show/id/1'</span><span class="sy0">,</span> <span class="st_h">'get'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">call</span><span class="br0">&#40;</span><span class="st_h">'/foobar/show'</span><span class="sy0">,</span> <span class="st_h">'post'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'id'</span> <span class="sy0">=&gt;</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// El método call() puede simular peticiones de cualquier método</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">call</span><span class="br0">&#40;</span><span class="st_h">'/foobar/show/id/1'</span><span class="sy0">,</span> <span class="st_h">'head'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">call</span><span class="br0">&#40;</span><span class="st_h">'/foobar/add/id/1'</span><span class="sy0">,</span> <span class="st_h">'put'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">call</span><span class="br0">&#40;</span><span class="st_h">'/foobar/delete/id/1'</span><span class="sy0">,</span> <span class="st_h">'delete'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Una navegación típica no sólo está formada por peticiones a determinadas acciones, sino que también incluye clicks sobre enlaces y botones. Como se muestra en el listado 15-12, el objeto <code>sfTestBrowser</code> también es capaz de simular la acción de pinchar sobre estos elementos.</p>
+
+<p><strong>Listado 15-12 - Simulando una navegación real con el objeto <code>sfTestBrowser</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'/'</span><span class="br0">&#41;</span><span class="sy0">;</span>                  <span class="co1">// Petición a la página principal</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'/foobar/show/id/1'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">back</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>                    <span class="co1">// Volver a la página anterior del historial</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">forward</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>                 <span class="co1">// Ir a la página siguiente del historial</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">reload</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>                  <span class="co1">// Recargar la página actual</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">click</span><span class="br0">&#40;</span><span class="st_h">'go'</span><span class="br0">&#41;</span><span class="sy0">;</span>               <span class="co1">// Buscar un enlace o botón llamado 'go' y pincharlo</span></pre>
+</div>
+
+<p>El navegador para pruebas incluye un mecanismo para guardar todas las peticiones realizadas, por lo que los métodos <code>back()</code> y <code>forward()</code> funcionan de la misma manera que en un navegador real.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> El navegador de pruebas incluye sus propios mecanismos para gestionar las sesiones (<code>sfTestStorage</code>) y las cookies.</p></div>
+
+<p>Entre las interacciones que más se deben probar, las de los formularios son probablemente las más necesarias. Symfony dispone de 3 formas de probar la introducción de datos en los formularios y su envío. Se puede crear una petición POST con los parámetros que se quieren enviar, se puede llamar al método <code>click()</code> con los parámetros del formulario en un array o se pueden rellenar los campos del formulario de uno en uno y después pulsar sobre el botón de envío. En cualquiera de los 3 casos, la petición POST resultante es la misma. El listado 15-13 muestra un ejemplo.</p>
+
+<p><strong>Listado 15-13 - Simulando el envío de un formulario con datos mediante el objeto <code>sfTestBrowser</code></strong></p>
+
+<div class="code php">
+<pre class="php">// Plantilla de ejemplo en modules/foobar/templates/editSuccess.php
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> form_tag<span class="br0">&#40;</span><span class="st_h">'foobar/update'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+  <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_hidden_tag<span class="br0">&#40;</span><span class="st_h">'id'</span><span class="sy0">,</span> <span class="re0">$sf_params</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+  <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_tag<span class="br0">&#40;</span><span class="st_h">'name'</span><span class="sy0">,</span> <span class="st_h">'foo'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+  <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> submit_tag<span class="br0">&#40;</span><span class="st_h">'go'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+  <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> textarea<span class="br0">&#40;</span><span class="st_h">'text1'</span><span class="sy0">,</span> <span class="st_h">'foo'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+  <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> textarea<span class="br0">&#40;</span><span class="st_h">'text2'</span><span class="sy0">,</span> <span class="st_h">'bar'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&lt;/form&gt;
+&nbsp;
+// Prueba funcional de ejemplo para este formulario
+$b = new sfTestBrowser();
+$b-&gt;initialize();
+$b-&gt;get('/foobar/edit/id/1');
+&nbsp;
+// Opción 1: petición POST
+$b-&gt;post('/foobar/update', array('id' =&gt; 1, 'name' =&gt; 'dummy', 'commit' =&gt; 'go'));
+&nbsp;
+// Opción 2: Pulsar sobre el botón de envío con parámetros
+$b-&gt;click('go', array('name' =&gt; 'dummy'));
+&nbsp;
+// Opción 3: Introducir los valores del formulario campo a campo y
+//  presionar el botón de envío
+$b-&gt;setField('name', 'dummy')-&gt;
+    click('go');</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> En las opciones 2 y 3, los valores por defecto del formulario se incluyen automáticamente en su envío y no es necesario especificar el destino del formulario.</p></div>
+
+<p>Si una acción finaliza con una redirección (<code>redirect()</code>), el navegador para pruebas no sigue automáticamente la redirección, sino que se debe seguir manualmente mediante <code>followRedirect()</code>, como se muestra en el listado 15-14.</p>
+
+<p><strong>Listado 15-14 - El navegador para pruebas no sigue automáticamente las redirecciones</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// Acción de ejemplo en modules/foobar/actions/actions.class.php</span>
+<span class="kw2">public</span> <span class="kw2">function</span> executeUpdate<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="sy0">...</span>
+  <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="st_h">'foobar/show?id='</span><span class="sy0">.</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRequestParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">// Prueba funcional de ejemplo para esta acción</span>
+<span class="re0">$b</span> <span class="sy0">=</span> <span class="kw2">new</span> sfTestBrowser<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>    
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">initialize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'/foobar/edit?id=1'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">click</span><span class="br0">&#40;</span><span class="st_h">'go'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'name'</span> <span class="sy0">=&gt;</span> <span class="st_h">'dummy'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">isRedirected</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>   <span class="co1">// Check that request is redirected</span>
+    followRedirect<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>    <span class="co1">// Manually follow the redirection</span></pre>
+</div>
+
+<p>Existe un último método muy útil para la navegación: <code>restart()</code>, que inicializa el historial de navegación, la sesión y las cookies, es decir, como si se reiniciara el navegador.</p>
+
+<p>Una vez realizada la primera petición, el objeto <code>sfTestBrowser</code> dispone de acceso directo a los objetos de la petición, del contexto y de la respuesta. De esta forma, se pueden probar muchas cosas diferentes, desde el contenido textual de las páginas a las cabeceras de la respuesta, pasando por los parámetros de la petición y la configuración:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$peticion</span>  <span class="sy0">=</span> <span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">getRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$contexto</span>  <span class="sy0">=</span> <span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">getContext</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$respuesta</span> <span class="sy0">=</span> <span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">getResponse</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<div class="admonition sidebar"><p><strong class="title"> El objeto sfBrowser</strong> Todos los métodos para realizar la navegación descritos en los listados 15-10 a 15-13, no solamente están disponibles para las pruebas, sino que se pueden acceder desde cualquier parte de la aplicación mediante el objeto <code>sfBrowser</code>. La llamada que se debe realizar es la siguiente:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// Crear un nuevo navegador</span>
+<span class="re0">$b</span> <span class="sy0">=</span> <span class="kw2">new</span> sfBrowser<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">initialize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'/foobar/show/id/1'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">setField</span><span class="br0">&#40;</span><span class="st_h">'name'</span><span class="sy0">,</span> <span class="st_h">'dummy'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">click</span><span class="br0">&#40;</span><span class="st_h">'go'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$content</span> <span class="sy0">=</span> <span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">getResponse</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getContent</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="sy0">...</span></pre>
+</div>
+
+<p>El objeto <code>sfBrowser</code> es muy útil para ejecutar scripts programados, como por ejemplo para navegar por una serie de páginas para generar la cache de cada página (el Capítulo 18 muestra un ejemplo detallado).</p></div>
+
+<h3 id="utilizando_asertos">15.3.3. Utilizando asertos</h3>
+
+<p>Como el objeto <code>sfTestBrowser</code> dispone de acceso directo a la respuesta y a otros componentes de la petición, es posible realizar pruebas sobre estos componentes. Se podría crear un nuevo objeto <code>lime_test</code> para estas pruebas, pero por suerte, <code>sfTestBrowser</code> dispone de un método llamado <code>test()</code> que devuelve un objeto <code>lime_test</code> sobre el que se pueden invocar los métodos para asertos descritos anteriormentes. El listado 15-15 muestra cómo realizar asertos mediante <code>sfTestBrowser</code>.</p>
+
+<p><strong>Listado 15-15 - El navegador para pruebas dispone del método <code>test()</code> para realizar pruebas</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$b</span> <span class="sy0">=</span> <span class="kw2">new</span> sfTestBrowser<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">initialize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'/foobar/edit/id/1'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$request</span>  <span class="sy0">=</span> <span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">getRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$context</span>  <span class="sy0">=</span> <span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">getContext</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$response</span> <span class="sy0">=</span> <span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">getResponse</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Acceder a los métodos de lime_test mediante el método test()</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">test</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">is</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">test</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">is</span><span class="br0">&#40;</span><span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">getStatuscode</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="nu0">200</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">test</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">is</span><span class="br0">&#40;</span><span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">getHttpHeader</span><span class="br0">&#40;</span><span class="st_h">'content-type'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'text/html;charset=utf-8'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">test</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">like</span><span class="br0">&#40;</span><span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">getContent</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'/edit/'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Los métodos <code>getResponse()</code>, <code>getContext()</code>, <code>getRequest()</code> y <code>test()</code> no devuelven un objeto <code>sfTestBrowser</code>, por lo que no se pueden encadenar después de ellos otras llamadas a los métodos de <code>sfTestBrowser</code>.</p></div>
+
+<p>Las cookies enviadas y recibidas se pueden probar fácilmente mediante los objetos de la petición y de la respuesta, como se muestra en el listado 15-16.</p>
+
+<p><strong>Listado 15-16 - Probando las cookies con <code>sfTestBrowser</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">test</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">is</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getCookie</span><span class="br0">&#40;</span><span class="st_h">'foo'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'bar'</span><span class="br0">&#41;</span><span class="sy0">;</span>     <span class="co1">// Cookie enviada</span>
+<span class="re0">$cookies</span> <span class="sy0">=</span> <span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">getCookies</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">test</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">is</span><span class="br0">&#40;</span><span class="re0">$cookies</span><span class="br0">&#91;</span><span class="st_h">'foo'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="st_h">'foo=bar'</span><span class="br0">&#41;</span><span class="sy0">;</span>            <span class="co1">// Cookie recibida</span></pre>
+</div>
+
+<p>Si se utiliza el método <code>test()</code> para probar los elementos de la petición, se acaban escribiendo unas líneas de código demasiado largas. Afortunadamente, <code>sfTestbrowser</code> contiene una serie de métodos especiales que permiten mantener las pruebas funcionales cortas y fáciles de leer, además de que devuelven objetos <code>sfTestBrowser</code>. El listado 15-15 se podría reescribir por ejemplo de forma más sencilla como se muestra en el listado 15-17.</p>
+
+<p><strong>Listado 15-17 - Realizando pruebas directamente con <code>sfTestBrowser</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$b</span> <span class="sy0">=</span> <span class="kw2">new</span> sfTestBrowser<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">initialize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'/foobar/edit/id/1'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">isRequestParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="sy0">,</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">isStatusCode</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">isResponseHeader</span><span class="br0">&#40;</span><span class="st_h">'content-type'</span><span class="sy0">,</span> <span class="st_h">'text/html; charset=utf-8'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">responseContains</span><span class="br0">&#40;</span><span class="st_h">'edit'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El código de estado <code>200</code> es el valor por defecto que espera el método <code>isStatusCode()</code>, por lo que, para comprobar si la respuesta es correcta, se puede realizar la llamada sin argumentos.</p>
+
+<p>Otra ventaja del uso de estos métodos especiales es que no es necesario especificar el texto que se muestra en la salida, como sí que era necesario en los métodos del objeto <code>lime_test</code>. Los mensajes se generan automáticamente en los métodos especiales, y la salida producida es clara y muy sencilla de entender.</p>
+
+<div class="code code">
+<pre class="code"># get /foobar/edit/id/1
+ok 1 - request parameter &quot;id&quot; is &quot;1&quot;
+ok 2 - status code is &quot;200&quot;
+ok 3 - response header &quot;content-type&quot; is &quot;text/html&quot;
+ok 4 - response contains &quot;edit&quot;
+1..4</pre>
+</div>
+
+<p>En la práctica, los métodos especiales del listado 15-17 cubren la mayor parte de las pruebas habituales, por lo que raramente es necesario utilizar el método <code>test()</code> del objeto <code>sfTestBrowser</code>.</p>
+
+<p>El listado 15-14 demuestra que <code>sfTestBrowser</code> no sigue directamente las redirecciones. La ventaja de este comportamiento es que se pueden probar las propias redirecciones. El listado 15-18 muestra cómo probar la respuesta del listado 15-14.</p>
+
+<p><strong>Listado 15-18 - Probando las redirecciones con <code>sfTestBrowser</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$b</span> <span class="sy0">=</span> <span class="kw2">new</span> sfTestBrowser<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">initialize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span>
+    <span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'/foobar/edit/id/1'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">click</span><span class="br0">&#40;</span><span class="st_h">'go'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'name'</span> <span class="sy0">=&gt;</span> <span class="st_h">'dummy'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">isStatusCode</span><span class="br0">&#40;</span><span class="nu0">200</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">isRequestParameter</span><span class="br0">&#40;</span><span class="st_h">'module'</span><span class="sy0">,</span> <span class="st_h">'foobar'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">isRequestParameter</span><span class="br0">&#40;</span><span class="st_h">'action'</span><span class="sy0">,</span> <span class="st_h">'update'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+&nbsp;
+    <span class="me1">isRedirected</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>      <span class="co1">// Comprobar que la respuseta es una redirección</span>
+    followRedirect<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>    <span class="co1">// Obligar manualmente a seguir la redirección</span>
+&nbsp;
+    isStatusCode<span class="br0">&#40;</span><span class="nu0">200</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">isRequestParameter</span><span class="br0">&#40;</span><span class="st_h">'module'</span><span class="sy0">,</span> <span class="st_h">'foobar'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">isRequestParameter</span><span class="br0">&#40;</span><span class="st_h">'action'</span><span class="sy0">,</span> <span class="st_h">'show'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<h3 id="utilizando_los_selectores_css">15.3.4. Utilizando los selectores CSS</h3>
+
+<p>Muchas pruebas funcionales validan que una página sea correcta comprobando que un determinado texto se encuentre en el contenido de la respuesta. Utilizando el método <code>responseContains()</code> y las expresiones regulares, es posible comprobar que existe un determinado texto, los atributos de una etiqueta o sus valores. Pero si lo que se quiere probar se encuentra en lo más profundo del árbol DOM del contenido de la respuesta, la solución de las expresiones regulares es demasiado compleja.</p>
+
+<p>Este es el motivo por el que el objeto <code>sfTestBrowser</code> dispone de un método llamado <code>getResponseDom()</code>. El método devuelve un objeto DOM de libXML2, que es mucho más fácil de procesar que el texto simple. El listado 15-19 muestra un ejemplo de uso de este método.</p>
+
+<p><strong>Listado 15-19 - El navegador para pruebas devuelve el contenido de la respuesta como un objeto DOM</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$b</span> <span class="sy0">=</span> <span class="kw2">new</span> sfTestBrowser<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">initialize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'/foobar/edit/id/1'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$dom</span> <span class="sy0">=</span> <span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">getResponseDom</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">test</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">is</span><span class="br0">&#40;</span><span class="re0">$dom</span><span class="sy0">-&gt;</span><span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st_h">'input'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">item</span><span class="br0">&#40;</span><span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getAttribute</span><span class="br0">&#40;</span><span class="st_h">'type'</span><span class="br0">&#41;</span><span class="sy0">,</span><span class="st_h">'text'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Sin embargo, procesar un documento HTML con los métodos DOM de PHP no es lo suficientemente rápido y sencillo. Por su parte, los selectores utilizados en las hojas de estilos CSS son una forma aun más potente de obtener los elementos de un documento HTML. Symfony incluye una herramienta llamada <code>sfDomCssSelector</code>, cuyo constructor espera un documento DOM como argumento. Esta utilidad dispone de un método llamado <code>getTexts()</code> que devuelve un array de las cadenas de texto seleccionadas mediante un selector CSS, y otro método llamado <code>getElements()</code> que devuelve un array de elementos DOM. El listado 15-20 muestra un ejemplo.</p>
+
+<p><strong>Listado 15-20 - El navegador para pruebas permite acceder al contenido de la respuesta mediante el objeto <code>sfDomCssSelector</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$b</span> <span class="sy0">=</span> <span class="kw2">new</span> sfTestBrowser<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">initialize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'/foobar/edit/id/1'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$c</span> <span class="sy0">=</span> <span class="kw2">new</span> sfDomCssSelector<span class="br0">&#40;</span><span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">getResponseDom</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">test</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">is</span><span class="br0">&#40;</span><span class="re0">$c</span><span class="sy0">-&gt;</span><span class="me1">getTexts</span><span class="br0">&#40;</span><span class="st_h">'form input[type=&quot;hidden&quot;][value=&quot;1&quot;]'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">''</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">test</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">is</span><span class="br0">&#40;</span><span class="re0">$c</span><span class="sy0">-&gt;</span><span class="me1">getTexts</span><span class="br0">&#40;</span><span class="st_h">'form textarea[name=&quot;text1&quot;]'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'foo'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">test</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">is</span><span class="br0">&#40;</span><span class="re0">$c</span><span class="sy0">-&gt;</span><span class="me1">getTexts</span><span class="br0">&#40;</span><span class="st_h">'form input[type=&quot;submit&quot;]'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">''</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Como es habitual, Symfony busca siempre la máxima brevedad y claridad en el código, por lo que se dispone de un método alternativo llamado <code>checkResponseElement()</code>. Utilizando este método, el listado 15-20 se puede transformar en el listado 15-21.</p>
+
+<p><strong>Listado 15-21 - El navegador para pruebas permite acceder a los elementos de la respuesta utilizando selectores de CSS</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$b</span> <span class="sy0">=</span> <span class="kw2">new</span> sfTestBrowser<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">initialize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'/foobar/edit/id/1'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">checkResponseElement</span><span class="br0">&#40;</span><span class="st_h">'form input[type=&quot;hidden&quot;][value=&quot;1&quot;]'</span><span class="sy0">,</span> <span class="kw4">true</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">checkResponseElement</span><span class="br0">&#40;</span><span class="st_h">'form textarea[name=&quot;text1&quot;]'</span><span class="sy0">,</span> <span class="st_h">'foo'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">checkResponseElement</span><span class="br0">&#40;</span><span class="st_h">'form input[type=&quot;submit&quot;]'</span><span class="sy0">,</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El comportamiento del método <code>checkResponseElement()</code> depende del tipo de dato del segundo argumento que se le pasa:</p>
+
+<ul>
+<li>Si es un valor booleano, comprueba si existe un elemento que cumpla con el selector CSS indicado.</li>
+<li>Si es un número entero, comprueba que el selector CSS indicado devuelva el número de elementos de este parámetro.</li>
+<li>Si es una expresión regular, comprueba que el primer elemento seleccionado mediante el selector CSS cumpla el patrón de la expresión regular.</li>
+<li>Si es una expresión regular precedida de <code>!</code>, comprueba que el primer elemento seleccionado mediante el selector CSS no cumpla con el patrón de la expresión regular.</li>
+<li>En el resto de casos, compara el primer elemento seleccionado mediante el selector CSS y el valor del segundo argumento que se pasa en forma de cadena de texto.</li>
+</ul>
+
+<p>El método acepta además un tercer parámetro opcional en forma de array asociativo. De esta forma es posible no solo realizar la prueba sobre el primer elemento devuelto por el selector CSS (si es que devuelve varios elementos) sino sobre otro elemento que se encuentra en una posición determinada, tal y como muestra el listado 15-22.</p>
+
+<p><strong>Listado 15-22 - Utilizando la opción de posición para comprobar un elemento que se encuentra en una posición determinada</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$b</span> <span class="sy0">=</span> <span class="kw2">new</span> sfTestBrowser<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">initialize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'/foobar/edit?id=1'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">checkResponseElement</span><span class="br0">&#40;</span><span class="st_h">'form textarea'</span><span class="sy0">,</span> <span class="st_h">'foo'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">checkResponseElement</span><span class="br0">&#40;</span><span class="st_h">'form textarea'</span><span class="sy0">,</span> <span class="st_h">'bar'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'position'</span> <span class="sy0">=&gt;</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El array de opciones también se puede utilizar para realizar 2 pruebas a la vez. Se puede comprobar que existe un elemento que cumple un selector y al mismo tiempo comprobar cuantos elementos lo cumplen, como se muestra en el listado 15-23.</p>
+
+<p><strong>Listado 15-23 - Utilizando la opción para contar el número de elementos que cumplen el selector CSS</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$b</span> <span class="sy0">=</span> <span class="kw2">new</span> sfTestBrowser<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">initialize</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'/foobar/edit?id=1'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>
+    <span class="me1">checkResponseElement</span><span class="br0">&#40;</span><span class="st_h">'form input'</span><span class="sy0">,</span> <span class="kw4">true</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'count'</span> <span class="sy0">=&gt;</span> <span class="nu0">3</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>La herramienta del selector es bastante potente, ya que acepta la mayor parte de los selectores de CSS 2.1. De esta forma, se pueden hacer selecciones tan complejas como las que se muestran en el listado 15-24.</p>
+
+<p><strong>Listado 15-24 - Ejemplo de selectores CSS complejos que acepta <code>checkResponseElement()</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">checkResponseElement</span><span class="br0">&#40;</span><span class="st_h">'ul#list li a[href]'</span><span class="sy0">,</span> <span class="st_h">'click me'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">checkResponseElement</span><span class="br0">&#40;</span><span class="st_h">'ul &gt; li'</span><span class="sy0">,</span> <span class="st_h">'click me'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">checkResponseElement</span><span class="br0">&#40;</span><span class="st_h">'ul + li'</span><span class="sy0">,</span> <span class="st_h">'click me'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">checkResponseElement</span><span class="br0">&#40;</span><span class="st_h">'h1, h2'</span><span class="sy0">,</span> <span class="st_h">'click me'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">checkResponseElement</span><span class="br0">&#40;</span><span class="st_h">'a[class$=&quot;foo&quot;][href*=&quot;bar.html&quot;]'</span><span class="sy0">,</span> <span class="st_h">'my link'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<h3 id="trabajando_en_el_entorno_de_pruebas">15.3.5. Trabajando en el entorno de pruebas</h3>
+
+<p>El objeto <code>sfTestBrowser</code> utiliza un controlador frontal especial, que trabaja en el entorno <code>test</code>. El listado 15-25 muestra la configuración por defecto de este entorno.</p>
+
+<p><strong>Listado 15-25 - Configuración por defecto del entorno <code>test</code>, en <code>myapp/config/settings.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">test</span>:<span class="co4">
+  .settings</span><span class="sy2">:
+</span>    <span class="co1"># E_ALL | E_STRICT &amp; ~E_NOTICE = 2047</span><span class="co3">
+    error_reporting</span><span class="sy2">: </span>       <span class="nu0">2047</span><span class="co3">
+    cache</span><span class="sy2">: </span>                 off<span class="co3">
+    web_debug</span><span class="sy2">: </span>             off<span class="co3">
+    no_script_name</span><span class="sy2">: </span>        off<span class="co3">
+    etag</span><span class="sy2">: </span>                  off</pre>
+</div>
+
+<p>En este entorno, la cache y la barra de depuración web están desactivadas. No obstante, la ejecución del código genera logs en un archivo distinto a los logs de los entornos <code>dev</code> y <code>prod</code>, por lo que se pueden observar de forma independiente (en <code>miproyecto/log/miaplicacion_test.log</code>). Además, en este entorno las excepciones no detienen la ejecución de los scripts, de forma que se pueda ejecutar un conjunto completo de pruebas incluso cuando falla alguna prueba. También es posible definir una conexión específica con la base de datos, por ejemplo para utilizar una base de datos que tenga datos de prueba.</p>
+
+<p>Antes de utilizar el objeto <code>sfTestBrowser</code>, es necesario inicializarlo. Si se necesita, es posible especificar el nombre del servidor para la aplicación y una dirección IP para el cliente, por si la aplicación controla estos dos parámetros. El listado 15-26 muestra cómo configurar estos parámetros.</p>
+
+<p><strong>Listado 15-26 - Indicar el hostname y la IP en el navegador para pruebas</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$b</span> <span class="sy0">=</span> <span class="kw2">new</span> sfTestBrowser<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">initialize</span><span class="br0">&#40;</span><span class="st_h">'miaplicacion.ejemplo.com'</span><span class="sy0">,</span> <span class="st_h">'123.456.789.123'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<h3 id="la_tarea_test_functional">15.3.6. La tarea test-functional</h3>
+
+<p>La tarea <code>test-functional</code> puede ejecutar una o varias pruebas funcionales, dependiendo del número de argumentos indicados. La sintaxis que se utiliza es muy similar a la de la tarea <code>test-unit</code>, salvo que la tarea para pruebas funcionales requiere como primer argumento el nombre de una aplicación, tal y como muestra el listado 15-27.</p>
+
+<p><strong>Listado 15-27 - Sintaxis de la tarea para pruebas funcionales</strong></p>
+
+<div class="code code">
+<pre class="code">// Estructura del directorio de pruebas
+test/
+  functional/
+    frontend/
+      miModuloActionsTest.php
+      miEscenarioTest.php
+    backend/
+      miOtroEscenarioTest.php</pre>
+</div>
+
+<div class="code cli">
+<pre class="cli">## Ejecutar todas las pruebas funcionales de una aplicacion recursivamente
+&gt; symfony test-functional frontend
+&nbsp;
+## Ejecutar la prueba funcional cuyo nombre se indica como parámetro
+&gt; symfony test-functional frontend myScenario
+&nbsp;
+## Ejecutar todas las pruebas funcionales cuyos nombres cumplan con el patrón indicado
+&gt; symfony test-functional frontend my*</pre>
+</div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_15/pruebas_unitarias.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>15.2. Pruebas unitarias</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_15/recomendaciones_sobre_el_nombre_de_las_pruebas.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>15.4. Recomendaciones sobre el nombre de las pruebas</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generadores</a>
+            </li>
+                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_15.html">
+                    <span>Capítulo 15.</span> Pruebas unitarias y funcionales
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_15/automatizacion_de_pruebas.html">
+                    <span>15.1.</span> Automatización de pruebas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_15/pruebas_unitarias.html">
+                    <span>15.2.</span> Pruebas unitarias
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_15/pruebas_funcionales.html">
+                    <span>15.3.</span> Pruebas funcionales
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_15/recomendaciones_sobre_el_nombre_de_las_pruebas.html">
+                    <span>15.4.</span> Recomendaciones sobre el nombre de las pruebas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_15/otras_utilidades_para_pruebas.html">
+                    <span>15.5.</span> Otras utilidades para pruebas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_15/resumen.html">
+                    <span>15.6.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

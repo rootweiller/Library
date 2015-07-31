@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>6.4. El objeto event (Introducción a AJAX)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_6/handlers_y_listeners.html" />
+                    <link rel="next" href="../capitulo_6/tipos_de_eventos_2.html" />
+                <link rel="start" href="/libro/ajax/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="6.4. El objeto event (Introducción a AJAX)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page ajax"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/ajax/" itemprop="url">
+                    <span itemprop="title">Introducción a AJAX</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/ajax/capitulo_6.html" itemprop="url">
+                    <span itemprop="title">Capítulo 6. Eventos</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>6.4. El objeto event</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="el_objeto_event" class="title">
+        <span>6.4.</span> El objeto event
+    </h1>
+
+    
+
+<p>Cuando se produce un evento, no es suficiente con asignarle una función responsable de procesar ese evento. Normalmente, la función que procesa el evento necesita información relativa al evento producido: la tecla que se ha pulsado, la posición del ratón, el elemento que ha producido el evento, etc.</p>
+
+<p>El objeto <code>event</code> es el mecanismo definido por los navegadores para proporcionar toda esa información. Se trata de un objeto que se crea automáticamente cuando se produce un evento y que se destruye de forma automática cuando se han ejecutado todas las funciones asignadas al evento.</p>
+
+<p>Internet Explorer permite el acceso al objeto <code>event</code> a través del objeto <code>window</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript">elDiv.<span class="me1">onclick</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">var</span> elEvento <span class="sy0">=</span> window.<span class="me1">event</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El estándar DOM especifica que el objeto <code>event</code> es el único parámetro que se debe pasar a las funciones encargadas de procesar los eventos. Por tanto, en los navegadores que siguen los estándares, se puede acceder al objeto <code>event</code> a través del array de los argumentos de la función:</p>
+
+<div class="code javascript">
+<pre class="javascript">elDiv.<span class="me1">onclick</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">var</span> elEvento <span class="sy0">=</span> arguments<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>También es posible indicar el nombre argumento de forma explícita:</p>
+
+<div class="code javascript">
+<pre class="javascript">elDiv.<span class="me1">onclick</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span>elEvento<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  ...
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El funcionamiento de los navegadores que siguen los estándares puede parecer <em>"mágico"</em>, ya que en la declaración de la función se indica que tiene un parámetro, pero en la aplicación no se pasa ningún parámetro a esa función. En realidad, los navegadores que siguen los estándares crean automáticamente ese parámetro y lo pasan siempre a la función encargada de manejar el evento.</p>
+
+<h3 id="propiedades_y_metodos">6.4.1. Propiedades y métodos</h3>
+
+<p>A pesar de que el mecanismo definido por los navegadores para el objeto <code>event</code> es similar, existen numerosas diferencias en cuanto las propiedades y métodos del objeto.</p>
+
+<h4 id="propiedades_definidas_por_internet_explorer">6.4.1.1. Propiedades definidas por Internet Explorer</h4>
+
+<p>La siguiente tabla recoge las propiedades definidas para el objeto <code>event</code> en los navegadores de la familia Internet Explorer:</p>
+
+<div class="table" id="table_6_2">
+
+    <table>
+<thead>
+<tr>
+  <th>Propiedad/Método</th>
+  <th>Devuelve</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>altKey</code></td>
+  <td>Boolean</td>
+  <td>Devuelve <code>true</code> si se ha pulsado la tecla <code>ALT</code> y <code>false</code> en otro caso</td>
+</tr>
+<tr>
+  <td><code>button</code></td>
+  <td>Número entero</td>
+  <td>El botón del ratón que ha sido pulsado. Posibles valores: <code>0</code> – Ningún botón pulsado <code>1</code> – Se ha pulsado el botón izquierdo <code>2</code> – Se ha pulsado el botón derecho <code>3</code> – Se pulsan a la vez el botón izquierdo y el derecho <code>4</code> – Se ha pulsado el botón central <code>5</code> – Se pulsan a la vez el botón izquierdo y el central <code>6</code> – Se pulsan a la vez el botón derecho y el central <code>7</code> – Se pulsan a la vez los 3 botones</td>
+</tr>
+<tr>
+  <td><code>cancelBubble</code></td>
+  <td>Boolean</td>
+  <td>Si se establece un valor <code>true</code>, se detiene el flujo de eventos de tipo <em>bubbling</em></td>
+</tr>
+<tr>
+  <td><code>clientX</code></td>
+  <td>Número entero</td>
+  <td>Coordenada X de la posición del ratón respecto del área visible de la ventana</td>
+</tr>
+<tr>
+  <td><code>clientY</code></td>
+  <td>Número entero</td>
+  <td>Coordenada Y de la posición del ratón respecto del área visible de la ventana</td>
+</tr>
+<tr>
+  <td><code>ctrlKey</code></td>
+  <td>Boolean</td>
+  <td>Devuelve <code>true</code> si se ha pulsado la tecla <code>CTRL</code> y <code>false</code> en otro caso</td>
+</tr>
+<tr>
+  <td><code>fromElement</code></td>
+  <td>Element</td>
+  <td>El elemento del que sale el ratón (para ciertos eventos de ratón)</td>
+</tr>
+<tr>
+  <td><code>keyCode</code></td>
+  <td>Número entero</td>
+  <td>En el evento <code>keypress</code>, indica el carácter de la tecla pulsada. En los eventos <code>keydown</code> y <code>keyup</code> indica el código numérico de la tecla pulsada</td>
+</tr>
+<tr>
+  <td><code>offsetX</code></td>
+  <td>Número entero</td>
+  <td>Coordenada X de la posición del ratón respecto del elemento que origina el evento</td>
+</tr>
+<tr>
+  <td><code>offsetY</code></td>
+  <td>Número entero</td>
+  <td>Coordenada Y de la posición del ratón respecto del elemento que origina el evento</td>
+</tr>
+<tr>
+  <td><code>repeat</code></td>
+  <td>Boolean</td>
+  <td>Devuelve <code>true</code> si se está produciendo el evento <code>keydown</code> de forma continuada y <code>false</code> en otro caso</td>
+</tr>
+<tr>
+  <td><code>returnValue</code></td>
+  <td>Boolean</td>
+  <td>Se emplea para cancelar la acción predefinida del evento</td>
+</tr>
+<tr>
+  <td><code>screenX</code></td>
+  <td>Número entero</td>
+  <td>Coordenada X de la posición del ratón respecto de la pantalla completa</td>
+</tr>
+<tr>
+  <td><code>screenY</code></td>
+  <td>Número entero</td>
+  <td>Coordenada Y de la posición del ratón respecto de la pantalla completa</td>
+</tr>
+<tr>
+  <td><code>shiftKey</code></td>
+  <td>Boolean</td>
+  <td>Devuelve <code>true</code> si se ha pulsado la tecla <code>SHIFT</code> y <code>false</code> en otro caso</td>
+</tr>
+<tr>
+  <td><code>srcElement</code></td>
+  <td>Element</td>
+  <td>El elemento que origina el evento</td>
+</tr>
+<tr>
+  <td><code>toElement</code></td>
+  <td>Element</td>
+  <td>El elemento al que entra el ratón (para ciertos eventos de ratón)</td>
+</tr>
+<tr>
+  <td><code>type</code></td>
+  <td>Cadena de texto</td>
+  <td>El nombre del evento</td>
+</tr>
+<tr>
+  <td><code>x</code></td>
+  <td>Número entero</td>
+  <td>Coordenada X de la posición del ratón respecto del elemento padre del elemento que origina el evento</td>
+</tr>
+<tr>
+  <td><code>y</code></td>
+  <td>Número entero</td>
+  <td>Coordenada Y de la posición del ratón respecto del elemento padre del elemento que origina el evento</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Todas las propiedades salvo <code>repeat</code> son de lectura/escritura y por tanto, su valor se puede leer y/o establecer.</p>
+
+<h4 id="propiedades_definidas_por_dom">6.4.1.2. Propiedades definidas por DOM</h4>
+
+<p>La siguiente tabla recoge las propiedades definidas para el objeto <code>event</code> en los navegadores que siguen los estándares:</p>
+
+<div class="table" id="table_6_3">
+
+    <table>
+<thead>
+<tr>
+  <th>Propiedad/Método</th>
+  <th>Devuelve</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>altKey</code></td>
+  <td>Boolean</td>
+  <td>Devuelve <code>true</code> si se ha pulsado la tecla <code>ALT</code> y <code>false</code> en otro caso</td>
+</tr>
+<tr>
+  <td><code>bubbles</code></td>
+  <td>Boolean</td>
+  <td>Indica si el evento pertenece al flujo de eventos de <em>bubbling</em></td>
+</tr>
+<tr>
+  <td><code>button</code></td>
+  <td>Número entero</td>
+  <td>El botón del ratón que ha sido pulsado. Posibles valores: <code>0</code> – Ningún botón pulsado <code>1</code> – Se ha pulsado el botón izquierdo <code>2</code> – Se ha pulsado el botón derecho <code>3</code> – Se pulsan a la vez el botón izquierdo y el derecho <code>4</code> – Se ha pulsado el botón central <code>5</code> – Se pulsan a la vez el botón izquierdo y el central <code>6</code> – Se pulsan a la vez el botón derecho y el central <code>7</code> – Se pulsan a la vez los 3 botones</td>
+</tr>
+<tr>
+  <td><code>cancelable</code></td>
+  <td>Boolean</td>
+  <td>Indica si el evento se puede cancelar</td>
+</tr>
+<tr>
+  <td><code>cancelBubble</code></td>
+  <td>Boolean</td>
+  <td>Indica si se ha detenido el flujo de eventos de tipo <em>bubbling</em></td>
+</tr>
+<tr>
+  <td><code>charCode</code></td>
+  <td>Número entero</td>
+  <td>El código unicode del carácter correspondiente a la tecla pulsada</td>
+</tr>
+<tr>
+  <td><code>clientX</code></td>
+  <td>Número entero</td>
+  <td>Coordenada X de la posición del ratón respecto del área visible de la ventana</td>
+</tr>
+<tr>
+  <td><code>clientY</code></td>
+  <td>Número entero</td>
+  <td>Coordenada Y de la posición del ratón respecto del área visible de la ventana</td>
+</tr>
+<tr>
+  <td><code>ctrlKey</code></td>
+  <td>Boolean</td>
+  <td>Devuelve <code>true</code> si se ha pulsado la tecla <code>CTRL</code> y <code>false</code> en otro caso</td>
+</tr>
+<tr>
+  <td><code>currentTarget</code></td>
+  <td>Element</td>
+  <td>El elemento que es el objetivo del evento</td>
+</tr>
+<tr>
+  <td><code>detail</code></td>
+  <td>Número entero</td>
+  <td>El número de veces que se han pulsado los botones del ratón</td>
+</tr>
+<tr>
+  <td><code>eventPhase</code></td>
+  <td>Número entero</td>
+  <td>La fase a la que pertenece el evento: <code>0</code> – Fase capturing <code>1</code> – En el elemento destino <code>2</code> – Fase bubbling</td>
+</tr>
+<tr>
+  <td><code>isChar</code></td>
+  <td>Boolean</td>
+  <td>Indica si la tecla pulsada corresponde a un carácter</td>
+</tr>
+<tr>
+  <td><code>keyCode</code></td>
+  <td>Número entero</td>
+  <td>Indica el código numérico de la tecla pulsada</td>
+</tr>
+<tr>
+  <td><code>metaKey</code></td>
+  <td>Número entero</td>
+  <td>Devuelve <code>true</code> si se ha pulsado la tecla <code>META</code> y <code>false</code> en otro caso</td>
+</tr>
+<tr>
+  <td><code>pageX</code></td>
+  <td>Número entero</td>
+  <td>Coordenada X de la posición del ratón respecto de la página</td>
+</tr>
+<tr>
+  <td><code>pageY</code></td>
+  <td>Número entero</td>
+  <td>Coordenada Y de la posición del ratón respecto de la página</td>
+</tr>
+<tr>
+  <td><code>preventDefault()</code></td>
+  <td>Función</td>
+  <td>Se emplea para cancelar la acción predefinida del evento</td>
+</tr>
+<tr>
+  <td><code>relatedTarget</code></td>
+  <td>Element</td>
+  <td>El elemento que es el objetivo secundario del evento (relacionado con los eventos de ratón)</td>
+</tr>
+<tr>
+  <td><code>screenX</code></td>
+  <td>Número entero</td>
+  <td>Coordenada X de la posición del ratón respecto de la pantalla completa</td>
+</tr>
+<tr>
+  <td><code>screenY</code></td>
+  <td>Número entero</td>
+  <td>Coordenada Y de la posición del ratón respecto de la pantalla completa</td>
+</tr>
+<tr>
+  <td><code>shiftKey</code></td>
+  <td>Boolean</td>
+  <td>Devuelve <code>true</code> si se ha pulsado la tecla <code>SHIFT</code> y <code>false</code> en otro caso</td>
+</tr>
+<tr>
+  <td><code>stopPropagation()</code></td>
+  <td>Función</td>
+  <td>Se emplea para detener el flujo de eventos de tipo <em>bubbling</em></td>
+</tr>
+<tr>
+  <td><code>target</code></td>
+  <td>Element</td>
+  <td>El elemento que origina el evento</td>
+</tr>
+<tr>
+  <td><code>timeStamp</code></td>
+  <td>Número</td>
+  <td>La fecha y hora en la que se ha producido el evento</td>
+</tr>
+<tr>
+  <td><code>type</code></td>
+  <td>Cadena de texto</td>
+  <td>El nombre del evento</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Al contrario de lo que sucede con Internet Explorer, la mayoría de propiedades del objeto <code>event</code> de DOM son de sólo lectura. En concreto, solamente las siguientes propiedades son de lectura y escritura: <code>altKey</code>, <code>button</code> y <code>keyCode</code>.</p>
+
+<p>La tecla <code>META</code> es una tecla especial que se encuentra en algunos teclados de ordenadores muy antiguos. Actualmente, en los ordenadores tipo PC se asimila a la tecla <code>Alt</code> o a la <em>tecla de Windows</em>, mientras que en los ordenadores tipo Mac se asimila a la tecla <code>Command</code>.</p>
+
+<h3 id="similitudes_y_diferencias_entre_navegadores">6.4.2. Similitudes y diferencias entre navegadores</h3>
+
+<h4 id="similitudes">6.4.2.1. Similitudes</h4>
+
+<p>En ambos casos se utiliza la propiedad <code>type</code> para obtener el tipo de evento que se trata:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> procesaEvento<span class="br0">&#40;</span>elEvento<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">if</span><span class="br0">&#40;</span>elEvento.<span class="me1">type</span> <span class="sy0">==</span> <span class="st0">&quot;click&quot;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    alert<span class="br0">&#40;</span><span class="st0">&quot;Has pulsado el raton&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+  <span class="kw1">else</span> <span class="kw1">if</span><span class="br0">&#40;</span>elEvento.<span class="me1">type</span> <span class="sy0">==</span> <span class="st0">&quot;mouseover&quot;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    alert<span class="br0">&#40;</span><span class="st0">&quot;Has movido el raton&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+elDiv.<span class="me1">onclick</span> <span class="sy0">=</span> procesaEvento<span class="sy0">;</span>
+elDiv.<span class="me1">onmouseover</span> <span class="sy0">=</span> procesaEvento<span class="sy0">;</span></pre>
+</div>
+
+<p>Mientras que el manejador del evento incluye el prefijo <code>on</code> en su nombre, el tipo de evento devuelto por la propiedad <code>type</code> prescinde de ese prefijo. Por eso en el ejemplo anterior se compara su valor con <code>click</code> y <code>mouseover</code> y no con <code>onclick</code> y <code>onmouseover</code>.</p>
+
+<p>Otra similitud es el uso de la propiedad <code>keyCode</code> para obtener el código correspondiente al carácter de la tecla que se ha pulsado. La tecla pulsada no siempre representa un carácter alfanumérico. Cuando se pulsa la tecla <code>ENTER</code> por ejemplo, se obtiene el código <code>13</code>. La barra espaciadora se corresponde con el código <code>32</code> y la tecla de borrado tiene un código igual a <code>8</code>.</p>
+
+<p>Una forma más inmediata de comprobar si se han pulsado algunas teclas especiales, es utilizar las propiedades <code>shiftKey</code>, <code>altKey</code> y <code>ctrlKey</code>.</p>
+
+<p>Para obtener la posición del ratón respecto de la parte visible de la ventana, se emplean las propiedades <code>clientX</code> y <code>clientY</code>. De la misma forma, para obtener la posición del puntero del ratón respecto de la pantalla completa, se emplean las propiedades <code>screenX</code> y <code>screenY</code>.</p>
+
+<h4 id="diferencias">6.4.2.2. Diferencias</h4>
+
+<p>Una de las principales diferencias es la forma en la que se obtiene el elemento que origina el evento. Si un elemento <code>&lt;div&gt;</code> tiene asignado un evento <code>onclick</code>, al pulsar con el ratón el interior del <code>&lt;div&gt;</code> se origina un evento cuyo objetivo es el elemento <code>&lt;div&gt;</code>.</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="co1">// Internet Explorer</span>
+<span class="kw1">var</span> objetivo <span class="sy0">=</span> elEvento.<span class="me1">srcElement</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Navegadores que siguen los estandares</span>
+<span class="kw1">var</span> objetivo <span class="sy0">=</span> elEvento.<span class="me1">target</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Otra diferencia importante es la relativa a la obtención del carácter correspondiente a la tecla pulsada. Cada tecla pulsada tiene asociados dos códigos diferentes: el primero es el código de la tecla que ha sido presionada y el otro código es el que se refiere al carácter pulsado.</p>
+
+<p>El primer código es un código de tecla interno para JavaScript. El segundo código coincide con el código ASCII del carácter. De esta forma, la letra <code>a</code> tiene un código interno igual a <code>65</code> y un código ASCII de <code>97</code>. Por otro lado, la letra <code>A</code> tiene un código interno también de <code>65</code> y un código ASCII de <code>95</code>.</p>
+
+<p>En Internet Explorer, el contenido de la propiedad <code>keyCode</code> depende de cada evento. En los eventos de "pulsación de teclas" (<code>onkeyup</code> y <code>onkeydown</code>) su valor es igual al código interno. En los eventos de "escribir con teclas" (<code>onkeypress</code>) su valor es igual al código ASCII del carácter pulsado.</p>
+
+<p>Por el contrario, en los navegadores que siguen los estándares la propiedad <code>keyCode</code> es igual al código interno en los eventos de "pulsación de teclas" (<code>onkeyup</code> y <code>onkeydown</code>) y es igual a <code>0</code> en los eventos de "escribir con teclas" (<code>onkeypress</code>).</p>
+
+<p>En la práctica, esto supone que en los eventos <code>onkeyup</code> y <code>onkeydown</code> se puede utilizar la misma propiedad en todos los navegadores:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> manejador<span class="br0">&#40;</span>elEvento<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">var</span> evento <span class="sy0">=</span> elEvento <span class="sy0">||</span> window.<span class="me1">event</span><span class="sy0">;</span>
+  alert<span class="br0">&#40;</span><span class="st0">&quot;[&quot;</span><span class="sy0">+</span>evento.<span class="me1">type</span><span class="sy0">+</span><span class="st0">&quot;] El código de la tecla pulsada es &quot;</span> <span class="sy0">+</span> evento.<span class="me1">keyCode</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+document.<span class="me1">onkeyup</span> <span class="sy0">=</span> manejador<span class="sy0">;</span>
+document.<span class="me1">onkeydown</span> <span class="sy0">=</span> manejador<span class="sy0">;</span></pre>
+</div>
+
+<p>En este caso, si se carga la página en cualquier navegador y se pulsa por ejemplo la tecla <code>a</code>, se muestra el siguiente mensaje:</p>
+
+<div class="figure" id="figure_6_7">
+    <img src="/img/ajax/f0607.gif" alt="Mensaje mostrado en el navegador Firefox" />
+
+    <p class="caption"><strong>Figura 6.7</strong> Mensaje mostrado en el navegador Firefox</p>
+</div>
+
+
+<div class="figure" id="figure_6_8">
+    <img src="/img/ajax/f0608.gif" alt="Mensaje mostrado en el navegador Internet Explorer" />
+
+    <p class="caption"><strong>Figura 6.8</strong> Mensaje mostrado en el navegador Internet Explorer</p>
+</div>
+
+
+<p>La gran diferencia se produce al intentar obtener el carácter que se ha pulsado, en este caso la letra <code>a</code>. Para obtener la letra, en primer lugar se debe obtener su código ASCII. Como se ha comentado, en Internet Explorer el valor de la propiedad <code>keyCode</code> en el evento <code>onkeypress</code> es igual al carácter ASCII:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> manejador<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">var</span> evento <span class="sy0">=</span> window.<span class="me1">event</span><span class="sy0">;</span>
+&nbsp;
+  <span class="co1">// Internet Explorer</span>
+  <span class="kw1">var</span> codigo <span class="sy0">=</span> evento.<span class="me1">keyCode</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+document.<span class="me1">onkeypress</span> <span class="sy0">=</span> manejador<span class="sy0">;</span></pre>
+</div>
+
+<p>Sin embargo, en los navegadores que no son Internet Explorer, el código anterior es igual a <code>0</code> para cualquier tecla pulsada. En estos navegadores que siguen los estándares, se debe utilizar la propiedad <code>charCode</code>, que devuelve el código de la tecla pulsada, pero solo para el evento <code>onkeypress</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> manejador<span class="br0">&#40;</span>elEvento<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">var</span> evento <span class="sy0">=</span> elEvento<span class="sy0">;</span>
+&nbsp;
+  <span class="co1">// Navegadores que siguen los estándares</span>
+  <span class="kw1">var</span> codigo <span class="sy0">=</span> evento.<span class="me1">charCode</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+document.<span class="me1">onkeypress</span> <span class="sy0">=</span> manejador<span class="sy0">;</span></pre>
+</div>
+
+<p>Una vez obtenido el código en cada navegador, se debe utilizar la función <code>String.fromCharCode()</code> para obtener el carácter cuyo código ASCII se pasa como parámetro. Por tanto, la solución completa para obtener la tecla pulsada en cualquier navegador es la siguiente:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> manejador<span class="br0">&#40;</span>elEvento<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">var</span> evento <span class="sy0">=</span> elEvento <span class="sy0">||</span> window.<span class="me1">event</span><span class="sy0">;</span>
+  <span class="kw1">var</span> codigo <span class="sy0">=</span> evento.<span class="me1">charCode</span> <span class="sy0">||</span> evento.<span class="me1">keyCode</span><span class="sy0">;</span>
+  <span class="kw1">var</span> caracter <span class="sy0">=</span> <span class="kw4">String</span>.<span class="me1">fromCharCode</span><span class="br0">&#40;</span>codigo<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+document.<span class="me1">onkeypress</span> <span class="sy0">=</span> manejador<span class="sy0">;</span></pre>
+</div>
+
+<p>Una de las propiedades más interesantes es la posibilidad de impedir que se complete el comportamiento normal de un evento. En otras palabras, con JavaScript es posible no mostrar ningún carácter cuando se pulsa una tecla, no enviar un formulario después de pulsar el botón de envío, no cargar ninguna página al pulsar un enlace, etc. El método avanzado de impedir que un evento ejecute su acción asociada depende de cada navegador:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="co1">// Internet Explorer</span>
+elEvento.<span class="me1">returnValue</span> <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Navegadores que siguen los estandares</span>
+elEvento.<span class="me1">preventDefault</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>En el modelo básico de eventos también es posible impedir el comportamiento por defecto de algunos eventos. Si por ejemplo en un elemento <code>&lt;textarea&gt;</code> se indica el siguiente manejador de eventos:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">textarea</span> <span class="kw3">onkeypress</span><span class="sy0">=</span><span class="st0">&quot;return false;&quot;</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">textarea</span>&gt;</span></pre>
+</div>
+
+<p>En el <code>&lt;textarea&gt;</code> anterior no será posible escribir ningún carácter, ya que el manejador de eventos devuelve <code>false</code> y ese es el valor necesario para impedir que se termine de ejecutar el evento y por tanto para evitar que la letra se escriba.</p>
+
+<p>Así, es posible definir manejadores de eventos que devuelvan <code>true</code> o <code>false</code> en función de algunos parámetros. Por ejemplo se puede diseñar un limitador del número de caracteres que se pueden escribir en un <code>&lt;textarea&gt;</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> limita<span class="br0">&#40;</span>maximoCaracteres<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">var</span> elemento <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;texto&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="kw1">if</span><span class="br0">&#40;</span>elemento.<span class="me1">value</span>.<span class="me1">length</span> <span class="sy0">&gt;=</span> maximoCaracteres <span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="kw2">false</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+  <span class="kw1">else</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="sy0">&lt;</span>textarea id<span class="sy0">=</span><span class="st0">&quot;texto&quot;</span> onkeypress<span class="sy0">=</span><span class="st0">&quot;return limita(100);&quot;</span><span class="sy0">&gt;&lt;/</span>textarea<span class="sy0">&gt;</span></pre>
+</div>
+
+<p>El funcionamiento del ejemplo anterior se detalla a continuación:</p>
+
+<ol>
+<li>Se utiliza el evento <code>onkeypress</code> para controlar si la tecla se escribe o no.</li>
+<li>En el manejador del evento se devuelve el valor devuelto por la función externa <code>limita()</code> a la que se pasa como parámetro el valor <code>100</code>.</li>
+<li>Si el valor devuelto por <code>limita()</code> es <code>true</code>, el evento se produce de forma normal y el carácter se escribe en el <code>&lt;textarea&gt;</code>. Si el valor devuelto por <code>limita()</code> es <code>false</code>, el evento no se produce y por tanto el carácter no se escribe en el <code>&lt;textarea&gt;</code>.</li>
+<li>La función <code>limita()</code> devuelve <code>true</code> o <code>false</code> después de comprobar si el número de caracteres del <code>&lt;textarea&gt;</code> es superior o inferior al máximo número de caracteres que se le ha pasado como parámetro.</li>
+</ol>
+
+<p>El objeto <code>event</code> también permite detener completamente la ejecución del flujo normal de eventos:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="co1">// Internet Explorer</span>
+elEvento.<span class="me1">cancelBubble</span> <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Navegadores que siguen los estandares</span>
+elEvento.<span class="me1">stopPropagation</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Al detener el flujo de eventos pendientes, se invalidan y no se ejecutan los eventos que restan desde ese momento hasta que se recorren todos los elementos pendientes hasta el elemento <code>window</code>.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_6/handlers_y_listeners.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>6.3. Handlers y listeners</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_6/tipos_de_eventos_2.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>6.5. Tipos de eventos</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a AJAX</a>
+            </li>
+                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> JavaScript básico</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> JavaScript avanzado</a>
+            </li>
+                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> DOM (Document Object Model)</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> BOM (Browser Object Model)</a>
+            </li>
+                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_6.html">
+                    <span>Capítulo 6.</span> Eventos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/modelo_basico_de_eventos.html">
+                    <span>6.1.</span> Modelo básico de eventos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/el_flujo_de_eventos.html">
+                    <span>6.2.</span> El flujo de eventos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/handlers_y_listeners.html">
+                    <span>6.3.</span> Handlers y listeners
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_6/el_objeto_event.html">
+                    <span>6.4.</span> El objeto event
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/tipos_de_eventos_2.html">
+                    <span>6.5.</span> Tipos de eventos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/solucion_cross_browser.html">
+                    <span>6.6.</span> Solución cross browser
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Primeros pasos con AJAX</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Técnicas básicas con AJAX</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Técnicas avanzadas con AJAX</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Frameworks y librerías</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Otras utilidades</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Recursos útiles</a>
+            </li>
+                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Bibliografía</a>
+            </li>
+                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Ejercicios resueltos</a>
+            </li>
+                                                                                                                                                                                                                                                                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

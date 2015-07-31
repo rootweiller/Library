@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>2.3. El controlador frontal al rescate (Symfony 2.4, el libro oficial)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                            
+        <link rel="canonical" href="/libro/symfony_2_x/capitulo_2/el_controlador_frontal_al_rescate.html"/>
+                                    <link rel="prev" href="../capitulo_2/agregando_una_pagina_show_al_blog.html" />
+                    <link rel="next" href="../capitulo_2/mejorando_las_plantillas.html" />
+                <link rel="start" href="/libro/symfony_2_4/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="2.3. El controlador frontal al rescate (Symfony 2.4, el libro oficial)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_2_4"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_4/" itemprop="url">
+                    <span itemprop="title">Symfony 2.4, el libro oficial</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_4/capitulo_2.html" itemprop="url">
+                    <span itemprop="title">Capítulo 2. De PHP a Symfony2</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>2.3. El controlador frontal al rescate</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="el_controlador_frontal_al_rescate" class="title">
+        <span>2.3.</span> El controlador frontal al rescate
+    </h1>
+
+    
+
+<p>Una solución mucho mejor es usar un <em>controlador frontal</em>: un único archivo PHP a través del cual se procesen todas las peticiones del usuario. Con un controlador frontal, la URI de la aplicación cambia un poco, pero se vuelve mucho más flexible:</p>
+
+<div class="code code">
+<pre class="code">Sin controlador frontal:
+/index.php       =&gt; (ejecuta index.php) la página que lista los artículos.
+/show.php        =&gt; (ejecuta show.php)  la página que muestra un artículo específico.
+&nbsp;
+Con index.php como controlador frontal
+/index.php       =&gt; (ejecuta index.php) la página que lista los artículos.
+/index.php/show  =&gt; (ejecuta index.php) la página que muestra un artículo específico.</pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> El nombre del archivo <code>index.php</code> se puede eliminar en las URLs si utilizas las reglas de reescritura del servidor web Apache (o las equivalentes de los demás servidores web). En ese caso, la URI resultante de la página <code>show</code> del blog sería simplemente <code>/show</code>.</p></div>
+
+<p>Cuando se usa un controlador frontal, un solo archivo PHP (<code>index.php</code> en este caso) procesa todas las peticiones. Para la página <code>show</code> del blog, <code>/index.php/show</code> realmente ejecuta el archivo <code>index.php</code>, que ahora es el responsable de dirigir internamente las peticiones basándose en la URI completa. Como puedes ver, un controlador frontal es una herramienta muy poderosa.</p>
+
+<h3 id="creando_el_controlador_frontal">2.3.1. Creando el controlador frontal</h3>
+
+<p>Estás a punto de dar un gran paso en la aplicación. Con un archivo manejando todas las peticiones, puedes centralizar cosas como el manejo de la seguridad, la carga de la configuración y el enrutamiento. En nuestra aplicación, <code>index.php</code> ahora debe ser lo suficientemente inteligente como para mostrar la lista de entradas del blog o mostrar la página de una entrada particular basándose en la URI solicitada:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span>
+<span class="co1">// index.php</span>
+&nbsp;
+<span class="co1">// carga e inicia algunas librerías globales</span>
+<span class="kw1">require_once</span> <span class="st_h">'model.php'</span><span class="sy0">;</span>
+<span class="kw1">require_once</span> <span class="st_h">'controllers.php'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// encamina la petición internamente</span>
+<span class="re0">$uri</span> <span class="sy0">=</span> <span class="re0">$_SERVER</span><span class="br0">&#91;</span><span class="st_h">'REQUEST_URI'</span><span class="br0">&#93;</span><span class="sy0">;</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$uri</span> <span class="sy0">==</span> <span class="st_h">'/index.php'</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    list_action<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span> <span class="kw1">elseif</span> <span class="br0">&#40;</span><span class="re0">$uri</span> <span class="sy0">==</span> <span class="st_h">'/index.php/show'</span> <span class="sy0">&amp;&amp;</span> <span class="kw3">isset</span><span class="br0">&#40;</span><span class="re0">$_GET</span><span class="br0">&#91;</span><span class="st_h">'id'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    show_action<span class="br0">&#40;</span><span class="re0">$_GET</span><span class="br0">&#91;</span><span class="st_h">'id'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+    <span class="kw3">header</span><span class="br0">&#40;</span><span class="st_h">'Status: 404 Not Found'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">echo</span> <span class="st_h">'&lt;html&gt;&lt;body&gt;&lt;h1&gt;Page Not Found&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Para organizar mejor el código, los dos controladores anteriores (archivos <code>index.php</code> y <code>show.php</code>) se han convertido en funciones PHP del nuevo archivo <code>controllers.php</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">function</span> list_action<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="re0">$posts</span> <span class="sy0">=</span> get_all_posts<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">require</span> <span class="st_h">'templates/list.php'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw2">function</span> show_action<span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="re0">$post</span> <span class="sy0">=</span> get_post_by_id<span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">require</span> <span class="st_h">'templates/show.php'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Como controlador frontal, <code>index.php</code> ha asumido un papel completamente nuevo, que incluye la carga de los archivos principales de la aplicación (<code>model.php</code> y <code>controllers.php</code>) y la decisión de ejecutar uno de los dos controladores (las funciones <code>list_action()</code> y <code>show_action()</code>). En realidad, el controlador frontal está empezando a parecerse y actuar como el mecanismo que define Symfony2 para la manipulación y enrutado de peticiones.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Otra ventaja del controlador frontal es la flexibilidad de las URL. Ten en cuenta que la URL de la página <code>show</code> del blog se puede cambiar de <code>/show</code> a <code>/read</code> cambiando el código en un único lugar. Antes, era necesario cambiar todo un archivo para cambiar el nombre. En Symfony2, las URL son incluso más flexibles.</p></div>
+
+<p>Por ahora, la aplicación ha evolucionado de un único archivo PHP, a una estructura organizada que permite la reutilización de código. Debes estar contento, pero aún lejos de estar satisfecho. Por ejemplo, el sistema de enrutamiento es muy mejorable, ya que no reconoce por ejemplo que la página <code>list</code> (<code>/index.php</code>) también debe ser accesible a través de <code>/</code> (si has agregado las reglas de reescritura de <em>Apache</em>). Además, en lugar de programar el blog, has <em>perdido</em> tu tiempo en preparar la "arquitectura" del código (por ejemplo, el enrutamiento, los controladores, las plantillas, etc.) Y pronto tendrás que perder más tiempo en la gestión de los formularios, la validación de la información, crear un archivo de log, la gestión de la seguridad, etc.</p>
+
+<p>¿Por qué tienes que dedicarte a solucionar estos problemas que se repiten una y otra vez en todos los proyectos?</p>
+
+<h3 id="anadiendo_un_toque_de_symfony2">2.3.2. Añadiendo un toque de Symfony2</h3>
+
+<p>¡Symfony2 al rescate! Antes de utilizar Symfony2, debes descargar sus archivos. Para ello se utiliza la herramienta llamada <em>Composer</em>, que se encarga de descargar la versión correcta de los archivos de Symfony, todas sus dependencias y también proporciona un cargador automático de clases (llamado <em>class loader</em> en inglés). Un cargador automático es una herramienta que permite empezar a utilizar clases PHP sin incluir explícitamente el archivo que contiene la clase.</p>
+
+<p>Dentro del directorio raíz del proyecto crea un archivo llamado <code>composer.json</code> con el siguiente contenido:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="br0">&#123;</span>
+    <span class="st0">&quot;require&quot;</span><span class="sy0">:</span> <span class="br0">&#123;</span>
+        <span class="st0">&quot;symfony/symfony&quot;</span><span class="sy0">:</span> <span class="st0">&quot;2.4.*&quot;</span>
+    <span class="br0">&#125;</span><span class="sy0">,</span>
+    <span class="st0">&quot;autoload&quot;</span><span class="sy0">:</span> <span class="br0">&#123;</span>
+        <span class="st0">&quot;files&quot;</span><span class="sy0">:</span> <span class="br0">&#91;</span><span class="st0">&quot;model.php&quot;</span><span class="sy0">,</span><span class="st0">&quot;controllers.php&quot;</span><span class="br0">&#93;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>A continuación, <a href="http://getcomposer.org/download/">descarga Composer</a> y ejecuta después el siguiente código para descargar Symfony dentro del directorio <code>vendor/</code> del proyecto:</p>
+
+<div class="code cli">
+<pre class="cli">$ php composer.phar install</pre>
+</div>
+
+<p>Además de descargar todas las dependencias, <em>Composer</em> genera un archivo llamado <code>vendor/autoload.php</code>, que se encarga de cargar automáticamente todas las clases del <em>framework</em> Symfony y de todas las librerías que añadas en la sección <code>autoload</code> del archivo <code>composer.json</code>.</p>
+
+<p>La esencia de la filosofía Symfony es que el trabajo principal de una aplicación es interpretar cada petición y devolver una respuesta. Con este fin, Symfony2 proporciona las clases <code>Request</code> y <code>Response</code>. Estas clases son representaciones orientadas a objetos de la petición HTTP que se está procesando y la respuesta HTTP que se devolverá. Úsalas para mejorar el blog:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span>
+<span class="co1">// index.php</span>
+<span class="kw1">require_once</span> <span class="st_h">'vendor/autoload.php'</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Request<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Response<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$request</span> <span class="sy0">=</span> Request<span class="sy0">::</span><span class="me2">createFromGlobals</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$uri</span> <span class="sy0">=</span> <span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getPathInfo</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$uri</span> <span class="sy0">==</span> <span class="st_h">'/'</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="re0">$response</span> <span class="sy0">=</span> list_action<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span> <span class="kw1">elseif</span> <span class="br0">&#40;</span><span class="re0">$uri</span> <span class="sy0">==</span> <span class="st_h">'/show'</span> <span class="sy0">&amp;&amp;</span> <span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">query</span><span class="sy0">-&gt;</span><span class="me1">has</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="re0">$response</span> <span class="sy0">=</span> show_action<span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">query</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+    <span class="re0">$html</span> <span class="sy0">=</span> <span class="st_h">'&lt;html&gt;&lt;body&gt;&lt;h1&gt;Page Not Found&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;'</span><span class="sy0">;</span>
+    <span class="re0">$response</span> <span class="sy0">=</span> <span class="kw2">new</span> Response<span class="br0">&#40;</span><span class="re0">$html</span><span class="sy0">,</span> Response<span class="sy0">::</span><span class="me2">HTTP_NOT_FOUND</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">// envía las cabeceras y la respuesta</span>
+<span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">send</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Los controladores se encargan de devolver un objeto <code>Response</code>. Para simplificar la generación del código HTML de la respuesta, crea una nueva función llamada <code>render_template()</code>, la cual, por cierto, actúa un poco como el motor de plantillas de Symfony2:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// controllers.php</span>
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Response<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">function</span> list_action<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="re0">$posts</span> <span class="sy0">=</span> get_all_posts<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$html</span> <span class="sy0">=</span> render_template<span class="br0">&#40;</span><span class="st_h">'templates/list.php'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'posts'</span> <span class="sy0">=&gt;</span> <span class="re0">$posts</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="kw2">new</span> Response<span class="br0">&#40;</span><span class="re0">$html</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw2">function</span> show_action<span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="re0">$post</span> <span class="sy0">=</span> get_post_by_id<span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$html</span> <span class="sy0">=</span> render_template<span class="br0">&#40;</span><span class="st_h">'templates/show.php'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'post'</span> <span class="sy0">=&gt;</span> <span class="re0">$post</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="kw2">new</span> Response<span class="br0">&#40;</span><span class="re0">$html</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">// función ayudante para reproducir plantillas</span>
+<span class="kw2">function</span> render_template<span class="br0">&#40;</span><span class="re0">$path</span><span class="sy0">,</span> <span class="kw3">array</span> <span class="re0">$args</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="kw3">extract</span><span class="br0">&#40;</span><span class="re0">$args</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw3">ob_start</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">require</span> <span class="re0">$path</span><span class="sy0">;</span>
+    <span class="re0">$html</span> <span class="sy0">=</span> <span class="kw3">ob_get_clean</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="re0">$html</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Aunque solo ha añadido una pequeñísima parte de las ideas de Symfony2, la aplicación ahora es más flexible y fiable. El objeto <code>Request</code> proporciona una manera segura para acceder a la información de la petición HTTP. El método <code>getPathInfo()</code> por ejemplo devuelve una URI limpia (siempre devolviendo <code>/show</code> y nunca <code>/index.php/show</code>).</p>
+
+<p>Por lo tanto, incluso si el usuario va a <code>/index.php/show</code>, la aplicación es lo suficientemente inteligente para encaminar la petición hacia <code>show_action()</code>.</p>
+
+<p>El objeto <code>Response</code> proporciona flexibilidad al construir la respuesta HTTP, permitiendo que las cabeceras HTTP y el contenido se definan a través de una interfaz orientada a objetos.</p>
+
+<p>Y aunque las respuestas en esta aplicación son simples, esta flexibilidad será muy útil en cuanto tu aplicación crezca.</p>
+
+<h3 id="aplicacion_de_ejemplo_en_symfony2">2.3.3. Aplicación de ejemplo en Symfony2</h3>
+
+<p>El blog ha mejorado bastante, pero todavía contiene una gran cantidad de código para ser una aplicación tan simple. Durante las mejoras de la aplicación, se ha creado un sistema de enrutamiento muy sencillo y otro método que utiliza <code>ob_start()</code> y <code>ob_get_clean()</code> para procesar plantillas. Si vas a continuar desarrollando este blog, lo mejor es que utilices los componentes <code>Routing</code> y <code>Templating</code> de Symfony para mejorar esa parte sin esfuerzo.</p>
+
+<p>En lugar de resolver de nuevo los mismos problemas de siempre, deja que Symfony2 se encargue de ellos por ti. Aquí está la misma aplicación de ejemplo, pero construida ahora con Symfony2:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span>
+<span class="co1">// src/Acme/BlogBundle/Controller/BlogController.php</span>
+&nbsp;
+<span class="kw2">namespace</span> Acme\BlogBundle\Controller<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Bundle\FrameworkBundle\Controller\Controller<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> BlogController <span class="kw2">extends</span> Controller
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> listAction<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$posts</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'doctrine'</span><span class="br0">&#41;</span>
+            <span class="sy0">-&gt;</span><span class="me1">getManager</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+            <span class="sy0">-&gt;</span><span class="me1">createQuery</span><span class="br0">&#40;</span><span class="st_h">'SELECT p FROM AcmeBlogBundle:Post p'</span><span class="br0">&#41;</span>
+            <span class="sy0">-&gt;</span><span class="me1">execute</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">&#40;</span><span class="st_h">'AcmeBlogBundle:Blog:list.html.php'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'posts'</span> <span class="sy0">=&gt;</span> <span class="re0">$posts</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> showAction<span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$post</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'doctrine'</span><span class="br0">&#41;</span>
+            <span class="sy0">-&gt;</span><span class="me1">getManager</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+            <span class="sy0">-&gt;</span><span class="me1">getRepository</span><span class="br0">&#40;</span><span class="st_h">'AcmeBlogBundle:Post'</span><span class="br0">&#41;</span>
+            <span class="sy0">-&gt;</span><span class="me1">find</span><span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$post</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="co1">// hace que se muestre la página de error 404</span>
+            <span class="kw1">throw</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">createNotFoundException</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">&#40;</span><span class="st_h">'AcmeBlogBundle:Blog:show.html.php'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'post'</span> <span class="sy0">=&gt;</span> <span class="re0">$post</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Los dos controladores siguen siendo más o menos pequeños. Cada uno utiliza la librería ORM de Doctrine para recuperar objetos de la base de datos y el componente <code>Templating</code> para generar el código HTML con una plantilla y devolver un objeto <code>Response</code>. La plantilla <code>list</code> ahora es un poco más simple:</p>
+
+<div class="code php">
+<pre class="php">&lt;!-- src/Acme/BlogBundle/Resources/views/Blog/lista.html.php --&gt; 
+<span class="kw2">&lt;?php</span> <span class="re0">$view</span><span class="sy0">-&gt;</span><span class="me1">extend</span><span class="br0">&#40;</span><span class="st_h">'::base.html.php'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+<span class="kw2">&lt;?php</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'slots'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">set</span><span class="br0">&#40;</span><span class="st_h">'title'</span><span class="sy0">,</span> <span class="st_h">'List of Posts'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+&lt;h1&gt;List of Posts&lt;/h1&gt;
+&lt;ul&gt;
+    <span class="kw2">&lt;?php</span> <span class="kw1">foreach</span> <span class="br0">&#40;</span><span class="re0">$posts</span> <span class="kw1">as</span> <span class="re0">$post</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+    &lt;li&gt;
+        &lt;a href=&quot;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'router'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">generate</span><span class="br0">&#40;</span><span class="st_h">'blog_show'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'id'</span> <span class="sy0">=&gt;</span> <span class="re0">$post</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&quot;&gt;
+            <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$post</span><span class="sy0">-&gt;</span><span class="me1">getTitle</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+            &lt;/a&gt;
+    &lt;/li&gt;
+    <span class="kw2">&lt;?php</span> <span class="kw1">endforeach</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+&lt;/ul&gt;</pre>
+</div>
+
+<p>Y el diseño de la plantilla base también es muy parecido al de antes:</p>
+
+<div class="code php">
+<pre class="php">&lt;!-- app/Resources/views/base.html.php --&gt;
+&lt;html&gt;
+    &lt;head&gt;
+    &lt;title&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'slots'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">output</span><span class="br0">&#40;</span><span class="st_h">'title'</span><span class="sy0">,</span> <span class="st_h">'Default title'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'slots'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">output</span><span class="br0">&#40;</span><span class="st_h">'_content'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Te vamos a dejar como ejercicio la plantilla <code>show</code>, porque debería ser trivial crearla basándote en la plantilla <code>list</code>.</p></div>
+
+<p>Cuando arranca el motor de Symfony2 (llamado <code>kernel</code>), necesita un <em>mapa</em> para saber qué controladores ejecutar en base a la información solicitada por los usuarios. Este <em>mapa</em> se crea con la configuración de enrutamiento, que proporciona esta información en formato legible:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># app/config/routing.yml</span><span class="co4">
+blog_list</span>:<span class="co3">
+    path</span><span class="sy2">: </span>    /blog<span class="co3">
+    defaults</span><span class="sy2">: </span><span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeBlogBundle:Blog:list <span class="br0">&#125;</span>
+<span class="co4">
+blog_show</span>:<span class="co3">
+    path</span><span class="sy2">: </span>    /blog/show/<span class="br0">&#123;</span>id<span class="br0">&#125;</span><span class="co3">
+    defaults</span><span class="sy2">: </span><span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeBlogBundle:Blog:show <span class="br0">&#125;</span></pre>
+</div>
+
+<p>Ahora que Symfony2 se encarga de todas las tareas repetitivas, el controlador frontal es muy simple. Y ya que hace tan poco, nunca tienes que volver a tocarlo una vez creado (y si utilizas una distribución Symfony2, ¡ni siquiera tendrás que crearlo!):</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span>
+<span class="co1">// web/app.php</span>
+<span class="kw1">require_once</span> __DIR__<span class="sy0">.</span><span class="st_h">'/../app/bootstrap.php'</span><span class="sy0">;</span>
+<span class="kw1">require_once</span> __DIR__<span class="sy0">.</span><span class="st_h">'/../app/AppKernel.php'</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Request<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$kernel</span> <span class="sy0">=</span> <span class="kw2">new</span> AppKernel<span class="br0">&#40;</span><span class="st_h">'prod'</span><span class="sy0">,</span> <span class="kw4">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$kernel</span><span class="sy0">-&gt;</span><span class="me1">handle</span><span class="br0">&#40;</span>Request<span class="sy0">::</span><span class="me2">createFromGlobals</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">send</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El único trabajo del controlador frontal es iniciar el motor de Symfony2 (<code>Kernel</code>) y pasarle un objeto <code>Request</code> para que lo manipule. Después, el núcleo de Symfony2 utiliza la información de enrutamiento para determinar qué controlador se ejecuta. Al igual que antes, el método controlador es el responsable de devolver el objeto <code>Response</code> final. Y eso es todo lo que hace el controlador frontal.</p>
+
+<h3 id="que_mas_ofrece_symfony2">2.3.4. Qué más ofrece Symfony2</h3>
+
+<p>En los siguientes capítulos, aprenderás más acerca de cómo funciona cada parte de Symfony y la organización recomendada de un proyecto. Ahora vamos a ver cómo nos ha facilitado nuestro trabajo de programadores el migrar el blog de PHP simple a Symfony2:</p>
+
+<ul>
+<li>Tu aplicación cuenta con <strong>código claro y bien organizado</strong> (aunque Symfony no te obliga a ello). Esto facilita la <strong>reutilización</strong> de código y permite a los nuevos desarrolladores ser productivos en el proyecto con mayor rapidez.</li>
+<li>El 100% del código que escribes es para tu aplicación. <strong>No necesitas desarrollar o mantener herramientas de bajo nivel</strong> como la carga automática de clases, el enrutamiento o los controladores.</li>
+<li>Symfony2 te proporciona <strong>acceso a herramientas de software libre</strong> tales como Doctrine, plantillas, seguridad, formularios, validación y traducción (por nombrar algunas).</li>
+<li>La aplicación ahora dispone de <strong>URLs totalmente flexibles</strong> gracias al componente <code>Routing</code>.</li>
+<li>La arquitectura centrada en HTTP de Symfony2 te da acceso a herramientas muy potentes, como por ejemplo la <strong>caché HTTP</strong> (mediante la <strong>caché HTTP interna de Symfony2</strong> o mediante herramientas más avanzadas como <a href="http://www.varnish-cache.org">Varnish</a>). Esto se explica más adelante en el capítulo sobre la caché.</li>
+</ul>
+
+<p>Y lo mejor de todo, utilizando Symfony2, ¡ahora tienes acceso a un conjunto de herramientas de <strong>software libre de alta calidad desarrolladas por la comunidad Symfony2</strong>!</p>
+
+<p>Puedes encontrar una buena colección de herramientas comunitarias de Symfony2 en <a href="http://knpbundles.com">KnpBundles.com</a>.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_2/agregando_una_pagina_show_al_blog.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>2.2. Agregando una página <code>show</code> al blog</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_2/mejorando_las_plantillas.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>2.4. Mejorando las plantillas</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Symfony2 y los fundamentos de HTTP</a>
+            </li>
+                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_2.html">
+                    <span>Capítulo 2.</span> De PHP a Symfony2
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/un_blog_sencillo_creado_con_php_simple.html">
+                    <span>2.1.</span> Un blog sencillo creado con PHP simple
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/agregando_una_pagina_show_al_blog.html">
+                    <span>2.2.</span> Agregando una página <code>show</code> al blog
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_2/el_controlador_frontal_al_rescate.html">
+                    <span>2.3.</span> El controlador frontal al rescate
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_2/mejorando_las_plantillas.html">
+                    <span>2.4.</span> Mejorando las plantillas
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Instalando y configurando Symfony2</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Creando páginas en Symfony2</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> El controlador</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El enrutamiento</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Creando y utilizando plantillas</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> La base de datos y Doctrine</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> La base de datos y Propel</a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Tests unitarios y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Validación</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Formularios</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> La caché de HTTP</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> El contenedor de servicios</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Mejorando el rendimiento</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> El interior de Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> La API estable de Symfony2</a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

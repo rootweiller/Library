@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>9.3. Referencias Git (Pro Git, el libro oficial de Git)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_9/los_objetos_git.html" />
+                    <link rel="next" href="../capitulo_9/archivos_empaquetadores.html" />
+                <link rel="start" href="/libro/pro_git/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="9.3. Referencias Git (Pro Git, el libro oficial de Git)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page pro_git"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/" itemprop="url">
+                    <span itemprop="title">Pro Git, el libro oficial de Git</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/capitulo_9.html" itemprop="url">
+                    <span itemprop="title">Capítulo 9. Funcionamiento interno de Git</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>9.3. Referencias Git</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="referencias_git" class="title">
+        <span>9.3.</span> Referencias Git
+    </h1>
+
+    
+
+<p>Puedes utilizar algo así como <code>git log 1a410e</code> para echar un vistazo a lo largo de toda tu historia, recorriendola y encontrando todos tus objetos. Pero para ello has necesitado recordar que la última confirmación de cambios es <code>1a410e</code>. Necesitarías un archivo donde almacenar los valores de las sumas de comprobación SHA-1, junto con sus respectivos nombres simples que puedas utilizar como enlaces en lugar de la propia suma de comprobación.</p>
+
+<p>En Git, esto es lo que se conoce como <em>"referencias"</em> o <em>"refs"</em>. En la carpeta <code>.git/refs</code> puedes encontrar esos archivos con valores SHA-1 y nombres . En el proyecto actual, la carpeta aún no contiene archivos, pero sí contiene una estructura simple:</p>
+
+<div class="code code">
+<pre class="code">$ find .git/refs
+.git/refs
+.git/refs/heads
+.git/refs/tags
+$ find .git/refs -type f
+$</pre>
+</div>
+
+<p>Para crear una nueva referencia que te sirva de ayuda para recordar cual es tu última confirmación de cambios,  puedes realizar técnicamente algo tan simple como:</p>
+
+<div class="code code">
+<pre class="code">$ echo &quot;1a410efbd13591db07496601ebc7a059dd55cfe9&quot; &gt; .git/refs/heads/master</pre>
+</div>
+
+<p>A partir de ese momento, puedes utilizar esa referencia principal que acabas de crear, en lugar del valor SHA-1, en todos tus comandos:</p>
+
+<div class="code code">
+<pre class="code">$ git log --pretty=oneline  master
+1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit</pre>
+</div>
+
+<p>No es conveniente editar directamente los archivos de referencia. Git suministra un comando mucho más seguro para hacer esto. Si necesitas actualizar una referencia, puedes utilizar el comando <code>update-ref</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git update-ref refs/heads/master 1a410efbd13591db07496601ebc7a059dd55cfe9</pre>
+</div>
+
+<p>Esto es lo que es básicamente una rama en Git: un simple apuntador o referencia a la cabeza de una línea de trabajo. Para crear una rama hacia la segunda confirmación de cambios, puedes hacer:</p>
+
+<div class="code code">
+<pre class="code">$ git update-ref refs/heads/test cac0ca</pre>
+</div>
+
+<p>Y la rama contendrá únicamente trabajo desde esa confirmación de cambios hacia atrás.</p>
+
+<div class="code code">
+<pre class="code">$ git log --pretty=oneline test
+cac0cab538b970a37ea1e769cbbde608743bc96d second commit
+fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit</pre>
+</div>
+
+<p>En estos momentos, tu base de datos Git se parecerá conceptualmente a la figura 9-4.</p>
+
+<div class="figure" id="figure_9_4">
+    <img src="/img/pro_git/18333fig0904.png" alt="Objetos en la carpeta Git, con referencias a las cabeceras de las ramas" />
+
+    <p class="caption"><strong>Figura 9.4</strong> Objetos en la carpeta Git, con referencias a las cabeceras de las ramas</p>
+</div>
+
+
+<p>Cuando lanzas comandos como <code>git branch (nombrederama)</code>. Lo que hace Git es añadir, a cualquier nueva referencia que vayas a crear, el valor SHA-1 de la última confirmación de cambios en esa rama.</p>
+
+<h3 id="la_cabeza_head">9.3.1. La CABEZA (HEAD)</h3>
+
+<p>Y ahora nos preguntamos, al lanzar el comando <code>git branch (nombrederama)</code>, ¿cómo sabe Git cuál es el valor SHA-1 de la última confirmación de cambios?. La respuesta a esta pregunta es el archivo <code>HEAD</code>. El archivo <code>HEAD</code> es una referencia simbólica a la rama donde te encuentras en cada momento. Por referencia simbólica me refiero a que, a diferencia de una referencia normal, esta contiene un enlace a otra referencia en lugar de un valor SHA-1. Si miras dentro del archivo, podrás observar algo como:</p>
+
+<div class="code code">
+<pre class="code">$ cat .git/HEAD 
+ref: refs/heads/master</pre>
+</div>
+
+<p>Si lanzas el comando <code>git checkout test</code>, Git actualiza el contenido del archivo:</p>
+
+<div class="code code">
+<pre class="code">$ cat .git/HEAD 
+ref: refs/heads/test</pre>
+</div>
+
+<p>Cuando lanzas una orden <code>git commit</code>, se crea un nuevo objeto de confirmación de cambios teniendo como padre la confirmación con valor SHA-1 a la que en ese momento esté apuntando la referencia en <code>HEAD</code>.</p>
+
+<p>Puedes editar manualmente este archivo. Pero, también para esta tarea existe un comando más seguro: <code>symbolic-ref</code>. Puedes leer el valor de <code>HEAD</code> a través de él:</p>
+
+<div class="code code">
+<pre class="code">$ git symbolic-ref HEAD
+refs/heads/master</pre>
+</div>
+
+<p>Y también puedes cambiar el valor de <code>HEAD</code> a través de él:</p>
+
+<div class="code code">
+<pre class="code">$ git symbolic-ref HEAD refs/heads/test
+$ cat .git/HEAD 
+ref: refs/heads/test</pre>
+</div>
+
+<p>Pero no puedes fijar una referencia simbólica fuera de <em>"refs"</em>:</p>
+
+<div class="code code">
+<pre class="code">$ git symbolic-ref HEAD test
+fatal: Refusing to point HEAD outside of refs/</pre>
+</div>
+
+<h3 id="etiquetas">9.3.2. Etiquetas</h3>
+
+<p>Acabas de conocer los tres principales tipos de objetos Git, pero hay un cuarto. El objeto tipo etiqueta es muy parecido al tipo confirmación de cambios, — contiene un marcador, una fecha, un mensaje y un enlace —. Su principal diferencia reside en que apunta a una confirmación de cambios (<em>commit</em>) en lugar de a un árbol (<em>tree</em>). Es como una referencia a una rama, pero permaneciendo siempre inmóvil, — apuntando siempre a la misma confirmación de cambios —, dándo un nombre mas amigable a esta.</p>
+
+<p>Tal y como se ha comentado en el <a href="#capitulo2">capítulo 2</a>, hay dos tipos de etiquetas: las anotativas y las ligeras. Puedes crear una etiqueta ligera lanzando un comando tal como:</p>
+
+<div class="code code">
+<pre class="code">$ git update-ref refs/tags/v1.0 cac0cab538b970a37ea1e769cbbde608743bc96d</pre>
+</div>
+
+<p>Una etiqueta ligera es simplemente eso: una rama que nunca se mueve. Sin embargo, una etiqueta anotativa es más compleja. Al crear una etiqueta anotativa, Git crea un objeto tipo etiqueta y luego escribe una referencia apuntando a él en lugar de apuntar directamente a una confirmación de cambios. Puedes comprobarlo creando una: (la opción <code>-a</code> indica que la etiqueta es anotativa)</p>
+
+<div class="code code">
+<pre class="code">$ git tag -a v1.1 1a410efbd13591db07496601ebc7a059dd55cfe9 –m 'test tag'</pre>
+</div>
+
+<p>Este es el objeto SHA-1 creado:</p>
+
+<div class="code code">
+<pre class="code">$ cat .git/refs/tags/v1.1 
+9585191f37f7b0fb9444f35a9bf50de191beadc2</pre>
+</div>
+
+<p>Ahora, lanzando el comando <code>cat-file</code> para ese valor SHA-1:</p>
+
+<div class="code code">
+<pre class="code">$ git cat-file -p 9585191f37f7b0fb9444f35a9bf50de191beadc2
+object 1a410efbd13591db07496601ebc7a059dd55cfe9
+type commit
+tag v1.1
+tagger Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="c5b6a6ada4a6aaab85a2a8a4aca9eba6aaa8">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt; Sat May 23 16:48:58 2009 -0700</pre>
+</div>
+
+<div class="code code">
+<pre class="code">test tag</pre>
+</div>
+
+<p>Merece destacar que el inicio del objeto apunta al SHA-1 de la confirmación de cambios recién etiquetada. Y también el que no ha sido necesario apuntar directamente a una confirmación de cambios. Realmente puedes etiquetar cualquier tipo de objeto Git. Por ejemplo, en el código fuente de Git los gestores han añadido su clave GPG pública como un objeto binario (<em>blob</em>) y lo han etiquetado. Puedes ver esta clave pública con el comando</p>
+
+<div class="code code">
+<pre class="code">$ git cat-file blob junio-gpg-pub</pre>
+</div>
+
+<p>lanzado sobre el código fuente de Git. El kernel de Linux tiene también un objeto tipo etiqueta apuntando a un objeto que no es una confirmación de cambios (<em>commit</em>). La primera etiqueta que se creó es la que apunta al árbol (tree) inicial donde se importó el código fuente.</p>
+
+<h3 id="remotos">9.3.3. Remotos</h3>
+
+<p>El tercer tipo de referencia que puedes observar es la referencia remota. Si añades un remoto y envias algo a él, Git almacenará en dicho remoto el último valor para cada rama presente en la carpeta <code>refs/remotes</code>.  Por ejemplo, puedes añadir un remoto denominado <code>origin</code> y enviar a él tu rama  <code>master</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git remote add origin <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="a5c2ccd1e5c2ccd1cdd0c78bc6cac8">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>:schacon/simplegit-progit.git
+$ git push origin master
+Counting objects: 11, done.
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (7/7), 716 bytes, done.
+Total 7 (delta 2), reused 4 (delta 1)
+To <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="06616f7246616f726e73642865696b">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>:schacon/simplegit-progit.git
+   a11bef0..ca82a6d  master -&gt; master</pre>
+</div>
+
+<p>Tras lo cual puedes confirmar cual era la rama <code>master</code> en el remoto <code>origin</code> la última vez que comunicase con el servidor. Comprobando el archivo <code>refs/remotes/origin/master</code>:</p>
+
+<div class="code code">
+<pre class="code">$ cat .git/refs/remotes/origin/master 
+ca82a6dff817ec66f44342007202690a93763949</pre>
+</div>
+
+<p>Las referencias remotas son distintas de las ramas normales, (referencias en <code>refs/heads</code>); y no se pueden recuperar (<em>checkout</em>) al espacio de trabajo.  Git las utiliza solamente como marcadores al último estado conocido de cada rama en cada servidor remoto declarado.</p>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_9/los_objetos_git.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>9.2. Los objetos Git</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_9/archivos_empaquetadores.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>9.4. Archivos empaquetadores</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Fundamentos de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Trabajando con ramas en Git</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Git en un servidor</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Git en entornos distribuidos</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Las herramientas de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Personalizando Git</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Git y otros sistemas</a>
+            </li>
+                                                                                            <li class="level-1 ">
+                <a href="../capitulo_9.html">
+                    <span>Capítulo 9.</span> Funcionamiento interno de Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/fontaneria_y_porcelana.html">
+                    <span>9.1.</span> Fontaneria y porcelana
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/los_objetos_git.html">
+                    <span>9.2.</span> Los objetos Git
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_9/referencias_git.html">
+                    <span>9.3.</span> Referencias Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/archivos_empaquetadores.html">
+                    <span>9.4.</span> Archivos empaquetadores
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/las_especificaciones_para_hacer_referencia_refspec.html">
+                    <span>9.5.</span> Las especificaciones para hacer referencia (refspec)
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/protocolos_de_transferencia.html">
+                    <span>9.6.</span> Protocolos de transferencia
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/mantenimiento_y_recuperacion_de_datos.html">
+                    <span>9.7.</span> Mantenimiento y recuperación de datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/resumen.html">
+                    <span>9.8.</span> Resumen
+                </a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

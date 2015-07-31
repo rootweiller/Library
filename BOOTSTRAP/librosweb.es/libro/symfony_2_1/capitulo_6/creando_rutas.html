@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>6.3. Creando rutas (Symfony 2.1, el libro oficial)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                            
+        <link rel="canonical" href="/libro/symfony_2_x/capitulo_6/creando_rutas.html"/>
+                                    <link rel="prev" href="../capitulo_6/funcionamiento_interno_del_enrutamiento.html" />
+                    <link rel="next" href="../capitulo_6/el_nombre_logico_de_los_controladores.html" />
+                <link rel="start" href="/libro/symfony_2_1/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="6.3. Creando rutas (Symfony 2.1, el libro oficial)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_2_1"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_1/" itemprop="url">
+                    <span itemprop="title">Symfony 2.1, el libro oficial</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_1/capitulo_6.html" itemprop="url">
+                    <span itemprop="title">Capítulo 6. El enrutamiento</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>6.3. Creando rutas</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="creando_rutas" class="title">
+        <span>6.3.</span> Creando rutas
+    </h1>
+
+    
+
+<p>Symfony carga todas las rutas de tu aplicación desde un archivo de configuración de enrutamiento. Normalmente este archivo es <code>app/config/routing.yml</code>, pero puedes utilizar cualquier otro archivo e incluso otros formatos de configuración como XML o PHP. Para ello, cambiar el valor de la siguiente opción de configuración:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_ed09f" class="active"><a data-toggle="tab active" href="#select_tab_1_ed09f" onclick="document.getElementById('select_tab_1_ed09f').className='active'; document.getElementById('tab_1_ed09f').className='tab-pane active';document.getElementById('select_tab_2_ed09f').className='';  document.getElementById('tab_2_ed09f').className='tab-pane';document.getElementById('select_tab_3_ed09f').className='';  document.getElementById('tab_3_ed09f').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_ed09f"><a data-toggle="tab" href="#select_tab_2_ed09f" onclick="document.getElementById('select_tab_1_ed09f').className='';  document.getElementById('tab_1_ed09f').className='tab-pane';document.getElementById('select_tab_2_ed09f').className='active'; document.getElementById('tab_2_ed09f').className='tab-pane active';document.getElementById('select_tab_3_ed09f').className='';  document.getElementById('tab_3_ed09f').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_ed09f"><a data-toggle="tab" href="#select_tab_3_ed09f" onclick="document.getElementById('select_tab_1_ed09f').className='';  document.getElementById('tab_1_ed09f').className='tab-pane';document.getElementById('select_tab_2_ed09f').className='';  document.getElementById('tab_2_ed09f').className='tab-pane';document.getElementById('select_tab_3_ed09f').className='active'; document.getElementById('tab_3_ed09f').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_ed09f">
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># app/config/config.yml</span><span class="co4">
+framework</span><span class="sy2">:
+</span>    <span class="co1"># ...</span><span class="co3">
+    router</span><span class="sy2">: </span>       <span class="br0">&#123;</span> resource<span class="sy2">: </span><span class="st0">&quot;%kernel.root_dir%/config/routing.yml&quot;</span> <span class="br0">&#125;</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_ed09f">
+<div class="code xml">
+<pre class="xml"><span class="sc-1">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="sc3"><span class="re1">&lt;framework:config</span> ...<span class="re2">&gt;</span></span>
+    <span class="sc-1">&lt;!-- ... --&gt;</span>
+    <span class="sc3"><span class="re1">&lt;framework:router</span> <span class="re0">resource</span>=<span class="st0">&quot;%kernel.root_dir%/config/routing.xml&quot;</span> <span class="re2">/&gt;</span></span>
+<span class="sc3"><span class="re1">&lt;/framework:config<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_ed09f">
+<div class="code php">
+<pre class="php"><span class="co1">// app/config/config.php</span>
+<span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">loadFromExtension</span><span class="br0">&#40;</span><span class="st_h">'framework'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="co1">// ...</span>
+    <span class="st_h">'router'</span>        <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'resource'</span> <span class="sy0">=&gt;</span> <span class="st_h">'%kernel.root_dir%/config/routing.php'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Aunque todas las rutas se cargan desde un solo archivo, es muy común importar otros archivos desde ese archivo principal de configuración de enrutamiento. Más adelante en este mismo capítulo se explica cómo importar otros archivos.</p></div>
+
+<h3 id="configuracion_basica_de_rutas">6.3.1. Configuración básica de rutas</h3>
+
+<p>Las aplicaciones típicas definen decenas de rutas. Afortunadamente, definir una ruta es bastante fácil. Una ruta básica consta de dos partes: el <code>pattern</code> o patrón que debe cumplir la URL y un array de opciones llamado <code>defaults</code>:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_ed17a" class="active"><a data-toggle="tab active" href="#select_tab_1_ed17a" onclick="document.getElementById('select_tab_1_ed17a').className='active'; document.getElementById('tab_1_ed17a').className='tab-pane active';document.getElementById('select_tab_2_ed17a').className='';  document.getElementById('tab_2_ed17a').className='tab-pane';document.getElementById('select_tab_3_ed17a').className='';  document.getElementById('tab_3_ed17a').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_ed17a"><a data-toggle="tab" href="#select_tab_2_ed17a" onclick="document.getElementById('select_tab_1_ed17a').className='';  document.getElementById('tab_1_ed17a').className='tab-pane';document.getElementById('select_tab_2_ed17a').className='active'; document.getElementById('tab_2_ed17a').className='tab-pane active';document.getElementById('select_tab_3_ed17a').className='';  document.getElementById('tab_3_ed17a').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_ed17a"><a data-toggle="tab" href="#select_tab_3_ed17a" onclick="document.getElementById('select_tab_1_ed17a').className='';  document.getElementById('tab_1_ed17a').className='tab-pane';document.getElementById('select_tab_2_ed17a').className='';  document.getElementById('tab_2_ed17a').className='tab-pane';document.getElementById('select_tab_3_ed17a').className='active'; document.getElementById('tab_3_ed17a').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_ed17a">
+<div class="code yaml">
+<pre class="yaml"><span class="co4">_welcome</span>:<span class="co3">
+    pattern</span><span class="sy2">: </span>  /<span class="co3">
+    defaults</span><span class="sy2">: </span> <span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeDemoBundle:Main:homepage <span class="br0">&#125;</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_ed17a">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;?xml</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span> <span class="re0">encoding</span>=<span class="st0">&quot;UTF-8&quot;</span> <span class="re2">?&gt;</span></span>
+&nbsp;
+<span class="sc3"><span class="re1">&lt;routes</span> <span class="re0">xmlns</span>=<span class="st0">&quot;http://symfony.com/schema/routing&quot;</span></span>
+<span class="sc3">    <span class="re0">xmlns:xsi</span>=<span class="st0">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="sc3">    <span class="re0">xsi:schemaLocation</span>=<span class="st0">&quot;http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd&quot;</span><span class="re2">&gt;</span></span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;route</span> <span class="re0">id</span>=<span class="st0">&quot;_welcome&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;/&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_controller&quot;</span><span class="re2">&gt;</span></span>AcmeDemoBundle:Main:homepage<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/route<span class="re2">&gt;</span></span></span>
+&nbsp;
+<span class="sc3"><span class="re1">&lt;/routes<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_ed17a">
+<div class="code php">
+<pre class="php"><span class="kw2">use</span> Symfony\Component\Routing\RouteCollection<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Routing\Route<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$collection</span> <span class="sy0">=</span> <span class="kw2">new</span> RouteCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'_welcome'</span><span class="sy0">,</span> <span class="kw2">new</span> Route<span class="br0">&#40;</span><span class="st_h">'/'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_controller'</span> <span class="sy0">=&gt;</span> <span class="st_h">'AcmeDemoBundle:Main:homepage'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">return</span> <span class="re0">$collection</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Esta ruta corresponde a la portada del sitio (por eso el valor <code>/</code> en el patrón) y está asociada con el controlador <code>AcmeDemoBundle:Main:homepage</code>. Symfony2 utiliza el valor de la opción <code>_controller</code> para determinar la función PHP que se ejecuta para responder a la petición. La transformación de <code>_controller</code> en una función PHP se explica más adelante.</p>
+
+<h3 id="rutas_con_variables">6.3.2. Rutas con variables</h3>
+
+<p>El sistema de enrutamiento ofrece unas posibilidades mucho más interesantes que las de la sección anterior. Muchas rutas contienen una o más variables, también llamados <em>placeholders</em>:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_ed240" class="active"><a data-toggle="tab active" href="#select_tab_1_ed240" onclick="document.getElementById('select_tab_1_ed240').className='active'; document.getElementById('tab_1_ed240').className='tab-pane active';document.getElementById('select_tab_2_ed240').className='';  document.getElementById('tab_2_ed240').className='tab-pane';document.getElementById('select_tab_3_ed240').className='';  document.getElementById('tab_3_ed240').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_ed240"><a data-toggle="tab" href="#select_tab_2_ed240" onclick="document.getElementById('select_tab_1_ed240').className='';  document.getElementById('tab_1_ed240').className='tab-pane';document.getElementById('select_tab_2_ed240').className='active'; document.getElementById('tab_2_ed240').className='tab-pane active';document.getElementById('select_tab_3_ed240').className='';  document.getElementById('tab_3_ed240').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_ed240"><a data-toggle="tab" href="#select_tab_3_ed240" onclick="document.getElementById('select_tab_1_ed240').className='';  document.getElementById('tab_1_ed240').className='tab-pane';document.getElementById('select_tab_2_ed240').className='';  document.getElementById('tab_2_ed240').className='tab-pane';document.getElementById('select_tab_3_ed240').className='active'; document.getElementById('tab_3_ed240').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_ed240">
+<div class="code yaml">
+<pre class="yaml"><span class="co4">blog_show</span>:<span class="co3">
+    pattern</span><span class="sy2">: </span>  /blog/<span class="br0">&#123;</span>slug<span class="br0">&#125;</span><span class="co3">
+    defaults</span><span class="sy2">: </span> <span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeBlogBundle:Blog:show <span class="br0">&#125;</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_ed240">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;?xml</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span> <span class="re0">encoding</span>=<span class="st0">&quot;UTF-8&quot;</span> <span class="re2">?&gt;</span></span>
+&nbsp;
+<span class="sc3"><span class="re1">&lt;routes</span> <span class="re0">xmlns</span>=<span class="st0">&quot;http://symfony.com/schema/routing&quot;</span></span>
+<span class="sc3">    <span class="re0">xmlns:xsi</span>=<span class="st0">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="sc3">    <span class="re0">xsi:schemaLocation</span>=<span class="st0">&quot;http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd&quot;</span><span class="re2">&gt;</span></span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;route</span> <span class="re0">id</span>=<span class="st0">&quot;blog_show&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;/blog/{slug}&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_controller&quot;</span><span class="re2">&gt;</span></span>AcmeBlogBundle:Blog:show<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/route<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/routes<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_ed240">
+<div class="code php">
+<pre class="php"><span class="kw2">use</span> Symfony\Component\Routing\RouteCollection<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Routing\Route<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$collection</span> <span class="sy0">=</span> <span class="kw2">new</span> RouteCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'blog_show'</span><span class="sy0">,</span> <span class="kw2">new</span> Route<span class="br0">&#40;</span><span class="st_h">'/blog/{slug}'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_controller'</span> <span class="sy0">=&gt;</span> <span class="st_h">'AcmeBlogBundle:Blog:show'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">return</span> <span class="re0">$collection</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>El patrón de esta ruta se cumple para cualquier URL que empiece por <code>/blog/</code> y después contenga cualquier valor. Ese valor variable se almacena en una variable llamada <code>slug</code> (sin las llaves <code>{</code> y <code>}</code>) y se pasa al controlador. En otras palabras, si la URL es <code>/blog/hello-world</code>, el controlador dispone de una variable <code>$slug</code> cuyo valor es <code>hello-world</code>. Esta variable es la que utilizará por ejemplo el controlador para buscar en la base de datos el artículo solicitado.</p>
+
+<p>Si pruebas a acceder a la URL <code>/blog</code>, verás que Symfony2 no ejecuta el controlador de esta ruta. El motivo es que por defecto todas las variables de las rutas deben tener un valor. La solución consiste en asignar un valor por defecto a determinadas variables de la ruta mediante el array <code>defaults</code>.</p>
+
+<h3 id="variables_obligatorias_y_opcionales">6.3.3. Variables obligatorias y opcionales</h3>
+
+<p>Vamos a complicar un poco el ejemplo de la sección anterior y para ello, se va a añadir una nueva ruta llamada <code>blog</code> que muestra un listado de todos los artículos del blog</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_ed302" class="active"><a data-toggle="tab active" href="#select_tab_1_ed302" onclick="document.getElementById('select_tab_1_ed302').className='active'; document.getElementById('tab_1_ed302').className='tab-pane active';document.getElementById('select_tab_2_ed302').className='';  document.getElementById('tab_2_ed302').className='tab-pane';document.getElementById('select_tab_3_ed302').className='';  document.getElementById('tab_3_ed302').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_ed302"><a data-toggle="tab" href="#select_tab_2_ed302" onclick="document.getElementById('select_tab_1_ed302').className='';  document.getElementById('tab_1_ed302').className='tab-pane';document.getElementById('select_tab_2_ed302').className='active'; document.getElementById('tab_2_ed302').className='tab-pane active';document.getElementById('select_tab_3_ed302').className='';  document.getElementById('tab_3_ed302').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_ed302"><a data-toggle="tab" href="#select_tab_3_ed302" onclick="document.getElementById('select_tab_1_ed302').className='';  document.getElementById('tab_1_ed302').className='tab-pane';document.getElementById('select_tab_2_ed302').className='';  document.getElementById('tab_2_ed302').className='tab-pane';document.getElementById('select_tab_3_ed302').className='active'; document.getElementById('tab_3_ed302').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_ed302">
+<div class="code yaml">
+<pre class="yaml"><span class="co4">blog</span>:<span class="co3">
+    pattern</span><span class="sy2">: </span>  /blog<span class="co3">
+    defaults</span><span class="sy2">: </span> <span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeBlogBundle:Blog:index <span class="br0">&#125;</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_ed302">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;?xml</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span> <span class="re0">encoding</span>=<span class="st0">&quot;UTF-8&quot;</span> <span class="re2">?&gt;</span></span>
+&nbsp;
+<span class="sc3"><span class="re1">&lt;routes</span> <span class="re0">xmlns</span>=<span class="st0">&quot;http://symfony.com/schema/routing&quot;</span></span>
+<span class="sc3">    <span class="re0">xmlns:xsi</span>=<span class="st0">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="sc3">    <span class="re0">xsi:schemaLocation</span>=<span class="st0">&quot;http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd&quot;</span><span class="re2">&gt;</span></span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;route</span> <span class="re0">id</span>=<span class="st0">&quot;blog&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;/blog&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_controller&quot;</span><span class="re2">&gt;</span></span>AcmeBlogBundle:Blog:index<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/route<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/routes<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_ed302">
+<div class="code php">
+<pre class="php"><span class="kw2">use</span> Symfony\Component\Routing\RouteCollection<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Routing\Route<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$collection</span> <span class="sy0">=</span> <span class="kw2">new</span> RouteCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'blog'</span><span class="sy0">,</span> <span class="kw2">new</span> Route<span class="br0">&#40;</span><span class="st_h">'/blog'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_controller'</span> <span class="sy0">=&gt;</span> <span class="st_h">'AcmeBlogBundle:Blog:index'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">return</span> <span class="re0">$collection</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Por el momento esta ruta es muy simple, ya que no incluye ninguna variable y por tanto, solo se activará cuando el usuario solicite exactamente la URL <code>/blog</code>. Pero, ¿qué sucede si necesitamos que esta ruta sea compatible con la paginación, donde la URL <code>/blog/2</code> muestra la segunda página de los artículos del blog? Modifica la ruta anterior para que incluya una nueva variable llamada <code>{page}</code>:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_ed3c3" class="active"><a data-toggle="tab active" href="#select_tab_1_ed3c3" onclick="document.getElementById('select_tab_1_ed3c3').className='active'; document.getElementById('tab_1_ed3c3').className='tab-pane active';document.getElementById('select_tab_2_ed3c3').className='';  document.getElementById('tab_2_ed3c3').className='tab-pane';document.getElementById('select_tab_3_ed3c3').className='';  document.getElementById('tab_3_ed3c3').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_ed3c3"><a data-toggle="tab" href="#select_tab_2_ed3c3" onclick="document.getElementById('select_tab_1_ed3c3').className='';  document.getElementById('tab_1_ed3c3').className='tab-pane';document.getElementById('select_tab_2_ed3c3').className='active'; document.getElementById('tab_2_ed3c3').className='tab-pane active';document.getElementById('select_tab_3_ed3c3').className='';  document.getElementById('tab_3_ed3c3').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_ed3c3"><a data-toggle="tab" href="#select_tab_3_ed3c3" onclick="document.getElementById('select_tab_1_ed3c3').className='';  document.getElementById('tab_1_ed3c3').className='tab-pane';document.getElementById('select_tab_2_ed3c3').className='';  document.getElementById('tab_2_ed3c3').className='tab-pane';document.getElementById('select_tab_3_ed3c3').className='active'; document.getElementById('tab_3_ed3c3').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_ed3c3">
+<div class="code yaml">
+<pre class="yaml"><span class="co4">blog</span>:<span class="co3">
+    pattern</span><span class="sy2">: </span>  /blog/<span class="br0">&#123;</span>page<span class="br0">&#125;</span><span class="co3">
+    defaults</span><span class="sy2">: </span> <span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeBlogBundle:Blog:index <span class="br0">&#125;</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_ed3c3">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;?xml</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span> <span class="re0">encoding</span>=<span class="st0">&quot;UTF-8&quot;</span> <span class="re2">?&gt;</span></span>
+&nbsp;
+<span class="sc3"><span class="re1">&lt;routes</span> <span class="re0">xmlns</span>=<span class="st0">&quot;http://symfony.com/schema/routing&quot;</span></span>
+<span class="sc3">    <span class="re0">xmlns:xsi</span>=<span class="st0">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="sc3">    <span class="re0">xsi:schemaLocation</span>=<span class="st0">&quot;http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd&quot;</span><span class="re2">&gt;</span></span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;route</span> <span class="re0">id</span>=<span class="st0">&quot;blog&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;/blog/{page}&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_controller&quot;</span><span class="re2">&gt;</span></span>AcmeBlogBundle:Blog:index<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/route<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/routes<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_ed3c3">
+<div class="code php">
+<pre class="php"><span class="kw2">use</span> Symfony\Component\Routing\RouteCollection<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Routing\Route<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$collection</span> <span class="sy0">=</span> <span class="kw2">new</span> RouteCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'blog'</span><span class="sy0">,</span> <span class="kw2">new</span> Route<span class="br0">&#40;</span><span class="st_h">'/blog/{page}'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_controller'</span> <span class="sy0">=&gt;</span> <span class="st_h">'AcmeBlogBundle:Blog:index'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">return</span> <span class="re0">$collection</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Al igual que la variable <code>{slug}</code> del ejemplo anterior, el valor asociado a <code>{page}</code> ahora estará disponible dentro del controlador. Así que ya puedes utilizar su valor para saber qué artículos debes mostrar en una determinada página.</p>
+
+<p>El problema es que, como por defecto las variables de las rutas son obligatorias, esta ruta ya no funciona cuando un usuario solicita la URL <code>/blog</code>. Así que para ver la portada del blog, el usuario tendrás que utilizar la URL <code>/blog/1</code>. Obligar al usuario a recordar que siempre debe entrar en la primera página es simplemente ridículo. Así que vamos a modificar la ruta para que la variable <code>{page}</code> sea opcional. Para ello, asigna un valor por defecto a la variable dentro del array <code>defaults</code>:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_ed490" class="active"><a data-toggle="tab active" href="#select_tab_1_ed490" onclick="document.getElementById('select_tab_1_ed490').className='active'; document.getElementById('tab_1_ed490').className='tab-pane active';document.getElementById('select_tab_2_ed490').className='';  document.getElementById('tab_2_ed490').className='tab-pane';document.getElementById('select_tab_3_ed490').className='';  document.getElementById('tab_3_ed490').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_ed490"><a data-toggle="tab" href="#select_tab_2_ed490" onclick="document.getElementById('select_tab_1_ed490').className='';  document.getElementById('tab_1_ed490').className='tab-pane';document.getElementById('select_tab_2_ed490').className='active'; document.getElementById('tab_2_ed490').className='tab-pane active';document.getElementById('select_tab_3_ed490').className='';  document.getElementById('tab_3_ed490').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_ed490"><a data-toggle="tab" href="#select_tab_3_ed490" onclick="document.getElementById('select_tab_1_ed490').className='';  document.getElementById('tab_1_ed490').className='tab-pane';document.getElementById('select_tab_2_ed490').className='';  document.getElementById('tab_2_ed490').className='tab-pane';document.getElementById('select_tab_3_ed490').className='active'; document.getElementById('tab_3_ed490').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_ed490">
+<div class="code yaml">
+<pre class="yaml"><span class="co4">blog</span>:<span class="co3">
+    pattern</span><span class="sy2">: </span>  /blog/<span class="br0">&#123;</span>page<span class="br0">&#125;</span><span class="co3">
+    defaults</span><span class="sy2">: </span> <span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeBlogBundle:Blog:index, page<span class="sy2">: </span><span class="nu0">1</span> <span class="br0">&#125;</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_ed490">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;?xml</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span> <span class="re0">encoding</span>=<span class="st0">&quot;UTF-8&quot;</span> <span class="re2">?&gt;</span></span>
+&nbsp;
+<span class="sc3"><span class="re1">&lt;routes</span> <span class="re0">xmlns</span>=<span class="st0">&quot;http://symfony.com/schema/routing&quot;</span></span>
+<span class="sc3">    <span class="re0">xmlns:xsi</span>=<span class="st0">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="sc3">    <span class="re0">xsi:schemaLocation</span>=<span class="st0">&quot;http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd&quot;</span><span class="re2">&gt;</span></span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;route</span> <span class="re0">id</span>=<span class="st0">&quot;blog&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;/blog/{page}&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_controller&quot;</span><span class="re2">&gt;</span></span>AcmeBlogBundle:Blog:index<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;page&quot;</span><span class="re2">&gt;</span></span>1<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/route<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/routes<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_ed490">
+<div class="code php">
+<pre class="php"><span class="kw2">use</span> Symfony\Component\Routing\RouteCollection<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Routing\Route<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$collection</span> <span class="sy0">=</span> <span class="kw2">new</span> RouteCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'blog'</span><span class="sy0">,</span> <span class="kw2">new</span> Route<span class="br0">&#40;</span><span class="st_h">'/blog/{page}'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_controller'</span> <span class="sy0">=&gt;</span> <span class="st_h">'AcmeBlogBundle:Blog:index'</span><span class="sy0">,</span>
+    <span class="st_h">'page'</span> <span class="sy0">=&gt;</span> <span class="nu0">1</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">return</span> <span class="re0">$collection</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Como la variable <code>page</code> ya dispone de un valor por defecto dentro de <code>defaults</code>, ya no es necesario indicarla siempre en la URL. Así que cuando el usuario solicite la URL <code>/blog</code>, esta ruta sí que se ejecutará y se asignará automáticamente el valor <code>1</code> a la variable <code>page</code>. Si se solicita la URL <code>/blog/2</code>, la ruta también se ejecuta y el valor de la variable <code>page</code> será <code>2</code>, tal y como se indica en la propia ruta. Resumiendo:</p>
+
+<ul>
+<li>Ruta: <code>/blog</code>, Variable <code>page</code> = <code>1</code></li>
+<li>Ruta: <code>/blog/1</code>, Variable <code>page</code> = <code>1</code></li>
+<li>Ruta: <code>/blog/2</code>, Variable <code>page</code> = <code>2</code></li>
+</ul>
+
+<h3 id="agregando_requisitos">6.3.4. Agregando requisitos</h3>
+
+<p>Observa las rutas definidas en los ejemplos de las secciones anteriores:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_ed592" class="active"><a data-toggle="tab active" href="#select_tab_1_ed592" onclick="document.getElementById('select_tab_1_ed592').className='active'; document.getElementById('tab_1_ed592').className='tab-pane active';document.getElementById('select_tab_2_ed592').className='';  document.getElementById('tab_2_ed592').className='tab-pane';document.getElementById('select_tab_3_ed592').className='';  document.getElementById('tab_3_ed592').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_ed592"><a data-toggle="tab" href="#select_tab_2_ed592" onclick="document.getElementById('select_tab_1_ed592').className='';  document.getElementById('tab_1_ed592').className='tab-pane';document.getElementById('select_tab_2_ed592').className='active'; document.getElementById('tab_2_ed592').className='tab-pane active';document.getElementById('select_tab_3_ed592').className='';  document.getElementById('tab_3_ed592').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_ed592"><a data-toggle="tab" href="#select_tab_3_ed592" onclick="document.getElementById('select_tab_1_ed592').className='';  document.getElementById('tab_1_ed592').className='tab-pane';document.getElementById('select_tab_2_ed592').className='';  document.getElementById('tab_2_ed592').className='tab-pane';document.getElementById('select_tab_3_ed592').className='active'; document.getElementById('tab_3_ed592').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_ed592">
+<div class="code yaml">
+<pre class="yaml"><span class="co4">blog</span>:<span class="co3">
+    pattern</span><span class="sy2">: </span>  /blog/<span class="br0">&#123;</span>page<span class="br0">&#125;</span><span class="co3">
+    defaults</span><span class="sy2">: </span> <span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeBlogBundle:Blog:index, page<span class="sy2">: </span><span class="nu0">1</span> <span class="br0">&#125;</span>
+<span class="co4">
+blog_show</span>:<span class="co3">
+    pattern</span><span class="sy2">: </span>  /blog/<span class="br0">&#123;</span>slug<span class="br0">&#125;</span><span class="co3">
+    defaults</span><span class="sy2">: </span> <span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeBlogBundle:Blog:show <span class="br0">&#125;</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_ed592">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;?xml</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span> <span class="re0">encoding</span>=<span class="st0">&quot;UTF-8&quot;</span> <span class="re2">?&gt;</span></span>
+&nbsp;
+<span class="sc3"><span class="re1">&lt;routes</span> <span class="re0">xmlns</span>=<span class="st0">&quot;http://symfony.com/schema/routing&quot;</span></span>
+<span class="sc3">    <span class="re0">xmlns:xsi</span>=<span class="st0">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="sc3">    <span class="re0">xsi:schemaLocation</span>=<span class="st0">&quot;http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd&quot;</span><span class="re2">&gt;</span></span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;route</span> <span class="re0">id</span>=<span class="st0">&quot;blog&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;/blog/{page}&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_controller&quot;</span><span class="re2">&gt;</span></span>AcmeBlogBundle:Blog:index<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;page&quot;</span><span class="re2">&gt;</span></span>1<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/route<span class="re2">&gt;</span></span></span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;route</span> <span class="re0">id</span>=<span class="st0">&quot;blog_show&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;/blog/{slug}&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_controller&quot;</span><span class="re2">&gt;</span></span>AcmeBlogBundle:Blog:show<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/route<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/routes<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_ed592">
+<div class="code php">
+<pre class="php"><span class="kw2">use</span> Symfony\Component\Routing\RouteCollection<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Routing\Route<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$collection</span> <span class="sy0">=</span> <span class="kw2">new</span> RouteCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'blog'</span><span class="sy0">,</span> <span class="kw2">new</span> Route<span class="br0">&#40;</span><span class="st_h">'/blog/{page}'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_controller'</span> <span class="sy0">=&gt;</span> <span class="st_h">'AcmeBlogBundle:Blog:index'</span><span class="sy0">,</span>
+    <span class="st_h">'page'</span> <span class="sy0">=&gt;</span> <span class="nu0">1</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'blog_show'</span><span class="sy0">,</span> <span class="kw2">new</span> Route<span class="br0">&#40;</span><span class="st_h">'/blog/{show}'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_controller'</span> <span class="sy0">=&gt;</span> <span class="st_h">'AcmeBlogBundle:Blog:show'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">return</span> <span class="re0">$collection</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>¿Has visto cuál es el problema? Las dos rutas tienen el mismo patrón, por lo que las dos podrían responder a las URL que empiecen por <code>/blog/</code> y continuen con cualquier cosa. En estas situaciones, el sistema de enrutamiento de Symfony siempre elige la ruta que se ha definido primero. Así que la ruta <code>blog_show</code> jamás se ejecutará. Además, URL como <code>/blog/mi-post</code> harán que se ejecute la primera ruta (<code>blog</code>), lo que provocará un error, ya que no tiene sentido que la variable <code>page</code> valga <code>mi-post</code>.</p>
+
+<div class="table" id="table_6_1">
+
+    <table>
+<thead>
+<tr>
+  <th>URL</th>
+  <th>Ruta</th>
+  <th>Parámetros</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>/blog/2</code></td>
+  <td><code>blog</code></td>
+  <td><code>{page}</code> = <code>2</code></td>
+</tr>
+<tr>
+  <td><code>/blog/mi-post</code></td>
+  <td><code>blog</code></td>
+  <td><code>{page}</code> = <code>mi-post</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>La solución a este problema consiste en añadir requisitos a la ruta. En este caso, si el patrón <code>/blog/{page}</code> sólo funcionara cuando <code>{page}</code> es un número entero, las dos rutas funcionarían sin problemas. Afortunadamente, es posible añadir requisitos a cada variable de la ruta mediante expresiones regulares:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_ed699" class="active"><a data-toggle="tab active" href="#select_tab_1_ed699" onclick="document.getElementById('select_tab_1_ed699').className='active'; document.getElementById('tab_1_ed699').className='tab-pane active';document.getElementById('select_tab_2_ed699').className='';  document.getElementById('tab_2_ed699').className='tab-pane';document.getElementById('select_tab_3_ed699').className='';  document.getElementById('tab_3_ed699').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_ed699"><a data-toggle="tab" href="#select_tab_2_ed699" onclick="document.getElementById('select_tab_1_ed699').className='';  document.getElementById('tab_1_ed699').className='tab-pane';document.getElementById('select_tab_2_ed699').className='active'; document.getElementById('tab_2_ed699').className='tab-pane active';document.getElementById('select_tab_3_ed699').className='';  document.getElementById('tab_3_ed699').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_ed699"><a data-toggle="tab" href="#select_tab_3_ed699" onclick="document.getElementById('select_tab_1_ed699').className='';  document.getElementById('tab_1_ed699').className='tab-pane';document.getElementById('select_tab_2_ed699').className='';  document.getElementById('tab_2_ed699').className='tab-pane';document.getElementById('select_tab_3_ed699').className='active'; document.getElementById('tab_3_ed699').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_ed699">
+<div class="code yaml">
+<pre class="yaml"><span class="co4">blog</span>:<span class="co3">
+    pattern</span><span class="sy2">: </span>  /blog/<span class="br0">&#123;</span>page<span class="br0">&#125;</span><span class="co3">
+    defaults</span><span class="sy2">: </span> <span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeBlogBundle:Blog:index, page<span class="sy2">: </span><span class="nu0">1</span> <span class="br0">&#125;</span><span class="co4">
+    requirements</span>:<span class="co3">
+        page</span><span class="sy2">: </span> \d+</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_ed699">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;?xml</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span> <span class="re0">encoding</span>=<span class="st0">&quot;UTF-8&quot;</span> <span class="re2">?&gt;</span></span>
+&nbsp;
+<span class="sc3"><span class="re1">&lt;routes</span> <span class="re0">xmlns</span>=<span class="st0">&quot;http://symfony.com/schema/routing&quot;</span></span>
+<span class="sc3">    <span class="re0">xmlns:xsi</span>=<span class="st0">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="sc3">    <span class="re0">xsi:schemaLocation</span>=<span class="st0">&quot;http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd&quot;</span><span class="re2">&gt;</span></span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;route</span> <span class="re0">id</span>=<span class="st0">&quot;blog&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;/blog/{page}&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_controller&quot;</span><span class="re2">&gt;</span></span>AcmeBlogBundle:Blog:index<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;page&quot;</span><span class="re2">&gt;</span></span>1<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;requirement</span> <span class="re0">key</span>=<span class="st0">&quot;page&quot;</span><span class="re2">&gt;</span></span>\d+<span class="sc3"><span class="re1">&lt;/requirement<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/route<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/routes<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_ed699">
+<div class="code php">
+<pre class="php"><span class="kw2">use</span> Symfony\Component\Routing\RouteCollection<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Routing\Route<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$collection</span> <span class="sy0">=</span> <span class="kw2">new</span> RouteCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'blog'</span><span class="sy0">,</span> <span class="kw2">new</span> Route<span class="br0">&#40;</span><span class="st_h">'/blog/{page}'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_controller'</span> <span class="sy0">=&gt;</span> <span class="st_h">'AcmeBlogBundle:Blog:index'</span><span class="sy0">,</span>
+    <span class="st_h">'page'</span> <span class="sy0">=&gt;</span> <span class="nu0">1</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'page'</span> <span class="sy0">=&gt;</span> <span class="st_h">'\d+'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">return</span> <span class="re0">$collection</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>El requisito <code>\d+</code> es una expresión regular que obliga a que el valor del parámetro <code>{page}</code> esté formado exclusivamente por dígitos (es decir, que sea un número entero y positivo). Después de este cambio, la ruta <code>blog</code> seguirá funcionando para URL como <code>/blog/2</code> (ya que <code>2</code> es un número), pero ya no se ejecutará para URL como <code>/blog/mi-post</code> (porque <code>mi-post</code> no es un número). Por tanto, ahora la URL <code>/blog/mi-post</code> se procesa mediante la ruta <code>blog_show</code>.</p>
+
+<div class="table" id="table_6_2">
+
+    <table>
+<thead>
+<tr>
+  <th>URL</th>
+  <th>Ruta</th>
+  <th>Parámetros</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>/blog/2</code></td>
+  <td><code>blog</code></td>
+  <td><code>{page}</code> = <code>2</code></td>
+</tr>
+<tr>
+  <td><code>/blog/mi-post</code></td>
+  <td><code>blog_show</code></td>
+  <td><code>{slug}</code> = <code>mi-post</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<div class="admonition sidebar"><p><strong class="title"> Las primeras rutas siempre ganan</strong> Todo lo anterior significa que el orden en el que se definen las rutas es muy importante.</p>
+
+<p>Si la ruta <code>blog_show</code> se coloca por encima de la ruta <code>blog</code>, la URL <code>/blog/2</code> ejecutaría la ruta <code>blog_show</code> en lugar de <code>blog</code> ya que el parámetro <code>{slug}</code> de <code>blog_show</code> no tiene ningún requisito. Usando un orden adecuado para las rutas y los requisitos necesarios, puedes dominar completamente el sistema de enrutamiento.</p></div>
+
+<p>Como el parámetro <code>requirements</code> es una serie de expresiones regulares, puedes hacer que los requisitos sean tan complejos y flexibles como necesites. Imagina que la portada de tu aplicación está disponible en dos idiomas en función de la URL accedida:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_ed78e" class="active"><a data-toggle="tab active" href="#select_tab_1_ed78e" onclick="document.getElementById('select_tab_1_ed78e').className='active'; document.getElementById('tab_1_ed78e').className='tab-pane active';document.getElementById('select_tab_2_ed78e').className='';  document.getElementById('tab_2_ed78e').className='tab-pane';document.getElementById('select_tab_3_ed78e').className='';  document.getElementById('tab_3_ed78e').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_ed78e"><a data-toggle="tab" href="#select_tab_2_ed78e" onclick="document.getElementById('select_tab_1_ed78e').className='';  document.getElementById('tab_1_ed78e').className='tab-pane';document.getElementById('select_tab_2_ed78e').className='active'; document.getElementById('tab_2_ed78e').className='tab-pane active';document.getElementById('select_tab_3_ed78e').className='';  document.getElementById('tab_3_ed78e').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_ed78e"><a data-toggle="tab" href="#select_tab_3_ed78e" onclick="document.getElementById('select_tab_1_ed78e').className='';  document.getElementById('tab_1_ed78e').className='tab-pane';document.getElementById('select_tab_2_ed78e').className='';  document.getElementById('tab_2_ed78e').className='tab-pane';document.getElementById('select_tab_3_ed78e').className='active'; document.getElementById('tab_3_ed78e').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_ed78e">
+<div class="code yaml">
+<pre class="yaml"><span class="co4">homepage</span>:<span class="co3">
+    pattern</span><span class="sy2">: </span>  /<span class="br0">&#123;</span>_locale<span class="br0">&#125;</span><span class="co3">
+    defaults</span><span class="sy2">: </span> <span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeDemoBundle:Main:homepage, _locale<span class="sy2">: </span>en <span class="br0">&#125;</span><span class="co4">
+    requirements</span>:<span class="co3">
+        _locale</span><span class="sy2">: </span> en|fr</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_ed78e">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;?xml</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span> <span class="re0">encoding</span>=<span class="st0">&quot;UTF-8&quot;</span> <span class="re2">?&gt;</span></span>
+&nbsp;
+<span class="sc3"><span class="re1">&lt;routes</span> <span class="re0">xmlns</span>=<span class="st0">&quot;http://symfony.com/schema/routing&quot;</span></span>
+<span class="sc3">    <span class="re0">xmlns:xsi</span>=<span class="st0">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="sc3">    <span class="re0">xsi:schemaLocation</span>=<span class="st0">&quot;http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd&quot;</span><span class="re2">&gt;</span></span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;route</span> <span class="re0">id</span>=<span class="st0">&quot;homepage&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;/{_locale}&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_controller&quot;</span><span class="re2">&gt;</span></span>AcmeDemoBundle:Main:homepage<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_locale&quot;</span><span class="re2">&gt;</span></span>en<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;requirement</span> <span class="re0">key</span>=<span class="st0">&quot;_locale&quot;</span><span class="re2">&gt;</span></span>en|fr<span class="sc3"><span class="re1">&lt;/requirement<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/route<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/routes<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_ed78e">
+<div class="code php">
+<pre class="php"><span class="kw2">use</span> Symfony\Component\Routing\RouteCollection<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Routing\Route<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$collection</span> <span class="sy0">=</span> <span class="kw2">new</span> RouteCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'homepage'</span><span class="sy0">,</span> <span class="kw2">new</span> Route<span class="br0">&#40;</span><span class="st_h">'/{_locale}'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_controller'</span> <span class="sy0">=&gt;</span> <span class="st_h">'AcmeDemoBundle:Main:homepage'</span><span class="sy0">,</span>
+    <span class="st_h">'_locale'</span> <span class="sy0">=&gt;</span> <span class="st_h">'en'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_locale'</span> <span class="sy0">=&gt;</span> <span class="st_h">'en|fr'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">return</span> <span class="re0">$collection</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Cuando llegue una petición de algún usuario, el valor indicado en la variable <code>{_locale}</code> se compara con la expresión regular <code>(en|fr)</code>.</p>
+
+<div class="table" id="table_6_3">
+
+    <table>
+<thead>
+<tr>
+  <th>Ruta</th>
+  <th>Valor de la variable <code>{_locale}</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>/</code></td>
+  <td><code>en</code></td>
+</tr>
+<tr>
+  <td><code>/en</code></td>
+  <td><code>en</code></td>
+</tr>
+<tr>
+  <td><code>/fr</code></td>
+  <td><code>fr</code></td>
+</tr>
+<tr>
+  <td><code>/es</code></td>
+  <td>Ninguno, ya que la ruta no se ejecuta</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<h3 id="agregando_requisitos_sobre_el_metodo_http">6.3.5. Agregando requisitos sobre el método HTTP</h3>
+
+<p>Además de los requisitos de la URL, es posible restringir la ejecución de las rutas a un determinado método HTTP (es decir, <code>GET</code>, <code>HEAD</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>). Imagina que dispones de un formulario de contacto con dos controladores: uno para mostrar el formulario (en una petición <code>GET</code>) y otro para procesar el formulario enviado (en una petición <code>POST*</code>). La siguiente configuración permite definir estas dos rutas:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_ed8ae" class="active"><a data-toggle="tab active" href="#select_tab_1_ed8ae" onclick="document.getElementById('select_tab_1_ed8ae').className='active'; document.getElementById('tab_1_ed8ae').className='tab-pane active';document.getElementById('select_tab_2_ed8ae').className='';  document.getElementById('tab_2_ed8ae').className='tab-pane';document.getElementById('select_tab_3_ed8ae').className='';  document.getElementById('tab_3_ed8ae').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_ed8ae"><a data-toggle="tab" href="#select_tab_2_ed8ae" onclick="document.getElementById('select_tab_1_ed8ae').className='';  document.getElementById('tab_1_ed8ae').className='tab-pane';document.getElementById('select_tab_2_ed8ae').className='active'; document.getElementById('tab_2_ed8ae').className='tab-pane active';document.getElementById('select_tab_3_ed8ae').className='';  document.getElementById('tab_3_ed8ae').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_ed8ae"><a data-toggle="tab" href="#select_tab_3_ed8ae" onclick="document.getElementById('select_tab_1_ed8ae').className='';  document.getElementById('tab_1_ed8ae').className='tab-pane';document.getElementById('select_tab_2_ed8ae').className='';  document.getElementById('tab_2_ed8ae').className='tab-pane';document.getElementById('select_tab_3_ed8ae').className='active'; document.getElementById('tab_3_ed8ae').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_ed8ae">
+<div class="code yaml">
+<pre class="yaml"><span class="co4">contact</span>:<span class="co3">
+    pattern</span><span class="sy2">: </span> /contact<span class="co3">
+    defaults</span><span class="sy2">: </span><span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeDemoBundle:Main:contact <span class="br0">&#125;</span><span class="co4">
+    requirements</span>:<span class="co3">
+        _method</span><span class="sy2">: </span> GET
+<span class="co4">
+contact_process</span>:<span class="co3">
+    pattern</span><span class="sy2">: </span> /contact<span class="co3">
+    defaults</span><span class="sy2">: </span><span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeDemoBundle:Main:contactProcess <span class="br0">&#125;</span><span class="co4">
+    requirements</span>:<span class="co3">
+        _method</span><span class="sy2">: </span> POST</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_ed8ae">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;?xml</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span> <span class="re0">encoding</span>=<span class="st0">&quot;UTF-8&quot;</span> <span class="re2">?&gt;</span></span>
+&nbsp;
+<span class="sc3"><span class="re1">&lt;routes</span> <span class="re0">xmlns</span>=<span class="st0">&quot;http://symfony.com/schema/routing&quot;</span></span>
+<span class="sc3">    <span class="re0">xmlns:xsi</span>=<span class="st0">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="sc3">    <span class="re0">xsi:schemaLocation</span>=<span class="st0">&quot;http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd&quot;</span><span class="re2">&gt;</span></span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;route</span> <span class="re0">id</span>=<span class="st0">&quot;contact&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;/contact&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_controller&quot;</span><span class="re2">&gt;</span></span>AcmeDemoBundle:Main:contact<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;requirement</span> <span class="re0">key</span>=<span class="st0">&quot;_method&quot;</span><span class="re2">&gt;</span></span>GET<span class="sc3"><span class="re1">&lt;/requirement<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/route<span class="re2">&gt;</span></span></span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;route</span> <span class="re0">id</span>=<span class="st0">&quot;contact_process&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;/contact&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_controller&quot;</span><span class="re2">&gt;</span></span>AcmeDemoBundle:Main:contactProcess<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;requirement</span> <span class="re0">key</span>=<span class="st0">&quot;_method&quot;</span><span class="re2">&gt;</span></span>POST<span class="sc3"><span class="re1">&lt;/requirement<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/route<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/routes<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_ed8ae">
+<div class="code php">
+<pre class="php"><span class="kw2">use</span> Symfony\Component\Routing\RouteCollection<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Routing\Route<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$collection</span> <span class="sy0">=</span> <span class="kw2">new</span> RouteCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'contact'</span><span class="sy0">,</span> <span class="kw2">new</span> Route<span class="br0">&#40;</span><span class="st_h">'/contact'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_controller'</span> <span class="sy0">=&gt;</span> <span class="st_h">'AcmeDemoBundle:Main:contact'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_method'</span> <span class="sy0">=&gt;</span> <span class="st_h">'GET'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'contact_process'</span><span class="sy0">,</span> <span class="kw2">new</span> Route<span class="br0">&#40;</span><span class="st_h">'/contact'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_controller'</span> <span class="sy0">=&gt;</span> <span class="st_h">'AcmeDemoBundle:Main:contactProcess'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_method'</span> <span class="sy0">=&gt;</span> <span class="st_h">'POST'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">return</span> <span class="re0">$collection</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>A pesar de que estas dos rutas tienen el mismo patrón (<code>/contact</code>), la primera ruta sólo se activa con las peticiones <code>GET</code> y la segunda sólo con las peticiones <code>POST</code>. Esto significa que puedes mostrar y enviar el formulario a través de la misma URL y usar dos controladores distintos para las dos acciones.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Si no especificas el requisito <code>_method</code>, la ruta se ejecuta para todos los métodos HTTP.</p></div>
+
+<p>Como todos los demás requisitos, el valor de la opción <code>_method</code> se considera una expresión regular. Así que para que una ruta responda a las peticiones <code>GET</code> y <code>POST</code>, utiliza el valor <code>GET|POST</code>.</p>
+
+<h3 id="ejemplo_de_enrutado_avanzado">6.3.6. Ejemplo de enrutado avanzado</h3>
+
+<p>Con todo lo explicado hasta ahora, ya puedes definir rutas realmente avanzadas para tu aplicación Symfony. El siguiente ejemplo muestra lo flexible que puede llegar a ser el sistema de enrutamiento:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_ed9dd" class="active"><a data-toggle="tab active" href="#select_tab_1_ed9dd" onclick="document.getElementById('select_tab_1_ed9dd').className='active'; document.getElementById('tab_1_ed9dd').className='tab-pane active';document.getElementById('select_tab_2_ed9dd').className='';  document.getElementById('tab_2_ed9dd').className='tab-pane';document.getElementById('select_tab_3_ed9dd').className='';  document.getElementById('tab_3_ed9dd').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_ed9dd"><a data-toggle="tab" href="#select_tab_2_ed9dd" onclick="document.getElementById('select_tab_1_ed9dd').className='';  document.getElementById('tab_1_ed9dd').className='tab-pane';document.getElementById('select_tab_2_ed9dd').className='active'; document.getElementById('tab_2_ed9dd').className='tab-pane active';document.getElementById('select_tab_3_ed9dd').className='';  document.getElementById('tab_3_ed9dd').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_ed9dd"><a data-toggle="tab" href="#select_tab_3_ed9dd" onclick="document.getElementById('select_tab_1_ed9dd').className='';  document.getElementById('tab_1_ed9dd').className='tab-pane';document.getElementById('select_tab_2_ed9dd').className='';  document.getElementById('tab_2_ed9dd').className='tab-pane';document.getElementById('select_tab_3_ed9dd').className='active'; document.getElementById('tab_3_ed9dd').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_ed9dd">
+<div class="code yaml">
+<pre class="yaml"><span class="co4">article_show</span>:<span class="co3">
+  pattern</span><span class="sy2">: </span> /articles/<span class="br0">&#123;</span>_locale<span class="br0">&#125;</span>/<span class="br0">&#123;</span>year<span class="br0">&#125;</span>/<span class="br0">&#123;</span>title<span class="br0">&#125;</span>.<span class="br0">&#123;</span>_format<span class="br0">&#125;</span><span class="co3">
+  defaults</span><span class="sy2">: </span><span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeDemoBundle:Article:show, _format<span class="sy2">: </span>html <span class="br0">&#125;</span><span class="co4">
+  requirements</span>:<span class="co3">
+      _locale</span><span class="sy2">: </span> en|fr<span class="co3">
+      _format</span><span class="sy2">: </span> html|rss<span class="co3">
+      year</span><span class="sy2">: </span>    \d+</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_ed9dd">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;?xml</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span> <span class="re0">encoding</span>=<span class="st0">&quot;UTF-8&quot;</span> <span class="re2">?&gt;</span></span>
+&nbsp;
+<span class="sc3"><span class="re1">&lt;routes</span> <span class="re0">xmlns</span>=<span class="st0">&quot;http://symfony.com/schema/routing&quot;</span></span>
+<span class="sc3">    <span class="re0">xmlns:xsi</span>=<span class="st0">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span class="sc3">    <span class="re0">xsi:schemaLocation</span>=<span class="st0">&quot;http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd&quot;</span><span class="re2">&gt;</span></span>
+&nbsp;
+    <span class="sc3"><span class="re1">&lt;route</span> <span class="re0">id</span>=<span class="st0">&quot;article_show&quot;</span> <span class="re0">pattern</span>=<span class="st0">&quot;/articles/{_locale}/{year}/{title}.{_format}&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_controller&quot;</span><span class="re2">&gt;</span></span>AcmeDemoBundle:Article:show<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_format&quot;</span><span class="re2">&gt;</span></span>html<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;requirement</span> <span class="re0">key</span>=<span class="st0">&quot;_locale&quot;</span><span class="re2">&gt;</span></span>en|fr<span class="sc3"><span class="re1">&lt;/requirement<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;requirement</span> <span class="re0">key</span>=<span class="st0">&quot;_format&quot;</span><span class="re2">&gt;</span></span>html|rss<span class="sc3"><span class="re1">&lt;/requirement<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;requirement</span> <span class="re0">key</span>=<span class="st0">&quot;year&quot;</span><span class="re2">&gt;</span></span>\d+<span class="sc3"><span class="re1">&lt;/requirement<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/route<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/routes<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_ed9dd">
+<div class="code php">
+<pre class="php"><span class="kw2">use</span> Symfony\Component\Routing\RouteCollection<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Routing\Route<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$collection</span> <span class="sy0">=</span> <span class="kw2">new</span> RouteCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'homepage'</span><span class="sy0">,</span> <span class="kw2">new</span> Route<span class="br0">&#40;</span><span class="st_h">'/articles/{_locale}/{year}/{title}.{_format}'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_controller'</span> <span class="sy0">=&gt;</span> <span class="st_h">'AcmeDemoBundle:Article:show'</span><span class="sy0">,</span>
+    <span class="st_h">'_format'</span> <span class="sy0">=&gt;</span> <span class="st_h">'html'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_locale'</span> <span class="sy0">=&gt;</span> <span class="st_h">'en|fr'</span><span class="sy0">,</span>
+    <span class="st_h">'_format'</span> <span class="sy0">=&gt;</span> <span class="st_h">'html|rss'</span><span class="sy0">,</span>
+    <span class="st_h">'year'</span> <span class="sy0">=&gt;</span> <span class="st_h">'\d+'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">return</span> <span class="re0">$collection</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Esta ruta sólo se ejecutará cuando el valor de la variable <code>{_locale}</code> sea o <code>en</code> o <code>fr</code> y cuando la variable <code>{year}</code> sea un número. Además, esta ruta también muestra cómo utilizar un punto (<code>.</code>) para separar dos variables entre sí, en vez de la habitual barra inclinada (<code>/</code>). En resumen, cualquiera de las siguientes URL harían que esta ruta se ejecutara:</p>
+
+<ul>
+<li><code>/articles/en/2010/my-post</code></li>
+<li><code>/articles/fr/2010/my-post.rss</code></li>
+<li><code>/articles/en/2013/my-latest-post.html</code></li>
+</ul>
+
+<div class="admonition sidebar"><p><strong class="title"> El parámetro especial de enrutado <code>_format</code></strong> El ejemplo anterior utiliza un parámetro especial de enrutamiento llamado <code>_format</code>.</p>
+
+<p>Cuando una ruta incluye esta variable, su valor se considera como el formato de la petición y así se añade en el objeto <code>Request</code> correspondiente. Este valor es importante porque se utiliza, entre otros, para indicar el <code>Content-Type</code> de la respuesta enviada al usuario (por ejemplo, un formato de petición <code>json</code> se traduce en un <code>Content-Type</code> igual a <code>application/json</code>).</p>
+
+<p>Este valor también se puede utilizar en el controlador para renderizar una plantilla diferente en función de cada formato. De hecho, la variable <code>_format</code> es una de las formas más prácticas de mostrar los mismos contenidos con diferentes formatos.</p></div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> En ocasiones es conveniente hacer que algunas partes de las rutas se puedan configurar globalmente en la aplicación. A partir de la versión 2.1 de Symfony es posible hacerlo gracias a los parámetros del contenedor de servicios. Para más información, lee el artículo <a href="http://symfony.com/doc/2.1/cookbook/routing/service_container_parameters.html">How to use Service Container Parameters in your Routes</a>.</p></div>
+
+<h3 id="variables_de_enrutamiento_especiales">6.3.7. Variables de enrutamiento especiales</h3>
+
+<p>Como hemos visto, cada variable de enrutamiento y cada valor añadido al array <code>defaults</code> está disponible como argumento del controlador. Symfony también define tres variables especiales de enrutamiento:</p>
+
+<ul>
+<li><code>_controller</code>: determina el controlador asociado a la ruta que se ejecuta.</li>
+<li><code>_format</code>: establece el formato de la petición del usuario.</li>
+<li><code>_locale</code>: establece el idioma en la petición del usuario.</li>
+</ul>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Si utilizas la variable <code>_locale</code> en una ruta, su valor se almacena en la sesión para que las demás peticiones utilicen el mismo idioma.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_6/funcionamiento_interno_del_enrutamiento.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>6.2. Funcionamiento interno del enrutamiento</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_6/el_nombre_logico_de_los_controladores.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>6.4. El nombre lógico de los controladores</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Symfony2 y los fundamentos de HTTP</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> De PHP a Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Instalando y configurando Symfony2</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Creando páginas en Symfony2</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> El controlador</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_6.html">
+                    <span>Capítulo 6.</span> El enrutamiento
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/el_enrutamiento_en_la_practica.html">
+                    <span>6.1.</span> El enrutamiento en la práctica
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/funcionamiento_interno_del_enrutamiento.html">
+                    <span>6.2.</span> Funcionamiento interno del enrutamiento
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_6/creando_rutas.html">
+                    <span>6.3.</span> Creando rutas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/el_nombre_logico_de_los_controladores.html">
+                    <span>6.4.</span> El nombre lógico de los controladores
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/variables_de_la_ruta_y_argumentos_del_controlador.html">
+                    <span>6.5.</span> Variables de la ruta y argumentos del controlador
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/importando_recursos_de_enrutamiento_externos.html">
+                    <span>6.6.</span> Importando recursos de enrutamiento externos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/visualizando_y_depurando_rutas.html">
+                    <span>6.7.</span> Visualizando y depurando rutas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/generando_url.html">
+                    <span>6.8.</span> Generando URL
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/resumen.html">
+                    <span>6.9.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Creando y utilizando plantillas</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> La base de datos y Doctrine</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> La base de datos y Propel</a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Tests unitarios y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Validación</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Formularios</a>
+            </li>
+                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> La caché de HTTP</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> El contenedor de servicios</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Mejorando el rendimiento</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> El interior de Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> La API estable de Symfony2</a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

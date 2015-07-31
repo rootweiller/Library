@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>14.4.  Caducidad y validación HTTP (Symfony 2.2, el libro oficial)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                            
+        <link rel="canonical" href="/libro/symfony_2_x/capitulo_14/caducidad_y_validacion_http.html"/>
+                                    <link rel="prev" href="../capitulo_14/introduccion_a_la_cache_de_http.html" />
+                    <link rel="next" href="../capitulo_14/utilizando_esi.html" />
+                <link rel="start" href="/libro/symfony_2_2/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="14.4.  Caducidad y validación HTTP (Symfony 2.2, el libro oficial)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_2_2"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_2/" itemprop="url">
+                    <span itemprop="title">Symfony 2.2, el libro oficial</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_2/capitulo_14.html" itemprop="url">
+                    <span itemprop="title">Capítulo 14. La caché de HTTP</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>14.4.  Caducidad y validación HTTP</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="caducidad_y_validacion_http" class="title">
+        <span>14.4.</span>  Caducidad y validación HTTP
+    </h1>
+
+    
+
+<p>La especificación HTTP define dos modelos de memoria caché:</p>
+
+<ul>
+<li>Con el <strong>modelo de caducidad</strong> (en inglés, <em>expiration model</em>), sólo tienes que especificar el tiempo durante el que la respuesta se considerar válida (en inglés, <em>fresh</em>). Para ello, utiliza la cabecera <code>Cache-Control</code> y/o <code>Expires</code>. Las cachés que entienden el modelo de caducidad no harán la misma petición hasta que la versión guardada en la caché alcance la fecha de caducidad y por tanto, se vuelva caducada (en inglés, <em>stale</em>).</li>
+<li>Cuando las páginas son muy dinámicas (es decir, su contenido cambia con mucha frecuencia), es mejor utilizar el <strong>modelo de validación</strong> (en inglés, <em>validation model</em>). Con este modelo, la caché guarda la respuesta, pero, pregunta al servidor en cada petición si la respuesta cacheada sigue siendo válida. La aplicación añade un identificador único a las respuestas (la cabecera <code>Etag</code>) y/o una marca de tiempo (la cabecera <code>Last-Modified</code>) para comprobar si la página ha cambiado desde que se guardó en la caché.</li>
+</ul>
+
+<p>El objetivo de ambos modelos es no tener que generar nunca la misma respuesta dos veces, para lo cual se utilizan cachés para guardar las páginas y las reglas anteriores para determinar si las páginas siguen siendo válidas.</p>
+
+<div class="admonition sidebar"><p><strong class="title"> Leyendo la especificación HTTP</strong> La especificación HTTP define un sencillo pero potente lenguaje con el que los clientes y los servidores se pueden comunicar. Como desarrollador web, el modelo petición-respuesta de la especificación es la base de tu trabajo. Lamentablemente, el documento de <a href="http://tools.ietf.org/html/rfc2616">la especificación RFC 2616</a> es bastante difícil de leer.</p>
+
+<p>Se está intentando reescribir la RFC 2616 en el estándar <a href="http://tools.ietf.org/wg/httpbis/">HTTP Bis</a>. Este documento no describe una nueva versión de HTTP, sino que trata de aclarar la especificación HTTP original. Los contenidos también se han reorganizado y la especificación ahora se divide en siete partes; todo lo relacionado con la caché HTTP se puede encontrar en las partes <a href="http://tools.ietf.org/html/draft-ietf-httpbis-p4-conditional-12">P4 - Conditional Requests</a> y <a href="http://tools.ietf.org/html/draft-ietf-httpbis-p6-cache-12">P6 - Caching: Browser and intermediary caches</a>.</p>
+
+<p>Como desarrollador web, deberías considerar seriamente leer esa especificación. Incluso diez años después de haber sido escrita, sigue siendo un recurso muy revelador. No te desanimes por lo aburrido que parece leerse un estándar, ya que el resultado merece la pena.</p></div>
+
+<h3 id="caducidad">14.4.1. Caducidad</h3>
+
+<p>El modelo de caducidad es el más eficiente y simple de los dos modelos de memoria caché y es aconsejable utilizarlo siempre que sea posible. Cuando la respuesta se guarda en la caché con una caducidad, la caché reutiliza esa misma respuesta sin volver a ejecutar la aplicación hasta que caduque.</p>
+
+<p>En el modelo de caducidad se utiliza una de las dos siguientes cabeceras HTTP: <code>Expires</code> o <code>Cache-Control</code>.</p>
+
+<h3 id="caducidad_con_la_cabecera_expires">14.4.2. Caducidad con la cabecera <code>Expires</code></h3>
+
+<p>Según la especificación HTTP, <em>"el campo de la cabecera <code>Expires</code> indica la fecha/hora después de la cual se considera que la respuesta ha caducado"</em>. La cabecera <code>Expires</code> se puede establecer con el método <code>setExpires()</code> del objeto <code>Response</code>, pasándole una instancia de <code>DateTime</code> como argumento:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$date</span> <span class="sy0">=</span> <span class="kw2">new</span> DateTime<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$date</span><span class="sy0">-&gt;</span><span class="me1">modify</span><span class="br0">&#40;</span><span class="st_h">'+600 seconds'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">setExpires</span><span class="br0">&#40;</span><span class="re0">$date</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>La cabecera HTTP resultante tiene el siguiente aspecto:</p>
+
+<div class="code code">
+<pre class="code">Expires: Thu, 01 Mar 2013 16:00:00 GMT</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> El método <code>setExpires()</code> convierte automáticamente la fecha a la zona horaria GMT, tal y como lo requiere la especificación.</p></div>
+
+<p>Ten en cuenta que en las versiones de HTTP anteriores a la 1.1, el servidor no está obligado a enviar la cabecera <code>Date</code>. Por tanto, la memoria caché (por ejemplo el navegador) puede acabar utilizando su propio reloj local para evaluar la cabecera <code>Expires</code>, lo que puede provocar errores de sincronización. Otra limitación de la cabecera <code>Expires</code> es que la especificación establece que <em>Los servidores HTTP/1.1 no deben enviar fechas más allá de 1 año de plazo en la cabecera <code>Expires</code></em>.</p>
+
+<h3 id="caducidad_con_la_cabecera_cache_control">14.4.3. Caducidad con la cabecera <code>Cache-Control</code></h3>
+
+<p>Debido a las limitaciones de la cabecera <code>Expires</code>, casi siempre debes utilizar en su lugar la cabecera <code>Cache-Control</code>. Recuerda que la cabecera <code>Cache-Control</code> se utiliza para especificar muchas directivas de caché diferentes. Para la caducidad hay dos directivas: <code>max-age</code> y <code>s-maxage</code>. La primera la utilizan todas las cachés, mientras que la segunda sólo se tiene en cuenta en las cachés compartidas:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// Establece el número de segundos después de los cuales</span>
+<span class="co1">// la respuesta ya no se considera válida</span>
+<span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">setMaxAge</span><span class="br0">&#40;</span><span class="nu0">600</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Lo mismo que la anterior pero sólo para cachés compartidas</span>
+<span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">setSharedMaxAge</span><span class="br0">&#40;</span><span class="nu0">600</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Utilizando el código anterior, la cabecera <code>Cache-Control</code> tendrá el siguiente aspecto (puede contener otras directivas adicionales):</p>
+
+<div class="code code">
+<pre class="code">Cache-Control: max-age=600, s-maxage=600</pre>
+</div>
+
+<h3 id="validacion">14.4.4. Validación</h3>
+
+<p>Cuando un recurso se tiene que actualizar tan pronto como cambien sus contenidos, el modelo de caducidad se queda corto. Con el modelo de caducidad, no se pide a la aplicación que regenere la respuesta hasta que la caché no considere que la respuesta ha caducado.</p>
+
+<p>El modelo de validación soluciona este problema. En este modelo la caché sigue almacenando las respuestas. Pero en este caso, con cada petición del usuario la caché pregunta a la aplicación si la respuesta guardada sigue siendo válida o no. Si la página cacheada todavía es válida, la aplicación devuelve un código de estado <code>304</code> y ningún otro contenido. De esta forma la caché sabe que puede devolver al usuario la respuesta cacheada.</p>
+
+<p>Con este modelo de caché el mayor ahorro es de ancho de banda, ya que las respuestas no contienen casi nunca contenido (al menos cuando se envían las respuestas con el código <code>304</code>). Si diseñas correctamente tu aplicación, también es posible ahorrar CPU al obtener la información necesaria para determinar si una respuesta cacheada sigue siendo válida o no.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> El código de estado <code>304</code> significa <em>Not Modified</em>. Se trata de un código muy importante porque permite que las respuestas no incluyan ningún contenido. La respuesta es simplemente una instrucción directa a la caché para que siga utilizando el contenido cacheado.</p></div>
+
+<p>Al igual que con la caducidad, hay dos cabeceras HTTP diferentes que puedes utilizar para implementar el modelo de validación: <code>Etag</code> y <code>Last-Modified</code>.</p>
+
+<h3 id="validando_con_la_cabecera_etag">14.4.5. Validando con la cabecera <code>ETag</code></h3>
+
+<p>La cabecera <code>ETag</code> (del inglés, <em>entity tag</em>) es una cabecera cuyo valor es una cadena de texto que identifica unívocamente no sólo un recurso sino una versión concreta de ese recurso. Este valor lo debe generar la aplicación, ya que es la única que sabe si por ejemplo el recurso <code>/about</code> cacheado sigue siendo válido o no. Una <code>ETag</code> es como una huella digital y se utiliza para comparar rápidamente si dos versiones diferentes de un recurso son equivalentes. Como las huellas digitales, cada <code>ETag</code> debe ser única en todas las versiones o representaciones de un mismo recurso.</p>
+
+<p>Una de las implementaciones más sencillas para generar la <code>ETag</code> es utilizar como valor el <code>md5</code> del contenido:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> indexAction<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="re0">$response</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">&#40;</span><span class="st_h">'MyBundle:Main:index.html.twig'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">setETag</span><span class="br0">&#40;</span><span class="kw3">md5</span><span class="br0">&#40;</span><span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">getContent</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">setPublic</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">// haec que la respuesta sea cacheable</span>
+    <span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">isNotModified</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="re0">$response</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El método <code>isNotModified()</code> compara la <code>ETag</code> almacenada en el objeto <code>Request</code> con la que contiene el objeto <code>Response</code>. Si ambas coinciden, el método establece automáticamente el código de estado de la respuesta a <code>304</code>.</p>
+
+<p>Este algoritmo es bastante simple, pero tiene el inconveniente de que es necesario crear el objeto <code>Response</code> completo antes de ser capaz de calcular la <code>ETag</code>, lo cual no es nada óptimo. En otras palabras, ahorra ancho de banda pero no ciclos de la CPU.</p>
+
+<p>Más adelante en este capítulo se explica cómo utilizar la validación de una manera más inteligente para determinar si la respuesta sigue siendo válida, pero sin tener que generar la respuesta completa.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Symfony2 también soporta las denominadas <em><code>ETag</code> débiles</em>. Para utilizarlas, pasa <code>true</code> como segundo argumento del método <code>setETag()</code>.</p></div>
+
+<h3 id="validando_con_la_cabecera_last_modified">14.4.6. Validando con la cabecera <code>Last-Modified</code></h3>
+
+<p>La cabecera <code>Last-Modified</code> es la segunda forma de validación. Según la especificación HTTP, <em>"El campo de la cabecera <code>Last-Modified</code> indica la fecha y hora en la que el servidor considera que el recurso fue modificado por última vez"</em>. En otras palabras, la aplicación decide si el contenido cacheado ha sido actualizado en base a comparar la fecha de última actualización con la fecha en la que la respuesta se guardó en la caché.</p>
+
+<p>Como valor de la cabecera <code>Last-Modified</code> se puede utilizar por ejemplo la fecha de actualización más reciente de todos los objetos que se utilizan para crear la página:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> showAction<span class="br0">&#40;</span><span class="re0">$articleSlug</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="co1">// ...</span>
+&nbsp;
+    <span class="re0">$articleDate</span> <span class="sy0">=</span> <span class="kw2">new</span> \DateTime<span class="br0">&#40;</span><span class="re0">$article</span><span class="sy0">-&gt;</span><span class="me1">getUpdatedAt</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$authorDate</span> <span class="sy0">=</span> <span class="kw2">new</span> \DateTime<span class="br0">&#40;</span><span class="re0">$author</span><span class="sy0">-&gt;</span><span class="me1">getUpdatedAt</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$date</span> <span class="sy0">=</span> <span class="re0">$authorDate</span> <span class="sy0">&gt;</span> <span class="re0">$articleDate</span> ? <span class="re0">$authorDate</span> <span class="sy0">:</span> <span class="re0">$articleDate</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">setLastModified</span><span class="br0">&#40;</span><span class="re0">$date</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="co1">// Establece la respuesta a pública</span>
+    <span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">setPublic</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">isNotModified</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$response</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co1">// ...</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="re0">$response</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El método <code>isNotModified()</code> compara el valor de la cabecera <code>If-Modified-Since</code> enviada por la petición con la cabecera <code>Last-Modified</code> configurada en la respuesta. Si son equivalentes, establece el código de estado de la respuesta a <code>304</code>.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> La cabecera <code>If-Modified-Since</code> de la petición es igual a la cabecera <code>Last-Modified</code> de la última respuesta enviada relacionada con el recurso solicitado. Así es como se comunican entre ellos el cliente y el servidor y deciden si el recurso se ha actualizado desde que se guardó en la caché.</p></div>
+
+<h3 id="optimizando_tu_codigo_con_validacion">14.4.7. Optimizando tu código con validación</h3>
+
+<p>El objetivo principal de cualquier estrategia de caché es aligerar la carga de la aplicación.
+Dicho de otra manera, cuanto menos hagas en tu aplicación para devolver una respuesta de tipo <code>304</code>, mejor. El método <code>isNotModified()</code> te permite hacer exactamente eso:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">use</span> Symfony\Component\HttpFoundation\Response<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">public</span> <span class="kw2">function</span> showAction<span class="br0">&#40;</span><span class="re0">$articleSlug</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="co1">// Obtiene la mínima información para calcular la ETag</span>
+    <span class="co1">// o el valor de Last-Modified (en función de la petición,</span>
+    <span class="co1">// los datos de alguna base de datos, etc.)</span>
+    <span class="re0">$article</span> <span class="sy0">=</span> <span class="sy0">...;</span>
+&nbsp;
+    <span class="co1">// crea una respuesta con una cabecera ETag y/o Last-Modified</span>
+    <span class="re0">$response</span> <span class="sy0">=</span> <span class="kw2">new</span> Response<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">setETag</span><span class="br0">&#40;</span><span class="re0">$article</span><span class="sy0">-&gt;</span><span class="me1">computeETag</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">setLastModified</span><span class="br0">&#40;</span><span class="re0">$article</span><span class="sy0">-&gt;</span><span class="me1">getPublishedAt</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// establece la respuesta a pública (por defecto es privada)</span>
+    <span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">setPublic</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// verifica que la respuesta no se ha modificado para la petición dada</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">isNotModified</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">// devuelve inmediatamente la respuesta 304</span>
+        <span class="kw1">return</span> <span class="re0">$response</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+        <span class="co1">// obtiene el resto de información de la página</span>
+        <span class="re0">$comments</span> <span class="sy0">=</span> <span class="sy0">...;</span>
+&nbsp;
+        <span class="co1">// o renderiza una plantilla con la $response creada antes</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">&#40;</span>
+            <span class="st_h">'MyBundle:MyController:article.html.twig'</span><span class="sy0">,</span>
+            <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'article'</span> <span class="sy0">=&gt;</span> <span class="re0">$article</span><span class="sy0">,</span> <span class="st_h">'comments'</span> <span class="sy0">=&gt;</span> <span class="re0">$comments</span><span class="br0">&#41;</span><span class="sy0">,</span>
+            <span class="re0">$response</span>
+        <span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Cuando la respuesta no es modificada, el método <code>isNotModified()</code> establece automáticamente el código de estado de la respuesta a <code>304</code>, elimina el contenido, y también elimina algunas cabeceras que no deben estar presentes en respuestas <code>304</code>.</p>
+
+<h3 id="variando_la_respuesta">14.4.8. Variando la respuesta</h3>
+
+<p>Hasta ahora se ha supuesto que cada URI se corresponde con una única versión o variante de un recurso. La caché HTTP utiliza por defecto la URI del recurso como calve para almacenar la información en la caché. Si dos personas solicitan la misma URI, la segunda persona recibe el recurso cacheado.</p>
+
+<p>En ocasiones esto no es suficiente y se necesita guardar en la caché diferentes versiones de la misma URI en función de uno o más valores de las cabeceras de la petición. Si comprimes por ejemplo las páginas cuando el cliente lo permite, cualquier URI tendrá dos representaciones: una cuando el cliente es compatible con la compresión, y otra cuando no. Esta decisión se toma a partir del valor de la cabecera <code>Accept-Encoding</code> de la petición.</p>
+
+<p>En este caso, necesitas que la caché almacene una versión comprimida y otra sin comprimir de la respuesta para cada URI y que devuelva la versión correcta en función del valor de la cabecera <code>Accept-Encoding</code>. Para ello se utiliza la cabecera <code>Vary</code> de la respuesta, que es una lista separada por comas de diferentes cabeceras cuyos valores activan una representación diferente del recurso solicitado:</p>
+
+<div class="code code">
+<pre class="code">Vary: Accept-Encoding, User-Agent</pre>
+</div>
+
+<p>Esta cabecera <code>Vary</code> indica que se deben guardar en la caché versiones diferentes del recurso en función de la URI y del valor de las cabeceras <code>Accept-Encoding</code> y <code>User-Agent</code>.</p>
+
+<p>El objeto <code>Response</code> ofrece una interfaz muy sencilla para gestionar la cabecera <code>Vary</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// establece una cabecera vary</span>
+<span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">setVary</span><span class="br0">&#40;</span><span class="st_h">'Accept-Encoding'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// establece múltiples cabeceras vary</span>
+<span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">setVary</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'Accept-Encoding'</span><span class="sy0">,</span> <span class="st_h">'User-Agent'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El método <code>setVary()</code> acepta como parámetro el nombre de cabecera o un array de nombres de cabecera.</p>
+
+<h3 id="caducidad_y_validacion">14.4.9. Caducidad y validación</h3>
+
+<p>Por supuesto, también puedes combinar tanto la caducidad como la validación de la misma <code>Response</code>.
+Como la caducidad siempre tiene prioridad sobre la validación, puedes aprovechar lo mejor de los dos mundos. En otras palabras, utilizando tanto la caducidad como la validación, puedes indicar a la caché que sirva el contenido guardado, mientras que revisas cada cierto tiempo que el contenido sigue siendo válido.</p>
+
+<h3 id="otros_metodos_de_response">14.4.10. Otros métodos de <code>Response</code></h3>
+
+<p>La clase <code>Response</code> proporciona varios métodos adicionales relacionados con la caché. Estos son los más útiles:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// marca la respuesta como obsoleta</span>
+<span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">expire</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// devuelve una respuesta sin contenido y con el código 304</span>
+<span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">setNotModified</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Además, puedes configurar muchas de las cabeceras HTTP relacionadas con la caché a través del  método <code>setCache()</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// establece la configuración de caché con un solo método</span>
+<span class="re0">$response</span><span class="sy0">-&gt;</span><span class="me1">setCache</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'etag'</span>          <span class="sy0">=&gt;</span> <span class="re0">$etag</span><span class="sy0">,</span>
+    <span class="st_h">'last_modified'</span> <span class="sy0">=&gt;</span> <span class="re0">$date</span><span class="sy0">,</span>
+    <span class="st_h">'max_age'</span>       <span class="sy0">=&gt;</span> <span class="nu0">10</span><span class="sy0">,</span>
+    <span class="st_h">'s_maxage'</span>      <span class="sy0">=&gt;</span> <span class="nu0">10</span><span class="sy0">,</span>
+    <span class="st_h">'public'</span>        <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="sy0">,</span>
+    <span class="co1">// 'private'    =&gt; true,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_14/introduccion_a_la_cache_de_http.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>14.3. Introducción a la caché de HTTP</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_14/utilizando_esi.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>14.5. Utilizando ESI</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Symfony2 y los fundamentos de HTTP</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> De PHP a Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Instalando y configurando Symfony2</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Creando páginas en Symfony2</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> El controlador</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El enrutamiento</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Creando y utilizando plantillas</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> La base de datos y Doctrine</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> La base de datos y Propel</a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Tests unitarios y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Validación</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Formularios</a>
+            </li>
+                                                                                                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_14.html">
+                    <span>Capítulo 14.</span> La caché de HTTP
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/utilizando_los_estandares_para_la_cache.html">
+                    <span>14.1.</span> Utilizando los estándares para la caché
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/las_caches_de_tipo_gateway_cache.html">
+                    <span>14.2.</span> Las cachés de tipo <em>gateway cache</em>
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/introduccion_a_la_cache_de_http.html">
+                    <span>14.3.</span> Introducción a la caché de HTTP
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_14/caducidad_y_validacion_http.html">
+                    <span>14.4.</span>  Caducidad y validación HTTP
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/utilizando_esi.html">
+                    <span>14.5.</span> Utilizando ESI
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/invalidando_la_cache.html">
+                    <span>14.6.</span> Invalidando la caché
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/resumen.html">
+                    <span>14.7.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> El contenedor de servicios</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Mejorando el rendimiento</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> El interior de Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> La API estable de Symfony2</a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

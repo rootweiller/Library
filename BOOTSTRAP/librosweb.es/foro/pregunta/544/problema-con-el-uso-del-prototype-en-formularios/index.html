@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Problema con el uso del prototype en Formularios</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Problema con el uso del prototype en Formularios">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-4-2" class="forum forum_discussion"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                    <div class="module module-ad module-ad-responsive module-ad-top">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+    <div itemscope="" itemtype="http://schema.org/Article">
+        <div id="discussion" class="col-sm-9 ">
+            <h1 class="title" itemprop="name">Problema con el uso del prototype en Formularios</h1>
+
+            <div id="discussion-content" itemprop="description">
+                <p>Hola. Tengo lo siguiente.</p>
+<p>En mi aplicación debo crear órdenes de compra. Al crearse la orden de compra, está tiene una relación de <em>ManyToOne</em> con un listado de proveedores, relación que no debe poder modificarse una vez creada la entidad ya que cada proveedor tiene sus propios productos y no se permiten más de dos proveedores.</p>
+<p>OrdenCompra</p>
+<pre class="php code"><span class="kw2">class</span> OrdenesCompra
+<span class="br0">&#123;</span>
+    <span class="co1">// ...</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\ManyToOne(targetEntity=&quot;Proveedores&quot;, inversedBy=&quot;ordenes&quot;)
+     * @ORM\JoinColumn(name=&quot;proveedor_id&quot;, referencedColumnName=&quot;id&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$proveedores</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<p>Proveedores</p>
+<pre class="php code"><span class="kw2">class</span> Proveedores
+<span class="br0">&#123;</span>
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;OrdenesCompra&quot;, mappedBy=&quot;proveedores&quot;)
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$ordenes</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Productos&quot;, mappedBy=&quot;proveedores&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$productos</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<p>Productos</p>
+<pre class="php code"><span class="kw2">class</span> Productos
+<span class="br0">&#123;</span>
+    <span class="co4">/**
+     * @ORM\ManyToOne(targetEntity=&quot;Proveedores&quot;, inversedBy=&quot;productos&quot;)
+     * @ORM\JoinColumn(name=&quot;proveedor_id&quot;, referencedColumnName=&quot;id&quot;)
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$proveedores</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<p>La clase del formulario de OrdenCompra:</p>
+<pre class="php code"><span class="kw2">use</span> <span class="br0">&#91;</span>bundle<span class="br0">&#93;</span>\<span class="br0">&#91;</span>bundle<span class="br0">&#93;</span>Bundle\Form\EventListener\OrdenesCompraSubscriber<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> OrdenesCompraType <span class="kw2">extends</span> AbstractType
+<span class="br0">&#123;</span>
+    <span class="co4">/**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> buildForm<span class="br0">&#40;</span>FormBuilderInterface <span class="re0">$builder</span><span class="sy0">,</span> <span class="kw3">array</span> <span class="re0">$options</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="re0">$builder</span><span class="sy0">-&gt;</span><span class="me1">addEventSubscriber</span><span class="br0">&#40;</span><span class="kw2">new</span> OrdenesCompraSubscriber<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * @param OptionsResolverInterface $resolver
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setDefaultOptions<span class="br0">&#40;</span>OptionsResolverInterface <span class="re0">$resolver</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$resolver</span><span class="sy0">-&gt;</span><span class="me1">setDefaults</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="st_h">'data_class'</span> <span class="sy0">=&gt;</span> <span class="st_h">'[Bundle]\[Bundle]Bundle\Entity\OrdenesCompra'</span><span class="sy0">,</span>
+            <span class="co1">// 'cascade_validation' =&gt; true</span>
+        <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * @return string
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getName<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="st_h">'orden_compra'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<pre class="php code"><span class="kw2">class</span> OrdenesCompraSubscriber implements EventSubscriberInterface
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> static <span class="kw2">function</span> getSubscribedEvents<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+          FormEvents<span class="sy0">::</span><span class="me2">PRE_SET_DATA</span> <span class="sy0">=&gt;</span> <span class="st_h">'preSetData'</span>
+          <span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> preSetData<span class="br0">&#40;</span>FormEvent <span class="re0">$event</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$data</span> <span class="sy0">=</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getData</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$form</span> <span class="sy0">=</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getForm</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw4">null</span> <span class="sy0">===</span> <span class="re0">$data</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$data</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'numerofactura'</span><span class="sy0">,</span> <span class="st_h">'text'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+              <span class="st_h">'label'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Número de factura'</span>
+            <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'proveedores'</span><span class="sy0">,</span> <span class="st_h">'entity'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+              <span class="st_h">'class'</span> <span class="sy0">=&gt;</span> <span class="st_h">'ProveedoresBundle:Proveedores'</span><span class="sy0">,</span>
+              <span class="st_h">'property'</span> <span class="sy0">=&gt;</span> <span class="st_h">'proveedor'</span><span class="sy0">,</span>
+              <span class="st_h">'empty_value'</span><span class="sy0">=&gt;</span> <span class="st_h">'Seleccione'</span><span class="sy0">,</span>
+              <span class="st_h">'label'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Proveedor'</span>
+            <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            <span class="re0">$form</span>
+              <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'ordenes'</span><span class="sy0">,</span> <span class="st_h">'collection'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'type'</span> <span class="sy0">=&gt;</span> <span class="kw2">new</span> OrdenesDetalleType<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+              <span class="st_h">'label'</span> <span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="sy0">,</span>
+              <span class="st_h">'by_reference'</span> <span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="sy0">,</span>
+              <span class="st_h">'allow_delete'</span> <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="sy0">,</span>
+              <span class="st_h">'allow_add'</span>    <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="sy0">,</span>
+              <span class="st_h">'prototype'</span>    <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="sy0">,</span>
+            <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>OrdenesDetalle</p>
+<pre class="php code"><span class="kw2">use</span> <span class="br0">&#91;</span>Bundle<span class="br0">&#93;</span>\<span class="br0">&#91;</span>Bundle<span class="br0">&#93;</span>Bundle\Form\EventListener\AddProveedoresFieldSubscriber<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> OrdenesDetalleType <span class="kw2">extends</span> AbstractType
+<span class="br0">&#123;</span>
+    <span class="co4">/**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> buildForm<span class="br0">&#40;</span>FormBuilderInterface <span class="re0">$builder</span><span class="sy0">,</span> <span class="kw3">array</span> <span class="re0">$options</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$builder</span>
+          <span class="co1">//-&gt;add(&quot;productos&quot;)</span>
+          <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'cantidad'</span><span class="br0">&#41;</span>
+          <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'precio'</span><span class="br0">&#41;</span>
+          <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'ivaAduanal'</span><span class="br0">&#41;</span>
+          <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'igi'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$builder</span><span class="sy0">-&gt;</span><span class="me1">addEventSubscriber</span><span class="br0">&#40;</span><span class="kw2">new</span> AddProveedoresFieldSubscriber<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * @param OptionsResolverInterface $resolver
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setDefaultOptions<span class="br0">&#40;</span>OptionsResolverInterface <span class="re0">$resolver</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$resolver</span><span class="sy0">-&gt;</span><span class="me1">setDefaults</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="st_h">'data_class'</span> <span class="sy0">=&gt;</span> <span class="st_h">'[Bundle]\[Bundle]Bundle\Entity\OrdenesDetalle'</span>
+        <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * @return string
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getName<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="st_h">'sisfc_operacionesbundle_ordenesproductos'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>Evento de formulario para agregar el campo Productos a partir del proveedor de la orden de compra:</p>
+<pre class="php code"><span class="kw2">class</span> AddProveedoresFieldSubscriber implements EventSubscriberInterface
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> static <span class="kw2">function</span> getSubscribedEvents<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+          FormEvents<span class="sy0">::</span><span class="me2">PRE_SET_DATA</span> <span class="sy0">=&gt;</span> <span class="st_h">'preSetData'</span><span class="sy0">,</span>
+          <span class="co1">// FormEvents::PRE_BIND     =&gt; 'preBind'</span>
+          <span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> preSetData<span class="br0">&#40;</span>FormEvent <span class="re0">$event</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$data</span> <span class="sy0">=</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getData</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$form</span> <span class="sy0">=</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getForm</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw4">null</span> <span class="sy0">===</span> <span class="re0">$data</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="re0">$proveedorId</span> <span class="sy0">=</span> <span class="re0">$data</span><span class="sy0">-&gt;</span><span class="me1">getOrdenes</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getProveedores</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$data</span><span class="sy0">-&gt;</span><span class="me1">getOrdenes</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+          <span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st0">&quot;productos&quot;</span><span class="sy0">,</span><span class="st_h">'entity'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+              <span class="st_h">'class'</span> <span class="sy0">=&gt;</span> <span class="st_h">'ProveedoresBundle:Productos'</span><span class="sy0">,</span>
+              <span class="st_h">'property'</span> <span class="sy0">=&gt;</span> <span class="st0">&quot;producto&quot;</span><span class="sy0">,</span>
+              <span class="st_h">'query_builder'</span> <span class="sy0">=&gt;</span> <span class="kw2">function</span><span class="br0">&#40;</span>EntityRepository <span class="re0">$er</span><span class="br0">&#41;</span> <span class="kw2">use</span><span class="br0">&#40;</span><span class="re0">$proveedorId</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+                  <span class="kw1">return</span> <span class="re0">$er</span><span class="sy0">-&gt;</span><span class="me1">createQueryBuilder</span><span class="br0">&#40;</span><span class="st_h">'p'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">where</span><span class="br0">&#40;</span><span class="st_h">'p.proveedores = :proveedor'</span><span class="br0">&#41;</span>
+                  <span class="sy0">-&gt;</span><span class="me1">setParameter</span><span class="br0">&#40;</span><span class="st_h">'proveedor'</span><span class="sy0">,</span> <span class="re0">$proveedorId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span><span class="sy0">,</span>
+              <span class="st_h">'empty_value'</span> <span class="sy0">=&gt;</span> <span class="st0">&quot;Seleccione&quot;</span>
+              <span class="br0">&#41;</span>
+            <span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span></pre>
+<p>Hasta aquí todo funciona. El gran problema es en el momento de renderizar el formulario y usar el <code>data-prototype</code>. En la clase <code>OrdenesProductosType</code> quito el campo de <code>Productos</code> y creo un evento de formulario para saber el <code>id</code> del <code>Proveedor</code> relacionado con la <code>OrdenCompra</code> y así poder generar la consulta que necesito para llamar los productos de este proveedor.</p>
+<pre class="html5 code"><span class="sc2">&lt;<span class="kw2">form</span> &gt;</span>
+        {% macro prototype(orden) %}
+           <span class="sc2">&lt;<span class="kw2">tr</span>&gt;</span>
+             <span class="sc2">&lt;<span class="kw2">td</span>&gt;</span>{{ form_widget(orden.productos) }}<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">td</span>&gt;</span>
+             <span class="sc2">&lt;<span class="kw2">td</span>&gt;</span>{{ form_widget(orden.cantidad) }} <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">td</span>&gt;</span>
+             <span class="sc2">&lt;<span class="kw2">td</span>&gt;</span>{{ form_widget(orden.precio) }} <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">td</span>&gt;</span>
+             <span class="sc2">&lt;<span class="kw2">td</span>&gt;</span>{{ form_widget(orden.ivaAduanal) }} <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">td</span>&gt;</span>
+             <span class="sc2">&lt;<span class="kw2">td</span>&gt;</span>{{ form_widget(orden.igi) }}<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">td</span>&gt;</span>
+             <span class="sc2">&lt;<span class="kw2">td</span>&gt;</span>
+              <span class="sc2">&lt;<span class="kw2">button</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;btn btn-default btn-delete&quot;</span>&gt;&lt;<span class="kw2">span</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;glyphicon glyphicon-remove&quot;</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">span</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">button</span>&gt;</span>
+             <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">td</span>&gt;</span>
+           <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">tr</span>&gt;</span>
+       {% endmacro %}
+&nbsp;
+       <span class="sc2">&lt;<span class="kw2">table</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;table table-condensed&quot;</span>&gt;</span>
+           <span class="sc2">&lt;<span class="kw2">caption</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">caption</span>&gt;</span>
+           <span class="sc2">&lt;<span class="kw2">thead</span>&gt;</span>
+            ...
+           <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">thead</span>&gt;</span>
+           <span class="sc2">&lt;<span class="kw2">tbody</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;collections&quot;</span> data-prototype<span class="sy0">=</span><span class="st0">&quot;{{ _self.prototype(edit_form.ordenes.vars.prototype)|e }}&quot;</span>&gt;</span>
+               {% for orden in edit_form.ordenes %}
+                  {{_self.prototype(orden)}}
+               {% endfor %}
+           <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">tbody</span>&gt;</span>
+       <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">table</span>&gt;</span>
+       <span class="sc2">&lt;<span class="kw2">div</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;btn-group&quot;</span> role<span class="sy0">=</span><span class="st0">&quot;group&quot;</span> aria-<span class="kw3">label</span><span class="sy0">=</span><span class="st0">&quot;...&quot;</span>&gt;</span>
+        <span class="sc2">&lt;<span class="kw2">button</span> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">&quot;submit&quot;</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;btn btn-primary&quot;</span>&gt;</span>
+          <span class="sc2">&lt;<span class="kw2">span</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;glyphicon glyphicon-refresh&quot;</span> aria-<span class="kw3">hidden</span><span class="sy0">=</span><span class="st0">&quot;true&quot;</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">span</span>&gt;</span> Actualizar
+        <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">button</span>&gt;</span>
+        <span class="sc2">&lt;<span class="kw2">button</span> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">&quot;button&quot;</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;btn btn-default add&quot;</span>&gt;</span>
+          <span class="sc2">&lt;<span class="kw2">span</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;glyphicon glyphicon-plus&quot;</span> aria-<span class="kw3">hidden</span><span class="sy0">=</span><span class="st0">&quot;true&quot;</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">span</span>&gt;</span> Agregar
+        <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">button</span>&gt;</span>
+      <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">div</span>&gt;</span>
+      <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">form</span>&gt;</span></pre>
+<p>Al parecer, prototype no es capaz de entender la información que se crea a partir del evento del formulario. Si lo dejo como está la aplicación me arroja el error: </p>
+<pre class="code code">Method &quot;productos&quot; for object &quot;Symfony\Component\Form\FormView&quot; does not
+exist in OperacionesBundle:OrdenesCompra:edit.html.twig</pre>
+<p>Es obvio, porque la línea productos, en la clase <code>OrdenesDetalle</code> está comentada.</p>
+<p>Si descomento la línea <code>//-&gt;add("productos”) -&gt; -&gt;add("productos”)</code> la aplicación funciona normalmente, sólo que me arroja en la vista todos los productos de la aplicación.</p>
+<p>Quedo atento a cualquier solución. De antemano, quedo agradecido. Saludos</p>
+            </div>
+
+                            <div id="discussion-tags">
+                    <h3>Etiquetas</h3>
+                    <ul class="tags-list">
+                                                                <li><a href="/foro/doctrine/">doctrine</a></li>
+                                            <li><a href="/foro/dorm/">dorm</a></li>
+                                            <li><a href="/foro/symfony/">symfony</a></li>
+                                        </ul>
+                </div>
+                    </div>
+
+        <div id="discussion-attributes" class="col-sm-3">
+            <div class="row">
+                <p class="col-xs-3 col-sm-12 avatar">
+                    <img width="73" height="73" itemprop="image"
+                     src="http://pbs.twimg.com/profile_images/413517314969960448/ss3LE3A-_bigger.jpeg" />
+                </p>
+
+                <p class="col-xs-8 col-sm-12 col-md-12">
+                    <span class="login">@cristian_angulo</span>
+                    <meta itemprop="author" content="Cristian Angulo" />
+
+                    <span class="published">1 de abril de 2015</span>
+                    <meta itemprop="dateCreated" content="2015-04-01T23:10:00+02:00" />
+                </p>
+
+                <p id="discussion-actions" class="col-sm-12">
+                                    </p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="discussion-comments" class="col-sm-12">
+        
+                    <div id="btn-reply">
+                <a rel="nofollow" href="/foro/pregunta/544/problema-con-el-uso-del-prototype-en-formularios/responder/#tu-respuesta" class="btn btn-lg">
+                    Responder pregunta
+                </a>
+            </div>
+            </div>
+
+
+                </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

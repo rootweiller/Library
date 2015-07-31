@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>10.3. Validación de formularios (Symfony 1.1, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_10/helpers_de_formularios_para_objetos.html" />
+                    <link rel="next" href="../capitulo_10/validaciones_complejas.html" />
+                <link rel="start" href="/libro/symfony_1_1/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="10.3. Validación de formularios (Symfony 1.1, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_1"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/" itemprop="url">
+                    <span itemprop="title">Symfony 1.1, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/capitulo_10.html" itemprop="url">
+                    <span itemprop="title">Capítulo 10. Formularios</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>10.3. Validación de formularios</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="validacion_de_formularios" class="title">
+        <span>10.3.</span> Validación de formularios
+    </h1>
+
+    
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Todas las opciones descritas en esta sección han sido declaradas obsoletas en Symfony 1.1, por lo que sólo están disponibles cuando se activa el plugin <code>sfCompat10</code>.</p></div>
+
+<p>En el Capítulo 6 se explica cómo utilizar los métodos <code>validateXXX()</code> en las acciones para validar los parámetros de la petición. Sin embaro, si se utiliza este método para validar los datos enviados en un formulario, se acaba escribiendo una y otra vez los mismos o parecidos trozos de código. Symfony incluye un mecanismo específico de validación de formularios realizado mediante archivos YAML, en vez de utilizar código PHP en la acción.</p>
+
+<p>Para mostrar el funcionamiento de la validación de formularios, se va a utilizar el formulario del listado 10-18. Se trata del típico formulario de contacto que incluye los campos <code>nombre</code>, <code>email</code>, <code>edad</code> y <code>mensaje</code>.</p>
+
+<p><strong>Listado 10-18 - Ejemplo de formulario de contacto, en <code>modules/contacto/templates/indexSuccess.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> form_tag<span class="br0">&#40;</span><span class="st_h">'contacto/enviar'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+  Nombre:  <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_tag<span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+  Email:   <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_tag<span class="br0">&#40;</span><span class="st_h">'email'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+  Edad:    <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_tag<span class="br0">&#40;</span><span class="st_h">'edad'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+  Mensaje: <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> textarea_tag<span class="br0">&#40;</span><span class="st_h">'mensaje'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+  <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> submit_tag<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&lt;/form&gt;</pre>
+</div>
+
+<p>El funcionamiento básico de la validación en un formulario es que si el usuario introduce datos no válidos y envía el formulario, la próxima página que se muestra debería contener los mensajes de error. La siguiente lista explica con palabras sencillas lo que se consideran datos válidos en el formulario de prueba:</p>
+
+<ul>
+<li>El campo <code>nombre</code> es obligatorio. Debe ser una cadena de texto de entre 2 y 100 caracteres.</li>
+<li>El campo <code>email</code> es obligatorio. Debe ser una cadena de texto de entre 2 y 100 caracteres y debe contener una dirección de email válida.</li>
+<li>El campo <code>edad</code> es obligatorio. Debe ser un número entero entre 0 y 120.</li>
+<li>El campo <code>mensaje</code> es obligatorio.</li>
+</ul>
+
+<p>Se podrían definir reglas de validación más complejas para el formulario de contacto, pero de momento solo es un ejemplo para mostrar las posibilidades de la validación de formularios.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> La validación de formularios se puede realizar en el lado del servidor y/o en el lado del cliente. La validación en el servidor es obligatoria para no corromper la base de datos con datos incorrectos. La validación en el lado del cliente es opcional, pero mejora enormemente la experiencia de usuario. La validación en el lado del cliente debe realizarse de forma manual con JavaScript.</p></div>
+
+<h3 id="validadores">10.3.1. Validadores</h3>
+
+<p>Los campos <code>nombre</code> y <code>email</code> del formulario de ejemplo comparten las mismas reglas de validación. Como algunas de las reglas de validación son tan comunes que aparecen en todos los formularios, Symfony ha creado unos validadores que encapsulan todo el código PHP necesario para realizarlos. Un validador es una clase que proporciona un método llamado <code>execute()</code>. El método requiere de un parámetro que es el valor del campo de formulario y devuelve <code>true</code> si el valor es válido y <code>false</code> en otro caso.</p>
+
+<p>Symfony incluye varios validadores ya construidos (que se describen más adelante en la sección "Validadores estándar de Symfony") aunque ahora solo se va a estudiar el validador <code>sfStringValidator</code>. Este validador comprueba que el valor introducido es una cadena de texto y que su longitud se encuentra entre 2 límites indicados (definidos cuando se llama al método <code>initialize()</code>). Este validador es justo lo que se necesita para validar el campo <code>nombre</code>. El listado 10-19 muestra cómo utilizar este validador en un método de validación.</p>
+
+<p><strong>Listado 10-19 - Validando parámetros de la petición con validadores reutilizables, en <code>modules/contacto/action/actions.class.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> validateEnviar<span class="br0">&#40;</span><span class="re0">$peticion</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="re0">$nombre</span> <span class="sy0">=</span> <span class="re0">$peticion</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+  <span class="co1">// El campo 'nombre' es obligatorio</span>
+  <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$nombre</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">setError</span><span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="sy0">,</span> <span class="st_h">'El campo nombre no se puede dejar vacío'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="kw4">false</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="co1">// El campo nombre debe ser una cadena de texto de entre 2 y 100 caracteres</span>
+  <span class="re0">$miValidador</span> <span class="sy0">=</span> <span class="kw2">new</span> sfStringValidator<span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getContext</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'min'</span>       <span class="sy0">=&gt;</span> <span class="nu0">2</span><span class="sy0">,</span>
+    <span class="st_h">'min_error'</span> <span class="sy0">=&gt;</span> <span class="st_h">'El nombre es muy corto (mínimo 2 caracteres)'</span><span class="sy0">,</span>
+    <span class="st_h">'max'</span>       <span class="sy0">=&gt;</span> <span class="nu0">100</span><span class="sy0">,</span>
+    <span class="st_h">'max_error'</span> <span class="sy0">=&gt;</span> <span class="st_h">'El nombre es muy largo (máximo 100 caracteres)'</span><span class="sy0">,</span>
+  <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$miValidador</span><span class="sy0">-&gt;</span><span class="me1">execute</span><span class="br0">&#40;</span><span class="re0">$nombre</span><span class="sy0">,</span> <span class="re0">$error</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="kw4">false</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw1">return</span> <span class="kw4">true</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Si un usuario envía el formulario del listado 10-18 con el valor <code>a</code> en el campo <code>nombre</code>, el método <code>execute()</code> de <code>sfStringValidator</code> devuelve un valor <code>false</code> (porque la longitud de la cadena de texto es menor que el mínimo de 2 caracteres). El método <code>validateSend()</code> devolverá <code>false</code> y se ejecutará el método <code>handleErrorEnviar()</code> en vez del método <code>executeEnviar()</code>.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> El método <code>setError()</code> del objeto <code>sfRequest</code> proporciona información a la plantilla para que se puedan mostrar los mensajes de error, como se explica más adelante en la sección "Mostrando mensajes de error en el formulario". Los validadores establecen los errores de forma interna, por lo que se pueden definir diferentes errores para los diferentes casos de error en la validación. Este es precisamente el objetivo de los parámetros <code>min_error</code> y <code>max_error</code> de inicialización de <code>sfStringValidator</code>.</p></div>
+
+<p>Las reglas de validación definidas anteriormente se pueden traducir en validadores:</p>
+
+<ul>
+<li><code>nombre</code>: <code>sfStringValidator</code> (<code>min=2</code>, <code>max=100</code>)</li>
+<li><code>email</code>: <code>sfStringValidator</code> (<code>min=2</code>, <code>max=100</code>) y <code>sfEmailValidator</code></li>
+<li><code>edad</code>: <code>sfNumberValidator</code> (<code>min=0</code>, <code>max=120</code>)</li>
+</ul>
+
+<p>El hecho de que un campo sea requerido no es algo que se controle mediante un validador.</p>
+
+<h3 id="archivo_de_validacion">10.3.2. Archivo de validación</h3>
+
+<p>Aunque se podría realizar de forma sencilla la validación del formulario de contacto mediante los validadores en el método <code>validateEnviar()</code>, esta forma de trabajo supondría repetir mucho código PHP. Symfony ofrece una alternativa mucho mejor para definir las reglas de validación de un formulario, mediante el uso de archivos YAML. El listado 10-20 muestra por ejemplo como realizar la misma validación que el listado 10-19 pero mediante un archivo de validación.</p>
+
+<p><strong>Listado 10-20 - Archivo de validación, en <code>modules/contacto/validate/enviar.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">fields</span>:<span class="co4">
+  name</span>:<span class="co4">
+    required</span>:<span class="co3">
+      msg</span><span class="sy2">: </span>      El campo nombre <span class="kw1">no</span> se puede dejar vacío<span class="co4">
+    sfStringValidator</span>:<span class="co3">
+      min</span><span class="sy2">: </span>      <span class="nu0">2</span><span class="co3">
+      min_error</span><span class="sy2">: </span>El nombre es muy corto <span class="br0">&#40;</span>mínimo <span class="nu0">2</span> caracteres<span class="br0">&#41;</span><span class="co3">
+      max</span><span class="sy2">: </span>      <span class="nu0">100</span><span class="co3">
+      max_error</span><span class="sy2">: </span>El nombre es m uy largo <span class="br0">&#40;</span>máximo <span class="nu0">100</span> caracteres<span class="br0">&#41;</span></pre>
+</div>
+
+<p>En el archivo de validación, la clave <code>fields</code> define la lista de campos que tienen que ser validados, si son requeridos o no y los validadores que deben utilizarse para comprobar su validez. Los parámetros de cada validador son los mismos que se utilizan para inicializar manualmente los validadores. Se pueden utilizar tantos validadores como sean necesarios sobre un mismo campo de formulario.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> El proceso de validación no termina cuando el validador falla. Symfony ejecuta todos los validadores y determina que la validación ha fallado si al menos uno de ellos falla. Incluso cuando algunas de las reglas de validación fallan, Symfony busca el método <code>validateXXX()</code> y lo ejecuta. De esta forma, las 2 técnicas de validación son complementarias. La gran ventaja es que si un formulario tiene muchos errores, se muestran todos los mensajes de error.</p></div>
+
+<p>Los archivos de validación se encuentran en el directorio <code>validate/</code> del módulo y su nombre se corresponde con el nombre de la acción que validan. El listado 10-19 por ejemplo se debe guardar en un archivo llamado <code>validate/enviar.yml</code>.</p>
+
+<h3 id="mostrando_el_formulario_de_nuevo">10.3.3. Mostrando el formulario de nuevo</h3>
+
+<p>Cuando la validación falla, Symfony por defecto busca un método <code>handleErrorEnviar()</code> en la clase de la acción o muestra la plantilla <code>enviarError.php</code> si el método no existe.</p>
+
+<p>El procedimiento habitual para informar al usuario de que la validación ha fallado es el de volver a mostrar el formulario con los mensajes de error. Para ello, se debe redefinir el método <code>handleErrorSend()</code> para finalizar con una redirección a la acción que muestra el formulario (en este caso <code>module/index</code>) tal y como muestra el listado 10-21.</p>
+
+<p><strong>Listado 10-21 - Volviendo a mostrar el formulario, en <code>modules/contacto/actions/actions.class.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> ContactoActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeIndex<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Mostrar el formulario</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> handleErrorEnviar<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">forward</span><span class="br0">&#40;</span><span class="st_h">'contacto'</span><span class="sy0">,</span> <span class="st_h">'index'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> executeEnviar<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Procesar el envío del formulario</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Si se utiliza la misma acción para mostrar el formulario y para procesarlo, el método <code>handleErrorEnviar()</code> puede devolver el valor <code>sfView::SUCCESS</code> para volver a mostrar el formulario, como se indica en el listado 10-22.</p>
+
+<p><strong>Listado 10-22 - Una sola acción para mostrar y procesar el formulario, en <code>modules/contacto/actions/actions.class.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> ContactoActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeEnviar<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getMethod</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">!=</span> sfRequest<span class="sy0">::</span><span class="me2">POST</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="co1">// Preparar los datos para la plantilla</span>
+&nbsp;
+      <span class="co1">// Mostrar el formulario</span>
+      <span class="kw1">return</span> sfView<span class="sy0">::</span><span class="me2">SUCCESS</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw1">else</span>
+    <span class="br0">&#123;</span>
+      <span class="co1">// Procesar el formulario</span>
+      <span class="sy0">...</span>
+      <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="st_h">'mimodulo/otraaccion'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> handleErrorEnviar<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Preparar los datos para la plantilla</span>
+&nbsp;
+    <span class="co1">// Mostrar el formulario</span>
+    <span class="kw1">return</span> sfView<span class="sy0">::</span><span class="me2">SUCCESS</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>La lógica que se emplea para preparar los datos del formulario se puede refactorizar en un método de tipo <code>protected</code> de la clase de la acción, para evitar su repetición en los métodos <code>executeSend()</code> y <code>handleErrorSend()</code>.</p>
+
+<p>Con esta nueva configuración, cuando el usuario introduce un nombre inválido, se vuelve a mostrar el formulario pero los datos introducidos se pierden y no se muestran los mensajes de error. Para arreglar este último problema, se debe modificar la plantilla que muestra el formulario para insertar los mensajes de error cerca del campo que ha provocado el error.</p>
+
+<h3 id="mostrando_los_mensajes_de_error_en_el_formulario">10.3.4. Mostrando los mensajes de error en el formulario</h3>
+
+<p>Cuando un campo del formulario no supera con éxito su validación, los mensajes de error definidos como parámetros del validador se añaden a la petición (de la misma forma que se añadían manualmente mediante el método <code>setError()</code> en el listado 10-19). El objeto <code>sfRequest</code> proporciona un par de métodos útiles para obtener el mensaje de error: <code>hasError()</code> y <code>getError()</code>, cada uno de los cuales espera como argumento el nombre de un campo de formulario. Además, se puede mostrar un mensaje de aviso al principio del formulario para llamar la atención del usuario e indicarle que el formulario contiene errores mediante el método <code>hasErrors()</code>. Los listados 10-23 y 10-24 muestran cómo utilizar estos métodos.</p>
+
+<p><strong>Listado 10-23 - Mostrando mensajes de error al principio del formulario, en <code>templates/indexSuccess.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$sf_request</span><span class="sy0">-&gt;</span><span class="me1">hasErrors</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+  &lt;p&gt;Los datos introducidos no son correctos.
+  Por favor, corrija los siguientes errores y vuelva a enviar el formulario:&lt;/p&gt;
+  &lt;ul&gt;
+  <span class="kw2">&lt;?php</span> <span class="kw1">foreach</span><span class="br0">&#40;</span><span class="re0">$sf_request</span><span class="sy0">-&gt;</span><span class="me1">getErrors</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw1">as</span> <span class="re0">$nombre</span> <span class="sy0">=&gt;</span> <span class="re0">$error</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+    &lt;li&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$nombre</span> <span class="sy1">?&gt;</span>: <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$error</span> <span class="sy1">?&gt;</span>&lt;/li&gt;
+  <span class="kw2">&lt;?php</span> <span class="kw1">endforeach</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+  &lt;/ul&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">endif</span><span class="sy0">;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p><strong>Listado 10-24 - Mostrando mensajes de error dentro del formulario, en <code>templates/indexSuccess.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> form_tag<span class="br0">&#40;</span><span class="st_h">'contacto/enviar'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+  <span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$sf_request</span><span class="sy0">-&gt;</span><span class="me1">hasError</span><span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+    <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$sf_request</span><span class="sy0">-&gt;</span><span class="me1">getError</span><span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span> &lt;br /&gt;
+  <span class="kw2">&lt;?php</span> <span class="kw1">endif</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+  Nombre:    <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_tag<span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+  ...
+  <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> submit_tag<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&lt;/form&gt;</pre>
+</div>
+
+<p>La condición utilizada antes del método <code>getError()</code> en el listado 10-23 es un poco larga de escribir. Por este motivo, Symfony incluye un <em>helper</em> llamado <code>form_error()</code> y que puede sustituirlo. Para poder utilizarlo, es necesario declarar de forma explícita el uso de este grupo de <em>helpers</em> llamado <code>Validation</code>. El listado 10-25 modifica al listado 10-24 para utilizar este <em>helper</em>.</p>
+
+<p><strong>Listado 10-25 - Mostrando mensajes de error dentro del formulario, forma abreviada</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> use_helper<span class="br0">&#40;</span><span class="st_h">'Validation'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> form_tag<span class="br0">&#40;</span><span class="st_h">'contacto/enviar'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+           <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> form_error<span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+  Nombre:  <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_tag<span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+  ...
+  <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> submit_tag<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&lt;/form&gt;</pre>
+</div>
+
+<p>El <em>helper</em> <code>form_error()</code> añade por defecto un carácter antes y después del mensaje de error para hacerlos más visibles. Por defecto, el carácter es una flecha que apunta hacia abajo (correspondiente a la entidad <code>&amp;darr;</code>), pero se puede definir otro carácter en el archivo <code>settings.yml</code>:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co4">
+  .settings</span>:<span class="co3">
+    validation_error_prefix</span><span class="sy2">: </span>   ' &amp;darr;&amp;nbsp;'<span class="co3">
+    validation_error_suffix</span><span class="sy2">: </span>   ' &amp;nbsp;&amp;darr;'</pre>
+</div>
+
+<p>Si ahora falla la validación, el formulario muestra correctamente los mensajes de error, pero los datos introducidos por el usuario se pierden. Para mejorar el formulario es necesario volver a mostrar los datos que introdujo anteriormente el usuario.</p>
+
+<h3 id="mostrando_de_nuevo_los_datos_introducidos">10.3.5. Mostrando de nuevo los datos introducidos</h3>
+
+<p>Como los errores se manejan mediante el método <code>forward()</code> (como se muestra en el listado 10-21), la petición original sigue siendo accesible y por tanto los datos introducidos por el usuario se encuentran en forma de parámetros de la petición. De esta forma, es posible mostrar los datos introducidos en el formulario utilizando los valores por defecto, tal y como se muestra en el listado 10-26.</p>
+
+<p><strong>Listado 10-26 - Indicando valores por defecto para mostrar los datos introducidos por el usuario anteriormente después de un fallo en la validación, en <code>templates/indexSuccess.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> use_helper<span class="br0">&#40;</span><span class="st_h">'Validation'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> form_tag<span class="br0">&#40;</span><span class="st_h">'contacto/enviar'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+            <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> form_error<span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+  Nombre:   <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_tag<span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="sy0">,</span> <span class="re0">$sf_params</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+            <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> form_error<span class="br0">&#40;</span><span class="st_h">'email'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+  Email:    <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_tag<span class="br0">&#40;</span><span class="st_h">'email'</span><span class="sy0">,</span> <span class="re0">$sf_params</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'email'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+            <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> form_error<span class="br0">&#40;</span><span class="st_h">'edad'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+  Edad:     <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_tag<span class="br0">&#40;</span><span class="st_h">'edad'</span><span class="sy0">,</span> <span class="re0">$sf_params</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'edad'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+            <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> form_error<span class="br0">&#40;</span><span class="st_h">'mensaje'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+  Mensaje: <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> textarea_tag<span class="br0">&#40;</span><span class="st_h">'mensaje'</span><span class="sy0">,</span> <span class="re0">$sf_params</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'mensaje'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+  <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> submit_tag<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&lt;/form&gt;</pre>
+</div>
+
+<p>Una vez más, se trata de un mecanismo bastante tedioso de escribir. Symfony ofrece una alternativa para volver a mostrar los datos de todos los campos de un formulario. Esta alternativa se realiza mediante el archivo YAML de validación y no mediante la modificación de los valores por defecto de los elementos. Solamente es necesario activar la opción <code>fillin:</code> del formulario, con la sintaxis descrita en el listado 10-27.</p>
+
+<p><strong>Listado 10-27 - Activando la opción <code>fillin</code> para volver a mostrar los datos del formulario cuando la validación falla, en <code>validate/enviar.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">fillin</span>:<span class="co3">
+  enabled</span><span class="sy2">: </span>true  <span class="co1"># Habilita volver a mostrar los datos</span><span class="co4">
+  param</span>:<span class="co3">
+    name</span><span class="sy2">: </span>prueba   <span class="co1"># Nombre del formulario (no es necesario indicarlo si solo hay 1 formulario en la página)</span><span class="co3">
+    skip_fields</span><span class="sy2">: </span>  <span class="br0">&#91;</span>email<span class="br0">&#93;</span>  <span class="co1"># No mostrar los datos introducidos en estos campos</span><span class="co3">
+    exclude_types</span><span class="sy2">: </span><span class="br0">&#91;</span>hidden, password<span class="br0">&#93;</span> <span class="co1"># No mostrar los campos de estos tipos</span><span class="co3">
+    check_types</span><span class="sy2">: </span>  <span class="br0">&#91;</span>text, checkbox, radio, select, hidden<span class="br0">&#93;</span> <span class="co1"># Muestra los datos de estos tipos de campos</span><span class="co3">
+    content_type</span><span class="sy2">: </span> html  <span class="co1"># html es el formato por defecto. Las otras opciones son xml y xhtml (esta última es igual que XML, salvo que no se incluye la declaración XML)</span></pre>
+</div>
+
+<p>Por defecto, se vuelven a mostrar los datos de los campos de tipo cuadro de texto, checkbox, radio button, áreas de texto y listas desplegables (sencillas y múltiples). No se vuelven a mostrar los datos en los campos de tipo contraseña y en los campos ocultos. Además, la opción <code>fillin</code> no funciona para los campos utilizados para adjuntar archivos.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> La opción <code>fillin</code> funciona procesando el contenido XML de la respuesta antes de enviarla al usuario. Por defecto los datos se vuelven a mostrar en formato HTML.</p>
+
+<p>Si necesitas mostrar los datos en formato XHTML, la opción <code>content-type</code> debe valer <code>xml</code>. Además, si la respuesta no es un documento XHTML estrictamente válido, la opción <code>fillin</code> puede que no funcione.</p>
+
+<p>El tercer valor posible de la opción <code>content_type</code> es <code>xhtml</code>, que es idéntico a <code>xml</code>, salvo que no incluye la declaración de los archivos XML, lo que evita que se active el modo <em>quirks</em> en el navegador Internet Explorer 6.</p></div>
+
+<p>Antes de volver a mostrar los datos introducidos por el usuario, puede ser necesario modificar sus valores. A los campos del formulario se les pueden aplicar mecanismos de escape, reescritura de URL, transformación de caracteres especiales en entidades y cualquier otra transformación que se pueda llevar a cabo llamando a una función. Las conversiones se definen bajo la clave <code>converters:</code>, como muestra el listado 10-28.</p>
+
+<p><strong>Listado 10-28 - Convirtiendo los datos del usuario antes del <code>fillin</code>, en <code>validate/enviar.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">fillin</span>:<span class="co3">
+  enabled</span><span class="sy2">: </span>true<span class="co4">
+  param</span>:<span class="co3">
+    name</span><span class="sy2">: </span>prueba<span class="co3">
+    converters</span><span class="sy2">: </span>        <span class="co1"># Conversiones aplicadas</span><span class="co3">
+     htmlentities</span><span class="sy2">: </span>    <span class="br0">&#91;</span>nombre, comentarios<span class="br0">&#93;</span><span class="co3">
+     htmlspecialchars</span><span class="sy2">: </span><span class="br0">&#91;</span>comentarios<span class="br0">&#93;</span></pre>
+</div>
+
+<h3 id="validadores_estandar_de_symfony">10.3.6. Validadores estándar de Symfony</h3>
+
+<p>Symfony contiene varios validadores ya definidos y que se pueden utilizar directamente en los formularios:</p>
+
+<ul>
+<li><code>sfStringValidator</code></li>
+<li><code>sfNumberValidator</code></li>
+<li><code>sfEmailValidator</code></li>
+<li><code>sfUrlValidator</code></li>
+<li><code>sfRegexValidator</code></li>
+<li><code>sfCompareValidator</code></li>
+<li><code>sfPropelUniqueValidator</code></li>
+<li><code>sfFileValidator</code></li>
+<li><code>sfCallbackValidator</code></li>
+</ul>
+
+<p>Cada uno dispone de una serie de parámetros y de mensajes de error, pero se pueden redefinir fácilmente mediante el método <code>initialize()</code> del validador o mediante el archivo YAML. Las siguientes secciones describen los validadores y muestran ejemplos de su uso.</p>
+
+<h4 id="validador_de_cadenas_de_texo">10.3.6.1. Validador de cadenas de texo</h4>
+
+<p><code>sfStringValidator</code> permite establecer una serie de restricciones relacionadas con las cadenas de texto.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">sfStringValidator</span>:<span class="co3">
+  values</span><span class="sy2">: </span>      <span class="br0">&#91;</span>valor1, valor2<span class="br0">&#93;</span><span class="co3">
+  values_error</span><span class="sy2">: </span>Los únicos valores aceptados son valor1 y valor2<span class="co3">
+  insensitive</span><span class="sy2">: </span> false  <span class="co1"># Si vale true, la comparación con los valores no tiene en cuenta mayúsculas y minúsculas</span><span class="co3">
+  min</span><span class="sy2">: </span>         <span class="nu0">2</span><span class="co3">
+  min_error</span><span class="sy2">: </span>   Por favor, introduce por lo menos <span class="nu0">2</span> caracteres<span class="co3">
+  max</span><span class="sy2">: </span>         <span class="nu0">100</span><span class="co3">
+  max_error</span><span class="sy2">: </span>   Por favor, introduce menos de <span class="nu0">100</span> caracteres</pre>
+</div>
+
+<h4 id="validador_de_numeros">10.3.6.2. Validador de números</h4>
+
+<p><code>sfNumberValidator</code> verifica si un parámetro es un número y permite establecer una serie de restricciones sobre su valor.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">sfNumberValidator</span>:<span class="co3">
+  nan_error</span><span class="sy2">: </span>   Por favor, introduce un número entero<span class="co3">
+  min</span><span class="sy2">: </span>         <span class="nu0">0</span><span class="co3">
+  min_error</span><span class="sy2">: </span>   El valor debe ser como mínimo <span class="nu0">0</span><span class="co3">
+  max</span><span class="sy2">: </span>         <span class="nu0">100</span><span class="co3">
+  max_error</span><span class="sy2">: </span>   El valor debe ser inferior o igual a <span class="nu0">100</span></pre>
+</div>
+
+<h4 id="validador_de_email">10.3.6.3. Validador de email</h4>
+
+<p><code>sfEmailValidator</code> verifica si el valor de un parámetro es una dirección válida de email.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">sfEmailValidator</span>:<span class="co3">
+  strict</span><span class="sy2">: </span>      true<span class="co3">
+  email_error</span><span class="sy2">: </span> Esta dirección de email <span class="kw1">no</span> es válida</pre>
+</div>
+
+<p>La recomendación RFC822 define el formato de las direcciones de correo electrónico. No obstante, el formato válido es mucho más permisivo que el de las direcciones habituales de email. Según la recomendación, un email como <code>yo@localhost</code> es una dirección válida, aunque es una dirección que seguramente será poco útil. Si se establece la opción <code>strict</code> a <code>true</code> (que es su valor por defecto) solo se consideran válidas las direcciones de correo electrónico con el formato <code><a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="3c5253515e4e597c585351555255531259444859524f555352">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script></code>. Si la opción <code>strict</code> vale <code>false</code>, se utilizan las normas de la recomendación RFC822.</p>
+
+<h4 id="validador_de_url">10.3.6.4. Validador de URL</h4>
+
+<p><code>sfUrlValidator</code> comprueba si el valor de un campo es una URL válido.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">sfUrlValidator</span>:<span class="co3">
+  url_error</span><span class="sy2">: </span>   La URL <span class="kw1">no</span> es válida</pre>
+</div>
+
+<h4 id="validador_de_expresiones_regulares">10.3.6.5. Validador de expresiones regulares</h4>
+
+<p><code>sfRegexValidator</code> permite comprar el valor de un campo con una expresión regular compatible con Perl.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">sfRegexValidator</span>:<span class="co3">
+  match</span><span class="sy2">: </span>       <span class="kw1">No</span><span class="co3">
+  match_error</span><span class="sy2">: </span> Los comentarios con más de una URL se consideran spam<span class="co3">
+  pattern</span><span class="sy2">: </span>     /http.*http/si</pre>
+</div>
+
+<p>El parámetro <code>match</code> determina si el parámetro debe cumplir el patrón establecido (cuando vale <code>Yes</code>) o no debe cumplirlo para considerarse válido (cuando vale <code>No</code>).</p>
+
+<h4 id="validador_para_comparaciones">10.3.6.6. Validador para comparaciones</h4>
+
+<p><code>sfCompareValidator</code> compara dos parámetros de petición. Su mayor utilidad es para comparar dos contraseñas.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">fields</span>:<span class="co4">
+  password1</span>:<span class="co4">
+    required</span>:<span class="co3">
+      msg</span><span class="sy2">: </span>     Por favor, introduce una contraseña<span class="co4">
+  password2</span>:<span class="co4">
+    required</span>:<span class="co3">
+      msg</span><span class="sy2">: </span>     Por favor, vuelve a introducir la contraseña<span class="co4">
+    sfCompareValidator</span>:<span class="co3">
+      check</span><span class="sy2">: </span>   password1<span class="co3">
+      compare_error</span><span class="sy2">: </span>Las <span class="nu0">2</span> contraseñas son diferentes</pre>
+</div>
+
+<p>El parámetro <code>check</code> contiene el nombre del campo cuyo valor debe coincidir con el valor del campo actual para considerarse válido.</p>
+
+<p>Por defecto el validador comprueba que los dos parámetros sean iguales. Se puede utilizar otra comparación indicándola en el parámetro <code>operator</code>. Los operadores disponibles son <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>==</code> y <code>!=</code>.</p>
+
+<h4 id="validador_propel_para_valores_unicos">10.3.6.7. Validador Propel para valores únicos</h4>
+
+<p><code>sfPropelUniqueValidator</code> comprueba que el valor de un parámetro de la petición no existe en la base de datos. Se trata de un validador realmente útil para las columnas que deben ser índices únicos.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">fields</span>:<span class="co4">
+  nombre</span>:<span class="co4">
+    sfPropelUniqueValidator</span>:<span class="co3">
+      class</span><span class="sy2">: </span>       Usuario<span class="co3">
+      column</span><span class="sy2">: </span>      login<span class="co3">
+      unique_error</span><span class="sy2">: </span>Ese login ya existe. Por favor, seleccione otro login.</pre>
+</div>
+
+<p>En este ejemplo, el validador busca en la base de datos los registros correspondientes a la clase <code>Usuario</code> y comprueba si alguna fila tiene en su columna <code>login</code> el mismo valor que el parámetro que se pasa al validador.</p>
+
+<div class="admonition caution"><p><strong class="title">Advertencia</strong> El validador <code>sfPropelUniqueValidator</code> puede sufrir problemas de tipo <em>"condición de carrera"</em>  <em>race condition</em>). Aunque la probabilidad de que ocurra es muy baja, en un entorno multiusuario, el resultado puede cambiar justo cuando se devuelve su valor. Por este motivo, la aplicación debe estar preparada para tratar los errores que se producen con <code>INSERT</code> duplicados.</p></div>
+
+<h4 id="validador_de_archivos">10.3.6.8. Validador de archivos</h4>
+
+<p><code>sfFileValidator</code> permite restringir el tipo (mediante un array de mime-types) y el tamaño de los archivos subidos por el usuario.</p>
+
+<div class="code php">
+<pre class="php">fields<span class="sy0">:</span>
+  image<span class="sy0">:</span>
+    required<span class="sy0">:</span>
+      msg<span class="sy0">:</span>      Por favor<span class="sy0">,</span> sube un archivo de imagen
+    <span class="kw3">file</span><span class="sy0">:</span>       <span class="kw4">True</span>
+    sfFileValidator<span class="sy0">:</span>
+      mime_types<span class="sy0">:</span>
+        <span class="sy0">-</span> <span class="st_h">'image/jpeg'</span>
+        <span class="sy0">-</span> <span class="st_h">'image/png'</span>
+        <span class="sy0">-</span> <span class="st_h">'image/x-png'</span>
+        <span class="sy0">-</span> <span class="st_h">'image/pjpeg'</span>
+      mime_types_error<span class="sy0">:</span> Solo se permiten los formatos PNG y JPEG
+      max_size<span class="sy0">:</span>         <span class="nu0">512000</span>
+      max_size_error<span class="sy0">:</span>   El tamaño máximo es de 512Kb</pre>
+</div>
+
+<p>El atributo <code>file</code> debe valer <code>True</code> para ese campo y el formulario de la plantilla debe declararse de tipo <code>multipart</code>.</p>
+
+<h4 id="validador_de_callback">10.3.6.9. Validador de callback</h4>
+
+<p><code>sfCallbackValidator</code> delega la validación en un método o función externa. El método que se invoca debe devolver <code>true</code> o <code>false</code> como resultado de la validación.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">fields</span>:<span class="co4">
+  numero_cuenta</span>:<span class="co4">
+    sfCallbackValidator</span>:<span class="co3">
+      callback</span><span class="sy2">: </span>     is_numeric<span class="co3">
+      invalid_error</span><span class="sy2">: </span>Por favor, introduce un número.<span class="co4">
+  numero_tarjeta_credito</span>:<span class="co4">
+    sfCallbackValidator</span>:<span class="co3">
+      callback</span><span class="sy2">: </span>     <span class="br0">&#91;</span>misUtilidades, validarTarjetaCredito<span class="br0">&#93;</span><span class="co3">
+      invalid_error</span><span class="sy2">: </span>Por favor, introduce un número correcto de tarjeta de crédito.</pre>
+</div>
+
+<p>El método o función que se llama recibe como primer argumento el valor que se debe comprobar. Se trata de un método muy útil cuando se quieren reutilizar los métodos o funciones existentes en vez de tener que volver a crear un código similar para la validación.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> También es posible crear validadores propios, como se describe más adelante en la sección "Creando validadores propios".</p></div>
+
+<h3 id="validadores_con_nombre">10.3.7. Validadores con nombre</h3>
+
+<p>Si se utilizan de forma constante las mismas opciones para un validador, se pueden agrupar bajo un validador con nombre. En el ejemplo del formulario de contacto, el campo <code>email</code> requiere las mismas opciones en <code>sfStringValidator</code> que el campo <code>name</code>. De esta forma, es posible crear un validador con nombre <code>miStringValidator</code> para evitar tener que repetir las mismas opciones. Para ello, se añade una etiqueta <code>miStringValidator</code> bajo la clave <code>validators:</code>, y se indica la <code>class</code> y los <code>param</code> del validador que se quiere utilizar. Después, este validador ya se puede utilizar como cualquier otro validador indicando su nombre en la sección <code>fields</code>, como se muestra en el listado 10-29.</p>
+
+<p><strong>Listado 10-29 - Reutilizando validadores con nombre en un archivo de validación, en <code>validate/enviar.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">validators</span>:<span class="co4">
+  miStringValidator</span>:<span class="co3">
+    class</span><span class="sy2">: </span>sfStringValidator<span class="co4">
+    param</span>:<span class="co3">
+      min</span><span class="sy2">: </span>      <span class="nu0">2</span><span class="co3">
+      min_error</span><span class="sy2">: </span>Este campo es demasiado corto <span class="br0">&#40;</span>mínimo <span class="nu0">2</span> caracteres<span class="br0">&#41;</span><span class="co3">
+      max</span><span class="sy2">: </span>      <span class="nu0">100</span><span class="co3">
+      max_error</span><span class="sy2">: </span>Este campo es demasiado largo <span class="br0">&#40;</span>mínimo <span class="nu0">100</span> caracteres<span class="br0">&#41;</span>
+<span class="co4">
+fields</span>:<span class="co4">
+  nombre</span>:<span class="co4">
+    required</span>:<span class="co3">
+      msg</span><span class="sy2">: </span>      El nombre <span class="kw1">no</span> se puede dejar vacío<span class="co4">
+    miStringValidator</span>:<span class="co4">
+  email</span>:<span class="co4">
+    required</span>:<span class="co3">
+      msg</span><span class="sy2">: </span>      El email <span class="kw1">no</span> se puede dejar vacío<span class="co4">
+    miStringValidator</span>:<span class="co4">
+    sfEmailValidator</span>:<span class="co3">
+      email_error</span><span class="sy2">: </span> La dirección de email <span class="kw1">no</span> es válida</pre>
+</div>
+
+<h3 id="restringiendo_la_validacion_a_un_metodo">10.3.8. Restringiendo la validación a un método</h3>
+
+<p>Por defecto, los validadores indicados en el archivo de validación se ejecutan cuando la acción se llama mediante un método POST. Se puede redefinir esta opción de forma global o campo a campo especificando otro valor en la clave <code>methods</code>, de forma que se pueda utilizar una validación diferente para métodos diferentes, como muestra el listado 10-30.</p>
+
+<p><strong>Listado 10-30 - Definiendo cuando se valida un campo, en <code>validate/enviar.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co3">methods</span><span class="sy2">: </span>        <span class="br0">&#91;</span>post<span class="br0">&#93;</span>     <span class="co1"># Opción por defecto</span>
+<span class="co4">
+fields</span>:<span class="co4">
+  nombre</span>:<span class="co4">
+    required</span>:<span class="co3">
+      msg</span><span class="sy2">: </span>      El nombre <span class="kw1">no</span> se puede dejar vacío<span class="co4">
+    miStringValidator</span>:<span class="co4">
+  email</span>:<span class="co3">
+    methods</span><span class="sy2">: </span>    <span class="br0">&#91;</span>post, get<span class="br0">&#93;</span> <span class="co1"># Redefine la opción global</span><span class="co4">
+    required</span>:<span class="co3">
+      msg</span><span class="sy2">: </span>      El email <span class="kw1">no</span> se puede dejar vacío<span class="co4">
+    miStringValidator</span>:<span class="co4">
+    sfEmailValidator</span>:<span class="co3">
+      email_error</span><span class="sy2">: </span> La dirección de email <span class="kw1">no</span> es válida</pre>
+</div>
+
+<h3 id="cual_es_el_aspecto_de_un_archivo_de_validacion">10.3.9. ¿Cuál es el aspecto de un archivo de validación?</h3>
+
+<p>Hasta ahora solamente se han mostrado partes del archivo de validación. Cuando se juntan todas las partes, las reglas de validación se pueden definir de forma sencilla en el archivo YAML. El listado 10-31 muestra el archivo de validación completo para el formulario de contacto, incluyendo todas las reglas definidas anteriormente.</p>
+
+<p><strong>Listado 10-31 - Ejemplo de archivo de validación completo</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">fillin</span>:<span class="co3">
+  enabled</span><span class="sy2">: </span>     true
+<span class="co4">
+validators</span>:<span class="co4">
+  miStringValidator</span>:<span class="co3">
+    class</span><span class="sy2">: </span>sfStringValidator<span class="co4">
+    param</span>:<span class="co3">
+      min</span><span class="sy2">: </span>      <span class="nu0">2</span><span class="co3">
+      min_error</span><span class="sy2">: </span>Este campo es demasiado corto <span class="br0">&#40;</span>mínimo <span class="nu0">2</span> caracteres<span class="br0">&#41;</span><span class="co3">
+      max</span><span class="sy2">: </span>      <span class="nu0">100</span><span class="co3">
+      max_error</span><span class="sy2">: </span>Este campo es demasiado largo <span class="br0">&#40;</span>máximo <span class="nu0">100</span> caracteres<span class="br0">&#41;</span>
+<span class="co4">
+fields</span>:<span class="co4">
+  nombre</span>:<span class="co4">
+    required</span>:<span class="co3">
+      msg</span><span class="sy2">: </span>      El nombre <span class="kw1">no</span> se puede dejar vacío<span class="co4">
+    miStringValidator</span>:<span class="co4">
+  email</span>:<span class="co4">
+    required</span>:<span class="co3">
+      msg</span><span class="sy2">: </span>      El email <span class="kw1">no</span> se puede dejar vacío<span class="co4">
+    myStringValidator</span>:<span class="co4">
+    sfEmailValidator</span>:<span class="co3">
+      email_error</span><span class="sy2">: </span> La dirección de email <span class="kw1">no</span> es válida<span class="co4">
+  edad</span>:<span class="co4">
+    sfNumberValidator</span>:<span class="co3">
+      nan_error</span><span class="sy2">: </span>   Por favor, introduce un número<span class="co3">
+      min</span><span class="sy2">: </span>         <span class="nu0">0</span><span class="co3">
+      min_error</span><span class="sy2">: </span>   <span class="st0">&quot;Aun no has nacido, ¿cómo vas a enviar un mensaje?&quot;</span><span class="co3">
+      max</span><span class="sy2">: </span>         <span class="nu0">120</span><span class="co3">
+      max_error</span><span class="sy2">: </span>   <span class="st0">&quot;Abuela, ¿no es usted un poco mayor para navegar por Internet?&quot;</span><span class="co4">
+  mensaje</span>:<span class="co4">
+    required</span>:<span class="co3">
+      msg</span><span class="sy2">: </span>         El mensaje <span class="kw1">no</span> se puede dejar vacío</pre>
+</div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_10/helpers_de_formularios_para_objetos.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>10.2. Helpers de formularios para objetos</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_10/validaciones_complejas.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>10.4. Validaciones complejas</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_10.html">
+                    <span>Capítulo 10.</span> Formularios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/helpers_de_formularios.html">
+                    <span>10.1.</span> Helpers de formularios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/helpers_de_formularios_para_objetos.html">
+                    <span>10.2.</span> Helpers de formularios para objetos
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_10/validacion_de_formularios.html">
+                    <span>10.3.</span> Validación de formularios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/validaciones_complejas.html">
+                    <span>10.4.</span> Validaciones complejas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/resumen.html">
+                    <span>10.5.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

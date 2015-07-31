@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Capítulo 6. SassScript (Sass, el manual oficial)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="./capitulo_5.html" />
+                    <link rel="next" href="./capitulo_7.html" />
+                <link rel="start" href="/libro/sass/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Capítulo 6. SassScript (Sass, el manual oficial)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page sass"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/sass/" itemprop="url">
+                    <span itemprop="title">Sass, el manual oficial</span>
+                </a>
+            </li>
+
+        
+            <li class="active">
+                <span>Capítulo 6. SassScript</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="sassscript" class="title">
+        <span>Capítulo 6.</span> SassScript
+    </h1>
+
+    <p>Además de extender la sintaxis básica de CSS, Sass incluye una serie de extensiones más avanzadas llamadas <em>SassScript</em>. Gracias a estas extensiones, las propiedades pueden utilizar variables, expresiones matemáticas y otras funciones. Sass permite el uso de <em>SassScript</em> para definir cualquier valor de cualquier propiedad.</p>
+
+<h2 id="shell_interactiva">6.1. Shell interactiva</h2>
+
+<p>Si quieres experimentar con <em>SassScript</em> antes de empezar a utilizarlo en tus hojas de estilos, puedes hacer uso de <em>"la shell interactiva"</em>. Para ello, ejecuta el comando <code>sass</code> añadiendo la opción <code>-i</code> y escribe cualquier expresión válida de <em>SassScript</em>. La shell te mostrará el resultado de evaluar esa expresión o un mensaje de error si no es correcta:</p>
+
+<div class="code cli">
+<pre class="cli">$ sass -i
+&gt;&gt; &quot;¡Hola Mundo!&quot;
+&quot;¡Hola Mundo!&quot;
+&nbsp;
+&gt;&gt; 1px + 1px + 1px
+3px
+&nbsp;
+&gt;&gt; #777 + #777
+#eeeeee
+&nbsp;
+&gt;&gt; #777 + #888
+white</pre>
+</div>
+
+<h2 id="variables">6.2. Variables</h2>
+
+<p>La funcionalidad básica de <em>SassScript</em> es el uso de variables para almacenar valores que utilizas una y otra vez en tus hojas de estilos. Para ello, utiliza cualquier palabra como nombre de la variable, añádele el símbolo <code>$</code> por delante y establece su valor como si fuera una propiedad CSS normal. Si por ejemplo defines una variable de la siguiente manera:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="re0">$width</span><span class="sy0">:</span> <span class="re3">5em</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Ahora ya puedes utilizar la variable llamada <code>$width</code> como valor de cualquier propiedad CSS:</p>
+
+<div class="code sass">
+<pre class="sass">#main <span class="br0">&#123;</span>
+  <span class="kw1">width</span><span class="sy0">:</span> <span class="re0">$width</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Una limitación importante de las variables es que sólo están disponibles dentro del contexto donde se han definido. Esto significa que si defines la variable dentro de una regla anidada, sólo estará disponible para esas reglas anidadas. Si quieres poder utilizar una variable como valor de cualquier propiedad de la hoja de estilos, defínela fuera de cualquier selector.</p>
+
+<h2 id="tipos_de_datos">6.3. Tipos de datos</h2>
+
+<p><em>SassScript</em> soporta seis tipos de datos:</p>
+
+<ul>
+<li>Números (ejemplo: <code>1.2</code>, <code>13</code>, <code>10px</code>)</li>
+<li>Cadenas de texto con o sin comillas simples o dobles (ejemplo <code>"foo"</code>, <code>'bar'</code>, <code>baz</code>)</li>
+<li>Colores (ejemplo <code>blue</code>, <code>#04a3f9</code>, <code>rgba(255, 0, 0, 0.5)</code>)</li>
+<li>Valores lógicos o <em>booleanos</em> (ejemplo <code>true</code>, <code>false</code>)</li>
+<li>Valores nulos (ejemplo <code>null</code>)</li>
+<li>Listas de valores, separados por espacios en blanco o comas (ejemplo <code>1.5em 1em 0 2em</code>, <code>Helvetica, Arial, sans-serif</code>)</li>
+<li>Pares formados por una clave y un valor separados por <code>:</code> (ejemplo <code>(key1: value1, key2: value2)</code>)</li>
+</ul>
+
+<p><em>SassScript</em> también soporta todos los otros tipos de datos soportados por CSS, como por ejemplo los caracteres Unicode o la palabra reservada <code>!important</code>. No obstante, Sass no trata estos valores de manera especial y se limita a considerarlos como si fuera una cadena de texto normal y corriente.</p>
+
+<h3 id="cadenas_de_texto">6.3.1. Cadenas de texto</h3>
+
+<p>CSS define dos tipos de cadenas de texto: las que tienen comillas (dobles o simples) como por ejemplo <code>"Lucida Grande"</code> o <code>'http://sass-lang.com'</code>; y las que no tienen comillas, como por ejemplo <code>sans-serif</code> o <code>bold</code>.</p>
+
+<p><em>SassScript</em> soporta y reconoce estos dos tipos de cadenas. En general, el archivo CSS compilado mantendrá el mismo tipo de cadena que el que se utilizó en el archivo Sass original.</p>
+
+<p>La única excepción es cuando se utiliza la interpolación <code>#{}</code> que se explica en los próximos capítulos. En este caso, las cadenas siempre se generan sin comillas. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="kw3">@mixin</span> firefox-message<span class="br0">&#40;</span><span class="re0">$selector</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  body.firefox <span class="re4">#<span class="br0">&#123;</span><span class="re0">$selector</span><span class="br0">&#125;</span></span><span class="re2">:before </span><span class="br0">&#123;</span>
+    <span class="kw1">content</span><span class="sy0">:</span> <span class="st0">&quot;Hi, Firefox users!&quot;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw3">@include</span> firefox-message<span class="br0">&#40;</span><span class="st0">&quot;.header&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">body<span class="re1">.firefox</span> <span class="re1">.header</span><span class="re2">:before </span><span class="br0">&#123;</span>
+  <span class="kw1">content</span><span class="sy0">:</span> <span class="st0">&quot;Hi, Firefox users!&quot;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<h3 id="listas">6.3.2. Listas</h3>
+
+<p>Las listas son el tipo de dato que utiliza Sass para representar los valores que normalmente se utilizan en las propiedades CSS como <code>margin: 10px 15px 0 0</code> o <code>font-face: Helvetica, Arial, sans-serif</code>. Las listas son simplemente una colección de valores separados por comas o espacios en blanco. Técnicamente, cada elemento de la lista también se considera una lista simple de un solo elemento.</p>
+
+<p>Por si solas las listas no sirven para mucho, pero gracias a las funciones para listas definidas por <em>SassScript</em> que se explican en los siguientes capítulos, puedes conseguir resultados muy avanzados. La función <code>nth()</code> por ejemplo permite acceder al enésimo elemento de una lista, la función <code>join()</code> puede concatenar todos los valores y la función <code>append()</code> puede fusionar varias listas en una sola. Por último, la directiva <code>@each</code> permite aplicar estilos a cada elemento de una lista.</p>
+
+<p>Además de contener valores simples, las listas pueden contener en su interior otras listas. Así por ejemplo, la lista <code>1px 2px, 5px 6px</code> es una lista de dos elementos, que a su vez son las listas <code>1px 2px</code> y <code>5px 6px</code>. Si las listas interiores utilizan el mismo carácter para separar sus elementos que la lista principal, puedes añadir paréntesis para indicar claramente cuáles son los elementos de las listas anidadas. Así por ejemplo, la lista <code>(1px 2px) (5px 6px)</code> también es una lista de dos elementos cuyos valores son a su vez dos listas con los valores <code>1px 2px</code> y <code>5px 6px</code>.</p>
+
+<p>Cuando se genera el archivo CSS, Sass no mantiene los paréntesis de las listas porque CSS no es capaz de entenderlos. Así que los valores <code>(1px 2px) (5px 6px)</code> y <code>1px 2px 5px 6px</code> de Sass generan el mismo código cuando se compilan a CSS. No obstante, en Sass estos dos valores son diferentes: el primero es una lista que tiene dos listas en su interior y el segundo es una lista de cuatro números.</p>
+
+<p>Las listas también pueden estar vacías y no contener ningún elemento. Estas listas vacías se representan mediante <code>()</code> y no se pueden incluir directamente en el archivo CSS compilado. Así que si defines una regla como <code>font-family: ()</code>, Sass mostrará un mensaje de error. Si una lista contiene valores vacíos o nulos, como por ejemplo <code>1px 2px () 3px</code> o <code>1px 2px null 3px</code>, estos valores se eliminan antes de convertir la lista a código CSS.</p>
+
+<p>Las listas separadas por comas pueden incluir una coma después del último elemento. Esto es muy útil por ejemplo para crear listas de un solo elemento. Así por ejemplo <code>(1,)</code> es una lista que contiene el elemento <code>1</code>, mientras que <code>(1 2 3,)</code> es una lista separada por comas cuyo primer elemento es a su vez una lista separada por espacios en blanco y que contiene los elementos <code>1</code>,
+<code>2</code> y <code>3</code>.</p>
+
+<h3 id="mapas">6.3.3. Mapas</h3>
+
+<p>Los mapas son asociaciones de claves y valores. La clave se utiliza para acceder fácilmente al valor de cualquier elemento del mapa. Se utilizan principalmente para agrupar valores y acceder a ellos dinámicamente. En CSS no existe ningún elemento equivalente a los mapas, pero su sintaxis es similar a las expresiones <em>media query</em>:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="re0">$map</span><span class="sy0">:</span> <span class="br0">&#40;</span>clave1<span class="sy0">:</span> valor1<span class="sy0">,</span> clave2<span class="sy0">:</span> valor2<span class="sy0">,</span> clave3<span class="sy0">:</span> valor3<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>A diferencia de las listas, los mapas siempre se encierran con paréntesis y los pares <code>clave: valor</code> deben separarse con comas. Tanto las claves como los valores de los mapas pueden utilizar cualquier función o expresión de <em>SassScript</em>. Las claves de un mapa deben ser únicas, por lo que si quieres asociar varios valores a una misma clave, debes utilizar una lista.</p>
+
+<p>Al igual que sucede con las listas, los mapas se pueden manipular mediante funciones de <em>SassScript</em>. La función <code>map-get()</code> por ejemplo busca un valor dentro del mapa a partir de la clave indicada y la función <code>map_merge()</code> añade nuevos pares <code>clave: valor</code> a un mapa existente. Además, la directiva <code>@each</code> se puede emplear para aplicar estilos a cada par <code>clave: valor</code> de un mapa.</p>
+
+<p>Los mapas también se pueden utilizar en cualquier función preparada para manipular listas. Si pasas un mapa a una función que espera una lista, el mapa se transforma primero en un lista de pares de valores. Así por ejemplo, si pasas el mapa <code>(clave1: valor1, clave2: valor2)</code> a una función para listas, este se transforma automáticamente en <code>clave1 valor1, clave2 valor2</code>. Lo contrario no es cierto, ya que no puedes utilizar listas en las funciones preparadas para mapas. La única excepción es la lista vacía <code>()</code>, que representa tanto a un mapa vacío como a una lista vacía.</p>
+
+<p>Los mapas no se pueden convertir directamente a código CSS. Por tanto, si utilizar un mapa como valor de una variable o como argumento de una función CSS, Sass mostrará un mensaje de error.</p>
+
+<h2 id="operadores">6.4. Operadores</h2>
+
+<p>Todos los tipos de datos soportan el operador de igualdad (<code>==</code> y <code>!=</code>) para comprobar si dos valores son iguales o distintos. Además, cada tipo de dato define otros operadores propios.</p>
+
+<h3 id="operadores_para_numeros">6.4.1. Operadores para números</h3>
+
+<p><em>SassScript</em> soporta los cinco operadores aritméticos básicos: suma <code>+</code>, resta <code>-</code>, multiplicación <code>*</code>, división <code>/</code> y módulo <code>%</code>. El operador módulo calcula el resto de la división sin decimales (ejemplo: <em>5 módulo 2 = 1</em>, <code>% % 2 = 1</code>). Además, si realizas operaciones sobre números con diferentes unidades, Sass convertirá automáticamente las unidades siempre que sea posible:</p>
+
+<div class="code sass">
+<pre class="sass">p <span class="br0">&#123;</span>
+  <span class="kw1">width</span><span class="sy0">:</span> <span class="re3">1in</span> <span class="sy0">+</span> <span class="re3">8pt</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">p <span class="br0">&#123;</span>
+  <span class="kw1">width</span><span class="sy0">:</span> <span class="re3">1.111in</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Con los números también se pueden utilizar los operadores relacionales (<code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>) y los de igualdad (<code>==</code>, <code>!=</code>).</p>
+
+<h4 id="el_problema_del_caracter_con_la_division_de_numeros">6.4.1.1. El problema del carácter <code>/</code> con la división de números</h4>
+
+<p>CSS permite el uso del carácter <code>/</code> para separar números. Como Sass es totalmente compatible con la sintaxis de CSS, debe soportar el uso de esta característica. El problema es que el carácter <code>/</code> también se utiliza para la operación matemática de dividir números. Por todo esto, si utilizas el carácter <code>/</code> para separar dos números en <em>SassScript</em>, en el archivo CSS compilado aparecerán tal cual los has escrito.</p>
+
+<p>No obstante, existen tres situaciones en las que el carácter <code>/</code> siempre se interpreta como una división matemática:</p>
+
+<ol>
+<li>Si uno de los operandos de la división es una variable o el resultado devuelto por una función.</li>
+<li>Si el valor está encerrado entre paréntesis.</li>
+<li>Si el valor se utiliza como parte de una expresión matemática.</li>
+</ol>
+
+<p>Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass">p <span class="br0">&#123;</span>
+  <span class="co1">// El carácter '/' se interpreta como código CSS normal</span>
+  <span class="kw1">font</span><span class="sy0">:</span> <span class="re3">10px</span>/<span class="re3">8px</span><span class="sy0">;</span>
+  <span class="re0">$width</span><span class="sy0">:</span> <span class="re3">1000px</span><span class="sy0">;</span>
+&nbsp;
+  <span class="co1">// El carácter '/'  se interpreta como una división</span>
+  <span class="kw1">width</span><span class="sy0">:</span> <span class="re0">$width</span>/<span class="nu0">2</span><span class="sy0">;</span>        <span class="co1">// Uno de los operandos es una variable</span>
+  <span class="kw1">width</span><span class="sy0">:</span> <span class="kw4">round</span><span class="br0">&#40;</span><span class="nu0">1.5</span><span class="br0">&#41;</span>/<span class="nu0">2</span><span class="sy0">;</span>    <span class="co1">// Uno de los operados es el resultado de una función</span>
+  <span class="kw1">height</span><span class="sy0">:</span> <span class="br0">&#40;</span><span class="re3">500px</span>/<span class="nu0">2</span><span class="br0">&#41;</span><span class="sy0">;</span>      <span class="co1">// Los parénteis encierran la expresión</span>
+  <span class="kw1">margin-left</span><span class="sy0">:</span> <span class="re3">5px</span> <span class="sy0">+</span> <span class="re3">8px</span>/<span class="re3">2px</span><span class="sy0">;</span> <span class="co1">// El '+' indica que es una expresión matemática</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">p <span class="br0">&#123;</span>
+  <span class="kw1">font</span><span class="sy0">:</span> <span class="re3">10px</span>/<span class="re3">8px</span><span class="sy0">;</span>
+  <span class="kw1">width</span><span class="sy0">:</span> <span class="re3">500px</span><span class="sy0">;</span>
+  <span class="kw1">height</span><span class="sy0">:</span> <span class="re3">250px</span><span class="sy0">;</span>
+  <span class="kw1">margin-left</span><span class="sy0">:</span> <span class="re3">9px</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Si quieres utilizar el carácter <code>/</code> normal de CSS incluso cuando empleas variables, encierra las variables con <code>#{}</code>. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass">p <span class="br0">&#123;</span>
+  <span class="re0">$font</span>-<span class="kw1">size</span><span class="sy0">:</span> <span class="re3">12px</span><span class="sy0">;</span>
+  <span class="re0">$line</span>-<span class="kw1">height</span><span class="sy0">:</span> <span class="re3">30px</span><span class="sy0">;</span>
+  <span class="kw1">font</span><span class="sy0">:</span> <span class="re4">#<span class="br0">&#123;</span><span class="re0">$font</span>-<span class="kw1">size</span><span class="br0">&#125;</span>/#<span class="br0">&#123;</span><span class="re0">$line</span>-<span class="kw1">height</span><span class="br0">&#125;</span></span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">p <span class="br0">&#123;</span>
+  <span class="kw1">font</span><span class="sy0">:</span> <span class="re3">12px</span>/<span class="re3">30px</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<h3 id="operadores_para_colores">6.4.2. Operadores para colores</h3>
+
+<p>Los operadores aritméticos también se pueden aplicar a los valores que representan colores. En este caso, los cálculos siempre se realizan sobre cada componente del color. Esto significa que antes de cada operación, el color se descompone en sus tres componentes R, G y B, para después aplicar la operación a cada componente. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass">p <span class="br0">&#123;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> <span class="re1">#010203</span> <span class="sy0">+</span> <span class="re1">#040506</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Las tres operaciones realizadas son <code>01 + 04 = 05</code>, <code>02 + 05 = 07</code> y <code>03 + 06 = 09</code>, por lo que el código CSS compilado resultante es:</p>
+
+<div class="code css">
+<pre class="css">p <span class="br0">&#123;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> <span class="re0">#050709</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>En la mayoría de los casos, es mejor utilizar las funciones especiales de <em>SassScript</em> para colores que se explicarán más adelante, en vez de realizar operaciones matemáticas sobre ellos.</p>
+
+<p>Las operaciones matemáticas también se pueden realizar combinando colores y números. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass">p <span class="br0">&#123;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> <span class="re1">#010203</span> <span class="sy0">*</span> <span class="nu0">2</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Las tres operaciones realizadas son <code>01 * 2 = 02</code>, <code>02 * 2 = 04</code> y <code>03 * 2 = 06</code>, por lo que el código CSS compilado resultante es:</p>
+
+<div class="code css">
+<pre class="css">p <span class="br0">&#123;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> <span class="re0">#020406</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Si realizas operaciones sobre colores que incluyen un canal <em>alpha</em> (por ejemplo los que han sido creados con las funciones <code>rgba()</code> o <code>hsla()</code>) los dos colores deben tener el mismo valor <em>alpha</em> para poder realizar la operación con éxito. El motivo es que los cálculos no afectan al valor <em>alpha</em>. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass">p <span class="br0">&#123;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> <span class="kw4">rgba</span><span class="br0">&#40;</span><span class="nu0">255</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">0.75</span><span class="br0">&#41;</span> <span class="sy0">+</span> <span class="kw4">rgba</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">255</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">0.75</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código CSS compilado resultante es:</p>
+
+<div class="code css">
+<pre class="css">p <span class="br0">&#123;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> rgba<span class="br0">&#40;</span><span class="nu0">255</span><span class="sy0">,</span> <span class="nu0">255</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">0.75</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El canal <em>alpha</em> de un color se puede ajustar con la función <code>opacify()</code> o <code>transparentize()</code>. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="re0">$translucent</span>-<span class="kw2">red</span><span class="sy0">:</span> <span class="kw4">rgba</span><span class="br0">&#40;</span><span class="nu0">255</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">0.5</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+p <span class="br0">&#123;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> <span class="kw4">opacify</span><span class="br0">&#40;</span><span class="re0">$translucent</span>-<span class="kw2">red</span><span class="sy0">,</span> <span class="nu0">0.3</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="kw1">background-color</span><span class="sy0">:</span> <span class="kw4">transparentize</span><span class="br0">&#40;</span><span class="re0">$translucent</span>-<span class="kw2">red</span><span class="sy0">,</span> <span class="nu0">0.25</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">p <span class="br0">&#123;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> rgba<span class="br0">&#40;</span><span class="nu0">255</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">0.8</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="kw1">background-color</span><span class="sy0">:</span> rgba<span class="br0">&#40;</span><span class="nu0">255</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">0.25</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Los filtros de Internet Explorer requieren que todos los colores incluyan una capa <em>alpha</em>, y que lo hagan siguiendo estrictamente el formato <code>#AABBCCDD</code>. Para convertir fácilmente un color a ese formato, utiliza la función <code>ie_hex_str()</code>. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="re0">$translucent</span>-<span class="kw2">red</span><span class="sy0">:</span> <span class="kw4">rgba</span><span class="br0">&#40;</span><span class="nu0">255</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">0.5</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$green</span><span class="sy0">:</span> <span class="re1">#00ff00</span><span class="sy0">;</span>
+&nbsp;
+div <span class="br0">&#123;</span>
+  filter<span class="sy0">:</span> progid<span class="re2">:DXImageTransform</span>.Microsoft.gradient<span class="br0">&#40;</span>
+    enabled<span class="sy0">=</span><span class="st0">'false'</span><span class="sy0">,</span>
+    startColorstr<span class="sy0">=</span><span class="st0">'#{ie-hex-str($green)}'</span><span class="sy0">,</span>
+    endColorstr<span class="sy0">=</span><span class="st0">'#{ie-hex-str($translucent-red)}'</span>
+  <span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">div <span class="br0">&#123;</span>
+  filter<span class="sy0">:</span> progid<span class="re2">:DXImageTransform</span><span class="re1">.Microsoft</span>.gradient<span class="br0">&#40;</span>enabled<span class="sy0">=</span><span class="st0">'false'</span><span class="sy0">,</span> startColorstr<span class="sy0">=</span><span class="re0">#FF00FF00</span><span class="sy0">,</span> endColorstr<span class="sy0">=</span><span class="re0">#80FF0000</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<h3 id="operadores_para_cadenas_de_texto">6.4.3. Operadores para cadenas de texto</h3>
+
+<p>El operador <code>+</code> se puede utilizar para concatenar dos o más cadenas de texto:</p>
+
+<div class="code sass">
+<pre class="sass">p <span class="br0">&#123;</span>
+  <span class="kw1">cursor</span><span class="sy0">:</span> e <span class="sy0">+</span> -resize<span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">p <span class="br0">&#123;</span>
+  <span class="kw1">cursor</span><span class="sy0">:</span> <span class="kw2">e-resize</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Si la cadena que está a la izquierda del operador <code>+</code> está encerrada por comillas, el resultado de la operación será una cadena con comillas. Igualmente, si la cadena de la izquierda no tiene comillas, el resultado será una cadena sin comillas. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass">p<span class="re2">:before </span><span class="br0">&#123;</span>
+  <span class="kw1">content</span><span class="sy0">:</span> <span class="st0">&quot;Foo &quot;</span> <span class="sy0">+</span> Bar<span class="sy0">;</span>
+  <span class="kw1">font-family</span><span class="sy0">:</span> sans- <span class="sy0">+</span> <span class="st0">&quot;serif&quot;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">p<span class="re2">:before </span><span class="br0">&#123;</span>
+  <span class="kw1">content</span><span class="sy0">:</span> <span class="st0">&quot;Foo Bar&quot;</span><span class="sy0">;</span>
+  <span class="kw1">font-family</span><span class="sy0">:</span> <span class="kw2">sans-serif</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Por defecto, si dos valores son contiguos, se concatenan con un espacio en blanco:</p>
+
+<div class="code sass">
+<pre class="sass">p <span class="br0">&#123;</span>
+  <span class="kw1">margin</span><span class="sy0">:</span> <span class="re3">3px</span> <span class="sy0">+</span> <span class="re3">4px</span> <span class="kw2">auto</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">p <span class="br0">&#123;</span>
+  <span class="kw1">margin</span><span class="sy0">:</span> <span class="re3">7px</span> <span class="kw2">auto</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Dentro de una cadena de texto puedes utilizar la sintaxis <code>#{ }</code> para realizar operaciones matemáticas o para evaluar expresiones antes de incluirlas en la cadena. Esta característica se llama <em>"interpolación de cadenas de texto"</em>:</p>
+
+<div class="code sass">
+<pre class="sass">p<span class="re2">:before </span><span class="br0">&#123;</span>
+  <span class="kw1">content</span><span class="sy0">:</span> <span class="st0">&quot;¡Me he comido #{5 + 10} pasteles!&quot;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">p<span class="re2">:before </span><span class="br0">&#123;</span>
+  <span class="kw1">content</span><span class="sy0">:</span> <span class="st0">&quot;¡Me he comido 15 pasteles!&quot;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Cuando interpolas una cadena de texto, los valores nulos se consideran cadenas vacías:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="re0">$value</span><span class="sy0">:</span> <span class="kw5">null</span><span class="sy0">;</span>
+&nbsp;
+p<span class="re2">:before </span><span class="br0">&#123;</span>
+  <span class="kw1">content</span><span class="sy0">:</span> <span class="st0">&quot;¡Me he comido #{$valor} pasteles!&quot;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">p<span class="re2">:before </span><span class="br0">&#123;</span>
+  <span class="kw1">content</span><span class="sy0">:</span> <span class="st0">&quot;¡Me he comido pasteles!&quot;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<h3 id="operadores_para_valores_logicos_o_booleanos">6.4.4. Operadores para valores lógicos o <em>booleanos</em></h3>
+
+<p><em>SassScript</em> soporta el uso de los tradicionales operadores <code>and</code>, <code>or</code> y <code>not</code> sobre los valores lógicos o <em>booleanos</em>.</p>
+
+<h3 id="operadores_para_listas">6.4.5. Operadores para listas</h3>
+
+<p>Sass no define ningún operador específico para las listas de elementos, ya que estas se manipulan mediante las funciones especiales que se explican en los siguientes capítulos.</p>
+
+<h2 id="parentesis">6.5. Paréntesis</h2>
+
+<p>Puedes añadir paréntesis a cualquier expresión Sass para afectar al orden en el que se realizan las operaciones:</p>
+
+<div class="code sass">
+<pre class="sass">p <span class="br0">&#123;</span>
+  <span class="kw1">width</span><span class="sy0">:</span> <span class="re3">1em</span> <span class="sy0">+</span> <span class="br0">&#40;</span><span class="re3">2em</span> <span class="sy0">*</span> <span class="nu0">3</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">p <span class="br0">&#123;</span>
+  <span class="kw1">width</span><span class="sy0">:</span> <span class="re3">7em</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<h2 id="funciones">6.6. Funciones</h2>
+
+<p><em>SassScript</em> define algunas funciones muy útiles para crear las hojas de estilos y que utilizan la misma sintaxis que CSS:</p>
+
+<div class="code sass">
+<pre class="sass">p <span class="br0">&#123;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> <span class="kw4">hsl</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="sy0">,</span> <span class="re3">100%</span><span class="sy0">,</span> <span class="re3">50%</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">p <span class="br0">&#123;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> <span class="re0">#ff0000</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<h3 id="argumentos_con_nombre">6.6.1. Argumentos con nombre</h3>
+
+<p>Para que su uso sea más flexible, a las funciones de Sass les puedes pasar argumentos con nombre. De esta manera no es obligatorio respetar el orden en el que se definieron los argumentos, sólo su nombre:</p>
+
+<div class="code sass">
+<pre class="sass">p <span class="br0">&#123;</span>
+  <span class="kw1">color</span><span class="sy0">:</span> <span class="kw4">hsl</span><span class="br0">&#40;</span><span class="re0">$hue</span><span class="sy0">:</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="re0">$saturation</span><span class="sy0">:</span> <span class="re3">100%</span><span class="sy0">,</span> <span class="re0">$lightness</span><span class="sy0">:</span> <span class="re3">50%</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Aunque obviamente esta forma de usar las funciones no es tan concisa, hace que las hojas de estilo resultantes sean mucho más fáciles de leer. Además permite que las funciones tengan interfaces más flexibles y fáciles de usar, aún cuando incluyan muchos argumentos.</p>
+
+<p>Los argumentos con nombre se pueden pasar en cualquier orden y puedes omitir los que tienen un valor por defecto. Además, como los argumentos con nombre en realidad son nombres de variables, puedes utilizar indistintamente guiones medios y bajos.</p>
+
+<p>En los próximos capítulos se detalla la lista completa de funciones Sass y los nombres de todos sus argumentos.</p>
+
+<h2 id="interpolacion">6.7. Interpolación</h2>
+
+<p>Las variables definidas con <em>SassScript</em> se pueden utilizar incluso en los nombres de los selectores y de las propiedades:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="re0">$name</span><span class="sy0">:</span> foo<span class="sy0">;</span>
+<span class="re0">$attr</span><span class="sy0">:</span> <span class="kw1">border</span><span class="sy0">;</span>
+&nbsp;
+p.<span class="re4">#<span class="br0">&#123;</span><span class="re0">$name</span><span class="br0">&#125;</span></span> <span class="br0">&#123;</span>
+  <span class="re4">#<span class="br0">&#123;</span><span class="re0">$attr</span><span class="br0">&#125;</span></span>-<span class="kw1">color</span><span class="sy0">:</span> <span class="kw2">blue</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">p<span class="re1">.foo</span> <span class="br0">&#123;</span>
+  <span class="kw1">border-color</span><span class="sy0">:</span> <span class="kw1">blue</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>También es posible usar <code>#{ }</code> en los valores de las propiedades. Normalmente es mejor utilizar una variable, pero la ventaja de usar <code>#{ }</code> es que todas las operaciones que estén cerca suyo se interpretan como código CSS normal y corriente. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass">p <span class="br0">&#123;</span>
+  <span class="re0">$font</span>-<span class="kw1">size</span><span class="sy0">:</span> <span class="re3">12px</span><span class="sy0">;</span>
+  <span class="re0">$line</span>-<span class="kw1">height</span><span class="sy0">:</span> <span class="re3">30px</span><span class="sy0">;</span>
+  <span class="kw1">font</span><span class="sy0">:</span> <span class="re4">#<span class="br0">&#123;</span><span class="re0">$font</span>-<span class="kw1">size</span><span class="br0">&#125;</span>/#<span class="br0">&#123;</span><span class="re0">$line</span>-<span class="kw1">height</span><span class="br0">&#125;</span></span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css">p <span class="br0">&#123;</span>
+  <span class="kw1">font</span><span class="sy0">:</span> <span class="re3">12px</span>/<span class="re3">30px</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<h2 id="variables_con_valores_por_defecto">6.8. Variables con valores por defecto</h2>
+
+<p>La palabra reservada <code>!default</code> permite controlar la asignación de valores a las variables de manera mucho más precisa. Si una variable ya tenía un valor asignado, <code>!default</code> hace que se mantenga sin cambios. Si la variable no existía o no tenía ningún valor, se utiliza el nuevo valor asignado. Ejemplo:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="re0">$contenido</span><span class="sy0">:</span> <span class="st0">&quot;Primer contenido&quot;</span><span class="sy0">;</span>
+<span class="re0">$contenido</span><span class="sy0">:</span> <span class="st0">&quot;¿Segundo contenido?&quot;</span> <span class="sy0">!</span><span class="kw2">default</span><span class="sy0">;</span>
+<span class="re0">$nuevo_contenido</span><span class="sy0">:</span> <span class="st0">&quot;Tercer contenido&quot;</span> <span class="sy0">!</span><span class="kw2">default</span><span class="sy0">;</span>
+&nbsp;
+#main <span class="br0">&#123;</span>
+  contenido<span class="sy0">:</span> <span class="re0">$contenido</span><span class="sy0">;</span>
+  nuevo-contenido<span class="sy0">:</span> <span class="re0">$nuevo_contenido</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css"><span class="re0">#main</span> <span class="br0">&#123;</span>
+  contenido<span class="sy0">:</span> <span class="st0">&quot;Primer contenido&quot;</span><span class="sy0">;</span>
+  nuevo-contenido<span class="sy0">:</span> <span class="st0">&quot;Tercer contenido&quot;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Al utilizar <code>!default</code>, las variables con valores nulos se considera que no han sido asignadas:</p>
+
+<div class="code sass">
+<pre class="sass"><span class="re0">$contenido</span><span class="sy0">:</span> <span class="kw5">null</span><span class="sy0">;</span>
+<span class="re0">$contenido</span><span class="sy0">:</span> <span class="st0">&quot;Contenido no nulo&quot;</span> <span class="sy0">!</span><span class="kw2">default</span><span class="sy0">;</span>
+&nbsp;
+#main <span class="br0">&#123;</span>
+  contenido<span class="sy0">:</span> <span class="re0">$contenido</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código Sass anterior se compila de la siguiente manera:</p>
+
+<div class="code css">
+<pre class="css"><span class="re0">#main</span> <span class="br0">&#123;</span>
+  contenido<span class="sy0">:</span> <span class="st0">&quot;Contenido no nulo&quot;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="./capitulo_5.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 5. Comentarios</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="./capitulo_7.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>Capítulo 7. Reglas @ y directivas</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="./capitulo_1.html"> Características</a>
+            </li>
+                                            <li class="level-1">
+                <span>2.</span> <a href="./capitulo_2.html"> Sintaxis</a>
+            </li>
+                                            <li class="level-1">
+                <span>3.</span> <a href="./capitulo_3.html"> Usando Sass</a>
+            </li>
+                                            <li class="level-1">
+                <span>4.</span> <a href="./capitulo_4.html"> Extensiones CSS</a>
+            </li>
+                                            <li class="level-1">
+                <span>5.</span> <a href="./capitulo_5.html"> Comentarios</a>
+            </li>
+                                            <li class="level-1 active">
+                <a href="./capitulo_6.html">
+                    <span>Capítulo 6.</span> SassScript
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="./capitulo_7.html"> Reglas @ y directivas</a>
+            </li>
+                                            <li class="level-1">
+                <span>8.</span> <a href="./capitulo_8.html"> Directivas de control y expresiones</a>
+            </li>
+                                            <li class="level-1">
+                <span>9.</span> <a href="./capitulo_9.html"> Directivas mixin</a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="./capitulo_10.html"> Directivas de función</a>
+            </li>
+                                            <li class="level-1">
+                <span>11.</span> <a href="./capitulo_11.html"> Formato de salida</a>
+            </li>
+                                            <li class="level-1">
+                <span>12.</span> <a href="./capitulo_12.html"> Extendiendo Sass</a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

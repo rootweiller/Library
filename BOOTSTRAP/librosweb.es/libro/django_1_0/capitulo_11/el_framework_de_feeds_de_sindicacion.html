@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>11.5. El Framework de Feeds de Sindicación (El libro de Django 1.0)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_11/otras_posibilidades.html" />
+                    <link rel="next" href="../capitulo_11/los_sitemaps_de_xml.html" />
+                <link rel="start" href="/libro/django_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="11.5. El Framework de Feeds de Sindicación (El libro de Django 1.0)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page django_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/" itemprop="url">
+                    <span itemprop="title">El libro de Django 1.0</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/capitulo_11.html" itemprop="url">
+                    <span itemprop="title">Capítulo 11. Generación de contenido no HTML</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>11.5. El Framework de Feeds de Sindicación</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="el_framework_de_feeds_de_sindicacion" class="title">
+        <span>11.5.</span> El Framework de Feeds de Sindicación
+    </h1>
+
+    
+
+<p>Django incluye un framework para la generación y sindicación de <em>feeds</em> de alto
+nivel que permite crear feeds RSS y Atom de manera sencilla.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> RSS y Atom son formatos basados en XML que se puede utilizar para actualizar
+automáticamente los "feeds" con el contenido de tu sitio.
+<a href="http://www.whatisrss.com/">Leer más sobre RSS</a> o
+<a href="http://www.atomenabled.org/">sobre Atom</a>.</p></div>
+
+<p>Para crear cualquier feed de sindicación, todo lo que debes hacer es escribir 
+una corta clase Python. Puedes crear tantos feeds como desees.</p>
+
+<p>El framework de generación de feeds de alto nivel es una vista enganchada a
+<code>/feeds/</code> por convención. Django usa el final de la URL (todo lo que este
+después de <code>/feeds/</code>) para determinar qué feed retornar.</p>
+
+<p>Para crear un feed, necesitas escribir una clase <code>Feed</code> y hacer referencia a
+la misma en tu URLconf (ver los Capítulos 3 y 8 para más información sobre
+URLconfs).</p>
+
+<h3 id="inicializacion">11.5.1. Inicialización</h3>
+
+<p>Para activar los feeds de sindicación en tu sitio Django, agrega lo siguiente 
+en tu URLconf:</p>
+
+<div class="code python">
+<pre class="python"><span class="br0">&#40;</span>r<span class="st0">'^feeds/(?P&lt;url&gt;.*)/$'</span><span class="sy0">,</span>
+ <span class="st0">'django.contrib.syndication.views.feed'</span><span class="sy0">,</span>
+ <span class="br0">&#123;</span><span class="st0">'feed_dict'</span>: feeds<span class="br0">&#125;</span>
+<span class="br0">&#41;</span><span class="sy0">,</span></pre>
+</div>
+
+<p>Esa línea le indica a Django que use el framework RSS para captar las URLs que
+comienzan con <code>"feeds/"</code>. (Puedes cambiar <code>"feeds/"</code> por algo que se adapte
+a tus necesidades).</p>
+
+<p>Esta línea de URLconf tiene un argumento extra: <code>{'feed_dict': feeds}</code>. Usa
+este argumento extra para pasar al framework de feeds de sindicación los feeds
+que deben ser publicados en dicha URL.</p>
+
+<p>Específicamente, <code>feed_dict</code> debe ser un diccionario que mapee el <em>slug</em>
+(etiqueta corta de URL) de un feed a la clase Feed. Puedes definir el
+<code>feed_dict</code> en el mismo URLconf. Este es un ejemplo completo de URLconf:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+<span class="kw1">from</span> myproject.<span class="me1">feeds</span> <span class="kw1">import</span> LatestEntries<span class="sy0">,</span> LatestEntriesByCategory
+&nbsp;
+feeds <span class="sy0">=</span> <span class="br0">&#123;</span>
+    <span class="st0">'latest'</span>: LatestEntries<span class="sy0">,</span>
+    <span class="st0">'categories'</span>: LatestEntriesByCategory<span class="sy0">,</span>
+<span class="br0">&#125;</span>
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="co1"># ...</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^feeds/(?P&lt;url&gt;.*)/$'</span><span class="sy0">,</span> <span class="st0">'django.contrib.syndication.views.feed'</span><span class="sy0">,</span>
+        <span class="br0">&#123;</span><span class="st0">'feed_dict'</span>: feeds<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="co1"># ...</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>El ejemplo anterior registra dos feeds:</p>
+
+<ul>
+<li>El feed representado por <code>LatestEntries</code> residirá en <code>feeds/latest/</code>.</li>
+<li>El feed representado por <code>LatestEntriesByCategory</code> residirá en
+<code>feeds/categories/</code>.</li>
+</ul>
+
+<p>Una vez que este configurado, necesitas definir la propia clase <code>Feed</code>.</p>
+
+<p>Una clase <code>Feed</code> es una simple clase Python que representa un feed de 
+sindicación. Un feed puede ser simple (p. ej. "noticias del sitio", o una 
+lista de las últimas entradas del blog) o más complejo (p. ej. mostrar todas 
+las entradas de un blog en una categoría en particular, donde la categoría es 
+variable).</p>
+
+<p>La clase <code>Feed</code> debe ser una subclase de
+<code>django.contrib.syndication.feeds.Feed</code>. Esta puede residir en cualquier parte 
+del árbol de código.</p>
+
+<h3 id="un_feed_simple">11.5.2. Un Feed simple</h3>
+
+<p>Este ejemplo simple, tomado de http://chicagocrime.org, describe un feed que 
+muestra los últimos cinco items agregados:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">contrib</span>.<span class="me1">syndication</span>.<span class="me1">feeds</span> <span class="kw1">import</span> Feed
+<span class="kw1">from</span> chicagocrime.<span class="me1">models</span> <span class="kw1">import</span> NewsItem
+&nbsp;
+<span class="kw1">class</span> LatestEntries<span class="br0">&#40;</span>Feed<span class="br0">&#41;</span>:
+    title <span class="sy0">=</span> <span class="st0">&quot;Chicagocrime.org site news&quot;</span>
+    link <span class="sy0">=</span> <span class="st0">&quot;/sitenews/&quot;</span>
+    description <span class="sy0">=</span> <span class="st0">&quot;Updates on changes and additions to chicagocrime.org.&quot;</span>
+&nbsp;
+    <span class="kw1">def</span> items<span class="br0">&#40;</span><span class="kw2">self</span><span class="br0">&#41;</span>:
+        <span class="kw1">return</span> NewsItem.<span class="me1">objects</span>.<span class="me1">order_by</span><span class="br0">&#40;</span><span class="st0">'-pub_date'</span><span class="br0">&#41;</span><span class="br0">&#91;</span>:<span class="nu0">5</span><span class="br0">&#93;</span></pre>
+</div>
+
+<p>Las cosas importantes a tener en cuenta son:</p>
+
+<ul>
+<li>La clase es subclase de <code>django.contrib.syndication.feeds.Feed</code>.</li>
+<li><code>title</code>, <code>link</code>, y <code>description</code> corresponden a los elementos RSS
+estándar <code>&lt;title&gt;</code>, <code>&lt;link&gt;</code>, y <code>&lt;description&gt;</code> respectivamente.</li>
+<li><p><code>items()</code> es simplemente un método que retorna una lista de objetos que
+deben incluirse en el feed como elementos <code>&lt;item&gt;</code>.  Aunque este ejemplo
+retorna objetos <code>NewsItem</code> usando la API de base de datos de Django, no
+es un requerimiento que <code>items()</code> deba retornar instancias de modelos.</p>
+
+<p>Obtienes unos pocos bits de funcionalidad "gratis" usando los modelos de
+Django, pero <code>items()</code> puede retornar cualquier tipo de objeto que
+desees.</p></li>
+</ul>
+
+<p>Hay solamente un paso más. En un feed RSS, cada <code>&lt;item&gt;</code> posee <code>&lt;title&gt;</code>,
+<code>&lt;link&gt;</code>, y <code>&lt;description&gt;</code>. Necesitamos decirle al framework qué datos
+debe poner en cada uno de los elementos.</p>
+
+<p>Para especificar el contenido de <code>&lt;title&gt;</code> y <code>&lt;description&gt;</code>, crea
+plantillas Django (ver Capítulo 4) llamadas <code>feeds/latest_title.html</code> y
+<code>feeds/latest_description.html</code>, donde <code>latest</code> es el <code>slug</code>
+especificado en URLconf para el feed dado. Notar que la extensión <code>.html</code>
+es requerida.</p>
+
+<p>El sistema RSS renderiza dicha plantilla por cada ítem, pasándole dos
+variables de contexto para plantillas:</p>
+
+<ul>
+<li><code>obj</code>: El objeto actual (uno de los tantos que retorna en <code>items()</code>).</li>
+<li><code>site</code>: Un objeto <code>django.models.core.sites.Site</code> representa el
+sitio actual. Esto es útil para <code>{&#123; site.domain &#125;}</code> o <code>{&#123;
+site.name &#125;}</code>.</li>
+</ul>
+
+<p>Si no creas una plantilla para el título o la descripción, el framework
+utilizará la plantilla por omisión <code>"{&#123; obj &#125;}"</code> — exacto, la cadena
+normal de representación del objeto.</p>
+
+<p>También puedes cambiar los nombres de estas plantillas especificando
+<code>title_template</code> y <code>description_template</code> como atributos de tu clase
+<code>Feed</code>.</p>
+
+<p>Para especificar el contenido de <code>&lt;link&gt;</code>, hay dos opciones. Por cada
+ítem en <code>items()</code>, Django primero tratará de ejecutar el método
+<code>get_absolute_url()</code> en dicho objeto. Si dicho método no existe, entonces
+trata de llamar al método <code>item_link()</code> en la clase <code>Feed</code>, pasándole
+un único parámetro, <code>item</code>, que es el objeto en sí mismo.</p>
+
+<p>Ambos <code>get_absolute_url()</code> y <code>item_link()</code> deben retornar la URL del
+ítem como una cadena normal de Python.</p>
+
+<p>Para el ejemplo anterior <code>LatestEntries</code>, podemos usar plantillas de
+feed muy simples. <code>latest_title.html</code> contiene:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">obj</span><span class="sy0">.</span><span class="kw2">title</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>y <code>latest_description.html</code> contiene:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">obj</span><span class="re1">.description</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Es casi demasiado fácil.</p>
+
+<h3 id="un_feed_mas_complejo">11.5.3. Un Feed más complejo</h3>
+
+<p>El framework también permite la creación de feeds más complejos mediante el uso
+de parámetros.</p>
+
+<p>Por ejemplo, http://chicagocrime.org ofrece un feed RSS de los crímenes 
+recientes de cada departamento de policía en Chicago. Sería tonto crear una 
+clase <code>Feed</code> separada por cada departamento; esto puede violar el principio 
+<em>"No te repitas"</em> (DRY, por <em>"Do not repeat yourself"</em>) y crearía acoplamiento 
+entre los datos y la lógica de programación.</p>
+
+<p>En su lugar, el framework de feeds de sindicación te permite crear feeds 
+genéricos que retornan items basados en la información en la URL del feed.</p>
+
+<p>En chicagocrime.org, los feed por departamento de policía son accesibles 
+mediante URLs como estas:</p>
+
+<ul>
+<li><code>http://www.chicagocrime.org/rss/beats/0613/</code>: Retorna los crímenes más
+recientes para el departamento 0613</li>
+<li><code>http://www.chicagocrime.org/rss/beats/1424/</code>: Retorna los crímenes más
+recientes para el departamento 1424</li>
+</ul>
+
+<p>El slug aquí es <code>"beats"</code>. El framework de sindicación ve las partes extra en
+la URL tras el slug — <code>0613</code> y <code>1424</code> — y te provee un <em>hook</em>
+para que le indiques qué significa cada uno de esas partes y cómo influyen en
+los items que serán publicados en el feed.</p>
+
+<p>Un ejemplo aclarará esto. Este es el código para los feeds por departamento:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">core</span>.<span class="kw3">exceptions</span> <span class="kw1">import</span> ObjectDoesNotExist
+&nbsp;
+<span class="kw1">class</span> BeatFeed<span class="br0">&#40;</span>Feed<span class="br0">&#41;</span>:
+    <span class="kw1">def</span> get_object<span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> bits<span class="br0">&#41;</span>:
+        <span class="co1"># In case of &quot;/rss/beats/0613/foo/bar/baz/&quot;, or other such</span>
+        <span class="co1"># clutter, check that bits has only one member.</span>
+        <span class="kw1">if</span> <span class="kw2">len</span><span class="br0">&#40;</span>bits<span class="br0">&#41;</span> <span class="sy0">!=</span> <span class="nu0">1</span>:
+            <span class="kw1">raise</span> ObjectDoesNotExist
+        <span class="kw1">return</span> Beat.<span class="me1">objects</span>.<span class="me1">get</span><span class="br0">&#40;</span>beat__exact<span class="sy0">=</span>bits<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+&nbsp;
+    <span class="kw1">def</span> title<span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> obj<span class="br0">&#41;</span>:
+        <span class="kw1">return</span> <span class="st0">&quot;Chicagocrime.org: Crimes for beat %s&quot;</span> % obj.<span class="me1">beat</span>
+&nbsp;
+    <span class="kw1">def</span> link<span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> obj<span class="br0">&#41;</span>:
+        <span class="kw1">return</span> obj.<span class="me1">get_absolute_url</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+&nbsp;
+    <span class="kw1">def</span> description<span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> obj<span class="br0">&#41;</span>:
+        <span class="kw1">return</span> <span class="st0">&quot;Crimes recently reported in police beat %s&quot;</span> % obj.<span class="me1">beat</span>
+&nbsp;
+    <span class="kw1">def</span> items<span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> obj<span class="br0">&#41;</span>:
+        crimes <span class="sy0">=</span>  Crime.<span class="me1">objects</span>.<span class="kw2">filter</span><span class="br0">&#40;</span>beat__id__exact<span class="sy0">=</span>obj.<span class="kw2">id</span><span class="br0">&#41;</span>
+        <span class="kw1">return</span> crimes.<span class="me1">order_by</span><span class="br0">&#40;</span><span class="st0">'-crime_date'</span><span class="br0">&#41;</span><span class="br0">&#91;</span>:<span class="nu0">30</span><span class="br0">&#93;</span></pre>
+</div>
+
+<p>Aquí tenemos el algoritmo básico del framework RSS, asumiendo esa clase y un
+requerimiento a la URL <code>/rss/beats/0613/</code>:</p>
+
+<ol>
+<li><p>El framework toma la URL <code>/rss/beats/0613/</code> y nota que la URL contiene
+una parte extra tras el slug. Separa esa cadena remanente por el carácter
+<code>"/"</code> y llama al método <code>get_object()</code> de la clase <code>Feed</code> pasándole
+los trozos (<em>bits</em>) resultantes.</p>
+
+<p>En este caso, los trozos "son" <code>['0613']</code>. Para un requerimiento a
+<code>/rss/beats/0613/foo/bar/</code>, serán <code>['0613', 'foo', 'bar']</code>.</p></li>
+<li><p><code>get_object()</code> es el responsable de obtener el departamento requerido,
+a partir del <code>bits</code> dado.</p>
+
+<p>En este caso, usa la API de base de datos de Django para obtener el
+departamento. Notar que <code>get_object()</code> debe capturar la excepción
+<code>django.core.exceptions.ObjectDoesNotExist</code> si recibe parámetros
+inválidos. No hay <code>try</code>/<code>except</code> abarcando la llamada a
+<code>Beat.objects.get()</code> porque no es necesario. Esa función, ante una falla
+lanza la excepción <code>Beat.DoesNotExist</code>, y <code>Beat.DoesNotExist</code> es una
+subclase de <code>ObjectDoesNotExist</code>. Lanzar la excepción <code>ObjectDoesNotExist</code>
+en <code>get_object()</code> le dice a Django que produzca un error 404 para
+el requerimiento en curso.</p></li>
+<li>Para generar los campos <code>&lt;title&gt;</code>, <code>&lt;link&gt;</code>, y <code>&lt;description&gt;</code> del
+feed, Django usa los métodos <code>title()</code>, <code>link()</code>, y <code>description()</code>.
+En el ejemplo anterior, se utilizaron atributos simples de clase string,
+pero este ejemplo muestra que estos pueden ser strings o métodos.
+Por cada <code>title</code>, <code>link</code>, y <code>description</code>, Django sigue este
+algoritmo:
+
+<ol>
+<li>Trata de llamar al método, pasando el argumento <code>obj</code>, donde
+ <code>obj</code> es el objeto retornado por <code>get_object()</code>.</li>
+<li>Si eso falla, trata de llamar al método sin argumentos.</li>
+<li>Si eso falla, usa los atributos de clase.</li>
+</ol></li>
+<li>Finalmente, nota que <code>items()</code> en el ejemplo también toma como argumento
+a <code>obj</code>. El algoritmo para <code>items</code> es el mismo que se describe en el
+paso anterior — primero prueba <code>items(obj)</code>, después <code>items()</code>, y
+finalmente un atributo de clase <code>items</code> (que debe ser una lista).</li>
+</ol>
+
+<p>La documentación completa de todos los métodos y atributos de las clases <code>Feed</code>
+siempre esta disponible en la documentación oficial de Django.</p>
+
+<h3 id="especificar_el_tipo_de_feed">11.5.4. Especificar el tipo de Feed</h3>
+
+<p>Por omisión, el framework de feeds de sindicación produce RSS 2.0. Para cambiar
+eso, agrega un atributo <code>feed_type</code> a tu clase <code>Feed</code>:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">utils</span>.<span class="me1">feedgenerator</span> <span class="kw1">import</span> Atom1Feed
+&nbsp;
+<span class="kw1">class</span> MyFeed<span class="br0">&#40;</span>Feed<span class="br0">&#41;</span>:
+    feed_type <span class="sy0">=</span> Atom1Feed</pre>
+</div>
+
+<p>Nota que asignas como valor de <code>feed_type</code> una clase, no una instancia.
+Los tipos de feeds disponibles actualmente se muestran en la siguiente tabla.</p>
+
+<div class="table" id="table_11_1">
+
+    <table>
+<thead>
+<tr>
+  <th>Clase Feed</th>
+  <th>Formato</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>django.utils.feedgenerator.Rss201rev2Feed</code></td>
+  <td>RSS 2.01 (por defecto)</td>
+</tr>
+<tr>
+  <td><code>django.utils.feedgenerator.RssUserland091Feed</code></td>
+  <td>RSS 0.91</td>
+</tr>
+<tr>
+  <td><code>django.utils.feedgenerator.Atom1Feed</code></td>
+  <td>Atom 1.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<h3 id="enclosures">11.5.5. Enclosures</h3>
+
+<p>Para especificar <em>enclosures</em> (p. ej. recursos multimedia asociados al ítem del
+feed tales como feeds de podcasts MP3), usa los ganchos <code>item_enclosure_url</code>,
+<code>item_enclosure_length</code>, y <code>item_enclosure_mime_type</code>, por ejemplo:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> myproject.<span class="me1">models</span> <span class="kw1">import</span> Song
+&nbsp;
+<span class="kw1">class</span> MyFeedWithEnclosures<span class="br0">&#40;</span>Feed<span class="br0">&#41;</span>:
+    title <span class="sy0">=</span> <span class="st0">&quot;Example feed with enclosures&quot;</span>
+    link <span class="sy0">=</span> <span class="st0">&quot;/feeds/example-with-enclosures/&quot;</span>
+&nbsp;
+    <span class="kw1">def</span> items<span class="br0">&#40;</span><span class="kw2">self</span><span class="br0">&#41;</span>:
+        <span class="kw1">return</span> Song.<span class="me1">objects</span>.<span class="kw2">all</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#91;</span>:<span class="nu0">30</span><span class="br0">&#93;</span>
+&nbsp;
+    <span class="kw1">def</span> item_enclosure_url<span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> item<span class="br0">&#41;</span>:
+        <span class="kw1">return</span> item.<span class="me1">song_url</span>
+&nbsp;
+    <span class="kw1">def</span> item_enclosure_length<span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> item<span class="br0">&#41;</span>:
+        <span class="kw1">return</span> item.<span class="me1">song_length</span>
+&nbsp;
+    item_enclosure_mime_type <span class="sy0">=</span> <span class="st0">&quot;audio/mpeg&quot;</span></pre>
+</div>
+
+<p>Esto asume, por supuesto, que has creado un objeto <code>Song</code> con los campos
+<code>song_url</code> y <code>song_length</code> (p. ej. el tamaño en bytes).</p>
+
+<h3 id="idioma">11.5.6.  Idioma</h3>
+
+<p>Los Feeds creados por el framework de sindicación incluyen automáticamente la
+etiqueta <code>&lt;language&gt;</code> (RSS 2.0) o el atributo <code>xml:lang</code> apropiados (Atom).
+Esto viene directamente de tu variable de configuración <code>LANGUAGE_CODE</code>.</p>
+
+<h3 id="urls">11.5.7.  URLs</h3>
+
+<p>El método/atributo <code>link</code> puede retornar tanto una URL absoluta (p. ej.
+<code>"/blog/"</code>) como una URL con el nombre completo de dominio y protocolo (p. ej.
+<code>"http://www.example.com/blog/"</code>). Si <code>link</code> no retorna el dominio,
+el framework de sindicación insertará el dominio del sitio actual, acorde a
+la variable de configuración <code>SITE_ID</code>.</p>
+
+<p>Los feeds Atom requieren un <code>&lt;link rel="self"&gt;</code> que define la ubicación actual
+del feed. El framework de sindicación completa esto automáticamente, usando el
+dominio del sitio actual acorde a la variable de configuración <code>SITE_ID</code>.</p>
+
+<h3 id="publicar_feeds_atom_y_rss_conjuntamente">11.5.8. Publicar feeds Atom y RSS conjuntamente</h3>
+
+<p>Algunos desarrolladores prefieren ofrecer ambas versiones Atom <em>y</em>
+RSS de sus feeds. Esto es simple de hacer con Django: solamente crea una 
+subclase de tu clase <code>feed</code> y asigna a <code>feed_type</code> un valor diferente. Luego 
+actualiza tu URLconf para agregar una versión extra. Aquí un ejemplo completo:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">contrib</span>.<span class="me1">syndication</span>.<span class="me1">feeds</span> <span class="kw1">import</span> Feed
+<span class="kw1">from</span> chicagocrime.<span class="me1">models</span> <span class="kw1">import</span> NewsItem
+<span class="kw1">from</span> django.<span class="me1">utils</span>.<span class="me1">feedgenerator</span> <span class="kw1">import</span> Atom1Feed
+&nbsp;
+<span class="kw1">class</span> RssSiteNewsFeed<span class="br0">&#40;</span>Feed<span class="br0">&#41;</span>:
+    title <span class="sy0">=</span> <span class="st0">&quot;Chicagocrime.org site news&quot;</span>
+    link <span class="sy0">=</span> <span class="st0">&quot;/sitenews/&quot;</span>
+    description <span class="sy0">=</span> <span class="st0">&quot;Updates on changes and additions to chicagocrime.org.&quot;</span>
+&nbsp;
+    <span class="kw1">def</span> items<span class="br0">&#40;</span><span class="kw2">self</span><span class="br0">&#41;</span>:
+        <span class="kw1">return</span> NewsItem.<span class="me1">objects</span>.<span class="me1">order_by</span><span class="br0">&#40;</span><span class="st0">'-pub_date'</span><span class="br0">&#41;</span><span class="br0">&#91;</span>:<span class="nu0">5</span><span class="br0">&#93;</span>
+&nbsp;
+<span class="kw1">class</span> AtomSiteNewsFeed<span class="br0">&#40;</span>RssSiteNewsFeed<span class="br0">&#41;</span>:
+    feed_type <span class="sy0">=</span> Atom1Feed</pre>
+</div>
+
+<p>Y este es el URLconf asociado:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">conf</span>.<span class="me1">urls</span>.<span class="me1">defaults</span> <span class="kw1">import</span> *
+<span class="kw1">from</span> myproject.<span class="me1">feeds</span> <span class="kw1">import</span> RssSiteNewsFeed<span class="sy0">,</span> AtomSiteNewsFeed
+&nbsp;
+feeds <span class="sy0">=</span> <span class="br0">&#123;</span>
+    <span class="st0">'rss'</span>: RssSiteNewsFeed<span class="sy0">,</span>
+    <span class="st0">'atom'</span>: AtomSiteNewsFeed<span class="sy0">,</span>
+<span class="br0">&#125;</span>
+&nbsp;
+urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="co1"># ...</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^feeds/(?P&lt;url&gt;.*)/$'</span><span class="sy0">,</span> <span class="st0">'django.contrib.syndication.views.feed'</span><span class="sy0">,</span>
+        <span class="br0">&#123;</span><span class="st0">'feed_dict'</span>: feeds<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="co1"># ...</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_11/otras_posibilidades.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>11.4. Otras posibilidades</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_11/los_sitemaps_de_xml.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>11.6. Los sitemaps de XML</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Los principios de las páginas Web dinámicas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> El sistema de plantillas de Django</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Interactuar con una base de datos: Modelos</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El sitio de Administración Django</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Procesamiento de formularios</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Vistas avanzadas y URLconfs</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Vistas genéricas</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Extender el sistema de plantillas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_11.html">
+                    <span>Capítulo 11.</span> Generación de contenido no HTML
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/lo_basico_vistas_y_tipos_mime.html">
+                    <span>11.1.</span> Lo básico: Vistas y tipos MIME
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/produccion_de_csv.html">
+                    <span>11.2.</span> Producción de CSV
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/generar_pdfs.html">
+                    <span>11.3.</span> Generar PDFs
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/otras_posibilidades.html">
+                    <span>11.4.</span> Otras posibilidades
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_11/el_framework_de_feeds_de_sindicacion.html">
+                    <span>11.5.</span> El Framework de Feeds de Sindicación
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/los_sitemaps_de_xml.html">
+                    <span>11.6.</span> Los sitemaps de XML
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/que_sigue.html">
+                    <span>11.7.</span> ¿Qué sigue?
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Sesiones, usuario e inscripciones</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Cache</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Otros sub-frameworks contribuidos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Middleware</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Integración con Base de datos y Aplicaciones existentes</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Extender la Interfaz de Administración de Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>20.</span> <a href="../capitulo_20.html"> Puesta en marcha de Django en un servidor</a>
+            </li>
+                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

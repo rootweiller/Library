@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>4.3. La interfaz Node (Introducción a AJAX)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_4/tipos_de_nodos.html" />
+                    <link rel="next" href="../capitulo_4/html_y_dom.html" />
+                <link rel="start" href="/libro/ajax/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="4.3. La interfaz Node (Introducción a AJAX)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page ajax"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+            <div class="module module-ad module-ad-responsive module-ad-top">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/ajax/" itemprop="url">
+                    <span itemprop="title">Introducción a AJAX</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/ajax/capitulo_4.html" itemprop="url">
+                    <span itemprop="title">Capítulo 4. DOM (Document Object Model)</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>4.3. La interfaz Node</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="la_interfaz_node" class="title">
+        <span>4.3.</span> La interfaz Node
+    </h1>
+
+    
+
+<p>Una vez que DOM ha creado de forma automática el árbol completo de nodos de la página, ya es posible utilizar sus funciones para obtener información sobre los nodos o manipular su contenido. JavaScript crea el objeto <code>Node</code> para definir las propiedades y métodos necesarios para procesar y manipular los documentos.</p>
+
+<p>En primer lugar, el objeto <code>Node</code> define las siguientes constantes para la identificación de los distintos tipos de nodos:</p>
+
+<ul>
+<li><code>Node.ELEMENT_NODE</code> = <code>1</code></li>
+<li><code>Node.ATTRIBUTE_NODE</code> = <code>2</code></li>
+<li><code>Node.TEXT_NODE</code> = <code>3</code></li>
+<li><code>Node.CDATA_SECTION_NODE</code> = <code>4</code></li>
+<li><code>Node.ENTITY_REFERENCE_NODE</code> = <code>5</code></li>
+<li><code>Node.ENTITY_NODE</code> = <code>6</code></li>
+<li><code>Node.PROCESSING_INSTRUCTION_NODE</code> = <code>7</code></li>
+<li><code>Node.COMMENT_NODE</code> = <code>8</code></li>
+<li><code>Node.DOCUMENT_NODE</code> = <code>9</code></li>
+<li><code>Node.DOCUMENT_TYPE_NODE</code> = <code>10</code></li>
+<li><code>Node.DOCUMENT_FRAGMENT_NODE</code> = <code>11</code></li>
+<li><code>Node.NOTATION_NODE</code> = <code>12</code></li>
+</ul>
+
+<p>Además de estas constantes, <code>Node</code> proporciona las siguientes propiedades y métodos:</p>
+
+<div class="table" id="table_4_1">
+
+    <table>
+<thead>
+<tr>
+  <th>Propiedad/Método</th>
+  <th>Valor devuelto</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>nodeName</code></td>
+  <td><code>String</code></td>
+  <td>El nombre del nodo (no está definido para algunos tipos de nodo)</td>
+</tr>
+<tr>
+  <td><code>nodeValue</code></td>
+  <td><code>String</code></td>
+  <td>El valor del nodo (no está definido para algunos tipos de nodo)</td>
+</tr>
+<tr>
+  <td><code>nodeType</code></td>
+  <td><code>Number</code></td>
+  <td>Una de las 12 constantes definidas anteriormente</td>
+</tr>
+<tr>
+  <td><code>ownerDocument</code></td>
+  <td><code>Document</code></td>
+  <td>Referencia del documento al que pertenece el nodo</td>
+</tr>
+<tr>
+  <td><code>firstChild</code></td>
+  <td><code>Node</code></td>
+  <td>Referencia del primer nodo de la lista <code>childNodes</code></td>
+</tr>
+<tr>
+  <td><code>lastChild</code></td>
+  <td><code>Node</code></td>
+  <td>Referencia del último nodo de la lista <code>childNodes</code></td>
+</tr>
+<tr>
+  <td><code>childNodes</code></td>
+  <td><code>NodeList</code></td>
+  <td>Lista de todos los nodos hijo del nodo actual</td>
+</tr>
+<tr>
+  <td><code>previousSibling</code></td>
+  <td><code>Node</code></td>
+  <td>Referencia del nodo hermano anterior o <code>null</code> si este nodo es el primer hermano</td>
+</tr>
+<tr>
+  <td><code>nextSibling</code></td>
+  <td><code>Node</code></td>
+  <td>Referencia del nodo hermano siguiente o <code>null</code> si este nodo es el último hermano</td>
+</tr>
+<tr>
+  <td><code>hasChildNodes()</code></td>
+  <td><code>Bolean</code></td>
+  <td>Devuelve <code>true</code> si el nodo actual tiene uno o más nodos hijo</td>
+</tr>
+<tr>
+  <td><code>attributes</code></td>
+  <td><code>NamedNodeMap</code></td>
+  <td>Se emplea con nodos de tipo <code>Element</code>. Contiene objetos de tipo <code>Attr</code> que definen todos los atributos del elemento</td>
+</tr>
+<tr>
+  <td><code>appendChild(nodo)</code></td>
+  <td><code>Node</code></td>
+  <td>Añade un nuevo nodo al final de la lista <code>childNodes</code></td>
+</tr>
+<tr>
+  <td><code>removeChild(nodo)</code></td>
+  <td><code>Node</code></td>
+  <td>Elimina un nodo de la lista <code>childNodes</code></td>
+</tr>
+<tr>
+  <td><code>replaceChild(nuevoNodo, anteriorNodo)</code></td>
+  <td><code>Node</code></td>
+  <td>Reemplaza el nodo <code>anteriorNodo</code> por el nodo <code>nuevoNodo</code></td>
+</tr>
+<tr>
+  <td><code>insertBefore(nuevoNodo, anteriorNodo)</code></td>
+  <td><code>Node</code></td>
+  <td>Inserta el nodo <code>nuevoNodo</code> antes que la posición del nodo <code>anteriorNodo</code> dentro de la lista <code>childNodes</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Los métodos y propiedades incluidas en la tabla anterior son específicos de XML, aunque pueden aplicarse a todos los lenguajes basados en XML, como por ejemplo XHTML. Para las páginas creadas con HTML, los navegadores <em>hacen como si</em> HTML estuviera basado en XML y lo tratan de la misma forma. No obstante, se han definido algunas extensiones y particularidades específicas para XHTML y HTML.</p>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_4/tipos_de_nodos.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>4.2. Tipos de nodos</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_4/html_y_dom.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>4.4. HTML y DOM</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a AJAX</a>
+            </li>
+                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> JavaScript básico</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> JavaScript avanzado</a>
+            </li>
+                                                                            <li class="level-1 ">
+                <a href="../capitulo_4.html">
+                    <span>Capítulo 4.</span> DOM (Document Object Model)
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/tipos_de_nodos.html">
+                    <span>4.2.</span> Tipos de nodos
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_4/la_interfaz_node.html">
+                    <span>4.3.</span> La interfaz Node
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/html_y_dom.html">
+                    <span>4.4.</span> HTML y DOM
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> BOM (Browser Object Model)</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Eventos</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Primeros pasos con AJAX</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Técnicas básicas con AJAX</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Técnicas avanzadas con AJAX</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Frameworks y librerías</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Otras utilidades</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Recursos útiles</a>
+            </li>
+                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Bibliografía</a>
+            </li>
+                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Ejercicios resueltos</a>
+            </li>
+                                                                                                                                                                                                                                                                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

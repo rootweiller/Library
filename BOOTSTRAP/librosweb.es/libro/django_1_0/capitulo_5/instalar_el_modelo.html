@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>5.7. Instalar el modelo (El libro de Django 1.0)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_5/tu_primer_modelo.html" />
+                    <link rel="next" href="../capitulo_5/acceso_basico_a_datos.html" />
+                <link rel="start" href="/libro/django_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="5.7. Instalar el modelo (El libro de Django 1.0)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page django_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/" itemprop="url">
+                    <span itemprop="title">El libro de Django 1.0</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/capitulo_5.html" itemprop="url">
+                    <span itemprop="title">Capítulo 5. Interactuar con una base de datos: Modelos</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>5.7. Instalar el modelo</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="instalar_el_modelo" class="title">
+        <span>5.7.</span> Instalar el modelo
+    </h1>
+
+    
+
+<p>Ya escribimos el código; creemos ahora las tablas en la base de datos. Para
+hacerlo, el primer paso es <em>activar</em> estos modelos en nuestro proyecto Django.
+Hacemos esto agregando la aplicación <code>books</code> a la lista de aplicaciones
+instaladas en el archivo de configuración.</p>
+
+<p>Edita el archivo <code>settings.py</code> otra vez, y examina la variable de
+configuración <code>INSTALLED_APPS</code>. <code>INSTALLED_APPS</code> le indica a Django qué
+aplicaciones están activadas para un proyecto determinado. Por omisión, se ve
+como esto:</p>
+
+<div class="code python">
+<pre class="python">INSTALLED_APPS <span class="sy0">=</span> <span class="br0">&#40;</span>
+    <span class="st0">'django.contrib.auth'</span><span class="sy0">,</span>
+    <span class="st0">'django.contrib.contenttypes'</span><span class="sy0">,</span>
+    <span class="st0">'django.contrib.sessions'</span><span class="sy0">,</span>
+    <span class="st0">'django.contrib.sites'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Temporalmente, comenta estos cuatro strings poniendo un carácter (<code>#</code>)
+al principio. (Están incluidos por omisión porque es frecuente usarlas, pero
+las activaremos y las discutiremos más adelante) Cuando termines, modifica las
+configuraciones por omisión de <code>MIDDLEWARE_CLASSES</code> y
+<code>TEMPLATE_CONTEXT_PROCESSORS</code>.  Éstas dependen de algunas de las aplicaciones
+que hemos comentado. Entonces, agrega <code>'mysite.books'</code> a la lista
+<code>INSTALLED_APPS</code>, de manera que la configuración termine viéndose así:</p>
+
+<div class="code python">
+<pre class="python">MIDDLEWARE_CLASSES <span class="sy0">=</span> <span class="br0">&#40;</span>
+<span class="co1">#    'django.middleware.common.CommonMiddleware',</span>
+<span class="co1">#    'django.contrib.sessions.middleware.SessionMiddleware',</span>
+<span class="co1">#    'django.contrib.auth.middleware.AuthenticationMiddleware',</span>
+<span class="co1">#    'django.middleware.doc.XViewMiddleware',</span>
+<span class="br0">&#41;</span>
+&nbsp;
+TEMPLATE_CONTEXT_PROCESSORS <span class="sy0">=</span> <span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="co1">#...</span>
+&nbsp;
+INSTALLED_APPS <span class="sy0">=</span> <span class="br0">&#40;</span>
+    <span class="co1">#'django.contrib.auth',</span>
+    <span class="co1">#'django.contrib.contenttypes',</span>
+    <span class="co1">#'django.contrib.sessions',</span>
+    <span class="co1">#'django.contrib.sites',</span>
+    <span class="st0">'mysite.books'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p>(Como aquí estamos tratando con una tupla de un solo elemento, no olvides la
+coma final. De paso, los autores de este libro prefieren poner una coma después
+de <em>cada</em> elemento de una tupla, aunque la tupla tenga sólo un elemento. Esto
+evita el problema de olvidar comas, y no hay penalización por el use de esa coma
+extra)</p>
+
+<p><code>'mysite.books'</code> se refiere a la aplicación <code>books</code> en la que estamos
+trabajando. Cada aplicación en <code>INSTALLED_APPS</code> es representada por su ruta
+Python completa — esto es, la ruta de paquetes, separados por puntos,
+que lleva al paquete de la aplicación.</p>
+
+<p>Ahora que la aplicación Django ha sido activada en el archivo de configuración,
+podemos crear las tablas en nuestra base de datos. Primero, validemos los
+modelos ejecutando este comando:</p>
+
+<div class="code cli">
+<pre class="cli">python manage.py validate</pre>
+</div>
+
+<p>El comando <code>validate</code> verifica si la sintaxis y la lógica de tus modelos son
+correctas. Si todo está bien, verás el mensaje <code>0 errors found</code>. Si no,
+asegúrate de haber escrito el código del modelo correctamente. La salida del
+error debe brindarte información útil acerca de qué es lo que está mal en el
+código.</p>
+
+<p>Cada vez que piensas que tienes problemas con tus modelos, ejecuta
+<code>python manage.py validate</code>. Tiende a capturar todos los problemas comunes
+del modelo.</p>
+
+<p>Si tus modelos son válidos, ejecuta el siguiente comando para que Django genere
+sentencias <code>CREATE TABLE</code> para tus modelos en la aplicación <code>books</code> (con
+sintaxis resaltada en colores disponible si estás usando Unix):</p>
+
+<div class="code cli">
+<pre class="cli">python manage.py sqlall books</pre>
+</div>
+
+<p>En este comando, <code>books</code> es el nombre de la aplicación. Es lo que hayas
+especificado cuando ejecutaste el comando <code>manage.py startapp</code>. Cuando
+ejecutes el comando, debes ver algo como esto:</p>
+
+<div class="code sql">
+<pre class="sql"><span class="kw1">BEGIN</span>;
+<span class="kw1">CREATE</span> <span class="kw1">TABLE</span> <span class="st0">&quot;books_publisher&quot;</span> <span class="br0">&#40;</span>
+    <span class="st0">&quot;id&quot;</span> serial <span class="kw1">NOT</span> <span class="kw1">NULL</span> <span class="kw1">PRIMARY</span> <span class="kw1">KEY</span><span class="sy0">,</span>
+    <span class="st0">&quot;name&quot;</span> <span class="kw1">VARCHAR</span><span class="br0">&#40;</span><span class="nu0">30</span><span class="br0">&#41;</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
+    <span class="st0">&quot;address&quot;</span> <span class="kw1">VARCHAR</span><span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
+    <span class="st0">&quot;city&quot;</span> <span class="kw1">VARCHAR</span><span class="br0">&#40;</span><span class="nu0">60</span><span class="br0">&#41;</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
+    <span class="st0">&quot;state_province&quot;</span> <span class="kw1">VARCHAR</span><span class="br0">&#40;</span><span class="nu0">30</span><span class="br0">&#41;</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
+    <span class="st0">&quot;country&quot;</span> <span class="kw1">VARCHAR</span><span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
+    <span class="st0">&quot;website&quot;</span> <span class="kw1">VARCHAR</span><span class="br0">&#40;</span><span class="nu0">200</span><span class="br0">&#41;</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span>
+<span class="br0">&#41;</span>;
+<span class="kw1">CREATE</span> <span class="kw1">TABLE</span> <span class="st0">&quot;books_book&quot;</span> <span class="br0">&#40;</span>
+    <span class="st0">&quot;id&quot;</span> serial <span class="kw1">NOT</span> <span class="kw1">NULL</span> <span class="kw1">PRIMARY</span> <span class="kw1">KEY</span><span class="sy0">,</span>
+    <span class="st0">&quot;title&quot;</span> <span class="kw1">VARCHAR</span><span class="br0">&#40;</span><span class="nu0">100</span><span class="br0">&#41;</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
+    <span class="st0">&quot;publisher_id&quot;</span> <span class="kw1">INTEGER</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span> <span class="kw1">REFERENCES</span> <span class="st0">&quot;books_publisher&quot;</span> <span class="br0">&#40;</span><span class="st0">&quot;id&quot;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="st0">&quot;publication_date&quot;</span> <span class="kw1">DATE</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span>
+<span class="br0">&#41;</span>;
+<span class="kw1">CREATE</span> <span class="kw1">TABLE</span> <span class="st0">&quot;books_author&quot;</span> <span class="br0">&#40;</span>
+    <span class="st0">&quot;id&quot;</span> serial <span class="kw1">NOT</span> <span class="kw1">NULL</span> <span class="kw1">PRIMARY</span> <span class="kw1">KEY</span><span class="sy0">,</span>
+    <span class="st0">&quot;salutation&quot;</span> <span class="kw1">VARCHAR</span><span class="br0">&#40;</span><span class="nu0">10</span><span class="br0">&#41;</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
+    <span class="st0">&quot;first_name&quot;</span> <span class="kw1">VARCHAR</span><span class="br0">&#40;</span><span class="nu0">30</span><span class="br0">&#41;</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
+    <span class="st0">&quot;last_name&quot;</span> <span class="kw1">VARCHAR</span><span class="br0">&#40;</span><span class="nu0">40</span><span class="br0">&#41;</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
+    <span class="st0">&quot;email&quot;</span> <span class="kw1">VARCHAR</span><span class="br0">&#40;</span><span class="nu0">75</span><span class="br0">&#41;</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
+    <span class="st0">&quot;headshot&quot;</span> <span class="kw1">VARCHAR</span><span class="br0">&#40;</span><span class="nu0">100</span><span class="br0">&#41;</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span>
+<span class="br0">&#41;</span>;
+<span class="kw1">CREATE</span> <span class="kw1">TABLE</span> <span class="st0">&quot;books_book_authors&quot;</span> <span class="br0">&#40;</span>
+    <span class="st0">&quot;id&quot;</span> serial <span class="kw1">NOT</span> <span class="kw1">NULL</span> <span class="kw1">PRIMARY</span> <span class="kw1">KEY</span><span class="sy0">,</span>
+    <span class="st0">&quot;book_id&quot;</span> <span class="kw1">INTEGER</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span> <span class="kw1">REFERENCES</span> <span class="st0">&quot;books_book&quot;</span> <span class="br0">&#40;</span><span class="st0">&quot;id&quot;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="st0">&quot;author_id&quot;</span> <span class="kw1">INTEGER</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span> <span class="kw1">REFERENCES</span> <span class="st0">&quot;books_author&quot;</span> <span class="br0">&#40;</span><span class="st0">&quot;id&quot;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="kw1">UNIQUE</span> <span class="br0">&#40;</span><span class="st0">&quot;book_id&quot;</span><span class="sy0">,</span> <span class="st0">&quot;author_id&quot;</span><span class="br0">&#41;</span>
+<span class="br0">&#41;</span>;
+<span class="kw1">CREATE</span> <span class="kw1">INDEX</span> books_book_publisher_id <span class="kw1">ON</span> <span class="st0">&quot;books_book&quot;</span> <span class="br0">&#40;</span><span class="st0">&quot;publisher_id&quot;</span><span class="br0">&#41;</span>;
+COMMIT;</pre>
+</div>
+
+<p>Observa lo siguiente:</p>
+
+<ul>
+<li>Los nombres de tabla se generan automáticamente combinando el nombre de
+la aplicación (<code>books</code>) y el nombre en minúsculas del modelo
+(<code>publisher</code>, <code>book</code>, y <code>author</code>). Puedes sobreescribir este
+comportamiento, como se detalla en el Apéndice B.</li>
+<li>Como mencionamos antes, Django agrega una clave primaria para cada tabla
+automáticamente — los campos <code>id</code>. También puedes sobreescribir esto.</li>
+<li>Por convención, Django agrega <code>"_id"</code> al nombre de campo de las claves
+foráneas. Como ya puedes imaginar, también puedes sobreescribir esto.</li>
+<li>La relación de clave foránea se hace explícita con una sentencia
+<code>REFERENCES</code></li>
+<li>Estas sentencias <code>CREATE TABLE</code> son adaptadas a medida de la base de
+datos que estás usando, de manera que Django maneja automáticamente los
+tipos de campo específicos de cada base de datos, como <code>auto_increment</code>
+(MySQL), <code>serial</code> (PostgreSQL), o <code>integer primary key</code> (SQLite),
+por ti. Lo mismo sucede con el uso de las comillas simples o dobles en
+los nombres de columna. La salida del ejemplo está en la sintaxis de
+PostgreSQL.</li>
+</ul>
+
+<p>El comando <code>sqlall</code> no crea ni toca de ninguna forma tu base de datos — sólo
+imprime una salida en la pantalla para que puedas ver qué SQL ejecutaría Django
+si le pidieras que lo hiciera. Si quieres, puedes copiar y pegar este fragmento
+de SQL en tu cliente de base de datos, o usa los pipes de Unix para pasarlo
+directamente. De todas formas, Django provee una manera más fácil de confirmar
+el envío del SQL a la base de datos. Ejecuta el comando <code>syncdb</code> de esta
+manera:</p>
+
+<div class="code cli">
+<pre class="cli">python manage.py syncdb</pre>
+</div>
+
+<p>Verás algo como esto:</p>
+
+<div class="code cli">
+<pre class="cli">Creating table books_publisher
+Creating table books_book
+Creating table books_author
+Installing index for books.Book model</pre>
+</div>
+
+<p>El comando <code>syncdb</code> es una simple sincronización de tus modelos hacia tu base
+de datos. El mismo examina todos los modelos en cada aplicación que figure en 
+tu variable de configuración <code>INSTALLED_APPS</code>, verifica la base de datos para 
+ver si las tablas apropiadas ya existen, y las crea si no existen. Observa que
+<code>syncdb</code> <em>no</em> sincroniza los cambios o eliminaciones de los modelos; si haces
+un cambio o modificas un modelo, y quieres actualizar la base de datos,
+<code>syncdb</code> no maneja esto. (Más sobre esto después.)</p>
+
+<p>Si ejecutas <code>python manage.py syncdb</code> de nuevo, nada sucede, porque no has
+agregado ningún modelo a la aplicación <code>books</code> ni has incorporado ninguna
+aplicación en <code>INSTALLED_APPS</code>. Ergo, siempre es seguro ejecutar
+<code>python manage.py syncdb</code> — no hará desaparecer cosas.</p>
+
+<p>Si estás interesado, toma un momento para bucear en el cliente de línea de
+comandos de tu servidor de bases de datos y ver las tablas que creó Django.
+Puedes ejecutar manualmente el cliente de línea de comandos (ej.: <code>psql</code> para
+PostgreSQL) o puedes ejecutar el comando <code>python manage.py dbshell</code>, que
+deducirá qué cliente de linea de comando ejecutar, dependiendo de tu
+configuración <code>DATABASE_SERVER</code>. Esto último es casi siempre más conveniente.</p>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_5/tu_primer_modelo.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>5.6. Tu primer modelo</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_5/acceso_basico_a_datos.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>5.8. Acceso básico a datos</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Los principios de las páginas Web dinámicas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> El sistema de plantillas de Django</a>
+            </li>
+                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_5.html">
+                    <span>Capítulo 5.</span> Interactuar con una base de datos: Modelos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/la_manera_simple_de_hacer_una_consulta_a_la_base_de_datos.html">
+                    <span>5.1.</span> La manera simple de hacer una consulta a la base de datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/el_patron_de_diseno_mtv.html">
+                    <span>5.2.</span> El patrón de diseño MTV
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/configuracion_de_la_base_de_datos.html">
+                    <span>5.3.</span> Configuración de la base de datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/tu_primera_aplicacion.html">
+                    <span>5.4.</span> Tu primera aplicación
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/definir_modelos_en_python.html">
+                    <span>5.5.</span> Definir modelos en Python
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/tu_primer_modelo.html">
+                    <span>5.6.</span> Tu primer modelo
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_5/instalar_el_modelo.html">
+                    <span>5.7.</span> Instalar el modelo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/acceso_basico_a_datos.html">
+                    <span>5.8.</span> Acceso básico a datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/agregar_strings_de_representacion_del_modelo.html">
+                    <span>5.9.</span> Agregar strings de representación del modelo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/insertar_y_actualizar_datos.html">
+                    <span>5.10.</span> Insertar y actualizar datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/seleccionar_objetos.html">
+                    <span>5.11.</span> Seleccionar objetos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/acotar_datos.html">
+                    <span>5.12.</span> Acotar datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/realizar_cambios_en_el_esquema_de_una_base_de_datos.html">
+                    <span>5.13.</span> Realizar cambios en el esquema de una base de datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/que_sigue.html">
+                    <span>5.14.</span> ¿Qué sigue?
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El sitio de Administración Django</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Procesamiento de formularios</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Vistas avanzadas y URLconfs</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Vistas genéricas</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Extender el sistema de plantillas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Generación de contenido no HTML</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Sesiones, usuario e inscripciones</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Cache</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Otros sub-frameworks contribuidos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Middleware</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Integración con Base de datos y Aplicaciones existentes</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Extender la Interfaz de Administración de Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>20.</span> <a href="../capitulo_20.html"> Puesta en marcha de Django en un servidor</a>
+            </li>
+                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

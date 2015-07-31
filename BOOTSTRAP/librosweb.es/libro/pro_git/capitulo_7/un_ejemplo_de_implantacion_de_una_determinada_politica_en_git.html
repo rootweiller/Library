@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>7.4. Un ejemplo de implantación de una determinada política en Git (Pro Git, el libro oficial de Git)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_7/puntos_de_enganche_git.html" />
+                    <link rel="next" href="../capitulo_7/resumen.html" />
+                <link rel="start" href="/libro/pro_git/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="7.4. Un ejemplo de implantación de una determinada política en Git (Pro Git, el libro oficial de Git)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page pro_git"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/" itemprop="url">
+                    <span itemprop="title">Pro Git, el libro oficial de Git</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/capitulo_7.html" itemprop="url">
+                    <span itemprop="title">Capítulo 7. Personalizando Git</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>7.4. Un ejemplo de implantación de una determinada política en Git</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="un_ejemplo_de_implantacion_de_una_determinada_politica_en_git" class="title">
+        <span>7.4.</span> Un ejemplo de implantación de una determinada política en Git
+    </h1>
+
+    
+
+<p>En esta sección, utilizarás lo aprendido para establecer un flujo de trabajo en Git que: compruebe si los mensajes de confirmación de cambios encajan en un determinado formato, obligue a realizar solo envios de avance directo, y permita solo a ciertos usuarios modificar ciertas carpetas del proyecto. Para ello, has de preparar los correspondientes scripts de cliente (para ayudar a los desarrolladores a saber de antemano si sus envios van a ser rechazados o no), y los correspondientes scripts de servidor (para obligar a cumplir esas políticas).</p>
+
+<p>He usado Ruby para escribir los ejemplos, tanto porque es mi lenguaje preferido de scripting y porque creo que es el más parecido a pseudocódigo; de tal forma que puedas ser capaz de seguir el código, incluso si no conoces Ruby. Pero, puede ser igualmente válido cualquier otro lenguaje. Todos los script de ejemplo que vienen de serie con Git están escritos en Perl o en Bash shell, por lo que tienes bastantes ejemplos en esos lenguajes de scripting.</p>
+
+<h3 id="punto_de_enganche_en_el_lado_servidor">7.4.1. Punto de enganche en el lado servidor</h3>
+
+<p>Todo el trabajo del lado servidor va en el script <code>update</code> de la carpeta <code>hooks</code>. El script <code>update</code> se lanza una vez por cada rama que se envia (<em>push</em>) al servidor; y recibe la referencia de la rama a la que se envia, la antigua revisión en que estaba la rama y la nueva revisión que se está enviando. También puedes tener acceso al usuario que está enviando, si este los envia a través de SSH. Si has permitido a cualquiera conectarse con un mismo usuario (como "git", por ejemplo), has tenido que dar a dicho usuario una envoltura (shell wraper) que te permite determinar cual es el usuario que se conecta según sea su clave pública, permitiendote fijar una variable de entorno especificando dicho usuario. Aqui, asumiremos que el usuario conectado queda reflejado en la variable de entorno <code>$USER</code>, de tal forma que el script <code>update</code> comienza recogiendo toda la información que necesitas:</p>
+
+<div class="code code">
+<pre class="code">#!/usr/bin/env ruby#!/usr/bin/env ruby#!/usr/bin/env ruby</pre>
+</div>
+
+<div class="code code">
+<pre class="code">$refname = ARGV[0]
+$oldrev  = ARGV[1]
+$newrev  = ARGV[2]
+$user    = ENV['USER']</pre>
+</div>
+
+<div class="code code">
+<pre class="code">puts &quot;Enforcing Policies... \n(#{$refname}) (#{$oldrev[0,6]}) (#{$newrev[0,6]})&quot;</pre>
+</div>
+
+<p>Sí, estoy usando variables globales. No me juzgues por ello, es más sencillo mostrarlo de esta manera.</p>
+
+<h4 id="obligando_a_utilizar_un_formato_especifico_en_el_mensaje_de_confirmacion_de_cambios">7.4.1.1. Obligando a utilizar un formato específico en el mensaje de confirmación de cambios</h4>
+
+<p>Tu primer reto es asegurarte que todos y cada uno de los mensajes de confirmación de cambios se ajustan a un determinado formato. Simplemente por fijar algo concreto, supongamos que cada mensaje ha de incluir un texto tal como <em>"ref: 1234"</em>, porque quieres enlazar cada confirmación de cambios con una determinada entrada de trabajo en un sistema de control. Has de mirar en cada confirmación de cambios (<em>commit</em>) recibida, para ver si contiene ese texto; y, si no lo trae, salir con un código distinto de cero, de tal forma que el envio (<em>push</em>) sea rechazado.</p>
+
+<p>Puedes obtener la lista de las claves SHA-1 de todos las confirmaciones de cambios enviadas cogiendo los valores de <code>$newrev</code> y de <code>$oldrev</code>, y pasandolos a comando de mantenimiento de Git llamado <code>git rev-list</code>. Este comando es básicamente el mismo que <code>git log</code>, pero por defecto, imprime solo los valores SHA-1 y nada más. Con él, puedes obtener la lista de todas las claves SHA que se han introducido entre una clave SHA y otra clave SHA dadas; obtendrás algo así como esto:</p>
+
+<div class="code code">
+<pre class="code">$ git rev-list 538c33..d14fc7
+d14fc7c847ab946ec39590d87783c69b031bdfb7
+9f585da4401b0a3999e84113824d15245c13f0be
+234071a1be950e2a8d078e6141f5cd20c1e61ad3
+dfa04c9ef3d5197182f13fb5b9b1fb7717d2222a
+17716ec0f1ff5c77eff40b7fe912f9f6cfd0e475</pre>
+</div>
+
+<p>Puedes coger esta salida, establecer un bucle para recorrer cada una de esas confirmaciones de cambios, coger el mensaje de cada una y comprobarlo contra una expresión regular de búsqueda del patrón deseado.</p>
+
+<p>Tienes que imaginarte cómo puedes obtener el mensaj ede cada una de esas confirmaciones de cambios a comprobar. Para obtener los datos <em>"en crudo"</em> de una confirmación de cambios, puedes utilizar otro comando de mantenimiento de Git denominado <code>git cat-file</code>. En el capítulo 9 volveremos en detalle sobre estos comandos de mantenimiento; pero, por ahora, esto es lo que obtienes con dicho comando:</p>
+
+<div class="code code">
+<pre class="code">$ git cat-file commit ca82a6
+tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
+parent 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+author Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="c9baaaa1a8aaa6a789aea4a8a0a5e7aaa6a4">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt; 1205815931 -0700
+committer Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="186b7b70797b7776587f75797174367b7775">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt; 1240030591 -0700</pre>
+</div>
+
+<div class="code code">
+<pre class="code">changed the version number</pre>
+</div>
+
+<p>Una vía sencilla para obtener el mensaje, es la de ir hasta la primera línea en blanco y luego coger todo lo que siga a esta. En los sistemas Unix, lo puedes realizar con el comando <code>sed</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git cat-file commit ca82a6 | sed '1,/^$/d'
+changed the version number</pre>
+</div>
+
+<p>Puedes usar este <em>"hechizo mágico"</em> para coger el mensaje de cada confirmación de cambios que se está enviando y salir si localizas algo que no cuadra en alguno de ellos. Para salir del script y rechazar el envio, recuerda que debes salir con un código distinto de cero. El método completo será algo así como:</p>
+
+<div class="code code">
+<pre class="code">$regex = /\[ref: (\d+)\]/$regex = /\[ref: (\d+)\]/</pre>
+</div>
+
+<div class="code code">
+<pre class="code"># enforced custom commit message format
+def check_message_format
+  missed_revs = `git rev-list #{$oldrev}..#{$newrev}`.split(&quot;\n&quot;)
+  missed_revs.each do |rev|
+    message = `git cat-file commit #{rev} | sed '1,/^$/d'`
+    if !$regex.match(message)
+      puts &quot;[POLICY] Your message is not formatted correctly&quot;
+      exit 1
+    end
+  end
+end
+check_message_format</pre>
+</div>
+
+<p>Poniendo esto en tu script <code>update</code>, serán rechazadas todas las actualizaciones que contengan cambios con mensajes que no se ajusten a tus reglas.</p>
+
+<h4 id="implementando_un_sistema_de_control_de_accesos_basado_en_usuario">7.4.1.2. Implementando un sistema de control de accesos basado en usuario</h4>
+
+<p>Imaginemos que deseas implementar un sistema de control de accesos (<em>Access Control List</em> o ACL). Para vigilar qué usuarios pueden enviar (<em>push</em>) cambios a qué partes de tus proyectos. Algunas personas tendrán acceso completo, y otras tan solo acceso a ciertas carpetas o a ciertos archivos. Para implementar esto, has de escribir esas reglas de acceso en un archivo denominado <code>acl</code> ubicado en tu repositorio git básico en el servidor. Y tienes que preparar el enganche <code>update</code> para hacerle consultar esas reglas, mirar los archivos que están siendo subidos en las confirmaciones de cambio (<em>commit</em>) enviadas (<em>push</em>), y determinar así si el usuario emisor del  envio tiene o no permiso para actualizar esos archivos.</p>
+
+<p>Como hemos dicho, el primer paso es escribir tu lista de control de accesos (ACL). Su formato es muy parecido al del mecanismo CVS ACL: utiliza una serie de líneas donde el primer campo es <code>avail</code> o <code>unavail</code> (permitido o no permitido), el segundo campo es una lista de usuarios separados por comas, y el último campo es la ubicación (<em>path</em>) sobre el que aplicar la regla (dejarlo en blanco equivale a un acceso abierto). Cada uno de esos campos se separan entre sí con el caracter barra vertical (<code>|</code>).</p>
+
+<p>Por ejemplo, si tienes un par de administradores, algunos redactores técnicos con acceso a la carpeta <code>doc</code>, y un desarrollador que únicamente accede a las carpetas <code>lib</code> y <code>test</code>, el archivo ACL resultante seria:</p>
+
+<div class="code code">
+<pre class="code">avail|nickh,pjhyett,defunkt,tpw
+avail|usinclair,cdickens,ebronte|doc
+avail|schacon|lib
+avail|schacon|tests</pre>
+</div>
+
+<p>Para implementarlo, hemos de leer previamente estos datos en una estructura que podamos emplear. En este caso, por razones de simplicidad, vamos a mostrar únicamente la forma de implementar las directivas <code>avail</code> (permitir). Este es un método que te devuelve un array asociativo cuya clave es el nombre del usuario y su valor es un array de ubicaciones (<em>paths</em>) donde ese usuario tiene acceso de escritura:</p>
+
+<div class="code code">
+<pre class="code">def get_acl_access_data(acl_file)
+  # read in ACL data
+  acl_file = File.read(acl_file).split(&quot;\n&quot;).reject { |line| line == '' }
+  access = {}
+  acl_file.each do |line|
+    avail, users, path = line.split('|')
+    next unless avail == 'avail'
+    users.split(',').each do |user|
+      access[user] ||= []
+      access[user] &lt;&lt; path
+    end
+  end
+  access
+end</pre>
+</div>
+
+<p>Si lo aplicamos sobre la lista ACL descrita anteriormente, este método 'get acl access_data' devolverá una estructura de datos similar a esta:</p>
+
+<div class="code code">
+<pre class="code">{&quot;defunkt&quot;=&gt;[nil],
+ &quot;tpw&quot;=&gt;[nil],
+ &quot;nickh&quot;=&gt;[nil],
+ &quot;pjhyett&quot;=&gt;[nil],
+ &quot;schacon&quot;=&gt;[&quot;lib&quot;, &quot;tests&quot;],
+ &quot;cdickens&quot;=&gt;[&quot;doc&quot;],
+ &quot;usinclair&quot;=&gt;[&quot;doc&quot;],
+ &quot;ebronte&quot;=&gt;[&quot;doc&quot;]}</pre>
+</div>
+
+<p>Una vez tienes los permisos en orden, necesitas averiguar las ubicaciones modificadas por las confirmaciones de cambios enviadas; de tal forma que puedas asegurarte de que el usuario que las está enviando tiene realmente permiso para modificarlas.</p>
+
+<p>Puedes comprobar facilmente qué archivos han sido modificados en cada confirmación de cambios, utilizando la opción <code>--name-only</code> del comando <code>git log</code> (citado brevemente en el capítulo 2):</p>
+
+<div class="code code">
+<pre class="code">$ git log -1 --name-only --pretty=format:'' 9f585d</pre>
+</div>
+
+<div class="code code">
+<pre class="code">README
+lib/test.rb</pre>
+</div>
+
+<p>Utilizando la estructura ACL devuelta por el método <code>get_acl_access_data</code> y comprobandola sobre la lista de archivos de cada confirmación de cambios, puedes determinar si el usuario tiene o no permiso para enviar dichos cambios:</p>
+
+<div class="code code">
+<pre class="code"># only allows certain users to modify certain subdirectories in a project
+def check_directory_perms
+  access = get_acl_access_data('acl')</pre>
+</div>
+
+<div class="code code">
+<pre class="code">  # see if anyone is trying to push something they can't
+  new_commits = `git rev-list #{$oldrev}..#{$newrev}`.split(&quot;\n&quot;)
+  new_commits.each do |rev|
+    files_modified = `git log -1 --name-only --pretty=format:'' #{rev}`.split(&quot;\n&quot;)
+    files_modified.each do |path|
+      next if path.size == 0
+      has_file_access = false
+      access[$user].each do |access_path|
+        if !access_path || # user has access to everything
+          (path.index(access_path) == 0) # access to this path
+          has_file_access = true 
+        end
+      end
+      if !has_file_access
+        puts &quot;[POLICY] You do not have access to push to #{path}&quot;
+        exit 1
+      end
+    end
+  end  
+end</pre>
+</div>
+
+<div class="code code">
+<pre class="code">check_directory_permscheck_directory_perms</pre>
+</div>
+
+<p>La mayor parte de este código debería de ser sencillo de leer. Con <code>git rev-list</code>, obtienes una lista de las nuevas confirmaciones de cambio enviadas a tu servidor. Luego, para cada una de ellas, localizas los archivos modificados y te aseguras de que el usuario que las envia tiene realmente acceso a todas las ubicaciones que pretende modificar. Un "rubysmo" que posiblemente sea un tanto oscuro puede ser <code>path.index(access_path) == 0</code> . Simplemente devuelve verdadero en el caso de que la ubicacion comience por <code>access_path</code> ; de esta forma, nos aseguramos de que <code>access_path</code> no esté solo contenido en una de las ubicaciones permitidas, sino sea una ubicación permitida la que comience con la ubicación accedida.</p>
+
+<p>Una vez implementado todo esto, tus usuarios no podrán enviar confirmaciones de cambios con mensajes mal formados o con modificaciones sobre archivos fuera de las ubicaciones que les hayas designado.</p>
+
+<h4 id="obligando_a_realizar_envios_solo_de_avance_rapido_fast_forward_only_pushes">7.4.1.3. Obligando a realizar envios solo-de-avance-rapido (Fast-Forward-Only pushes)</h4>
+
+<p>Lo único que nos queda por implementar es un mecanismo para limitar los envíos a envíos de avance rápido (<em>Fast-Forward-Only pushes</em>). En las versiones a partir de la 1.6, puedes ajustar las opciones <code>receive.denyDeletes</code> (prohibir borrados) y <code>receive.denyNonFastForwards</code> (prohibir envios que no sean avances-rápidos). Pero haciendolo a través de un enganche (<em>hook</em>), podrá funcionar también en versiones anteriores de Git, podrás modificarlo para que actue únicamente sobre ciertos usuarios, o podrás realizar cualquier otra acción que estimes oportuna.</p>
+
+<p>La lógica para hacer así la comprobación es la de mirar por si alguna confirmación de cambios se puede alcanzar desde la versión más antigua pero no desde la más reciente. Si hay alguna, entonces es un envio de avance-rápido (<em>fast-forward push</em>); sino hay ninguna, es un envio a prohibir:</p>
+
+<div class="code code">
+<pre class="code"># enforces fast-forward only pushes 
+def check_fast_forward
+  missed_refs = `git rev-list #{$newrev}..#{$oldrev}`
+  missed_ref_count = missed_refs.split(&quot;\n&quot;).size
+  if missed_ref_count &gt; 0
+    puts &quot;[POLICY] Cannot push a non fast-forward reference&quot;
+    exit 1
+  end
+end</pre>
+</div>
+
+<div class="code code">
+<pre class="code">check_fast_forward</pre>
+</div>
+
+<p>Una vez esté todo listo. Si lanzas el comando <code>chmod u+x .git/hooks/update</code>, siendo este el archivo donde has puesto todo este código; y luego intentas enviar una referencia que no sea de avance-rápido, obtendrás algo como esto:</p>
+
+<div class="code code">
+<pre class="code">$ git push -f origin master
+Counting objects: 5, done.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 323 bytes, done.
+Total 3 (delta 1), reused 0 (delta 0)
+Unpacking objects: 100% (3/3), done.
+Enforcing Policies... 
+(refs/heads/master) (8338c5) (c5b616)
+[POLICY] Cannot push a non-fast-forward reference
+error: hooks/update exited with error code 1
+error: hook declined to update refs/heads/master
+To git@gitserver:project.git
+ ! [remote rejected] master -&gt; master (hook declined)
+error: failed to push some refs to 'git@gitserver:project.git'[remote rejected] master -&gt; master (hook declined)
+error: failed to push some refs to 'git@gitserver:project.git'</pre>
+</div>
+
+<p>Tenemos un para de aspectos interesantes aquí. Lo primero observado cuando el enganche (<em>hook</em>) arranca es:</p>
+
+<div class="code code">
+<pre class="code">Enforcing Policies... 
+(refs/heads/master) (fb8c72) (c56860)</pre>
+</div>
+
+<p>Precisamente, lo enviado a la salida estandar stdout justo al principio del script de actualización. Cabe destacar que todo lo que se envie a la salida estandar stdout, será transferido al cliente.</p>
+
+<p>Lo segundo que se puede apreciar es el mensaje de error:</p>
+
+<div class="code code">
+<pre class="code">[POLICY] Cannot push a non fast-forward reference
+error: hooks/update exited with error code 1
+error: hook declined to update refs/heads/master</pre>
+</div>
+
+<p>La primera línea la has enviado tú, pero las otras dos son de Git. Indicando que el script de actualización ha terminado con código no-cero y, por tanto, ha rechazado la modificación. Y, por último, se ve:</p>
+
+<div class="code code">
+<pre class="code">To git@gitserver:project.git
+ ! [remote rejected] master -&gt; master (hook declined)
+error: failed to push some refs to 'git@gitserver:project.git'[remote rejected] master -&gt; master (hook declined)
+error: failed to push some refs to 'git@gitserver:project.git'</pre>
+</div>
+
+<p>Un mensaje por cada referencia rechazada por el enganche (<em>hook</em>) de actualización, especificando que ha sido rechazada precisamente por un fallo en el enganche.</p>
+
+<p>Es más, si la referencia (<em>ref marker</em>) no se encuentra presente para alguna de las confirmaciones de cambio, verás el mensaje de error previsto para ello:</p>
+
+<div class="code code">
+<pre class="code">[POLICY] Your message is not formatted correctly</pre>
+</div>
+
+<p>O si alguien intenta editar un archivo sobre el que no tiene acceso y luego envia una confirmación de cambios con ello, verá también algo similar. Por ejemplo, si un editor técnico intenta enviar una confirmación de cambios donde se haya modificado algo de la carpeta <code>lib</code>, verá:</p>
+
+<div class="code code">
+<pre class="code">[POLICY] You do not have access to push to lib/test.rb</pre>
+</div>
+
+<p>Y eso es todo. De ahora en adelante, en tanto en cuando el script <code>update</code> este presente y sea ejecutable, tu repositorio nunca se verá perjudicado, nunca tendrá un mensaje de confirmación de cambios sin tu plantilla y tus usuarios estarán controlados.</p>
+
+<h3 id="puntos_de_enganche_del_lado_cliente_2">7.4.2. Puntos de enganche del lado cliente</h3>
+
+<p>Lo malo del sistema descrito en la sección anterior pueden ser los lamentos que inevitablemente se van a producir cuando los envios de tus usuarios sean rechazados. Ver rechazado en el último minuto su tan cuidadosamente preparado trabajo, puede ser realmente frustrante. Y, aún peor, tener que reescribir su histórico para corregirlo puede ser un auténtico calvario.</p>
+
+<p>La solución a este dilema es el proporcionarles algunos enganches (<em>hook</em>) del lado cliente, para que les avisen cuando están trabajando en algo que el servidor va a rechazarles. De esta forma, pueden corregir los problemas antes de confirmar cambios y antes de que se conviertan en algo realmente complicado de arreglar. Debido a que estos enganches no se transfieren junto con el clonado de un proyecto, tendrás que distribuirlos de alguna otra manera. Y luego pedir a tus usuarios que se los copien a sus carpetas <code>.git/hooks</code> y los hagan ejecutables. Puedes distribuir esos enganches dentro del mismo proyecto o en un proyecto separado. Pero no hay modo de implementarlos automáticamente.</p>
+
+<p>Para empezar, se necesita chequear el mensaje de confirmación inmediatamente antes de cada confirmación de cambios, para segurarse de que el servidor no los rechazará debido a un mensaje mal formateado. Para ello, se añade el enganche <code>commit-msg</code>. Comparando el mensaje del archivo pasado como primer argumento con el mensaje patrón, puedes obligar a Git a abortar la confirmación de cambios (<em>commit</em>) en caso de no coincidir ambos:</p>
+
+<div class="code code">
+<pre class="code">#!/usr/bin/env ruby
+message_file = ARGV[0]
+message = File.read(message_file)</pre>
+</div>
+
+<div class="code code">
+<pre class="code">$regex = /\[ref: (\d+)\]/$regex = /\[ref: (\d+)\]/</pre>
+</div>
+
+<div class="code code">
+<pre class="code">if !$regex.match(message)
+  puts &quot;[POLICY] Your message is not formatted correctly&quot;
+  exit 1
+end</pre>
+</div>
+
+<p>Si este script está en su sitio (el archivo <code>.git/hooks/commit-msg</code>) y es ejecutable, al confirmar cambios con un mensaje inapropiado, verás algo asi como:</p>
+
+<div class="code code">
+<pre class="code">$ git commit -am 'test'
+[POLICY] Your message is not formatted correctly</pre>
+</div>
+
+<p>Y la confirmación no se llevará a cabo. Sin embargo, si el mensaje está formateado adecuadamente, Git te permitirá confirmar cambios:</p>
+
+<div class="code code">
+<pre class="code">$ git commit -am 'test [ref: 132]'
+[master e05c914] test [ref: 132]
+ 1 files changed, 1 insertions(+), 0 deletions(-)</pre>
+</div>
+
+<p>A continuación, se necesita también asegurarse de no estar modificando archivos fuera del alcance de tus permisos. Si la carpeta <code>.git</code> de tu proyecto contiene una copia del archivo de control de accesos (ACL) utilizada previamente, este script <code>pre-commit</code> podrá comprobar los límites:</p>
+
+<div class="code code">
+<pre class="code">#!/usr/bin/env ruby#!/usr/bin/env ruby#!/usr/bin/env ruby</pre>
+</div>
+
+<div class="code code">
+<pre class="code">$user    = ENV['USER']</pre>
+</div>
+
+<div class="code code">
+<pre class="code"># [ ![](acl_access_data method from above ])</pre>
+</div>
+
+<div class="code code">
+<pre class="code"># only allows certain users to modify certain subdirectories in a project
+def check_directory_perms
+  access = get_acl_access_data('.git/acl')</pre>
+</div>
+
+<div class="code code">
+<pre class="code">  files_modified = `git diff-index --cached --name-only HEAD`.split(&quot;\n&quot;)
+  files_modified.each do |path|
+    next if path.size == 0
+    has_file_access = false
+    access[$user].each do |access_path|
+    if !access_path || (path.index(access_path) == 0)
+      has_file_access = true
+    end
+    if !has_file_access
+      puts &quot;[POLICY] You do not have access to push to #{path}&quot;
+      exit 1
+    end
+  end
+end</pre>
+</div>
+
+<div class="code code">
+<pre class="code">check_directory_permscheck_directory_perms</pre>
+</div>
+
+<p>Este es un script prácticamente igual al del lado servidor. Pero con dos importantes diferencias. La primera es que el archivo ACL está en otra ubicación, debido a que el script corre desde tu carpeta de trabajo y no desde la carpeta de Git. Esto obliga a cambiar la ubicación del archivo ACL de</p>
+
+<div class="code code">
+<pre class="code">access = get_acl_access_data('acl')</pre>
+</div>
+
+<p>a esta otra:</p>
+
+<div class="code code">
+<pre class="code">access = get_acl_access_data('.git/acl')</pre>
+</div>
+
+<p>La segunda diferencia es la forma de listar los archivos modificados. Debido a que el metodo del lado servidor utiliza el registro de confirmaciones de cambio, pero, sin embargo, aquí la confirmación no se ha registrado aún, la lista de archivos se ha de obtener desde el área de preparación (<em>staging area</em>). En lugar de:</p>
+
+<div class="code code">
+<pre class="code">files_modified = `git log -1 --name-only --pretty=format:'' #{ref}`</pre>
+</div>
+
+<p>tenemos que utilizar:</p>
+
+<div class="code code">
+<pre class="code">files_modified = `git diff-index --cached --name-only HEAD`</pre>
+</div>
+
+<p>Estas dos son las únicas diferencias; en todo lo demás, el script funciona de la misma manera. Es necesario advertir de que se espera que trabajes localmente con el mismo usuario con el que enviarás (<em>push</em>) a la máquina remota. Si no fuera así, tendrás que ajustar manualmente la variable <code>$user</code>.</p>
+
+<p>El último aspecto a comprobar es el de no intentar enviar referencias que no sean de avance-rápido. Pero esto es algo más raro que suceda. Para tener una referencia que no sea de avance-rápido, tienes que haber reorganizado (<em>rebase</em>) una confirmación de cambios (<em>commit</em>) ya enviada anteriormente, o tienes que estar tratando de enviar una rama local distinta sobre la misma rama remota.</p>
+
+<p>De todas formas, el único aspecto accidental que puede interesante capturar son los intentos de reorganizar confirmaciones de cambios ya enviadas. El servidor te avisará de que no puedes enviar ningún no-avance-rapido, y el enganche te impedirá cualquier envio forzado</p>
+
+<p>Este es un ejemplo de script previo a reorganización que lo puede comprobar. Con la lista de confirmaciones de cambio que estás a punto de reescribir, las comprueba por si alguna de ellas existe en alguna de tus referencias remotas. Si encuentra alguna, aborta la reorganización:</p>
+
+<div class="code code">
+<pre class="code">#!/usr/bin/env ruby#!/usr/bin/env ruby#!/usr/bin/env ruby</pre>
+</div>
+
+<div class="code code">
+<pre class="code">base_branch = ARGV[0]
+if ARGV[1]
+  topic_branch = ARGV[1]
+else
+  topic_branch = &quot;HEAD&quot;
+end</pre>
+</div>
+
+<div class="code code">
+<pre class="code">target_shas = `git rev-list #{base_branch}..#{topic_branch}`.split(&quot;\n&quot;)
+remote_refs = `git branch -r`.split(&quot;\n&quot;).map { |r| r.strip }</pre>
+</div>
+
+<div class="code code">
+<pre class="code">target_shas.each do |sha|
+  remote_refs.each do |remote_ref|
+    shas_pushed = `git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}`
+    if shas_pushed.split(“\n”).include?(sha)
+      puts &quot;[POLICY] Commit #{sha} has already been pushed to #{remote_ref}&quot;
+      exit 1
+    end
+  end
+end</pre>
+</div>
+
+<p>Este script utiliza una sintaxis no contemplada en la sección de Selección de Revisiones del capítulo 6. La lista de confirmaciones de cambio previamente enviadas, se comprueba con:</p>
+
+<div class="code code">
+<pre class="code">git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}</pre>
+</div>
+
+<p>La sintaxis <code>SHA^@</code> recupera todos los padres de esa confirmación de cambios (<em>commit</em>). Estas mirando por cualquier confirmación que se pueda alcanzar desde la última en la parte remota, pero que no se pueda alcanzar desde ninguno de los padres de cualquiera de las claves SHA que estás intentando enviar. Es decir, confirmaciones de avance-rápido.</p>
+
+<p>La mayor pega de este sistema es el que puede llegar a ser muy lento; y muchas veces es innecesario, ya que el propio servidor te va a avisar y te impedirá el envio, siempre y cuando no intentes forzar dicho envio con la opción <code>-f</code>. De todas formas, es un ejercicio interesante. Y, en teoria al menos, pude ayudarte a evitar reorganizaciones que luego tengas de echar para atrás y arreglarlas.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_7/puntos_de_enganche_git.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>7.3. Puntos de enganche Git</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_7/resumen.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>7.5. Resumen</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Fundamentos de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Trabajando con ramas en Git</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Git en un servidor</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Git en entornos distribuidos</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Las herramientas de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_7.html">
+                    <span>Capítulo 7.</span> Personalizando Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/configuracion_de_git.html">
+                    <span>7.1.</span> Configuración de Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/atributos_de_git.html">
+                    <span>7.2.</span> Atributos de Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/puntos_de_enganche_git.html">
+                    <span>7.3.</span> Puntos de enganche Git
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_7/un_ejemplo_de_implantacion_de_una_determinada_politica_en_git.html">
+                    <span>7.4.</span> Un ejemplo de implantación de una determinada política en Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/resumen.html">
+                    <span>7.5.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Git y otros sistemas</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Funcionamiento interno de Git</a>
+            </li>
+                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>8.2. Migrando a Git (Pro Git, el libro oficial de Git)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_8/git_y_subversion.html" />
+                    <link rel="next" href="../capitulo_8/resumen.html" />
+                <link rel="start" href="/libro/pro_git/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="8.2. Migrando a Git (Pro Git, el libro oficial de Git)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page pro_git"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/" itemprop="url">
+                    <span itemprop="title">Pro Git, el libro oficial de Git</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/capitulo_8.html" itemprop="url">
+                    <span itemprop="title">Capítulo 8. Git y otros sistemas</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>8.2. Migrando a Git</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="migrando_a_git" class="title">
+        <span>8.2.</span> Migrando a Git
+    </h1>
+
+    
+
+<p>Si tienes un proyecto que utiliza otro sistema de control de versiones pero has decidido empezar a utilizar Git, debes migrar el código fuente del proyecto al nuevo repositorio. Esta sección muestra alguna de las herramientas de importación que incluye Git y después explica cómo crear tu propio importador.</p>
+
+<h3 id="importando">8.2.1. Importando</h3>
+
+<p>Esta sección explica cómo importar información de los dos gestores de código fuente más utilizados en el ámbito empresarial: Subversion y Perforce. La razón es que estas herramientas son las que utilizan la mayoría de usuarios que se están pasando a Git y además, que Git incluye herramientas de importación muy buenas para ambos sistemas.</p>
+
+<h3 id="subversion">8.2.2. Subversion</h3>
+
+<p>Si has leído la sección anterior sobre cómo utilizar <code>git svn</code>, puedes seguir esas instrucciones para clonar un repositorio con <code>git svn clone</code>. Después, deja de utilizar el servidor Subversion, sube los cambios al repositorio de Git y continúa trabajando en el nuevo repositorio. Si necesitas mantener el historial de cambios, solo tienes que bajarlo del repositorio Subversion (y esperar un buen rato).</p>
+
+<p>El problema es que esta importación no es perfecta y tarda mucho tiempo. En primer lugar, hay problemas con la información de los autores de cada cambio. En Subversion, cada programador tiene asociado un usuario del sistema y esa información se incluye en el <em>commit</em>. Los ejemplos de las secciones anteriores muestran por ejemplo el nombre de usuario <code>schacon</code>, como por ejemplo en el resultado del comando <code>blame</code> y de <code>git svn log</code>. Si quieres mantener esta información, tienes que asociar o <em>mapear</em> los usuarios de Subversion con los usuarios de Git. Crea un archivo llamado <code>users.txt</code> con el siguiente formato para <em>mapear</em> los usuarios:</p>
+
+<div class="code code">
+<pre class="code">schacon = Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="cdbeaea5acaea2a38daaa8a8a0aca4a1e3aea2a0">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+selse = Someo Nelse &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="f380969f8096b39496969e929a9fdd909c9e">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;</pre>
+</div>
+
+<p>Para obtener la lista completa de los nombres de los autores de Subversion, ejecuta el siguiente <em>script</em> en la consola:</p>
+
+<div class="code code">
+<pre class="code">$ svn log --xml | grep author | sort -u | perl -pe 's/.&gt;(.?)&lt;./$1 = /'</pre>
+</div>
+
+<p>Este <em>script</em> obtiene el log en formato XML, busca a los autores, crea una lista única y elimina el contenido XML sobrante. Obviamente este <em>sript</em> solo funciona si en tu máquina tienes instalado <code>grep</code>, <code>sort</code>, y <code>perl</code>. Redirige la salida de ese <em>script</em> al archivo <code>users.txt</code> y después añade los usuarios de Git que corresponden a cada usuario de Subversion.</p>
+
+<p>Para <em>mapear</em> la información de manera más precisa, pasa ese archivo al comando <code>git svn</code>. También puedes añadir a <code>git svn</code> la opción <code>--no-metadata</code> en los comandos <code>clone</code> e <code>init</code> para que Subversion no incluya los metadatos que normalmente importa. De esta forma, el comando <code>import</code> a utilizar sería como el siguiente:</p>
+
+<div class="code code">
+<pre class="code">$ git-svn clone http://my-project.googlecode.com/svn/ \
+      --authors-file=users.txt --no-metadata -s my_project</pre>
+</div>
+
+<p>La importación de Subversion realizada en el directorio <code>my_project</code> será así mejor. En lugar de <em>commits</em> como el siguiente:</p>
+
+<div class="code code">
+<pre class="code">commit 37efa680e8473b615de980fa935944215428a35a
+Author: schacon &lt;schacon@4c93b258-373f-11de-be05-5f7a86268029&gt;
+Date:   Sun May 3 00:12:22 2009 +0000</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    fixed install - go to trunk</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    git-svn-id: https://my-project.googlecode.com/svn/trunk@94 4c93b258-373f-11de-
+    be05-5f7a86268029</pre>
+</div>
+
+<p>Ahora tendrán el siguiente aspecto:</p>
+
+<div class="code code">
+<pre class="code">commit 03a8785f44c8ea5cdb0e8834b7c8e6c469be2ff2
+Author: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="7300101b12101c1d331416161e121a1f5d101c1e">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Sun May 3 00:12:22 2009 +0000</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    fixed install - go to trunk</pre>
+</div>
+
+<p>No solo la información del autor es más clara, sino que ya no se incluye el valor <code>git-svn-id</code>.</p>
+
+<p>Después de la importación, ahora te toca hacer algo de limpieza. Primero, borra todas las referencias extrañas que ha creado <code>git svn</code>. Para ello, convierte las etiquetas importadas como ramas en etiquetas de Git. Después, convierte las otras ramas en ramas locales.</p>
+
+<p>Para convertir las etiquetas importadas en verdaderas etiquetas de Git, ejecuta:</p>
+
+<div class="code code">
+<pre class="code">$ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
+$ rm -Rf .git/refs/remotes/tags</pre>
+</div>
+
+<p>Este comando convierte las referencias que antes eran ramas remotas que empezaban por <code>tag/</code> y las convierte en etiquetas reales de Git.</p>
+
+<p>Después, convierte las referencias creadas bajo <code>refs/remotes</code> en ramas locales:</p>
+
+<div class="code code">
+<pre class="code">$ cp -Rf .git/refs/remotes/* .git/refs/heads/
+$ rm -Rf .git/refs/remotes</pre>
+</div>
+
+<p>Ahora todas las viejas ramas de Subversion son ramas de Git y todas las viejas etiquetas son etiquetas reales de Git. Por último, añade el nuevo servidor Git como referencia remota y sube (<em>push</em>) los cambios. Como quieres subir todas las ramas y etiquetas, ejecuta lo siguiente:</p>
+
+<div class="code code">
+<pre class="code">$ git push origin --all</pre>
+</div>
+
+<p>Ahora todas las ramas y etiquetas deberían estar en tu servidor de Git y la limpieza se habrá realizad con éxito y absoluta limpieza.</p>
+
+<h3 id="perforce">8.2.3. Perforce</h3>
+
+<p>El siguiente sistema del que vamos a importar es Perforce. Git también incluye un importador de Perforce, pero solamente en la sección <code>contrib</code> del código fuente de Git, por lo que no está disponible por defecto como <code>git svn</code>. Para ejecutarlo, descarga el código fuente de Git, que puedes obtener de <code>git.kernel.org</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git clone git://git.kernel.org/pub/scm/git/git.git
+$ cd git/contrib/fast-import</pre>
+</div>
+
+<p>En este directorio <code>fast-import</code> encontrarás un <em>script</em> ejecutable de Python llamado <code>git-p4</code>. Para que funcione la importanción debes tener tanto Python como la herramienta <code>p4</code> instalada en tu máquina. El siguiente ejemplo importa el proyecto <code>Jam</code> del repositorio público de Perforce. Primero crear una variable de entorno llamada <code>P4PORT</code> y que apunte al repositorio de Perforce:</p>
+
+<div class="code code">
+<pre class="code">$ export P4PORT=public.perforce.com:1666</pre>
+</div>
+
+<p>Ejecuta el comando <code>git-p4 clone</code> para importar el proyecto <code>Jam</code> del servidor Perforce, indicando tanto las rutas del repositorio y proyecto como la ruta en la que quieres importar el proyecto:</p>
+
+<div class="code code">
+<pre class="code">$ git-p4 clone //public/jam/src@all /opt/p4import
+Importing from //public/jam/src@all into /opt/p4import
+Reinitialized existing Git repository in /opt/p4import/.git/
+Import destination: refs/remotes/p4/master
+Importing revision 4409 (100%)</pre>
+</div>
+
+<p>Si accedes al directorio <code>/opt/p4import</code> y ejecutas el comando <code>git log</code>, verás el resultado de la importación:</p>
+
+<div class="code code">
+<pre class="code">$ git log -2
+commit 1fd4ec126171790efd2db83548b85b1bbbc07dc2
+Author: Perforce staff &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="25565055554a575165554057434a5746400b464a48">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Thu Aug 19 10:18:45 2004 -0800</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    Drop 'rc3' moniker of jam-2.5.  Folded rc2 and rc3 RELNOTES into
+    the main part of the document.  Built new tar/zip balls.</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    Only 16 months later.</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    [git-p4: depot-paths = &quot;//public/jam/src/&quot;: change = 4409]</pre>
+</div>
+
+<div class="code code">
+<pre class="code">commit ca8870db541a23ed867f38847eda65bf4363371d
+Author: Richard Geiger &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="7e0c13193e0e1b0c18110c1d1b501d1113">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Tue Apr 22 20:51:34 2003 -0800</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    Update derived jamgram.c</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    [git-p4: depot-paths = &quot;//public/jam/src/&quot;: change = 3108]</pre>
+</div>
+
+<p>Observa que cada <em>commit</em> incluye el identificador de <code>git-p4</code>. No está mal mantener ese identificador por si necesitas más adelante el identificador del cambio de Perforce. No obstante, si quieres eliminar ese identificador, lo mejor es hacerlo ahora mismo, antes de empezar a trabajar en el nuevo repositorio. Ejecuta el comando <code>git filter-branch</code> para eliminar este identificador en todos los cambios:</p>
+
+<div class="code code">
+<pre class="code">$ git filter-branch --msg-filter '
+        sed -e &quot;/^\[git-p4:/d&quot;
+'
+Rewrite 1fd4ec126171790efd2db83548b85b1bbbc07dc2 (123/123)
+Ref 'refs/heads/master' was rewritten</pre>
+</div>
+
+<p>Ejecuta de nuevo <code>git log</code>, y verás que las sumas de comprobación SHA-1 de todos los <em>commits</em> han cambiado, pero las cadenas relacionadas con <code>git-p4</code> ya no se incluyen en los mensajes de los <em>commits</em>:</p>
+
+<div class="code code">
+<pre class="code">$ git log -2
+commit 10a16d60cffca14d454a15c6164378f4082bc5b0
+Author: Perforce staff &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="8af9fffafae5f8fecafaeff8ece5f8e9efa4e9e5e7">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Thu Aug 19 10:18:45 2004 -0800</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    Drop 'rc3' moniker of jam-2.5.  Folded rc2 and rc3 RELNOTES into
+    the main part of the document.  Built new tar/zip balls.</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    Only 16 months later.</pre>
+</div>
+
+<div class="code code">
+<pre class="code">commit 2b6c6db311dd76c34c66ec1c40a49405e6b527b2
+Author: Richard Geiger &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="20524d4760504552464f5243450e434f4d">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Tue Apr 22 20:51:34 2003 -0800</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    Update derived jamgram.c</pre>
+</div>
+
+<p>La importación ya ha funalizado y ya puedes empezar a subir cambios al nuevo repositorio de Git.</p>
+
+<h3 id="importador_personalizado">8.2.4. Importador personalizado</h3>
+
+<p>Si tu proyecto no utiliza ni Subversion ni Perforce, lo mejor es que busques en Internet algún importador para tu sistema. Existen importadores muy buenos para sistemas como CVS, Clear Case, Visual Source Safe e incluso para directorios simples de archivos.</p>
+
+<p>Si ninguno de estos importadores te convence o si utilizas un sistema muy extraño o si requieres un control muy preciso de la importación, tendrás que utilizar <code>git fast-import</code>. A este comando se le pasan instrucciones sencillas que utiliza para escribir información en el repositorio Git. Esta es una forma mucho más sencilla de crear objetos Git, en vez de ejecutar directamente los comandos de Git para crear esos objetos (tal y como se explica en el capítulo 9). De esta forma puedes crear un <em>script</em> de importación que obtenga la información necesaria del sistema que utilices actualmente y genere las instrucciones necesarias para crear los objetos Git. Después puedes utilizar ese <em>script</em> junto con el comando <code>git fast-import</code>.</p>
+
+<p>Vamos a escribir un importador simple para demostrar rápidamente cómo se hace. Imagina que quieres importar a Git un sistema de gestión de código propio que se basa en hacer de vez en cuando copias de seguridad en directorios cuyo nombre indica la fecha en la que se realizó la copia de seguridad (formato: <code>back_YYYY_MM_DD</code>). La estructura de directorios actual podría tener el siguiente aspecto (la carpeta <code>current</code> contiene el código fuente actual):</p>
+
+<div class="code code">
+<pre class="code">$ ls /opt/import_from
+back_2009_01_02
+back_2009_01_04
+back_2009_01_14
+back_2009_02_03
+current</pre>
+</div>
+
+<p>Para importar esta información a un repositorio Git, debes conocer cómo almacena su información Git. Seguramente recuerdes que Git es simplemente una lista enlazada de objetos que apunta a un estado determinado del contenido. Así que a <code>fast-import</code> solo tienes que decirle cuáles son esos estados, que contenidos apuntan a cada uno y el orden correcto. La estrategia será recorrer los estados del código uno a uno y crear los <em>commits</em> con los contenidos de cada directorio, enlazando cada <em>commit</em> con el anterior.</p>
+
+<p>Al igual que en la sección <em>Un ejemplo de implantación de una determinada política en Git</em> del capítulo 7, vamos a utilizar Ruby para escribir este <em>script</em> porque es lo que más utilizo y suele generar código fácil de leer. Utiliza en vez de Ruby cualquier otra tecnología que domines y en la que te sientas cómodo. Lo único importante es que tu <em>script</em> genere la misma información. Si utilizas Windows, ten mucho cuidado de no insertar retornos de carro al final de cada línea, ya que el comando <code>git fast-import</code> es un poco <em>especial</em> y solo admite caracteres <code>LF</code> (<em>line feeds</em>) y no los habituales <code>CRLF</code> (<em>carriage return line feeds</em>) que suele utilizar Windows.</p>
+
+<p>Comienza accediendo al directorio del proyecto y localizando todos los subdirectorios, siendo cada uno de ellos un estado diferente del proyecto y que vas a importar como <em>commit</em>. Accede a cada subdirectorio y genera los comandos necesarios para exportar sus contenidos. El núcleo de ese <em>script</em> es algo así como lo siguiente:</p>
+
+<div class="code code">
+<pre class="code">last_mark = nil</pre>
+</div>
+
+<div class="code code">
+<pre class="code"># loop through the directories
+Dir.chdir(ARGV[0]) do
+  Dir.glob(&quot;*&quot;).each do |dir|
+    next if File.file?(dir)</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    # move into the target directory
+    Dir.chdir(dir) do 
+      last_mark = print_export(dir, last_mark)
+    end
+  end
+end</pre>
+</div>
+
+<p>Dentro de cada directorio se ejecuta <code>print_export</code>, que espera el <em>manifest</em> y el <em>mark</em> del estado anterior y devuelve los del estado actual, de forma que sea sencillo enlazarlos. El <em>"mark"</em> es el término utilizado por <code>fast-import</code> para referirse al identificador de cada <em>commit</em>. Al crear un <em>commit</em> se le añade un <em>mark</em> que se puede utilizar para enlazarlo con otros <em>commits</em>. Así que lo primero que se hace con el método <code>print_export</code> es generar el <em>mark</em> a partir del nombre del directorio:</p>
+
+<div class="code code">
+<pre class="code">mark = convert_dir_to_mark(dir)</pre>
+</div>
+
+<p>Se crea un array de directorios y se emplea el valor de su índice como <em>mark</em>, ya que el valor del <em>mark</em> debe ser un número entero. El método completo es el siguiente:</p>
+
+<div class="code code">
+<pre class="code">$marks = []
+def convert_dir_to_mark(dir)
+  if !$marks.include?(dir)
+    $marks &lt;&lt; dir
+  end
+  ($marks.index(dir) + 1).to_s
+end</pre>
+</div>
+
+<p>Una vez calculado el número entero que representa al <em>commit</em>, se necesita una fecha para los metadatos del <em>commit</em>. Como la fecha se encuentra en el propio nombre del directorio, solo hay que procesar ese nombre. La siguiente línea del archivo <code>print_export</code> es:</p>
+
+<div class="code code">
+<pre class="code">date = convert_dir_to_date(dir)</pre>
+</div>
+
+<p>donde la función <code>convert_dir_to_date</code> se define como:</p>
+
+<div class="code code">
+<pre class="code">def convert_dir_to_date(dir)
+  if dir == 'current'
+    return Time.now().to_i
+  else
+    dir = dir.gsub('back_', '')
+    (year, month, day) = dir.split('_')
+    return Time.local(year, month, day).to_i
+  end
+end</pre>
+</div>
+
+<p>El código anterior devuelve un número entero con la fecha de cada directorio. La última información necesaria para los metadatos del <em>commit</em> es precisamente la del propio autor del <em>commit</em>. Esta información se puede escribir directamente en una variable global:</p>
+
+<div class="code code">
+<pre class="code">$author = 'Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="d0a3b3b8b1b3bfbe90b5a8b1bda0bcb5feb3bfbd">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;'</pre>
+</div>
+
+<p>Ahora si que ya está todo listo para empezar a generar las instrucciones del importador. La información inicial indica que se está definiendo un objeto de tipo <em>commit</em> y la rama en la que se encuentra, seguido del <em>mark</em> generado, la información de la persona que hace el <em>commit</em> y el mensaje asociado al <em>commit</em>. Si existe, también se indica el anterior <em>commit</em>. El código resultante es el siguiente:</p>
+
+<div class="code code">
+<pre class="code"># print the import information
+puts 'commit refs/heads/master'
+puts 'mark :' + mark
+puts &quot;committer #{$author} #{date} -0700&quot;
+export_data('imported from ' + dir)
+puts 'from :' + last_mark if last_mark</pre>
+</div>
+
+<p>La zona horaria asociada con la fecha se escribe directamente en el <em>script</em> (<code>-0700</code>) porque así es mucho más fácil. Si estás importando desde otro sistema, debes especificar la zona horaria en forma de <em>offset</em> desde la hora GMT o UTC.</p>
+
+<p>El mensaje del <em>commit</em> se debe indicar de una manera especial:</p>
+
+<div class="code code">
+<pre class="code">data (size)\n(contents)</pre>
+</div>
+
+<p>La sintaxis que sigue es: palabra <code>data</code>, seguida de un espacio en blanco y el tamaño de datos que vienen a continuación. Después se añade un carácter de nueva línea (<code>\n</code>) y es incluye el mensaje. Como más adelante se utiliza este mismo formato para indicar los contenidos de los archivos, es mejor que te crees un método reutilizable llamado <code>export_data</code>:</p>
+
+<div class="code code">
+<pre class="code">def export_data(string)
+  print &quot;data #{string.size}\n#{string}&quot;
+end</pre>
+</div>
+
+<p>Lo único que falta es indicar los contenidos de los archivos en cada estado del proyecto. Como cada estado tiene su propio directorio, esto es bastante fácil. Utiliza el comando <code>deleteall</code> seguido de los contenidos de cada archivo del directorio. Git guardará así cada estado del proyecto correctamente:</p>
+
+<div class="code code">
+<pre class="code">puts 'deleteall'
+Dir.glob(&quot;**/*&quot;).each do |file|
+  next if !File.file?(file)
+  inline_data(file)
+end</pre>
+</div>
+
+<p><strong>NOTA</strong>: como muchos sistemas consideran sus revisiones como cambios de un <em>commit</em> a otro, <code>fast-import</code> también admite comandos para cada <em>commit</em>, de forma que se especifique qué archivos se han creado, eliminado o modificado y qué contenidos son nuevos. Se podrían determinar las diferencias entre cada estado del proyecto e indicar solamente esa información, aunque es algo bastante más complejo. También puedes proporcionar a Git toda la información y que sea este el que se las apañe. Si crees que hacerlo así es interesante para tu importación, consulta la documentación de <code>fast-import</code> para obtener más detalles sobre cómo hacerlo.</p>
+
+<p>El formato para indicar que los contenidos son nuevos o para especificar que son contenidos modificados es el siguiente:</p>
+
+<div class="code code">
+<pre class="code">M 644 inline path/to/file
+data (size)
+(file contents)</pre>
+</div>
+
+<p>El número <code>644</code> indica los permisos del archivo (si tienes archivos ejecutables, cambia este valor por <code>755</code>), y la palabra <code>inline</code> indica que los contenidos del archivo se incluyen inmediatamente después de esta línea. El método <code>inline_data</code> tendría el siguiente aspecto:</p>
+
+<div class="code code">
+<pre class="code">def inline_data(file, code = 'M', mode = '644')
+  content = File.read(file)
+  puts &quot;#{code} #{mode} inline #{file}&quot;
+  export_data(content)
+end</pre>
+</div>
+
+<p>Este código reutiliza el método <code>export_data</code> definido anteriormente, ya que la lógica necesaria es la misma que para los mensajes de los <em>commits</em>.</p>
+
+<p>Por último, devuelve el valor del <em>mark</em> actual para que se pueda utilizar en la siguiente importación:</p>
+
+<div class="code code">
+<pre class="code">return mark</pre>
+</div>
+
+<p><strong>NOTA</strong>: si utilizas Windows, asegúrate de añadir un paso más. Como se mencionó anteriormente, Windows usa <code>CRLF</code> como caracteres de nueva línea, mientras que <code>fast-import</code> solo funciona si se utiliza <code>LF</code>. Para solucionar este problema, dile a Ruby que utilice <code>LF</code> en vez de <code>CRLF</code>:</p>
+
+<div class="code code">
+<pre class="code">$stdout.binmode</pre>
+</div>
+
+<p>Y ya está. Si ejectuas el <em>script</em>  completa, obtendrás algo parecido a lo siguiente:</p>
+
+<div class="code code">
+<pre class="code">$ ruby import.rb /opt/import_from 
+commit refs/heads/master
+mark :1
+committer Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="5427373c35373b3a1433313139353d387a373b39">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt; 1230883200 -0700
+data 29
+imported from back_2009_01_02deleteall
+M 644 inline file.rb
+data 12
+version two
+commit refs/heads/master
+mark :2
+committer Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="3142525950525e5f715654545c50585d1f525e5c">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt; 1231056000 -0700
+data 29
+imported from back_2009_01_04from :1
+deleteall
+M 644 inline file.rb
+data 14
+version three
+M 644 inline new.rb
+data 16
+new version one
+(...)</pre>
+</div>
+
+<p>Para ejecutar el importador, pasa los comandos anteriores directamente a <code>git fast-import</code> estando dentro del directorio Git donde quieres importar la información. Si lo prefieres, crea un nuevo directorio, ejecuta <code>git init</code> en el y después ejecuta el <em>script</em>:</p>
+
+<div class="code code">
+<pre class="code">$ git init
+Initialized empty Git repository in /opt/import_to/.git/
+&nbsp;
+$ ruby import.rb /opt/import_from | git fast-import
+## git-fast-import statistics:Alloc'd objects:       5000
+Total objects:           18 (         1 duplicates                  )
+      blobs  :            7 (         1 duplicates          0 deltas)
+      trees  :            6 (         0 duplicates          1 deltas)
+      commits:            5 (         0 duplicates          0 deltas)
+      tags   :            0 (         0 duplicates          0 deltas)
+Total branches:           1 (         1 loads     )
+      marks:           1024 (         5 unique    )
+      atoms:              3
+Memory total:          2255 KiB
+       pools:          2098 KiB
+##      objects:           156 KiBpack_report: getpagesize()            =       4096
+pack_report: core.packedGitWindowSize =   33554432
+pack_report: core.packedGitLimit      =  268435456
+pack_report: pack_used_ctr            =          9
+pack_report: pack_mmap_calls          =          5
+pack_report: pack_open_windows        =          1 /          1
+pack_report: pack_mapped              =       1356 /       1356
+---------------------------------------------------------------------</pre>
+</div>
+
+<p>Como se puede observar, cuando finaliza correctamente, el <em>script</em>  proporciona varias estadísticas útiles sobre el trabajo realizado. En este caso, se han importado 18 objetos para 5 <em>commits</em> en una única rama. Si ejecutas el comando <code>git log</code>, verás el historial de cambios:</p>
+
+<div class="code code">
+<pre class="code">$ git log -2
+commit 10bfe7d22ce15ee25b60a824c8982157ca593d41
+Author: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="6211010a03010d0c22071a030f120e074c010d0f">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Sun May 3 12:57:39 2009 -0700</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    imported from current</pre>
+</div>
+
+<div class="code code">
+<pre class="code">commit 7e519590de754d079dd73b44d695a42c9d2df452
+Author: Scott Chacon &lt;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="97e4f4fff6f4f8f9d7f2eff6fae7fbf2b9f4f8fa">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&gt;
+Date:   Tue Feb 3 01:00:00 2009 -0700</pre>
+</div>
+
+<div class="code code">
+<pre class="code">    imported from back_2009_02_03</pre>
+</div>
+
+<p>Gracias al importador has conseguido tener un repositorio Git completo y <em>limpio</em>. No obstante, todavía no se ha descargado (<em>checkout</em>) ningún contenido, así que no tienes ningún archivo en tu directorio de trabajo. Para descargarlos, situa tu rama donde se encuentre ahora mismo la rama <code>master</code>:</p>
+
+<div class="code code">
+<pre class="code">$ ls
+$ git reset --hard master
+HEAD is now at 10bfe7d imported from current
+$ ls
+file.rb  lib</pre>
+</div>
+
+<p>La herramienta <code>fast-import</code> permite hacer muchas más cosas, como gestionar diferentes permisos, tratar con datos binarios, manejar varias ramas y fusiones, etiquetas, barras de progreso y más. El directorio <code>contrib/fast-import</code> del código fuente de Git contiene muchos ejemplos de escenarios más complejos. Uno de los mejores ejemplos es precisamente el <em>script</em> <code>git-p4</code>explicado anteriormente.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_8/git_y_subversion.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>8.1. Git y Subversion</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_8/resumen.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>8.3. Resumen</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Fundamentos de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Trabajando con ramas en Git</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Git en un servidor</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Git en entornos distribuidos</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Las herramientas de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Personalizando Git</a>
+            </li>
+                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_8.html">
+                    <span>Capítulo 8.</span> Git y otros sistemas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/git_y_subversion.html">
+                    <span>8.1.</span> Git y Subversion
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_8/migrando_a_git.html">
+                    <span>8.2.</span> Migrando a Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/resumen.html">
+                    <span>8.3.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Funcionamiento interno de Git</a>
+            </li>
+                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>12.3. Probando y monitorizando la cache (Symfony 1.1, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_12/eliminando_elementos_de_la_cache.html" />
+                    <link rel="next" href="../capitulo_12/http_11_y_la_cache_del_lado_del_cliente.html" />
+                <link rel="start" href="/libro/symfony_1_1/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="12.3. Probando y monitorizando la cache (Symfony 1.1, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_1"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/" itemprop="url">
+                    <span itemprop="title">Symfony 1.1, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/capitulo_12.html" itemprop="url">
+                    <span itemprop="title">Capítulo 12. Uso de la cache</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>12.3. Probando y monitorizando la cache</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="probando_y_monitorizando_la_cache" class="title">
+        <span>12.3.</span> Probando y monitorizando la cache
+    </h1>
+
+    
+
+<p>La cache de HTML puede provocar incoherencias en los datos mostrados si no se gestiona correctamente. Cada vez que se activa la cache para un elemento, se debe probar y monitorizar la mejora obtenida en el rendimiento de su ejecución.</p>
+
+<h3 id="creando_un_entorno_de_ejecucion_intermedio">12.3.1. Creando un entorno de ejecución intermedio</h3>
+
+<p>El sistema de cache es propenso a crear errores en el entorno de producción que no se pueden detectar en el entorno de desarrollo, ya que en este último entorno la cache HTML está deshabilitada por defecto. Si se habilita la cache de HTML para algunas acciones, se debería crear un nuevo entorno de ejecución llamado <code>staging</code> en este capítulo y con las mismas opciones que el entorno <code>prod</code> (por lo tanto con la cache activada) pero con la opción <code>web_debug</code> activada (valor <code>on</code>).</p>
+
+<p>Para crear el nuevo entorno, se deben añadir las líneas mostradas en el listado 12-12 al archivo <code>settings.yml</code> de la aplicación.</p>
+
+<p><strong>Listado 12-12 - Opciones del entorno  <code>staging</code>, en <code>frontend/config/settings.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">staging</span>:<span class="co4">
+  .settings</span>:<span class="co3">
+    web_debug</span><span class="sy2">: </span> on<span class="co3">
+    cache</span><span class="sy2">: </span>     on</pre>
+</div>
+
+<p>Además, se debe crear un nuevo controlador frontal copiando el de producción (que seguramente se llamará <code>miproyecto/web/index.php</code>) en un archivo llamado <code>frontend_staging.php</code>. En este archivo copiado es necesario modificar los argumentos que se pasan al método <code>getApplicationConfiguration()</code>, tal y como se muestra a continuación:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$configuration</span> <span class="sy0">=</span> ProjectConfiguration<span class="sy0">::</span><span class="me2">getApplicationConfiguration</span><span class="br0">&#40;</span><span class="st_h">'frontend'</span><span class="sy0">,</span> <span class="st_h">'staging'</span><span class="sy0">,</span> <span class="kw4">true</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Y sólo con esos cambios ya se dispone de un nuevo entorno de ejecución. Para probarlo, se añade el nombre del controlador frontal a la URL después del nombre de dominio:</p>
+
+<div class="code code">
+<pre class="code">http://miaplicacion.ejemplo.com/frontend_staging.php/usuario/listado</pre>
+</div>
+
+<h3 id="monitorizando_el_rendimiento">12.3.2. Monitorizando el rendimiento</h3>
+
+<p>El Capítulo 16 describe en detalle la barra de depuración de aplicaciones y sus contenidos. No obstante, como esa barra también contiene información relacionada con los elementos guardados en la cache, se incluye ahora una breve descripción de sus características relacionadas con la cache.</p>
+
+<p>Cuando se accede a una página que contiene elementos susceptibles de estar en la cache (acciones, elementos parciales, fragmentos, etc.) la barra de depuración web (que aparece en la esquina superior izquierda) muestra un botón para ignorar la cache (una flecha curvada verde), como se puede ver en la figura 12-4. Este botón se emplea para recargar la página y forzar a que se procesen todos los elementos que estaban en la cache. Se debe tener en cuenta que este botón no borra la cache.</p>
+
+<p>El último número que se muestra en la derecha de la barra es el tiempo que ha durado la ejecución de la petición. Si se habilita la cache en una página, este número debería ser muy inferior al recargar la página, ya que Symfony utilizará los datos de la cache en vez de volver a ejecutar por completo los scripts. Este indicador se puede utilizar para monitorizar fácilmente las mejoras introducidas por la cache.</p>
+
+<div class="figure" id="figure_12_4">
+    <img src="/img/symfony_1_1/f1204.png" alt="Barra de depuración web en las páginas que utilizan la cache" />
+
+    <p class="caption"><strong>Figura 12.4</strong> Barra de depuración web en las páginas que utilizan la cache</p>
+</div>
+
+
+<p>La barra de depuración también muestra el número de consultas de base de datos que se han ejecutado para la petición, el detalle del tiempo de ejecución de cada categoría (se muestra al pulsar sobre el tiempo de ejecución total). Monitorizando esta información es sencillo medir las mejoras en el rendimiento que son debidas a la cache.</p>
+
+<h3 id="pruebas_de_rendimiento_benchmarking">12.3.3. Pruebas de rendimiento (benchmarking)</h3>
+
+<p>La depuración de las aplicaciones reduce notablemente la velocidad de ejecución de la aplicación, ya que se genera mucha información para que esté disponible en la barra de depuración web. De esta forma, el tiempo total de ejecución que se muestra cuando se accede a la aplicación en el entorno <code>staging</code> no es representativo del tiempo que se empleará en producción, donde la depuración está deshabilitada.</p>
+
+<p>Para obtener información sobre el tiempo de ejecución de cada petición, deberían utilizarse herramientas para realizar pruebas de rendimiento, como Apache Bench o JMeter. Estas herramientas permiten realizar pruebas de carga y calculan dos parámetros muy importantes: el tiempo de carga medio de una página y la capacidad máxima del servidor. El tiempo medio de carga es esencial para monitorizar las mejoras de rendimiento introducidas por la activación de la cache.</p>
+
+<h3 id="identificando_elementos_de_la_cache">12.3.4. Identificando elementos de la cache</h3>
+
+<p>Cuando la barra de depuración web está activada, los elementos de la página que se encuentran en la cache se identifican mediante un recuadro rojo, además de que cada uno dispone de una caja de información sobre la cache en la esquina superior izquierda del elemento, como muestra la figura 12-5. La caja muestra un fondo azul si el elemento se ha ejecutado y un fondo de color amarillo si se ha obtenido directamente de la cache. Al pulsar sobre el enlace de información de la cache se muestra el identificador del elemento en la cache, su tiempo de vida y el tiempo que ha transcurrido dede su última modificación. Esta información es útil para resolver problemas con elementos fuera de contexto, para ver cuando se crearon los elementos y para visualizar las partes de la plantilla que se pueden guardar en la cache.</p>
+
+<div class="figure" id="figure_12_5">
+    <img src="/img/symfony_1_1/f1205.png" alt="Identificación de los elementos de la página que se guardan en la cache" />
+
+    <p class="caption"><strong>Figura 12.5</strong> Identificación de los elementos de la página que se guardan en la cache</p>
+</div>
+
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_12/eliminando_elementos_de_la_cache.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>12.2. Eliminando elementos de la cache</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_12/http_11_y_la_cache_del_lado_del_cliente.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>12.4. HTTP 1.1 y la cache del lado del cliente</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_12.html">
+                    <span>Capítulo 12.</span> Uso de la cache
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/guardando_la_respuesta_en_la_cache.html">
+                    <span>12.1.</span> Guardando la respuesta en la cache
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/eliminando_elementos_de_la_cache.html">
+                    <span>12.2.</span> Eliminando elementos de la cache
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_12/probando_y_monitorizando_la_cache.html">
+                    <span>12.3.</span> Probando y monitorizando la cache
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/http_11_y_la_cache_del_lado_del_cliente.html">
+                    <span>12.4.</span> HTTP 1.1 y la cache del lado del cliente
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/resumen.html">
+                    <span>12.5.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

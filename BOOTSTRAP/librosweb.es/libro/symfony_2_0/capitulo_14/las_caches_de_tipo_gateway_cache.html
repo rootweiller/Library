@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>14.2. Las cachés de tipo &lt;em&gt;gateway cache&lt;/em&gt; (Symfony 2.0, el libro oficial)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                            
+        <link rel="canonical" href="/libro/symfony_2_x/capitulo_14/las_caches_de_tipo_gateway_cache.html"/>
+                                    <link rel="prev" href="../capitulo_14/utilizando_los_estandares_para_la_cache.html" />
+                    <link rel="next" href="../capitulo_14/introduccion_a_la_cache_de_http.html" />
+                <link rel="start" href="/libro/symfony_2_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="14.2. Las cachés de tipo &lt;em&gt;gateway cache&lt;/em&gt; (Symfony 2.0, el libro oficial)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_2_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_0/" itemprop="url">
+                    <span itemprop="title">Symfony 2.0, el libro oficial</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_0/capitulo_14.html" itemprop="url">
+                    <span itemprop="title">Capítulo 14. La caché de HTTP</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>14.2. Las cachés de tipo <em>gateway cache</em></span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="las_caches_de_tipo_gateway_cache" class="title">
+        <span>14.2.</span> Las cachés de tipo <em>gateway cache</em>
+    </h1>
+
+    
+
+<p>Cuando utilizas la caché de HTTP, el sistema de caché es completamente independiente de tu aplicación y se comporta como una capa entre tu aplicación y el cliente que realiza la petición.</p>
+
+<p>El objetivo de la caché es aceptar las peticiones del cliente y pasarlas a tu aplicación. La caché también recibe las respuestas que genera tu aplicación y las envía al cliente. La caché es el elemento que se encuentra justo en el medio de la comunicación entre los clientes y tu aplicación.</p>
+
+<p>Durante este proceso, la caché almacena todas las respuestas que se consideran <em>cacheables</em>. De esta forma, si se solicita de nuevo la misma página, la caché envía de inmediato al cliente la página que se encuentra en la caché, evitando completamente la ejecución de la aplicación.</p>
+
+<p>Este tipo de caché se denomina <em>gateway cache</em> y en el mercado existen muchas cachés de este tipo, como por ejemplo <a href="http://www.varnish-cache.org/">Varnish</a>, <a href="http://wiki.squid-cache.org/SquidFaq/ReverseProxy">Squid</a> y el <em>proxy inverso</em> de Symfony2.</p>
+
+<h3 id="tipos_de_cache">14.2.1. Tipos de caché</h3>
+
+<p>Las <em>gateway caches</em> no son el único tipo de caché que existe. En realidad, las cabeceras HTTP relacionadas con la caché que añade tu aplicación afectan a tres tipos diferentes de caché:</p>
+
+<ul>
+<li><em>Caché del navegador</em>: cada navegador viene con su propia caché local, que es muy útil cuando pulsas <em>"atrás"</em> o para guardar imágenes y otros tipos de archivos. La caché del navegador es una caché <strong>privada</strong> porque los recursos almacenados no se comparten con nadie más.</li>
+<li><em>Proxy cache</em>: los <em>proxy</em> son cachés <strong>compartidas</strong> porque normalmente detrás de ellas se encuentran muchas personas. Normalmente se instalan en empresas grandes y proveedores de Internet para reducir la latencia y el tráfico de red.</li>
+<li><em>Gateway cache</em>: al igual que los <em>proxy cache</em>, también es una caché <strong>compartida</strong> pero siempre se encuentra en el lado del servidor. Normalmente la instalan los administradores de la red de la empresa que ha desarrollado la aplicación, ya que hace que los sitios web sean más escalables, estables y rápidos.</li>
+</ul>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Las <em>gateway caches</em> a veces también se conocen como <em>proxy caches</em>, <em>surrogate caches</em> o incluso, <em>aceleradores HTTP</em>.</p></div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Las diferencias entre una caché <em>privada</em> y otra <em>compartida</em> será más evidentes a medida que hablemos de cómo guardar en la caché las respuestas con contenido que es específico para un solo usuario (por ejemplo, la información de su cuenta).</p></div>
+
+<p>Cada respuesta de tu aplicación probablemente atraviese uno o los dos primeros tipos de caché. Estas cachés están fuera de tu control, pero siempre cumplen con las instrucciones que estableces a través de las cabeceras HTTP de la caché.</p>
+
+<h3 id="el_proxy_inverso_de_symfony2">14.2.2. El proxy inverso de Symfony2</h3>
+
+<p>Symfony2 incluye su propio <em>proxy inverso</em> o <em>reverse proxy</em> (también conocido como <em>gateway cache</em>) escrito en PHP. Actívalo y las respuestas de la aplicación comenzarán a guardarse en la caché inmediatamente. Su instalación es muy fácil, ya que cada nueva aplicación Symfony2 viene con un kernel especial preconfigurado y preparado para la caché (<code>AppCache</code>) que utiliza internamente el kernel por defecto (<code>AppKernel</code>). Este kernel especial (<code>AppCache</code>) es el <em>proxy inverso</em> de Symfony2.</p>
+
+<p>Para habilitar la caché, modifica el código del controlador frontal para utilizar el kernel especial para la caché:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// web/app.php</span>
+<span class="kw1">require_once</span> __DIR__<span class="sy0">.</span><span class="st_h">'/../app/bootstrap.php.cache'</span><span class="sy0">;</span>
+<span class="kw1">require_once</span> __DIR__<span class="sy0">.</span><span class="st_h">'/../app/AppKernel.php'</span><span class="sy0">;</span>
+<span class="kw1">require_once</span> __DIR__<span class="sy0">.</span><span class="st_h">'/../app/AppCache.php'</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Request<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$kernel</span> <span class="sy0">=</span> <span class="kw2">new</span> AppKernel<span class="br0">&#40;</span><span class="st_h">'prod'</span><span class="sy0">,</span> <span class="kw4">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$kernel</span><span class="sy0">-&gt;</span><span class="me1">loadClassCache</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">// el kernel especial AppCache utiliza el kernel AppKernel</span>
+<span class="re0">$kernel</span> <span class="sy0">=</span> <span class="kw2">new</span> AppCache<span class="br0">&#40;</span><span class="re0">$kernel</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$kernel</span><span class="sy0">-&gt;</span><span class="me1">handle</span><span class="br0">&#40;</span>Request<span class="sy0">::</span><span class="me2">createFromGlobals</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">send</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El kernel de la caché actúa de inmediato como un <em>proxy inverso</em>, guardando las respuestas de la aplicación en la caché y devolviéndolas al cliente.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> El kernel de la caché tiene un método especial llamado <code>getLog()</code>, que devuelve una cadena de texto con la información sobre lo que ha sucedido en la capa de la caché. Puedes utilizar esta información en el entorno de desarrollo para validar que tu estrategia de caché está funcionando correctamente:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw3">error_log</span><span class="br0">&#40;</span><span class="re0">$kernel</span><span class="sy0">-&gt;</span><span class="me1">getLog</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p></p></div>
+
+<p>El objeto <code>AppCache</code> ya está preconfigurado con las opciones más comunes para las aplicaciones web habituales, pero puedes modificar todas ellas con el método <code>getOptions()</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// app/AppCache.php</span>
+<span class="kw2">use</span> Symfony\Bundle\FrameworkBundle\HttpCache\HttpCache<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> AppCache <span class="kw2">extends</span> HttpCache
+<span class="br0">&#123;</span>
+    <span class="kw2">protected</span> <span class="kw2">function</span> getOptions<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="st_h">'debug'</span>                  <span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="sy0">,</span>
+            <span class="st_h">'default_ttl'</span>            <span class="sy0">=&gt;</span> <span class="nu0">0</span><span class="sy0">,</span>
+            <span class="st_h">'private_headers'</span>        <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'Authorization'</span><span class="sy0">,</span> <span class="st_h">'Cookie'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+            <span class="st_h">'allow_reload'</span>           <span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="sy0">,</span>
+            <span class="st_h">'allow_revalidate'</span>       <span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="sy0">,</span>
+            <span class="st_h">'stale_while_revalidate'</span> <span class="sy0">=&gt;</span> <span class="nu0">2</span><span class="sy0">,</span>
+            <span class="st_h">'stale_if_error'</span>         <span class="sy0">=&gt;</span> <span class="nu0">60</span><span class="sy0">,</span>
+        <span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> A menos que indiques su valor en el método <code>getOptions()</code>, la opción <code>debug</code> tendrá automáticamente el mismo valor que que el establecido en el kernel por defecto de Symfony2 (<code>AppKernel</code>).</p></div>
+
+<p>Esta es la lista de las principales opciones de configuración:</p>
+
+<ul>
+<li><code>default_ttl</code>: el número de segundos que una página de la caché se considera válida cuando la respuesta no proporciona ninguna información al respecto. Las cabeceras <code>Cache-Control</code> o <code>Expires</code> pueden sobreescribir este valor (valor por defecto: <code>0</code>);</li>
+<li><code>private_headers</code>: lista de cabeceras cuya presencia hace que la respuesta se convierta automáticamente en privada (a menos que la propia respuesta indique explícitamente si es pública o privada mediante la directiva <code>Cache-Control</code>) (valor por defecto: <code>Authorization</code> y <code>Cookie</code>);</li>
+<li><code>allow_reload</code>: especifica si el cliente puede forzar que se recargue la caché incluyendo una directiva <code>Cache-Control</code> con el valor <code>no-cache</code> en la petición. Establece esta opción a <code>true</code> si quieres cumplir con el estándar RFC 2616 (valor por defecto: <code>false</code>);</li>
+<li><code>allow_revalidate</code>: especifica si el cliente puede forzar una revalidación de caché incluyendo una directiva <code>Cache-Control</code> <code>max-age = 0</code> en la petición. Ponla en <code>true</code> para cumplir con la RFC 2616 (por omisión: false);</li>
+<li><code>stale_while_revalidate</code>: especifica el número de segundos durante el que la caché puede seguir devolviendo páginas caducadas mientras en segundo plano intenta regenerar esa página (valor por defecto: <code>2</code>). Esta opción se sobreescribe con la opción <code>stale-while-revalidate</code> de la extensión <code>Cache-Control</code> de HTTP (consulta el estándar RFC 5861).</li>
+<li><code>stale_if_error</code>: especifica el número de segundos durante el que la caché puede seguir devolviendo páginas caducadas cuando se detecta un error (valor por defecto: <code>60</code>). Esta opción se sobreescribe con la opción <code>stale-if-error</code> de la extensión <code>Cache-Control</code> de HTTP (consulta el estándar RFC 5861).</li>
+</ul>
+
+<p>Si la opción <code>debug</code> es <code>true</code>, Symfony2 añade automáticamente la cabecera <code>X-Symfony-Cache</code> a las respuestas. Esta cabecera contiene información útil acerca de si la página se ha obtenido de la caché o ha sido generada para la respuesta.</p>
+
+<div class="admonition sidebar"><p><strong class="title"> Cambiando de un <em>proxy inverso</em> a otro</strong> El <em>proxy inverso</em> o <em>reverse proxy</em> de Symfony2 es una herramienta muy útil durante el desarrollo de tu sitio web o al instalar tu aplicación en un servidor compartido donde no puedes instalar nada que no sea código PHP. El problema es que como está escrito en PHP, no puede ser tan rápido como los <em>proxys inversos</em> escritos en C. Por eso te recomendamos que siempre que puedas utilices Varnish o Squid en tus servidores de producción. Lo bueno es que cambiar de un <em>proxy inverso</em> a otro es muy fácil y completamente transparente, ya que no tienes que cambiar ni una sola línea de código de tu aplicación. La buena nueva es que el cambio de un servidor delegado a otro es fácil y transparente, sin modificar el código necesario en tu aplicación. Así que te aconsejamos que empieces utilizando el <em>proxy inverso</em> de Symfony2 por comodidad y que te pases a Varnish cuando el tráfico de tu sitio web aumente mucho.</p></div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> El rendimiento del <em>proxy inverso</em> de Symfony2 es independiente de lo compleja que sea tu aplicación. El motivo es que el kernel de tu aplicación sólo se ejecuta cuando la petición se debe servir desde la aplicación en vez de desde la caché.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_14/utilizando_los_estandares_para_la_cache.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>14.1. Utilizando los estándares para la caché</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_14/introduccion_a_la_cache_de_http.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>14.3. Introducción a la caché de HTTP</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Symfony2 y los fundamentos de HTTP</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> De PHP a Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Instalando y configurando Symfony2</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Creando páginas en Symfony2</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> El controlador</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El enrutamiento</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Creando y utilizando plantillas</a>
+            </li>
+                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> La base de datos y Doctrine</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> La base de datos y Propel</a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Tests unitarios y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Validación</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Formularios</a>
+            </li>
+                                                                                                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_14.html">
+                    <span>Capítulo 14.</span> La caché de HTTP
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/utilizando_los_estandares_para_la_cache.html">
+                    <span>14.1.</span> Utilizando los estándares para la caché
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_14/las_caches_de_tipo_gateway_cache.html">
+                    <span>14.2.</span> Las cachés de tipo <em>gateway cache</em>
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/introduccion_a_la_cache_de_http.html">
+                    <span>14.3.</span> Introducción a la caché de HTTP
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/caducidad_y_validacion_http.html">
+                    <span>14.4.</span>  Caducidad y validación HTTP
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/utilizando_esi.html">
+                    <span>14.5.</span> Utilizando ESI
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/invalidando_la_cache.html">
+                    <span>14.6.</span> Invalidando la caché
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/resumen.html">
+                    <span>14.7.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> El contenedor de servicios</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Mejorando el rendimiento</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> El interior de Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> La API estable de Symfony2</a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>18.2. El &lt;em&gt;kernel&lt;/em&gt; (Symfony 2.3, el libro oficial)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                            
+        <link rel="canonical" href="/libro/symfony_2_x/capitulo_18/el_kernel.html"/>
+                                    <link rel="prev" href="../capitulo_18/una_vision_general_del_funcionamiento_de_symfony2.html" />
+                    <link rel="next" href="../capitulo_18/el_event_dispatcher.html" />
+                <link rel="start" href="/libro/symfony_2_3/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="18.2. El &lt;em&gt;kernel&lt;/em&gt; (Symfony 2.3, el libro oficial)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_2_3"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_3/" itemprop="url">
+                    <span itemprop="title">Symfony 2.3, el libro oficial</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_3/capitulo_18.html" itemprop="url">
+                    <span itemprop="title">Capítulo 18. El interior de Symfony2</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>18.2. El <em>kernel</em></span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="el_kernel" class="title">
+        <span>18.2.</span> El <em>kernel</em>
+    </h1>
+
+    
+
+<p>La clase <code>HttpKernel</code> es la clase central de Symfony2 y es responsable de procesar las peticiones del cliente. Su objetivo principal es <em>convertir</em> un objeto de tipo <code>Request</code> en un objeto de tipo <code>Response</code>.</p>
+
+<p>El <em>kernel</em> de Symfony2 debe implementar la interfaz <code>HttpKernelInterface</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">function</span> handle<span class="br0">&#40;</span>Request <span class="re0">$request</span><span class="sy0">,</span> <span class="re0">$type</span> <span class="sy0">=</span> <span class="kw2">self</span><span class="sy0">::</span><span class="me2">MASTER_REQUEST</span><span class="sy0">,</span> <span class="re0">$catch</span> <span class="sy0">=</span> <span class="kw4">true</span><span class="br0">&#41;</span></pre>
+</div>
+
+<h3 id="controladores">18.2.1. Controladores</h3>
+
+<p>Para convertir un objeto <code>Request</code> en uno de tipo <code>Response</code>, el <em>kernel</em> utiliza un controlador, que puede ser cualquier código PHP ejecutable válido.</p>
+
+<p>El <em>kernel</em> delega la selección del controlador que se debe ejecutar a una clase que implemente la interfaz <code>ControllerResolverInterface</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> getController<span class="br0">&#40;</span>Request <span class="re0">$request</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw2">public</span> <span class="kw2">function</span> getArguments<span class="br0">&#40;</span>Request <span class="re0">$request</span><span class="sy0">,</span> <span class="re0">$controller</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El método <code>ControllerResolverInterface::getController()</code> devuelve el controlador (en realidad, devuelve un código PHP ejecutable) asociado a la petición del usuario. Por defecto, la clase <code>ControllerResolver</code>) busca en la petición un atributo llamado <code>_controller</code> que representa el nombre del controlador (en forma de cadena de texto con el formato <code>class::method</code>, cómo por ejemplo <code>Bundle\BlogBundle\PostController:indexAction</code>).</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Por defecto se utiliza la clase <code>RouterListener</code> para definir el atributo <code>_controller</code> de la petición.</p></div>
+
+<p>El método <code>ControllerResolverInterface::getArguments</code> devuelve un array de argumentos para pasarlos al controlador. Por defecto los argumentos del controlador se resuelven a partir de los atributos de la petición.</p>
+
+<div class="admonition sidebar"><p><strong class="title"> Obteniendo los argumentos del controlador a partir de la petición</strong> Para cada argumento del método del controlador, Symfony2 trata de obtener el valor de un atributo de la petición con el mismo nombre. Si no está definido, se utiliza el valor por defecto del argumento (si se ha definido alguno):</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// Symfony2 debe buscar un atributo 'id' obligatorio</span>
+<span class="co1">// y un atributo 'admin' opcional</span>
+<span class="kw2">public</span> <span class="kw2">function</span> showAction<span class="br0">&#40;</span><span class="re0">$id</span><span class="sy0">,</span> <span class="re0">$admin</span> <span class="sy0">=</span> <span class="kw4">true</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="co1">// ...</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p></p></div>
+
+<h3 id="procesando_peticiones">18.2.2. Procesando peticiones</h3>
+
+<p>El método <code>HttpKernel::handle</code> admite como argumento un objeto <code>Request</code> y siempre devuelve un objeto <code>Response</code>. Para convertir la petición, el método <code>handle()</code> utiliza la clase <code>Resolver</code> y una serie de notificaciones de eventos (la siguiente sección proporciona más información acerca de cada evento):</p>
+
+<ol>
+<li>Antes que nada, se notifica el evento <code>kernel.request</code>. Si alguno de los <em>listeners</em> devuelve un objeto <code>Response</code>, se pasa directamente al paso número 8.</li>
+<li>Se ejecuta el <code>Resolver</code> para determinar qué controlador se debe ejecutar.</li>
+<li>Los <em>listeners</em> del evento <code>kernel.controller</code> ahora pueden manipular el controlador como quieran, incluso cambiándolo.</li>
+<li>El <em>kernel</em> verifica que el controlador es un código PHP ejecutable válido.</li>
+<li>Se ejecuta de nuevo el <code>Resolver</code> para obtener los argumentos que se pasan al controlador.</li>
+<li>El <em>kernel</em> ejecuta el controlador.</li>
+<li>Si el controlador no devuelve un objeto <code>Response</code>, los <em>listeners</em> del evento <code>kernel.view</code> pueden convertir el valor devuelto por el controlador en un objeto de tipo <code>Response</code>.</li>
+<li>Los <em>listeners</em> del evento <code>kernel.response</code> pueden manipular el objeto <code>Response</code> (tanto el contenido como las cabeceras).</li>
+<li>Se devuelve la respuesta al usuario.</li>
+<li>Los <em>listeners</em> del evento <code>kernel.terminate</code> pueden realizar tareas después de que la respuesta se haya enviado al usuario.</li>
+</ol>
+
+<p>Si se produce una excepción durante el procesamiento de la petición, se notifica el evento <code>kernel.exception</code> y se da la oportunidad a los <em>listeners</em> de convertir la excepción en un objeto <code>Response</code>. Si esto funciona, se notifica también el evento <code>kernel.response</code>; si no, se vuelve a lanzar la excepción.</p>
+
+<p>Si no deseas que se capturen las excepciones, desactiva el evento <code>kernel.exception</code> pasando <code>false</code> como tercer argumento del método <code>handle()</code>.</p>
+
+<h3 id="peticiones_internas">18.2.3. Peticiones internas</h3>
+
+<p>Durante el procesado de una petición, también se pueden manejar lo que se conoce como sub-peticiones. Por este motivo el segundo argumento del método <code>handle()</code> es el tipo de petición, que puede ser uno de estos dos valores:</p>
+
+<ul>
+<li><code>HttpKernelInterface::MASTER_REQUEST</code></li>
+<li><code>HttpKernelInterface::SUB_REQUEST</code></li>
+</ul>
+
+<p>El tipo de petición se pasa a todos los eventos para que los <em>listeners</em> puedan adecuar su funcionamiento al tipo de petición.</p>
+
+<h3 id="eventos">18.2.4. Eventos</h3>
+
+<p>Cada evento notificado por el <em>kernel</em> es una subclase de <code>KernelEvent</code>. Esto significa que todos los eventos tienen acceso a la misma información básica:</p>
+
+<ul>
+<li><code>KernelEvent::getRequestType()</code>, devuelve el tipo de la petición (<code>HttpKernelInterface::MASTER_REQUEST</code> o <code>HttpKernelInterface::SUB_REQUEST</code>).</li>
+<li><code>KernelEvent::getKernel()</code>, devuelve el <em>kernel</em> que está procesando la petición.</li>
+<li><code>KernelEvent::getRequest()</code>, devuelve el objeto <code>Request</code> que se está procesando en ese momento.</li>
+</ul>
+
+<h4 id="getrequesttype">18.2.4.1. <code>getRequestType()</code></h4>
+
+<p>El método <code>getRequestType()</code> permite a los <em>listeners</em> conocer el tipo de la petición. Por ejemplo, si un <em>listener</em> sólo debe estar atento a las peticiones maestras, utiliza el siguiente código al principio de tu método <em>listener</em>:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">use</span> Symfony\Component\HttpKernel\HttpKernelInterface<span class="sy0">;</span>
+&nbsp;
+<span class="kw1">if</span> <span class="br0">&#40;</span>HttpKernelInterface<span class="sy0">::</span><span class="me2">MASTER_REQUEST</span> <span class="sy0">!==</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getRequestType</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Si todavía no estás familiarizado con el <em>event dispatcher</em> de Symfony2, más adelante en este mismo capítulo se explica con detalle.</p></div>
+
+<h4 id="evento_kernelrequest">18.2.4.2. Evento <code>kernel.request</code></h4>
+
+<p>La clase relacionada con este evento es <code>Symfony\Component\HttpKernel\Event\GetResponseEvent</code></p>
+
+<p>El objetivo de este evento es devolver inmediatamente un objeto <code>Response</code> o crear las variables necesarias para que se pueda ejecutar un controlador justo después de este evento. Cualquier <em>listener</em> puede devolver un objeto <code>Response</code> a través del método <code>setResponse()</code> en el evento. En este caso, el resto de <em>listeners</em> registrados para este evento no se ejecutan.</p>
+
+<p>Este evento lo utiliza el <em>bundle</em> <code>FrameworkBundle</code> para establecer el atributo <code>_controller</code> de la petición, mediante la clase <code>RouterListener</code>. Por su parte, la clase <code>RequestListener</code> usa un objeto de tipo <code>RouterInterface</code> para determinar el nombre del controlador a partir de la petición (que se guarda en el atributo <code>_controller</code> del objeto <code>Request</code>).</p>
+
+<h4 id="evento_kernelcontroller">18.2.4.3. Evento <code>kernel.controller</code></h4>
+
+<p>La clase relacionada con este evento es <code>Symfony\Component\HttpKernel\Event\FilterControllerEvent</code></p>
+
+<p>Este evento no lo utiliza el <em>bundle</em> <code>FrameworkBundle</code>, pero es una forma sencilla de modificar el controlador que se ejecuta:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">use</span> Symfony\Component\HttpKernel\Event\FilterControllerEvent<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">public</span> <span class="kw2">function</span> onKernelController<span class="br0">&#40;</span>FilterControllerEvent <span class="re0">$event</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="re0">$controller</span> <span class="sy0">=</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getController</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="co1">// ...</span>
+&nbsp;
+    <span class="co1">// el controlador se puede cambiar por cualquier código PHP ejecutable</span>
+    <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">setController</span><span class="br0">&#40;</span><span class="re0">$controller</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<h4 id="evento_kernelview">18.2.4.4. Evento <code>kernel.view</code></h4>
+
+<p>La clase relacionada con este evento es <code>Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent</code></p>
+
+<p>Este evento no lo utiliza el <em>bundle</em> <code>FrameworkBundle</code>, pero lo puedes usar para todas las tareas relacionadas con la vista. Este evento se llama sólo si el controlador no devuelve un objeto <code>Response</code>. El propósito del evento es permitir que el valor devuelto por el controlador se convierta en un objeto de tipo <code>Response</code>.</p>
+
+<p>El valor devuelto por el controlador está disponible a través del método <code>getControllerResult</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">use</span> Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Response<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">public</span> <span class="kw2">function</span> onKernelView<span class="br0">&#40;</span>GetResponseForControllerResultEvent <span class="re0">$event</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="re0">$val</span> <span class="sy0">=</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getControllerResult</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$response</span> <span class="sy0">=</span> <span class="kw2">new</span> Response<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// modificar el objeto Response ...</span>
+&nbsp;
+    <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">setResponse</span><span class="br0">&#40;</span><span class="re0">$response</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<h4 id="evento_kernelresponse">18.2.4.5. Evento <code>kernel.response</code></h4>
+
+<p>La clase relacionada con este evento es <code>Symfony\Component\HttpKernel\Event\FilterResponseEvent</code></p>
+
+<p>El propósito de este evento es permitir que otros sistemas modifiquen o sustituyan el objeto <code>Response</code> después de su creación:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> onKernelResponse<span class="br0">&#40;</span>FilterResponseEvent <span class="re0">$event</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="re0">$response</span> <span class="sy0">=</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getResponse</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// modifica el objeto Response ...</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El <em>bundle</em> <code>FrameworkBundle</code> registra varios <em>listeners</em>:</p>
+
+<ul>
+<li><code>ProfilerListener</code>: recolecta información sobre la petición actual.</li>
+<li><code>WebDebugToolbarListener</code>: inyecta la barra de depuración web.</li>
+<li><code>ResponseListener</code>: establece el valor del <code>Content-Type</code> de la respuesta basándose en el formato de la petición.</li>
+<li><code>EsiListener</code>: añade la cabecera <code>Surrogate-Control</code> de HTTP cuando es necesario procesar la respuesta porque contiene etiquetas ESI.</li>
+</ul>
+
+<h4 id="evento_kernelterminate">18.2.4.6. Evento <code>kernel.terminate</code></h4>
+
+<p>El objetivo del evento es permitir a la aplicación realizar tareas pesadas después de haber enviado la respuesta al usuario.</p>
+
+<h4 id="evento_kernelexception">18.2.4.7. Evento <code>kernel.exception</code></h4>
+
+<p>La clase relacionada con este evento es <code>Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent</code></p>
+
+<p>El <em>bundle</em> <code>FrameworkBundle</code> registra el <em>listener</em> <code>ExceptionListener</code>, que redirige la petición a un controlador determinado (configurable con la opción <code>exception_listener.controller</code>).</p>
+
+<p>Los <em>listeners</em> de este evento pueden crear y configurar un objeto <code>Response</code>, crear y establecer un nuevo objeto <code>Excepción</code>, o simplemente no hacer nada:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">use</span> Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Response<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">public</span> <span class="kw2">function</span> onKernelException<span class="br0">&#40;</span>GetResponseForExceptionEvent <span class="re0">$event</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="re0">$exception</span> <span class="sy0">=</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getException</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$response</span> <span class="sy0">=</span> <span class="kw2">new</span> Response<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="co1">// configura el objeto respuesta basándose en la excepción producida</span>
+    <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">setResponse</span><span class="br0">&#40;</span><span class="re0">$response</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// si lo prefieres, puedes establecer una nueva excepción</span>
+    <span class="co1">// $exception = new \Exception('Some special exception');</span>
+    <span class="co1">// $event-&gt;setException($exception);</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Como Symfony siempre se asegura de que el código de estado del objeto <code>Response</code> sea el más apropiado en función de la excepción producida, no es posible establecer manualmente el estado de la respuesta. En cualquier caso, para sobreescribir el código de estado de la respuesta (algo que deberías hacer solamente por una buena razón) utiliza la cabecera <code>X-Status-Code</code>:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw1">return</span> <span class="kw2">new</span> Response<span class="br0">&#40;</span><span class="st_h">'Error'</span><span class="sy0">,</span> <span class="nu0">404</span> <span class="coMULTI">/* este valor se ignora */</span><span class="sy0">,</span>
+                    <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'X-Status-Code'</span> <span class="sy0">=&gt;</span> <span class="nu0">200</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p></p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_18/una_vision_general_del_funcionamiento_de_symfony2.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>18.1. Una visión general del funcionamiento de Symfony2</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_18/el_event_dispatcher.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>18.3. El <em>event dispatcher</em></small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Symfony2 y los fundamentos de HTTP</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> De PHP a Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Instalando y configurando Symfony2</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Creando páginas en Symfony2</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> El controlador</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El enrutamiento</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Creando y utilizando plantillas</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> La base de datos y Doctrine</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> La base de datos y Propel</a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Tests unitarios y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Validación</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Formularios</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> La caché de HTTP</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> El contenedor de servicios</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Mejorando el rendimiento</a>
+            </li>
+                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_18.html">
+                    <span>Capítulo 18.</span> El interior de Symfony2
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_18/una_vision_general_del_funcionamiento_de_symfony2.html">
+                    <span>18.1.</span> Una visión general del funcionamiento de Symfony2
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_18/el_kernel.html">
+                    <span>18.2.</span> El <em>kernel</em>
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_18/el_event_dispatcher.html">
+                    <span>18.3.</span> El <em>event dispatcher</em>
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_18/el_perfilador.html">
+                    <span>18.4.</span> El perfilador
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> La API estable de Symfony2</a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

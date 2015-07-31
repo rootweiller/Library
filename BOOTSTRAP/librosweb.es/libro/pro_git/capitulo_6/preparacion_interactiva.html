@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>6.2. Preparación interactiva (Pro Git, el libro oficial de Git)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_6/seleccion_de_confirmaciones_de_cambios_concretas.html" />
+                    <link rel="next" href="../capitulo_6/guardado_rapido_provisional.html" />
+                <link rel="start" href="/libro/pro_git/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="6.2. Preparación interactiva (Pro Git, el libro oficial de Git)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page pro_git"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/" itemprop="url">
+                    <span itemprop="title">Pro Git, el libro oficial de Git</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/capitulo_6.html" itemprop="url">
+                    <span itemprop="title">Capítulo 6. Las herramientas de Git</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>6.2. Preparación interactiva</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="preparacion_interactiva" class="title">
+        <span>6.2.</span> Preparación interactiva
+    </h1>
+
+    
+
+<p>Git trae incluidos unos cuantos scripts para facilitar algunas de las tareas en la línea de comandos. Se van a mostrar unos pocos comandos interactivos que suelen ser de gran utilidad a la hora de recoger en una confirmación de cambios solo ciertas combinaciones y partes de archivos. Estas herramientas son útiles, por ejemplo, cuando se modifican unos cuantos archivos y luego se decide almacenar esos cambios en una serie de confirmaciones de cambio focalizadas en lugar de en una sola confirmación de cambio entremezclada. Así, se consiguen unas confirmaciones de cambio con agrupaciones lógicas de modificaciones, facilitando su revisión por parte otros desarrolladores que trabajen con nosotros.</p>
+
+<p>Al lanzar el comando <code>git add</code> con las opciones <code>-i</code> o <code>--interactive</code>, Git entra en un modo interactivo y muestra algo así como:</p>
+
+<div class="code code">
+<pre class="code">$ git add -i
+           staged     unstaged path
+  1:    unchanged        +0/-1 TODO
+  2:    unchanged        +1/-1 index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb</pre>
+</div>
+
+<div class="code code">
+<pre class="code">*** Commands ***
+  1: status     2: update      3: revert     4: add untracked
+  5: patch      6: diff        7: quit       8: help
+What now&gt; </pre>
+</div>
+
+<p>Según se ve, este comando muestra una vista bastante diferente del área de preparación (<em>staging area</em>). Básicamente se trata de la misma información dada por el comando <code>git status</code>, pero mas sucinta e informativa. Se ve una lista de cambios ya preparados, en la izquierda; y de los que están aún sin preparar, en la derecha.</p>
+
+<p>Tras esa lista, viene la sección de comandos. Aquí se pueden lanzar acciones tales como: añadir archivos en el area de preparación (<em>staging</em>), sacar archivos de ella (<em>unstaging</em>), poner solo parte de algún archivo, añadir archivos nuevos que estaban fuera del sistema de control o mostrar diferencias en aquello que se ha añadido.</p>
+
+<h3 id="introduciendo_archivos_en_el_area_de_preparacion_y_sacandolos_de_ella">6.2.1. Introduciendo archivos en el area de preparación y sacandolos de ella</h3>
+
+<p>Tecleando <code>2</code> o <code>u</code> (update) tras el indicador <code>What now&gt;</code>, el script interactivo preguntará cuales son los archivos que se quieren añadir al área de preparación:</p>
+
+<div class="code code">
+<pre class="code">What now&gt; 2
+           staged     unstaged path
+  1:    unchanged        +0/-1 TODO
+  2:    unchanged        +1/-1 index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
+Update&gt;&gt;</pre>
+</div>
+
+<p>Para añadir los archivos <code>TODO</code> e <code>index.html</code>, se teclearian los números:</p>
+
+<div class="code code">
+<pre class="code">Update&gt;&gt; 1,2
+           staged     unstaged path
+* 1:    unchanged        +0/-1 TODO
+* 2:    unchanged        +1/-1 index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
+Update&gt;&gt;</pre>
+</div>
+
+<p>El asterisco <code>*</code> al lado de cada archivo indica que dicho archivo ha sido seleccionado para ser preparado. Pulsando la tecla <code>[Enter]</code> tras el indicador <code>Update&gt;&gt;</code>, Git toma lo seleccionado y lo añade al área de preparación:</p>
+
+<div class="code code">
+<pre class="code">Update&gt;&gt; 
+updated 2 paths</pre>
+</div>
+
+<div class="code code">
+<pre class="code">*** Commands ***
+  1: status     2: update      3: revert     4: add untracked
+  5: patch      6: diff        7: quit       8: help
+What now&gt; 1
+           staged     unstaged path
+  1:        +0/-1      nothing TODO
+  2:        +1/-1      nothing index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb</pre>
+</div>
+
+<p>En estos momentos se ve que los archivos <code>TODO</code> e <code>index.html</code> están en el área de preparación y que el archivo <code>simplegit.rb</code> no está aún. Si se desea sacar el archivo <code>TODO</code> del área, se puede utilizar la opción <code>3</code> o <code>r</code> (<em>revert</em>):</p>
+
+<div class="code code">
+<pre class="code">*** Commands ***
+  1: status     2: update      3: revert     4: add untracked
+  5: patch      6: diff        7: quit       8: help
+What now&gt; 3
+           staged     unstaged path
+  1:        +0/-1      nothing TODO
+  2:        +1/-1      nothing index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
+Revert&gt;&gt; 1
+           staged     unstaged path
+* 1:        +0/-1      nothing TODO
+  2:        +1/-1      nothing index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
+Revert&gt;&gt; [enter]
+reverted one path</pre>
+</div>
+
+<p>Volviendo a mirar el estado de Git, se comprueba que se ha sacado el archivo <code>TODO</code> del área de preparación:</p>
+
+<div class="code code">
+<pre class="code">*** Commands ***
+  1: status     2: update      3: revert     4: add untracked
+  5: patch      6: diff        7: quit       8: help
+What now&gt; 1
+           staged     unstaged path
+  1:    unchanged        +0/-1 TODO
+  2:        +1/-1      nothing index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb</pre>
+</div>
+
+<p>Para ver las diferencis entre lo que está preparado, se puede utilizar la opción <code>6</code> o <code>d</code> (<code>diff</code>). Esta muestra una lista de los archivos preparados en el área de preparación, permitiendo la seleccion de aquellos sobre los que  se desean ver diferencias. Es muy parecido a lanzar el comando <code>git diff --cached</code> directamente en la línea de comandos:</p>
+
+<div class="code code">
+<pre class="code">*** Commands ***
+  1: status     2: update      3: revert     4: add untracked
+  5: patch      6: diff        7: quit       8: help
+What now&gt; 6
+           staged     unstaged path
+  1:        +1/-1      nothing index.html
+Review diff&gt;&gt; 1
+diff --git a/index.html b/index.html
+index 4d07108..4335f49 100644
+--- a/index.html
++++ b/index.html
+@@ -16,7 +16,7 @@ Date Finder</pre>
+</div>
+
+<div class="code code">
+<pre class="code"> &lt;p id=&quot;out&quot;&gt;...&lt;/p&gt;</pre>
+</div>
+
+<div class="code code">
+<pre class="code">-&lt;div id=&quot;footer&quot;&gt;contact : <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="dfacaaafafb0adab9fb8b6abb7aabdf1bcb0b2">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&lt;/div&gt;
++&lt;div id=&quot;footer&quot;&gt;contact : <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="fb9e969a9297d5888e8b8b94898fbb9c928f938e99d5989496">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&lt;/div&gt;</pre>
+</div>
+
+<div class="code code">
+<pre class="code"> &lt;script type=&quot;text/javascript&quot;&gt;</pre>
+</div>
+
+<p>Con estos comandos básicos, se ha visto cómo se puede emplear el modo interactivo para interactuar de forma más sencilla con el área de preparación.</p>
+
+<h3 id="parches_en_la_preparacion">6.2.2. Parches en la preparación</h3>
+
+<p>También es posible añadir solo ciertas partes de algunos archivos y no otras. Por ejemplo, si se han realizado dos cambios en el archivo <code>simplegit.rb</code> y se desea pasar solo uno de ellos al área de preparación, pero no el otro. En el indicador interactivo se ha de teclear <code>5</code> o <code>p</code> (patch). Git preguntará cual es el archivo a pasar parcialmente al área de preparación. Y después irá mostrando trozos de las distintas secciones modificadas en el archivo, preguntando por cada una si se desea pasar o no al área de preparación:</p>
+
+<div class="code code">
+<pre class="code">diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+index dd5ecc4..57399e0 100644
+--- a/lib/simplegit.rb
++++ b/lib/simplegit.rb
+@@ -22,7 +22,7 @@ class SimpleGit
+   end</pre>
+</div>
+
+<div class="code code">
+<pre class="code">   def log(treeish = 'master')
+-    command(&quot;git log -n 25 #{treeish}&quot;)
++    command(&quot;git log -n 30 #{treeish}&quot;)
+   end</pre>
+</div>
+
+<div class="code code">
+<pre class="code">   def blame(path)
+Stage this hunk [y,n,a,d,/,j,J,g,e,?]? </pre>
+</div>
+
+<p>En estas preguntas, hay varias opciones de respuesta. Tecleando <code>?</code> se muestra una lista de las mismas:</p>
+
+<div class="code code">
+<pre class="code">Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
+y - stage this hunk
+n - do not stage this hunk
+a - stage this and all the remaining hunks in the file
+d - do not stage this hunk nor any of the remaining hunks in the file
+g - select a hunk to go to
+/ - search for a hunk matching the given regex
+j - leave this hunk undecided, see next undecided hunk
+J - leave this hunk undecided, see next hunk
+k - leave this hunk undecided, see previous undecided hunk
+K - leave this hunk undecided, see previous hunk
+s - split the current hunk into smaller hunks
+e - manually edit the current hunk
+? - print help</pre>
+</div>
+
+<p>Habitualmente se tecleará <code>y</code> o <code>n</code> según se desee pasar o no cada trozo. Pero habrá ocasiones donde pueda ser útil pasar todos ellos conjuntamente, o el dejar para más tarde la decisión sobre un trozo concreto. Si se decide pasar solo una parte de un archivo y dejar sin pasar otra parte, la salida de estado mostrará algo así como:</p>
+
+<div class="code code">
+<pre class="code">What now&gt; 1
+           staged     unstaged path
+  1:    unchanged        +0/-1 TODO
+  2:        +1/-1      nothing index.html
+  3:        +1/-1        +4/-0 lib/simplegit.rb</pre>
+</div>
+
+<p>La línea correspondiente al estado del archivo <code>simplegit.rb</code> es bastante interesante. Muestra que un par de líneas han sido preparadas (<em>staged</em>) en el área de preparación y otro par han sido dejadas fuera de dicho área (unstaged). Es decir, se ha pasado parcialmente ese archivo al área de preparación. En este punto, es posible salir del script interactivo y lanzar el comando <code>git commit</code> para almacenar esa confirmación de cambios parciales en los archivos.</p>
+
+<p>Por último, cabe comentar que no es necesario entrar expresamente en el modo interactivo para preparar archivos parcialmente. También se puede acceder a ese script con los comandos <code>git add -p</code> o con <code>git add --patch</code>, directamente desde la línea de comandos.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_6/seleccion_de_confirmaciones_de_cambios_concretas.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>6.1. Selección de confirmaciones de cambios concretas</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_6/guardado_rapido_provisional.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>6.3. Guardado rápido provisional</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Fundamentos de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Trabajando con ramas en Git</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Git en un servidor</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Git en entornos distribuidos</a>
+            </li>
+                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_6.html">
+                    <span>Capítulo 6.</span> Las herramientas de Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/seleccion_de_confirmaciones_de_cambios_concretas.html">
+                    <span>6.1.</span> Selección de confirmaciones de cambios concretas
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_6/preparacion_interactiva.html">
+                    <span>6.2.</span> Preparación interactiva
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/guardado_rapido_provisional.html">
+                    <span>6.3.</span> Guardado rápido provisional
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/reescribiendo_la_historia.html">
+                    <span>6.4.</span> Reescribiendo la historia
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/depuracion_con_git.html">
+                    <span>6.5.</span> Depuración con Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/submodulos.html">
+                    <span>6.6.</span> Submódulos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/fusion_de_subarboles.html">
+                    <span>6.7.</span> Fusión de subárboles
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/resumen.html">
+                    <span>6.8.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Personalizando Git</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Git y otros sistemas</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Funcionamiento interno de Git</a>
+            </li>
+                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

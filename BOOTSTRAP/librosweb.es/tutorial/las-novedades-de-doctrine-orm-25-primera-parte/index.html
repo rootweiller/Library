@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Las novedades de Doctrine ORM 2.5 (Primera parte)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Las novedades de Doctrine ORM 2.5 (Primera parte)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-2-1" class="tutorials"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                            <h1 class="title">Las novedades de Doctrine ORM 2.5 (Primera parte)</h1>
+
+    <p>Antes de actualizar Doctrine ORM a su versión 2.5, primero lee atentamente esta guía donde se explican todos sus cambios, especialmente aquellos que son incompatibles con las versiones anteriores de Doctrine.</p>
+<p>Después, actualiza Doctrine entrando con la consola de comandos en el directorio de tu proyecto y ejecutando el siguiente comando:</p>
+<pre class="cli code">$ composer update doctrine/orm</pre>
+<p>Para que el comando anterior funcione correctamente, la versión de Doctrine indicada en tu archivo <code>composer.json</code> debe permitir actualizar a 2.5. Si usas la versión por defecto que proporciona Symfony (<code>"doctrine/orm": "~2.2,&gt;=2.2.3"</code>) la actualización funcionará bien sin tener que hacer nada.</p>
+<p>A continuación, se detallan las principales nuevas funcionalidades que incluye Doctrine ORM 2.5:</p>
+<h2>Se requiere PHP 5.4 o superior</h2>
+<p>El primer cambio importante introducido por Doctrine ORM 2.5 es la obligación de usar <strong>PHP 5.4 o superior</strong>. Así que si tu aplicación todavía usa PHP 5.3, no podrás actualizar a Doctrine 2.5.</p>
+<h2>El evento <code>PostLoad</code> ahora se lanza después de cargar las asociaciones</h2>
+<p>En las versiones anteriores, cuando una entidad definía el evento <code>@PostLoad</code>, Doctrine ejecutaba los <em>listeners</em> después de que los campos de la entidad se hubieran cargado, pero antes de que las entidades relacionadas estuvieran disponibles.</p>
+<ul>
+<li><a href="http://doctrine-project.org/jira/browse/DDC-54">Ver discusión DDC-54</a></li>
+<li><a href="https://github.com/doctrine/doctrine2/commit/a906295c65f1516737458fbee2f6fa96254f27a5">Ver commit</a></li>
+</ul>
+<h2>Posibilidad de añadir event listeners a las entidades dinámicamente</h2>
+<p>Cuando se crean librerías y aplicaciones desacopladas, puede ser interesante definir un <em>event listener</em> sin saber qué entidades lo utilizarán realmente.</p>
+<p>Por eso se ha creado una nueva API que permite asociar <em>listeners</em> a las entidades mediante la clase <code>AttachEntityListenersListener</code>, que a su vez escucha al evento <code>loadMetadata</code>, que se lanza una vez para cada entidad cuando se generan sus metadatos:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">use</span> Doctrine\ORM\Tools\AttachEntityListenersListener<span class="sy0">;</span>
+<span class="kw2">use</span> Doctrine\ORM\Events<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$listener</span> <span class="sy0">=</span> <span class="kw2">new</span> AttachEntityListenersListener<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$listener</span><span class="sy0">-&gt;</span><span class="me1">addEntityListener</span><span class="br0">&#40;</span>
+    <span class="st_h">'MyProject\Entity\User'</span><span class="sy0">,</span> <span class="st_h">'MyProject\Listener\TimestampableListener'</span><span class="sy0">,</span>
+    Events<span class="sy0">::</span><span class="me2">prePersist</span><span class="sy0">,</span> <span class="st_h">'onPrePersist'</span>
+<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$evm</span><span class="sy0">-&gt;</span><span class="me1">addEventListener</span><span class="br0">&#40;</span>Events<span class="sy0">::</span><span class="me2">loadClassMetadata</span><span class="sy0">,</span> <span class="re0">$listener</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> TimestampableListener
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> onPrePersist<span class="br0">&#40;</span><span class="re0">$event</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$entity</span> <span class="sy0">=</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getEntity</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$entity</span><span class="sy0">-&gt;</span><span class="me1">setCreated</span><span class="br0">&#40;</span><span class="kw2">new</span> \DateTime<span class="br0">&#40;</span><span class="st_h">'now'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<h2>Objetos embebidos</h2>
+<p>Doctrine ahora permite crear varios objetos PHP a partir de una única tabla, gracias a una nueva funcionalidad llamada <em>"Embeddedable Objects"</em>. Para ello, dentro de una clase de tipo <code>@Entity</code> puedes definir otra clase de tipo <em>"embebible"</em> mediante la anotación <code>@Embeddable</code> para hacer que sus datos se guarden en la misma tabla de la primera entidad.</p>
+<p>Los objetos embebidos no se pueden guardar, actualizar o borrar por sí mismos, sino siempre a través de la entidad en la que están embebidos (a esta entidad "padre" se le suele llamar <em>"root-entity"</em> o <em>"aggregate"</em>). Así que los objetos embebidos no tienen una clave primaria, sino que se identifican mediante los propios valores que contienen.</p>
+<p>Ejemplo de cómo definir y utilizar objetos embebidos:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="co4">/** @Entity */</span>
+<span class="kw2">class</span> Product
+<span class="br0">&#123;</span>
+    <span class="co4">/** @Id @Column(type=&quot;integer&quot;) @GeneratedValue */</span>
+    <span class="kw2">private</span> <span class="re0">$id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/** @Embedded(class = &quot;Money&quot;) */</span>
+    <span class="kw2">private</span> <span class="re0">$price</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co4">/** @Embeddable */</span>
+<span class="kw2">class</span> Money
+<span class="br0">&#123;</span>
+    <span class="co4">/** @Column(type = &quot;decimal&quot;) */</span>
+    <span class="kw2">private</span> <span class="re0">$value</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/** @Column(type = &quot;string&quot;) */</span>
+    <span class="kw2">private</span> <span class="re0">$currency</span> <span class="sy0">=</span> <span class="st_h">'EUR'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<p>Puedes leer más sobre los objetos embebidos en este tutorial de Doctrine: <a href="http://docs.doctrine-project.org/en/latest/tutorials/embeddables.html">Separating Concerns using Embeddables</a>.</p>
+<p>Esta funcionalidad ha sido desarrollada por <a href="https://twitter.com/schmittjoh">Johannes Schmitt</a>.</p>
+<ul>
+<li><a href="http://doctrine-project.org/jira/browse/DDC-93">Ver discusión DDC-93</a></li>
+<li><a href="https://github.com/doctrine/doctrine2/pull/835">Ver Pull Request</a></li>
+</ul>
+<h2>Caché de segundo nivel</h2>
+<p>Desde la versión 2.0 de Doctrine, cuando realizas varias búsquedas de un mismo objeto utilizando su clave primaria, Doctrine solamente hace la consulta la primera vez y cachea el objeto para devolverlo las siguientes veces. Esta funcionalidad se denomina <em>caché de primer nivel</em>, guarda las entidades en memoria e implementa el patrón <em>identity map</em>.</p>
+<p>La nueva <em>caché de segundo nivel</em> que introduce Doctrine 2.5 funciona de manera diferente. En vez de guardar las entidades en memoria, se guardan en un sistema de caché en memoria como Memcache, Redis, Riak o MongoDB. Además, esta caché guarda el resultado de búsquedas más complejas, no solo aquellas que buscan entidades a partir de su clave primaria. En otras palabras, esta caché es muy parecida a la <em>Query Result Cache</em> que ya existía, pero es mucho más potente.</p>
+<p>El siguiente ejemplo muestra cómo cachear una entidad <code>Country</code> relacionada con una entidad <code>User</code>. La aplicación muestra la información del país del usuario continuamente, así que es mejor cachear esa información para poder reutilizarla en todos los usuarios de la aplicación que pertenezcan al mismo país:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="co4">/**
+ * @Entity
+ * @Cache(usage=&quot;READ_ONLY&quot;, region=&quot;country_region&quot;)
+ */</span>
+<span class="kw2">class</span> Country
+<span class="br0">&#123;</span>
+    <span class="co4">/**
+     * @Id
+     * @GeneratedValue
+     * @Column(type=&quot;integer&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @Column(unique=true)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$name</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<p>En este ejemplo, se define un nuevo segmento de caché llamado <code>country_region</code>, que también hay que configurar en el EntityManager:</p>
+<pre class="php code"><span class="re0">$config</span> <span class="sy0">=</span> <span class="kw2">new</span> \Doctrine\ORM\Configuration<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="sy0">-&gt;</span><span class="me1">setSecondLevelCacheEnabled</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$cacheConfig</span>  <span class="sy0">=</span>  <span class="re0">$config</span><span class="sy0">-&gt;</span><span class="me1">getSecondLevelCacheConfiguration</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$regionConfig</span> <span class="sy0">=</span>  <span class="re0">$cacheConfig</span><span class="sy0">-&gt;</span><span class="me1">getRegionsConfiguration</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$regionConfig</span><span class="sy0">-&gt;</span><span class="me1">setLifetime</span><span class="br0">&#40;</span><span class="st_h">'country_region'</span><span class="sy0">,</span> <span class="nu0">3600</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>A partir de ahora, Doctrine siempre buscará esta información primero en la caché y después en la base de datos.</p>
+<ul>
+<li><a href="http://docs.doctrine-project.org/en/latest/reference/second-level-cache.html">Leer documentación sobre la caché de segundo nivel</a></li>
+<li><a href="https://github.com/doctrine/doctrine2/pull/808">Ver Pull request asociado</a></li>
+</ul>
+<h2>Soporte para asociaciones ManyToMany en <code>Criteria</code></h2>
+<p>La API para definir <code>Criteria</code> soportaba la consulta de colecciones (<a href="http://docs.doctrine-project.org/en/latest/reference/working-with-associations.html#filtering-collections">leer documentación relacionada</a>) desde Doctrine 2.4. Pero en esta nueva versión, además de las asociaciones <em>one-to-many</em>, ahora también se soportan las asociaciones <em>many-to-many</em>.</p>
+<h2>Soporte para la expresión <code>contains()</code> en <code>Criteria</code></h2>
+<p>La expresión <code>contains()</code> ahora se puede usar en la API de <code>Criteria</code> para buscar si una cadena de texto contiene otra cadena. En la práctica esta expresión se traduce a una condición <code>columna LIKE '%cadena-a-buscar%'</code> de SQL.</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="kw2">use</span> \Doctrine\Common\Collections\Criteria<span class="sy0">;</span>
+&nbsp;
+<span class="re0">$criteria</span> <span class="sy0">=</span> Criteria<span class="sy0">::</span><span class="me2">create</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">where</span><span class="br0">&#40;</span>Criteria<span class="sy0">::</span><span class="me2">expr</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">contains</span><span class="br0">&#40;</span><span class="st_h">'name'</span><span class="sy0">,</span> <span class="st_h">'Benjamin'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$users</span> <span class="sy0">=</span> <span class="re0">$repository</span><span class="sy0">-&gt;</span><span class="me1">matching</span><span class="br0">&#40;</span><span class="re0">$criteria</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<h2>Soporte de la opción <code>EXTRA_LAZY</code> en <code>Criteria</code></h2>
+<p>Si una colección está definida como <code>fetch="EXTRA_LAZY"</code>, cuando se utiliza <code>Collection::matching($criteria)</code> ahora se devuelve una colección de tipo <em>lazy</em>:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">class</span> Post
+<span class="br0">&#123;</span>
+    <span class="co4">/** @OneToMany(targetEntity=&quot;Comment&quot;, fetch=&quot;EXTRA_LAZY&quot;) */</span>
+    <span class="kw2">private</span> <span class="re0">$comments</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="re0">$criteria</span> <span class="sy0">=</span> Criteria<span class="sy0">::</span><span class="me2">create</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="sy0">-&gt;</span><span class="me1">where</span><span class="br0">&#40;</span>Criteria<span class="sy0">-&gt;</span><span class="me1">expr</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">eq</span><span class="br0">&#40;</span><span class="st0">&quot;published&quot;</span><span class="sy0">,</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$publishedComments</span> <span class="sy0">=</span> <span class="re0">$post</span><span class="sy0">-&gt;</span><span class="me1">getComments</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">matching</span><span class="br0">&#40;</span><span class="re0">$criteria</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">echo</span> <span class="kw3">count</span><span class="br0">&#40;</span><span class="re0">$publishedComments</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+<p>La colección asociada no se carga cuando se utiliza <code>count()</code> o <code>contains()</code>, pero si se realiza cualquier otra operación sobre ella, sí que se carga completamente la colección.</p>
+<p>Esta funcionalidad ha sido desarrollada por <a href="https://github.com/bakura10">Michaël Gallego</a>.</p>
+<ul>
+<li><a href="https://github.com/doctrine/doctrine2/pull/882">Ver Pull Request #1</a></li>
+<li><a href="https://github.com/doctrine/doctrine2/pull/1032">Ver Pull Request #2</a></li>
+</ul>
+<h2>Posibilidad de configurar opciones de los índices</h2>
+<p>Mediante la configuración del ORM ahora es posible establecer las opciones de DBAL para los índices de la base de datos. Antes sólo era posible hacerlo mediante un <em>listener</em>:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="co4">/**
+ * @Table(name=&quot;product&quot;, indexes={@Index(columns={&quot;description&quot;},flags={&quot;fulltext&quot;})})
+ */</span>
+<span class="kw2">class</span> Product
+<span class="br0">&#123;</span>
+    <span class="kw2">private</span> <span class="re0">$description</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<p>Esta funcionalidad ha sido desarrollada por <a href="https://github.com/adrianolek">Adrian Olek</a>.</p>
+<ul>
+<li><a href="https://github.com/doctrine/doctrine2/pull/973">Ver Pull Request</a></li>
+</ul>
+<h2>Comprobar los parámetros definidos en la API de <code>SQLFilter</code></h2>
+<p>Ahora es posible comprobar dentro de un filtro de tipo <code>SQLFilter</code> si un parámetro está definido o no. Esto permite controlar más fácilmente qué opciones del filtro activar o desactivar.</p>
+<p>El siguiente ejemplo utiliza el mismo código que el se usa en la documentación de los filtros <code>SQLFilter</code>:</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="kw2">class</span> MyLocaleFilter <span class="kw2">extends</span> SQLFilter
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addFilterConstraint<span class="br0">&#40;</span>ClassMetadata <span class="re0">$targetEntity</span><span class="sy0">,</span> <span class="re0">$targetTableAlias</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$targetEntity</span><span class="sy0">-&gt;</span><span class="me1">reflClass</span><span class="sy0">-&gt;</span><span class="me1">implementsInterface</span><span class="br0">&#40;</span><span class="st_h">'LocaleAware'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="st0">&quot;&quot;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">hasParameter</span><span class="br0">&#40;</span><span class="st_h">'locale'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="st0">&quot;&quot;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$targetTableAlias</span><span class="sy0">.</span><span class="st_h">'.locale = '</span> <span class="sy0">.</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'locale'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+<p>Esta funcionalidad ha sido desarrollada por <a href="https://github.com/mdemo">Miroslav Demovic</a>.</p>
+<ul>
+<li><a href="https://github.com/doctrine/doctrine2/pull/963">Ver Pull Request</a></li>
+</ul>
+<h2>Mejoras en la opción <code>EXTRA_LAZY</code></h2>
+<p>Las consultas que utilizan <code>EXTRA_LAZY</code> y <code>containsKey</code> ahora son más eficientes. Cuando se invoca el método <code>Collection::containsKey($key)</code> en colecciones de tipo <em>one-to-many</em> y <em>many-to-many</em> que utilizan <code>indexBy</code> y <code>EXTRA_LAZY</code>, ahora se ejecuta una consulta para comprobar si existe el item. Antes esta operación se hacía en memoria después de cargar todas las entidades de la colección.</p>
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">class</span> User
+<span class="br0">&#123;</span>
+    <span class="co4">/** @OneToMany(targetEntity=&quot;Group&quot;, indexBy=&quot;id&quot;) */</span>
+    <span class="kw2">private</span> <span class="re0">$groups</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$user</span><span class="sy0">-&gt;</span><span class="me1">getGroups</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">containsKey</span><span class="br0">&#40;</span><span class="re0">$groupId</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">echo</span> <span class="st0">&quot;User is in group <span class="es4">$groupId</span><span class="es1">\n</span>&quot;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+<p>Esta funcionalidad ha sido desarrollada por <a href="https://github.com/goetas">Asmir Mustafic</a>.</p>
+<ul>
+<li><a href="https://github.com/doctrine/doctrine2/pull/937">Ver Pull Request</a></li>
+</ul>
+<p>Además, <a href="https://github.com/sandermarechal">Sander Marechal</a> ha desarrollado una funcionalidad que añade soporte para <code>EXTRA_LAZY</code> en el método <code>get()</code> de las asociaciones many-to-many, tanto <em>owning</em> como <em>inverse</em>.</p>
+<h2>Mejorada la eficiencia de la opción <code>EAGER</code></h2>
+<p>Cuando se define una asociación <em>one-to-many</em> como <code>fetch="EAGER"</code>, ahora se ejecuta una consulta menos que antes. Además, ahora también funciona bien cuando se utiliza junto con <code>indexBy</code>.</p>
+<h2>Mejorado el soporte de <code>EntityManagerInterface</code></h2>
+<p>La versión 2.4 de Doctrine introdujo la interfaz <code>EntityManagerInterface</code>. Esta nueva versión 2.5 hace que se utilice en muchos sitios donde antes solamente se usaba la clase <code>Doctrine\ORM\EntityManager</code>.</p>
+<p>Este cambio hace que sea más sencillo usar el patrón <em>decorator</em> para extender la clase <code>EntityManager</code> cuando sea necesario. En cualquier caso, la nueva interfaz todavía no se utiliza en todas las partes del código de Doctrine, así que debes tener cuidado.</p>
+<h2>Recursos</h2>
+<ul>
+<li><a href="http://librosweb.es/tutorial/las-novedades-de-doctrine-orm-25-segunda-parte/">Las novedades de Doctrine ORM 2.5 (Segunda parte)</a></li>
+</ul>
+
+                    </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+    <div class="module module-share">
+    <h3>Compartir</h3>
+    <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = 'Las novedades de Doctrine ORM 2.5 (Primera parte)';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+</div>
+
+
+    
+<div class="module module-tags">
+    <h3>Etiquetas populares</h3>
+    <ul class="tags-list">
+                    <li class="">
+                <a href="/tutoriales/composer/">composer</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/css/">css</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/dise%C3%B1o/">diseño</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/html/">html</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/javascript/">javascript</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/php/">php</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/programaci%C3%B3n/">programación</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/sistemas/">sistemas</a>
+            </li>
+                    <li class="">
+                <a href="/tutoriales/symfony/">symfony</a>
+            </li>
+            </ul>
+</div>
+
+
+    <div class="module module-rss">
+    <h3>Suscríbete gratis</h3>
+    <ul class="list-unstyled text-links module-rss-feeds">
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/todos.xml">
+                <strong>Todos</strong> los tutoriales
+            </a>
+        </li>
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/diseno.xml">
+                Tutoriales de <strong>diseño</strong>
+            </a>
+        </li>
+        <li>
+            <i class="icon">RSS</i>
+            <a href="/rss/tutoriales/programacion.xml">
+                Tutoriales de <strong>programación</strong>
+            </a>
+        </li>
+    </ul>
+</div>
+
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>11.5. Serialización de formularios (Los formularios de Symfony 1.4)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_11/personalizando_los_formularios_generados.html" />
+                    <link rel="next" href="../capitulo_12.html" />
+                <link rel="start" href="/libro/symfony_formularios/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="11.5. Serialización de formularios (Los formularios de Symfony 1.4)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_formularios"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_formularios/" itemprop="url">
+                    <span itemprop="title">Los formularios de Symfony 1.4</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_formularios/capitulo_11.html" itemprop="url">
+                    <span itemprop="title">Capítulo 11. Integrando Doctrine</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>11.5. Serialización de formularios</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="serializacion_de_formularios" class="title">
+        <span>11.5.</span> Serialización de formularios
+    </h1>
+
+    
+
+<p>Las secciones anteriores explican cómo personalizar los formularios generados automáticamente por la tarea <code>doctrine:build-forms</code>. En esta sección, se personaliza el flujo de trabajo de los formularios, comenzando por el código generado mediante la tarea <code>doctrine:generate-crud</code>.</p>
+
+<h3 id="valores_iniciales">11.5.1. Valores iniciales</h3>
+
+<p><strong>Cada instancia de un formulario de Doctrine siempre está conectada con un objeto de Doctrine</strong>. El objeto de Doctrine relacionado siempre pertenece a la clase que devuelve el método <code>getModelName()</code>. El formulario <code>AuthorForm</code> de los ejemplos anteriores sólo puede estar relacionado con objetos de la clase <code>Author</code>. El objeto relacionado o es un objeto vacío (una instancia nueva de la clase <code>Author</code>) o es el objeto utilizado como primer argumento del constructor. Mientras el constructor de un formulario típico utiliza como primer argumento un array de valores, el constructor de un formulario de Doctrine siempre utiliza un objeto de Doctrine. Este objeto es el que se emplea para obtener el valor inicial de cada campo del formulario. El método <code>getObject()</code> devuelve el objeto asociado con la actual instancia del formulario y el método <code>isNew()</code> permite averiguar si el objeto se ha enviado mediante el constructor:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// creando un nuevo objeto</span>
+<span class="re0">$authorForm</span> <span class="sy0">=</span> <span class="kw2">new</span> AuthorForm<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">print</span> <span class="re0">$authorForm</span><span class="sy0">-&gt;</span><span class="me1">getObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">// muestra null</span>
+<span class="kw1">print</span> <span class="re0">$authorForm</span><span class="sy0">-&gt;</span><span class="me1">isNew</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>              <span class="co1">// muestra true</span>
+&nbsp;
+<span class="co1">// modificando un objeto existente</span>
+<span class="re0">$author</span> <span class="sy0">=</span> Doctrine<span class="sy0">::</span><span class="me2">getTable</span><span class="br0">&#40;</span><span class="st_h">'Author'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">find</span><span class="br0">&#40;</span><span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$authorForm</span> <span class="sy0">=</span> <span class="kw2">new</span> AuthorForm<span class="br0">&#40;</span><span class="re0">$author</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">print</span> <span class="re0">$authorForm</span><span class="sy0">-&gt;</span><span class="me1">getObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">// muestra 1</span>
+<span class="kw1">print</span> <span class="re0">$authorForm</span><span class="sy0">-&gt;</span><span class="me1">isNew</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>              <span class="co1">// muestra false</span></pre>
+</div>
+
+<h3 id="flujo_de_trabajo">11.5.2. Flujo de trabajo</h3>
+
+<p>Como se explicó al principio de este capítulo, la acción <code>edit</code> mostrada en el listado 11-23 es la encargada de gestionar el flujo de trabajo del formulario.</p>
+
+<p><strong>Listado 11-23 - El método <code>executeEdit</code> del módulo <code>author</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// apps/frontend/modules/author/actions/actions.class.php</span>
+<span class="kw2">class</span> authorActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="co1">// ...</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> executeEdit<span class="br0">&#40;</span><span class="re0">$request</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$author</span> <span class="sy0">=</span> Doctrine<span class="sy0">::</span><span class="me2">getTable</span><span class="br0">&#40;</span><span class="st_h">'Author'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">find</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span> <span class="sy0">=</span> <span class="kw2">new</span> AuthorForm<span class="br0">&#40;</span><span class="re0">$author</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">isMethod</span><span class="br0">&#40;</span><span class="st_h">'post'</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="sy0">-&gt;</span><span class="me1">bind</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'author'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="sy0">-&gt;</span><span class="me1">isValid</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+      <span class="br0">&#123;</span>
+        <span class="re0">$author</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="sy0">-&gt;</span><span class="me1">save</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="st_h">'author/edit?id='</span><span class="sy0">.</span><span class="re0">$author</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Aunque la acción <code>edit</code> se parece a las acciones que se han descrito en los capítulos anteriores, existen varias diferencias:</p>
+
+<ul>
+<li>El primer argumento del constructor del formulario es un objeto Doctrine de la clase <code>Author</code>:</li>
+</ul>
+
+<div class="code php">
+<pre class="php"><span class="re0">$author</span> <span class="sy0">=</span> Doctrine<span class="sy0">::</span><span class="me2">getTable</span><span class="br0">&#40;</span><span class="st_h">'Author'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">find</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span> <span class="sy0">=</span> <span class="kw2">new</span> AuthorForm<span class="br0">&#40;</span><span class="re0">$author</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<ul>
+<li>El formato del atributo <code>name</code> del widget se adapta automáticamente para poder obtener los datos enviados por el usuario mediante un array de PHP con el mismo nombre que la tabla relacionada (<code>author</code>):</li>
+</ul>
+
+<div class="code php">
+<pre class="php"><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="sy0">-&gt;</span><span class="me1">bind</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'author'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<ul>
+<li>Si el formulario es válido, un simple llamada al método <code>save()</code> crea o actualiza el objeto Doctrine relacionado con el formulario:</li>
+</ul>
+
+<div class="code php">
+<pre class="php"><span class="re0">$author</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="sy0">-&gt;</span><span class="me1">save</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<h3 id="creando_y_modificando_objetos_doctrine">11.5.3. Creando y modificando objetos Doctrine</h3>
+
+<p>El código del listado 11-23 dispone de un único método para crear y modificar objetos de la clase <code>Author</code>:</p>
+
+<ul>
+<li>Crear nuevos objetos de tipo <code>Author</code>:
+
+<ul>
+<li>Se invoca la acción <code>index</code> sin ningún parámetro <code>id</code> (<code>$request-&gt;getParameter('id')</code> es <code>null</code>)</li>
+<li>El método <code>find()</code> devuelve <code>null</code></li>
+<li>El objeto <code>form</code> se asocia con un objeto Doctrine vacío de tipo <code>Author</code></li>
+<li>Si el formulario es válido, la llamada a <code>$this-&gt;form-&gt;save()</code> crea un nuevo objeto de tipo <code>Author</code></li>
+</ul></li>
+<li>Modificar objetos de tipo <code>Author</code> existentes:
+
+<ul>
+<li>Se invoca la acción <code>index</code> con un parámetro <code>id</code> (<code>$request-&gt;getParameter('id')</code> es la clave primaria del objeto de tipo <code>Author</code> que se quiere modificar)</li>
+<li>El método <code>find()</code> devuelve el objeto de tipo <code>Author</code> relacionado con esa clave primaria</li>
+<li>El objeto <code>form</code> se asocia con el objeto anterior</li>
+<li>Si el formulario es válido, la llamada a <code>$this-&gt;form-&gt;save()</code> actualiza el objeto de tipo <code>Author</code></li>
+</ul></li>
+</ul>
+
+<h3 id="el_metodo_save">11.5.4. El método save()</h3>
+
+<p>Cuando un formulario de Doctrine es válido, el método <code>save()</code> actualiza el objeto relacionado y lo almacena en la base de datos. En realidad, este método no sólo guarda el objeto principal sino que también almacena todos los objetos relacionados. El formulario <code>ArticleForm</code> por ejemplo también actualiza las etiquetas asociadas con el artículo. Como la relación entre las tablas <code>article</code> y <code>tag</code> es de tipo n-n, las etiquetas relacionadas con un artículo se guardan en la tabla <code>article_tag</code> (utilizando el método <code>saveArticleTagList()</code> generado automáticamente).</p>
+
+<p>Para asegurar la integridad de los datos guardados, el método <code>save()</code> realiza todas las actualizaciones en una transacción</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Como se explica en el capítulo 9, el método <code>save()</code> también actualiza las tablas internacionalizadas.</p></div>
+
+<div class="admonition sidebar"><p><strong class="title">Utilizando el método <code>bindAndSave()</code></strong> El método <code>bindAndSave()</code> asocia los datos enviados por el usuario con el formulario, valida el formulario completo y actualiza los objetos relacionados en la base de datos, todo ello en una única operación:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> articleActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeCreate<span class="br0">&#40;</span>sfWebRequest <span class="re0">$request</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span> <span class="sy0">=</span> <span class="kw2">new</span> ArticleForm<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">isMethod</span><span class="br0">&#40;</span><span class="st_h">'post'</span><span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="sy0">-&gt;</span><span class="me1">bindAndSave</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'article'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="st_h">'article/created'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p></p></div>
+
+<h3 id="trabajando_con_archivos_subidos">11.5.5. Trabajando con archivos subidos</h3>
+
+<p>El método <code>save()</code> actualiza automáticamente los objetos Doctrine, pero no se encarga de los elementos relacionados como los archivos subidos.</p>
+
+<p>A continuación se adjunta un archivo a cada artículo. Los archivos subidos se almacenan en el directorio <code>web/uploads</code> y en el campo <code>file</code> de la tabla <code>article</code> se almacena la ruta hasta el archivo, tal y como muestra el listado 11-24.</p>
+
+<p><strong>Listado 11-24 - Esquema de la tabla <code>article</code> con un archivo adjunto</strong></p>
+
+<div class="code yaml">
+<pre class="yaml">// config/schema.yml<span class="co4">
+doctrine</span>:<span class="co4">
+  article</span><span class="sy2">:
+</span>    // <span class="sy1">...</span><span class="co3">
+    file</span><span class="sy2">: </span>string<span class="br0">&#40;</span><span class="nu0">255</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Cada vez que se actualiza el esquema de datos es necesario actualizar el modelo de objetos, la base de datos y los formularios:</p>
+
+<div class="code cli">
+<pre class="cli">$ ./symfony doctrine:build-all</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Debes tener en cuenta que la tarea <code>doctrine:build-all</code> borra todas las tablas de la base de datos antes de volver a crearlas. Por lo tanto, se pierde toda la información existente en las tablas. Este es el motivo por el que se recomienda crear archivos con datos de prueba (<code>fixtures</code>) para cargarlos cada vez que se modifica el modelo de datos.</p></div>
+
+<p>El listado 11-25 muestra cómo modificar la clase <code>ArticleForm</code> para asociar un widget y un validador con el campo <code>file</code>.</p>
+
+<p><strong>Listado 11-25 - Modificando el campo <code>file</code> del formulario <code>ArticleForm</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> ArticleForm <span class="kw2">extends</span> BaseArticleForm
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> configure<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// ...</span>
+&nbsp;
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">widgetSchema</span><span class="br0">&#91;</span><span class="st_h">'file'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw2">new</span> sfWidgetFormInputFile<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">validatorSchema</span><span class="br0">&#91;</span><span class="st_h">'file'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw2">new</span> sfValidatorFile<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>No olvides que todos los formularios que permiten adjuntar archivos deben incluir un atributo llamado <code>enctype</code> en la etiqueta <code>&lt;form&gt;</code>. En el capítulo 2 se explica cómo modificar la etiqueta <code>&lt;form&gt;</code> de la plantilla para gestionar los archivos subidos.</p>
+
+<p>El listado 11-26 muestra las modificaciones necesarias para guardar el archivo subido en el servidor y para almacenar su ruta en el objeto <code>article</code>.</p>
+
+<p><strong>Listado 11-26 - Guardando el objeto <code>article</code> y el archivo subido en la acción</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> executeEdit<span class="br0">&#40;</span><span class="re0">$request</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="re0">$author</span> <span class="sy0">=</span> Doctrine<span class="sy0">::</span><span class="me2">getTable</span><span class="br0">&#40;</span><span class="st_h">'Author'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">find</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span> <span class="sy0">=</span> <span class="kw2">new</span> ArticleForm<span class="br0">&#40;</span><span class="re0">$author</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+  <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">isMethod</span><span class="br0">&#40;</span><span class="st_h">'post'</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="sy0">-&gt;</span><span class="me1">bind</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'article'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getFiles</span><span class="br0">&#40;</span><span class="st_h">'article'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="sy0">-&gt;</span><span class="me1">isValid</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="re0">$file</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="sy0">-&gt;</span><span class="me1">getValue</span><span class="br0">&#40;</span><span class="st_h">'file'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="re0">$filename</span> <span class="sy0">=</span> <span class="kw3">sha1</span><span class="br0">&#40;</span><span class="re0">$file</span><span class="sy0">-&gt;</span><span class="me1">getOriginalName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="re0">$file</span><span class="sy0">-&gt;</span><span class="me1">getExtension</span><span class="br0">&#40;</span><span class="re0">$file</span><span class="sy0">-&gt;</span><span class="me1">getOriginalExtension</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+      <span class="re0">$file</span><span class="sy0">-&gt;</span><span class="me1">save</span><span class="br0">&#40;</span>sfConfig<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'sf_upload_dir'</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/'</span><span class="sy0">.</span><span class="re0">$filename</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+      <span class="re0">$article</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">form</span><span class="sy0">-&gt;</span><span class="me1">save</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+      <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="st_h">'article/edit?id='</span><span class="sy0">.</span><span class="re0">$article</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Después de guardar el archivo subido en algún directorio, el objeto <code>sfValidatedFile</code> ya conoce la ruta absoluta del archivo. Cuando se invoca el método <code>save()</code>, se emplean los valores de cada campo para actualizar el objeto. En el caso del campo <code>file</code>, el objeto <code>sfValidatedFile</code> se convierte en una cadena de caracteres mediante el método <code>__toString()</code> y se devuelve el valor de la ruta absoluta del archivo. A continuación, la columna <code>file</code> de la tabla <code>article</code> almacena esta ruta absoluta.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Si sólo quieres almacenar la ruta relativa desde el directorio <code>sfConfig::get('sf_upload_dir')</code>, se puede crear una clase que herede de <code>sfValidatedFile</code> y que utilice la opción <code>validated_file_class</code> para enviar el nombre de la nueva clase al validador <code>sfValidatorFile</code>. De esta forma, el validador devuelve una instancia de tu clase. En lo que resta de capítulo se muestra otra forma de hacerlo, que consiste en modificar el valor de la columna <code>file</code> antes de guardar el objeto en la base de datos.</p></div>
+
+<h3 id="personalizando_el_metodo_save">11.5.6. Personalizando el método <code>save()</code></h3>
+
+<p>En la sección anterior se explica cómo guardar en la acción <code>edit</code> un archivo subido. Uno de los principios de la programación orientada a objetos es la reutilización del código mediante su encapsulación en clases. Por tanto, en vez de duplicar en cada acción del formulario <code>ArticleForm</code> el código que guarda un archivo, es mejor mover ese código a la clase <code>ArticleForm</code>. El listado 11-27 muestra como redefinir el método <code>save()</code> para almacenar los archivos subidos y para borrar un archivo existente.</p>
+
+<p><strong>Listado 11-27 - Redefiniendo el método <code>save()</code> de la clase <code>ArticleForm</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> ArticleForm <span class="kw2">extends</span> BaseFormDoctrine
+<span class="br0">&#123;</span>
+  <span class="co1">// ...</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> save<span class="br0">&#40;</span><span class="re0">$con</span> <span class="sy0">=</span> <span class="kw4">null</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw3">file_exists</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getFile</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="kw3">unlink</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getFile</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="re0">$file</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getValue</span><span class="br0">&#40;</span><span class="st_h">'file'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$filename</span> <span class="sy0">=</span> <span class="kw3">sha1</span><span class="br0">&#40;</span><span class="re0">$file</span><span class="sy0">-&gt;</span><span class="me1">getOriginalName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="re0">$file</span><span class="sy0">-&gt;</span><span class="me1">getExtension</span><span class="br0">&#40;</span><span class="re0">$file</span><span class="sy0">-&gt;</span><span class="me1">getOriginalExtension</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$file</span><span class="sy0">-&gt;</span><span class="me1">save</span><span class="br0">&#40;</span>sfConfig<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'sf_upload_dir'</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/'</span><span class="sy0">.</span><span class="re0">$filename</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">return</span> parent<span class="sy0">::</span><span class="me2">save</span><span class="br0">&#40;</span><span class="re0">$con</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Después de mover el código al formulario, la acción <code>edit</code> es idéntica al código generado automáticamente por la tarea <code>doctrine:generate-crud</code>.</p>
+
+<div class="admonition sidebar"><p><strong class="title">Refactorizando el código del modelo en el formulario</strong> Normalmente, las acciones generadas por la tarea <code>doctrine:generate-crud</code> no se modifican. El código que se podría añadir a la acción <code>edit</code>, especialmente el código relacionado con la serialización del formulario, normalmente se coloca en las clases del modelo o del formulario.</p>
+
+<p>Después de haber refactorizado la clase del formulario para gestionar los archivos subidos, a continuación se muestra otro ejemplo relacionado con el modelo. El formulario <code>ArticleForm</code> dispone de un campo llamado <code>slug</code>. Como se comentó anteriormente, el valor de este campo se debe calcular automáticamente a partir del campo <code>title</code> y también puede ser definido directamente por el usuario. Esta lógica no depende del formulario sino del modelo, tal y como muestra el siguiente código:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> Article <span class="kw2">extends</span> BaseArticle
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> save<span class="br0">&#40;</span><span class="re0">$con</span> <span class="sy0">=</span> <span class="kw4">null</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getSlug</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">setSlugFromTitle</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+     <span class="kw1">return</span> parent<span class="sy0">::</span><span class="me2">save</span><span class="br0">&#40;</span><span class="re0">$con</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+   protection <span class="kw2">function</span> setSlugFromTitle<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// ...</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El principal objetivo de estas refactorizaciones es el respeto a la separación entre las diferentes capas de la aplicación y la posibilidad de reutilizar el código de las aplicaciones.</p></div>
+
+<h3 id="personalizando_el_metodo_dosave">11.5.7. Personalizando el método <code>doSave()</code></h3>
+
+<p>Como se vio en las secciones anteriores, cuando se guarda un objeto se realiza una transacción para asegurar que todas las operaciones del proceso de guardado se realizan correctamente. Cuando se redefine el método <code>save()</code> como en la sección anterior al guardar un archivo subido, el código se ejecuta de forma independiente a esa transacción.</p>
+
+<p>El listado 11-28 muestra cómo utilizar el método <code>doSave()</code> para incluir en la transacción global el código encargado de guardar el archivo subido.</p>
+
+<p><strong>Listado 11-28 - Redefiniendo el método <code>doSave()</code> en el formulario <code>ArticleForm</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> ArticleForm <span class="kw2">extends</span> BaseFormDoctrine
+<span class="br0">&#123;</span>
+  <span class="co1">// ...</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> doSave<span class="br0">&#40;</span><span class="re0">$con</span> <span class="sy0">=</span> <span class="kw4">null</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw3">file_exists</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getFile</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="kw3">unlink</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getFile</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="re0">$file</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getValue</span><span class="br0">&#40;</span><span class="st_h">'file'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$filename</span> <span class="sy0">=</span> <span class="kw3">sha1</span><span class="br0">&#40;</span><span class="re0">$file</span><span class="sy0">-&gt;</span><span class="me1">getOriginalName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="re0">$file</span><span class="sy0">-&gt;</span><span class="me1">getExtension</span><span class="br0">&#40;</span><span class="re0">$file</span><span class="sy0">-&gt;</span><span class="me1">getOriginalExtension</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$file</span><span class="sy0">-&gt;</span><span class="me1">save</span><span class="br0">&#40;</span>sfConfig<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'sf_upload_dir'</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/'</span><span class="sy0">.</span><span class="re0">$filename</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">return</span> parent<span class="sy0">::</span><span class="me2">doSave</span><span class="br0">&#40;</span><span class="re0">$con</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Como el método <code>doSave()</code> se ejecuta en la transacción creada por el método <code>save()</code>, si la llamada al método <code>save()</code> del objeto <code>file()</code> lanza una excepción, el objeto no se guarda.</p>
+
+<h3 id="personalizando_el_metodo_updateobject">11.5.8. Personalizando el método <code>updateObject()</code></h3>
+
+<p>En ocasiones es necesario modificar el objeto asociado al formulario después de su actualización automática pero antes de que se almacene en la base de datos.</p>
+
+<p>Siguiendo con el ejemplo de los archivos subidos, en esta ocasión no se quiere almacenar en la columna <code>file</code> la ruta absoluta del archivo subido, sino que sólo se guarda la ruta relativa respecto al directorio <code>sfConfig::get('sf_upload_dir')</code>.</p>
+
+<p>El listado 11-29 muestra cómo redefinir el método <code>updateObject()</code> del formulario <code>ArticleForm</code> para modificar el valor de la columna <code>file</code> después de la actualización automática del objeto pero antes de que sea almacenado.</p>
+
+<p><strong>Listado 11-29 - Redefiniendo el método <code>updateObject()</code> y la clase <code>ArticleForm</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> ArticleForm <span class="kw2">extends</span> BaseFormDoctrine
+<span class="br0">&#123;</span>
+  <span class="co1">// ...</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> updateObject<span class="br0">&#40;</span><span class="re0">$values</span> <span class="sy0">=</span> <span class="kw4">null</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$object</span> <span class="sy0">=</span> parent<span class="sy0">::</span><span class="me2">updateObject</span><span class="br0">&#40;</span><span class="re0">$values</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$object</span><span class="sy0">-&gt;</span><span class="me1">setFile</span><span class="br0">&#40;</span><span class="kw3">str_replace</span><span class="br0">&#40;</span>sfConfig<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'sf_upload_dir'</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/'</span><span class="sy0">,</span> <span class="st_h">''</span><span class="sy0">,</span> <span class="re0">$object</span><span class="sy0">-&gt;</span><span class="me1">getFile</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="re0">$object</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El método <code>updateObject()</code> se invoca desde el método <code>doSave()</code>antes de almacenar el objeto en la base de datos.</p>
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_11/personalizando_los_formularios_generados.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>11.4. Personalizando los formularios generados</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_12.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>Capítulo 12. Referencia de Widgets</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Creación de formularios</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Validación de formularios</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Formularios para diseñadores web</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Integración con Propel</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Sin título</a>
+            </li>
+                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Sin título</a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Sin título</a>
+            </li>
+                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Sin título</a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Sin título</a>
+            </li>
+                                            <li class="level-1 ">
+                <a href="../capitulo_11.html">
+                    <span>Capítulo 11.</span> Integrando Doctrine
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/antes_de_comenzar.html">
+                    <span>11.1.</span> Antes de comenzar
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/generando_las_clases_del_formulario.html">
+                    <span>11.2.</span> Generando las clases del formulario
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/el_generador_crud.html">
+                    <span>11.3.</span> El generador CRUD
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/personalizando_los_formularios_generados.html">
+                    <span>11.4.</span> Personalizando los formularios generados
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_11/serializacion_de_formularios.html">
+                    <span>11.5.</span> Serialización de formularios
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Referencia de Widgets</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Validadores</a>
+            </li>
+                                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

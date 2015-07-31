@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>9.3. Helpers de enlaces (Symfony 1.4, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_9/reescritura_de_url.html" />
+                    <link rel="next" href="../capitulo_9/configuracion_del_sistema_de_enrutamiento.html" />
+                <link rel="start" href="/libro/symfony_1_4/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="9.3. Helpers de enlaces (Symfony 1.4, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_4"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_4/" itemprop="url">
+                    <span itemprop="title">Symfony 1.4, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_4/capitulo_9.html" itemprop="url">
+                    <span itemprop="title">Capítulo 9. Enlaces y sistema de enrutamiento</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>9.3. Helpers de enlaces</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="helpers_de_enlaces" class="title">
+        <span>9.3.</span> Helpers de enlaces
+    </h1>
+
+    
+
+<p>Debido al sistema de enrutamiento, es conveniente utilizar los <em>helpers</em> de enlaces en las plantillas en vez de etiquetas <code>&lt;a&gt;</code> normales y corrientes. Más que una molestia, el uso de estos <em>helpers</em> debe verse como un método sencillo de mantener la aplicación <em>limpia</em> y muy fácil de mantener. Además, los <em>helpers</em> de enlaces incluyen una serie de utilidades y atajos que no es recomendable desaprovechar.</p>
+
+<h3 id="hiperenlaces_botones_y_formularios">9.3.1. Hiperenlaces, botones y formularios</h3>
+
+<p>En secciones anteriores ya se ha mostrado el <em>helper</em> <code>link_to()</code>. Se utiliza para mostrar enlaces válidos según XHTML y requiere de dos parámetros: el elemento que va a mostrar el enlace y la URI interna del recurso al que apunta el enlace. Si en vez de un enlace se necesita un botón, simplemente se utiliza el <em>helper</em> <code>button_to()</code>. Los formularios también disponen de un <em>helper</em> para controlar el valor del atributo <code>action</code>. El siguiente capítulo explica los formularios en detalle. El listado 9-7 muestra algunos ejemplos de <em>helpers</em> de enlaces.</p>
+
+<p><strong>Listado 9-7 - Helpers de enlaces para las etiquetas <code>&lt;a&gt;</code>, <code>&lt;input&gt;</code> y <code>&lt;form&gt;</code></strong></p>
+
+<div class="code php">
+<pre class="php">// Enlace simple de texto
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Mi artículo'</span><span class="sy0">,</span> <span class="st_h">'articulo/ver?titulo=Economia_en_Francia'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;a href=&quot;/url/con/enrutamiento/a/Economia_en_Francia&quot;&gt;Mi artículo&lt;/a&gt;
+&nbsp;
+// Enlace en una imagen
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span>image_tag<span class="br0">&#40;</span><span class="st_h">'ver.gif'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'articulo/ver?titulo=Economia_en_Francia'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;a href=&quot;/url/con/enrutamiento/a/Economia_en_Francia&quot;&gt;&lt;img src=&quot;/images/ver.gif&quot; /&gt;&lt;/a&gt;
+&nbsp;
+// Boton
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> button_to<span class="br0">&#40;</span><span class="st_h">'Mi artículo'</span><span class="sy0">,</span> <span class="st_h">'articulo/ver?titulo=Economia_en_Francia'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;input value=&quot;Mi artículo&quot; type=&quot;button&quot; onclick=&quot;document.location.href='/url/con/enrutamiento/a/Economia_en_Francia';&quot; /&gt;
+&nbsp;
+// Formulario
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> form_tag<span class="br0">&#40;</span><span class="st_h">'articulo/ver?titulo=Economia_en_Francia'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;form method=&quot;post&quot; action=&quot;/url/con/enrutamiento/a/Economia_en_Francia&quot; /&gt;</pre>
+</div>
+
+<p>Los <em>helpers</em> de enlaces aceptan URI internas y también URL absolutas (las que empiezan por <code>http://</code> y para las que no se aplica el sistema de enrutamiento) y URL internas a una página (también llamadas <em>anclas</em>). Las aplicaciones reales suelen construir sus URI internas en base a una serie de parámetros dinámicos. El listado 9-8 muestra ejemplos de todos estos casos.</p>
+
+<p><strong>Listado 9-8 - URL que admiten los <em>helpers</em> de enlaces</strong></p>
+
+<div class="code php">
+<pre class="php">// URI interna
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Mi artículo'</span><span class="sy0">,</span> <span class="st_h">'articulo/ver?titulo=Economia_en_Francia'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;a href=&quot;/url/con/enrutamiento/a/Economia_en_Francia&quot;&gt;Mi artículo&lt;/a&gt;
+&nbsp;
+// URI interna con parámetros dinámicos
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Mi artículo'</span><span class="sy0">,</span> <span class="st_h">'articulo/ver?titulo='</span><span class="sy0">.</span><span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getTitulo</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// URI interna con anclas (enlaces a secciones internas de la página)
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Mi artículo'</span><span class="sy0">,</span> <span class="st_h">'articulo/ver?titulo=Economia_en_Francia#seccion1'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;a href=&quot;/url/con/enrutamiento/a/Economia_en_Francia#seccion1&quot;&gt;Mi artículo&lt;/a&gt;
+&nbsp;
+// URL absolutas
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Mi artículo'</span><span class="sy0">,</span> <span class="st_h">'http://www.ejemplo.com/cualquierpagina.html'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;a href=&quot;http://www.ejemplo.com/cualquierpagina.html&quot;&gt;Mi artículo&lt;/a&gt;</pre>
+</div>
+
+<h3 id="opciones_de_los_helpers_de_enlaces">9.3.2. Opciones de los helpers de enlaces</h3>
+
+<p>Como se explicó en el Capítulo 7, los <em>helpers</em> aceptan como argumento opciones adicionales, que se pueden indicar en forma de array asociativo o en forma de cadena de texto. Los <em>helpers</em> de enlaces también aceptan este tipo de opciones, como muestra el listado 9-9.</p>
+
+<p><strong>Listado 9-9 - Los helpers de enlaces aceptan opciones adicionales</strong></p>
+
+<div class="code php">
+<pre class="php">// Opciones adicionales como array asociativo
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Mi artículo'</span><span class="sy0">,</span> <span class="st_h">'articulo/ver?titulo=Economia_en_Francia'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+  <span class="st_h">'class'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'miclasecss'</span><span class="sy0">,</span>
+  <span class="st_h">'target'</span> <span class="sy0">=&gt;</span> <span class="st_h">'_blank'</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// Opciones adicionales como cadena de texto (producen el mismo resultado)
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Mi artículo'</span><span class="sy0">,</span> <span class="st_h">'articulo/ver?titulo=Economia_en_Francia'</span><span class="sy0">,</span><span class="st_h">'class=miclasecss target=_blank'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;a href=&quot;/url/con/enrutamiento/a/Economia_en_Francia&quot; class=&quot;miclasecss&quot; target=&quot;_blank&quot;&gt;Mi artículo&lt;/a&gt;</pre>
+</div>
+
+<p>También se pueden utilizar otras opciones específicas de Symfony llamadas <code>confirm</code> y <code>popup</code>. La primera muestra una ventana JavaScript de confirmación al pinchar en el enlace y la segunda opción abre el destino del enlace en una nueva ventana, como se muestra en el listado 9-10.</p>
+
+<p><strong>Listado 9-10 - Opciones <code>confirm</code> y <code>popup</code> en los <em>helpers</em> de enlaces</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Borrar elemento'</span><span class="sy0">,</span> <span class="st_h">'item/borrar?id=123'</span><span class="sy0">,</span> <span class="st_h">'confirm=¿Estás seguro?'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;a onclick=&quot;return confirm('¿Estás seguro?');&quot;
+       href=&quot;/url/con/enrutamiento/a/borrar/123.html&quot;&gt;Borrar elemento&lt;/a&gt;
+&nbsp;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Añadir al carrito'</span><span class="sy0">,</span> <span class="st_h">'carritoCompra/anadir?id=100'</span><span class="sy0">,</span> <span class="st_h">'popup=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;a onclick=&quot;window.open(this.href);return false;&quot;
+       href=&quot;/url/con/enrutamiento/a/carritoCompra/anadir/id/100.html&quot;&gt;Añadir al carrito&lt;/a&gt;
+&nbsp;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Añadir al carrito'</span><span class="sy0">,</span> <span class="st_h">'carritoCompra/anadir?id=100'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+  <span class="st_h">'popup'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'popupWindow'</span><span class="sy0">,</span> <span class="st_h">'width=310,height=400,left=320,top=0'</span><span class="br0">&#41;</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;a onclick=&quot;window.open(this.href,'popupWindow',
+       'width=310,height=400,left=320,top=0');return false;&quot;
+       href=&quot;/url/con/enrutamiento/a/carritoCompra/anadir/id/100.html&quot;&gt;Añadir al carrito&lt;/a&gt;</pre>
+</div>
+
+<p>Estas opciones también se pueden combinar entre si.</p>
+
+<h3 id="opciones_get_y_post_falsas">9.3.3. Opciones GET y POST falsas</h3>
+
+<p>En ocasiones, los programadores web utilizan peticiones GET para realizar acciones más propias de una petición POST. Si se considera por ejemplo la siguiente URL:</p>
+
+<div class="code code">
+<pre class="code">http://www.ejemplo.com/index.php/carritoCompra/anadir/id/100</pre>
+</div>
+
+<p>Este tipo de petición modifica los datos de la aplicación, ya que añade un elemento al objeto que representa el carrito de la compra y que se almacena en la sesión del servidor o en una base de datos. Si los usuarios añaden esta URL a los favoritos de sus navegadores o si la URL se cachea o es indexada por un buscador, se pueden producir problemas en la base de datos y en las métricas del sitio web. En realidad, esta petición debería tratarse como una petición de tipo POST, ya que los robots que utilizan los buscadores no hacen peticiones POST para indexar las páginas.</p>
+
+<p>Symfony permite transformar una llamada a los <em>helpers</em> <code>link_to()</code> o <code>button_to()</code> en una petición POST. Solamente es necesario añadir la opción <code>post=true</code>, tal y como se muestra en el listado 9-11.</p>
+
+<p><strong>Listado 9-11 - Convirtiendo un enlace en una petición POST</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Ver carrito de la compra'</span><span class="sy0">,</span> <span class="st_h">'carritoCompra/anadir?id=100'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'post'</span> <span class="sy0">=&gt;</span> <span class="st_h">'true'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;a onclick=&quot;f = document.createElement('form'); document.body.appendChild(f);
+                f.method = 'POST'; f.action = this.href; f.submit();return false;&quot;
+       href=&quot;/carritoCompra/anadir/id/100.html&quot;&gt;Ver carrito de la compra&lt;/a&gt;</pre>
+</div>
+
+<p>La etiqueta <code>&lt;a&gt;</code> resultante conserva el atributo <code>href</code>, por lo que los navegadores sin soporte de JavaScript, como por ejemplo los robots que utilizan los buscadores, utilizan el enlace normal con la petición GET. Asi que es posible que se deba restringir la acción para que solamente responda a las peticiones de tipo POST, que se puede realizar añadiendo por ejemplo la siguiente instrucción al principio de la acción:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">forward404Unless</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">isMethod</span><span class="br0">&#40;</span><span class="st_h">'post'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Esta opción no se debe utilizar en los enlaces que se encuentran dentro de los formularios, ya que genera su propia etiqueta <code>&lt;form&gt;</code>.</p>
+
+<p>Se trata de una buena práctica definir como peticiones POST los enlaces que realizan acciones que modifican los datos.</p>
+
+<h3 id="forzando_los_parametros_de_la_peticion_como_variables_de_tipo_get">9.3.4. Forzando los parámetros de la petición como variables de tipo GET</h3>
+
+<p>Las variables que se pasan como parámetro a <code>link_to()</code> se transforman en patrones según las reglas del sistema de enrutamiento. Si no existe en el archivo <code>routing.yml</code> ninguna regla que coincida con la URI interna, se aplica la regla por defecto que transforma <code>modulo/accion?clave=valor</code> en <code>/modulo/accion/clave/valor</code>, como se muestra en el listado 9-12.</p>
+
+<p><strong>Listado 9-12 - Regla de enrutamiento por defecto</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Mi artículo'</span><span class="sy0">,</span> <span class="st_h">'articulo/ver?titulo=Economia_en_Francia'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+=&gt; &lt;a href=&quot;/articulo/ver/titulo/Economia_en_Francia&quot;&gt;Mi artículo&lt;/a&gt;</pre>
+</div>
+
+<p>Si quieres utilizar la sintaxis de las peticiones <code>GET</code> (para pasar los parámetros de la petición en la forma <code>?clave=valor</code>) se deben indicar los parámetros en la opción <code>query_string</code>.</p>
+
+<p>Si se utilizan enlaces que tienen una parte correspondiente a las anclas se pueden producir conflictos. Por ello, el nombre del ancla se debe indicar en la opción <code>anchor</code> en vez de añadirlo directamente a la URL. Todos los <em>helpers</em> de enlaces aceptan estas opciones, tal y como se muestra en el listado 9-13.</p>
+
+<p><strong>Listado 9-13 - Forzando el uso de variables tipo GET con la opción <code>query_string</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Mi artículo'</span><span class="sy0">,</span> <span class="st_h">'articulo/ver'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+  <span class="st_h">'query_string'</span> <span class="sy0">=&gt;</span> <span class="st_h">'titulo=Economia_en_Francia'</span><span class="sy0">,</span>
+  <span class="st_h">'anchor'</span> <span class="sy0">=&gt;</span> <span class="st_h">'seccion_dentro_de_la_pagina'</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+=&gt; &lt;a href=&quot;/articulo/ver?titulo=Economia_en_Francia#seccion_dentro_de_la_pagina&quot;&gt;Mi artículo&lt;/a&gt;</pre>
+</div>
+
+<p>Las URL con los parámetros en forma de variables GET se pueden interpretar por los scripts en el lado del cliente y por las variables <code>$_GET</code> y <code>$_REQUEST</code> en el lado del servidor.</p>
+
+<div class="admonition sidebar"><p><strong class="title">Helpers de contenidos estáticos</strong> El Capítulo 7 introdujo los helpers para contenidos estáticos <code>image_tag()</code>, <code>stylesheet_tag()</code> y <code>javascript_include_ tag()</code>, que permiten incluir imágenes, hojas de estilos y archivos JavaScript en la respuesta del servidor. Las rutas a los contenidos estáticos no se procesan en el sistema de enrutamiento, ya que se trata de enlaces a recursos que se guardan en el directorio web público.</p>
+
+<p>Además, no es necesario indicar la extensión para los contenidos estáticos. Symfony añade de forma automática las extensiones <code>.png</code>, <code>.js</code> o <code>.css</code> cuando se llama al <em>helper</em> de una imagen, un archivo JavaScript o una hoja de estilos. Symfony también busca de forma automática estos contenidos estáticos en los directorios <code>web/images/</code>, <code>web/js/</code> y <code>web/css/</code>. Evidentemente, es posible incluir otros tipos de archivos y archivos que se encuentren en otros directorios. Para ello, solo es necesario indicar como argumento el nombre completo del archivo o la ruta completa al archivo.</p>
+
+<p>Para indicar el tamaño de una imagen, se utiliza la opción <code>size</code>. Esta opción requiere una anchura y una altura en píxel separadas por un <code>x</code>.</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> image_tag<span class="br0">&#40;</span><span class="st_h">'prueba'</span><span class="sy0">,</span> <span class="st_h">'size=100x20'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;img href=&quot;/images/prueba.png&quot; width=&quot;100&quot; height=&quot;20&quot;/&gt;</pre>
+</div>
+
+<p>Si los contenidos estáticos se tienen que añadir en la sección <code>&lt;head&gt;</code> de la página (por ejemplo para los archivos JavaScript y las hojas de estilos), se deben utilizar los helpers <code>use_stylesheet()</code> y <code>use_javascript()</code> en las plantillas, en vez de las funciones acabadas en <code>_tag()</code> utilizadas en el layout. Estos helpers añaden los contenidos estáticos a la respuesta y los añaden antes de que se envíe la etiqueta <code>&lt;/head&gt;</code> al navegador.</p></div>
+
+<h3 id="utilizando_rutas_absolutas">9.3.5. Utilizando rutas absolutas</h3>
+
+<p>Los <em>helpers</em> de enlaces y de contenidos estáticos generan rutas relativas por defecto. Para forzar el uso de rutas absolutas, se debe asignar el valor <code>true</code> a la opción <code>absolute</code>, como muestra el listado 9-14. Esta técnica es muy útil cuando se deben incluir enlaces en mensajes de email, canales RSS o respuestas de una API.</p>
+
+<p><strong>Listado 9-14 - Utilizando URL absolutas en vez de relativas</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> url_for<span class="br0">&#40;</span><span class="st_h">'articulo/ver?titulo=Economia_en_Francia'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; '/url/con/enrutamiento/a/Economia_en_Francia'
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> url_for<span class="br0">&#40;</span><span class="st_h">'articulo/ver?titulo=Economia_en_Francia'</span><span class="sy0">,</span> <span class="kw4">true</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; 'http://www.ejemplo.com/url/con/enrutamiento/a/Economia_en_Francia'
+&nbsp;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'economía'</span><span class="sy0">,</span> <span class="st_h">'articulo/ver?titulo=Economia_en_Francia'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;a href=&quot;/url/con/enrutamiento/a/Economia_en_Francia&quot;&gt;economía&lt;/a&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'economía'</span><span class="sy0">,</span> <span class="st_h">'articulo/ver?titulo=Economia_en_Francia'</span><span class="sy0">,</span><span class="st_h">'absolute=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;a href=&quot; http://www.ejemplo.com/url/con/enrutamiento/a/Economia_en_Francia&quot;&gt;economía&lt;/a&gt;
+&nbsp;
+// Lo mismo sucede con los helpers de contenidos estáticos
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> image_tag<span class="br0">&#40;</span><span class="st_h">'prueba'</span><span class="sy0">,</span> <span class="st_h">'absolute=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> javascript_include_tag<span class="br0">&#40;</span><span class="st_h">'miscript'</span><span class="sy0">,</span> <span class="st_h">'absolute=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<div class="admonition sidebar"><p><strong class="title">El helper de correo electrónico</strong> Hoy en día, existen robots que rastrean todas las páginas web en busca de direcciones de correo electrónico que puedan ser utilizadas en los envíos masivos de spam. Por este motivo, no se pueden incluir directamente las direcciones de correo electrónico en las páginas web sin acabar siendo una víctima del spam en poco tiempo. Afortunadamente, Symfony proporciona un <em>helper</em> llamado <code>mail_to()</code>.</p>
+
+<p>El <em>helper</em> <code>mail_to()</code> requiere 2 parámetros: la dirección de correo electrónico real y la cadena de texto que se muestra al usuario. Como opción adicional se puede utilizar el parámetro <code>encode</code>, que produce un código HTML bastante difícil de leer, que los navegadores muestran correctamente, pero que los robots de spam no son capaces de entender.</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> mail_to<span class="br0">&#40;</span><span class="st_h">'<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="88e5e1ece1faedebebe1e7e6c8e5e1ece7e5e1e6e1e7a6ebe7e5">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>'</span><span class="sy0">,</span> <span class="st_h">'contacto'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;a href=&quot;mailto:<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="f895919c918a9d9b9b919796b895919c979591969197d69b9795">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&quot;&gt;contacto&lt;/a&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> mail_to<span class="br0">&#40;</span><span class="st_h">'<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="264b4f424f544345454f4948664b4f42494b4f484f490845494b">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>'</span><span class="sy0">,</span> <span class="st_h">'contacto'</span><span class="sy0">,</span> <span class="st_h">'encode=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;a href=&quot;&amp;#109;&amp;#x61;... &amp;#111;&amp;#x6d;&quot;&gt;&amp;#x63;&amp;#x74;... e&amp;#115;&amp;#x73;&lt;/a&gt;</pre>
+</div>
+
+<p>Las direcciones de email resultantes están compuestas por caracteres transformados por un codificador aleatorio que los transforma en entidades decimales y hexadecimales aleatoriamente. Aunque este truco funciona para la mayoría de robots de spam, las técnicas que emplean este tipo de empresas evolucionan rápidamente y podrían dejar obsoleta esta técnica en poco tiempo.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_9/reescritura_de_url.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>9.2. Reescritura de URL</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_9/configuracion_del_sistema_de_enrutamiento.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>9.4. Configuración del sistema de enrutamiento</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo (Doctrine)</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_9.html">
+                    <span>Capítulo 9.</span> Enlaces y sistema de enrutamiento
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/que_es_el_enrutamiento.html">
+                    <span>9.1.</span> ¿Qué es el enrutamiento?
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/reescritura_de_url.html">
+                    <span>9.2.</span> Reescritura de URL
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_9/helpers_de_enlaces.html">
+                    <span>9.3.</span> Helpers de enlaces
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/configuracion_del_sistema_de_enrutamiento.html">
+                    <span>9.4.</span> Configuración del sistema de enrutamiento
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/trabajando_con_rutas_en_las_acciones.html">
+                    <span>9.5.</span> Trabajando con rutas en las acciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/resumen.html">
+                    <span>9.6.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Emails</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

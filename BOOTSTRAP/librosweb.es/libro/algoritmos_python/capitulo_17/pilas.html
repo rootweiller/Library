@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>17.1. Pilas (Algoritmos de Programación con Python)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_17.html" />
+                    <link rel="next" href="../capitulo_17/colas.html" />
+                <link rel="start" href="/libro/algoritmos_python/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="17.1. Pilas (Algoritmos de Programación con Python)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page algoritmos_python"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/algoritmos_python/" itemprop="url">
+                    <span itemprop="title">Algoritmos de Programación con Python</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/algoritmos_python/capitulo_17.html" itemprop="url">
+                    <span itemprop="title">Capítulo 17. Pilas y colas</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>17.1. Pilas</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="pilas" class="title">
+        <span>17.1.</span> Pilas
+    </h1>
+
+    
+
+<p>Una <em>pila</em> es un TAD que tiene las siguientes operaciones (se describe
+también la acción que lleva adelante cada operación):</p>
+
+<ul>
+<li><code>__init__</code>: inicializa una pila nueva, vacía.</li>
+<li><code>apilar</code>: agrega un nuevo elemento a la pila.</li>
+<li><code>desapilar</code>: elimina el tope de la pila y lo devuelve. El elemento que
+se devuelve es siempre el último que se agreg6.</li>
+<li><code>es_vacia</code>: devuelve <code>True</code> o <code>False</code> según si la pila está vacía o no.</li>
+</ul>
+
+<p>El comportamiento de una pila se puede describir mediante la frase <em>"Lo
+último que se apiló es lo primero que se usa"</em>, que es exactamente lo
+que uno hace con una pila (de platos por ejemplo): en una pila de
+platos uno sólo puede ver la apariencia completa del plato de arriba,
+y sólo puede tomar el plato de arriba (si se intenta tomar un plato
+del medio de la pila lo más probable es que alguno de sus vecinos, o
+él mismo, se arruine).</p>
+
+<p>Como ya se dijo, al crear un tipo abstracto de datos, es importante
+decidir cuál será la representación a utilizar. En el caso de la pila,
+si bien puede haber más de una representación, por ahora veremos la
+más sencilla: representaremos una pila mediante una lista de Python.</p>
+
+<p>Sin embargo, para los que construyen programas que usan un TAD vale el
+siguiente llamado de atención:</p>
+
+<h3 id="pilas_representadas_por_listas">17.1.1. Pilas representadas por listas</h3>
+
+<p>Definiremos una clase <code>Pila</code> con un atributo, <code>items</code>, de tipo lista, que
+contendrá los ele-mentos de la pila. El tope de la pila se encontrará
+en la última posición de la lista, y cada vez que se apile un nuevo
+elemento, se lo agregará al final.</p>
+
+<p>El método <code>__init__</code> no recibirá parámetros adicionales, ya que
+deberá crear una pila vacía (que representaremos por una lista vacía):</p>
+
+<div class="admonition caution"><p><strong class="title">Advertencia</strong> Al usar esa pila dentro de un programa, deberemos ignorar que se está trabajando sobre una lista: solamente podremos usar los métodos de pila.</p>
+
+<p>Si alguien viola este principio, y usa la representación dentro del programa usuario, termina por recibir el peor castigo imaginable para un/a programador/a: sus programas pueden dejar de funcionar el cualquier momento, tan pronto como quien produce del TAD decida cambiar, aunque sea sutilmente, dicha representación.</p></div>
+
+<div class="code python">
+<pre class="python"><span class="kw1">class</span> Pila:
+    <span class="st0">&quot;&quot;&quot; Representa una pila con operaciones de apilar, desapilar y
+        verificar si está vacía. &quot;&quot;&quot;</span>
+&nbsp;
+    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">&#40;</span><span class="kw2">self</span><span class="br0">&#41;</span>:
+        <span class="st0">&quot;&quot;&quot; Crea una pila vacía. &quot;&quot;&quot;</span>
+        <span class="co1"># La pila vacía se representa con una lista vacía</span>
+        <span class="kw2">self</span>.<span class="me1">items</span><span class="sy0">=</span><span class="br0">&#91;</span><span class="br0">&#93;</span></pre>
+</div>
+
+<p>El método apilar se implementará agregando el nuevo elemento al final de
+la lista:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> apilar<span class="br0">&#40;</span><span class="kw2">self</span><span class="sy0">,</span> x<span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Agrega el elemento x a la pila. &quot;&quot;&quot;</span>
+    <span class="co1"># Apilar es agregar al final de la lista.</span>
+    <span class="kw2">self</span>.<span class="me1">items</span>.<span class="me1">append</span><span class="br0">&#40;</span>x<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Para implementar <code>desapilar</code>, se usará el método <code>pop</code> de lista que hace
+exactamente lo requerido: elimina el último elemento de la lista y
+devuelve el valor del elemento eliminado. Si la lista está vacía levanta
+una excepción, haremos lo mismo, pero cambiaremos el tipo de excepción,
+para no revelar la implementación.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> desapilar<span class="br0">&#40;</span><span class="kw2">self</span><span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Devuelve el elemento tope y lo elimina de la pila.
+        Si la pila está vacía levanta una excepción. &quot;&quot;&quot;</span>
+    <span class="kw1">try</span>:
+        <span class="kw1">return</span> <span class="kw2">self</span>.<span class="me1">items</span>.<span class="me1">pop</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">except</span> <span class="kw2">IndexError</span>:
+        <span class="kw1">raise</span> <span class="kw2">ValueError</span><span class="br0">&#40;</span><span class="st0">&quot;La pila está vacía&quot;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Utilizamos los métodos <code>append</code> y <code>pop</code> de las listas de Python, porque
+sabemos que estos métodos se ejecutan en tiempo constante. Queremos
+que el tiempo de apilar o desapilar de la pila no dependa de la
+cantidad de elementos contenidos.</p></div>
+
+<p>Finalmente, el método para indicar si se trata de una pila vacía.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> es_vacia<span class="br0">&#40;</span><span class="kw2">self</span><span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Devuelve True si la lista está vacía, False si no. &quot;&quot;&quot;</span>
+    <span class="kw1">return</span> <span class="kw2">self</span>.<span class="me1">items</span> <span class="sy0">==</span> <span class="br0">&#91;</span><span class="br0">&#93;</span></pre>
+</div>
+
+<p>Construimos algunas pilas y operamos con ellas:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> <span class="kw1">from</span> clasePila <span class="kw1">import</span> Pila
+<span class="sy0">&gt;&gt;&gt;</span> p <span class="sy0">=</span> Pila<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="sy0">&gt;&gt;&gt;</span> p.<span class="me1">es_vacia</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="kw2">True</span>
+<span class="sy0">&gt;&gt;&gt;</span> p.<span class="me1">apilar</span><span class="br0">&#40;</span><span class="nu0">1</span><span class="br0">&#41;</span>
+<span class="sy0">&gt;&gt;&gt;</span> p.<span class="me1">es_vacia</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="kw2">False</span>
+<span class="sy0">&gt;&gt;&gt;</span> p.<span class="me1">apilar</span><span class="br0">&#40;</span><span class="nu0">5</span><span class="br0">&#41;</span>
+<span class="sy0">&gt;&gt;&gt;</span> p.<span class="me1">apilar</span><span class="br0">&#40;</span><span class="st0">&quot;+&quot;</span><span class="br0">&#41;</span>
+<span class="sy0">&gt;&gt;&gt;</span> p.<span class="me1">apilar</span><span class="br0">&#40;</span><span class="nu0">22</span><span class="br0">&#41;</span>
+<span class="sy0">&gt;&gt;&gt;</span> p.<span class="me1">desapilar</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="nu0">22</span>
+<span class="sy0">&gt;&gt;&gt;</span> p
+<span class="sy0">&lt;</span>clasePila.<span class="me1">Pila</span> instance at <span class="nu0">0xb7523f4c</span><span class="sy0">&gt;</span>
+<span class="sy0">&gt;&gt;&gt;</span> q<span class="sy0">=</span>Pila<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="sy0">&gt;&gt;&gt;</span> q.<span class="me1">desapilar</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+Traceback <span class="br0">&#40;</span>most recent call last<span class="br0">&#41;</span>:
+    File <span class="st0">&quot;&lt;stdin&gt;&quot;</span><span class="sy0">,</span> line <span class="nu0">1</span><span class="sy0">,</span> <span class="kw1">in</span> <span class="sy0">&lt;</span>module<span class="sy0">&gt;</span>
+    File <span class="st0">&quot;clasePila.py&quot;</span><span class="sy0">,</span> line <span class="nu0">24</span><span class="sy0">,</span> <span class="kw1">in</span> desapilar
+        <span class="kw1">raise</span> <span class="kw2">ValueError</span><span class="br0">&#40;</span><span class="st0">&quot;La pila está vacía&quot;</span><span class="br0">&#41;</span>
+<span class="kw2">ValueError</span>: La pila está vacía</pre>
+</div>
+
+<h3 id="uso_de_pila_calculadora_cientifica">17.1.2. Uso de pila: calculadora científica</h3>
+
+<p>La famosa calculadora portátil HP-35 (de 1972) popularizó la notación
+polaca inversa (o notación prefijo) para hacer cálculos sin necesidad
+de usar paréntesis. Esa notación, inventada por el lógico polaco Jan
+Lukasiewicz en 1920, se basa en el principio de que un operador
+siempre se escribe a continuación de sus operandos. La operación <code>(5 −
+3) + 8</code> se escribirá como ``5 3 - 8 +, que se interpretará como: <em>"restar
+3 de 5, y al resultado sumarle 8"</em>.</p>
+
+<p>Es posible implementar esta notación de manera sencilla usando una
+pila de la siguiente manera, a partir de una cadena de entrada de
+valores separados por blancos:</p>
+
+<ul>
+<li>Mientras se lean números, se apilan.</li>
+<li>En el momento en el que se detecta una operación binaria <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>
+o <code>%</code> se desapilan los dos últimos números apilados, se ejecuta la
+operación indicada, y el resultado de esa operación se apila.</li>
+<li>Si la expresión está bien formada, tiene que quedar al final un único
+número en la pila (el resultado).</li>
+<li>Los posibles errores son:
+
+<ul>
+<li>Queda más de un número al final (por ejemplo si la cadena de entrada
+fue <code>"5 3"</code>),</li>
+</ul></li>
+<li>Ingresa algún caracter que no se puede interpretar ni como número ni
+como una de las cinco operaciones válidas (por ejemplo si la
+cadena de entrada fue <code>"5 3 &amp;"</code>)</li>
+<li>No hay suficientes operandos para realizar la operación (por ejemplo
+si la cadena de entrada fue <code>"5 3 - +"</code>).</li>
+</ul>
+
+<p>La siguiente es la estrategia de resolución:</p>
+
+<p>Dada una cadena con la expresión a evaluar, podemos separar sus
+componentes utilizando el método <code>split()</code>. Recorreremos luego la lista
+de componentes realizando las acciones indicadas en el párrafo
+anterior, utilizando una pila auxiliar para operar. Si la expresión
+está bien formada devolveremos el resultado, de lo contrario
+levantaremos una excepción (devolveremos <code>None</code>).</p>
+
+<p>En el código 17.1 está la implementación de la calculadora descripta. Veamos algunos casos de prueba:</p>
+
+<p>El caso de una expresión que es sólo un número (es correcta):</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> calculadora_polaca.<span class="me1">main</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+Ingrese la expresion a evaluar: <span class="nu0">5</span>
+DEBUG: <span class="nu0">5</span>
+DEBUG: apila <span class="nu0">5.0</span>
+<span class="nu0">5.0</span></pre>
+</div>
+
+<p>El caso en el que sobran operandos:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> calculadora_polaca.<span class="me1">main</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+Ingrese la expresion a evaluar: <span class="nu0">4</span> <span class="nu0">5</span>
+DEBUG: <span class="nu0">4</span>
+DEBUG: apila <span class="nu0">4.0</span>
+DEBUG: <span class="nu0">5</span>
+DEBUG: apila <span class="nu0">5.0</span>
+DEBUG: error pila sobran operandos
+Traceback <span class="br0">&#40;</span>most recent call last<span class="br0">&#41;</span>:
+    File <span class="st0">&quot;&lt;stdin&gt;&quot;</span><span class="sy0">,</span> line <span class="nu0">1</span><span class="sy0">,</span> <span class="kw1">in</span> <span class="sy0">&lt;</span>module<span class="sy0">&gt;</span>
+    File <span class="st0">&quot;calculadora_polaca.py&quot;</span><span class="sy0">,</span> line <span class="nu0">64</span><span class="sy0">,</span> <span class="kw1">in</span> main
+        <span class="kw1">print</span> calculadora_polaca<span class="br0">&#40;</span>elementos<span class="br0">&#41;</span>
+    File <span class="st0">&quot;calculadora_polaca.py&quot;</span><span class="sy0">,</span> line <span class="nu0">59</span><span class="sy0">,</span> <span class="kw1">in</span> calculadora_polaca
+        <span class="kw1">raise</span> <span class="kw2">ValueError</span><span class="br0">&#40;</span><span class="st0">&quot;Sobran operandos&quot;</span><span class="br0">&#41;</span>
+<span class="kw2">ValueError</span>: Sobran operandos</pre>
+</div>
+
+<p>El caso en el que faltan operandos:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> calculadora_polaca.<span class="me1">main</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+Ingrese la expresion a evaluar: <span class="nu0">4</span> %
+DEBUG: <span class="nu0">4</span>
+DEBUG: apila <span class="nu0">4.0</span>
+DEBUG: %
+DEBUG: desapila <span class="nu0">4.0</span>
+DEBUG: error pila faltan operandos
+Traceback <span class="br0">&#40;</span>most recent call last<span class="br0">&#41;</span>:
+    File <span class="st0">&quot;&lt;stdin&gt;&quot;</span><span class="sy0">,</span> line <span class="nu0">1</span><span class="sy0">,</span> <span class="kw1">in</span> <span class="sy0">&lt;</span>module<span class="sy0">&gt;</span>
+    File <span class="st0">&quot;calculadora_polaca.py&quot;</span><span class="sy0">,</span> line <span class="nu0">64</span><span class="sy0">,</span> <span class="kw1">in</span> main
+        <span class="kw1">print</span> calculadora_polaca<span class="br0">&#40;</span>elementos<span class="br0">&#41;</span>
+    File <span class="st0">&quot;calculadora_polaca.py&quot;</span><span class="sy0">,</span> line <span class="nu0">37</span><span class="sy0">,</span> <span class="kw1">in</span> calculadora_polaca
+        <span class="kw1">raise</span> <span class="kw2">ValueError</span><span class="br0">&#40;</span><span class="st0">&quot;Faltan operandos&quot;</span><span class="br0">&#41;</span>
+<span class="kw2">ValueError</span>: Faltan operandos</pre>
+</div>
+
+<div class="code python">
+<pre class="python"><span class="co1"># Código 17.1: calculadora_polaca.py: Una calculadora polaca inversa</span>
+&nbsp;
+<span class="co1">#!/usr/bin/env python</span>
+<span class="co1">#encoding: latin1</span>
+&nbsp;
+<span class="kw1">from</span> clasePila <span class="kw1">import</span> Pila
+&nbsp;
+<span class="kw1">def</span> calculadora_polaca<span class="br0">&#40;</span>elementos<span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Dada una lista de elementos que representan las componentes de
+        una expresión en notacion polaca inversa, evalúa dicha expresión.
+        Si la expresion está mal formada, levanta ValueError. &quot;&quot;&quot;</span>
+&nbsp;
+    p <span class="sy0">=</span> Pila<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">for</span> elemento <span class="kw1">in</span> elementos:
+        <span class="kw1">print</span> <span class="st0">&quot;DEBUG:&quot;</span><span class="sy0">,</span> elemento
+        <span class="co1"># Intenta convertirlo a número</span>
+        <span class="kw1">try</span>:
+            numero <span class="sy0">=</span> <span class="kw2">float</span><span class="br0">&#40;</span>elemento<span class="br0">&#41;</span>
+            p.<span class="me1">apilar</span><span class="br0">&#40;</span>numero<span class="br0">&#41;</span>
+            <span class="kw1">print</span> <span class="st0">&quot;DEBUG: apila &quot;</span><span class="sy0">,</span> numero
+        <span class="co1"># Si no se puede convertir a número, debería ser un operando</span>
+        <span class="kw1">except</span> <span class="kw2">ValueError</span>:
+            <span class="co1"># Si no es un operando válido, levanta ValueError</span>
+            <span class="kw1">if</span> elemento <span class="kw1">not</span> <span class="kw1">in</span> <span class="st0">&quot;+-*/ %&quot;</span> <span class="kw1">or</span> <span class="kw2">len</span><span class="br0">&#40;</span>elemento<span class="br0">&#41;</span> <span class="sy0">!=</span> <span class="nu0">1</span>:
+                <span class="kw1">raise</span> <span class="kw2">ValueError</span><span class="br0">&#40;</span><span class="st0">&quot;Operando inválido&quot;</span><span class="br0">&#41;</span>
+            <span class="co1"># Si es un operando válido, intenta desapilar y operar</span>
+            <span class="kw1">try</span>:
+                a1 <span class="sy0">=</span> p.<span class="me1">desapilar</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+                <span class="kw1">print</span> <span class="st0">&quot;DEBUG: desapila &quot;</span><span class="sy0">,</span>a1
+                a2 <span class="sy0">=</span> p.<span class="me1">desapilar</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+                <span class="kw1">print</span> <span class="st0">&quot;DEBUG: desapila &quot;</span><span class="sy0">,</span>a2
+            <span class="co1"># Si hubo problemas al desapilar</span>
+            <span class="kw1">except</span> <span class="kw2">ValueError</span>:
+                <span class="kw1">print</span> <span class="st0">&quot;DEBUG: error pila faltan operandos&quot;</span>
+                <span class="kw1">raise</span> <span class="kw2">ValueError</span><span class="br0">&#40;</span><span class="st0">&quot;Faltan operandos&quot;</span><span class="br0">&#41;</span>
+&nbsp;
+            <span class="kw1">if</span> elemento <span class="sy0">==</span> <span class="st0">&quot;+&quot;</span>:
+                resultado <span class="sy0">=</span> a2 + a1
+            <span class="kw1">elif</span> elemento <span class="sy0">==</span> <span class="st0">&quot;-&quot;</span>:
+                resultado <span class="sy0">=</span> a2 - a1
+            <span class="kw1">elif</span> elemento <span class="sy0">==</span> <span class="st0">&quot;*&quot;</span>:
+                resultado <span class="sy0">=</span> a2 * a1
+            <span class="kw1">elif</span> elemento <span class="sy0">==</span> <span class="st0">&quot;/&quot;</span>:
+                resultado <span class="sy0">=</span> a2 / a1
+            <span class="kw1">elif</span> elemento <span class="sy0">==</span> <span class="st0">&quot; %&quot;</span>:
+                resultado <span class="sy0">=</span> a2 % a1
+            <span class="kw1">print</span> <span class="st0">&quot;DEBUG: apila &quot;</span><span class="sy0">,</span> resultado
+            p.<span class="me1">apilar</span><span class="br0">&#40;</span>resultado<span class="br0">&#41;</span>
+        <span class="co1"># Al final, el resultado debe ser lo único en la Pila</span>
+        res <span class="sy0">=</span> p.<span class="me1">desapilar</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+        <span class="kw1">if</span> p.<span class="me1">esPilaVacia</span><span class="br0">&#40;</span><span class="br0">&#41;</span>:
+            <span class="kw1">return</span> res
+        <span class="kw1">else</span>:
+            <span class="kw1">print</span> <span class="st0">&quot;DEBUG: error pila sobran operandos&quot;</span>
+            <span class="kw1">raise</span> <span class="kw2">ValueError</span><span class="br0">&#40;</span><span class="st0">&quot;Sobran operandos&quot;</span><span class="br0">&#41;</span>
+&nbsp;
+<span class="kw1">def</span> main<span class="br0">&#40;</span><span class="br0">&#41;</span>:
+    expresion <span class="sy0">=</span> <span class="kw2">raw_input</span><span class="br0">&#40;</span><span class="st0">&quot;Ingrese la expresion a evaluar: &quot;</span><span class="br0">&#41;</span>
+    elementos <span class="sy0">=</span> expresion.<span class="me1">split</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">print</span> calculadora_polaca<span class="br0">&#40;</span>elementos<span class="br0">&#41;</span></pre>
+</div>
+
+<p>El caso de un operador inválido:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> calculadora_polaca.<span class="me1">main</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+Ingrese la expresion a evaluar: <span class="nu0">4</span> <span class="nu0">5</span> &amp;
+DEBUG: <span class="nu0">4</span>
+DEBUG: apila <span class="nu0">4.0</span>
+DEBUG: <span class="nu0">5</span>
+DEBUG: apila <span class="nu0">5.0</span>
+DEBUG: &amp;
+Traceback <span class="br0">&#40;</span>most recent call last<span class="br0">&#41;</span>:
+    File <span class="st0">&quot;&lt;stdin&gt;&quot;</span><span class="sy0">,</span> line <span class="nu0">1</span><span class="sy0">,</span> <span class="kw1">in</span> <span class="sy0">&lt;</span>module<span class="sy0">&gt;</span>
+    File <span class="st0">&quot;calculadora_polaca.py&quot;</span><span class="sy0">,</span> line <span class="nu0">64</span><span class="sy0">,</span> <span class="kw1">in</span> main
+        <span class="kw1">print</span> calculadora_polaca<span class="br0">&#40;</span>elementos<span class="br0">&#41;</span>
+    File <span class="st0">&quot;calculadora_polaca.py&quot;</span><span class="sy0">,</span> line <span class="nu0">26</span><span class="sy0">,</span> <span class="kw1">in</span> calculadora_polaca
+        <span class="kw1">raise</span> <span class="kw2">ValueError</span><span class="br0">&#40;</span><span class="st0">&quot;Operando inválido&quot;</span><span class="br0">&#41;</span>
+<span class="kw2">ValueError</span>: Operando inválido</pre>
+</div>
+
+<p>El caso de <code>4 % 5</code>:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> calculadora_polaca.<span class="me1">main</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+Ingrese la expresion a evaluar: <span class="nu0">4</span> <span class="nu0">5</span> %
+DEBUG: <span class="nu0">4</span>
+DEBUG: apila <span class="nu0">4.0</span>
+DEBUG: <span class="nu0">5</span>
+DEBUG: apila <span class="nu0">5.0</span>
+DEBUG: %
+DEBUG: desapila <span class="nu0">5.0</span>
+DEBUG: desapila <span class="nu0">4.0</span>
+DEBUG: apila <span class="nu0">4.0</span>
+<span class="nu0">4.0</span></pre>
+</div>
+
+<p>El caseo de <code>(4 + 5) * 6</code>:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> calculadora_polaca.<span class="me1">main</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+Ingrese la expresion a evaluar: <span class="nu0">4</span> <span class="nu0">5</span> + <span class="nu0">6</span> *
+DEBUG: <span class="nu0">4</span>
+DEBUG: apila <span class="nu0">4.0</span>
+DEBUG: <span class="nu0">5</span>
+DEBUG: apila <span class="nu0">5.0</span>
+DEBUG: +
+DEBUG: desapila <span class="nu0">5.0</span>
+DEBUG: desapila <span class="nu0">4.0</span>
+DEBUG: apila <span class="nu0">9.0</span>
+DEBUG: <span class="nu0">6</span>
+DEBUG: apila <span class="nu0">6.0</span>
+DEBUG: *
+DEBUG: desapila <span class="nu0">6.0</span>
+DEBUG: desapila <span class="nu0">9.0</span>
+DEBUG: apila <span class="nu0">54.0</span>
+<span class="nu0">54.0</span></pre>
+</div>
+
+<p>El caso de <code>4 * (5 + 6)</code>:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> calculadora_polaca.<span class="me1">main</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+Ingrese la expresion a evaluar: <span class="nu0">4</span> <span class="nu0">5</span> <span class="nu0">6</span> + *
+DEBUG: <span class="nu0">4</span>
+DEBUG: apila <span class="nu0">4.0</span>
+DEBUG: <span class="nu0">5</span>
+DEBUG: apila <span class="nu0">5.0</span>
+DEBUG: <span class="nu0">6</span>
+DEBUG: apila <span class="nu0">6.0</span>
+DEBUG: +
+DEBUG: desapila <span class="nu0">6.0</span>
+DEBUG: desapila <span class="nu0">5.0</span>
+DEBUG: apila <span class="nu0">11.0</span>
+DEBUG: *
+DEBUG: desapila <span class="nu0">11.0</span>
+DEBUG: desapila <span class="nu0">4.0</span>
+DEBUG: apila <span class="nu0">44.0</span>
+<span class="nu0">44.0</span></pre>
+</div>
+
+<p>El caso de <code>(4 + 5) * (3 + 8)</code>:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> calculadora_polaca.<span class="me1">main</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+Ingrese la expresion a evaluar: <span class="nu0">4</span> <span class="nu0">5</span> + <span class="nu0">3</span> <span class="nu0">8</span> + *
+DEBUG: <span class="nu0">4</span>
+DEBUG: apila <span class="nu0">4.0</span>
+DEBUG: <span class="nu0">5</span>
+DEBUG: apila <span class="nu0">5.0</span>
+DEBUG: +
+DEBUG: desapila <span class="nu0">5.0</span>
+DEBUG: desapila <span class="nu0">4.0</span>
+DEBUG: apila <span class="nu0">9.0</span>
+DEBUG: <span class="nu0">3</span>
+DEBUG: apila <span class="nu0">3.0</span>
+DEBUG: <span class="nu0">8</span>
+DEBUG: apila <span class="nu0">8.0</span>
+DEBUG: +
+DEBUG: desapila <span class="nu0">8.0</span>
+DEBUG: desapila <span class="nu0">3.0</span>
+DEBUG: apila <span class="nu0">11.0</span>
+DEBUG: *
+DEBUG: desapila <span class="nu0">11.0</span>
+DEBUG: desapila <span class="nu0">9.0</span>
+DEBUG: apila <span class="nu0">99.0</span>
+<span class="nu0">99.0</span></pre>
+</div>
+
+<p><strong>Ejercicio 17.1.</strong> Si se oprime la tecla <code>&lt;BACKSPACE&gt;</code> (o <code>&lt;←&gt;</code>) del
+teclado, se borra el último caracter ingresado. Construir una función
+<code>visualizar</code> para modelar el tipeo de una cadena de caracteres desde un
+teclado:</p>
+
+<p>La función recibe una cadena de caracteres con todo lo que el usuario
+ingresó por teclado (incluyendo <code>&lt;BACKSPACE&gt;</code> que se reconoce como
+<code>\b</code>), y devuelve el texto tal como debe presentarse (por ejemplo,
+<code>visualizar("Hola\b chau")</code> debe devolver <em>'Hola chau'</em>).</p>
+
+<p>Atención, que muchas veces la gente aprieta de más la tecla de
+<code>&lt;BACKSPACE&gt;</code>, y no por eso hay que cancelar la ejecución de toda la
+función.</p>
+
+<h3 id="cuanto_cuestan_los_metodos">17.1.3. ¿Cuánto cuestan los métodos?</h3>
+
+<p>Al elegir de una representación debemos tener en cuenta cuánto nos
+costarán los métodos implementados. En nuestro caso, el tope de la
+pila se encuentra en la última posición de la lista, y cada vez que se
+apila un nuevo elemento, se lo agregará al final.</p>
+
+<p>Por lo tanto se puede implementar el método <code>apilar</code> mediante un <code>append</code>
+de la lista, <em>que se ejecuta en tiempo constante</em>. También el método
+<code>desapilar</code>, que se implementa mediante <code>pop</code> de lista, <em>se ejecuta en
+tiempo constante</em>.</p>
+
+<p>Vemos que la alternativa que elegimos fue barata.</p>
+
+<p>Otra alternativa posible hubiera sido agregar el nuevo elemento en la
+posición <code>0</code> de la lista, es decir implementar el método <code>apilar</code> mediante
+<code>self.items.insert(0,x)</code> y el método desapilar mediante <code>del self.items[0]</code>. 
+Sin embargo, ésta no es una solución inteligente, ya
+que tanto insertar al comienzo de la lista como borrar al comienzo de
+la lista <em>consumen tiempo proporcional a la longitud de la lista</em>.</p>
+
+<p><strong>Ejercicio 17.2.</strong> Diseñar un pequeño experimento para verificar que
+la implementación elegida es mucho mejor que la implementación con
+listas en la cual el elemento nuevo se inserta al principio de la
+lista.</p>
+
+<p><strong>Ejercicio 17.3.</strong> Implementar pilas mediante listas enlazadas.
+Analizar el costo de los métodos a utilizar.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_17.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 17. Pilas y colas</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_17/colas.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>17.2. Colas</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+            <div id="book-legal-notice">
+            Copyright (c) 2011-2014 Rosita Wachenchauzer, Margarita Manterola,
+Maximiliano Curia, Marcos Medrano, Nicolás Paez.
+La copia y redistribución de esta página se permite bajo los términos
+de la licencia Creative Commons Atribución - Compartir Obras Derivadas
+Igual 3.0 siempre que se conserve esta nota de copyright.
+
+        </div>
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Algunos conceptos básicos</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Programas sencillos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Funciones</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Decisiones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Más sobre ciclos</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Cadenas de caracteres</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Tuplas y listas</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Algoritmos de búsqueda</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Diccionarios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Contratos y Mutabilidad</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Manejo de archivos</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Manejo de errores y excepciones</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Procesamiento de archivos</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Objetos</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Polimorfismo, Herencia y Delegación</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Listas enlazadas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_17.html">
+                    <span>Capítulo 17.</span> Pilas y colas
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_17/pilas.html">
+                    <span>17.1.</span> Pilas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_17/colas.html">
+                    <span>17.2.</span> Colas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_17/resumen.html">
+                    <span>17.3.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_17/ejercicios.html">
+                    <span>17.4.</span> Ejercicios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_17/apendice.html">
+                    <span>17.5.</span> Apéndice
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Modelo de ejecución de funciones y recursividad</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Ordenar listas</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>20.</span> <a href="../capitulo_20.html"> Algunos ordenamientos recursivos</a>
+            </li>
+                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

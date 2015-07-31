@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Quitar /web de la URL en producción en servidor compartido</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Quitar /web de la URL en producción en servidor compartido">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-4-2" class="forum forum_discussion"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                    <div class="module module-ad module-ad-responsive module-ad-top">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+    <div itemscope="" itemtype="http://schema.org/Article">
+        <div id="discussion" class="col-sm-9 ">
+            <h1 class="title" itemprop="name">Quitar /web de la URL en producción en servidor compartido</h1>
+
+            <div id="discussion-content" itemprop="description">
+                <p>Buenas, </p>
+<p>El otro día con el nuevo <code>.htaccess</code> conseguí que se quitara al menos la parte del entorno de ejecución (<code>app.php</code>) pero, ¿cómo podría quitar el <code>/web</code> sin un VirtualHost? La página de Symfony2 se encuentra en un servidor 1and1.</p>
+<p>Gracias.
+Un saludo.</p>
+            </div>
+
+                            <div id="discussion-tags">
+                    <h3>Etiquetas</h3>
+                    <ul class="tags-list">
+                                                                <li><a href="/foro/devops/">devops</a></li>
+                                            <li><a href="/foro/symfony/">symfony</a></li>
+                                            <li><a href="/foro/sysops/">sysops</a></li>
+                                        </ul>
+                </div>
+                    </div>
+
+        <div id="discussion-attributes" class="col-sm-3">
+            <div class="row">
+                <p class="col-xs-3 col-sm-12 avatar">
+                    <img width="73" height="73" itemprop="image"
+                     src="http://abs.twimg.com/sticky/default_profile_images/default_profile_4_bigger.png" />
+                </p>
+
+                <p class="col-xs-8 col-sm-12 col-md-12">
+                    <span class="login">@CampoySoft</span>
+                    <meta itemprop="author" content="CampoySoft" />
+
+                    <span class="published">10 de noviembre de 2014</span>
+                    <meta itemprop="dateCreated" content="2014-11-10T10:50:18+01:00" />
+                </p>
+
+                <p id="discussion-actions" class="col-sm-12">
+                                    </p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="discussion-comments" class="col-sm-12">
+                    <h2>Respuestas</h2>
+
+                            <div class="row comment"  id="respuesta-1">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/346/quitar-web-de-la-url-en-produccion-en-servidor-compartido/#respuesta-1" title="Enlace permanente a esta respuesta">#1</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_1_html">
+                        <p>Pues en 1and1 hay varias formas de hacerlo pero la mas sencilla es:</p>
+<p>Teniendo en cuenta que tu web es <code>xxx.com</code>:</p>
+<p><strong>1.</strong> Ir al panel de administración de 1and1
+<strong>2.</strong> Ir a la sección de dominios, subdominios etc y cambiar el directorio al que apunta tu web raíz:</p>
+<pre class="code code">xxx.com --&gt; /</pre>
+<p>por esto:</p>
+<pre class="code code">xxx.com --&gt; /web</pre>
+<p>Creo recordar que en 1and1, cuando quieres modificar el directorio hay dos opciones, seleccionar uno existente (es un <em>select</em>) o crear uno (es un <em>textbox</em>). Si en el <em>select</em> no encuentras <code>/web</code> aunque esté creado, es un fallito que tienen ellos. Simplemente usa el <em>textbox</em> y mete <code>/web</code>, aunque se trate de un <em>textbox</em> para crear uno nuevo. Si ya existe no te sobreescribe nada así que tranqui.</p>
+<p>Ten en cuenta que estos cambios a veces tardan unos minutos.</p>
+<p>Saludos</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/2373180743/q52wjcyf9bdw6a2c3ipc_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @CVM1989
+                                </span>
+
+                                <span class="published">
+                                    10-nov-14 17:29
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-2">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/346/quitar-web-de-la-url-en-produccion-en-servidor-compartido/#respuesta-2" title="Enlace permanente a esta respuesta">#2</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_2_html">
+                        <p>me cuentas, saludos</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/2373180743/q52wjcyf9bdw6a2c3ipc_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @CVM1989
+                                </span>
+
+                                <span class="published">
+                                    10-nov-14 17:29
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-3">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/346/quitar-web-de-la-url-en-produccion-en-servidor-compartido/#respuesta-3" title="Enlace permanente a esta respuesta">#3</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_3_html">
+                        <p>Muchas gracias, no había caído en esa solución tan trivial ;)</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://abs.twimg.com/sticky/default_profile_images/default_profile_4_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @CampoySoft
+                                </span>
+
+                                <span class="published">
+                                    10-nov-14 19:35
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-4">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/346/quitar-web-de-la-url-en-produccion-en-servidor-compartido/#respuesta-4" title="Enlace permanente a esta respuesta">#4</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_4_html">
+                        <p>Buenas de nuevo,</p>
+<p>Al final me ha funcionado pero claro, después de que se actualizara todo, las sentencias en las que uso asset (para los css, javascript y demás) dejan de funcionar pues apuntan dos veces a <code>/web/web</code> ¿qué solución habría para eso?</p>
+<p>Gracias!!</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://abs.twimg.com/sticky/default_profile_images/default_profile_4_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @CampoySoft
+                                </span>
+
+                                <span class="published">
+                                    10-nov-14 19:46
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-5">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/346/quitar-web-de-la-url-en-produccion-en-servidor-compartido/#respuesta-5" title="Enlace permanente a esta respuesta">#5</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_5_html">
+                        <p>Hola,</p>
+<p>La aplicación symfony has de subirla directamente al antiguo raiz del servidor compartido.</p>
+<p>En el ejemplo que habeis puesto xxx.com y esta ya incluye /web que es donde apunta ahora el hosting del servidor. Esta será la carpeta pública y todo lo que hay por debajo es la aplicación symfony.</p>
+<p>Un saludo.</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/444952900419461120/ZjWInyHX_normal.jpeg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @julioalp
+                                </span>
+
+                                <span class="published">
+                                    10-nov-14 21:05
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-6">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/346/quitar-web-de-la-url-en-produccion-en-servidor-compartido/#respuesta-6" title="Enlace permanente a esta respuesta">#6</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_6_html">
+                        <p>@julioalp no te he entendido muy bien. El problema que tengo ahora es que al hacer la solución de @CVM1989, cambiar el directorio al que apunta mi web raíz, funciona todo menos los css, js, etc (a los que referencio con la función asset) y claro ella me crea ahora la url de estos archivos incluyendo en la url la parte <code>/web</code> (que ahora ya "no está ahí" pues lo hemos redirigido al raíz de mi dominio), no sé si explico lo que ocurre bien.</p>
+<p>Un saludo.</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://abs.twimg.com/sticky/default_profile_images/default_profile_4_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @CampoySoft
+                                </span>
+
+                                <span class="published">
+                                    11-nov-14 08:24
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-7">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/346/quitar-web-de-la-url-en-produccion-en-servidor-compartido/#respuesta-7" title="Enlace permanente a esta respuesta">#7</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_7_html">
+                        <p>@julioalp no te he entendido muy bien. El problema que tengo ahora es que al hacer la solución de @CVM1989, cambiar el directorio al que apunta mi web raíz, funciona todo menos los css, js, etc (a los que referencio con la función asset) y claro ella me crea ahora la url de estos archivos incluyendo en la url la parte /web (que ahora ya "no está ahí" pues lo hemos redirigido al raíz de mi dominio), no sé si explico lo que ocurre bien.</p>
+<p>Un saludo.</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://abs.twimg.com/sticky/default_profile_images/default_profile_4_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @CampoySoft
+                                </span>
+
+                                <span class="published">
+                                    11-nov-14 08:24
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-8">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/346/quitar-web-de-la-url-en-produccion-en-servidor-compartido/#respuesta-8" title="Enlace permanente a esta respuesta">#8</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_8_html">
+                        <p>Hola @CampoySoft,</p>
+<p>Intentaré explicarme mejor.</p>
+<p>Tenemos un hosting, que apunta a un directorio, ejemplo <code>httpdocs</code>.</p>
+<p>Subes toda tu aplicación symfony a esa carpeta.</p>
+<p>Si pruebas, evidentemente no funciona, puesto que el directorio público de una aplicación symfony es <code>/web</code>.</p>
+<p>Como bien te dice @CVM1989 es tan fácil como cambiar la configuración en el hosting y que apunte a la carpeta <code>httpdocs/web</code></p>
+<p>Resultado</p>
+<pre class="code code">httpdocs-&gt; app
+           scr
+           ...
+           web-&gt; app.php</pre>
+<p>Tu directorio público es <code>/web</code>, donde está todo el contenido público incluido la carpeta bundles y todos los css.</p>
+<p>En los assets imagino que apuntas a <code>bundles/nombre_aplicacion/css/nombre.css</code></p>
+<p>Dime algo ...</p>
+<p>Un saludo.</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/444952900419461120/ZjWInyHX_normal.jpeg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @julioalp
+                                </span>
+
+                                <span class="published">
+                                    11-nov-14 22:59
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-9">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/346/quitar-web-de-la-url-en-produccion-en-servidor-compartido/#respuesta-9" title="Enlace permanente a esta respuesta">#9</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_9_html">
+                        <p>Buenas,</p>
+<p>Los assets los tengo en la carpeta <code>/web/css/nombre.css</code> o <code>/web/js/nombre.js</code> y hago la llamada con al función asset así:</p>
+<pre class="twig code">&lt;script src=&quot;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">asset</span><span class="br0">&#40;</span><span class="st0">'js/files-handler.js'</span><span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</pre>
+<p>Por lo que la función asset te devuelve la url con la parte <code>/web</code>, que ahora ya no es puesto que ahora el hosting apunta a <code>/web</code> ya directamente. ¿Se puede cambiar el comportamiento de la función <code>asset</code> para no tener que modificar todos los archivos? ¿o cuáles son las buenas prácticas para esto? Porque imagino que la gente enmascarará la parte <code>/web</code> de su url.</p>
+<p>Un saludo y gracias!!</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://abs.twimg.com/sticky/default_profile_images/default_profile_4_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @CampoySoft
+                                </span>
+
+                                <span class="published">
+                                    12-nov-14 08:51
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-10">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/346/quitar-web-de-la-url-en-produccion-en-servidor-compartido/#respuesta-10" title="Enlace permanente a esta respuesta">#10</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_10_html">
+                        <p>@CampoySoft Symfony define una opción de configuración llamada <code>assets_base_urls</code> que permite indicar la URL base utilizada para los assets, tanto cuando se accede a ellos mediante <code>http</code> como cuando se accede mediante <code>https</code>. En tu caso deberías utilizar algo como lo siguiente:</p>
+<pre class="yaml code"><span class="co1"># app/config/config.yml</span><span class="co4">
+framework</span>:<span class="co4">
+    templating</span>:<span class="co4">
+        assets_base_urls</span>:<span class="co3">
+            http</span><span class="sy2">: </span>'/web'<span class="co3">
+            ssl</span><span class="sy2">: </span> '/web'</pre>
+<p>Aquí tienes la <a href="http://symfony.com/doc/current/reference/configuration/framework.html#assets-base-urls">documentación oficial sobre assets_base_urls</a>.</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    12-nov-14 23:15
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-11">
+                                        <i id="ultimo"></i>
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/346/quitar-web-de-la-url-en-produccion-en-servidor-compartido/#respuesta-11" title="Enlace permanente a esta respuesta">#11</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_11_html">
+                        <p>Si pones este código en tu <code>.haccess</code> en la carpeta web, te funciona. Comprobado y testado por mi. </p>
+<pre class="apache code">&lt;<span class="kw3">IfModule</span> mod_rewrite.c&gt;
+    <span class="kw1">Options</span> +<span class="kw2">FollowSymlinks</span>
+    <span class="kw1">RewriteEngine</span> <span class="kw2">On</span>
+    <span class="kw1">RewriteCond</span> %{HTTP_HOST} ^dominio.pt$ [NC,OR]
+    <span class="kw1">RewriteCond</span> %{HTTP_HOST} ^www.dominio.pt$
+    <span class="kw1">RewriteCond</span> %{REQUEST_URI} !^/web/.*$
+    <span class="kw1">RewriteRule</span> ^(.*)$ /web/$1 [QSA,L]
+    <span class="co1"># Explicitly disable rewriting for front controllers</span>
+    <span class="co1">#RewriteRule ^app_dev.php - [L]</span>
+    <span class="kw1">RewriteRule</span> ^web/app.php - [L]
+&nbsp;
+    <span class="kw1">RewriteCond</span> %{REQUEST_FILENAME} !-f
+&nbsp;
+    <span class="co1"># Change below before deploying to production</span>
+    <span class="co1">#RewriteRule ^(.*)$ /app.php [QSA,L]</span>
+    <span class="kw1">RewriteRule</span> ^(.*)$ web/app.php [QSA,L]
+&lt;/<span class="kw3">IfModule</span>&gt;</pre>
+<p>Saludos</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/505328542633037824/zOqj96RK_normal.jpeg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @TsubasaAkai
+                                </span>
+
+                                <span class="published">
+                                    14-nov-14 09:55
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                    
+                    <div id="btn-reply">
+                <a rel="nofollow" href="/foro/pregunta/346/quitar-web-de-la-url-en-produccion-en-servidor-compartido/responder/#tu-respuesta" class="btn btn-lg">
+                    Responder pregunta
+                </a>
+            </div>
+            </div>
+
+
+                </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>7.1. Plantillas (Symfony 1.1, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_7.html" />
+                    <link rel="next" href="../capitulo_7/fragmentos_de_codigo.html" />
+                <link rel="start" href="/libro/symfony_1_1/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="7.1. Plantillas (Symfony 1.1, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_1"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/" itemprop="url">
+                    <span itemprop="title">Symfony 1.1, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/capitulo_7.html" itemprop="url">
+                    <span itemprop="title">Capítulo 7. La Vista</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>7.1. Plantillas</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="plantillas" class="title">
+        <span>7.1.</span> Plantillas
+    </h1>
+
+    
+
+<p>El Listado 7-1 muestra el código típico de una plantilla. Su contenido está formado por código HTML y algo de código PHP sencillo, normalmente llamadas a las variables definidas en la acción (mediante la instrucción <code>$this-&gt;nombre_variable = 'valor';</code>) y algunos <em>helpers</em>.</p>
+
+<p><strong>Listado 7-1 - Plantilla de ejemplo <code>indexSuccess.php</code></strong></p>
+
+<div class="code php">
+<pre class="php">&lt;h1&gt;Bienvenido&lt;/h1&gt;
+&lt;p&gt;¡Hola de nuevo, <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$nombre</span> <span class="sy1">?&gt;</span>!&lt;/p&gt;
+&lt;ul&gt;¿Qué es lo que quieres hacer?
+  &lt;li&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Leer los últimos artículos'</span><span class="sy0">,</span> <span class="st_h">'articulo/leer'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/li&gt;
+  &lt;li&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Escribir un nuevo artículo'</span><span class="sy0">,</span> <span class="st_h">'articulo/escribir'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/li&gt;
+&lt;/ul&gt;</pre>
+</div>
+
+<p>Como se explica en el Capítulo 4, es recomendable utilizar la sintaxis alternativa de PHP en las plantillas para hacerlas más fáciles de leer a aquellos desarrolladores que desconocen PHP. Se debería minimizar en lo posible el uso de código PHP en las plantillas, ya que estos archivos son los que se utilizan para definir la interfaz de la aplicación, y muchas veces son diseñados y modificados por otros equipos de trabajo especializados en el diseño de la presentación y no de la lógica del programa. Además, incluir la lógica dentro de las acciones permite disponer de varias plantillas para una sola acción sin tener que duplicar el código.</p>
+
+<h3 id="helpers">7.1.1. Helpers</h3>
+
+<p>Los <em>helpers</em> son funciones de PHP que devuelven código HTML y que se utilizan en las plantillas. En el listado 7-1, la función <code>link_to()</code> es un <em>helper</em>. A veces, los helpers solamente se utilizan para ahorrar tiempo, agrupando en una sola instrucción pequeños trozos de código utilizados habitualmente en las plantillas. Por ejemplo, es fácil imaginarse la definición de la función que representa a este <em>helper</em>:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_tag<span class="br0">&#40;</span><span class="st_h">'nick'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+=&gt; &lt;input type=&quot;text&quot; name=&quot;nick&quot; id=&quot;nick&quot; value=&quot;&quot; /&gt;</pre>
+</div>
+
+<p>La función debería ser como la que se muestra en el listado 7-2.</p>
+
+<p><strong>Listado 7-2 - Ejemplo de definición de helper</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">function</span> input_tag<span class="br0">&#40;</span><span class="re0">$name</span><span class="sy0">,</span> <span class="re0">$value</span> <span class="sy0">=</span> <span class="kw4">null</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="kw1">return</span> <span class="st_h">'&lt;input type=&quot;text&quot; name=&quot;'</span><span class="sy0">.</span><span class="re0">$name</span><span class="sy0">.</span><span class="st_h">'&quot; id=&quot;'</span><span class="sy0">.</span><span class="re0">$name</span><span class="sy0">.</span><span class="st_h">'&quot; value=&quot;'</span><span class="sy0">.</span><span class="re0">$value</span><span class="sy0">.</span><span class="st_h">'&quot; /&gt;'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>En realidad, la función <code>input_tag()</code> que incluye Symfony es un poco más complicada que eso, ya que permite indicar un tercer parámetro que contiene otros atributos de la etiqueta <code>&lt;input&gt;</code>. Se puede consultar su sintaxis completa y sus opciones en la documentación de la API: http://www.symfony-project.org/api/1_1/</p>
+
+<p>La mayoría de las veces los <em>helpers</em> incluyen cierta inteligencia que evita escribir bastante código:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> auto_link_text<span class="br0">&#40;</span><span class="st_h">'Por favor, visita nuestro sitio web www.ejemplo.com'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+=&gt; Por favor, visita nuestro sitio web &lt;a href=&quot;http://www.ejemplo.com&quot;&gt;www.ejemplo.com&lt;/a&gt;</pre>
+</div>
+
+<p>Los <em>helpers</em> facilitan la creación de las plantillas y producen el mejor código HTML posible en lo que se refiere al rendimiento y a la accesibilidad. Aunque se puede usar HTML normal y corriente, los <em>helpers</em> normalmente son más rápidos de escribir.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Quizás te preguntes por qué motivo los helpers se nombran con la sintaxis de los guiones bajos en vez de utilizar el método camelCase que se utiliza en el resto de Symfony. El motivo es que los helpers son funciones, y todas las funciones de PHP utilizan la sintaxis de los guiones bajos.</p></div>
+
+<h4 id="declarando_los_helpers">7.1.1.1. Declarando los Helpers</h4>
+
+<p>Los archivos de Symfony que contienen los <em>helpers</em> no se cargan automáticamente (ya que contienen funciones, no clases). Los <em>helpers</em> se agrupan según su propósito. Por ejemplo el archivo llamado <code>TextHelper.php</code> contiene todas las funciones de los <em>helpers</em> relacionados con el texto, que se llaman "grupo de helpers de Text". De esta forma, si una plantilla va a utilizar un <em>helper</em>, se debe cargar previamente el grupo al que pertenece el <em>helper</em> mediante la función <code>use_helper()</code>. El listado 7-3 muestra una plantilla que hace uso del <em>helper</em> <code>auto_link_text()</code>, que forma parte del grupo <code>Text</code>.</p>
+
+<p><strong>Listado 7-3 - Declarando el uso de un helper</strong></p>
+
+<div class="code php">
+<pre class="php">// Esta plantilla utiliza un grupo de helpers específicos
+<span class="kw2">&lt;?php</span> use_helper<span class="br0">&#40;</span><span class="st_h">'Text'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+...
+&lt;h1&gt;Descripción&lt;/h1&gt;
+&lt;p&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> auto_link_text<span class="br0">&#40;</span><span class="re0">$descripcion</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/p&gt;</pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Si se necesita declarar más de un grupo de helpers, se deben añadir más argumentos a la llamada de la función <code>use_helper()</code>. Si por ejemplo se necesitan cargar los helpers <code>Text</code> y <code>Javascript</code>, la llamada a la función debe ser <code>&lt;?php use_helper('Text', 'Javascript') ?&gt;</code>.</p></div>
+
+<p>Por defecto algunos de los helpers están disponibles en las plantillas sin necesidad de ser declarados. Estos <em>helpers</em> pertenecen a los siguientes grupos:</p>
+
+<ul>
+<li><code>Helper</code>: se necesita para incluir otros <em>helpers</em> (de hecho, la función <code>use_helper()</code> también es un <em>helper</em>)</li>
+<li><code>Tag</code>: <em>helper</em> básico para etiquetas y que utilizan casi todos los <em>helpers</em></li>
+<li><code>Url</code>: <em>helpers</em> para la gestión de enlaces y URL</li>
+<li><code>Asset</code>: <em>helpers</em> que añaden elementos a la sección <code>&lt;head&gt;</code> del código HTML y que proporcionan enlaces sencillos a elementos externos (imágenes, archivos JavaScript, hojas de estilo, etc.)</li>
+<li><code>Partial</code>: <em>helpers</em> que permiten incluir trozos de plantillas</li>
+<li><code>Cache</code>: manipulación de los trozos de código que se han añadido a la cache</li>
+<li><code>Form</code>: <em>helpers</em> para los formularios</li>
+</ul>
+
+<p>El archivo <code>settings.yml</code> permite configurar la lista de <em>helpers</em> que se cargan por defecto en todas las plantillas. De esta forma, se puede modificar su configuración si se sabe por ejemplo que no se van a usar los <em>helpers</em> relacionados con la cache o si se sabe que siempre se van a necesitar los <em>helpers</em> relacionados con el grupo <code>Text</code>. Este cambio puede aumentar ligeramente la velocidad de ejecución de la aplicación. Los 4 primeros <em>helpers</em> de la lista anterior (<code>Helper</code>, <code>Tag</code>, <code>Url</code> y <code>Asset</code>) no se pueden eliminar, ya que son obligatorios para que funcione correctamente el mecanismo de las plantillas. Por este motivo ni siquiera aparecen en la lista de <em>helpers</em> estándares.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Si se quiere utilizar un helper fuera de una plantilla, se puede cargar un grupo de helpers desde cualquier punto de la aplicación mediante la función <code>sfLoader::loadHelpers($helpers)</code>, donde la variable <code>$helpers</code> es el nombre de un grupo de helpers o un array con los nombres de varios grupos de helpers. Por tanto, si se quiere utilizar <code>auto_link_text()</code> dentro de una acción, es necesario llamar primero a <code>sfLoader::loadHelpers('Text')</code>.</p></div>
+
+<h4 id="los_helpers_habituales">7.1.1.2. Los helpers habituales</h4>
+
+<p>Algunos <em>helpers</em> se explican en detalle en los siguientes capítulos, en función de la característica para la que han sido creados. El listado 7-4 incluye un pequeña lista de los helpers que más se utilizan y muestra también el código HTML que generan.</p>
+
+<p><strong>Listado 7-4 - Los <em>helpers</em> por defecto más utilizados</strong></p>
+
+<div class="code php">
+<pre class="php">// Grupo Helper
+<span class="kw2">&lt;?php</span> use_helper<span class="br0">&#40;</span><span class="st_h">'NombreHelper'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> use_helper<span class="br0">&#40;</span><span class="st_h">'NombreHelper1'</span><span class="sy0">,</span> <span class="st_h">'NombreHelper2'</span><span class="sy0">,</span> <span class="st_h">'NombreHelper3'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// Grupo Tag
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> tag<span class="br0">&#40;</span><span class="st_h">'input'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'name'</span> <span class="sy0">=&gt;</span> <span class="st_h">'parametro'</span><span class="sy0">,</span> <span class="st_h">'type'</span> <span class="sy0">=&gt;</span> <span class="st_h">'text'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> tag<span class="br0">&#40;</span><span class="st_h">'input'</span><span class="sy0">,</span> <span class="st_h">'name=parametro type=text'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>  // Sintaxis alternativa para las opciones
+=&gt; &lt;input name=&quot;parametro&quot; type=&quot;text&quot; /&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> content_tag<span class="br0">&#40;</span><span class="st_h">'textarea'</span><span class="sy0">,</span> <span class="st_h">'contenido de prueba'</span><span class="sy0">,</span> <span class="st_h">'name=parametro'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+=&gt; &lt;textarea name=&quot;parametro&quot;&gt;contenido de prueba&lt;/textarea&gt;
+&nbsp;
+// Grupo Url
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Pínchame'</span><span class="sy0">,</span> <span class="st_h">'mimodulo/miaccion'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+=&gt; &lt;a href=&quot;/ruta/a/miaccion&quot;&gt;Pínchame&lt;/a&gt;  // Depende del sistema de enrutamiento
+&nbsp;
+// Grupo Asset
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> image_tag<span class="br0">&#40;</span><span class="st_h">'miimagen'</span><span class="sy0">,</span> <span class="st_h">'alt=imagen size=200x100'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+=&gt; &lt;img src=&quot;/images/miimagen.png&quot; alt=&quot;imagen&quot; width=&quot;200&quot; height=&quot;100&quot;/&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> javascript_include_tag<span class="br0">&#40;</span><span class="st_h">'miscript'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+=&gt; &lt;script language=&quot;JavaScript&quot; type=&quot;text/javascript&quot; src=&quot;/js/miscript.js&quot;&gt;&lt;/script&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> stylesheet_tag<span class="br0">&#40;</span><span class="st_h">'estilo'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+=&gt; &lt;link href=&quot;/stylesheets/estilo.css&quot; media=&quot;screen&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;</pre>
+</div>
+
+<p>Symfony incluye muchos otros <em>helpers</em> y describirlos todos requeriría de un libro entero. La mejor referencia para estudiar los <em>helpers</em> es la documentación de la API, que se puede consultar en http://www.symfony-project.org/api/1_1/, donde todos los <em>helpers</em> incluyen documentación sobre su sintaxis, opciones y ejemplos.</p>
+
+<h4 id="crea_tus_propios_helpers">7.1.1.3. Crea tus propios helpers</h4>
+
+<p>Symfony incluye numerosos <em>helpers</em> que realizan distintas funcionalidades, pero si no se encuentra lo que se necesita, es probable que tengas que crear un nuevo <em>helper</em>. Crear un <em>helper</em> es muy sencillo.</p>
+
+<p>Las funciones del <em>helper</em> (funciones normales de PHP que devuelven código HTML) se deben guardar en un archivo llamado <code>NombreHelper.php</code>, donde <code>Nombre</code> es el nombre del nuevo grupo de <em>helpers</em>. El archivo se debe guardar en el directorio <code>apps/frontend/lib/helper/</code> (o en cualquier directorio <code>helper/</code> que esté dentro de cualquier directorio <code>lib/</code> del proyecto) para que la función <code>use_helper('Nombre')</code> pueda encontrarlo de forma automática y así poder incluirlo en la plantilla.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Este mecanismo permite incluso redefinir los helpers de Symfony. Para redefinir por ejemplo todos los helpers del grupo <code>Text</code>, se puede crear un archivo llamado <code>TextHelper.php</code> y guardarlo en el directorio <code>apps/frontend/lib/helper/</code>. Cada vez que se llame a la función <code>use_helper('Text')</code>, Symfony carga el nuevo grupo de helpers en vez del grupo por defecto. Hay que ser cuidadoso con este método, ya que como el archivo original no se carga, el nuevo grupo de helpers debe redefinir todas y cada una de las funciones del grupo original, ya que de otra forma no estarán disponibles las funciones no definidas.</p></div>
+
+<h3 id="layout_de_las_paginas">7.1.2. Layout de las páginas</h3>
+
+<p>La plantilla del listado 7-1 no es un documento XHTML válido. Le faltan la definición del <code>DOCTYPE</code> y las etiquetas <code>&lt;html&gt;</code> y <code>&lt;body&gt;</code>. El motivo es que estos elementos se encuentran en otro lugar de la aplicación, un archivo llamado <code>layout.php</code> que contiene el layout de la página. Este archivo, que también se denomina plantilla global, almacena el código HTML que es común a todas las páginas de la aplicación, para no tener que repetirlo en cada página. El contenido de la plantilla se integra en el layout, o si se mira desde el otro punto de vista, el layout <em>decora</em> la plantilla. Este comportamiento es una implementación del patrón de diseño llamado "decorator" y que se muestra en la figura 7-1.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Para obtener más información sobre el patrón "decorator" y sobre otros patrones de diseño, se puede consultar el libro <em>"Patterns of Enterprise Application Architecture"</em> escrito por Martin Fowler (Addison-Wesley, ISBN: 0-32112-742-0).</p></div>
+
+<div class="figure" id="figure_7_1">
+    <img src="/img/symfony_1_1/f0701.png" alt="Plantilla decorada con un layout" />
+
+    <p class="caption"><strong>Figura 7.1</strong> Plantilla decorada con un layout</p>
+</div>
+
+
+<p>El listado 7-5 muestra el layout por defecto, que se encuentra en el directorio <code>templates/</code>.</p>
+
+<p><strong>Listado 7-5 - Layout por defecto, en <code>miproyecto/apps/frontend/templates/layout.php</code></strong></p>
+
+<div class="code php">
+<pre class="php">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+  &quot;http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    <span class="kw2">&lt;?php</span> include_http_metas<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+    <span class="kw2">&lt;?php</span> include_metas<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+    <span class="kw2">&lt;?php</span> include_title<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+    &lt;link rel=&quot;shortcut icon&quot; href=&quot;/favicon.ico&quot; /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$sf_content</span> <span class="sy1">?&gt;</span>
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+
+<p>Los <em>helpers</em> utilizados en la sección <code>&lt;head&gt;</code> obtienen información del objeto respuesta y en la configuración de la vista. La etiqueta <code>&lt;body&gt;</code> muestra el resultado de la plantilla. Utilizando este layout, la configuración por defecto y la plantilla de ejemplo del listado 7-1, la vista generada sería la del listado 7-6.</p>
+
+<p><strong>Listado 7-6 - Unión del layout, la configuración de la vista y la plantilla</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+  &quot;http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+    &lt;meta name=&quot;title&quot; content=&quot;symfony project&quot; /&gt;
+    &lt;meta name=&quot;robots&quot; content=&quot;index, follow&quot; /&gt;
+    &lt;meta name=&quot;description&quot; content=&quot;symfony project&quot; /&gt;
+    &lt;meta name=&quot;keywords&quot; content=&quot;symfony, project&quot; /&gt;
+    &lt;title&gt;symfony project&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/css/main.css&quot; /&gt;
+    &lt;link rel=&quot;shortcut icon&quot; href=&quot;/favicon.ico&quot;&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Bienvenido&lt;/h1&gt;
+    &lt;p&gt;¡Hola de nuevo, <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$nombre</span> <span class="sy1">?&gt;</span>!&lt;/p&gt;
+    &lt;ul&gt;¿Qué es lo que quieres hacer?
+      &lt;li&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Leer los últimos artículos'</span><span class="sy0">,</span> <span class="st_h">'articulo/leer'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/li&gt;
+      &lt;li&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Escribir un nuevo artículo'</span><span class="sy0">,</span> <span class="st_h">'articulo/escribir'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+
+<p>La plantilla global puede ser adaptada completamente para cada aplicación. Se puede añadir todo el código HTML que sea necesario. Normalmente se utiliza el layout para mostrar la navegación, el logotipo del sitio, etc. Incluso es posible definir más de un layout y decidir en cada acción el layout a utilizar. No te preocupes ahora por la forma de incluir archivos de JavaScript y hojas de estilos, ya que se explica en la sección "Configuración de la Vista" más adelante en este capítulo.</p>
+
+<h3 id="atajos_de_plantilla">7.1.3. Atajos de plantilla</h3>
+
+<p>Symfony incluye una serie de variables propias en todas las plantillas. Estas variables se pueden considerar <em>atajos</em> que permiten el acceso directo a la información más utilizada en las plantillas, mediante los siguientes objetos internos de Symfony:</p>
+
+<ul>
+<li><code>$sf_context</code>: el objeto que representa a todo el contexto (es una instancia de <code>sfContext</code>)</li>
+<li><code>$sf_request</code>: el objeto petición (es una instancia de <code>sfRequest</code>)</li>
+<li><code>$sf_params</code>: los parámetros del objeto petición</li>
+<li><code>$sf_user</code>: el objeto de sesión del usuario actual (es una instancia de <code>sfUser</code>)</li>
+</ul>
+
+<p>En el capítulo anterior se detallaban algunos métodos útiles de los objetos <code>sfRequest</code> y <code>sfUser</code>. En las plantillas se pueden invocar todos esos métodos mediante las variables <code>$sf_request</code> y <code>$sf_user</code>. Por ejemplo, si la petición incluye un parámetro llamado <code>total</code>, desde la plantilla se puede acceder a su valor de la siguiente manera:</p>
+
+<div class="code php">
+<pre class="php">// Método largo
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$sf_request</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'total'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// Método corto (atajo)
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$sf_params</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'total'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// Son equivalentes al siguiente código de la acción
+echo $peticion-&gt;getParameter('total')</pre>
+</div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_7.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 7. La Vista</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_7/fragmentos_de_codigo.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>7.2. Fragmentos de código</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_7.html">
+                    <span>Capítulo 7.</span> La Vista
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_7/plantillas.html">
+                    <span>7.1.</span> Plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/fragmentos_de_codigo.html">
+                    <span>7.2.</span> Fragmentos de código
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/configuracion_de_la_vista.html">
+                    <span>7.3.</span> Configuración de la vista
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/slots_de_componentes.html">
+                    <span>7.4.</span> Slots de componentes
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/mecanismo_de_escape.html">
+                    <span>7.5.</span> Mecanismo de escape
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/resumen.html">
+                    <span>7.6.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

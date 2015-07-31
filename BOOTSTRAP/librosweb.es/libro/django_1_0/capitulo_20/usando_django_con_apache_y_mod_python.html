@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>20.3. Usando Django con Apache y mod_python (El libro de Django 1.0)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_20/un_nota_sobre_preferencias_personales.html" />
+                    <link rel="next" href="../capitulo_20/usando_django_con_fastcgi.html" />
+                <link rel="start" href="/libro/django_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="20.3. Usando Django con Apache y mod_python (El libro de Django 1.0)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page django_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/" itemprop="url">
+                    <span itemprop="title">El libro de Django 1.0</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/capitulo_20.html" itemprop="url">
+                    <span itemprop="title">Capítulo 20. Puesta en marcha de Django en un servidor</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>20.3. Usando Django con Apache y mod_python</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="usando_django_con_apache_y_mod_python" class="title">
+        <span>20.3.</span> Usando Django con Apache y mod_python
+    </h1>
+
+    
+
+<p>Apache con mod_python es actualmente la configuración más robusta para usar
+Django en un servidor en producción.</p>
+
+<p><a href="http://www.djangoproject.com/r/mod_python/">mod_python</a> es un plugin de Apache
+que embebe Python dentro de Apache y carga código Python en memoria cuando el
+servidor se inicia. El código permanece en memoria a lo largo de la vida del
+proceso Apache, lo que repercute en aumentos significativos de desempeño
+comparado con otros arreglos de servidor.</p>
+
+<p>Django requiere Apache 2.x y mod_python 3.x, y nosotros preferimos el módulo de
+multiprocesamiento (MPM) prefork de Apache, por sobre el MPM worker.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Configurar Apache está <em>claramente</em> más allá del alcance de este libro,
+por lo que simplemente mencionaremos algunos detalles que necesitamos.
+Afortunadamente existen grandes recursos disponibles para aprender más
+sobre Apache. Algunos de los que nos gustan son los siguientes:</p>
+
+<ul>
+<li>La <a href="http://www.djangoproject.com/r/apache/docs/">documentación gratuita de Apache</a></li>
+<li><a href="http://www.djangoproject.com/r/books/pro-apache/">Pro Apache, tercera edición</a>
+(Apress, 2004) de Peter Wainwright,</li>
+<li><a href="http://www.djangoproject.com/r/books/apache-pra/">Apache: The Definitive Guide, Third Edition</a>
+(O'Reilly, 2002) de Ben Laurie y Peter Laurie</li>
+</ul>
+
+<p></p></div>
+
+<h3 id="configuracion_basica">20.3.1. Configuración básica</h3>
+
+<p>Para configurar Django con mod_python, primero debe asegurarse de que tiene
+Apache instalado con el módulo mod_python activado. Esto normalmente significa
+tener una directiva <code>LoadModule</code> en tu archivo de configuración de Apache.
+Puede parecerse a esto:</p>
+
+<div class="code apache">
+<pre class="apache"><span class="kw1">LoadModule</span> python_module /usr/lib/apache2/modules/mod_python.so</pre>
+</div>
+
+<p>Luego, edite su archivo de configuración de Apache y agregue lo siguiente:</p>
+
+<div class="code apache">
+<pre class="apache">&lt;<span class="kw3">Location</span> <span class="st0">&quot;/&quot;</span>&gt;
+    <span class="kw1">SetHandler</span> python-program
+    PythonHandler django.core.handlers.modpython
+    <span class="kw1">SetEnv</span> DJANGO_SETTINGS_MODULE misitio.settings
+    PythonDebug <span class="kw2">On</span>
+&lt;/<span class="kw3">Location</span>&gt;</pre>
+</div>
+
+<p>Asegurese de reemplazar <code>misitio.settings</code> por el <code>DJANGO_SETTINGS_MODULE</code>
+apropiado para tu sitio.</p>
+
+<p>Esto le dice a Apache, "Usa mod_python para cualquier URL en '/' o bajo ella,
+usando el manejado mod_python de Django". Le pasa el valor de
+<code>DJANGO_SETTINGS_MODULE</code> de modo que mod_python conoce que configuración 
+utilizar.</p>
+
+<p>Nota que estamos usando la directiva <code>&lt;Location&gt;</code> y no <code>&lt;Directory&gt;</code>. Esta
+última se utiliza para apuntar a lugares de nuestra sistema de archivos, 
+mientras que <code>&lt;Location&gt;</code> apunta a lugares en la estructura de la URL de un 
+sitio web. <code>&lt;Directory&gt;</code> no tendría sentido aquí.</p>
+
+<p>Apache normalmente se ejecuta como un usuario diferente de tu usuario normal y 
+puede tener una ruta y un <code>sys.path</code> distintos. Puedes necesitar decirle a 
+<code>mod_python</code> cómo encontrar tu proyecto y a Django mismo:</p>
+
+<div class="code python">
+<pre class="python">PythonPath <span class="st0">&quot;['/ruta/al/proyecto', '/ruta/a/django'] + sys.path&quot;</span></pre>
+</div>
+
+<p>También puedes agregar directivas como <code>PythonAutoReload Off</code> para ajustar
+el rendimiento. Mira la documentación de mod_python para un obtener un listado
+completo de opciones.</p>
+
+<p>Ten en cuenta que deberías configurar <code>PythonDebug Off</code> en un servidor de
+producción. Si dejas <code>PythonDebug On</code>, tus usuarios verán mensajes de error no
+muy bonitos si algo sale mal dentro de <code>mod_python</code>.</p>
+
+<p>Reinicia Apache, y cualquier petición a tu sitio (o a tu host virtual si 
+pusiste las directivas dentro de un bloque <code>&lt;VirtualHost&gt;</code>) será servida por 
+Django.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Si implementas Django en un subdirectorio — esto es, en algún lugar más
+profundo que "/" — Django no recortará el prefijo de la URL para tu
+URLpatterns. Entonces, si tu configuración de Apache luce como esto:</p>
+
+<div class="code apache">
+<pre class="apache">&lt;<span class="kw3">Location</span> <span class="st0">&quot;/misitio/&quot;</span>&gt;
+    <span class="kw1">SetHandler</span> python-program
+    PythonHandler django.core.handlers.modpython
+    <span class="kw1">SetEnv</span> DJANGO_SETTINGS_MODULE misitio.settings
+    PythonDebug <span class="kw2">On</span>
+&lt;/<span class="kw3">Location</span>&gt;</pre>
+</div>
+
+<p>entonces <em>todos</em> tus patrones de URL deberán comenzar con <code>"/misitio/"</code>.
+Por esta razón es que normalmente recomendamos implementar Django sobre la
+raíz de tu dominio o host virtual. Alternativamente, simplemente puede
+hacer descender el nivel de tu URL usando una cuña de URLconf:</p>
+
+<div class="code python">
+<pre class="python">urlpatterns <span class="sy0">=</span> patterns<span class="br0">&#40;</span><span class="st0">''</span><span class="sy0">,</span>
+    <span class="br0">&#40;</span>r<span class="st0">'^misitio/'</span><span class="sy0">,</span> include<span class="br0">&#40;</span><span class="st0">'normal.root.urls'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span></pre>
+</div>
+
+<p></p></div>
+
+<h3 id="corriendo_multiples_instalaciones_de_django_en_la_misma_instancia_apache">20.3.2. Corriendo multiples instalaciones de Django en la misma instancia Apache</h3>
+
+<p>Es enteramente posible correr multiples instalaciones de Django en la misma
+instancia de Apache. Probablemente quieras hacer esto si eres un desarrollador
+web independiente con multiples clientes pero un sólo un único servidor.</p>
+
+<p>Para lograr esto, simplemente usa <code>VirtualHost</code> así:</p>
+
+<div class="code apache">
+<pre class="apache"><span class="kw1">NameVirtualHost</span> *
+&nbsp;
+&lt;<span class="kw3">VirtualHost</span> *&gt;
+    <span class="kw1">ServerName</span> www.ejemplo.com
+    <span class="co1"># ...</span>
+    <span class="kw1">SetEnv</span> DJANGO_SETTINGS_MODULE misitio.settings
+&lt;/<span class="kw3">VirtualHost</span>&gt;
+&nbsp;
+&lt;<span class="kw3">VirtualHost</span> *&gt;
+    <span class="kw1">ServerName</span> www2.ejemplo.com
+    <span class="co1"># ...</span>
+    <span class="kw1">SetEnv</span> DJANGO_SETTINGS_MODULE misitio.other_settings
+&lt;/<span class="kw3">VirtualHost</span>&gt;</pre>
+</div>
+
+<p>Si necesitar poner dos instalaciones de Django sobre el mismo <code>VirtualHost</code>,
+necesitar prestar especial atención para asegurarte de que el caché de código
+de mod_python no mezcle las cosas. Usa la directiva <code>PythonInterpreter</code> para
+brindar diferentes directivas <code>&lt;Location&gt;</code> a interpretes distintos:</p>
+
+<div class="code apache">
+<pre class="apache">&lt;<span class="kw3">VirtualHost</span> *&gt;
+    <span class="kw1">ServerName</span> www.ejemplo.com
+    <span class="co1"># ...</span>
+    &lt;<span class="kw3">Location</span> <span class="st0">&quot;/algo&quot;</span>&gt;
+        <span class="kw1">SetEnv</span> DJANGO_SETTINGS_MODULE misitio.settings
+        PythonInterpreter misitio
+    &lt;/<span class="kw3">Location</span>&gt;
+&nbsp;
+    &lt;<span class="kw3">Location</span> <span class="st0">&quot;/otracosa&quot;</span>&gt;
+        <span class="kw1">SetEnv</span> DJANGO_SETTINGS_MODULE misitio.other_settings
+        PythonInterpreter misitio_otro
+    &lt;/<span class="kw3">Location</span>&gt;
+&lt;/<span class="kw3">VirtualHost</span>&gt;</pre>
+</div>
+
+<p>Los valores de <code>PythonInterpreter</code> no importante realmente ya que se encuentran
+en dos bloques <code>Location</code> diferentes.</p>
+
+<h3 id="corriendo_un_servidor_de_desarrollo_con_mod_python">20.3.3. Corriendo un servidor de desarrollo con mod_python</h3>
+
+<p>Debido a que mod_python cachea el código python cargado, cuando implementas 
+sitios Django sobre mod_python necesitarás reiniciar Apache cada vez que 
+realizar cambios en tu código. Esto puede ser tedioso, por lo que aqui 
+compartimos un pequeño truco para evitarlo: simplemente agrega
+<code>MaxRequestsPerChild 1</code> a tu archivo de configuración para forzar a Apache a 
+recargar todo con cada petición. Pero no hagas esto en un servidor de 
+producción, o revocaremos tus privilegios Django.</p>
+
+<p>Si eres el tipo de programador que depuran dispersando sentencias <code>print</code> por
+el código (nosotros somos), ten en cuenta que <code>print</code> no tiene efectos sobre
+mod_python; estas no aparecen en el log de Apache como pudrías esperar.
+Si necesitas imprimir información de depuración en una configuración 
+mod_python, probablemente quieras usar el paquete de registro de eventos 
+estándar de Python (Python's standard logging package). Hay más información 
+disponible en http://docs.python.org/lib/module-logging.html. 
+Alternativamente, puedes agregar la información de depuración a las plantillas 
+de tu página.</p>
+
+<h3 id="sirviendo_django_y_archivos_multimedia_desde_la_misma_instancia_apache">20.3.4. Sirviendo Django y archivos multimedia desde la misma instancia Apache</h3>
+
+<p>Django no debería ser utilizado para servir archivos multimedia (imagen, audio,
+video, flash) por sí mismo; mejor deja ese trabajo al servidor web que hayas 
+elegido. Recomendamos usar un servidor Web separado (es decir, uno que no está 
+corriendo a la vez Django) para servir estos archivos. Para más información, 
+mira la sección "Escalabilidad".</p>
+
+<p>Sin embargo, si no tienes opción para servir los archivos multimedia que no sea
+el mismo <code>VirtualHost</code> Apache que usa Django, aquí te mostramos como desactivar
+mod_python para una parte particular del sitio:</p>
+
+<div class="code apache">
+<pre class="apache">&lt;<span class="kw3">Location</span> <span class="st0">&quot;/media/&quot;</span>&gt;
+    <span class="kw1">SetHandler</span> <span class="kw2">None</span>
+&lt;/<span class="kw3">Location</span>&gt;</pre>
+</div>
+
+<p>Cambia <code>Location</code> a la URL raiz donde se encuentran tus archivos.</p>
+
+<p>Tambien puedes usar <code>&lt;LocationMatch&gt;</code> para comparar con una expresión regular.
+Por ejemplo, esto configura Django en la raiz del sitio pero deshabilitando
+Django para el subdirectorio <code>media</code> y cualquier URL que termine en
+<code>.jpg</code>, <code>.gif</code>, o <code>.png</code>:</p>
+
+<div class="code apache">
+<pre class="apache">&lt;<span class="kw3">Location</span> <span class="st0">&quot;/&quot;</span>&gt;
+    <span class="kw1">SetHandler</span> python-program
+    PythonHandler django.core.handlers.modpython
+    <span class="kw1">SetEnv</span> DJANGO_SETTINGS_MODULE mysite.settings
+&lt;/<span class="kw3">Location</span>&gt;
+&nbsp;
+&lt;<span class="kw3">Location</span> <span class="st0">&quot;/media/&quot;</span>&gt;
+    <span class="kw1">SetHandler</span> <span class="kw2">None</span>
+&lt;/<span class="kw3">Location</span>&gt;
+&nbsp;
+&lt;<span class="kw3">LocationMatch</span> <span class="st0">&quot;<span class="es0">\.</span>(jpg|gif|png)$&quot;</span>&gt;
+    <span class="kw1">SetHandler</span> <span class="kw2">None</span>
+&lt;/<span class="kw3">LocationMatch</span>&gt;</pre>
+</div>
+
+<p>En todos estos casos, necesitarás configurar la directiva <code>DocumentRoot</code> para
+que Apache sepa dónde encontrar tus archivos estáticos.</p>
+
+<h3 id="manejo_de_errores">20.3.5. Manejo de errores</h3>
+
+<p>Cuando usas Apache/mod_python, los errores serán canalizados por Django — en 
+otras palabras, estos no se propagan al nivel de Apache y no aparecerán en el
+<code>error_log</code> del servidor.</p>
+
+<p>La excepción a esto sucede si algo está realmente desordenado en tu 
+configuración Django. En este caso, verás una página "Internal Server Error" 
+en tu navegador, y el volcado de error (traceback) de Python completo en tu 
+archivo <code>error_log</code> de Apache. Este volcado de error se difunde por multiples 
+líneas. (Sí, es feo y bastante difícil de leer, pero así como mod_python hace 
+las cosas).</p>
+
+<h3 id="manejando_fallas_de_segmentacion">20.3.6. Manejando fallas de segmentación</h3>
+
+<p>Algunas veces, Apache produce errores de tipo <em>Segmentation faults</em> cuando 
+instalas Django. Cuando esto sucede, se trata casi <em>siempre</em> de 
+una o dos causas no muy relacionadas con Django en sí:</p>
+
+<ul>
+<li>Puede ser que tu código Python está importando el módulo <code>pyexpat</code>
+(usado para parseo XML), lo que puede entrar en conflicto con la versión
+embebida en Apache. Para información detallada, revisa "Expat Causing 
+Apache Crash" en
+http://www.djangoproject.com/r/articles/expat-apache-crash/.</li>
+<li>Puede deberse a que estás corriendo mod_python y mod_php sobre la misma
+instancia de Apache, con MySQL como motor de base de datos. En algunos
+casos, esto ocasiona un conocido problema que mod_python tiene debido a
+conflictos de versión en PHP y el back-end MySQL de la base. Hay 
+información detallada en un listado FAQ de mod_python, accesible via
+http://www.djangoproject.com/r/articles/php-modpython-faq/</li>
+</ul>
+
+<p>Si continuas teniendo problemas para configurar mod_python, una buena cosa 
+para hacer es poner un esqueleto de sitio sobre mod_python a funcionar, sin el 
+framework Django. Esta es una manera fácil de aislar los problemas específicos 
+de mod_python. El artículo "Getting mod_python Working" detalla el 
+procedimiento:
+http://www.djangoproject.com/r/articles/getting-modpython-working/.</p>
+
+<p>El siguiente paso debería ser editar tu código de pruebas y agregar la 
+importación de cualquier código específico de Django que estes usando — tus 
+vistas, tus modelos, tu URLconf, la configuración de RSS, y así. Incluye estas 
+importaciones en tu función de gestión de pruebas, y accede a la URL 
+correspondiente desde tu navegador. Si esto causa un colapso, habrás 
+confirmado que es la importación de código Django la causa del problema.</p>
+
+<p>Gradualmente reduce el conjunto de importaciones hasta que el colapso 
+desaparezca, de manera de encontrar el módulo específico que es el culpable. 
+Profundiza en los módulos y revisa sus importaciones si es necesario. Para más 
+ayuda, herramientas de sistema como <code>ldconfig</code> en Linux, <code>otool</code> en Mac OS, y<br />
+<code>ListDLLs</code> (de SysInternals) en Windows pueden ayudarte a indentificar 
+dependencias compartidas y posibles conflictos de version.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_20/un_nota_sobre_preferencias_personales.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>20.2. Un nota sobre preferencias personales</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_20/usando_django_con_fastcgi.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>20.4. Usando Django con FastCGI</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Los principios de las páginas Web dinámicas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> El sistema de plantillas de Django</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Interactuar con una base de datos: Modelos</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El sitio de Administración Django</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Procesamiento de formularios</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Vistas avanzadas y URLconfs</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Vistas genéricas</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Extender el sistema de plantillas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Generación de contenido no HTML</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Sesiones, usuario e inscripciones</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Cache</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Otros sub-frameworks contribuidos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Middleware</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Integración con Base de datos y Aplicaciones existentes</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Extender la Interfaz de Administración de Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_20.html">
+                    <span>Capítulo 20.</span> Puesta en marcha de Django en un servidor
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_20/nada_compartido.html">
+                    <span>20.1.</span> Nada Compartido
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_20/un_nota_sobre_preferencias_personales.html">
+                    <span>20.2.</span> Un nota sobre preferencias personales
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_20/usando_django_con_apache_y_mod_python.html">
+                    <span>20.3.</span> Usando Django con Apache y mod_python
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_20/usando_django_con_fastcgi.html">
+                    <span>20.4.</span> Usando Django con FastCGI
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_20/escalabilidad.html">
+                    <span>20.5.</span> Escalabilidad
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_20/ajuste_de_rednimiento.html">
+                    <span>20.6.</span> Ajuste de rednimiento
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_20/que_sigue.html">
+                    <span>20.7.</span> ¿Qué sigue?
+                </a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

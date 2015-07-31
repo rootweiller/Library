@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>10.2. Helpers de formularios para objetos (Symfony 1.1, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_10/helpers_de_formularios.html" />
+                    <link rel="next" href="../capitulo_10/validacion_de_formularios.html" />
+                <link rel="start" href="/libro/symfony_1_1/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="10.2. Helpers de formularios para objetos (Symfony 1.1, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_1"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/" itemprop="url">
+                    <span itemprop="title">Symfony 1.1, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/capitulo_10.html" itemprop="url">
+                    <span itemprop="title">Capítulo 10. Formularios</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>10.2. Helpers de formularios para objetos</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="helpers_de_formularios_para_objetos" class="title">
+        <span>10.2.</span> Helpers de formularios para objetos
+    </h1>
+
+    
+
+<p>Cuando se utilizan los elementos de formulario para modificar las propiedades de un objeto, resulta tedioso utilizar los <em>helpers</em> normales. Por ejemplo, para editar el atributo <code>telefono</code> de un objeto <code>Cliente</code>, se podría escribir lo siguiente:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_tag<span class="br0">&#40;</span><span class="st_h">'telefono'</span><span class="sy0">,</span> <span class="re0">$cliente</span><span class="sy0">-&gt;</span><span class="me1">getTelefono</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+=&gt; &lt;input type=&quot;text&quot; name=&quot;telefono&quot; id=&quot;telefono&quot; value=&quot;0123456789&quot; /&gt;</pre>
+</div>
+
+<p>Para no tener que repetir continuamente el nombre del atributo, Symfony define un <em>helper</em> de formulario para objetos en cada uno de los <em>helpers</em> de formularios. Los <em>helpers</em> de formularios para objetos deducen el nombre y el valor inicial del elemento a partir de un objeto y del nombre de un método. El anterior <code>input_tag()</code> es equivalente a:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_input_tag<span class="br0">&#40;</span><span class="re0">$cliente</span><span class="sy0">,</span> <span class="st_h">'getTelefono'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+=&gt; &lt;input type=&quot;text&quot; name=&quot;telefono&quot; id=&quot;telefono&quot; value=&quot;0123456789&quot; /&gt;</pre>
+</div>
+
+<p>El ahorro de código no es muy significativo para el <em>helper</em> <code>object_input_tag()</code>. No obstante, todos los <em>helpers</em> estándar de formulario disponen del correspondiente <em>helper</em> para objetos y todos comparten la misma sintaxis. Utilizando estos <em>helpers</em>, es muy sencillo crear los formularios. Esta es la razón por la que los <em>helpers</em> de formulario para objetos se utilizan en el <em>scaffolding</em> y en los sistemas de gestión creados de forma automática (en el Capítulo 14 se definen los detalles). El listado 10-11 muestra una lista de todos los <em>helpers</em> de formularios para objetos.</p>
+
+<p><strong>Listado 10-11 - Sintaxis de los <em>helpers</em> de formularios para objetos</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_input_tag<span class="br0">&#40;</span><span class="re0">$objeto</span><span class="sy0">,</span> <span class="re0">$metodo</span><span class="sy0">,</span> <span class="re0">$opciones</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_input_date_tag<span class="br0">&#40;</span><span class="re0">$objeto</span><span class="sy0">,</span> <span class="re0">$metodo</span><span class="sy0">,</span> <span class="re0">$opciones</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_input_hidden_tag<span class="br0">&#40;</span><span class="re0">$objeto</span><span class="sy0">,</span> <span class="re0">$metodo</span><span class="sy0">,</span> <span class="re0">$opciones</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_textarea_tag<span class="br0">&#40;</span><span class="re0">$objeto</span><span class="sy0">,</span> <span class="re0">$metodo</span><span class="sy0">,</span> <span class="re0">$opciones</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_checkbox_tag<span class="br0">&#40;</span><span class="re0">$objeto</span><span class="sy0">,</span> <span class="re0">$metodo</span><span class="sy0">,</span> <span class="re0">$opciones</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_select_tag<span class="br0">&#40;</span><span class="re0">$objeto</span><span class="sy0">,</span> <span class="re0">$metodo</span><span class="sy0">,</span> <span class="re0">$opciones</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_select_country_tag<span class="br0">&#40;</span><span class="re0">$objeto</span><span class="sy0">,</span> <span class="re0">$metodo</span><span class="sy0">,</span> <span class="re0">$opciones</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_select_language_tag<span class="br0">&#40;</span><span class="re0">$objeto</span><span class="sy0">,</span> <span class="re0">$metodo</span><span class="sy0">,</span> <span class="re0">$opciones</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>No existe un <em>helper</em> llamado <code>object_password_tag()</code>, ya que no es recomendable proporcionar un valor por defecto en un campo de texto de contraseña basado en lo que escribió antes el usuario.</p>
+
+<div class="admonition caution"><p><strong class="title">Advertencia</strong> Al contrario de lo que sucede con los <em>helpers</em> de formularios, los <em>helpers</em> de formularios para objetos solamente están disponibles si se incluye de forma explícita el grupo de <em>helpers</em> llamado <code>Object</code> en la plantilla, mediante <code>use_helper('Object')</code>.</p></div>
+
+<p>De todos los <em>helpers</em> de formularios para objetos, los más interesantes son <code>objects_for_select()</code> y <code>object_select_tag()</code>, que se emplean para construir listas desplegables.</p>
+
+<h3 id="llenando_listas_desplegables_con_objetos">10.2.1. Llenando listas desplegables con objetos</h3>
+
+<p>El <em>helper</em> <code>options_for_select()</code>, descrito anteriormente junto con el resto de <em>helpers</em> estándar, transforma un array asociativo de PHP en una lista de opciones, como se muestra en el listado 10-12.</p>
+
+<p><strong>Listado 10-12 - Creando una lista de opciones a partir de un array con <code>options_for_select()</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> options_for_select<span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+  <span class="st_h">'1'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Steve'</span><span class="sy0">,</span>
+  <span class="st_h">'2'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Bob'</span><span class="sy0">,</span>
+  <span class="st_h">'3'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Albert'</span><span class="sy0">,</span>
+  <span class="st_h">'4'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Ian'</span><span class="sy0">,</span>
+  <span class="st_h">'5'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Buck'</span>
+<span class="br0">&#41;</span><span class="sy0">,</span> <span class="nu0">4</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; &lt;option value=&quot;1&quot;&gt;Steve&lt;/option&gt;
+    &lt;option value=&quot;2&quot;&gt;Bob&lt;/option&gt;
+    &lt;option value=&quot;3&quot;&gt;Albert&lt;/option&gt;
+    &lt;option value=&quot;4&quot; selected=&quot;selected&quot;&gt;Ian&lt;/option&gt;
+    &lt;option value=&quot;5&quot;&gt;Buck&lt;/option&gt;</pre>
+</div>
+
+<p>Imagina que se dispone de un array de objetos de tipo <code>Autor</code> que ha sido obtenido mediante una consulta realizada con Propel. Si se quiere mostrar una lista desplegable cuyas opciones se obtienen de ese array, es necesario recorrer el array para obtener el valor del <code>id</code> y <code>nombre</code> de cada objeto, tal y como muestra el listado 10-13.</p>
+
+<p><strong>Listado 10-13 - Creando una lista de opciones a partir de un array de objetos con <code>options_for_select()</code></strong></p>
+
+<div class="code php">
+<pre class="php">// En la acción
+$opciones = array();
+foreach ($autores as $autor)
+{
+  $opciones[$autor-&gt;getId()] = $autor-&gt;getNombre();
+}
+$this-&gt;opciones = $opciones;
+&nbsp;
+// En la plantilla
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> options_for_select<span class="br0">&#40;</span><span class="re0">$opciones</span><span class="sy0">,</span> <span class="nu0">4</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Como esta técnica es muy habitual, Symfony incluye un <em>helper</em> que automatiza todo el proceso llamado <code>objects_for_select()</code> y que crea una lista de opciones directamente a partir de un array de objetos. El <em>helper</em> requiere 2 parámetros adicionales: los nombres de los métodos empleados para obtener el <code>value</code> y el texto de las etiquetas <code>&lt;option&gt;</code> que se generan. De esta forma, el listado 10-13 es equivalente a la siguiente línea de código:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> objects_for_select<span class="br0">&#40;</span><span class="re0">$autores</span><span class="sy0">,</span> <span class="st_h">'getId'</span><span class="sy0">,</span> <span class="st_h">'getNombre'</span><span class="sy0">,</span> <span class="nu0">4</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Aunque esta instrucción es muy rápida e <em>inteligente</em>, Symfony va más allá cuando se emplean claves externas.</p>
+
+<h3 id="creando_una_lista_desplegable_a_partir_de_una_columna_que_es_clave_externa">10.2.2. Creando una lista desplegable a partir de una columna que es clave externa</h3>
+
+<p>Los valores que puede tomar una columna que es clave externa de otra son los valores de una clave primaria que corresponden a una tabla externa. Si por ejemplo se dispone de una tabla llamada <code>articulo</code> con una columna <code>autor_id</code> que es una clave externa de la tabla <code>autor</code>, los posibles valores de esta columna son los de la columna <code>id</code> de la tabla <code>autor</code>. Básicamente, una lista desplegable para editar el autor de un artículo debería tener el aspecto del listado 10-14.</p>
+
+<p><strong>Listado 10-14 - Creando una lista de opciones a partir de una clave externa con <code>objects_for_select()</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> select_tag<span class="br0">&#40;</span><span class="st_h">'autor_id'</span><span class="sy0">,</span> objects_for_select<span class="br0">&#40;</span>
+  AutorPeer<span class="sy0">::</span><span class="me2">doSelect</span><span class="br0">&#40;</span><span class="kw2">new</span> Criteria<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+  <span class="st_h">'getId'</span><span class="sy0">,</span>
+  <span class="st_h">'__toString'</span><span class="sy0">,</span>
+  <span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getAutorId</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+=&gt; &lt;select name=&quot;autor_id&quot; id=&quot;autor_id&quot;&gt;
+      &lt;option value=&quot;1&quot;&gt;Steve&lt;/option&gt;
+      &lt;option value=&quot;2&quot;&gt;Bob&lt;/option&gt;
+      &lt;option value=&quot;3&quot;&gt;Albert&lt;/option&gt;
+      &lt;option value=&quot;4&quot; selected=&quot;selected&quot;&gt;Ian&lt;/option&gt;
+      &lt;option value=&quot;5&quot;&gt;Buck&lt;/option&gt;
+   &lt;/select&gt;</pre>
+</div>
+
+<p>El <em>helper</em> <code>object_select_tag()</code> automatiza todo el proceso. En el ejemplo anterior se muestra una lista desplegable con el nombre extraído de las filas de la tabla externa. El <em>helper</em> puede adivinar el nombre de la tabla y de la columna externa a partir del esquema de base de datos, por lo que su sintaxis es muy concisa. El listado 10-13 es equivalente a la siguiente línea de código:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_select_tag<span class="br0">&#40;</span><span class="re0">$articulo</span><span class="sy0">,</span> <span class="st_h">'getAutorId'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>El <em>helper</em> <code>object_select_tag()</code> adivina el nombre de la clase <em>peer</em> relacionada (<code>AutorPeer</code> en este caso) a partir del nombre del método que se pasa como parámetro. No obstante, también es posible indicar una clase propia mediante la opción <code>related_class</code> pasada como tercer argumento. El texto que se muestra en cada etiqueta <code>&lt;option&gt;</code> es el nombre del registro de base de datos, que es el resultado de aplicar el método <code>__toString()</code> a la clase del objeto (si no está definido el método <code>$autor-&gt;__toString()</code>, se utiliza el valor de la clave primaria). Además, la lista de opciones se obtiene mediante un método <code>doSelect()</code> al que se pasa un objeto <code>Criteria</code> vacío, por lo que el método devuelve todas las filas de la tabla ordenadas por fecha de creación. Si se necesita mostrar solamente un subconjunto de filas o se quiere realizar un ordenamiento diferente, se crea un método en la clase <em>peer</em> que devuelve esa selección en forma de array de objetos y se indica como opción <code>peer_method</code> en el <em>helper</em>. Por último, es posible añadir una opción vacía o una opción propia como primera opción de la lista desplegable gracias a las opciones <code>include_blank</code> y <code>include_custom</code>. El listado 10-15 muestra todas estas opciones del <em>helper</em> <code>object_select_tag()</code>.</p>
+
+<p><strong>Listado 10-15 - Opciones del <em>helper</em> <code>object_select_tag()</code></strong></p>
+
+<div class="code php">
+<pre class="php">// Sintaxis básica
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_select_tag<span class="br0">&#40;</span><span class="re0">$articulo</span><span class="sy0">,</span> <span class="st_h">'getAutorId'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+// Construye la lista mediante AutorPeer::doSelect(new Criteria())
+&nbsp;
+// Utiliza otra clase peer para obtener los valores
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_select_tag<span class="br0">&#40;</span><span class="re0">$articulo</span><span class="sy0">,</span> <span class="st_h">'getAutorId'</span><span class="sy0">,</span> <span class="st_h">'related_class=Otraclase'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+// Construye la lista mediante OtraclasePeer::doSelect(new Criteria())
+&nbsp;
+// Utiliza otro método de la clase peer para obtener los valores
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_select_tag<span class="br0">&#40;</span><span class="re0">$articulo</span><span class="sy0">,</span> <span class="st_h">'getAutorId'</span><span class="sy0">,</span><span class="st_h">'peer_method=getAutoresMasFamosos'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+// Construye la lista mediante AutorPeer::getAutoresMasFamosos(new Criteria())
+&nbsp;
+// Añade una opción &lt;option value=&quot;&quot;&gt;&amp;nbsp;&lt;/option&gt; al principio de la lista
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_select_tag<span class="br0">&#40;</span><span class="re0">$articulo</span><span class="sy0">,</span> <span class="st_h">'getAutorId'</span><span class="sy0">,</span> <span class="st_h">'include_blank=true'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// Añade una opción &lt;option value=&quot;&quot;&gt;Seleccione un autor&lt;/option&gt; al principio de la lista
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_select_tag<span class="br0">&#40;</span><span class="re0">$articulo</span><span class="sy0">,</span> <span class="st_h">'getAutorId'</span><span class="sy0">,</span>
+  <span class="st_h">'include_custom=Seleccione un autor'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<h3 id="modificando_objetos">10.2.3. Modificando objetos</h3>
+
+<p>Las acciones pueden procesar de forma sencilla los formularios que permiten modificar los datos de los objetos utilizando los <em>helpers</em> de formularios para objetos. El listado 10-16 muestra un ejemplo de un objeto de tipo <code>Autor</code> con los atributos <code>nombre</code>, <code>edad</code> y <code>dirección</code>.</p>
+
+<p><strong>Listado 10-16 - Un formulario construido con los <em>helpers</em> de formularios para objetos</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> form_tag<span class="br0">&#40;</span><span class="st_h">'autor/modificar'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+  <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_input_hidden_tag<span class="br0">&#40;</span><span class="re0">$autor</span><span class="sy0">,</span> <span class="st_h">'getId'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+  Nombre: <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_input_tag<span class="br0">&#40;</span><span class="re0">$autor</span><span class="sy0">,</span> <span class="st_h">'getNombre'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+  Edad:  <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_input_tag<span class="br0">&#40;</span><span class="re0">$autor</span><span class="sy0">,</span> <span class="st_h">'getEdad'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;br /&gt;
+  Dirección: &lt;br /&gt;
+         <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_textarea_tag<span class="br0">&#40;</span><span class="re0">$autor</span><span class="sy0">,</span> <span class="st_h">'getDireccion'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&lt;/form&gt;</pre>
+</div>
+
+<p>La acción <code>modificar</code> del módulo <code>autor</code> se ejecuta cuando se envía el formulario. Esta acción puede modificar los datos del objeto utilizando el modificador <code>fromArray()</code> generado por Propel, tal y como muestra el listado 10-17.</p>
+
+<p><strong>Listado 10-17 - Procesando un formulario realizado con <em>helpers</em> de formularios para objetos</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> executeModificar<span class="br0">&#40;</span><span class="re0">$peticion</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="re0">$autor</span> <span class="sy0">=</span> AutorPeer<span class="sy0">::</span><span class="me2">retrieveByPk</span><span class="br0">&#40;</span><span class="re0">$peticion</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">forward404Unless</span><span class="br0">&#40;</span><span class="re0">$autor</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+  <span class="re0">$autor</span><span class="sy0">-&gt;</span><span class="me1">fromArray</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getParameterHolder</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getAll</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> BasePeer<span class="sy0">::</span><span class="me2">TYPE_FIELDNAME</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="re0">$autor</span><span class="sy0">-&gt;</span><span class="me1">save</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+  <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="st_h">'/autor/ver?id='</span><span class="sy0">.</span><span class="re0">$autor</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_10/helpers_de_formularios.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>10.1. Helpers de formularios</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_10/validacion_de_formularios.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>10.3. Validación de formularios</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_10.html">
+                    <span>Capítulo 10.</span> Formularios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/helpers_de_formularios.html">
+                    <span>10.1.</span> Helpers de formularios
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_10/helpers_de_formularios_para_objetos.html">
+                    <span>10.2.</span> Helpers de formularios para objetos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/validacion_de_formularios.html">
+                    <span>10.3.</span> Validación de formularios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/validaciones_complejas.html">
+                    <span>10.4.</span> Validaciones complejas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/resumen.html">
+                    <span>10.5.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

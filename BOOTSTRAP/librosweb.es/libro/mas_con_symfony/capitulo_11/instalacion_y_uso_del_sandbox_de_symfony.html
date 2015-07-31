@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>11.5. Instalación y uso del sandbox de Symfony (Más con Symfony)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_11/ejecutando_php_desde_la_linea_de_comandos.html" />
+                    <link rel="next" href="../capitulo_11/creando_un_nuevo_proyecto_symfony.html" />
+                <link rel="start" href="/libro/mas_con_symfony/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="11.5. Instalación y uso del sandbox de Symfony (Más con Symfony)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page mas_con_symfony"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/mas_con_symfony/" itemprop="url">
+                    <span itemprop="title">Más con Symfony</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/mas_con_symfony/capitulo_11.html" itemprop="url">
+                    <span itemprop="title">Capítulo 11. Windows y Symfony</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>11.5. Instalación y uso del sandbox de Symfony</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="instalacion_y_uso_del_sandbox_de_symfony" class="title">
+        <span>11.5.</span> Instalación y uso del sandbox de Symfony
+    </h1>
+
+    
+
+<p>El siguiente párrafo está extraído de la guía de inicio rápido de Symfony:
+"El sandbox es un proyecto Symfony muy sencillo de instalar y preparado con las
+opciones de configuración más habituales. Se trata de la mejor forma de probar
+Symfony sin tener que realizar una instalación correcta que se adecue a las
+mejores prácticas en el mundo web".</p>
+
+<p>El sandbox está configurado para utilizar SQLite como base de datos. En Windows
+no es necesario instalar nada para que funcione, ya que el soporte de SQLite lo
+proporciona la extensión PDO de PHP que se instaló durante la instalación de
+PHP. Por tanto, este requisito ya se cubrió al instalar las librerías de PHP
+mediante el Microsoft Web PI.</p>
+
+<p>Simplemente comprueba que la extensión SQLite está correctamente referenciada
+en el archivo de configuración PHP.INI que se encuentra en el directorio
+<code>C:\Program Files (x86)\PHP</code>. Además, comprueba que la DLL que implementa el
+soporte PDO de SQLite sea <code>C:\Program Files (x86)\PHP\ext\php_pdo_sqlite.dll</code>.</p>
+
+<div class="figure" id="figure_11_21">
+    <img src="/img/mas_con_symfony/windows_21.png" alt="PHP - Localización del archivo de configuración php.ini." />
+
+    <p class="caption"><strong>Figura 11.21</strong> PHP - Localización del archivo de configuración php.ini.</p>
+</div>
+
+
+<h3 id="descargar_crear_el_directorio_y_copiar_los_archivos">11.5.1. Descargar, crear el directorio y copiar los archivos</h3>
+
+<p>El proyecto del sandbox de Symfony ya viene preparado para ser ejecutado, pero
+se encuentra dentro de un archivo comprimido <code>.zip</code>.</p>
+
+<p><a href="http://www.symfony-project.org/get/sf_sandbox_1_3.zip">Descarga el archivo del sandbox</a>
+y extrae sus contenidos a un directorio temporal, como por ejemplo el directorio
+<em>downloads</em> que se encuentra dentro del directorio <code>C:\Users\Administrator</code>.</p>
+
+<div class="figure" id="figure_11_22">
+    <img src="/img/mas_con_symfony/windows_22.png" alt="sandbox - Descargar y descomprimir el archivo." />
+
+    <p class="caption"><strong>Figura 11.22</strong> sandbox - Descargar y descomprimir el archivo.</p>
+</div>
+
+
+<p>Crea un directorio para instalar el sandbox, como por ejemplo <code>F:\dev\sfsandbox</code>:</p>
+
+<div class="figure" id="figure_11_23">
+    <img src="/img/mas_con_symfony/windows_23.png" alt="sandbox - Crea el directorio sfsandbox." />
+
+    <p class="caption"><strong>Figura 11.23</strong> sandbox - Crea el directorio sfsandbox.</p>
+</div>
+
+
+<p>Selecciona todos los archivos del directorio en el que descomprimiste el sandbox
+y copialos en el nuevo directorio <code>F:\dev\sfsandbox</code>.</p>
+
+<p>Si todo funciona bien, verás que se están copiando 2599 archivos:</p>
+
+<div class="figure" id="figure_11_24">
+    <img src="/img/mas_con_symfony/windows_24.png" alt="sandbox - Copiar 2599 archivos." />
+
+    <p class="caption"><strong>Figura 11.24</strong> sandbox - Copiar 2599 archivos.</p>
+</div>
+
+
+<h3 id="probando_la_ejecucion">11.5.2. Probando la ejecución</h3>
+
+<p>Abre una consola de comandos, entra en el directorio <code>F:\dev\sfsandbox</code> y
+ejecuta el siguiente comando:</p>
+
+<div class="code cli">
+<pre class="cli">PHP symfony -V</pre>
+</div>
+
+<p>El resultado del comando anterior debería ser:</p>
+
+<div class="code cli">
+<pre class="cli">symfony version 1.3.0 (F:\dev\sfsandbox\lib\symfony)</pre>
+</div>
+
+<p>En la misma consola de comandos, ejecuta:</p>
+
+<div class="code cli">
+<pre class="cli">SYMFONY.BAT -V</pre>
+</div>
+
+<p>El resultado de este nuevo comando debería ser exactamente el mismo que antes:</p>
+
+<div class="code cli">
+<pre class="cli">symfony version 1.3.0 (F:\dev\sfsandbox\lib\symfony)</pre>
+</div>
+
+<div class="figure" id="figure_11_25">
+    <img src="/img/mas_con_symfony/windows_25.png" alt="sandbox - Probando correctamente la línea de comandos." />
+
+    <p class="caption"><strong>Figura 11.25</strong> sandbox - Probando correctamente la línea de comandos.</p>
+</div>
+
+
+<h3 id="creando_la_aplicacion_web">11.5.3. Creando la aplicación web</h3>
+
+<p>Para crear la aplicación web en el servidor local, se va a utilizar el gestor
+de IIS7, que es una interfaz gráfica que hace las veces de panel de control
+para todas las actividades relacionadas con IIS. En realidad, cualquier cambio
+que se realiza en la interfaz gráfica se ejecuta en segundo plando mediante la
+línea de comandos.</p>
+
+<p>La consola del IIS Manager se puede acceder a través de Inicio > <em>Programs</em> >
+<em>Administrative Tools</em> > <em>Internet Information Server (IIS) Manager</em>.</p>
+
+<h4 id="configurar_el_sitio_web_por_defecto_para_que_no_interfiera_en_el_puerto_80">11.5.3.1. Configurar el sitio web por defecto para que no interfiera en el puerto 80</h4>
+
+<p>Para asegurarnos de que solamente nuestro sandbox de Symfony responde en el
+puerto 80 (HTTP), modifica el puerto del <em>"Default Web Site"</em> existente al 8080.</p>
+
+<div class="figure" id="figure_11_26">
+    <img src="/img/mas_con_symfony/windows_26.png" alt="IIS Manager - Configurando el &quot;Default Web Site&quot;." />
+
+    <p class="caption"><strong>Figura 11.26</strong> IIS Manager - Configurando el &quot;Default Web Site&quot;.</p>
+</div>
+
+
+<p>Si el firewall de Windows está activo, es posible que debas crear una excepción
+para el puerto 8080 de forma que todavía se pueda acceder al <em>"Default Web Site"</em>.
+Para ello, accede al panel de control de Windows, pincha sobre <em>Windows Firewall</em>
+selecciona la opción <em>"Allow a program through Windows Firewall"</em>, pulsa sobre
+<em>"Add port"</em> y crea la excepción. Después de crearla, pulsa sobre el cuadrado
+para activarla.</p>
+
+<div class="figure" id="figure_11_27">
+    <img src="/img/mas_con_symfony/windows_27.png" alt="Windows Firewall - Crear una excepción para el puerto 8080." />
+
+    <p class="caption"><strong>Figura 11.27</strong> Windows Firewall - Crear una excepción para el puerto 8080.</p>
+</div>
+
+
+<h4 id="anadir_un_nuevo_sitio_web_al_sandbox">11.5.3.2. Añadir un nuevo sitio web al sandbox</h4>
+
+<p>Accede a las <em>Administration Tools</em> y abre el <em>IIS Manager</em>. En la parte de la
+izquierda, selecciona el icono <em>"Sites"</em> y pulsa el botón derecho. Selecciona
+la opción <em>Add Web Site</em> e introduce como nombre del sitio "Symfony Sandbox".
+En la opción <em>Physical Path</em> selecciona <code>D:\dev\sfsandbox</code> y deja el resto de
+opciones sin cambiar. Deberías ver la siguiente ventana de diálogo:</p>
+
+<div class="figure" id="figure_11_28">
+    <img src="/img/mas_con_symfony/windows_28.png" alt="IIS Manager - Añadir un nuevo sitio web." />
+
+    <p class="caption"><strong>Figura 11.28</strong> IIS Manager - Añadir un nuevo sitio web.</p>
+</div>
+
+
+<p>Pincha sobre el botón OK. Si se muestra una pequeña <code>x</code> en el icono del sitio
+web (dentro de <em>Features View / Sites</em>) puedes hacerla desaparecer pinchando
+sobre el <em>"Restart"</em> que se muestra a la derecha.</p>
+
+<h4 id="comprobando_que_el_sitio_web_responde">11.5.3.3. Comprobando que el sitio web responde</h4>
+
+<p>Desde el <em>IIS Manager</em>, selecciona el sitio <em>"Symfony Sandbox"</em> y pulsa sobre
+la opción <em>"Browse *.80 (http)"</em> del panel derecho.</p>
+
+<div class="figure" id="figure_11_29">
+    <img src="/img/mas_con_symfony/windows_29.png" alt="IIS Manager - Pincha en Browse port 80." />
+
+    <p class="caption"><strong>Figura 11.29</strong> IIS Manager - Pincha en Browse port 80.</p>
+</div>
+
+
+<p>Si todo funciona bien, deberías ver el siguiente mensaje de error: <code>HTTP Error
+403.14 - Forbidden</code>. El servidor web está configurado para no mostrar un listado
+de los contenidos del directorio.</p>
+
+<p>El origen del error es que la configuración por defecto del servidor web impide
+mostrar un listado con todos los contenidos de los directorios. Como no existe
+ningún archivo llamado <code>index.php</code> o <code>index.html</code> en <code>D:\dev\sfsandbox</code>, el
+servidor muestra correctamente el error de tipo <em>"Forbidden"</em>.</p>
+
+<div class="figure" id="figure_11_30">
+    <img src="/img/mas_con_symfony/windows_30.png" alt="Internet Explorer - Error normal." />
+
+    <p class="caption"><strong>Figura 11.30</strong> Internet Explorer - Error normal.</p>
+</div>
+
+
+<p>Accede a la URL <code>http://localhost/web</code> en tu navegador (en vez de simplemente
+<code>http://localhost</code>). Ahora si que deberías ver en tu navegador la famosa página
+<em>"Symfony Project Created"</em>:</p>
+
+<div class="figure" id="figure_11_31">
+    <img src="/img/mas_con_symfony/windows_31.png" alt="IIS Manager - Accediendo a la URL http://localhost/web." />
+
+    <p class="caption"><strong>Figura 11.31</strong> IIS Manager - Accediendo a la URL http://localhost/web.</p>
+</div>
+
+
+<p>En la parte superior de la página verás una barra de color amarillo claro con
+el mensaje <em>"Intranet settings are now turned off by default. Intranet settings
+are less secure than Internet settings. Click for options."</em>.</p>
+
+<p>No te preocupes por ese mensaje. Si quieres cerrarlo permanentemente, pincha el
+botón derecho sobre la barra amarilla y selecciona la opción apropiada.</p>
+
+<p>Visualizar la página anterior confirma que la página <code>index.php</code> se ha cargado
+correctamente desde <code>D:\dev\sfsandbox\web\index.php</code>, que se ha ejecutado bien
+y que las librerías de Symfony están correctamente configuradas.</p>
+
+<p>Antes de empezar a <em>jugar</em> con el sandbox de Symfony tenemos que realizar una
+última tarea: configurar la página web del frontend mediante las reglas de
+reescritura de URL. Estas reglas se encuentran en un archivo <code>.htaccess</code> y se
+pueden incorporar fácilmente al IIS Manager.</p>
+
+<h3 id="configuracion_del_frontend_del_sandbox">11.5.4. Configuración del frontend del sandbox</h3>
+
+<p>Para empezar a probar todas las opciones de Symfony, es necesario configurar
+la aplicación frontend del sandbox. Inicialmente la portada del frontend se
+puede acceder y se ejecuta correctamente cuando se accede desde el propio
+ordenador donde se encuentra el servidor (es decir, desde <code>localhost</code> o desde
+<code>127.0.0.1</code>).</p>
+
+<div class="figure" id="figure_11_32">
+    <img src="/img/mas_con_symfony/windows_32.png" alt="Internet Explorer - La página frontend_dev.php se puede acceder bien desde el localhost." />
+
+    <p class="caption"><strong>Figura 11.32</strong> Internet Explorer - La página frontend_dev.php se puede acceder bien desde el localhost.</p>
+</div>
+
+
+<p>Para comprobar que el sandbox funciona correctamente bajo Windows Server 2008,
+pincha sobre las secciones <em>"configuration"</em>, <em>"logs"</em> y <em>"timers"</em> de la barra
+de depuración web.</p>
+
+<div class="figure" id="figure_11_33">
+    <img src="/img/mas_con_symfony/windows_33.png" alt="Configuración del sandbox." />
+
+    <p class="caption"><strong>Figura 11.33</strong> Configuración del sandbox.</p>
+</div>
+
+
+<div class="figure" id="figure_11_34">
+    <img src="/img/mas_con_symfony/windows_34.png" alt="Mensajes de log del sandbox." />
+
+    <p class="caption"><strong>Figura 11.34</strong> Mensajes de log del sandbox.</p>
+</div>
+
+
+<div class="figure" id="figure_11_35">
+    <img src="/img/mas_con_symfony/windows_35.png" alt="Control del tiempo del sandbox." />
+
+    <p class="caption"><strong>Figura 11.35</strong> Control del tiempo del sandbox.</p>
+</div>
+
+
+<p>Aunque podríamos intentar acceder al sandbox desde Internet o desde cualquier
+dirección IP remota, el sandbox está pensado como una herramienta para aprender
+a utilizar Symfony en una máquina local. Por tanto, los detalles sobre el acceso
+remoto se mostrarán en la última sección de este capítulo.</p>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_11/ejecutando_php_desde_la_linea_de_comandos.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>11.4. Ejecutando PHP desde la línea de comandos</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_11/creando_un_nuevo_proyecto_symfony.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>11.6. Creando un nuevo proyecto Symfony</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Enrutamiento avanzado</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Mejora tu productividad</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Emails</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Widgets y validadores propios</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Formularios avanzados</a>
+            </li>
+                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Mejorando la barra de depuración web</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Uso avanzado de Doctrine</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Utilizando la herencia de tablas de Doctrine</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Funcionamiento interno de Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_11.html">
+                    <span>Capítulo 11.</span> Windows y Symfony
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/introduccion.html">
+                    <span>11.1.</span> Introducción
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/comprobaciones_iniciales_servidor_dedicado_en_internet.html">
+                    <span>11.2.</span> Comprobaciones iniciales - Servidor dedicado en Internet
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/instalando_php_en_unos_pocos_clicks.html">
+                    <span>11.3.</span> Instalando PHP en unos pocos clicks
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/ejecutando_php_desde_la_linea_de_comandos.html">
+                    <span>11.4.</span> Ejecutando PHP desde la línea de comandos
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_11/instalacion_y_uso_del_sandbox_de_symfony.html">
+                    <span>11.5.</span> Instalación y uso del sandbox de Symfony
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/creando_un_nuevo_proyecto_symfony.html">
+                    <span>11.6.</span> Creando un nuevo proyecto Symfony
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Desarrollando aplicaciones Facebook</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Descubriendo el poder de la línea de comandos</a>
+            </li>
+                                                                                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Jugando con la cache de configuración de Symfony</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Trabajando con la comunidad Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>A.</span> <a href="../apendice_a.html"> Código JavaScript de sfWidgetFormGMapAddress</a>
+            </li>
+                                            <li class="level-1">
+                <span>B.</span> <a href="../apendice_b.html"> Ejemplo de instalador propio</a>
+            </li>
+                                            <li class="level-1">
+                <span>C.</span> <a href="../apendice_c.html"> Licencia</a>
+            </li>
+                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>10.1. Pre y Postcondiciones (Algoritmos de Programación con Python)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_10.html" />
+                    <link rel="next" href="../capitulo_10/invariantes_de_ciclo.html" />
+                <link rel="start" href="/libro/algoritmos_python/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="10.1. Pre y Postcondiciones (Algoritmos de Programación con Python)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page algoritmos_python"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/algoritmos_python/" itemprop="url">
+                    <span itemprop="title">Algoritmos de Programación con Python</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/algoritmos_python/capitulo_10.html" itemprop="url">
+                    <span itemprop="title">Capítulo 10. Contratos y Mutabilidad</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>10.1. Pre y Postcondiciones</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="pre_y_postcondiciones" class="title">
+        <span>10.1.</span> Pre y Postcondiciones
+    </h1>
+
+    
+
+<p>Cuando hablamos de <em>contratos</em> o <em>programación por contratos</em>, nos
+referimos a la necesidad de estipular tanto lo que necesita como lo
+que devuelve nuestro código.</p>
+
+<p>Las condiciones que deben estar dadas para que el código funcione las
+llamamos <em>precondiciones</em> y las condiciones sobre el estado en que
+quedan las variables y él o los valores de retorno, las llamamos
+<em>postcondiciones</em>.</p>
+
+<p>En definitiva, este concepto es similar al ya mencionado con respecto
+a la documentación de funciones, es decir que se debe <em>documentar cómo
+deben ser los parámetros recibidos, cómo va a ser lo que se devuelve,
+y qué sucede con los parámetros en caso de ser modificados</em>.</p>
+
+<p>Esta estipulación es mayormente para que la utilicen otros
+programadores, por lo que es particularmente útil cuando se encuentra
+dentro de la documentación. En ciertos casos, además, puede quererse
+que el programa revise si las condiciones realmente se cumplen y de no
+ser así, actúe en consecuencia.</p>
+
+<p>Existen herramientas en algunos lenguajes de programación que
+facilitan estas acciones, en el caso de Python, es posible utilizar la
+instrucción <code>assert</code>.</p>
+
+<h3 id="precondiciones">10.1.1. Precondiciones</h3>
+
+<p>Las precondiciones son las condiciones que deben cumplir los
+parámetros que una función recibe, para que esta se comporte
+correctamente.</p>
+
+<p>Por ejemplo, en una función división las precondiciones son que los
+parámetros son números, y que el divisor sea distinto de <code>0</code>. Tener una
+precondición permite asumir desde el código que no es necesario lidiar
+con los casos en que las precondiciones no se cumplen.</p>
+
+<h3 id="postcondiciones">10.1.2. Postcondiciones</h3>
+
+<p>Las postcodiciones son las condiciones que cumplirá el valor de
+retorno, y los parámetros recibidos, en caso de que hayan sido
+alterados, siempre que se hayan cumplido las precondiciones.</p>
+
+<p>En el ejemplo anterior, la función división con las precondiciones
+asignadas, puede asegurar que devolverá un número correspondiente al cociente solicitado.</p>
+
+<h3 id="aseveraciones">10.1.3. Aseveraciones</h3>
+
+<p>Tanto las precondiciones como las postcondiciones son <em>aseveraciones</em>
+(en inglés <em>assert</em>). Es decir, afirmaciones realizadas en un momento
+particular de la ejecución sobre el estado computacional. Si llegaran
+a ser falsas significaría que hay algún error en el diseño o
+utilización del algoritmo.</p>
+
+<p>Para comprobar estas afirmaciones desde el código en algunos casos
+podemos utilizar la instrucción <code>assert</code>, está instrucción recibe una
+condición a verificar y, opcionalmente, un mensaje de error que
+devolverá en caso que la condición no se cumpla.</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> n<span class="sy0">=</span><span class="nu0">0</span>
+<span class="sy0">&gt;&gt;&gt;</span> <span class="kw1">assert</span> n<span class="sy0">!=</span><span class="nu0">0</span><span class="sy0">,</span> <span class="st0">&quot;El divisor no puede ser 0&quot;</span>
+Traceback <span class="br0">&#40;</span>most recent call last<span class="br0">&#41;</span>:
+    File <span class="st0">&quot;&lt;stdin&gt;&quot;</span><span class="sy0">,</span> line <span class="nu0">1</span><span class="sy0">,</span> <span class="kw1">in</span> <span class="sy0">&lt;</span>module<span class="sy0">&gt;</span>
+<span class="kw2">AssertionError</span>: El divisor no puede ser <span class="nu0">0</span></pre>
+</div>
+
+<div class="admonition caution"><p><strong class="title">Advertencia</strong> Es importante tener en cuenta que <code>assert</code> está pensado para ser usado en la etapa de desarrollo. Un programa terminado nunca debería dejar de funcionar por este tipo de errores.</p></div>
+
+<h3 id="ejemplos">10.1.4. Ejemplos</h3>
+
+<p>Usando los ejemplos anteriores, la función division nos quedaría de la
+siguiente forma:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> division<span class="br0">&#40;</span>dividendo<span class="sy0">,</span> divisor<span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Calculo de la división
+    Pre: Recibe dos números, divisor debe ser distinto de 0.
+    Post: Devuelve un número real, con el cociente de ambos.
+    &quot;&quot;&quot;</span>
+    <span class="kw1">assert</span> divisor <span class="sy0">!=</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="st0">&quot;El divisor no puede ser 0&quot;</span>
+    <span class="kw1">return</span> dividendo / <span class="br0">&#40;</span> divisor * <span class="nu0">1.0</span> <span class="br0">&#41;</span></pre>
+</div>
+
+<p>Otro ejemplo, tal vez más interesante, puede ser una función que
+implemente una sumatoria. En este caso
+hay que analizar cuáles van a ser los parámetros que recibirá la
+función, y las precondiciones que estos parámetros deberán cumplir.</p>
+
+<p>La función sumatoria a escribir, necesita de un valor inicial, un
+valor final, y una función a la cual llamar en cada paso. Es decir que
+recibe tres parámetros.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> sumatoria<span class="br0">&#40;</span>inicial<span class="sy0">,</span> final<span class="sy0">,</span> f<span class="br0">&#41;</span>:</pre>
+</div>
+
+<p>Tanto <code>inicial</code> como <code>final</code> deben ser números enteros, y dependiendo de
+la implementación a realizar o de la especificación previa, puede ser
+necesario que <code>final</code> deba ser mayor o igual a <code>inicial</code>.</p>
+
+<p>Con respecto a <code>f</code>, se trata de una función que será llamada con un
+parámetro en cada paso y se requiere poder sumar el resultado, por lo
+que debe ser una función que reciba un número y devuelva un número.</p>
+
+<p>La declaración de la función queda, entonces, de la siguiente manera.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> sumatoria<span class="br0">&#40;</span>inicial<span class="sy0">,</span> final<span class="sy0">,</span> f<span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot;Calcula la sumatoria desde i=inicial hasta final de f(i)
+    Pre: inicial y final son números enteros, f es una función que
+         recibe un entero y devuelve un número.
+    Post: Se devuelve el valor de la sumatoria de aplicar f a cada
+          número comprendido entre inicial y final.
+    &quot;&quot;&quot;</span></pre>
+</div>
+
+<p><strong>Ejercicio 10.1.1.</strong> Realizar la implementación correspondiente a la
+función <code>sumatoria</code>.</p>
+
+<p>En definitiva, la documentación de pre y postcondiciones dentro de la
+documentación de las funciones es una forma de especificar claramente
+el comportamiento del código de forma que quienes lo vayan a utilizar
+no requieran conocer cómo está implementado para poder aprovecharlo.</p>
+
+<p>Esto es útil incluso en los casos en los que el programador de las
+funciones es el mismo que el que las va a utilizar, ya que permite
+separar responsabilidades. Las pre y postcondiciones son, en efecto,
+un <em>contrato</em> entre el código invocante y el invocado.</p>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_10.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 10. Contratos y Mutabilidad</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_10/invariantes_de_ciclo.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>10.2. Invariantes de ciclo</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+            <div id="book-legal-notice">
+            Copyright (c) 2011-2014 Rosita Wachenchauzer, Margarita Manterola,
+Maximiliano Curia, Marcos Medrano, Nicolás Paez.
+La copia y redistribución de esta página se permite bajo los términos
+de la licencia Creative Commons Atribución - Compartir Obras Derivadas
+Igual 3.0 siempre que se conserve esta nota de copyright.
+
+        </div>
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Algunos conceptos básicos</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Programas sencillos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Funciones</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Decisiones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Más sobre ciclos</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Cadenas de caracteres</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Tuplas y listas</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Algoritmos de búsqueda</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Diccionarios</a>
+            </li>
+                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_10.html">
+                    <span>Capítulo 10.</span> Contratos y Mutabilidad
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_10/pre_y_postcondiciones.html">
+                    <span>10.1.</span> Pre y Postcondiciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/invariantes_de_ciclo.html">
+                    <span>10.2.</span> Invariantes de ciclo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/mutabilidad_e_inmutabilidad.html">
+                    <span>10.3.</span> Mutabilidad e Inmutabilidad
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/resumen.html">
+                    <span>10.4.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/apendice_acertijo_mu.html">
+                    <span>10.5.</span> Apéndice - Acertijo MU
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Manejo de archivos</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Manejo de errores y excepciones</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Procesamiento de archivos</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Objetos</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Polimorfismo, Herencia y Delegación</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Listas enlazadas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Pilas y colas</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Modelo de ejecución de funciones y recursividad</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Ordenar listas</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>20.</span> <a href="../capitulo_20.html"> Algunos ordenamientos recursivos</a>
+            </li>
+                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

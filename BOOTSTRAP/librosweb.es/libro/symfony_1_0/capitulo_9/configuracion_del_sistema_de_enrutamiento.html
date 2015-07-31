@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>9.4. Configuración del sistema de enrutamiento (Symfony 1.0, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_9/helpers_de_enlaces.html" />
+                    <link rel="next" href="../capitulo_9/trabajando_con_rutas_en_las_acciones.html" />
+                <link rel="start" href="/libro/symfony_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="9.4. Configuración del sistema de enrutamiento (Symfony 1.0, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/" itemprop="url">
+                    <span itemprop="title">Symfony 1.0, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/capitulo_9.html" itemprop="url">
+                    <span itemprop="title">Capítulo 9. Enlaces y sistema de enrutamiento</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>9.4. Configuración del sistema de enrutamiento</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="configuracion_del_sistema_de_enrutamiento" class="title">
+        <span>9.4.</span> Configuración del sistema de enrutamiento
+    </h1>
+
+    
+
+<p>El sistema de enrutamiento se encarga de 2 tareas:</p>
+
+<ul>
+<li>Interpreta las URL externas de las peticiones entrantes y las transforma en URI internas para determinar el módulo, la acción y los parámetros de la petición.</li>
+<li>Transforma las URI internas utilizadas en los enlaces en URL externas (siempre que se utilicen los <em>helpers</em> de enlaces).</li>
+</ul>
+
+<p>La transformación se realiza en base a una serie de reglas de enrutamiento. Todas estas reglas se almacenan en un archivo de configuración llamado <code>routing.yml</code> y que se encuentra en el directorio <code>config/</code>. El listado 9-15 muestra las reglas que incluyen por defecto todos los proyectos de Symfony.</p>
+
+<p><strong>Listado 9-15 - Las reglas de enrutamiento por defecto, en <code>miapp/config/routing.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># default rules</span><span class="co4">
+homepage</span>:<span class="co3">
+  url</span><span class="sy2">: </span>  /<span class="co3">
+  param</span><span class="sy2">: </span><span class="br0">&#123;</span> module<span class="sy2">: </span>default, action<span class="sy2">: </span>index <span class="br0">&#125;</span>
+<span class="co4">
+default_symfony</span>:<span class="co3">
+  url</span><span class="sy2">: </span>  /symfony/:action/*<span class="co3">
+  param</span><span class="sy2">: </span><span class="br0">&#123;</span> module<span class="sy2">: </span>default <span class="br0">&#125;</span>
+<span class="co4">
+default_index</span>:<span class="co3">
+  url</span><span class="sy2">: </span>  /:module<span class="co3">
+  param</span><span class="sy2">: </span><span class="br0">&#123;</span> action<span class="sy2">: </span>index <span class="br0">&#125;</span>
+<span class="co4">
+default</span>:<span class="co3">
+  url</span><span class="sy2">: </span>  /:module/:action/*</pre>
+</div>
+
+<h3 id="reglas_y_patrones">9.4.1. Reglas y patrones</h3>
+
+<p>Las reglas de enrutamiento son asociaciones biyectivas entre las URL externas y las URI internas. Una regla típica está formada por:</p>
+
+<ul>
+<li>Un identificador único en forma de texto, que se define por legibilidad y por rapidez, y que se puede utilizar en los <em>helpers</em> de enlaces</li>
+<li>El patrón que debe cumplirse (en la clave <code>url</code>)</li>
+<li>Un array de valores para los parámetros de la petición (en la clave <code>param</code>)</li>
+</ul>
+
+<p>Los patrones pueden contener comodines (que se representan con un asterisco, <code>*</code>) y comodines con nombre (que empiezan por <em>2 puntos</em>, <code>:</code>). Si se produce una coincidencia con un comodín con nombre, ese valor que coincide se transforma en un parámetro de la petición. Por ejemplo, la regla anterior llamada <code>default</code> produce coincidencias con cualquier URL del tipo <code>/valor1/valor2</code>, en cuyo caso se ejecutará el módulo llamado <code>valor1</code> y la acción llamada <code>valor2</code>. Y en la regla llamada <code>default_symfony</code>, el valor <code>symfony</code> es una palabra clave y <code>action</code> es un comodín con nombre que se transforma en parámetro de la petición.</p>
+
+<p>El sistema de enrutamiento procesa el archivo <code>routing.yml</code> desde la primera línea hasta la última y se detiene en la primera regla que produzca una coincidencia. Por este motivo se deben añadir las reglas personalizadas antes que las reglas por defecto. Si se consideran las reglas del listado 9-16, la URL <code>/valor/123</code> produce coincidencias con las 2 reglas, pero como Symfony prueba primero la regla <code>mi_regla:</code>, y esa regla produce una coincidencia, ni siquiera se llega a probar la regla <code>default:</code>. De esta forma, la petición se procesa en la acción <code>mimodulo/miaccion</code> con el parámetro <code>id</code> inicializado con el valor <code>123</code> (no se procesa por tanto en la acción <code>valor/123</code>).</p>
+
+<p><strong>Listado 9-16 - Las reglas se procesan de principio a fin</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">mi_regla</span>:<span class="co3">
+  url</span><span class="sy2">: </span>  /valor/:id<span class="co3">
+  param</span><span class="sy2">: </span><span class="br0">&#123;</span> module<span class="sy2">: </span>mimodulo, action<span class="sy2">: </span>miaccion <span class="br0">&#125;</span>
+&nbsp;
+<span class="co1"># default rules</span><span class="co4">
+default</span>:<span class="co3">
+  url</span><span class="sy2">: </span>  /:module/:action/*</pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> No siempre que se crea una nueva acción es necesario añadir una nueva regla al sistema de enrutamiento. Si el patrón <code>modulo/accion</code> es útil para la nueva acción, no es necesario añadir más reglas al archivo <code>routing.yml</code>. Sin embargo, si se quieren personalizar las URL externas de la acción, es necesario añadir una nueva regla por encima de las reglas por defecto.</p></div>
+
+<p>El listado 9-17 muestra el proceso de modificación del formato de la URL externa de la acción <code>articulo/ver</code>.</p>
+
+<p><strong>Listado 9-17 - Modificación del formato de las URL externas de la acción <code>articulo/ver</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> url_for<span class="br0">&#40;</span><span class="st_h">'articulo/ver?id=123'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+ =&gt; /articulo/ver/id/123       // Formato por defecto
+&nbsp;
+// Para cambiarlo por /articulo/123, se añade una nueva regla al
+// principio del archivo routing.yml
+articulo_segun_id:
+  url:   /articulo/:id
+  param: { module: articulo, action: ver }</pre>
+</div>
+
+<p>El problema es que la regla <code>articulo_segun_id</code> del listado 9-17 rompe con el enrutamiento normal de todas las otras acciones del módulo <code>articulo</code>. De hecho, ahora una URL como <code>articulo/borrar</code> produce una coincidencia en esta regla, por lo que no se ejecuta la regla <code>default</code>, sino que se ejecuta la regla <code>articulo_segun_id</code>. Por tanto, esta URL no llama a la acción <code>borrar</code>, sino que llama a la acción <code>ver</code> con el atributo <code>id</code> inicializado con el valor <code>borrar</code>. Para evitar estos problemas, se deben definir restricciones en el patrón, de forma que la regla <code>articulo_segun_id</code> solo produzca coincidencias con las URL cuyo comodín <code>id</code> sea un número entero.</p>
+
+<h3 id="restricciones_en_los_patrones">9.4.2. Restricciones en los patrones</h3>
+
+<p>Cuando una URL puede producir coincidencias con varias reglas diferentes, se deben refinar las reglas añadiendo restricciones o requisitos a sus patrones. Un requisito es una serie de expresiones regulares que deben cumplir los comodines para que la regla produzca una coincidencia.</p>
+
+<p>Para modificar por ejemplo la regla <code>articulo_segun_id</code> anterior de forma que solo se aplique a las URL cuyo atributo <code>id</code> sea un número entero, se debe añadir una nueva línea a la regla, como muestra el listado 9-18.</p>
+
+<p><strong>Listado 9-18 - Añadiendo requisitos a las reglas de enrutamiento</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">articulo_segun_id</span>:<span class="co3">
+  url</span><span class="sy2">: </span>  /articulo/:id<span class="co3">
+  param</span><span class="sy2">: </span><span class="br0">&#123;</span> module<span class="sy2">: </span>articulo, action<span class="sy2">: </span>ver <span class="br0">&#125;</span><span class="co3">
+  requirements</span><span class="sy2">: </span><span class="br0">&#123;</span> id<span class="sy2">: </span>\d+ <span class="br0">&#125;</span></pre>
+</div>
+
+<p>Ahora, una URL como <code>articulo/borrar</code> nunca producirá una coincidencia con la regla <code>articulo_segun_id</code>, porque la cadena de texto <code>borrar</code> no cumple con los requisitos de la regla. Por consiguiente, el sistema de enrutamiento continua buscando posibles coincidencias con otras reglas hasta que al final la encuentra en la regla llamada <code>default</code>.</p>
+
+<div class="admonition sidebar"><p><strong class="title"> Enlaces permanentes (permalinks)</strong> Una buena recomendación sobre seguridad es la de no utilizar claves primarias en las URL y sustituirlas por cadenas de texto siempre que sea posible. ¿Cómo sería posible acceder a los artículos a través de su título en lugar de su ID? Las URL externas resultantes serían de esta forma:</p>
+
+<div class="code code">
+<pre class="code">http://www.ejemplo.com/articulo/Economia_en_Francia</pre>
+</div>
+
+<p>Para utilizar estas URL, se crea una nueva acción llamada <code>permalink</code> y que utiliza un parámetro llamado <code>slug</code> en vez del parámetro <code>id</code> habitual. (<strong>Nota del traductor</strong>: <em>"slug"</em> es un término adaptado del periodismo anglosajón y que hace referencia al título de una noticia o artículo en el que se han sustituido los espacios en blanco por guiones y se han eliminado todos los caracteres que no sean letras o números, lo que los hace ideales para utilizarse como parte de las URL) La nueva regla queda de la siguiente forma:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">articulo_segun_id</span>:<span class="co3">
+  url</span><span class="sy2">: </span>  /articulo/:id<span class="co3">
+  param</span><span class="sy2">: </span><span class="br0">&#123;</span> module<span class="sy2">: </span>articulo, action<span class="sy2">: </span>ver <span class="br0">&#125;</span><span class="co3">
+  requirements</span><span class="sy2">: </span><span class="br0">&#123;</span> id<span class="sy2">: </span>\d+ <span class="br0">&#125;</span>
+<span class="co4">
+articulo_segun_slug</span>:<span class="co3">
+  url</span><span class="sy2">: </span>  /articulo/:slug<span class="co3">
+  param</span><span class="sy2">: </span><span class="br0">&#123;</span> module<span class="sy2">: </span>articulo, action<span class="sy2">: </span>permalink <span class="br0">&#125;</span></pre>
+</div>
+
+<p>La acción <code>permalink</code> debe buscar el artículo solicitado a partir de su título, por lo que el modelo de la aplicación debe proporcionar el método adecuado.</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> executePermalink<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="re0">$articulo</span> <span class="sy0">=</span> ArticlePeer<span class="sy0">::</span><span class="me2">obtieneSegunSlug</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRequestParameter</span><span class="br0">&#40;</span><span class="st_h">'slug'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">forward404Unless</span><span class="br0">&#40;</span><span class="re0">$articulo</span><span class="br0">&#41;</span><span class="sy0">;</span>  <span class="co1">// Muestra un error 404 si no se encuentra el artículo</span>
+  <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">articulo</span> <span class="sy0">=</span> <span class="re0">$articulo</span><span class="sy0">;</span>         <span class="co1">// Pasar el objeto a la plantilla</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>También es necesario modificar los enlaces que apuntan a la acción <code>ver</code> en las plantillas por nuevos enlaces que apunten a la acción <code>permalink</code>, para que se aplique correctamente el nuevo formato de las URI internas.</p>
+
+<div class="code php">
+<pre class="php">// Se debe sustituir esta línea...
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Mi artículo'</span><span class="sy0">,</span> <span class="st_h">'articulo/ver?id='</span><span class="sy0">.</span><span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// ...por esta otra
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Mi artículo'</span><span class="sy0">,</span> <span class="st_h">'articulo/permalink?slug='</span><span class="sy0">.</span><span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getSlug</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Gracias a la definición de <code>requirements</code> en las reglas, las URL externas como <code>/articulo/Economia_en_Francia</code> se procesan en la regla <code>articulo_segun_slug</code> aunque la regla <code>articulo_segun_id</code> aparezca antes.</p>
+
+<p>Por último, como ahora los artículos se buscan a partir del campo <code>slug</code>, se debería añadir un índice a esa columna del modelo para optimizar el rendimiento de la base de datos.</p></div>
+
+<h3 id="asignando_valores_por_defecto">9.4.3. Asignando valores por defecto</h3>
+
+<p>Para completar las reglas, se pueden asignar valores por defecto a los comodines con nombre, incluso aunque el parámetro no esté definido. Los valores por defecto se establecen en el array <code>param:</code>.</p>
+
+<p>Por ejemplo, la regla <code>articulo_segun_id</code> no se ejecuta si no se pasa el parámetro <code>id</code>. El listado 9-19 muestra como forzar la presencia de ese parámetro.</p>
+
+<p><strong>Listado 9-19 - Asignar un valor por defecto a un comodín</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">articulo_segun_id</span>:<span class="co3">
+  url</span><span class="sy2">: </span>         /articulo/:id<span class="co3">
+  param</span><span class="sy2">: </span>       <span class="br0">&#123;</span> module<span class="sy2">: </span>articulo, action<span class="sy2">: </span>ver, id<span class="sy2">: </span><span class="nu0">1</span> <span class="br0">&#125;</span></pre>
+</div>
+
+<p>Los parámetros por defecto no necesariamente tienen que ser comodines que se encuentran en el patrón de la regla de enrutamiento. En el listado 9-20, al parámetro <code>display</code> se le asigna el valor <code>true</code>, aunque ni siquiera forma parte de la URL.</p>
+
+<p><strong>Listado 9-20 - Asignar un valor por defecto a un parámetro de la petición</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">articulo_segun_id</span>:<span class="co3">
+  url</span><span class="sy2">: </span>         /articulo/:id<span class="co3">
+  param</span><span class="sy2">: </span>       <span class="br0">&#123;</span> module<span class="sy2">: </span>articulo, action<span class="sy2">: </span>ver, id<span class="sy2">: </span><span class="nu0">1</span>, display<span class="sy2">: </span>true <span class="br0">&#125;</span></pre>
+</div>
+
+<p>Si se mira con un poco de detenimiento, se puede observar que <code>articulo</code> y <code>ver</code> son también valores por defecto asignados a las variables <code>module</code> y <code>action</code> que no se encuentran en el patrón de la URL.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Para incluir un parámetro por defecto en todas las reglas de enrutamiento, se crea un parámetro de configuración llamado <code>sf_routing_default</code>. Si por ejemplo se necesita que todas las reglas tengan un parámetro llamado <code>tema</code> con un valor por defecto igual a <code>default</code>, se debe añadir la siguiente línea al archivo <code>config.php</code> de la aplicación: <code>sfConfig::set('sf_routing_defaults', array('tema' =&gt; 'default'));</code>.</p></div>
+
+<h3 id="acelerando_el_sistema_de_enrutamiento_mediante_el_uso_de_los_nombres_de_las_reglas">9.4.4. Acelerando el sistema de enrutamiento mediante el uso de los nombres de las reglas</h3>
+
+<p>Los <em>helpers</em> de enlaces aceptan como argumento el nombre o etiqueta de la regla en vez del par modulo/acción, siempre que la etiqueta vaya precedida del signo <code>@</code>, como muestra el listado 9-21.</p>
+
+<p><strong>Listado 9-21 - Uso de la etiqueta de las reglas en vez de Modulo/Acción</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Mi artículo'</span><span class="sy0">,</span> <span class="st_h">'articulo/ver?id='</span><span class="sy0">.</span><span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// también se puede escribir como...
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Mi artículo'</span><span class="sy0">,</span> <span class="st_h">'@articulo_segun_id?id='</span><span class="sy0">.</span><span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Esta técnica tiene sus ventajas e inconvenientes. En cuanto a las ventajas:</p>
+
+<ul>
+<li>El formateo de las URI internas es mucho más rápido, ya que Symfony no debe recorrer todas las reglas hasta encontrar la que se corresponde con el enlace. Si la página contiene un gran número de enlaces, el ahorro de tiempo de las reglas con nombre será apreciable respecto a los pares módulo/acción.</li>
+<li>El uso de los nombres de las reglas permite abstraer aun más la lógica de la acción. Si se modifica el nombre de la acción pero se mantiene la URL, solo será necesario realizar un cambio en el archivo <code>routing.yml</code>. Todas las llamadas al <em>helper</em> <code>link_to()</code> funcionarán sin tener que realizar ningún cambio.</li>
+<li>La lógica que se ejecuta es más comprensible si se utiliza el nombre de la regla. Aunque los módulos y las acciones tengan nombres explícitos, normalmente es más comprensible llamar a la regla <code>@ver_articulo_segun_slug</code> que simplemente llamar a <code>articulo/ver</code>.</li>
+</ul>
+
+<p>Por otra parte, la desventaja principal es que es más complicado añadir los enlaces, ya que siempre se debe consultar el archivo <code>routing.yml</code> para saber el nombre de la regla que se utiliza en la acción.</p>
+
+<p>La mejor técnica de las 2 depende del proyecto en el que se trate, por lo que es el programador el que tendrá que tomar la decisión.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Mientras se prueba la aplicación (en el entorno <code>dev</code>), se puede comprobar la regla que se está aplicando para cada petición del navegador. Para ello, se debe desplegar la sección <em>"logs and msgs"</em> de la barra de depuración y se debe buscar la línea que dice "matched route XXX". El Capítulo 16 contiene más información sobre el modo de depuración web.</p></div>
+
+<h3 id="anadiendo_la_extension_html">9.4.5. Añadiendo la extensión .html</h3>
+
+<p>Si se comparan estas dos URL:</p>
+
+<div class="code code">
+<pre class="code">http://miapp.ejemplo.com/articulo/Economia_en_Francia
+http://miapp.ejemplo.com/articulo/Economia_en_Francia.html</pre>
+</div>
+
+<p>Aunque se trata de la misma página, los usuarios (y los robots que utilizan los buscadores) las consideran como si fueran diferentes debido a sus URL. La segunda URL parece que pertenece a un directorio web de páginas estáticas correctamente organizadas, que es exactamente el tipo de sitio web que mejor saben indexar los buscadores.</p>
+
+<p>Para añadir un sufijo a todas las URL externas generadas en el sistema de enrutamiento, se debe modificar el valor de la opción <code>suffix</code> en el archivo de configuración <code>settings.yml</code>, como se muestra en el listado 9-22.</p>
+
+<p><strong>Listado 9-22 - Establecer un sufijo a todas las URL, en <code>miapp/config/settings.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">prod</span><span class="sy2">:
+</span>  .settings<span class="co3">
+    suffix</span><span class="sy2">: </span>        .html</pre>
+</div>
+
+<p>El sufijo por defecto es un punto (<code>.</code>), lo que significa que el sistema de enrutamiento no añade ningún sufijo a menos que se especifique uno.</p>
+
+<p>En ocasiones es necesario indicar un sufijo específico para una única regla de enrutamiento. En ese caso, se indica el sufijo directamente como parte del patrón definido mediante <code>url:</code> en la regla del archivo <code>routing.yml</code>, como se muestra en el listado 9-23. El sufijo global se ignora en este caso.</p>
+
+<p><strong>Listado 9-23 - Estableciendo un sufijo en una única URL, en <code>miapp/config/routing.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">articulo_listado</span>:<span class="co3">
+  url</span><span class="sy2">: </span>         /ultimos_articulos<span class="co3">
+  param</span><span class="sy2">: </span>       <span class="br0">&#123;</span> module<span class="sy2">: </span>articulo, action<span class="sy2">: </span>listado <span class="br0">&#125;</span>
+<span class="co4">
+articulo_listado_rss</span>:<span class="co3">
+  url</span><span class="sy2">: </span>         /ultimos_articulos.rss<span class="co3">
+  param</span><span class="sy2">: </span>       <span class="br0">&#123;</span> module<span class="sy2">: </span>articulo, action<span class="sy2">: </span>listado, type<span class="sy2">: </span>feed <span class="br0">&#125;</span></pre>
+</div>
+
+<h3 id="creando_reglas_sin_el_archivo_routingyml">9.4.6. Creando reglas sin el archivo routing.yml</h3>
+
+<p>Como sucede con la mayoría de archivos de configuración, el archivo <code>routing.yml</code> es una buena solución para definir las reglas del sistema de enrutamiento, pero no es la única solución. Se pueden definir reglas en PHP, en el archivo <code>config.php</code> de la aplicación o en el script del controlador frontal, pero antes de llamar a la función <code>dispatch()</code>, ya que este método determina la acción que se ejecuta en función de las reglas de enrutamiento disponibles en ese momento. Definir reglas mediante PHP permite crear reglas dinámicas que dependan de la configuración o de otros parámetros.</p>
+
+<p>El objeto que gestiona las reglas de enrutamiento es un <em>singleton</em> llamado <code>sfRouting</code>. Se encuentra disponible en cualquier parte del código mediante la llamada <code>sfRouting::getInstance()</code>. Su método <code>prependRoute()</code> añade una nueva regla por encima de las reglas definidas en el archivo <code>routing.yml</code>. El método espera 4 parámetros, que son los mismos que se utilizan para definir una regla: la etiqueta de la ruta, el patrón de la URL, el array asociativo con los valores por defecto y otro array asociativo con los requisitos. La regla definida en el archivo <code>routing.yml</code> del listado 9-18 es equivalente por ejemplo al código PHP mostrado en el listado 9-24.</p>
+
+<p><strong>Listado 9-24 - Definiendo una regla en PHP</strong></p>
+
+<div class="code php">
+<pre class="php">sfRouting<span class="sy0">::</span><span class="me2">getInstance</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">prependRoute</span><span class="br0">&#40;</span>
+  <span class="st_h">'articulo_segun_id'</span><span class="sy0">,</span>                              <span class="co1">// Nombre ruta</span>
+  <span class="st_h">'/articulo/:id'</span><span class="sy0">,</span>                                  <span class="co1">// Patrón de la ruta</span>
+  <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'module'</span> <span class="sy0">=&gt;</span> <span class="st_h">'articulo'</span><span class="sy0">,</span> <span class="st_h">'action'</span> <span class="sy0">=&gt;</span> <span class="st_h">'ver'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="co1">// Valores por defecto</span>
+  <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'id'</span> <span class="sy0">=&gt;</span> <span class="st_h">'\d+'</span><span class="br0">&#41;</span><span class="sy0">,</span>                             <span class="co1">// Requisitos</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El <em>singleton</em> <code>sfRouting</code> define otros métodos muy útiles para la gestión manual de las rutas: <code>clearRoutes()</code>, <code>hasRoutes()</code>, <code>getRoutesByName()</code>, etc. La API de Symfony (http://www.symfony-project.org/api/1_0/) dispone de mucha más información.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> A medida que se profundiza en los conceptos presentados en este libro, se pueden ampliar los conocimientos visitando la documentación de la API disponible online o incluso, investigando el código fuente de Symfony. En este libro no se describen todas las opciones y parámetros de Symfony, pero la documentación online contiene todos los detalles posibles.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_9/helpers_de_enlaces.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>9.3. Helpers de enlaces</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_9/trabajando_con_rutas_en_las_acciones.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>9.5. Trabajando con rutas en las acciones</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_9.html">
+                    <span>Capítulo 9.</span> Enlaces y sistema de enrutamiento
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/que_es_el_enrutamiento.html">
+                    <span>9.1.</span> ¿Qué es el enrutamiento?
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/reescritura_de_url.html">
+                    <span>9.2.</span> Reescritura de URL
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/helpers_de_enlaces.html">
+                    <span>9.3.</span> Helpers de enlaces
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_9/configuracion_del_sistema_de_enrutamiento.html">
+                    <span>9.4.</span> Configuración del sistema de enrutamiento
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/trabajando_con_rutas_en_las_acciones.html">
+                    <span>9.5.</span> Trabajando con rutas en las acciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/resumen.html">
+                    <span>9.6.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generadores</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>6.4. Reescribiendo la historia (Pro Git, el libro oficial de Git)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_6/guardado_rapido_provisional.html" />
+                    <link rel="next" href="../capitulo_6/depuracion_con_git.html" />
+                <link rel="start" href="/libro/pro_git/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="6.4. Reescribiendo la historia (Pro Git, el libro oficial de Git)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page pro_git"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/" itemprop="url">
+                    <span itemprop="title">Pro Git, el libro oficial de Git</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/capitulo_6.html" itemprop="url">
+                    <span itemprop="title">Capítulo 6. Las herramientas de Git</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>6.4. Reescribiendo la historia</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="reescribiendo_la_historia" class="title">
+        <span>6.4.</span> Reescribiendo la historia
+    </h1>
+
+    
+
+<p>Por razones varias, hay ocasiones en que se desea revisar el historial de confirmaciones de cambio. Una de las grandes caracteristicas de Git es su capacidad de postponer las decisiones hasta el último momento. Las decisiones sobre qué archivos van en qué confirmaciones de cambio se toman justo inmediatamente antes de confirmar, utilizando para ello el área de preparación (<em>staging area</em>). En cualquier momento se puede decidir dejar de trabajar en una cierta vía y arrancar en otra, utilizando el comando de guardado rápido (<em>stash</em>). Y también es posible reescribir confirmaciones de cambio ya realizadas, para que se muestren como si hubieran sido realizadas de otra forma. Así, es posible cambiar el orden de las confirmaciones, cambiar sus mensajes, modificar los archivos comprendidos en ellas, juntar varias confirmaciones en una sola, partir una en varias, o incluso borrar alguna completamente. Aunque todo ello es siempre recomendable hacerlo solo antes de compartir nuestro trabajo con otros.</p>
+
+<p>En esta sección, se verá cómo realizar todas esas útiles tareas. De tal forma que se pueda dejar el historial de cambios exactamente tal y como se desee. Eso sí, siempre antes de compartirlo con otros desarrolladores.</p>
+
+<h3 id="modificar_la_ultima_confirmacion_de_cambios">6.4.1. Modificar la última confirmación de cambios</h3>
+
+<p>Modificar la última confirmación de cambios (<em>commit</em>) es probablemente el arreglo realizado con más frecuencia. Dos suelen ser los cambios básicos a realizar: cambiar el mensaje o cambiar los archivos añadidos, modificados o borrados.</p>
+
+<p>Cambiar el mensaje de la última confirmación de cambios, es muy sencillo:</p>
+
+<div class="code code">
+<pre class="code">$ git commit --amend</pre>
+</div>
+
+<p>Mediante este comando, el editor de textos arranca con el mensaje escrito en la última confirmación de cambios; listo para ser modificado. Al guardar y cerrar en el editor, este escribe una nueva confirmación de cambios y reemplaza con ella la última confirmación existente.</p>
+
+<p>Si se desea cambiar la instantánea (<em>snapshot</em>) de archivos en la última confirmación de cambios, habitualmente por haber tenido algún descuido al añadir algún archivo de reciente creación. El proceso a seguir es básicamente el mismo. Se preparan en el área de preparación los archivos deseados; con los comandos <code>git add</code> o <code>git rm</code>, según corresponda. Y, a continuación, se lanza el comando <code>git commit --amend</code>. Este tendrá en cuenta dicha preparación para rehacer la instantánea de archivos en la nueva confirmación de cambios.</p>
+
+<p>Es importante ser cuidadoso con esta técnica. Porque al modifcar cualquier confirmación de cambios, cambia también su código SHA-1. Es como si se realizara una pequeña reorganización (<em>rebase</em>). Y, por tanto, aquí también se aplica la regla de no modificar nunca una confirmación de cambios que ya haya sido enviada (<em>push</em>) a otros.</p>
+
+<h3 id="modificar_multiples_confirmaciones_de_cambios">6.4.2. Modificar múltiples confirmaciones de cambios</h3>
+
+<p>Para modificar una confirmación de cambios situada bastante atrás en el historial, es necesario emplear herramientas más complejas. Git no dispone de herramientas directas para modifica el historial de confirmaciones de cambio. Pero es posible emplear la herramienta de reorganización (<em>rebase</em>) para modificar series de confirmaciones; en la propia cabeza (<code>HEAD</code>) donde estaban basadas originalmente, en lugar de moverlas a otra distinta. Dentro de la herramienta de reorganización interactiva, es posible detenerse justo tras cada confirmación de cambios a modificar. Para cambiar su mensaje, añadir archivos, o cualquier otra modificación. Este modo interactivo se activa utilizando la opción <code>-i</code> en el comando <code>git rebase</code>.  La profundidad en la historia a modificar vendrá dada por la confirmación de cambios (<em>commit</em>) que se indique al comando.</p>
+
+<p>Por ejemplo, para modificar las tres últimas confirmaciones de cambios, se  indicara el padre de la última conformación a modificar, es decir habrá que escribir <code>HEAD~2^</code> or <code>HEAD~3</code> tras el comando <code>git rebase -i</code>. La nomenclatura  <code>~3</code> es la mas sencilla de recordar, porque lo que se desea es modificar las tres últimas confirmaciones. Pero sin perder de vista que realmente se está señalando a cuatro confirmaciones de cambio más atras, al padre de la última de las confirmaciones de cambio a modificar.</p>
+
+<div class="code code">
+<pre class="code">$ git rebase -i HEAD~3</pre>
+</div>
+
+<p>Es importante avisar de nuevo que se trata de un comando de reorganización: todas y cada una de las confirmaciones de cambios en el rango <code>HEAD~3..HEAD</code> van a ser reescritas, (cambia su código SHA-1), tanto si se modifica algo en ellas como si no. Por tanto, es importante no afectar a ninguna confirmación de cambios que haya sido ya enviada (<em>push</em>) a un servidor central. So pena de confundir a otros desarrolladores, a los cuales se estaria dando una versión alternativa de un mismo cambio.</p>
+
+<p>Al lanzar este comando, se verán una lista de confirmaciones de cambio en la pantalla del editor de textos:</p>
+
+<div class="code code">
+<pre class="code">pick f7f3f6d changed my name a bit
+pick 310154e updated README formatting and added blame
+pick a5f4a0d added cat-filepick f7f3f6d changed my name a bit
+pick 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file</pre>
+</div>
+
+<div class="code code">
+<pre class="code"># Rebase 710f0f8..a5f4a0d onto 710f0f8
+#
+# Commands:
+#  p, pick = use commit
+#  e, edit = use commit, but stop for amending
+#  s, squash = use commit, but meld into previous commit
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+# However, if you remove everything, the rebase will be aborted.
+###</pre>
+</div>
+
+<p>Es importante destacar que esas confirmaciones de cambios se han listado en el orden opuesto al que normalmente son mostradas en el comando <code>log</code>.  En este último, se suele ver algo así como:</p>
+
+<div class="code code">
+<pre class="code">$ git log --pretty=format:&quot;%h %s&quot; HEAD~3..HEAD
+a5f4a0d added cat-file
+310154e updated README formatting and added blame
+f7f3f6d changed my name a bit</pre>
+</div>
+
+<p>Prestar atención al orden inverso. La reorganización interactiva lanza un script. Un script que, comenzando por la confirmación de cambios indicada en la línea del comando (<code>HEAD~3</code>), va a reaplicar los cambios introducidos en cada una de las confirmaciones, desde arriba hasta abajo. En la lista se ven las mas antiguas encima, en lugar de las más recientes, precisamente porque esas van a ser las primeras en reaplicarse.</p>
+
+<p>Para que el script se detenga en cada confirmación de cambios a modificar, hay que editarlo. Y se ha de cambiar la palabra <code>pick</code> por la palabra <code>edit</code> en cada una de las confirmaciones de cambio donde se desee detener el script. Por ejemplo, para modificar solo el mensaje de la tercera confirmación de cambios, el script quedaria:</p>
+
+<div class="code code">
+<pre class="code">edit f7f3f6d changed my name a bit
+pick 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file</pre>
+</div>
+
+<p>Cuando se guarde y cierre en el editor, Git hará un rebobinado hacia atras hasta la última de las confirmaciones de cambios en la lista, y mostrará algo así como:</p>
+
+<div class="code code">
+<pre class="code">$ git rebase -i HEAD~3
+Stopped at 7482e0d... updated the gemspec to hopefully work better
+You can amend the commit now, with</pre>
+</div>
+
+<div class="code code">
+<pre class="code">       git commit --amend</pre>
+</div>
+
+<div class="code code">
+<pre class="code">Once you’re satisfied with your changes, run</pre>
+</div>
+
+<div class="code code">
+<pre class="code">       git rebase --continue</pre>
+</div>
+
+<p>Estas instrucciones indican exactamente lo que se ha de realizar. Ejecuta el comando:</p>
+
+<div class="code code">
+<pre class="code">$ git commit --amend</pre>
+</div>
+
+<p>Cambia el mensaje de la confirmación de cambios y sal del editor. Después, ejecuta:</p>
+
+<div class="code code">
+<pre class="code">$ git rebase --continue</pre>
+</div>
+
+<p>Las otras dos confirmaciones de cambio serán reaplicadas automáticamene. Y ya estará completa la reorganización. Si se ha cambiado <code>pick</code> por <code>edit</code> en más de una línea, estos pasos se habrán de repetir por cada una de las confirmaciones de cambios a modificar. En cada una de ellas, Git se detendrá, permitiendo enmendar la confirmación de cambios y continuar tras la modificación.</p>
+
+<h3 id="reordenar_confirmaciones_de_cambios">6.4.3. Reordenar confirmaciones de cambios</h3>
+
+<p>Las reorganizaciones interactivas también se pueden emplear para reordenar o para eliminar completamente ciertas confirmaciones de cambios (<em>commits</em>). Por ejemplo, si se desea eliminar la confirmación de <em>"added cat-file"</em> y cambiar el orden en que se han introducido las otras dos confirmaciones de cambios, el script de reorganización pasaría de ser:</p>
+
+<div class="code code">
+<pre class="code">pick f7f3f6d changed my name a bit
+pick 310154e updated README formatting and added blame
+pick a5f4a0d added cat-filepick f7f3f6d changed my name a bit
+pick 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file</pre>
+</div>
+
+<p>a quedar en algo como:</p>
+
+<div class="code code">
+<pre class="code">pick 310154e updated README formatting and added blame
+pick f7f3f6d changed my name a bit</pre>
+</div>
+
+<p>Cuando se guarde y salga en el editor, Git rebobinará la rama hasta el padre de las confirmaciones de cambio indicadas, reaplicará <code>310154e</code> y luego <code>f7f3f6d</code>, para finalmente detenerse. De esta forma se habrá cambiado el orden de las dos confirmaciones de cambio, y se habrá eliminado completamente la de <em>"added cat-file"</em>.</p>
+
+<h3 id="combinar_varias_confirmaciones_en_una_sola">6.4.4. Combinar varias confirmaciones en una sola</h3>
+
+<p>Con la herramienta de reorganización interactiva, es posible recombinar una serie de confirmaciones de cambio y agruparlas todas en una sola. El propio script indica las instrucciones a seguir:</p>
+
+<div class="code code">
+<pre class="code">#
+# Commands:
+#  p, pick = use commit
+#  e, edit = use commit, but stop for amending
+#  s, squash = use commit, but meld into previous commit
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+# However, if you remove everything, the rebase will be aborted.
+###</pre>
+</div>
+
+<p>Si, en lugar de <code>pick</code> o de <code>edit</code>, se indica <code>squash</code> delante de alguna de las confirmaciones de cambio, Git aplicará simultáneamente dicha confirmación y la que esté inmediatamente delante de ella.  Permitiendo también combinar los mensajes de ambas. Por ejemplo, si se desea hacer una única confirmación de cambios fusionando las tres, el <em>script</em> quedaría en algo como:</p>
+
+<div class="code code">
+<pre class="code">pick f7f3f6d changed my name a bit
+squash 310154e updated README formatting and added blame
+squash a5f4a0d added cat-file</pre>
+</div>
+
+<p>Cuando se guarde y salga en el editor, Git rebobinará la historia, reaplicará las tres confirmaciones de cambio, y volverá al editor para fusionar también los mensajes de esas tres confirmaciones.</p>
+
+<div class="code code">
+<pre class="code"># This is a combination of 3 commits.
+# The first commit's message is:
+changed my name a bit</pre>
+</div>
+
+<div class="code code">
+<pre class="code"># This is the 2nd commit message:</pre>
+</div>
+
+<div class="code code">
+<pre class="code">updated README formatting and added blame</pre>
+</div>
+
+<div class="code code">
+<pre class="code"># This is the 3rd commit message:</pre>
+</div>
+
+<div class="code code">
+<pre class="code">added cat-file</pre>
+</div>
+
+<p>Al guardar esto, se tendrá una sola confirmación de cambios que introducirá todos los cambios que estaban en las tres confirmaciones de cambios previamente existentes.</p>
+
+<h3 id="dividir_una_confirmacion_de_cambios_en_varias">6.4.5. Dividir una confirmación de cambios en varias</h3>
+
+<p>Dividir una confirmación de cambios (<em>commit</em>), implica deshacerla y luego volver a preparar y confirmar trozos de la misma tantas veces como nuevas confirmaciones se desean tener al final.  Por ejemplo, si se desea dividir la confirmación de cambios de enmedio de entre las tres citadas en ejemplos anteriores. Es decir, si en lugar de <em>"updated README formatting and added blame"</em>, se desea separar esa confirmación en dos: <em>"updated README formatting"</em> y <em>"added blame"</em>.  Se puede realizar cambiando la instrucción en el script de <code>rebase -i</code>, desde <code>split</code> a <code>edit</code>:</p>
+
+<div class="code code">
+<pre class="code">pick f7f3f6d changed my name a bit
+edit 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file</pre>
+</div>
+
+<p>Después, cuando el script devuelva la línea de comandos, se ha de deshacer (reset) esa confirmación de cambios, coger los cambios recién deshechos y crear multiples nuevas confirmaciones de cambios con ellos. Al guardar y salir en el editor, Git rebobinará la historia hasta el padre de la primera confirmación de cambios en la lista, reaplicará esa primera confirmación  (<code>f7f3f6d</code>), luego reaplicará la segunda (<code>310154e</code>) y luego devolverá la línea de comandos. En esta línea de comando, es donde se desharan los cambios tecleando el comando <code>git reset HEAD^</code> para dejar sin preparar (<em>unstaged</em>) los archivos cambiados. Para, seguidamente, elaborar tantas confirmaciones de cambios como se desee, a base de pasar archivos al área de preparación y confirmarlos. Y, finalmente, teclear el comando <code>git rebase --continue</code> para completar la tarea.</p>
+
+<div class="code code">
+<pre class="code">$ git reset HEAD^
+$ git add README
+$ git commit -m 'updated README formatting'
+$ git add lib/simplegit.rb
+$ git commit -m 'added blame'
+$ git rebase --continue</pre>
+</div>
+
+<p>Tras esto, Git reaplicará la última de las confirmaciones de cambios (<code>a5f4a0d</code>) en el script, quedando la historia:</p>
+
+<div class="code code">
+<pre class="code">$ git log -4 --pretty=format:&quot;%h %s&quot;
+1c002dd added cat-file
+9b29157 added blame
+35cfb2b updated README formatting
+f3cc40e changed my name a bit</pre>
+</div>
+
+<p>De nuevo, merece recalcar el hecho de que estas operaciones cambian los códigos SHA-1 de todas las confirmaciones de cambio afectadas. Y que, por tanto, no se deben hacer sobre confirmaciones de cambio enviadas (<em>push</em>) a algún repositorio compartido.</p>
+
+<h3 id="la_opcion_nuclear_filter_branch">6.4.6. La opción nuclear: filter-branch</h3>
+
+<p>Existe una opción de reescritura del historial que se puede utilizar si se necesita reescribir un gran número de confirmaciones de cambio de forma mas o menos automatizada. Por ejemplo, para cambiar una dirección de correo electrónico globalmente, o para quitar un archivo de todas y cada una de las confirmaciones de cambios en una determinada rama. El comando en cuestión es <code>filter-branch</code>, y permite reescribir automáticamente grandes porciones del historial. Precisamente por ello, no debería utilizarse a no ser que el proyecto aún no se haya hecho público (es decir, otras personas no han basado su trabajo en alguna de las confirmaciones de cambio que se van a modificar). De todas formas, allá donde sea aplicable, puede ser de gran utilidad. Se van a ilustrar unas cuantas de las ocasiones donde se podría utilizar,  para dar así una idea de sus capacidades.</p>
+
+<h4 id="quitar_un_archivo_de_cada_confirmacion_de_cambios">6.4.6.1. Quitar un archivo de cada confirmación de cambios</h4>
+
+<p>Es algo que frecuentemente suele ser necesario. Alguien confirma cambios y almacena accidentalmente un enorme archivo binario cuando lanza un <code>git add .</code> sin pensarlo demasiado. Y es necesario quitarlo del repositorio. O podria suceder que se haya confirmado y almacenado accidentalmente un archivo que contiene una contraseña importante, Y el proyecto se va a hacer de código abierto. En estos casos, la mejor opción es utilizar la herramienta <code>filter-branch</code> para limpiar todo el historial.  Por ejemplo, para quitar un archivo llamado <code>passwords.txt</code> del repositorio, se puede emplear la opción <code>--tree-filter</code> del comando <code>filter-branch</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git filter-branch --tree-filter 'rm -f passwords.txt' HEAD
+Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
+Ref 'refs/heads/master' was rewritten</pre>
+</div>
+
+<p>Esta opción <code>--tree-filter</code>, tras cada extracción (<em>checkout</em>) del proyecto, lanzará el comando especificado y reconfirmará los cambios resultantes(recommit). En esta ocasión, se eliminará un archivo llamado <code>passwords.txt</code> de todas y cada una de las instantáneas (<em>snapshot</em>) almacenadas, tanto si este existe como si no. Otro ejemplo: si se desean eliminar todos los archivos de respaldo del editor que han sido almacenados por error, se podría lanzar algo así como  <code>git filter-branch --tree-filter 'rm -f *~' HEAD</code>.</p>
+
+<p>Y se iria viendo como Git reescribe árboles y confirmaciones de cambio, hasta que el apuntador de la rama llegue al final. Una recomendación: en general, suele ser buena idea lanzar cualquiera de estas operaciones primero sobre una rama de pruebas y luego reinicializar (<em>hard-reset</em>) la rama maestra (<code>master</code>), una vez se haya comprobado que el resultado de las operaciones es el esperado. Si se desea lanzar <code>filter-branch</code> sobre todas las ramas del repositorio, se ha de pasar la opción <code>--all</code> al comando.</p>
+
+<h4 id="haciendo_que_una_subcarpeta_sea_la_nueva_carpeta_raiz">6.4.6.2. Haciendo que una subcarpeta sea la nueva carpeta raiz</h4>
+
+<p>Por ejemplo, en el caso de que se haya importado trabajo desde otro sistema de control de versiones, y se tengan algunas subcarpetas sin sentido (<code>trunk</code>, <code>tags</code>, ...). <code>filter-branch</code> puede ser de utilidad para que, por ejemplo, la subcarpeta <code>trunk</code> sea la nueva carpeta raiz del proyecto en todas y cada una de las confirmaciones de cambios:</p>
+
+<div class="code code">
+<pre class="code">$ git filter-branch --subdirectory-filter trunk HEAD
+Rewrite 856f0bf61e41a27326cdae8f09fe708d679f596f (12/12)
+Ref 'refs/heads/master' was rewritten</pre>
+</div>
+
+<p>Tras este comando, la nueva raiz del proyecto pasa a ser el contenido de la carpeta <code>trunk</code>. Y, además, Git elimina automáticamente todas las confirmaciones de cambio (<em>commits</em>) que no afectaban a  dicha subcarpeta.</p>
+
+<h4 id="cambiando_direcciones_de_correo_e_de_forma_global">6.4.6.3. Cambiando direcciones de correo-e de forma global</h4>
+
+<p>Otra utilidad típica para utilizar <code>filter-branch</code> es cuando alguien ha olvidado ejecutar <code>git config</code> para configurar su nombre y dirección de correo electrónico antes de comenzar a trabajar. O cuando se va a pasar a código abierto un proyecto, pero previamente se desea cambiar todas las direcciones de correo empresariales por direcciones personales. En cualquier caso, se pueden cambiar de un golpe las direcciones de correo en multiples confirmaciones de cambio. Aunque es necesario ser cuidadoso para actuar solo sobre aquellas direcciones que se deseen cambiar, utilizando para ello la opción <code>--commit-filter</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git filter-branch --commit-filter '
+        if [ &quot;$GIT_AUTHOR_EMAIL&quot; = &quot;schacon@localhost&quot; ];
+        then
+                GIT_AUTHOR_NAME=&quot;Scott Chacon&quot;;
+                GIT_AUTHOR_EMAIL=&quot;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="7e0d1d161f1d11103e1b061f130e121b501d1113">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&quot;;
+                git commit-tree &quot;$@&quot;;
+        else
+                git commit-tree &quot;$@&quot;;
+        fi' HEAD</pre>
+</div>
+
+<p>Este comando pasa por todo el repositorio y reescribe cada confirmación de cambios donde detecte la dirección de correo indicada, para reemplazarla por la nueva. Y, debido a que cada confirmación de cambios contiene el código SHA-1 de sus ancestros, este comando cambia también todos los códigos SHA del historial; no solamente los de las confirmaciones de cambio que contenian la dirección indicada.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_6/guardado_rapido_provisional.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>6.3. Guardado rápido provisional</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_6/depuracion_con_git.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>6.5. Depuración con Git</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Fundamentos de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Trabajando con ramas en Git</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Git en un servidor</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Git en entornos distribuidos</a>
+            </li>
+                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_6.html">
+                    <span>Capítulo 6.</span> Las herramientas de Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/seleccion_de_confirmaciones_de_cambios_concretas.html">
+                    <span>6.1.</span> Selección de confirmaciones de cambios concretas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/preparacion_interactiva.html">
+                    <span>6.2.</span> Preparación interactiva
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/guardado_rapido_provisional.html">
+                    <span>6.3.</span> Guardado rápido provisional
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_6/reescribiendo_la_historia.html">
+                    <span>6.4.</span> Reescribiendo la historia
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/depuracion_con_git.html">
+                    <span>6.5.</span> Depuración con Git
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/submodulos.html">
+                    <span>6.6.</span> Submódulos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/fusion_de_subarboles.html">
+                    <span>6.7.</span> Fusión de subárboles
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_6/resumen.html">
+                    <span>6.8.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Personalizando Git</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Git y otros sistemas</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Funcionamiento interno de Git</a>
+            </li>
+                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>4.4. HTML y DOM (Introducción a AJAX)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_4/la_interfaz_node.html" />
+                    <link rel="next" href="../capitulo_5.html" />
+                <link rel="start" href="/libro/ajax/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="4.4. HTML y DOM (Introducción a AJAX)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page ajax"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/ajax/" itemprop="url">
+                    <span itemprop="title">Introducción a AJAX</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/ajax/capitulo_4.html" itemprop="url">
+                    <span itemprop="title">Capítulo 4. DOM (Document Object Model)</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>4.4. HTML y DOM</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="html_y_dom" class="title">
+        <span>4.4.</span> HTML y DOM
+    </h1>
+
+    
+
+<p>Desafortunadamente, las posibilidades teóricas de DOM son mucho más avanzadas de las que se pueden utilizar en la práctica para desarrollar aplicaciones web. El motivo es que el uso de DOM siempre está limitado por las posibilidades que ofrece cada navegador. Mientras que algunos navegadores como Firefox y Safari implementan DOM de nivel 1 y 2 (y parte del 3), otros navegadores como Internet Explorer (versión 7 y anteriores) ni siquiera son capaces de ofrecer una implementación completa de DOM nivel 1.</p>
+
+<p>Cuando se utiliza DOM en páginas HTML, el nodo raíz de todos los demás se define en el objeto <code>HTMLDocument</code>. Además, se crean objetos de tipo <code>HTMLElement</code> por cada nodo de tipo <code>Element</code> del árbol DOM. Como se verá en el siguiente capítulo, el objeto <code>document</code> es parte del BOM  <em>Browser Object Model</em>), aunque también se considera que es equivalente del objeto <code>Document</code> del DOM de los documentos XML. Por este motivo, el objeto <code>document</code> también hace referencia al nodo raíz de todas las páginas HTML.</p>
+
+<h3 id="acceso_relativo_a_los_nodos">4.4.1. Acceso relativo a los nodos</h3>
+
+<p>A continuación se muestra la página HTML básica que se va a emplear en todos los siguientes ejemplos:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+<span class="sc2">&lt;<span class="kw2">head</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">title</span>&gt;</span>Aprendiendo DOM<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">title</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">head</span>&gt;</span>
+<span class="sc2">&lt;<span class="kw2">body</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">p</span>&gt;</span>Aprendiendo DOM<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">p</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">p</span>&gt;</span>DOM es sencillo de aprender<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">p</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">p</span>&gt;</span>Ademas, DOM es muy potente<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">p</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">body</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre>
+</div>
+
+<p>La operación básica consiste en obtener el objeto que representa el elemento raíz de la página:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> objeto_html <span class="sy0">=</span> document.<span class="me1">documentElement</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Después de ejecutar la instrucción anterior, la variable <code>objeto_html</code> contiene un objeto de tipo <code>HTMLElement</code> y que representa el elemento <code>&lt;html&gt;</code> de la página web. Según el árbol de nodos DOM, desde el nodo <code>&lt;html&gt;</code> derivan dos nodos del mismo nivel jerárquico: <code>&lt;head&gt;</code> y <code>&lt;body&gt;</code>.</p>
+
+<p>Utilizando los métodos proporcionados por DOM, es sencillo obtener los elementos <code>&lt;head&gt;</code> y <code>&lt;body&gt;</code>. En primer lugar, los dos nodos se pueden obtener como el primer y el último nodo hijo del elemento <code>&lt;html&gt;</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> objeto_head <span class="sy0">=</span> objeto_html.<span class="me1">firstChild</span><span class="sy0">;</span>
+<span class="kw1">var</span> objeto_body <span class="sy0">=</span> objeto_html.<span class="me1">lastChild</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Otra forma directa de obtener los dos nodos consiste en utilizar la propiedad <code>childNodes</code> del elemento <code>&lt;html&gt;</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> objeto_head <span class="sy0">=</span> objeto_html.<span class="me1">childNodes</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+<span class="kw1">var</span> objeto_body <span class="sy0">=</span> objeto_html.<span class="me1">childNodes</span><span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Si se desconoce el número de nodos hijo que dispone un nodo, se puede emplear la propiedad <code>length</code> de <code>childNodes</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> numeroDescendientes <span class="sy0">=</span> objeto_html.<span class="me1">childNodes</span>.<span class="me1">length</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Además, el DOM de HTML permite acceder directamente al elemento <code>&lt;body&gt;</code> utilizando el atajo <code>document.body</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> objeto_body <span class="sy0">=</span> document.<span class="me1">body</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Además de las propiedades anteriores, existen otras propiedades como <code>previousSibling</code> y <code>parentNode</code> que se pueden utilizar para acceder a un nodo a partir de otro. Utilizando estas propiedades, se pueden comprobar las siguientes igualdades:</p>
+
+<div class="code javascript">
+<pre class="javascript">objeto_head.<span class="me1">parentNode</span> <span class="sy0">==</span> objeto_html
+objeto_body.<span class="me1">parentNode</span> <span class="sy0">==</span> objeto_html
+objeto_body.<span class="me1">previousSibling</span> <span class="sy0">==</span> objeto_head
+objeto_head.<span class="me1">nextSibling</span> <span class="sy0">==</span> objeto_body
+objeto_head.<span class="me1">ownerDocument</span> <span class="sy0">==</span> document</pre>
+</div>
+
+<h3 id="tipos_de_nodos_2">4.4.2. Tipos de nodos</h3>
+
+<p>Una operación común en muchas aplicaciones consiste en comprobar el tipo de nodo, que se obtiene de forma directa mediante la propiedad <code>nodeType</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript">alert<span class="br0">&#40;</span>document.<span class="me1">nodeType</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">// 9</span>
+alert<span class="br0">&#40;</span>document.<span class="me1">documentElement</span>.<span class="me1">nodeType</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">// 1</span></pre>
+</div>
+
+<p>En el primer caso, el valor <code>9</code> es igual al definido en la constante <code>Node.DOCUMENT_NODE</code>. En el segundo ejemplo, el valor <code>1</code> coincide con la constante <code>Node.ELEMENT_NODE</code>. Afortunadamente, no es necesario memorizar los valores numéricos de los tipos de nodos, ya que se pueden emplear las constantes predefinidas:</p>
+
+<div class="code javascript">
+<pre class="javascript">alert<span class="br0">&#40;</span>document.<span class="me1">nodeType</span> <span class="sy0">==</span> Node.<span class="me1">DOCUMENT_NODE</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">// true</span>
+alert<span class="br0">&#40;</span>document.<span class="me1">documentElement</span>.<span class="me1">nodeType</span> <span class="sy0">==</span> Node.<span class="me1">ELEMENT_NODE</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">// true</span></pre>
+</div>
+
+<p>El único navegador que no soporta las constantes predefinidas es Internet Explorer 7 y sus versiones anteriores, por lo que si se quieren utilizar es necesario definirlas de forma explícita:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">if</span><span class="br0">&#40;</span><span class="kw1">typeof</span> Node <span class="sy0">==</span> <span class="st0">&quot;undefined&quot;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">var</span> Node <span class="sy0">=</span> <span class="br0">&#123;</span>
+    ELEMENT_NODE<span class="sy0">:</span> <span class="nu0">1</span><span class="sy0">,</span>
+    ATTRIBUTE_NODE<span class="sy0">:</span> <span class="nu0">2</span><span class="sy0">,</span>
+    TEXT_NODE<span class="sy0">:</span> <span class="nu0">3</span><span class="sy0">,</span>
+    CDATA_SECTION_NODE<span class="sy0">:</span> <span class="nu0">4</span><span class="sy0">,</span>
+    ENTITY_REFERENCE_NODE<span class="sy0">:</span> <span class="nu0">5</span><span class="sy0">,</span>
+    ENTITY_NODE<span class="sy0">:</span> <span class="nu0">6</span><span class="sy0">,</span>
+    PROCESSING_INSTRUCTION_NODE<span class="sy0">:</span> <span class="nu0">7</span><span class="sy0">,</span>
+    COMMENT_NODE<span class="sy0">:</span> <span class="nu0">8</span><span class="sy0">,</span>
+    DOCUMENT_NODE<span class="sy0">:</span> <span class="nu0">9</span><span class="sy0">,</span>
+    DOCUMENT_TYPE_NODE<span class="sy0">:</span> <span class="nu0">10</span><span class="sy0">,</span>
+    DOCUMENT_FRAGMENT_NODE<span class="sy0">:</span> <span class="nu0">11</span><span class="sy0">,</span>
+    NOTATION_NODE<span class="sy0">:</span> <span class="nu0">12</span>
+  <span class="br0">&#125;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El código anterior comprueba si el navegador en el que se está ejecutando tiene definido el objeto <code>Node</code>. Si este objeto no está definido, se trata del navegador Internet Explorer 7 o alguna versión anterior, por lo que se crea un nuevo objeto llamado <code>Node</code> y se le incluyen como propiedades todas las constantes definidas por DOM.</p>
+
+<h3 id="atributos">4.4.3. Atributos</h3>
+
+<p>Además del tipo de etiqueta HTML y su contenido de texto, DOM permite el acceso directo a todos los atributos de cada etiqueta. Para ello, los nodos de tipo <code>Element</code> contienen la propiedad <code>attributes</code>, que permite acceder a todos los atributos de cada elemento. Aunque técnicamente la propiedad <code>attributes</code> es de tipo <code>NamedNodeMap</code>, sus elementos se pueden acceder como si fuera un array. DOM proporciona diversos métodos para tratar con los atributos:</p>
+
+<ul>
+<li><code>getNamedItem(nombre)</code>, devuelve el nodo cuya propiedad <code>nodeName</code> contenga el valor <code>nombre</code>.</li>
+<li><code>removeNamedItem(nombre)</code>, elimina el nodo cuya propiedad <code>nodeName</code> coincida con el valor <code>nombre</code>.</li>
+<li><code>setNamedItem(nodo)</code>, añade el nodo a la lista <code>attributes</code>, indexándolo según su propiedad <code>nodeName</code>.</li>
+<li><code>item(posicion)</code>, devuelve el nodo que se encuentra en la posición indicada por el valor numérico <code>posicion</code>.</li>
+</ul>
+
+<p>Los métodos anteriores devuelven un nodo de tipo <code>Attr</code>, por lo que no devuelven directamente el valor del atributo. Utilizando estos métodos, es posible procesar y modificar fácilmente los atributos de los elementos HTML:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="sy0">&lt;</span>p id<span class="sy0">=</span><span class="st0">&quot;introduccion&quot;</span> style<span class="sy0">=</span><span class="st0">&quot;color: blue&quot;</span><span class="sy0">&gt;</span>Párrafo de prueba<span class="sy0">&lt;/</span>p<span class="sy0">&gt;</span>
+&nbsp;
+<span class="kw1">var</span> p <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;introduccion&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> elId <span class="sy0">=</span> p.<span class="me1">attributes</span>.<span class="me1">getNamedItem</span><span class="br0">&#40;</span><span class="st0">&quot;id&quot;</span><span class="br0">&#41;</span>.<span class="me1">nodeValue</span><span class="sy0">;</span> <span class="co1">// elId = &quot;introduccion&quot;</span>
+<span class="kw1">var</span> elId <span class="sy0">=</span> p.<span class="me1">attributes</span>.<span class="me1">item</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span>.<span class="me1">nodeValue</span><span class="sy0">;</span>            <span class="co1">// elId = &quot;introduccion&quot;</span>
+p.<span class="me1">attributes</span>.<span class="me1">getNamedItem</span><span class="br0">&#40;</span><span class="st0">&quot;id&quot;</span><span class="br0">&#41;</span>.<span class="me1">nodeValue</span> <span class="sy0">=</span> <span class="st0">&quot;preintroduccion&quot;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> atributo <span class="sy0">=</span> document.<span class="me1">createAttribute</span><span class="br0">&#40;</span><span class="st0">&quot;lang&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+atributo.<span class="me1">nodeValue</span> <span class="sy0">=</span> <span class="st0">&quot;es&quot;</span><span class="sy0">;</span>
+p.<span class="me1">attributes</span>.<span class="me1">setNamedItem</span><span class="br0">&#40;</span>atributo<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Afortunadamente, DOM proporciona otros métodos que permiten el acceso y la modificación de los atributos de forma más directa:</p>
+
+<ul>
+<li><code>getAttribute(nombre)</code>, es equivalente a <code>attributes.getNamedItem(nombre)</code>.</li>
+<li><code>setAttribute(nombre, valor)</code> equivalente a <code>attributes.getNamedItem(nombre).value = valor</code>.</li>
+<li><code>removeAttribute(nombre)</code>, equivalente a <code>attributes.removeNamedItem(nombre)</code>.</li>
+</ul>
+
+<p>De esta forma, el ejemplo anterior se puede reescribir utilizando los nuevos métodos:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="sy0">&lt;</span>p id<span class="sy0">=</span><span class="st0">&quot;introduccion&quot;</span> style<span class="sy0">=</span><span class="st0">&quot;color: blue&quot;</span><span class="sy0">&gt;</span>Párrafo de prueba<span class="sy0">&lt;/</span>p<span class="sy0">&gt;</span>
+&nbsp;
+<span class="kw1">var</span> p <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;introduccion&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> elId <span class="sy0">=</span> p.<span class="me1">getAttribute</span><span class="br0">&#40;</span><span class="st0">&quot;id&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">// elId = &quot;introduccion&quot;</span>
+p.<span class="me1">setAttribute</span><span class="br0">&#40;</span><span class="st0">&quot;id&quot;</span><span class="sy0">,</span> <span class="st0">&quot;preintroduccion&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<h3 id="acceso_directo_a_los_nodos">4.4.4. Acceso directo a los nodos</h3>
+
+<p>Los métodos presentados hasta el momento permiten acceder a cualquier nodo del árbol de nodos DOM y a todos sus atributos. Sin embargo, las funciones que proporciona DOM para acceder a un nodo a través de sus padres obligan a acceder al nodo raíz de la página y después a sus nodos hijos y a los nodos hijos de esos hijos y así sucesivamente hasta el último nodo de la rama terminada por el nodo buscado.</p>
+
+<p>Cuando se trabaja con una página web real, el árbol DOM tiene miles de nodos de todos los tipos. Por este motivo, no es eficiente acceder a un nodo descendiendo a través de todos los ascendentes de ese nodo.</p>
+
+<p>Para solucionar este problema, DOM proporciona una serie de métodos para acceder de forma directa a los nodos deseados. Los métodos disponibles son <code>getElementsByTagName()</code>, <code>getElementsByName()</code> y <code>getElementById()</code>.</p>
+
+<h4 id="funcion_getelementsbytagname">4.4.4.1. Función getElementsByTagName()</h4>
+
+<p>La función <code>getElementsByTagName()</code> obtiene todos los elementos de la página XHTML cuya etiqueta sea igual que el parámetro que se le pasa a la función.</p>
+
+<p>El siguiente ejemplo muestra cómo obtener todos los párrafos de una página XHTML:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> parrafos <span class="sy0">=</span> document.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;p&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El valor que devuelve la función es un array con todos los nodos que cumplen la condición de que su etiqueta coincide con el parámetro proporcionado. En realidad, el valor devuelto no es de tipo array <em>normal</em>, sino que es un objeto de tipo <code>NodeList</code>. De este modo, el primer párrafo de la página se puede obtener de la siguiente manera:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> parrafos <span class="sy0">=</span> document.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;p&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> primerParrafo <span class="sy0">=</span> parrafos<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>De la misma forma, se pueden recorrer todos los párrafos de la página recorriendo el array de nodos devuelto por la función:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> parrafos <span class="sy0">=</span> document.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;p&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">for</span><span class="br0">&#40;</span><span class="kw1">var</span> i<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span> i<span class="sy0">&lt;</span>parrafos.<span class="me1">length</span><span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">var</span> parrafo <span class="sy0">=</span> parrafos<span class="br0">&#91;</span>i<span class="br0">&#93;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>La función <code>getElementsByTagName()</code> se puede aplicar de forma recursiva sobre cada uno de los nodos devueltos por la función. En el siguiente ejemplo, se obtienen todos los enlaces del primer párrafo de la página:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> parrafos <span class="sy0">=</span> document.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;p&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> primerParrafo <span class="sy0">=</span> parrafos<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+<span class="kw1">var</span> enlaces <span class="sy0">=</span> primerParrafo.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;a&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<h4 id="funcion_getelementsbyname">4.4.4.2. Función getElementsByName()</h4>
+
+<p>La función <code>getElementsByName()</code> obtiene todos los elementos de la página XHTML cuyo atributo <code>name</code> coincida con el parámetro que se le pasa a la función.</p>
+
+<p>En el siguiente ejemplo, se obtiene directamente el único párrafo de la página que tiene el nombre indicado:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> parrafoEspecial <span class="sy0">=</span> document.<span class="me1">getElementsByName</span><span class="br0">&#40;</span><span class="st0">&quot;especial&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="sy0">&lt;</span>p name<span class="sy0">=</span><span class="st0">&quot;prueba&quot;</span><span class="sy0">&gt;</span>...<span class="sy0">&lt;/</span>p<span class="sy0">&gt;</span>
+<span class="sy0">&lt;</span>p name<span class="sy0">=</span><span class="st0">&quot;especial&quot;</span><span class="sy0">&gt;</span>...<span class="sy0">&lt;/</span>p<span class="sy0">&gt;</span>
+<span class="sy0">&lt;</span>p<span class="sy0">&gt;</span>...<span class="sy0">&lt;/</span>p<span class="sy0">&gt;</span></pre>
+</div>
+
+<p>Normalmente el atributo <code>name</code> es único para los elementos HTML que lo incluyen, por lo que es un método muy práctico para acceder directamente al nodo deseado. En el caso de los elementos HTML <code>radiobutton</code>, el atributo <code>name</code> es común a todos los <code>radiobutton</code> que están relacionados, por lo que la función devuelve una colección de elementos.</p>
+
+<p>Internet Explorer 7 y sus versiones anteriores no implementan de forma correcta esta función, ya que también devuelven los elementos cuyo atributo <code>id</code> sea igual al parámetro de la función.</p>
+
+<h4 id="funcion_getelementbyid">4.4.4.3. Función getElementById()</h4>
+
+<p>La función <code>getElementById()</code> es la función más utilizada cuando se desarrollan aplicaciones web dinámicas. Se trata de la función preferida para acceder directamente a un nodo y para leer o modificar sus propiedades.</p>
+
+<p>La función <code>getElementById()</code> devuelve el elemento XHTML cuyo atributo <code>id</code> coincide con el parámetro indicado en la función. Como el atributo <code>id</code> debe ser único para cada elemento de una misma página, la función devuelve únicamente el nodo deseado.</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> cabecera <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;cabecera&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="sy0">&lt;</span>div id<span class="sy0">=</span><span class="st0">&quot;cabecera&quot;</span><span class="sy0">&gt;</span>
+<span class="sy0">&lt;</span>a href<span class="sy0">=</span><span class="st0">&quot;/&quot;</span> id<span class="sy0">=</span><span class="st0">&quot;logo&quot;</span><span class="sy0">&gt;</span>...<span class="sy0">&lt;/</span>a<span class="sy0">&gt;</span>
+<span class="sy0">&lt;/</span>div<span class="sy0">&gt;</span></pre>
+</div>
+
+<p><div class="exercise"><p class="title">Ejercicio 7</p> <p>A partir de la página web proporcionada y utilizando las funciones DOM, mostrar por pantalla la siguiente información:</p>
+
+<ol>
+<li>Número de enlaces de la página</li>
+<li>Dirección a la que enlaza el penúltimo enlace</li>
+<li>Numero de enlaces que enlazan a http://prueba</li>
+<li>Número de enlaces del tercer párrafo</li>
+</ol>
+
+<p><a href="/ejercicios/ajax/ejercicio7/ejercicio7.zip">Descargar archivo ZIP con la página HTML (2 KB)</a></p>
+
+<p><a href="http://www.librosweb.es/ajax/capitulo14/ejercicio_7.html">Ver solución</a></p></div></p>
+
+<p><div class="exercise"><p class="title">Ejercicio 8</p> <p>A partir de la página web proporcionada y utilizando las funciones DOM:</p>
+
+<ol>
+<li>Se debe modificar el protocolo de todas las direcciones de los enlaces. De esta forma, si un enlace apuntaba a http://prueba, ahora debe apuntar a https://prueba</li>
+<li>Los párrafos de la página cuyo atributo <code>class</code> es igual a <code>"importante"</code> deben modificarlo por <code>"resaltado"</code>. El resto de párrafos deben incluir un atributo <code>class</code> igual a <code>"normal"</code>.</li>
+<li>A los enlaces de la página cuyo atributo <code>class</code> sea igual a <code>"importante"</code>, se les añade un atributo <code>"name"</code> con un valor generado automáticamente y que sea igual a <code>"importante"+i</code>, donde <code>i</code> es un valor numérico cuyo valor inicial es <code>0</code> para el primer enlace.</li>
+</ol>
+
+<p><a href="/ejercicios/ajax/ejercicio8/ejercicio8.zip">Descargar archivo ZIP con la página HTML (2 KB)</a></p>
+
+<p><a href="http://www.librosweb.es/ajax/capitulo14/ejercicio_8.html">Ver solución</a></p></div></p>
+
+<h3 id="crear_modificar_y_eliminar_nodos">4.4.5. Crear, modificar y eliminar nodos</h3>
+
+<p>Hasta ahora, todos los métodos DOM presentados se limitan a acceder a los nodos y sus propiedades. A continuación, se muestran los métodos necesarios para la creación, modificación y eliminación de nodos dentro del árbol de nodos DOM.</p>
+
+<p>Los métodos DOM disponibles para la creación de nuevos nodos son los siguientes:</p>
+
+<div class="table" id="table_4_2">
+
+    <table>
+<thead>
+<tr>
+  <th>Método</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>createAttribute(nombre)</code></td>
+  <td>Crea un nodo de tipo atributo con el nombre indicado</td>
+</tr>
+<tr>
+  <td><code>createCDataSection(texto)</code></td>
+  <td>Crea una sección <code>CDATA</code> con un nodo hijo de tipo texto que contiene el valor indicado</td>
+</tr>
+<tr>
+  <td><code>createComment(texto)</code></td>
+  <td>Crea un nodo de tipo comentario que contiene el valor indicado</td>
+</tr>
+<tr>
+  <td><code>createDocumentFragment()</code></td>
+  <td>Crea un nodo de tipo <code>DocumentFragment</code></td>
+</tr>
+<tr>
+  <td><code>createElement(nombre_etiqueta)</code></td>
+  <td>Crea un elemento del tipo indicado en el parámetro <code>nombre_etiqueta</code></td>
+</tr>
+<tr>
+  <td><code>createEntityReference(nombre)</code></td>
+  <td>Crea un nodo de tipo <code>EntityReference</code></td>
+</tr>
+<tr>
+  <td><code>createProcessingInstruction(objetivo, datos)</code></td>
+  <td>Crea un nodo de tipo <code>ProcessingInstruction</code></td>
+</tr>
+<tr>
+  <td><code>createTextNode(texto)</code></td>
+  <td>Crea un nodo de tipo texto con el valor indicado como parámetro</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Internet Explorer no soporta los métodos <code>createCDataSection</code>, <code>createEntityReference</code> y <code>createProcessingInstruction</code>. Los métodos más empleados son <code>createElement</code>, <code>createTextNode</code> y <code>createAttribute</code>.</p>
+
+<p>A continuación se muestra un ejemplo sencillo en el que se crea un nuevo nodo (una nueva etiqueta HTML) y se añade dinámicamente a la siguiente página HTML:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">head</span>&gt;&lt;<span class="kw2">title</span>&gt;</span>Ejemplo de creación de nodos<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">title</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">head</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">body</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">body</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre>
+</div>
+
+<p>La página HTML original no tiene contenidos, pero mediante DOM se añade dinámicamente el siguiente párrafo de texto:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">p</span>&gt;</span>Este párrafo no existía en la página HTML original<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">p</span>&gt;</span></pre>
+</div>
+
+<p>Añadir el párrafo anterior a la página requiere los siguientes pasos:</p>
+
+<ol>
+<li>Crear un nodo de tipo elemento</li>
+<li>Crear un nodo de tipo texto</li>
+<li>Asociar el nodo de texto al elemento</li>
+<li>Añadir el nuevo nodo de tipo elemento a la página original</li>
+</ol>
+
+<p>En primer lugar, se crea un nuevo nodo de tipo elemento:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> p <span class="sy0">=</span> document.<span class="me1">createElement</span><span class="br0">&#40;</span><span class="st0">&quot;p&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>A continuación se crea un nodo de texto que almacena el contenido de texto del párrafo:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> texto <span class="sy0">=</span> document.<span class="me1">createTextNode</span><span class="br0">&#40;</span><span class="st0">&quot;Este párrafo no existía en la página HTML original&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>En tercer lugar, se asocia el elemento creado y su contenido de texto (los nodos de tipo <code>Text</code> son hijos de los nodos de tipo <code>Element</code>):</p>
+
+<div class="code javascript">
+<pre class="javascript">p.<span class="me1">appendChild</span><span class="br0">&#40;</span>texto<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El método <code>appendChild()</code> está definido para todos los diferentes tipos de nodos y se encarga de añadir un nodo al final de la lista <code>childNodes</code> de otro nodo.</p>
+
+<p>Por último, se añade el nodo creado al árbol de nodos DOM que representa a la página. Utilizando el método <code>appendChild()</code>, se añade el nodo como hijo del nodo que representa al elemento <code>&lt;body&gt;</code> de la página:</p>
+
+<div class="code javascript">
+<pre class="javascript">document.<span class="me1">body</span>.<span class="me1">appendChild</span><span class="br0">&#40;</span>p<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>La página HTML que resulta después de la ejecución del código JavaScript se muestra a continuación:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">head</span>&gt;&lt;<span class="kw2">title</span>&gt;</span>Ejemplo de creación de nodos<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">title</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">head</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">body</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">p</span>&gt;</span>Este párrafo no existía en la página HTML original<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">p</span>&gt;</span>
+  <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">body</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre>
+</div>
+
+<p>Una vez más, es importante recordar que las modificaciones en el árbol de nodos DOM sólo se pueden realizar cuando <strong>toda</strong> la página web se ha cargado en el navegador. El motivo es que los navegadores construyen el árbol de nodos DOM una vez que se ha cargado completamente la página web. Cuando una página no ha terminado de cargarse, su árbol no está construido y por tanto no se pueden utilizar las funciones DOM.</p>
+
+<p>Si una página realiza modificaciones automáticas (sin intervención del usuario) es importante utilizar el evento <code>onload()</code> para llamar a las funciones de JavaScript, tal y como se verá más adelante en el capítulo de los eventos.</p>
+
+<p>Por otra parte, también se pueden utilizar funciones DOM para eliminar cualquier nodo existente originalmente en la página y cualquier nodo creado mediante los métodos DOM:</p>
+
+<p>Si se considera la siguiente página HTML con un párrafo de texto:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">head</span>&gt;&lt;<span class="kw2">title</span>&gt;</span>Ejemplo de eliminación de nodos<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">title</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">head</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">body</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">p</span>&gt;</span>Este parrafo va a ser eliminado dinamicamente<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">p</span>&gt;</span>
+  <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">body</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre>
+</div>
+
+<p>En primer lugar, se obtiene la referencia al nodo que se va a eliminar:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> p <span class="sy0">=</span> document.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;p&quot;</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Para eliminar cualquier nodo, se emplea la función <code>removeChild()</code>, que toma como argumento la referencia al nodo que se quiere eliminar. La función <code>removeChild()</code> se debe invocar sobre el nodo padre del nodo que se va a eliminar. En este caso, el <em>padre</em> del primer párrafo de la página es el nodo <code>&lt;body&gt;</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> p <span class="sy0">=</span> document.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;p&quot;</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+document.<span class="me1">body</span>.<span class="me1">removeChild</span><span class="br0">&#40;</span>p<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>La página HTML que resulta después de la ejecución del código JavaScript anterior se muestra a continuación:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">head</span>&gt;&lt;<span class="kw2">title</span>&gt;</span>Ejemplo de eliminación de nodos<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">title</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">head</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">body</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">body</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre>
+</div>
+
+<p>Cuando la página está formada por miles de nodos, puede ser costoso acceder hasta el nodo padre del nodo que se quiere eliminar. En estos casos, se puede utilizar la propiedad <code>parentNode</code>, que siempre hace referencia al nodo padre de un nodo.</p>
+
+<p>De esta forma, el ejemplo anterior se puede rehacer para eliminar el nodo haciendo uso de la propiedad <code>parentNode</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> p <span class="sy0">=</span> document.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;p&quot;</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+p.<span class="me1">parentNode</span>.<span class="me1">removeChild</span><span class="br0">&#40;</span>p<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Además de crear y eliminar nodos, las funciones DOM también permiten reemplazar un nodo por otro. Utilizando la misma página HTML de ejemplo, se va a sustituir el párrafo original por otro párrafo con un contenido diferente. La página original contiene el siguiente párrafo:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>    
+  <span class="sc2">&lt;<span class="kw2">head</span>&gt;&lt;<span class="kw2">title</span>&gt;</span>Ejemplo de sustitución de nodos<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">title</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">head</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">body</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">p</span>&gt;</span>Este parrafo va a ser sustituido dinamicamente<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">p</span>&gt;</span>
+  <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">body</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre>
+</div>
+
+<p>Utilizando las funciones DOM de JavaScript, se crea el nuevo párrafo que se va a mostrar en la página, se obtiene la referencia al nodo original y se emplea la función <code>replaceChild()</code> para intercambiar un nodo por otro:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> nuevoP <span class="sy0">=</span> document.<span class="me1">createElement</span><span class="br0">&#40;</span><span class="st0">&quot;p&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> texto <span class="sy0">=</span> document.<span class="me1">createTextNode</span><span class="br0">&#40;</span><span class="st0">&quot;Este parrafo se ha creado dinámicamente y sustituye al parrafo original&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+nuevoP.<span class="me1">appendChild</span><span class="br0">&#40;</span>texto<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> anteriorP <span class="sy0">=</span> document.<span class="me1">body</span>.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;p&quot;</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+anteriorP.<span class="me1">parentNode</span>.<span class="me1">replaceChild</span><span class="br0">&#40;</span>nuevoP<span class="sy0">,</span> anteriorP<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Después de ejecutar las instrucciones anteriores, la página HTML resultante es:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">head</span>&gt;&lt;<span class="kw2">title</span>&gt;</span>Ejemplo de sustitución de nodos<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">title</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">head</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">body</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">p</span>&gt;</span>Este parrafo se ha creado dinámicamente y sustituye al parrafo original<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">p</span>&gt;</span>
+  <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">body</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre>
+</div>
+
+<p>Además de crear, eliminar y sustituir nodos, las funciones DOM permiten insertar nuevos nodos antes o después de otros nodos ya existentes. Si se quiere insertar un nodo después de otro, se emplea la función <code>appendChild()</code>. Página HTML original:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">head</span>&gt;&lt;<span class="kw2">title</span>&gt;</span>Ejemplo de inserción de nodos<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">title</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">head</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">body</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">p</span>&gt;</span>Primer parrafo<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">p</span>&gt;</span>
+  <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">body</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre>
+</div>
+
+<p>El siguiente código JavaScript crea un nuevo párrafo y lo inserta después de cualquier otro nodo de la página HTML:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> nuevoP <span class="sy0">=</span> document.<span class="me1">createElement</span><span class="br0">&#40;</span><span class="st0">&quot;p&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> texto <span class="sy0">=</span> document.<span class="me1">createTextNode</span><span class="br0">&#40;</span><span class="st0">&quot;Segundo parrafo&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+nuevoP.<span class="me1">appendChild</span><span class="br0">&#40;</span>texto<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+document.<span class="me1">body</span>.<span class="me1">appendChild</span><span class="br0">&#40;</span>nuevoP<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Después de ejecutar el código JavaScript anterior, el código HTML resultante es:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">head</span>&gt;&lt;<span class="kw2">title</span>&gt;</span>Ejemplo de inserción de nodos<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">title</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">head</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">body</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">p</span>&gt;</span>Primer parrafo<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">p</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">p</span>&gt;</span>Segundo parrafo<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">p</span>&gt;</span>
+  <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">body</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre>
+</div>
+
+<p>Si se quiere insetar el nuevo párrafo delante del párrafo existente, se puede utilizar la función <code>insertBefore()</code>. Página HTML original:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">head</span>&gt;&lt;<span class="kw2">title</span>&gt;</span>Ejemplo de inserción de nodos<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">title</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">head</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">body</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">p</span>&gt;</span>Primer parrafo<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">p</span>&gt;</span>
+  <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">body</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre>
+</div>
+
+<p>Código JavaScript necesario para insertar un nuevo párrafo delante del párrafo existente:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> nuevoP <span class="sy0">=</span> document.<span class="me1">createElement</span><span class="br0">&#40;</span><span class="st0">&quot;p&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> texto <span class="sy0">=</span> document.<span class="me1">createTextNode</span><span class="br0">&#40;</span><span class="st0">&quot;Segundo parrafo, antes del primero&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+nuevoP.<span class="me1">appendChild</span><span class="br0">&#40;</span>texto<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> anteriorP <span class="sy0">=</span> document.<span class="me1">getElementsByTagName</span><span class="br0">&#40;</span><span class="st0">&quot;p&quot;</span><span class="br0">&#41;</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">;</span>
+document.<span class="me1">body</span>.<span class="me1">insertBefore</span><span class="br0">&#40;</span>nuevoP<span class="sy0">,</span> anteriorP<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Después de ejecutar el código JavaScript anterior, el código HTML resultante es:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">head</span>&gt;&lt;<span class="kw2">title</span>&gt;</span>Ejemplo de inserción de nodos<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">title</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">head</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">body</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">p</span>&gt;</span>Segundo parrafo, antes del primero<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">p</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">p</span>&gt;</span>Primer parrafo<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">p</span>&gt;</span>
+  <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">body</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre>
+</div>
+
+<p><div class="exercise"><p class="title">Ejercicio 9</p> <p>A partir de la página HTML que se proporciona, completar el código JavaScript definido para realizar la siguiente aplicación sencilla:
+<div class="figure" id="figure_4_4">
+    <img src="/img/ajax/f0404.gif" alt="Inicio de la aplicación" />
+
+    <p class="caption"><strong>Figura 4.4</strong> Inicio de la aplicación</p>
+</div>
+
+<div class="figure" id="figure_4_5">
+    <img src="/img/ajax/f0405.gif" alt="Generación de números aleatorios" />
+
+    <p class="caption"><strong>Figura 4.5</strong> Generación de números aleatorios</p>
+</div>
+
+<div class="figure" id="figure_4_6">
+    <img src="/img/ajax/f0406.gif" alt="Resultado de la comparación" />
+
+    <p class="caption"><strong>Figura 4.6</strong> Resultado de la comparación</p>
+</div>
+
+
+<p>Inicialmente, la aplicación cuenta con tres cajas vacías y dos botones. Al presionar el botón de "Genera", se crean dos números aleatorios. Cada número aleatorio se guarda en un elemento <code>&lt;p&gt;</code>, que a su vez se guarda en una de las dos cajas superiores.</p>
+
+<p>Una vez generados los números, se presiona el botón "Comparar", que compara el valor de los dos párrafos anteriores y determina cual es el mayor. El párrafo con el número más grande, se mueve a la última caja que se utiliza para almacenar el resultado de la operación.</p>
+
+<p>La página que se proporciona contiene todo el código HTML y CSS necesario. Además, incluye todo el código JavaScript relativo a la pulsación de los botones y que se estudiará con detalle en el siguiente capítulo.</p>
+
+<p>En el ejercicio se deben utilizar entre otras, las funciones <code>getElementById()</code>, <code>createElement()</code>, <code>createTextNode()</code>, <code>appendChild()</code> y <code>replaceChild()</code>.</p>
+
+<p><a href="/ejercicios/ajax/ejercicio9/ejercicio9.zip">Descargar archivo ZIP con la página HTML</a></p>
+
+<p><a href="http://www.librosweb.es/ajax/capitulo14/ejercicio_9.html">Ver solución</a></p></div></p>
+
+<h3 id="atributos_html_y_propiedades_css_en_dom">4.4.6. Atributos HTML y propiedades CSS en DOM</h3>
+
+<p>Los métodos presentados anteriormente para el acceso a los atributos de los elementos, son genéricos de XML. La versión de DOM específica para HTML incluye algunas propiedades y métodos aún más directos y sencillos para el acceso a los atributos de los elementos HTML y a sus propiedades CSS.</p>
+
+<p>La principal ventaja del DOM para HTML es que todos los atributos de todos los elementos HTML se transforman en propiedades de los nodos. De esta forma, es posible acceder de forma directa a cualquier atributo de HTML. Si se considera el siguiente elemento <code>&lt;img&gt;</code> de HTML con sus tres atributos:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">img</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">&quot;logo&quot;</span> <span class="kw3">src</span><span class="sy0">=</span><span class="st0">&quot;logo.gif&quot;</span> <span class="kw3">border</span><span class="sy0">=</span><span class="st0">&quot;0&quot;</span> <span class="sy0">/</span>&gt;</span></pre>
+</div>
+
+<p>Empleando los métodos tradicionales de DOM, se puede acceder y manipular cada atributo:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> laImagen <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;logo&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// acceder a los atributos</span>
+<span class="kw1">var</span> archivo <span class="sy0">=</span> laImagen.<span class="me1">getAttribute</span><span class="br0">&#40;</span><span class="st0">&quot;src&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> borde <span class="sy0">=</span> laImagen.<span class="me1">getAttribute</span><span class="br0">&#40;</span><span class="st0">&quot;border&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// modificar los atributos</span>
+laImagen.<span class="me1">setAttribute</span><span class="br0">&#40;</span><span class="st0">&quot;src&quot;</span><span class="sy0">,</span> <span class="st0">&quot;nuevo_logo.gif&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+laImagen.<span class="me1">setAttribute</span><span class="br0">&#40;</span><span class="st0">&quot;border&quot;</span><span class="sy0">,</span> <span class="st0">&quot;1&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>La ventaja de la especificación de DOM para HTML es que permite acceder y modificar todos los atributos de los elementos de forma directa:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> laImagen <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;logo&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// acceder a los atributos</span>
+<span class="kw1">var</span> archivo <span class="sy0">=</span> laImagen.<span class="me1">src</span><span class="sy0">;</span>
+<span class="kw1">var</span> borde <span class="sy0">=</span> laImagen.<span class="me1">border</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// modificar los atributos</span>
+laImagen.<span class="me1">src</span> <span class="sy0">=</span> <span class="st0">&quot;nuevo_logo.gif&quot;</span><span class="sy0">;</span>
+laImagen.<span class="me1">border</span> <span class="sy0">=</span> <span class="st0">&quot;1&quot;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Las ventajas de utilizar esta forma de acceder y modificar los atributos de los elementos es que el código resultante es más sencillo y conciso. Por otra parte, algunas versiones de Internet Explorer no implementan correctamente el método <code>setAttribute()</code>, lo que provoca que, en ocasiones, los cambios realizados no se reflejan en la página HTML.</p>
+
+<p>La única excepción que existe en esta forma de obtener el valor de los atributos HTML es el atributo <code>class</code>. Como la palabra <code>class</code> está reservada por JavaScript para su uso futuro, no es posible utilizarla para acceder al valor del atributo <code>class</code> de HTML. La solución consiste en acceder a ese atributo mediante el nombre alternativo <code>className</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="sy0">&lt;</span>p id<span class="sy0">=</span><span class="st0">&quot;parrafo&quot;</span> <span class="kw5">class</span><span class="sy0">=</span><span class="st0">&quot;normal&quot;</span><span class="sy0">&gt;</span>...<span class="sy0">&lt;/</span>p<span class="sy0">&gt;</span>
+&nbsp;
+<span class="kw1">var</span> parrafo <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;parrafo&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+alert<span class="br0">&#40;</span>parrafo.<span class="kw5">class</span><span class="br0">&#41;</span><span class="sy0">;</span>     <span class="co1">// muestra &quot;undefined&quot;</span>
+alert<span class="br0">&#40;</span>parrafo.<span class="me1">className</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">// muestra &quot;normal&quot;</span></pre>
+</div>
+
+<p>El acceso a las propiedades CSS no es tan directo y sencillo como el acceso a los atributos HTML. En primer lugar, los estilos CSS se pueden aplicar de varias formas diferentes sobre un mismo elemento HTML. Si se establecen las propiedades CSS mediante el atributo <code>style</code> de HTML:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="sy0">&lt;</span>p id<span class="sy0">=</span><span class="st0">&quot;parrafo&quot;</span> style<span class="sy0">=</span><span class="st0">&quot;color: #C00&quot;</span><span class="sy0">&gt;</span>...<span class="sy0">&lt;/</span>p<span class="sy0">&gt;</span></pre>
+</div>
+
+<p>El acceso a las propiedades CSS establecidas mediante el atributo <code>style</code> se realiza a través de la propiedad <code>style</code> del nodo que representa a ese elemento:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> parrafo <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;parrafo&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> color <span class="sy0">=</span> parrafo.<span class="me1">style</span>.<span class="me1">color</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Para acceder al valor de una propiedad CSS, se obtiene la referencia del nodo, se accede a su propiedad <code>style</code> y a continuación se indica el nombre de la propiedad CSS cuyo valor se quiere obtener. Aunque parece lógico que en el ejemplo anterior el valor obtenido sea <code>#C00</code>, en realidad cada navegador obtiene el mismo valor de formas diferentes:</p>
+
+<ul>
+<li>Firefox y Safari muestran el valor <code>rgb(204, 0, 0)</code></li>
+<li>Internet Explorer muestra el valor <code>#c00</code></li>
+<li>Opera muestra el valor <code>#cc0000</code></li>
+</ul>
+
+<p>En el caso de las propiedades CSS con nombre compuesto (<code>font-weight</code>, <code>border-top-style</code>, <code>list-style-type</code>, etc.), para acceder a su valor es necesario modificar su nombre original eliminando los guiones medios y escribiendo en mayúsculas la primera letra de cada palabra que no sea la primera:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> parrafo <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;parrafo&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> negrita <span class="sy0">=</span> parrafo.<span class="me1">style</span>.<span class="me1">fontWeight</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El nombre original de la propiedad CSS es <code>font-weight</code>. Para obtener su valor mediante JavaScript, se elimina el guión medio (<code>fontweight</code>) y se pasa a mayúsculas la primera letra de cada palabra que no sea la primera (<code>fontWeight</code>).</p>
+
+<p>Si el nombre de la propiedad CSS está formado por tres palabras, se realiza la misma transformación. De esta forma, la propiedad <code>border-top-style</code> se accede en DOM mediante el nombre <code>borderTopStyle</code>.</p>
+
+<p>Además de obtener el valor de las propiedades CSS, también es posible modificar su valor mediante JavaScript. Una vez obtenida la referencia del nodo, se puede modificar el valor de cualquier propiedad CSS accediendo a ella mediante la propiedad <code>style</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="sy0">&lt;</span>p id<span class="sy0">=</span><span class="st0">&quot;parrafo&quot;</span><span class="sy0">&gt;</span>...<span class="sy0">&lt;/</span>p<span class="sy0">&gt;</span>
+&nbsp;
+<span class="kw1">var</span> parrafo <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;parrafo&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+parrafo.<span class="me1">style</span>.<span class="me1">margin</span> <span class="sy0">=</span> <span class="st0">&quot;10px&quot;</span><span class="sy0">;</span>   <span class="co1">// añade un margen de 10px al párrafo</span>
+parrafo.<span class="me1">style</span>.<span class="me1">color</span> <span class="sy0">=</span> <span class="st0">&quot;#CCC&quot;</span><span class="sy0">;</span>    <span class="co1">// modifica el color de la letra del párrafo</span></pre>
+</div>
+
+<p>Todos los ejemplos anteriores hacen uso de la propiedad <code>style</code> para acceder o establecer el valor de las propiedades CSS de los elementos. Sin embargo, esta propiedad sólo permite acceder al valor de las propiedades CSS establecidas directamente sobre el elemento HTML. En otras palabras, la propiedad <code>style</code> del nodo sólo contiene el valor de las propiedades CSS establecidas mediante el atributo <code>style</code> de HTML.</p>
+
+<p>Por otra parte, los estilos CSS normalmente se aplican mediante reglas CSS incluidas en archivos externos. Si se utiliza la propiedad <code>style</code> de DOM para acceder al valor de una propiedad CSS establecida mediante una regla externa, el navegador no obtiene el valor correcto:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="co1">// Código HTML</span>
+<span class="sy0">&lt;</span>p id<span class="sy0">=</span><span class="st0">&quot;parrafo&quot;</span><span class="sy0">&gt;</span>...<span class="sy0">&lt;/</span>p<span class="sy0">&gt;</span>
+&nbsp;
+<span class="co1">// Regla CSS</span>
+#parrafo <span class="br0">&#123;</span> color<span class="sy0">:</span> #008000<span class="sy0">;</span> <span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">// Código JavaScript</span>
+<span class="kw1">var</span> parrafo <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;parrafo&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> color <span class="sy0">=</span> parrafo.<span class="me1">style</span>.<span class="me1">color</span><span class="sy0">;</span>  <span class="co1">// color no almacena ningún valor</span></pre>
+</div>
+
+<p>Para obtener el valor de las propiedades CSS independientemente de cómo se hayan aplicado, es necesario utilizar otras propiedades de JavaScript. Si se utiliza un navegador de la familia Internet Explorer, se hace uso de la propiedad <code>currentStyle</code>. Si se utiliza cualquier otro navegador, se puede emplear la función <code>getComputedStyle()</code>.</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="co1">// Código HTML</span>
+<span class="sy0">&lt;</span>p id<span class="sy0">=</span><span class="st0">&quot;parrafo&quot;</span><span class="sy0">&gt;</span>...<span class="sy0">&lt;/</span>p<span class="sy0">&gt;</span>
+&nbsp;
+<span class="co1">// Regla CSS</span>
+#parrafo <span class="br0">&#123;</span> color<span class="sy0">:</span> #008000<span class="sy0">;</span> <span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">// Código JavaScript para Internet Explorer</span>
+<span class="kw1">var</span> parrafo <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;parrafo&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> color <span class="sy0">=</span> parrafo.<span class="me1">currentStyle</span><span class="br0">&#91;</span><span class="st0">'color'</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Código JavaScript para otros navegadores</span>
+<span class="kw1">var</span> parrafo <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;parrafo&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> color <span class="sy0">=</span> document.<span class="me1">defaultView</span>.<span class="me1">getComputedStyle</span><span class="br0">&#40;</span>parrafo<span class="sy0">,</span> <span class="st0">''</span><span class="br0">&#41;</span>.<span class="me1">getPropertyValue</span><span class="br0">&#40;</span><span class="st0">'color'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>La propiedad <code>currentStyle</code> requiere el nombre de las propiedades CSS según el formato de JavaScript (sin guiones medios), mientras que la función <code>getPropertyValue()</code> exige el uso del nombre original de la propiedad CSS. Por este motivo, la creación de aplicaciones compatibles con todos los navegadores se puede complicar en exceso.</p>
+
+<p>A continuación se muestra una función compatible con todos los navegadores, creada por el programador Robert Nyman y <a href="http://www.robertnyman.com/2006/04/24/get-the-rendered-style-of-an-element/">publicada en su blog personal</a>:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> getStyle<span class="br0">&#40;</span>elemento<span class="sy0">,</span> propiedadCss<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">var</span> valor <span class="sy0">=</span> <span class="st0">&quot;&quot;</span><span class="sy0">;</span>
+  <span class="kw1">if</span><span class="br0">&#40;</span>document.<span class="me1">defaultView</span> <span class="sy0">&amp;&amp;</span> document.<span class="me1">defaultView</span>.<span class="me1">getComputedStyle</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    valor <span class="sy0">=</span> document.<span class="me1">defaultView</span>.<span class="me1">getComputedStyle</span><span class="br0">&#40;</span>elemento<span class="sy0">,</span> <span class="st0">''</span><span class="br0">&#41;</span>.<span class="me1">getPropertyValue</span><span class="br0">&#40;</span>propiedadCss<span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+  <span class="kw1">else</span> <span class="kw1">if</span><span class="br0">&#40;</span>elemento.<span class="me1">currentStyle</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    propiedadCss <span class="sy0">=</span> propiedadCss.<span class="me1">replace</span><span class="br0">&#40;</span><span class="co2">/\-(\w)/g</span><span class="sy0">,</span> <span class="kw1">function</span> <span class="br0">&#40;</span>strMatch<span class="sy0">,</span> p1<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+      <span class="kw1">return</span> p1.<span class="me1">toUpperCase</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    valor <span class="sy0">=</span> elemento.<span class="me1">currentStyle</span><span class="br0">&#91;</span>propiedadCss<span class="br0">&#93;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+  <span class="kw1">return</span> valor<span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Utilizando la función anterior, es posible rehacer el ejemplo para que funcione correctamente en cualquier navegador:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="co1">// Código HTML</span>
+<span class="sy0">&lt;</span>p id<span class="sy0">=</span><span class="st0">&quot;parrafo&quot;</span><span class="sy0">&gt;</span>...<span class="sy0">&lt;/</span>p<span class="sy0">&gt;</span>
+&nbsp;
+<span class="co1">// Regla CSS</span>
+#parrafo <span class="br0">&#123;</span> color<span class="sy0">:</span> #008000<span class="sy0">;</span> <span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">// Código JavaScript para cualquier navegador</span>
+<span class="kw1">var</span> parrafo <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">&quot;parrafo&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> color <span class="sy0">=</span> getStyle<span class="br0">&#40;</span>parrafo<span class="sy0">,</span> <span class="st0">'color'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<h3 id="tablas_html_en_dom">4.4.7. Tablas HTML en DOM</h3>
+
+<p>Las tablas son elementos muy comunes en las páginas HTML, por lo que DOM proporciona métodos específicos para trabajar con ellas. Si se utilizan los métodos tradicionales, crear una tabla es una tarea tediosa, por la gran cantidad de nodos de tipo elemento y de tipo texto que se deben crear.</p>
+
+<p>Afortunadamente, la versión de DOM para HTML incluye varias propiedades y métodos para crear tablas, filas y columnas de forma sencilla.</p>
+
+<p>Propiedades y métodos de <code>&lt;table&gt;</code>:</p>
+
+<div class="table" id="table_4_3">
+
+    <table>
+<thead>
+<tr>
+  <th>Propiedad/Método</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>rows</code></td>
+  <td>Devuelve un array con las filas de la tabla</td>
+</tr>
+<tr>
+  <td><code>tBodies</code></td>
+  <td>Devuelve un array con todos los <code>&lt;tbody&gt;</code> de la tabla</td>
+</tr>
+<tr>
+  <td><code>insertRow(posicion)</code></td>
+  <td>Inserta una nueva fila en la posición indicada dentro del array de filas de la tabla</td>
+</tr>
+<tr>
+  <td><code>deleteRow(posicion)</code></td>
+  <td>Elimina la fila de la posición indicada</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Propiedades y métodos de <code>&lt;tbody&gt;</code>:</p>
+
+<div class="table" id="table_4_4">
+
+    <table>
+<thead>
+<tr>
+  <th>Propiedad/Método</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>rows</code></td>
+  <td>Devuelve un array con las filas del <code>&lt;tbody&gt;</code> seleccionado</td>
+</tr>
+<tr>
+  <td><code>insertRow(posicion)</code></td>
+  <td>Inserta una nueva fila en la posición indicada dentro del array de filas del <code>&lt;tbody&gt;</code></td>
+</tr>
+<tr>
+  <td><code>deleteRow(posicion)</code></td>
+  <td>Elimina la fila de la posición indicada</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Propiedades y métodos de <code>&lt;tr&gt;</code>:</p>
+
+<div class="table" id="table_4_5">
+
+    <table>
+<thead>
+<tr>
+  <th>Propiedad/Método</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>cells</code></td>
+  <td>Devuelve un array con las columnas de la fila seleccionada</td>
+</tr>
+<tr>
+  <td><code>insertCell(posicion)</code></td>
+  <td>Inserta una nueva columna en la posición indicada dentro del array de columnas de la fila</td>
+</tr>
+<tr>
+  <td><code>deleteCell(posicion)</code></td>
+  <td>Elimina la columna de la posición indicada</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Si se considera la siguiente tabla XHTML:</p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">table</span> <span class="kw3">summary</span><span class="sy0">=</span><span class="st0">&quot;Descripción de la tabla y su contenido&quot;</span>&gt;</span>
+<span class="sc2">&lt;<span class="kw2">caption</span>&gt;</span>Título de la tabla<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">caption</span>&gt;</span>
+<span class="sc2">&lt;<span class="kw2">thead</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">tr</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">th</span> <span class="kw3">scope</span><span class="sy0">=</span><span class="st0">&quot;col&quot;</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">th</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">th</span> <span class="kw3">scope</span><span class="sy0">=</span><span class="st0">&quot;col&quot;</span>&gt;</span>Cabecera columna 1<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">th</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">th</span> <span class="kw3">scope</span><span class="sy0">=</span><span class="st0">&quot;col&quot;</span>&gt;</span>Cabecera columna 2<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">th</span>&gt;</span>
+  <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">tr</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">thead</span>&gt;</span>
+&nbsp;
+<span class="sc2">&lt;<span class="kw2">tfoot</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">tr</span>&gt;</span>    
+    <span class="sc2">&lt;<span class="kw2">th</span> <span class="kw3">scope</span><span class="sy0">=</span><span class="st0">&quot;col&quot;</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">th</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">th</span> <span class="kw3">scope</span><span class="sy0">=</span><span class="st0">&quot;col&quot;</span>&gt;</span>Cabecera columna 1<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">th</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">th</span> <span class="kw3">scope</span><span class="sy0">=</span><span class="st0">&quot;col&quot;</span>&gt;</span>Cabecera columna 2<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">th</span>&gt;</span>
+  <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">tr</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">tfoot</span>&gt;</span>
+&nbsp;
+<span class="sc2">&lt;<span class="kw2">tbody</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">tr</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">th</span> <span class="kw3">scope</span><span class="sy0">=</span><span class="st0">&quot;row&quot;</span>&gt;</span>Cabecera fila 1<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">th</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">td</span>&gt;</span>Celda 1 - 1<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">td</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">td</span>&gt;</span>Celda 1 - 2<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">td</span>&gt;</span>
+  <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">tr</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">tr</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">th</span> <span class="kw3">scope</span><span class="sy0">=</span><span class="st0">&quot;row&quot;</span>&gt;</span>Cabecera fila 2<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">th</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">td</span>&gt;</span>Celda 2 - 1<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">td</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">td</span>&gt;</span>Celda 2 - 2<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">td</span>&gt;</span>
+  <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">tr</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">tbody</span>&gt;</span>
+&nbsp;
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">table</span>&gt;</span></pre>
+</div>
+
+<p>A continuación se muestran algunos ejemplos de manipulación de tablas XHTML mediante las propiedades y funciones específicas de DOM.</p>
+
+<p>Obtener el número total de filas de la tabla:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> tabla <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'miTabla'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> numFilas <span class="sy0">=</span> tabla.<span class="me1">rows</span>.<span class="me1">length</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Obtener el número total de cuerpos de la tabla (secciones <code>&lt;tbody&gt;</code>):</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> tabla <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'miTabla'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> numCuerpos <span class="sy0">=</span> tabla.<span class="me1">tBodies</span>.<span class="me1">length</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Obtener el número de filas del primer cuerpo (sección <code>&lt;tbody&gt;</code>) de la tabla:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> tabla <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'miTabla'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> numFilasCuerpo <span class="sy0">=</span> tabla.<span class="me1">tBodies</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">rows</span>.<span class="me1">length</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Borrar la primera fila de la tabla y la primera fila del cuerpo (sección <code>&lt;tbody&gt;</code>):</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> tabla <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'miTabla'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+tabla.<span class="me1">deleteRow</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+tabla.<span class="me1">tBodies</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">deleteRow</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Borrar la primera columna de la primera fila del cuerpo (sección <code>&lt;tbody&gt;</code>):</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> tabla <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'miTabla'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+tabla.<span class="me1">tBodies</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">rows</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">deleteCell</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Obtener el número de columnas de la primera parte del cuerpo (sección <code>&lt;tbody&gt;</code>):</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> tabla <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'miTabla'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> numColumnas <span class="sy0">=</span> tabla.<span class="me1">rows</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">cells</span>.<span class="me1">length</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Obtener el texto de la primera columna de la primera fila del cuerpo (sección <code>&lt;tbody&gt;</code>):</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> tabla <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'miTabla'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> texto <span class="sy0">=</span> tabla.<span class="me1">tBodies</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">rows</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">cells</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">innerHTML</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Recorrer todas las filas y todas las columnas de la tabla:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> tabla <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'miTabla'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> filas <span class="sy0">=</span> tabla.<span class="me1">rows</span><span class="sy0">;</span>
+<span class="kw1">for</span><span class="br0">&#40;</span><span class="kw1">var</span> i<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span> i<span class="sy0">&lt;</span>filas.<span class="me1">length</span><span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+  <span class="kw1">var</span> fila <span class="sy0">=</span> filas<span class="br0">&#91;</span>i<span class="br0">&#93;</span><span class="sy0">;</span>
+  <span class="kw1">var</span> columnas <span class="sy0">=</span> fila.<span class="me1">cells</span><span class="sy0">;</span>
+  <span class="kw1">for</span><span class="br0">&#40;</span><span class="kw1">var</span> j<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span> j<span class="sy0">&lt;</span>columnas.<span class="me1">length</span><span class="sy0">;</span> j<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">var</span> columna <span class="sy0">=</span> columnas<span class="br0">&#91;</span>j<span class="br0">&#93;</span><span class="sy0">;</span>
+    <span class="co1">// ...</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Insertar una tercera fila al cuerpo (sección <code>&lt;tbody&gt;</code>) de la tabla:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">var</span> tabla <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">&#40;</span><span class="st0">'miTabla'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Insertar la tercera fila</span>
+tabla.<span class="me1">tBodies</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">insertRow</span><span class="br0">&#40;</span><span class="nu0">2</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Crear la columna de tipo &lt;th&gt; que hace de cabecera de fila</span>
+<span class="kw1">var</span> cabecera <span class="sy0">=</span> document.<span class="me1">createElement</span><span class="br0">&#40;</span><span class="st0">&quot;th&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+cabecera.<span class="me1">setAttribute</span><span class="br0">&#40;</span><span class="st0">'scope'</span><span class="sy0">,</span> <span class="st0">'row'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+cabecera.<span class="me1">innerHTML</span> <span class="sy0">=</span> <span class="st0">'Cabecera fila 3'</span>
+tabla.<span class="me1">tBodies</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">rows</span><span class="br0">&#91;</span><span class="nu0">2</span><span class="br0">&#93;</span>.<span class="me1">appendChild</span><span class="br0">&#40;</span>cabecera<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Crear las dos columnas de datos y añadirlas a la nueva fila</span>
+tabla.<span class="me1">tBodies</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">rows</span><span class="br0">&#91;</span><span class="nu0">2</span><span class="br0">&#93;</span>.<span class="me1">insertCell</span><span class="br0">&#40;</span><span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+tabla.<span class="me1">tBodies</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">rows</span><span class="br0">&#91;</span><span class="nu0">2</span><span class="br0">&#93;</span>.<span class="me1">cells</span><span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span>.<span class="me1">innerHTML</span> <span class="sy0">=</span> <span class="st0">'Celda 3 - 1'</span><span class="sy0">;</span>
+tabla.<span class="me1">tBodies</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">rows</span><span class="br0">&#91;</span><span class="nu0">2</span><span class="br0">&#93;</span>.<span class="me1">insertCell</span><span class="br0">&#40;</span><span class="nu0">2</span><span class="br0">&#41;</span><span class="sy0">;</span>
+tabla.<span class="me1">tBodies</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">rows</span><span class="br0">&#91;</span><span class="nu0">2</span><span class="br0">&#93;</span>.<span class="me1">cells</span><span class="br0">&#91;</span><span class="nu0">2</span><span class="br0">&#93;</span>.<span class="me1">innerHTML</span> <span class="sy0">=</span> <span class="st0">'Celda 3 - 2'</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Por último, se muestra de forma resumida el código JavaScript necesario para crear la tabla XHTML del ejemplo anterior:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="co1">// Crear &lt;table&gt; y sus dos atributos</span>
+<span class="kw1">var</span> tabla <span class="sy0">=</span> document.<span class="me1">createElement</span><span class="br0">&#40;</span><span class="st0">'table'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+tabla.<span class="me1">setAttribute</span><span class="br0">&#40;</span><span class="st0">'id'</span><span class="sy0">,</span> <span class="st0">'otraTabla'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+tabla.<span class="me1">setAttribute</span><span class="br0">&#40;</span><span class="st0">'summary'</span><span class="sy0">,</span> <span class="st0">'Descripción de la tabla y su contenido'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Crear &lt;caption&gt; y añadirlo a la &lt;table&gt;</span>
+<span class="kw1">var</span> caption <span class="sy0">=</span> document.<span class="me1">createElement</span><span class="br0">&#40;</span><span class="st0">'caption'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> titulo <span class="sy0">=</span> document.<span class="me1">createTextNode</span><span class="br0">&#40;</span><span class="st0">'Título de la tabla'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+caption.<span class="me1">appendChild</span><span class="br0">&#40;</span>titulo<span class="br0">&#41;</span><span class="sy0">;</span>
+tabla.<span class="me1">appendChild</span><span class="br0">&#40;</span>caption<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Crear sección &lt;thead&gt;</span>
+<span class="kw1">var</span> thead <span class="sy0">=</span> document.<span class="me1">createElement</span><span class="br0">&#40;</span><span class="st0">'thead'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+tabla.<span class="me1">appendChild</span><span class="br0">&#40;</span>thead<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Añadir una fila a la sección &lt;thead&gt;</span>
+thead.<span class="me1">insertRow</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Añadir las tres columnas de la fila de &lt;thead&gt;</span>
+<span class="kw1">var</span> cabecera <span class="sy0">=</span> document.<span class="me1">createElement</span><span class="br0">&#40;</span><span class="st0">'th'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+cabecera.<span class="me1">innerHTML</span> <span class="sy0">=</span> <span class="st0">''</span><span class="sy0">;</span>
+thead.<span class="me1">rows</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">appendChild</span><span class="br0">&#40;</span>cabecera<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+cabecera <span class="sy0">=</span> document.<span class="me1">createElement</span><span class="br0">&#40;</span><span class="st0">'th'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+cabecera.<span class="me1">setAttribute</span><span class="br0">&#40;</span><span class="st0">'scope'</span><span class="sy0">,</span> <span class="st0">'col'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+cabecera.<span class="me1">innerHTML</span> <span class="sy0">=</span> <span class="st0">'Cabecera columna 1'</span><span class="sy0">;</span>
+tabla.<span class="me1">rows</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">appendChild</span><span class="br0">&#40;</span>cabecera<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+cabecera <span class="sy0">=</span> document.<span class="me1">createElement</span><span class="br0">&#40;</span><span class="st0">'th'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+cabecera.<span class="me1">setAttribute</span><span class="br0">&#40;</span><span class="st0">'scope'</span><span class="sy0">,</span> <span class="st0">'col'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+cabecera.<span class="me1">innerHTML</span> <span class="sy0">=</span> <span class="st0">'Cabecera columna 2'</span><span class="sy0">;</span>
+tabla.<span class="me1">rows</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">appendChild</span><span class="br0">&#40;</span>cabecera<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// La sección &lt;tfoot&gt; se crearía de forma similar a &lt;thead&gt;</span>
+&nbsp;
+<span class="co1">// Crear sección &lt;tbody&gt;</span>
+<span class="kw1">var</span> tbody <span class="sy0">=</span> document.<span class="me1">createElement</span><span class="br0">&#40;</span><span class="st0">'tbody'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+tabla.<span class="me1">appendChild</span><span class="br0">&#40;</span>tbody<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Añadir una fila a la sección &lt;tbody&gt;</span>
+tbody.<span class="me1">insertRow</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+cabecera <span class="sy0">=</span> document.<span class="me1">createElement</span><span class="br0">&#40;</span><span class="st0">&quot;th&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+cabecera.<span class="me1">setAttribute</span><span class="br0">&#40;</span><span class="st0">'scope'</span><span class="sy0">,</span> <span class="st0">'row'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+cabecera.<span class="me1">innerHTML</span> <span class="sy0">=</span> <span class="st0">'Cabecera fila 1'</span>
+tabla.<span class="me1">tBodies</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">rows</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">appendChild</span><span class="br0">&#40;</span>cabecera<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+tbody.<span class="me1">rows</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">insertCell</span><span class="br0">&#40;</span><span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+tbody.<span class="me1">rows</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">cells</span><span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span>.<span class="me1">innerHTML</span> <span class="sy0">=</span> <span class="st0">'Celda 1 - 1'</span><span class="sy0">;</span>
+<span class="co1">// También se podría hacer:</span>
+<span class="co1">// tbody.rows[0].cells[0].appendChild(document.createTextNode('Celda 1 - 1'));</span>
+&nbsp;
+tbody.<span class="me1">rows</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">insertCell</span><span class="br0">&#40;</span><span class="nu0">2</span><span class="br0">&#41;</span><span class="sy0">;</span>
+tbody.<span class="me1">rows</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span>.<span class="me1">cells</span><span class="br0">&#91;</span><span class="nu0">2</span><span class="br0">&#93;</span>.<span class="me1">innerHTML</span> <span class="sy0">=</span> <span class="st0">'Celda 1 - 2'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// El resto de filas del &lt;tbody&gt; se crearía de la misma forma</span>
+&nbsp;
+<span class="co1">// Añadir la tabla creada al final de la página</span>
+document.<span class="me1">body</span>.<span class="me1">appendChild</span><span class="br0">&#40;</span>tabla<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_4/la_interfaz_node.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>4.3. La interfaz Node</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_5.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>Capítulo 5. BOM (Browser Object Model)</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a AJAX</a>
+            </li>
+                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> JavaScript básico</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> JavaScript avanzado</a>
+            </li>
+                                                                            <li class="level-1 ">
+                <a href="../capitulo_4.html">
+                    <span>Capítulo 4.</span> DOM (Document Object Model)
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/tipos_de_nodos.html">
+                    <span>4.2.</span> Tipos de nodos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/la_interfaz_node.html">
+                    <span>4.3.</span> La interfaz Node
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_4/html_y_dom.html">
+                    <span>4.4.</span> HTML y DOM
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> BOM (Browser Object Model)</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Eventos</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Primeros pasos con AJAX</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Técnicas básicas con AJAX</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Técnicas avanzadas con AJAX</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Frameworks y librerías</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Otras utilidades</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Recursos útiles</a>
+            </li>
+                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Bibliografía</a>
+            </li>
+                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Ejercicios resueltos</a>
+            </li>
+                                                                                                                                                                                                                                                                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

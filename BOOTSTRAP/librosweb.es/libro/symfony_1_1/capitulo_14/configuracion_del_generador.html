@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>14.3. Configuración del generador (Symfony 1.1, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_14/creando_la_parte_de_administracion_de_las_aplicaciones.html" />
+                    <link rel="next" href="../capitulo_14/modificando_el_aspecto_de_los_modulos_generados.html" />
+                <link rel="start" href="/libro/symfony_1_1/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="14.3. Configuración del generador (Symfony 1.1, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_1"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/" itemprop="url">
+                    <span itemprop="title">Symfony 1.1, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/capitulo_14.html" itemprop="url">
+                    <span itemprop="title">Capítulo 14. Generador de la parte de administración</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>14.3. Configuración del generador</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="configuracion_del_generador" class="title">
+        <span>14.3.</span> Configuración del generador
+    </h1>
+
+    
+
+<p>El archivo de configuración del generador es muy poderoso, ya que permite modificar la administración generada automáticamente de muchas formas. Lo único malo de que tenga tantas posibilidades es que la descripción completa de su sintaxis es muy larga de leer y cuesta aprenderla, por lo que este capítulo es uno de los más largos del libro. El sitio web de Symfony dispone de un recurso adicional para aprender más fácilmente su sintaxis: la chuleta del generador de la administración, que se puede ver en la figura 14-7 y que se puede descargar desde http://www.symfony-project.org/uploads/assets/sfAdminGeneratorRefCard.pdf. Puede ser de utilidad tener la chuleta a mano cuando se leen los ejemplos de este capítulo.</p>
+
+<p>Los ejemplos de esta sección modifican el módulo de administración <code>article</code> y también el módulo <code>commnent</code> basado en la definición de la clase <code>Comment</code>. Antes de modificar el módulo <code>comment</code>, es necesario crearlo mediante la tarea <code>propel:init-admin</code>:</p>
+
+<div class="code cli">
+<pre class="cli">&gt; php symfony propel:init-admin backend comment Comment</pre>
+</div>
+
+<div class="figure" id="figure_14_4">
+    <img src="/img/symfony_1_1/f1407.png" alt="Chuleta del generador de administraciones" />
+
+    <p class="caption"><strong>Figura 14.4</strong> Chuleta del generador de administraciones</p>
+</div>
+
+
+<h3 id="campos">14.3.1. Campos</h3>
+
+<p>Por defecto, las columnas de la vista <code>list</code> y los campos de la vista <code>edit</code> son las columnas definidas en el archivo <code>schema.yml</code>. El archivo <code>generator.yml</code> permite seleccionar los campos que se muestran, los que se ocultan e incluso añadir campos propios (aunque no tengan una correspondencia directa con el modelo de objetos).</p>
+
+<h3 id="opciones_de_los_campos">14.3.2. Opciones de los campos</h3>
+
+<p>El generador de la administración crea un <code>field</code> para cada columna del archivo <code>schema.yml</code>. Bajo la clave <code>fields</code> se puede definir la forma en la que se muestra cada campo, su formato, etc. El ejemplo que se muestra en el listado 14-7 define un valor propio para el atributo <code>class</code> y un tipo de campo propio para <code>title</code>, además de un título y un mensaje de ayuda para el campo <code>content</code>. Las siguientes secciones describen en detalle cómo funciona cada opción.</p>
+
+<p><strong>Listado 14-7 - Establecer un título propio a cada columna</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">generator</span>:<span class="co3">
+  class</span><span class="sy2">: </span>             sfPropelAdminGenerator<span class="co4">
+  param</span>:<span class="co3">
+    model_class</span><span class="sy2">: </span>     Article<span class="co3">
+    theme</span><span class="sy2">: </span>           default
+<span class="co4">
+    fields</span>:<span class="co3">
+      title</span><span class="sy2">: </span>         <span class="br0">&#123;</span> name<span class="sy2">: </span>Título del artículo, type<span class="sy2">: </span>textarea_tag, params<span class="sy2">: </span>class=foo <span class="br0">&#125;</span><span class="co3">
+      content</span><span class="sy2">: </span>       <span class="br0">&#123;</span> name<span class="sy2">: </span>Cuerpo, help<span class="sy2">: </span>Rellene el cuerpo del artículo <span class="br0">&#125;</span></pre>
+</div>
+
+<p>Además de las opciones globales para todas las vistas, se pueden redefinir las opciones de la clave <code>fields</code> para cada una de las vistas (<code>list</code> y <code>edit</code> en este ejemplo) tal y como muestra el listado 14-8.</p>
+
+<p><strong>Listado 14-8 - Redefiniendo las opciones globales en cada vista</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">generator</span>:<span class="co3">
+  class</span><span class="sy2">: </span>             sfPropelAdminGenerator<span class="co4">
+  param</span>:<span class="co3">
+    model_class</span><span class="sy2">: </span>     Article<span class="co3">
+    theme</span><span class="sy2">: </span>           default
+<span class="co4">
+    fields</span>:<span class="co3">
+      title</span><span class="sy2">: </span>         <span class="br0">&#123;</span> name<span class="sy2">: </span>Título del artículo <span class="br0">&#125;</span><span class="co3">
+      content</span><span class="sy2">: </span>       <span class="br0">&#123;</span> name<span class="sy2">: </span>Cuerpo <span class="br0">&#125;</span>
+<span class="co4">
+    list</span>:<span class="co4">
+      fields</span>:<span class="co3">
+        title</span><span class="sy2">: </span>       <span class="br0">&#123;</span> name<span class="sy2">: </span>Título <span class="br0">&#125;</span>
+<span class="co4">
+    edit</span>:<span class="co4">
+      fields</span>:<span class="co3">
+        content</span><span class="sy2">: </span>     <span class="br0">&#123;</span> name<span class="sy2">: </span>Cuerpo del artículo <span class="br0">&#125;</span></pre>
+</div>
+
+<p>Este ejemplo se puede tomar como una regla general: cualquier opción establecida para todo el módulo mediante la clave <code>fields</code>, se puede redefinir en la configuración de cualquier vista (<code>list</code> y <code>edit</code>).</p>
+
+<h4 id="mostrando_nuevos_campos">14.3.2.1. Mostrando nuevos campos</h4>
+
+<p>La sección <code>fields</code> permite definir para cada vista los campos que se muestran, los que se ocultan, la forma en la que se agrupan y las opciones para ordenarlos. Para ello se emplea la clave <code>display</code>. El código del listado 14-9 reordena los campos del módulo <code>comment</code>:</p>
+
+<p><strong>Listado 14-9 - Seleccionando los campos que se muestran, en <code>modules/comment/config/generator.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">generator</span>:<span class="co3">
+  class</span><span class="sy2">: </span>             sfPropelAdminGenerator<span class="co4">
+  param</span>:<span class="co3">
+    model_class</span><span class="sy2">: </span>     Comment<span class="co3">
+    theme</span><span class="sy2">: </span>           default
+<span class="co4">
+    fields</span>:<span class="co3">
+      article_id</span><span class="sy2">: </span>    <span class="br0">&#123;</span> name<span class="sy2">: </span>Artículo <span class="br0">&#125;</span><span class="co3">
+      created_at</span><span class="sy2">: </span>    <span class="br0">&#123;</span> name<span class="sy2">: </span>Pubicado en <span class="br0">&#125;</span><span class="co3">
+      content</span><span class="sy2">: </span>       <span class="br0">&#123;</span> name<span class="sy2">: </span>Cuerpo <span class="br0">&#125;</span>
+<span class="co4">
+    list</span>:<span class="co3">
+      display</span><span class="sy2">: </span>       <span class="br0">&#91;</span>id, article_id, content<span class="br0">&#93;</span>
+<span class="co4">
+    edit</span>:<span class="co4">
+      display</span>:<span class="co3">
+        NONE</span><span class="sy2">: </span>        <span class="br0">&#91;</span>article_id<span class="br0">&#93;</span><span class="co3">
+        Editable</span><span class="sy2">: </span>    <span class="br0">&#91;</span>author, content, created_at<span class="br0">&#93;</span></pre>
+</div>
+
+<p>Con esta configuración, la vista <code>list</code> muetra 3 columnas, como se ve en la figura 14-8 y el formulario de la vista <code>edit</code> muestra 4 campos, agrupados en 2 secciones, como se ve en la figura 14-9.</p>
+
+<div class="figure" id="figure_14_5">
+    <img src="/img/symfony_1_1/f1408.png" alt="Columnas seleccionadas para la vista &quot;list&quot; del módulo &quot;comment&quot;" />
+
+    <p class="caption"><strong>Figura 14.5</strong> Columnas seleccionadas para la vista &quot;list&quot; del módulo &quot;comment&quot;</p>
+</div>
+
+
+<div class="figure" id="figure_14_6">
+    <img src="/img/symfony_1_1/f1409.png" alt="Agrupando campos en la vista &quot;edit&quot; del módulo &quot;comment&quot;" />
+
+    <p class="caption"><strong>Figura 14.6</strong> Agrupando campos en la vista &quot;edit&quot; del módulo &quot;comment&quot;</p>
+</div>
+
+
+<p>De esta forma, la opción <code>display</code> tiene 2 propósitos:</p>
+
+<ul>
+<li>Seleccionar las columnas que se muestran y el orden en el que lo hacen. Se utiliza un array simple con el nombre de los campos, como en la vista <code>list</code> anterior.</li>
+<li>Agrupar los campos, para lo que se utiliza un array asociativo cuya clave es el nombre del grupo o <code>NONE</code> si se quiere definir un grupo sin nombre. Los campos se indican mediante un array simple con los nombres de los campos.</li>
+</ul>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Por defecto, las columnas que son clave primaria no aparecen en ninguna de las vistas.</p></div>
+
+<h4 id="campos_propios">14.3.2.2. Campos propios</h4>
+
+<p>Los campos que se configuran en el archivo <code>generator.yml</code> ni siquiera tienen que corresponderse con alguna de las columnas definidas en el esquema. Si la clase relacionada incluye un método <em>getter</em> para el campo propio, este se puede utilizar como un campo más de la vista <code>list</code>; si además del <em>getter</em> existe un método <em>setter</em>, el campo también se puede utilizar en la vista <code>edit</code>. En el listado 14-10 se muestra un ejemplo que extiende el modelo de <code>Article</code> para añadir el método <code>getNbComments()</code> que obtiene el número de comentarios de un artículo.</p>
+
+<p><strong>Listado 14-10 - Añadiendo un <em>getter</em> propio en el modelo, en <code>lib/model/Article.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> getNbComments<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">countComments</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Una vez definido este <em>getter</em>, el campo <code>nb_comments</code> está disponible como campo del módulo generado (el <em>getter</em> utiliza como nombre la habitual transformación camelCase del nombre del campo) como se muestra en el listado 14-11.</p>
+
+<p><strong>Listado 14-11 - Los <em>getters</em> propios permiten añadir más columnas a los módulos de administración, en <code>backend/modules/article/config/generator.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">generator</span>:<span class="co3">
+  class</span><span class="sy2">: </span>             sfPropelAdminGenerator<span class="co4">
+  param</span>:<span class="co3">
+    model_class</span><span class="sy2">: </span>     Article<span class="co3">
+    theme</span><span class="sy2">: </span>           default
+<span class="co4">
+    list</span>:<span class="co3">
+      display</span><span class="sy2">: </span>       <span class="br0">&#91;</span>id, title, nb_comments, created_at<span class="br0">&#93;</span></pre>
+</div>
+
+<p>La vista <code>list</code> resultante se muestra en la figura 14-10.</p>
+
+<div class="figure" id="figure_14_7">
+    <img src="/img/symfony_1_1/f1410.png" alt="Campo propio en la vista &quot;list&quot; del módulo &quot;article&quot;" />
+
+    <p class="caption"><strong>Figura 14.7</strong> Campo propio en la vista &quot;list&quot; del módulo &quot;article&quot;</p>
+</div>
+
+
+<p>Los campos propios también pueden devolver código HTML para mostrarlo directamente. El listado 14-12 por ejemplo extiende la clase <code>Comment</code> con un método llamado <code>getArticleLink()</code> y que devuelve el enlace al artículo.</p>
+
+<p><strong>Listado 14-12 - Añadiendo un <em>getter</em> propio que devuelve código HTML, en <code>lib/model/Comment.class.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> getArticleLink<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="kw1">return</span> link_to<span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getArticle</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getTitle</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'article/edit?id='</span><span class="sy0">.</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getArticleId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Este nuevo <em>getter</em> se puede utilizar como un campo propio en la vista <code>comment/list</code> utilizando la misma sintaxis que en el listado 14-11. El resultado se muestra en el listado 14-13 y se ilustra en la figura 14-11, en la que se puede ver el código HTML generado por el <em>getter</em> (un enlace al artículo) en la segunda columna sustituyendo a la clave primaria del artículo.</p>
+
+<p><strong>Listado 14-13 - Los <em>getter</em> propios que devuelven código HTML también se pueden utilizar como columnas, en <code>modules/comment/config/generator.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">generator</span>:<span class="co3">
+  class</span><span class="sy2">: </span>             sfPropelAdminGenerator<span class="co4">
+  param</span>:<span class="co3">
+    model_class</span><span class="sy2">: </span>     Comment<span class="co3">
+    theme</span><span class="sy2">: </span>           default
+<span class="co4">
+    list</span>:<span class="co3">
+      display</span><span class="sy2">: </span>       <span class="br0">&#91;</span>id, article_link, content<span class="br0">&#93;</span></pre>
+</div>
+
+<div class="figure" id="figure_14_8">
+    <img src="/img/symfony_1_1/f1411.png" alt="Campo propio en la vista &quot;list&quot; del módulo &quot;comment&quot;" />
+
+    <p class="caption"><strong>Figura 14.8</strong> Campo propio en la vista &quot;list&quot; del módulo &quot;comment&quot;</p>
+</div>
+
+
+<h4 id="campos_parciales">14.3.2.3. Campos parciales</h4>
+
+<p>El código del modelo debe ser independiente de su presentación. El método <code>getArticleLink()</code> de ejemplo anterior no respeta el principio de la separación en capas, porque la capa del modelo incluye cierto código correspondiente a la vista. Para conseguir el mismo efecto pero manteniendo la separación de capas, es mejor incluir el código que genera el HTML del campo propio en un elemento parcial. Afortunadamente, el generador de la administración permite utilizar elementos parciales si la declaración del nombre del campo contiene un guión bajo como primer carácter. De esta forma, el archivo <code>generator.yml</code> del listado 14-13 debería modificarse para ser como el del listado 14-14.</p>
+
+<p><strong>Listado 14-14 - Se pueden utilizar elementos parciales como campos, mediante el uso del prefijo <code>_</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">list</span>:<span class="co3">
+          display</span><span class="sy2">: </span>       <span class="br0">&#91;</span>id, _article_link, created_at<span class="br0">&#93;</span></pre>
+</div>
+
+<p>Para que funcione la configuración anterior, es necesario crear un elemento parcial llamado <code>_article_link.php</code> en el directorio <code>modules/comment/templates/</code>, tal y como muestra el listado 14-15.</p>
+
+<p><strong>Listado 14-15 - Elemento parcial para la vista <code>list</code> del ejemplo, en <code>modules/comment/templates/_article_link.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="re0">$comment</span><span class="sy0">-&gt;</span><span class="me1">getArticle</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getTitle</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'article/edit?id='</span><span class="sy0">.</span><span class="re0">$comment</span><span class="sy0">-&gt;</span><span class="me1">getArticleId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>La plantilla de un elemento parcial tiene acceso al objeto actual mediante una variable que se llama igual que la clase (<code>$comment</code> en este ejemplo). Si se trabajara con un módulo construido para la clase llamada <code>GrupoUsuario</code>, el elemento parcial tiene acceso al objeto actual mendiante la variable <code>$grupo_usuario</code>.</p>
+
+<p>El resultado de este ejemplo es idéntico al mostrado en la figura 14-11, salvo que en este caso se respeta la separación en capas. Si se acostumbra a separar el código en capas, el resultado será que las aplicaciones creadas son más fáciles de mantener.</p>
+
+<p>Si se quieren definir los parámetros para un elemento parcial, se utiliza la misma sintaxis que para un campo normal. Bajo la clave <code>field</code> se indican los parámetros y en el nombre del campo no se debe incluir el guión bajo (<code>_</code>) inicial. El listado 14-16 muestra un ejemplo.</p>
+
+<p><strong>Listado 14-16 - Las propiedades de un elemento parcial se pueden definir bajo la clave <code>fields</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">fields</span>:<span class="co3">
+            article_link</span><span class="sy2">: </span>  <span class="br0">&#123;</span> name<span class="sy2">: </span>Artículo <span class="br0">&#125;</span></pre>
+</div>
+
+<p>Si el código del elemento parcial crece demasiado, es recomendable sustituirlo por un componente. Para definir un campo basado en un componente, solamente es necesario reemplazar el perfijo <code>_</code> por el prefijo <code>~</code>, como muestra el listado 14-17.</p>
+
+<p><strong>Listado 14-17 - Se pueden utilizar componentes en los campos, mediante el prefijo <code>~</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="sy1">...</span><span class="co4">
+        list</span>:<span class="co3">
+          display</span><span class="sy2">: </span>       <span class="br0">&#91;</span>id, ~article_link, created_at<span class="br0">&#93;</span></pre>
+</div>
+
+<p>En la plantilla que se genera, la configuración anterior resulta en una llamada al componente <code>articleLink</code> del módulo actual.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Los campos propios y los campos creados con elementos parciales se pueden utilizar en las vistas <code>list</code>, <code>edit</code> y en los filtros. Si se utiliza el mismo elemento parcial en varias vistas, la variable <code>$type</code> almacena el contexto (<code>list</code>, <code>edit</code> o <code>filter</code>).</p></div>
+
+<h3 id="modificando_la_vista">14.3.3. Modificando la vista</h3>
+
+<p>Si se quiere modificar el aspecto visual de las vistas <code>edit</code> y <code>list</code>, no se deben modificar las plantillas. Como se generan automáticamente, no es una buena idea modificarlas. En su lugar, se debe utilizar el archivo de configuración <code>generator.yml</code>, porque puede hacer prácticamente cualquier cosa que se necesite sin tener que sacrificar la modularidad de la aplicación.</p>
+
+<h4 id="modificando_el_titulo_de_la_vista">14.3.3.1. Modificando el título de la vista</h4>
+
+<p>Además de una serie de campos propios, las páginas <code>list</code> y <code>edit</code> pueden mostrar un título específico. El listado 14-18 muestra cómo modificar el título de las vistas del módulo <code>article</code>. La vista <code>edit</code> resultante se ilustra en la figura 14-12.</p>
+
+<p><strong>Listado 14-18 - Estableciendo el título de cada vista, en <code>backend/modules/article/config/generator.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">list</span>:<span class="co3">
+          title</span><span class="sy2">: </span>         List of Articles
+          <span class="sy1">...</span>
+<span class="co4">
+        edit</span>:<span class="co3">
+          title</span><span class="sy2">: </span>         Body of article <span class="co2">%%title%%</span><span class="co3">
+          display</span><span class="sy2">: </span>       <span class="br0">&#91;</span>content<span class="br0">&#93;</span></pre>
+</div>
+
+<div class="figure" id="figure_14_9">
+    <img src="/img/symfony_1_1/f1412.png" alt="Título propio en la vista &quot;edit&quot; del módulo &quot;article&quot;" />
+
+    <p class="caption"><strong>Figura 14.9</strong> Título propio en la vista &quot;edit&quot; del módulo &quot;article&quot;</p>
+</div>
+
+
+<p>Como los títulos por defecto utilizan el nombre de cada clase, normalmente no es necesario modificarlos (siempre que el modelo utilice nombres de clase explícitos).</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> En los valores de las opciones del archivo <code>generator.yml</code>, se puede acceder al valor de un campo mediante su nombre encerrado entre los caracteres <code>%%</code>.</p></div>
+
+<h4 id="anadiendo_mensajes_de_ayuda">14.3.3.2. Añadiendo mensajes de ayuda</h4>
+
+<p>En las vistas <code>list</code> y <code>edit</code>, se pueden añadir <em>"tooltips"</em> o mensajes de ayuda para describir los campos que se muestran en los formularios. El listado 14-19 muestra como añadir un mensaje de ayuda para el campo <code>article_id</code> en la vista <code>edit</code> del módulo <code>comment</code>. Para ello, se utiliza la propiedad <code>help</code> bajo la clave <code>fields</code>. El resultado se muestra en la figura 14-13.</p>
+
+<p><strong>Listado 14-19 - Añadiendo un mensaje de ayuda en la vista <code>edit</code>, en <code>modules/comment/config/generator.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">edit</span>:<span class="co4">
+          fields</span><span class="sy2">:
+</span>            <span class="sy1">...</span><span class="co3">
+            article_id</span><span class="sy2">: </span>  <span class="br0">&#123;</span> help<span class="sy2">: </span>The current comment relates to this article <span class="br0">&#125;</span></pre>
+</div>
+
+<div class="figure" id="figure_14_10">
+    <img src="/img/symfony_1_1/symfony_1_1:f1413.png" alt="Mensaje de ayuda en la vista &quot;edit&quot; del módulo &quot;comment&quot;" />
+
+    <p class="caption"><strong>Figura 14.10</strong> Mensaje de ayuda en la vista &quot;edit&quot; del módulo &quot;comment&quot;</p>
+</div>
+
+
+<p>En la vista <code>list</code>, los mensajes de ayuda se muestran en la cabecera de la columna; en la vista <code>edit</code> los mensajes se muestran debajo de cada cuadro de texto.</p>
+
+<h4 id="modificando_el_formato_de_la_fecha">14.3.3.3. Modificando el formato de la fecha</h4>
+
+<p>Las fechas se pueden mostrar siguiendo un formato propio si se utiliza la opción <code>date_format</code>, tal y como se muestra en el listado 14-20.</p>
+
+<p><strong>Listado 14-20 - Dando formato a la fecha en la vista <code>list</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">list</span>:<span class="co4">
+          fields</span>:<span class="co3">
+            created_at</span><span class="sy2">: </span>        <span class="br0">&#123;</span> name<span class="sy2">: </span>Published, params<span class="sy2">: </span>date_format='dd/MM' <span class="br0">&#125;</span></pre>
+</div>
+
+<p>La sintaxis que se utiliza es la misma que la del <em>helper</em> <code>format_date()</code> descrito en el capítulo anterior.</p>
+
+<div class="admonition sidebar"><p><strong class="title">Las plantillas de administración están preparadas para la internacionalización</strong> Todo el texto incluido en las plantillas generadas automáticamente está <em>internacionalizado</em>, es decir, todos los textos se muestran mediante llamadas al <em>helper</em> <code>__()</code>. De esta forma, es muy fácil traducir una aplicación de administración generada automáticamente incluyendo la traducción de todas las frases en un archivo XLIFF, en el directorio <code>apps/frontend/i18n/</code>, tal y como se explica en el capítulo anterior.</p></div>
+
+<h3 id="opciones_especificas_para_la_vista_list">14.3.4. Opciones específicas para la vista "list"</h3>
+
+<p>La vista <code>list</code>' puede mostrar la información de cada fila en varias columnas o de forma conjunta en una sola línea. También puede mostrar opciones para filtrar los resultados, paginación de resultados y opciones para odenar los datos. Todas estas opciones se pueden modificar mediante los archivos de configuración, como se muestra en las siguientes secciones.</p>
+
+<h4 id="modificando_el_layout">14.3.4.1. Modificando el layout</h4>
+
+<p>Por defecto, la unión entre la vista <code>list</code> y la vista <code>edit</code> se realiza mediante la columna que muestra la clave primaria. Si se observa de nuevo la figura 14-11, se ve que la columna <code>id</code> de la lista de comentarios no solo muestra la clave primaria de cada comentario, sino que incluye un enlace que permite a los usuarios acceder de forma directa a la vista <code>edit</code>.</p>
+
+<p>Si se quiere mostrar en otra columna el enlace a los datos detallados, se añade el prefijo <code>=</code> al nombre de la columna que se utiliza en la clave <code>display</code>. El listado 14-21 elimina la columna <code>id</code> de la vista <code>list</code> de los comentarios y establece el enlace en el campo <code>content</code>. La figura 14-14 muestra el resultado de este cambio.</p>
+
+<p><strong>Listado 14-21 - Cambiando el enlace a la vista <code>edit</code> en la vista <code>list</code>, en <code>modules/comment/config/generator.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">list</span>:<span class="co3">
+          display</span><span class="sy2">: </span>   <span class="br0">&#91;</span>article_link, =content<span class="br0">&#93;</span></pre>
+</div>
+
+<div class="figure" id="figure_14_11">
+    <img src="/img/symfony_1_1/symfony_1_1:f1414.png" alt="Estableciendo el enlace a la vista <code>edit</code> en otra columna, en la vista <code>list</code> del módulo <code>comment</code>" />
+
+    <p class="caption"><strong>Figura 14.11</strong> Estableciendo el enlace a la vista <code>edit</code> en otra columna, en la vista <code>list</code> del módulo <code>comment</code></p>
+</div>
+
+
+<p>La vista <code>list</code> muestra por defecto todos sus datos en varias columnas. También es posible mostrar de forma seguida todos los datos en una sola cadena de texto que ocupe toda la anchura de la tabla. El aspecto con el que se muestran los datos se denomina <em>"layout"</em> y la forma en la que se muestran todos seguidos se denomina <code>stacked</code>. Si se utiliza el layout <code>stacked</code>, la clave <code>params</code> debe contener el patrón que define el orden en el que se muestran los datos. El listado 14-22 muestra por ejemplo el layout deseado para la vista <code>list</code> del módulo <code>comment</code>. La figura 14-15 ilustra el resultado final.</p>
+
+<p><strong>Listado 14-22 - Uso del layout <code>stacked</code> en la vista <code>list</code>, en <code>modules/comment/config/generator.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">list</span>:<span class="co3">
+          layout</span><span class="sy2">: </span> stacked<span class="co3">
+          params</span><span class="sy2">: </span> <span class="sy2">|
+</span><span class="co0">            %%=content%% &lt;br /&gt;
+            (sent by %%author%% on %%created_at%% about %%article_link%%)</span><span class="co3">
+          display</span><span class="sy2">: </span> <span class="br0">&#91;</span>created_at, author, content<span class="br0">&#93;</span></pre>
+</div>
+
+<div class="figure" id="figure_14_12">
+    <img src="/img/symfony_1_1/symfony_1_1:f1415.png" alt="Layout &quot;stacked&quot; en la vista &quot;list&quot; del módulo &quot;comment&quot;" />
+
+    <p class="caption"><strong>Figura 14.12</strong> Layout &quot;stacked&quot; en la vista &quot;list&quot; del módulo &quot;comment&quot;</p>
+</div>
+
+
+<p>El layout normal en varias columnas requiere un array con el nombre de los campos en la clave <code>display</code>; sin embargo, el layout <code>stacked</code> requiere que la clave <code>params</code> incluya el código HTML que se utilizará para mostrar cada fila de datos. No obstante, el array de la clave <code>display</code> también se utiliza en el layout <code>stacked</code> para determinar las cabeceras de columnas disponibles para reordenar los datos mostrados.</p>
+
+<h4 id="filtrando_los_resultados">14.3.4.2. Filtrando los resultados</h4>
+
+<p>En la vista de tipo <code>list</code>, se pueden añadir fácilmente una serie de filtros. Con estos filtros, los usuarios pueden mostrar menos resultados y pueden obtener más rápidamente los que están buscando. Los filtros se configuran mediante un array con los nombres de los campos en la clave <code>filters</code>. El listado 14-23 muestra como incluir un filtro según los campos <code>article_id</code>, <code>author</code> y <code>created_at</code> en la vista <code>list</code> del módulo <code>comment</code>, y la figura 14-16 ilustra el resultado. Para que el ejemplo funcione correctamente, es necesario añadir un método <code>__toString()</code> a la clase <code>Article</code> (este método puede devolver, por ejemplo, el valor <code>title</code> del artículo).</p>
+
+<p><strong>Listado 14-23 - Incluyendo filtros en la vista <code>list</code>, en <code>modules/comment/config/generator.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">list</span>:<span class="co3">
+          filters</span><span class="sy2">: </span><span class="br0">&#91;</span>article_id, author, created_at<span class="br0">&#93;</span><span class="co3">
+          layout</span><span class="sy2">: </span> stacked<span class="co3">
+          params</span><span class="sy2">: </span> <span class="sy2">|
+</span><span class="co0">            %%=content%% &lt;br /&gt;
+            (sent by %%author%% on %%created_at%% about %%article_link%%)</span><span class="co3">
+          display</span><span class="sy2">: </span> <span class="br0">&#91;</span>created_at, author, content<span class="br0">&#93;</span></pre>
+</div>
+
+<div class="figure" id="figure_14_13">
+    <img src="/img/symfony_1_1/symfony_1_1:f1416.png" alt="Filtros en la vista &quot;list&quot; del módulo &quot;comment&quot;" />
+
+    <p class="caption"><strong>Figura 14.13</strong> Filtros en la vista &quot;list&quot; del módulo &quot;comment&quot;</p>
+</div>
+
+
+<p>Los filtros que muestra Symfony dependen del tipo de cada columna:</p>
+
+<ul>
+<li>Para las columnas de texto (como el campo <code>author</code> en el módulo <code>comment</code>), el filtro es un cuadro de texto que permite realizar búsquedas textuales incluso con comodines (<code>*</code>).</li>
+<li>Para las claves externas (como el campo <code>article_id</code> en el módulo <code>comment</code>), el filtro es una lista desplegable con los datos de la columna correspondiente en la tabla asociada. Como sucede con el <em>helper</em> <code>object_select_tag()</code>, las opciones de la lista desplegable son las que devuelve el método <code>__toString()</code> de la clase relacionada.</li>
+<li>Para las fechas (como el campo <code>created_at</code> en el módulo <code>comment</code>), el filtro está formado por un par de elementos para seleccionar fechas (que muestran un calendario) de forma que se pueda indicar un intervalo temporal.</li>
+<li>Para las columnas booleanas, el filtro muestra una lista desplegable con los valores <code>true</code>, <code>false</code> y <code>true or false</code> (la última opción es para reinicializar el filtro).</li>
+</ul>
+
+<p>De la misma forma que se pueden utilizar elementos parciales en las listas, también es posible utilizar filtros parciales que permitan definir filtrados que no realiza Symfony. En el siguiente ejemplo se utiliza un campo llamado <code>state</code> que solo puede contener dos valores (<code>open</code> y <code>closed</code>), pero estos valores se almacenan directamente en cada fila de la tabla (no se utiliza una relación con otra tabla). Un filtro de Symfony en este campo mostrará un cuadro de texto, pero lo más lógico sería mostrar una lista desplegable con los dos únicos valores permitidos. Mediante un filtro parcial es fácil mostrar esta lista desplegable. El listado 14-24 muestra un ejemplo de cómo realizar este filtro.</p>
+
+<p><strong>Listado 14-24 - Utilizando un filtro parcial</strong></p>
+
+<div class="code php">
+<pre class="php">// El elemento parcial se define en templates/_state.php
+    <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> select_tag<span class="br0">&#40;</span><span class="st_h">'filters[state]'</span><span class="sy0">,</span> options_for_select<span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+      ` <span class="sy0">=&gt;</span> `<span class="sy0">,</span>
+      <span class="st_h">'open'</span> <span class="sy0">=&gt;</span> <span class="st_h">'open'</span><span class="sy0">,</span>
+      <span class="st_h">'closed'</span> <span class="sy0">=&gt;</span> <span class="st_h">'closed'</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span> <span class="kw3">isset</span><span class="br0">&#40;</span><span class="re0">$filters</span><span class="br0">&#91;</span><span class="st_h">'state'</span><span class="br0">&#93;</span><span class="br0">&#41;</span> ? <span class="re0">$filters</span><span class="br0">&#91;</span><span class="st_h">'state'</span><span class="br0">&#93;</span> <span class="sy0">:</span> <span class="st_h">''</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+    // Se añade el filtro parcial en la lista de filtros de config/generator.yml
+        list:
+          filters:        [date, _state]</pre>
+</div>
+
+<p>El elemento parcial tiene acceso a la variable <code>$filters</code>, que es muy útil para obtener el valor actual del filtro.</p>
+
+<p>Existe una última opción que es muy útil para buscar valores vacíos. Si se quiere filtrar por ejemplo la lista de comentarios para mostrar solamente los que no tienen autor, no se puede dejar vacío el filtro del autor, ya que en este caso se ignorará este filtro. La solución es establecer la opción <code>filter_is_empty</code> del campo a <code>true</code>, como en el listado 14-25, y el filtro mostrará un checkbox que permite buscar los valores vacíos, tal y como ilustra la figura 14-17.</p>
+
+<p><strong>Listado 14-25 - Filtrando los valores vacíos para el campo <code>author</code> en la vista <code>list</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">list</span>:<span class="co4">
+          fields</span>:<span class="co3">
+            author</span><span class="sy2">: </span>  <span class="br0">&#123;</span> filter_is_empty<span class="sy2">: </span>true <span class="br0">&#125;</span><span class="co3">
+          filters</span><span class="sy2">: </span>   <span class="br0">&#91;</span>article_id, author, created_at<span class="br0">&#93;</span></pre>
+</div>
+
+<div class="figure" id="figure_14_14">
+    <img src="/img/symfony_1_1/f1416.png" alt="Permitiendo filtrar valores vacíos en el campo &quot;author&quot;" />
+
+    <p class="caption"><strong>Figura 14.14</strong> Permitiendo filtrar valores vacíos en el campo &quot;author&quot;</p>
+</div>
+
+
+<h4 id="ordenando_el_listado">14.3.4.3. Ordenando el listado</h4>
+
+<p>Como muestra la figura 14-18, en la vista <code>list</code> las columnas que forman la cabecera de la tabla son enlaces que se pueden utilizar para reordenar los datos del listado. Las cabeceras se muestran tanto en el layout normal como en el layout <code>stacked</code>. Al pinchar en cualquiera de estos enlaces, se recarga la página añadiendo un parámetro <code>sort</code> que permite reordenar los datos de forma adecuada.</p>
+
+<div class="figure" id="figure_14_15">
+    <img src="/img/symfony_1_1/f1418.png" alt="Las cabeceras de la tabla de la vista &quot;list&quot; permiten reordenar los datos" />
+
+    <p class="caption"><strong>Figura 14.15</strong> Las cabeceras de la tabla de la vista &quot;list&quot; permiten reordenar los datos</p>
+</div>
+
+
+<p>Se puede utilizar la misma sintaxis que emplea Symfony para incluir un enlace que apunte directamente a los datos ordenados de una forma determinada:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span><span class="st_h">'Listado de comentarios ordenados por fecha'</span><span class="sy0">,</span> <span class="st_h">'comment/list?sort=created_at&amp;type=desc'</span> <span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>También es posible indicar en el archivo <code>generator.yml</code> el orden por defecto para la vista <code>list</code> mediante el parámetro <code>sort</code>. El listado 14-26 muestra un ejemplo de la sintaxis que debe utilizarse.</p>
+
+<p><strong>Listado 14-26 - Estableciendo un orden por defecto en la vista <code>list</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">list</span>:<span class="co3">
+          sort</span><span class="sy2">: </span>  created_at
+          <span class="co1"># Sintaxis alternativa para indicar la forma de ordenar</span><span class="co3">
+          sort</span><span class="sy2">: </span>  <span class="br0">&#91;</span>created_at, desc<span class="br0">&#93;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Solamente se pueden reordenar los datos mediante los campos que se corresponden con columnas reales, no mediante los campos propios y los campos parciales.</p></div>
+
+<h4 id="modificando_la_paginacion">14.3.4.4. Modificando la paginación</h4>
+
+<p>La administración generada automáticamente tiene en cuenta la posibilidad de que las tablas contengan muchos datos, por lo que la vista <code>list</code> incluye por defecto una paginación de datos. Si el número total de filas de la tabla es mayor que el número máximo de filas por página, entonces aparece la paginación al final del listado. La figura 14-19 muestra el ejemplo de un listado con 6 comentarios de prueba para el que el número máximo de comentarios por página es de 5. La paginación de datos asegura un buen rendimiento a la aplicación, porque solamente se obtienen los datos de las filas que se muestran, y permite una buena usabilidad, ya que hasta las filas que contienen millones de filas se pueden manejar con el módulo de administración.</p>
+
+<div class="figure" id="figure_14_16">
+    <img src="/img/symfony_1_1/symfony_1_1:f1419.png" alt="La paginación se muestra cuando el listado es muy largo" />
+
+    <p class="caption"><strong>Figura 14.16</strong> La paginación se muestra cuando el listado es muy largo</p>
+</div>
+
+
+<p>El número máximo de filas que se muestran en cada página se controla mediante la opción <code>max_per_page</code>:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">list</span>:<span class="co3">
+          max_per_page</span><span class="sy2">: </span>  <span class="nu0">5</span></pre>
+</div>
+
+<h4 id="mejorando_el_rendimiento_mediante_una_join">14.3.4.5. Mejorando el rendimiento mediante una Join</h4>
+
+<p>El generador de la administración utiliza por defecto el método <code>doSelect()</code> para obtener las filas de datos. Sin embargo, si se utilizan objetos relacionados en el listado, el número de consultas a la base de datos puede aumentar demasiado. Si se quiere mostrar por ejemplo el nombre del artículo en el listado de comentarios, se debe hacer una consulta adicional por cada comentario para obtener el objeto <code>Article</code> relacionado. Afortunadamente, se puede indicar al paginador que utilice un método específico tipo <code>doSelectJoinXXX()</code> para optimizar el número de consultas necesario. La opción <code>peer_method</code> es la encargada de indicar el método a utilizar.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">list</span>:<span class="co3">
+          peer_method</span><span class="sy2">: </span>  doSelectJoinArticle</pre>
+</div>
+
+<p>En el Capítulo 18 se explica más detalladamente el concepto de Join.</p>
+
+<h3 id="opciones_especificas_para_la_vista_edit">14.3.5. Opciones específicas para la vista "edit"</h3>
+
+<p>La vista <code>edit</code> permite al usuario modificar el valor de cualquier columna de una fila de datos específica. En función del tipo de dato, Symfony determina automáticamente el tipo de campo de formulario que se muestra. Después, genera un <em>helper</em> de tipo <code>object_*_tag()</code> y le pasa el objeto y la propiedad a editar. Si por ejemplo la configuración de la vista <code>edit</code> del artículo estipula que el usuario puede editar el campo <code>title</code>:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">edit</span>:<span class="co3">
+          display</span><span class="sy2">: </span><span class="br0">&#91;</span>title, <span class="sy1">...</span><span class="br0">&#93;</span></pre>
+</div>
+
+<p>Entonces, la página <code>edit</code> muestra un cuadro de texto normal para editar el campo <code>title</code>, ya que esta columna se define como de tipo <code>varchar</code> en el esquema.</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_input_tag<span class="br0">&#40;</span><span class="re0">$article</span><span class="sy0">,</span> <span class="st_h">'getTitle'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<h4 id="modificando_el_tipo_de_campo_de_formulario">14.3.5.1. Modificando el tipo de campo de formulario</h4>
+
+<p>Las reglas que se utilizan por defecto para determinar el tipo de campo de formulario son las siguientes:</p>
+
+<ul>
+<li>Las columnas de tipo <code>integer</code>, <code>float</code>, <code>char</code>, <code>varchar(size)</code> se muestran en la vista <code>edit</code> mediante <code>object_input_tag()</code>.</li>
+<li>Las columnas de tipo <code>longvarchar</code> aparecen como <code>object_textarea_tag()</code>.</li>
+<li>Una columna que es una clave externa, se muestra mediante <code>object_select_tag()</code>.</li>
+<li>Las columnas de tipo <code>boolean</code> aparecen como <code>object_checkbox_tag()</code>.</li>
+<li>Las columnas de tipo <code>timestamp</code> o <code>date</code> se muestran mediante <code>object_input_date_tag()</code>.</li>
+</ul>
+
+<p>En ocasiones, puede ser necesario saltarse estas reglas por defecto para indicar directamente el tipo de campo de formulario utilizado para una columna. Para ello, se utiliza la opción <code>type</code> bajo la clave <code>fields</code> con el nombre del <em>helper</em> que se quiere utilizar. Las opciones del <em>helper</em> <code>object_*_tag()</code> generado se pueden modificar con la opción <code>params</code>. El listado 14-27 muestra un ejemplo.</p>
+
+<p><strong>Listado 14-27 - Indicando un tipo especial de campo de formulario y sus opciones en la vista <code>edit</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">generator</span>:<span class="co3">
+      class</span><span class="sy2">: </span>             sfPropelAdminGenerator<span class="co4">
+      param</span>:<span class="co3">
+        model_class</span><span class="sy2">: </span>     Comment<span class="co3">
+        theme</span><span class="sy2">: </span>           default
+<span class="co4">
+        edit</span>:<span class="co4">
+          fields</span><span class="sy2">:
+</span>                          <span class="co1">## No se muestra un cuadro de texto, solamente el texto</span><span class="co3">
+            id</span><span class="sy2">: </span>          <span class="br0">&#123;</span> type<span class="sy2">: </span>plain <span class="br0">&#125;</span>
+                          <span class="co1">## El contenido del cuadro de texto no se puede modificar</span><span class="co3">
+            author</span><span class="sy2">: </span>      <span class="br0">&#123;</span> params<span class="sy2">: </span>disabled=true <span class="br0">&#125;</span>
+                          <span class="co1">## El campo es un textarea (object_textarea_tag)</span><span class="co3">
+            content</span><span class="sy2">: </span>     <span class="br0">&#123;</span> type<span class="sy2">: </span>textarea_tag, params<span class="sy2">: </span>rich=true css=user.css tinymce_options=width:<span class="nu0">330</span> <span class="br0">&#125;</span>
+                          <span class="co1">## El campo es una lista desplegable (object_select_tag)</span><span class="co3">
+            article_id</span><span class="sy2">: </span>  <span class="br0">&#123;</span> params<span class="sy2">: </span>include_custom=Choose an article <span class="br0">&#125;</span>
+             <span class="sy1">...</span></pre>
+</div>
+
+<p>La opciones indicadas en <code>params</code> se pasan directamente al <em>helper</em> <code>object_*_tag()</code> generado. La opción <code>params</code> del campo <code>article_id</code> en el ejemplo anterior produce el siguiente código en la plantilla:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_select_tag<span class="br0">&#40;</span><span class="re0">$comment</span><span class="sy0">,</span> <span class="st_h">'getArticleId'</span><span class="sy0">,</span> <span class="st_h">'related_class=Article'</span><span class="sy0">,</span> <span class="st_h">'include_custom=Choose an article'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>De esta forma, todas las opciones disponibles para los <em>helpers</em> de formulario se pueden utilizar para modificar la vista <code>edit</code>.</p>
+
+<h4 id="manejando_los_campos_parciales">14.3.5.2. Manejando los campos parciales</h4>
+
+<p>Las vistas de tipo <code>edit</code> puede utilizar los mismos elementos parciales que se emplean en las vistas de tipo <code>list</code>. La única diferencia es que, en la acción, se debe realizar manualmente la actualización de la columna en función del valor enviado por el elemento parcial. Symfony puede procesar automáticamente los campos normales (los que se corresponden con columnas reales) pero no puede adivinar la forma de tratar los datos que utilizan campos parciales.</p>
+
+<p>Si por ejemplo se define un modulo de administración para una clase <code>User</code>, los campos disponibles pueden ser <code>id</code>, <code>nickname</code> y <code>password</code>. El administrador del sitio web debe ser capaz de modificar la contraseña de un usuario si así se le solicita, pero la vista <code>edit</code> no debería mostrar el valor de la contraseña por motivos de seguridad. En su lugar, el formulario debería mostrar un cuadro de texto vacío para la contraseña y así el usuario puede introducir una nueva contraseña si desea cambiar su valor. Las opciones del archivo <code>generator.yml</code> para una vista <code>edit</code> de este tipo se muestran en el listado 14-28.</p>
+
+<p><strong>Listado 14-28 - Incluyendo un campo parcial en la vista <code>edit</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">edit</span>:<span class="co3">
+          display</span><span class="sy2">: </span>       <span class="br0">&#91;</span>id, nickname, _newpassword<span class="br0">&#93;</span><span class="co4">
+          fields</span>:<span class="co3">
+            newpassword</span><span class="sy2">: </span> <span class="br0">&#123;</span> name<span class="sy2">: </span>Password, help<span class="sy2">: </span>Introduce una contraseña para modificar su valor, dejalo vacío para mantener la contraseña actual <span class="br0">&#125;</span></pre>
+</div>
+
+<p>El elemento parcial <code>templates/_newpassword.php</code> debe ser similar a:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> input_password_tag<span class="br0">&#40;</span><span class="st_h">'newpassword'</span><span class="sy0">,</span> <span class="st_h">''</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Este elemento parcial utiliza un <em>helper</em> de formulario sencillo y no un <em>helper</em> para objetos, ya que no es deseable obtener el valor de la contraseña a partir del objeto <code>User</code> actual, porque podría mostrar la contraseña del usuario.</p>
+
+<p>A continuación, para utilizar el valor de este campo para actualizar el objeto en la acción, se debe extender el método <code>updateUserFromRequest()</code> de la acción. Para ello, se crea un método con el mismo nombre en la clase de la acción y se crea el código necesario para manejar el elemento parcial, como muestra el listado 14-29.</p>
+
+<p><strong>Listado 14-29 - Procesando un campo parcial en la acción, en <code>modules/user/actions/actions.class.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> userActions <span class="kw2">extends</span> autouserActions
+<span class="br0">&#123;</span>
+  <span class="kw2">protected</span> <span class="kw2">function</span> updateUserFromRequest<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Procesar los datos del campo parcial</span>
+    <span class="re0">$password</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'newpassword'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$password</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">user</span><span class="sy0">-&gt;</span><span class="me1">setPassword</span><span class="br0">&#40;</span><span class="re0">$password</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co1">// Dejar que Symfony procese los otros datos</span>
+    parent<span class="sy0">::</span><span class="me2">updateUserFromRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> En una aplicación real, la vista <code>user/edit</code> normalmente tendría 2 campos para la contraseña y el valor del segundo campo debe coincidir con el valor del primero para evitar los errores al escribir la contraseña. En la práctica, como se vio en el Capítulo 10, este comportamiento se se consigue mediante un validador. Los módulos generados automáticamente pueden hacer uso de este mecanismo de la misma forma que el resto de módulos.</p></div>
+
+<h3 id="trabajando_con_claves_externas">14.3.6. Trabajando con claves externas</h3>
+
+<p>Si el esquema de la aplicación define relaciones entre tablas, los módulos generados para la administración pueden aprovechar esas relaciones para automatizar aun más los campos, simplificando enormemente la gestión de las relaciones entre tablas.</p>
+
+<h4 id="relaciones_uno_a_muchos">14.3.6.1. Relaciones uno-a-muchos</h4>
+
+<p>El generador de la administración se ocupa automáticamente de las relaciones de tablas de tipo 1-n. Como se muestra en la figura 14-1, la tabla <code>blog_comment</code> se relaciona con la tabla <code>blog_article</code> mediante el campo <code>article_id</code>. Si se utiliza el generador de administraciones para iniciar el módulo de la clase <code>Comment</code>, la acción <code>comment/edit</code> muestra automáticamente el campo <code>article_id</code> como una lista desplegable con los valores de los ID de todas las filas de datos de la tabla <code>blog_article</code> (la figura 14-9 también muestra una figura de esta relación).</p>
+
+<p>Además, si se define un método <code>__toString()</code> en la clase <code>Article</code>, la lista desplegable puede mostrar otro texto para cada opción en vez del valor de la clave primaria de la fila.</p>
+
+<p>Si se quiere mostrar la lista de comentarios relacionados con un artículo en el módulo <code>article</code> (relación 1-n) se debe modificar el módulo y utilizar un campo parcial.</p>
+
+<h4 id="relaciones_muchos_a_muchos">14.3.6.2. Relaciones muchos-a-muchos</h4>
+
+<p>Symfony también se encarga de las relaciones n-n, pero como estas relaciones no se pueden definir en el esquema, es necesario añadir un par de opciones al archivo <code>generator.yml</code>.</p>
+
+<p>Las relaciones muchos-a-muchos requieren una tabla intermedia. Si por ejemplo existe una relación n-n entre la tabla <code>blog_article</code> y la tabla <code>blog_author</code> (un artículo puede estar escrito por más de un autor y un mismo autor puede escribir varios artículos), la base de datos debe contener una tabla llamada <code>blog_article_author</code> o algo parecido, como se muestra en la figura 14-20.</p>
+
+<div class="figure" id="figure_14_17">
+    <img src="/img/symfony_1_1/f1420.png" alt="Uso de una tabla intermedia en las relaciones muchos-a-muchos" />
+
+    <p class="caption"><strong>Figura 14.17</strong> Uso de una tabla intermedia en las relaciones muchos-a-muchos</p>
+</div>
+
+
+<p>El modelo en este caso dispone de una clase llamada <code>ArticleAuthor</code>, que es el único dato que necesita el generador de la administración y que se indica en la opción <code>through_class</code> del campo adecuado.</p>
+
+<p>En un módulo generado automáticamente a partir de la clase <code>Article</code>, se puede añadir un nuevo campo para crear una asociación n-n con la clase <code>Author</code> mediante las opciones del archivo <code>generator.yml</code> mostrado en el listado 14-30.</p>
+
+<p><strong>Listado 14-30 - Definiendo las relaciones muchos-a-muchos mediante la opción <code>through_class</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">edit</span>:<span class="co4">
+          fields</span>:<span class="co3">
+            article_author</span><span class="sy2">: </span><span class="br0">&#123;</span> type<span class="sy2">: </span>admin_double_list, params<span class="sy2">: </span>through_class=ArticleAuthor <span class="br0">&#125;</span></pre>
+</div>
+
+<p>Este nuevo campo gestiona las relaciones entre los objetos existentes, por lo que no es suficiente con mostrar una lista deplegable. Este tipo de relaciones exige un tipo especial de campo para introducir los datos. Symfony incluye 3 tipos de campos especiales para relacionar los elementos de las 2 listas (que se muestran en la figura 14-21).</p>
+
+<ul>
+<li>El tipo <code>admin_double_list</code> es un conjunto de 2 listas desplegables expandidas, además de los botones que permiten pasar elementos de la primera lista (elementos disponibles) a la segunda lista (elementos seleccionados).</li>
+<li>El tipo <code>admin_select_list</code> es una lista desplegable expandida que permite seleccionar más de 1 elemento cada vez.</li>
+<li>El tipo <code>admin_check_list</code> es una lista de elementos checkbox seleccionables.</li>
+</ul>
+
+<div class="figure" id="figure_14_18">
+    <img src="/img/symfony_1_1/f1421.png" alt="Tipos de campos especiales disponibles para la gestión de las relaciones muchos-a-muchos" />
+
+    <p class="caption"><strong>Figura 14.18</strong> Tipos de campos especiales disponibles para la gestión de las relaciones muchos-a-muchos</p>
+</div>
+
+
+<h3 id="anadiendo_nuevas_interacciones">14.3.7. Añadiendo nuevas interacciones</h3>
+
+<p>Los módulos de administración permiten a los usuarios realizar las operaciones CRUD habituales, aunque también es posible añadir otras interacciones diferentes o restringir las interacciones disponibles en una vista. La configuración que se muestra en el listado 14-31 habilita todas las operaciones CRUD habituales para el módulo <code>article</code>.</p>
+
+<p><strong>Listado 14-31 - Definiendo las interacciones de cada vista, en <code>backend/modules/article/config/generator.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">list</span>:<span class="co3">
+          title</span><span class="sy2">: </span>         List of Articles<span class="co4">
+          object_actions</span>:<span class="co3">
+            _edit</span><span class="sy2">: </span>        ~<span class="co3">
+            _delete</span><span class="sy2">: </span>      ~<span class="co4">
+          batch_actions</span>:<span class="co3">
+            _delete</span><span class="sy2">: </span>      ~<span class="co4">
+          actions</span>:<span class="co3">
+            _create</span><span class="sy2">: </span>      ~
+<span class="co4">
+        edit</span>:<span class="co3">
+          title</span><span class="sy2">: </span>         Body of article <span class="co2">%%title%%</span><span class="co4">
+          actions</span>:<span class="co3">
+            _list</span><span class="sy2">: </span>        ~<span class="co3">
+            _save</span><span class="sy2">: </span>        ~<span class="co3">
+            _save_and_add</span><span class="sy2">: </span>~<span class="co3">
+            _delete</span><span class="sy2">: </span>      ~</pre>
+</div>
+
+<p>En la vista de tipo <code>list</code>, existen tres opciones relacionadas con las acciones: la lista de las acciones disponibles para todos los objetos (<code>object_actions</code>), la lista de opciones disponibles para una selección de objetos (<code>batch_actions</code>) y la lista de acciones disponibles para la página entera (<code>actions</code>). La lista de interacciones definidas en el listado 14-31 producen el resultado de la figura 14-22. Cada fila de datos muestra un botón para modificar la información y un botón para eliminar ese registro, además de un <em>checkbox</em> en cada fila para poder borrar varios elementos seleccionados. Al final de la lista se muestra un botón para crear nuevos elementos.</p>
+
+<div class="figure" id="figure_14_19">
+    <img src="/img/symfony_1_1/f1422.png" alt="Interacciones de la vista &quot;list&quot;" />
+
+    <p class="caption"><strong>Figura 14.19</strong> Interacciones de la vista &quot;list&quot;</p>
+</div>
+
+
+<p>En la vista <code>edit</code>, como sólo se modifica un registro de datos cada vez, solamente se define un conjunto de acciones (en <code>actions</code>). Las interacciones definidas en el listado 14-31 se muestran con el aspecto de la figura 14-23. Tanto la acción <code>save</code> (<code>guardar</code>) como la acción <code>save_and_add</code> (<code>guardar_y_añadir</code>) guardan los cambios realizados en los datos. La única diferencia es que la acción <code>save</code> vuelve a mostrar la vista <code>edit</code> con los nuevos datos y la acción <code>save_and_add</code> muestra la vista <code>edit</code> con un formulario vacío para añadir otro elemento. Por tanto, la acción <code>save_and_add</code> es un atajo muy útil cuando se están añadiendo varios elementos de forma consecutiva. El botón de la acción <code>delete</code> (<code>borrar</code>) se encuentra lo suficientemente alejado de los otros 2 botones como para que no sea pulsado por accidente.</p>
+
+<p>Los nombres de las interacciones que empiezan con un guión bajo (<code>_</code>) son reconocidos por Symfony y por tanto, utilizan el mismo icono y realizan la misma acción que las interacciones por defecto. El generador de la administración es capaz de reconocer las acciones <code>_edit</code>, <code>_delete</code>, <code>_list</code>, <code>_save</code>, <code>_save_and_add</code> y <code>_create</code>.</p>
+
+<div class="figure" id="figure_14_20">
+    <img src="/img/symfony_1_1/f1423.png" alt="Interacciones de la vista &quot;edit&quot;" />
+
+    <p class="caption"><strong>Figura 14.20</strong> Interacciones de la vista &quot;edit&quot;</p>
+</div>
+
+
+<p>También es posible definir interacciones propias, para lo que se debe especificar un nombre que no empiece por guión bajo y una acción del módulo actual, tal y como se muestra en el listado 14-32.</p>
+
+<p><strong>Listado 14-32 - Definiendo una interacción propia</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">list</span>:<span class="co3">
+          title</span><span class="sy2">: </span>         List of Articles<span class="co4">
+          object_actions</span>:<span class="co3">
+            _edit</span><span class="sy2">: </span>       -<span class="co3">
+            _delete</span><span class="sy2">: </span>     -<span class="co3">
+            addcomment</span><span class="sy2">: </span>  <span class="br0">&#123;</span> name<span class="sy2">: </span>Add a comment, action<span class="sy2">: </span>addComment, icon<span class="sy2">: </span>backend/addcomment.png <span class="br0">&#125;</span></pre>
+</div>
+
+<p>Ahora, cada artículo que aparece en el listado muestra un botón con la imagen <code>addcomment.png</code>, tal y como se muestra en la figura 14-24. Al pinchar sobre ese botón, se ejecuta la acción <code>addComment</code> del módulo actual. La clave primaria del objeto relacionado se pasa automáticamente a los parámetros de la petición que se produce.</p>
+
+<div class="figure" id="figure_14_21">
+    <img src="/img/symfony_1_1/f1424.png" alt="Interacciones propias en la vista &quot;list&quot;" />
+
+    <p class="caption"><strong>Figura 14.21</strong> Interacciones propias en la vista &quot;list&quot;</p>
+</div>
+
+
+<p>La acción <code>addComment</code> puede ser tan sencilla como la que muestra el listado 14-33.</p>
+
+<p><strong>Listado 14-33 - Acción para una interacción propia, en <code>actions/actions.class.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> executeAddComment<span class="br0">&#40;</span><span class="re0">$peticion</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="re0">$comment</span> <span class="sy0">=</span> <span class="kw2">new</span> Comment<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="re0">$comment</span><span class="sy0">-&gt;</span><span class="me1">setArticleId</span><span class="br0">&#40;</span><span class="re0">$peticion</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="re0">$comment</span><span class="sy0">-&gt;</span><span class="me1">save</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+  <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="st_h">'comment/edit?id='</span><span class="sy0">.</span><span class="re0">$comment</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Las acciones de tipo <code>batch</code> reciben un array con todas las claves primarias de las filas seleccionadas mediante el parámetro <code>sf_admin_batch_selection</code> de la petición.</p>
+
+<p>Por último, si se quieren eliminar todas las acciones para una determinada vista, se utiliza una lista vacía como la del listado 14-34.</p>
+
+<p><strong>Listado 14-34 - Eliminando todas las acciones en la vista <code>list</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">list</span>:<span class="co3">
+          title</span><span class="sy2">: </span>         List of Articles<span class="co3">
+          actions</span><span class="sy2">: </span>       <span class="br0">&#123;</span><span class="br0">&#125;</span></pre>
+</div>
+
+<h3 id="validacion_de_formularios">14.3.8. Validación de formularios</h3>
+
+<p>Si se observa el código de la plantilla <code>_edit_form.php</code> generada, que se encuentra en el directorio <code>cache/</code> del proyecto, se puede ver que los campos del formulario utilizan una nombrado especial. En la vista <code>edit</code> generada, los nombres de los campos del formulario se definen como la concatenación del nombre del módulo (utilizando guiones bajos) y el nombre del campo encerrado entre corchetes.</p>
+
+<p>Si la vista <code>edit</code> de la clase <code>Article</code> tiene un campo llamado <code>title</code>, la plantilla será similar a la del listado 14-35 y el campo se identifica como <code>article[title]</code>.</p>
+
+<p><strong>Listado 14-35 - Sintaxis de los nombres generados para los campos</strong></p>
+
+<div class="code yaml">
+<pre class="yaml">// generator.yml<span class="co4">
+    generator</span>:<span class="co3">
+      class</span><span class="sy2">: </span>             sfPropelAdminGenerator<span class="co4">
+      param</span>:<span class="co3">
+        model_class</span><span class="sy2">: </span>     Article<span class="co3">
+        theme</span><span class="sy2">: </span>           default<span class="co4">
+        edit</span>:<span class="co3">
+          display</span><span class="sy2">: </span><span class="br0">&#91;</span>title<span class="br0">&#93;</span></pre>
+</div>
+
+<div class="code php">
+<pre class="php">// Plantilla _edit_form.php generada
+    <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> object_input_tag<span class="br0">&#40;</span><span class="re0">$article</span><span class="sy0">,</span> <span class="st_h">'getTitle'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'control_name'</span> <span class="sy0">=&gt;</span> <span class="st_h">'article[title]'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<div class="code html5">
+<pre class="html5">// Código HTML generado
+    <span class="sc2">&lt;<span class="kw2">input</span> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">&quot;text&quot;</span> <span class="kw3">name</span><span class="sy0">=</span><span class="st0">&quot;article[title]&quot;</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">&quot;article_title&quot;</span> <span class="kw3">value</span><span class="sy0">=</span><span class="st0">&quot;My Title&quot;</span> <span class="sy0">/</span>&gt;</span></pre>
+</div>
+
+<p>El uso de estos nombres de campos facilita el procesamiento de los formularios. Sin embargo, como se explica en el Capítulo 10, complica un poco la configuración del validador, por lo que se deben cambiar los corchetes <code>[</code> <code>]</code> por llaves <code>{</code> <code>}</code> en la clave <code>fields</code> del archivo de validación. Además, cuando se utiliza el nombre de un campo como parámetro del validador, se debe utilizar el nombre tal y como aparece en el código HTML (es decir, con los corchetes, pero entre comillas). El listado 14-36 muestra un ejemplo de la sintaxis especial que se debe utilizar para el validador de los formularios generados automáticamente.</p>
+
+<p><strong>Listado 14-36 - Sintaxis del archivo de validación para los formularios generados automáticamente</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1">## Se reemplazan los corchetes por comillas en la lista de campos</span><span class="co4">
+    fields</span>:<span class="co4">
+      article{title}</span>:<span class="co4">
+        required</span>:<span class="co3">
+          msg</span><span class="sy2">: </span>You must provide a title
+        <span class="co1">## Para los parámetros del validador se utiliza el nombre original del campo entre comillas</span><span class="co4">
+        sfCompareValidator</span>:<span class="co3">
+          check</span><span class="sy2">: </span>       <span class="st0">&quot;user[newpassword]&quot;</span><span class="co3">
+          compare_error</span><span class="sy2">: </span>The password confirmation does not match the password.</pre>
+</div>
+
+<h3 id="restringiendo_las_acciones_del_usuario_mediante_credenciales">14.3.9. Restringiendo las acciones del usuario mediante credenciales</h3>
+
+<p>Los campos y las interacciones disponibles en un módulo de administración pueden variar en función de las credenciales del usuario conectado (el Capítulo 6 describe las opciones de seguridad de Symfony).</p>
+
+<p>Los campos definidos en el generador pueden incluir una opción <code>credentials</code> para restringir su acceso solamente a los usuarios con la credencial adecuada. Esta característica se puede utilizar tanto en la vista <code>list</code> como en la vista <code>edit</code>. Además, el generador puede ocultar algunas interacciones en función de la credenciales del usuario. El listado 14-37 muestra estas opciones.</p>
+
+<p><strong>Listado 14-37 - Utilizando credenciales en <code>generator.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># La columna id solamente se muestra para los usuarios con la credencial &quot;admin&quot;</span><span class="co4">
+        list</span>:<span class="co3">
+          title</span><span class="sy2">: </span>         List of Articles<span class="co3">
+          layout</span><span class="sy2">: </span>        tabular<span class="co3">
+          display</span><span class="sy2">: </span>       <span class="br0">&#91;</span>id, =title, content, nb_comments<span class="br0">&#93;</span><span class="co4">
+          fields</span>:<span class="co3">
+            id</span><span class="sy2">: </span>          <span class="br0">&#123;</span> credentials<span class="sy2">: </span><span class="br0">&#91;</span>admin<span class="br0">&#93;</span> <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co1"># La interacción &quot;addcomment&quot; se restringe a los usuarios con la credencial &quot;admin&quot;</span><span class="co4">
+        list</span>:<span class="co3">
+          title</span><span class="sy2">: </span>         List of Articles<span class="co4">
+          object_actions</span>:<span class="co3">
+            _edit</span><span class="sy2">: </span>       -<span class="co3">
+            _delete</span><span class="sy2">: </span>     -<span class="co3">
+            addcomment</span><span class="sy2">: </span>  <span class="br0">&#123;</span> credentials<span class="sy2">: </span><span class="br0">&#91;</span>admin<span class="br0">&#93;</span>, name<span class="sy2">: </span>Add a comment, action<span class="sy2">: </span>addComment, icon<span class="sy2">: </span>backend/addcomment.png <span class="br0">&#125;</span></pre>
+</div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_14/creando_la_parte_de_administracion_de_las_aplicaciones.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>14.2. Creando la parte de administración de las aplicaciones</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_14/modificando_el_aspecto_de_los_modulos_generados.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>14.4. Modificando el aspecto de los módulos generados</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_14.html">
+                    <span>Capítulo 14.</span> Generador de la parte de administración
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/generacion_de_codigo_en_funcion_del_modelo.html">
+                    <span>14.1.</span> Generación de código en función del modelo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/creando_la_parte_de_administracion_de_las_aplicaciones.html">
+                    <span>14.2.</span> Creando la parte de administración de las aplicaciones
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_14/configuracion_del_generador.html">
+                    <span>14.3.</span> Configuración del generador
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/modificando_el_aspecto_de_los_modulos_generados.html">
+                    <span>14.4.</span> Modificando el aspecto de los módulos generados
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_14/resumen.html">
+                    <span>14.5.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

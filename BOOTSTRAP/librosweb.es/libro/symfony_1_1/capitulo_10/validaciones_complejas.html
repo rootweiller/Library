@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>10.4. Validaciones complejas (Symfony 1.1, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_10/validacion_de_formularios.html" />
+                    <link rel="next" href="../capitulo_10/resumen.html" />
+                <link rel="start" href="/libro/symfony_1_1/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="10.4. Validaciones complejas (Symfony 1.1, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_1"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/" itemprop="url">
+                    <span itemprop="title">Symfony 1.1, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_1/capitulo_10.html" itemprop="url">
+                    <span itemprop="title">Capítulo 10. Formularios</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>10.4. Validaciones complejas</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="validaciones_complejas" class="title">
+        <span>10.4.</span> Validaciones complejas
+    </h1>
+
+    
+
+<p>El archivo de validación es útil en la mayoría de los casos, aunque puede no ser suficiente cuando la validación es muy compleja. En este caso, se puede utilizar el método <code>validateXXX()</code> en la acción o se puede utilizar alguna de las soluciones que se presentan a continuación.</p>
+
+<h3 id="creando_un_validador_propio">10.4.1. Creando un validador propio</h3>
+
+<p>Los validadores son clases que heredan de la clase <code>sfValidator</code>. Si las clases de validación que incluye Symfony no son suficientes, se puede crear otra clase fácilmente y si se guarda en cualquier directorio <code>lib/</code> del proyecto, se cargará automáticamente. La sintaxis es muy sencilla: cuando el validador se ejecuta, se llama al método <code>execute()</code>. El método <code>initialize()</code> se puede emplear para definir opciones por defecto.</p>
+
+<p>El método <code>execute()</code> recibe como primer argumento el valor que se debe comprobar y como segundo argumento, el mensaje de error que se debe mostrar cuando falla la validación. Los dos parámetros se pasan por referencia, por lo que se pueden modificar los mensajes de error directamente en el propio método de validación.</p>
+
+<p>El método <code>initialize()</code> recibe el <em>singleton</em> del contexto y el array de parámetros del archivo YAML. En primer lugar debe invocar el método <code>initialize()</code> de su clase padre <code>sfValidator</code> y después, debe establecer los valores por defecto.</p>
+
+<p>Todos los validadores disponen de un contenedor de parámetros accesible mediante <code>$this-&gt;getParameterHolder()</code>.</p>
+
+<p>Si por ejemplo se quiere definir un validador llamado <code>sfSpamValidator</code> para comprobar si una cadena de texto no es spam, se puede utilizar el código del listado 10-32 en un archivo llamado <code>sfSpamValidator.class.php</code>. El validador comprueba si <code>$valor</code> contiene más de <code>max_url</code> veces la cadena de texto <code>http</code>.</p>
+
+<p><strong>Listado 10-32 - Creando un validador propio, en <code>lib/sfSpamValidator.class.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">class</span> sfSpamValidator <span class="kw2">extends</span> sfValidator
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> execute<span class="br0">&#40;</span><span class="sy0">&amp;</span><span class="re0">$valor</span><span class="sy0">,</span> <span class="sy0">&amp;</span><span class="re0">$error</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Para max_url=2, la expresión regular es /http.*http/is</span>
+    <span class="re0">$re</span> <span class="sy0">=</span> <span class="st_h">'/'</span><span class="sy0">.</span><span class="kw3">implode</span><span class="br0">&#40;</span><span class="st_h">'.*'</span><span class="sy0">,</span> <span class="kw3">array_fill</span><span class="br0">&#40;</span><span class="nu0">0</span><span class="sy0">,</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'max_url'</span><span class="br0">&#41;</span> <span class="sy0">+</span> <span class="nu0">1</span><span class="sy0">,</span> <span class="st_h">'http'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/is'</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw3">preg_match</span><span class="br0">&#40;</span><span class="re0">$re</span><span class="sy0">,</span> <span class="re0">$valor</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+      <span class="re0">$error</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'spam_error'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+      <span class="kw1">return</span> <span class="kw4">false</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="kw4">true</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+&nbsp;
+  <span class="kw2">public</span> <span class="kw2">function</span> initialize <span class="br0">&#40;</span><span class="re0">$contexto</span><span class="sy0">,</span> <span class="re0">$parametros</span> <span class="sy0">=</span> <span class="kw4">null</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="co1">// Inicializar la clase padre</span>
+    parent<span class="sy0">::</span><span class="me2">initialize</span><span class="br0">&#40;</span><span class="re0">$contexto</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Valores por defecto de los parámetros</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">setParameter</span><span class="br0">&#40;</span><span class="st_h">'max_url'</span><span class="sy0">,</span> <span class="nu0">2</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">setParameter</span><span class="br0">&#40;</span><span class="st_h">'spam_error'</span><span class="sy0">,</span> <span class="st_h">'Esto es spam'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">// Establecer los parámetros</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getParameterHolder</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="re0">$parametros</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="kw4">true</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Después de incluir el validador en cualquier directorio con carga automática de clases (y después de borrar la cache de Symfony) se puede utilizar en los archivos de validación de la forma que muestra el listado 10-33.</p>
+
+<p><strong>Listado 10-33 - Utilizando un validador propio, en <code>validate/enviar.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">fields</span>:<span class="co4">
+  mensaje</span>:<span class="co4">
+    required</span>:<span class="co3">
+      msg</span><span class="sy2">: </span>         El mensaje <span class="kw1">no</span> se puede dejar vacío<span class="co4">
+    sfSpamValidator</span>:<span class="co3">
+      max_url</span><span class="sy2">: </span>     <span class="nu0">3</span><span class="co3">
+      spam_error</span><span class="sy2">: </span>  En este sitio web <span class="kw1">no</span> nos gusta el spam</pre>
+</div>
+
+<h3 id="utilizando_la_sintaxis_de_los_arrays_para_los_campos_de_formulario">10.4.2. Utilizando la sintaxis de los arrays para los campos de formulario</h3>
+
+<p>PHP permite utilizar la sintaxis de los arrays para los campos de formulario. Cuando se diseñan manualmente los formularios o cuando se utilizan los que genera automáticamente Propel (ver Capítulo 14) el código HTML resultante puede ser similar al del listado 10-34.</p>
+
+<p><strong>Listado 10-34 - Formulario con sintaxis de array</strong></p>
+
+<div class="code html5">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">label</span> <span class="kw3">for</span><span class="sy0">=</span><span class="st0">&quot;articulo_titulo&quot;</span>&gt;</span>Titulo:<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">label</span>&gt;</span>
+<span class="sc2">&lt;<span class="kw2">input</span> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">&quot;text&quot;</span> <span class="kw3">name</span><span class="sy0">=</span><span class="st0">&quot;articulo[titulo]&quot;</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">&quot;articulo_titulo&quot;</span> <span class="kw3">value</span><span class="sy0">=</span><span class="st0">&quot;Valor inicial&quot;</span></span>
+<span class="sc2">       <span class="kw3">size</span><span class="sy0">=</span><span class="st0">&quot;45&quot;</span> <span class="sy0">/</span>&gt;</span></pre>
+</div>
+
+<p>Si en un archivo de validación se utiliza el nombre del campo de formulario tal y como aparece en el formulario (con los corchetes) se producirá un error al procesar el archivo YAML. La solución consiste en reemplazar los corchetes <code>[]</code> por llaves <code>{}</code> en la sección <code>fields</code>, como muestra el listado 10-35. Symfony se encarga de la conversión de los nombres que se envían después a los validadores.</p>
+
+<p><strong>Listado 10-35 - Archivo de validación para un formulario que utiliza la sintaxis de los arrays</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">fields</span>:<span class="co4">
+  articulo{titulo}</span>:<span class="co3">
+    required</span><span class="sy2">: </span>    <span class="kw1">Yes</span></pre>
+</div>
+
+<h3 id="ejecutando_un_validador_en_un_campo_vacio">10.4.3. Ejecutando un validador en un campo vacío</h3>
+
+<p>En ocasiones es necesario ejecutar un validador a un campo que no es obligatorio, es decir, en un campo que puede estar vacío. El caso más habitual es el de un formulario en el que el usuario puede (pero no es obligatorio) cambiar su contraseña. Si decide cambiarla, debe escribir la nueva contraseña dos veces. El ejemplo se muestra en el listado 10-36.</p>
+
+<p><strong>Listado 10-36 - Archivo de validación para un formulario con 2 campos de contraseña</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">fields</span>:<span class="co4">
+  password1</span>:<span class="co4">
+  password2</span>:<span class="co4">
+    sfCompareValidator</span>:<span class="co3">
+      check</span><span class="sy2">: </span>        password1<span class="co3">
+      compare_error</span><span class="sy2">: </span>Las <span class="nu0">2</span> contraseñas <span class="kw1">no</span> coinciden</pre>
+</div>
+
+<p>La validación que se ejecuta es la siguiente:</p>
+
+<ul>
+<li>Si <code>password1 == null</code> y <code>password2 == null</code>:
+
+<ul>
+<li>La comprobación <code>required</code> se cumple.</li>
+<li>Los validadores no se ejecutan.</li>
+<li>El formulario es válido.</li>
+</ul></li>
+<li>Si <code>password2 == null</code> y <code>password1</code> no es <code>null</code>:
+
+<ul>
+<li>La comprobación <code>required</code> se cumple.</li>
+<li>Los validadores no se ejecutan.</li>
+<li>El formulario es válido.</li>
+</ul></li>
+</ul>
+
+<p>El validador para <code>password2</code> debería ejecutarse si <code>password1</code> es <code>not null</code>. Afortunadamente, los validadores de Symfony permiten controlar este caso gracias al parámetro <code>group</code>. Cuando un campo de formulario pertenece a un grupo, su validador se ejecuta si el campo no está vacío y si alguno de los campos que pertenecen al grupo no está vacío.</p>
+
+<p>Así que si se modifica la configuración del proceso de validación por lo que se muestra en el listado 10-37, la validación se ejecuta correctamente.</p>
+
+<p><strong>Listado 10-37 - Archivo de validación para un formulario con 2 campos de contraseña y un grupo</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">fields</span>:<span class="co4">
+  password1</span>:<span class="co3">
+    group</span><span class="sy2">: </span>          grupo_password<span class="co4">
+  password2</span>:<span class="co3">
+    group</span><span class="sy2">: </span>          grupo_password<span class="co4">
+    sfCompareValidator</span>:<span class="co3">
+      check</span><span class="sy2">: </span>        password1<span class="co3">
+      compare_error</span><span class="sy2">: </span>Las <span class="nu0">2</span> contraseñas <span class="kw1">no</span> coinciden</pre>
+</div>
+
+<p>El proceso de validación ahora se ejecuta de la siguiente manera:</p>
+
+<ul>
+<li>Si <code>password1 == null</code> y <code>password2 == null</code>:
+
+<ul>
+<li>La comprobación <code>required</code> se cumple.</li>
+<li>Los validadores no se ejecutan.</li>
+<li>El formulario es válido.</li>
+</ul></li>
+<li>Si <code>password1 == null</code> and <code>password2 == lo_que_sea</code>:
+
+<ul>
+<li>La comprobación <code>required</code> se cumple.</li>
+<li><code>password2</code> es <code>not null</code>, por lo que se ejecuta su validador y falla.</li>
+<li>Se muestra un mensaje de error para <code>password2</code>.</li>
+</ul></li>
+<li>Si <code>password1 == lo_que_sea</code> y <code>password2 == null</code>:
+
+<ul>
+<li>La comprobación <code>required</code> se cumple.</li>
+<li><code>password1</code> es <code>not null</code>, por lo que se ejecuta también el validador para <code>password2</code> por pertenecer al mismo grupo y la validación falla.</li>
+<li>Se muestra un mensaje de error para <code>password2</code>.</li>
+</ul></li>
+<li>Si <code>password1 == lo_que_sea</code> y <code>password2 == lo_que_sea</code>:
+
+<ul>
+<li>La comprobación <code>required</code> se cumple.</li>
+<li><code>password2</code> es <code>not null</code>, por lo que se ejecuta su validador y no se producen errores.</li>
+<li>El formulario es válido.</li>
+</ul></li>
+</ul>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_10/validacion_de_formularios.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>10.3. Validación de formularios</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_10/resumen.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>10.5. Resumen</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_10.html">
+                    <span>Capítulo 10.</span> Formularios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/helpers_de_formularios.html">
+                    <span>10.1.</span> Helpers de formularios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/helpers_de_formularios_para_objetos.html">
+                    <span>10.2.</span> Helpers de formularios para objetos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/validacion_de_formularios.html">
+                    <span>10.3.</span> Validación de formularios
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_10/validaciones_complejas.html">
+                    <span>10.4.</span> Validaciones complejas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/resumen.html">
+                    <span>10.5.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

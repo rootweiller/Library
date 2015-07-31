@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>7.4. Etiquetas y helpers (Symfony 2.4, el libro oficial)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                            
+        <link rel="canonical" href="/libro/symfony_2_x/capitulo_7/etiquetas_y_helpers.html"/>
+                                    <link rel="prev" href="../capitulo_7/nomenclatura_y_localizacion_de_las_plantillas.html" />
+                    <link rel="next" href="../capitulo_7/incluyendo_hojas_de_estilo_y_javascript_en_twig.html" />
+                <link rel="start" href="/libro/symfony_2_4/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="7.4. Etiquetas y helpers (Symfony 2.4, el libro oficial)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_2_4"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_4/" itemprop="url">
+                    <span itemprop="title">Symfony 2.4, el libro oficial</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_2_4/capitulo_7.html" itemprop="url">
+                    <span itemprop="title">Capítulo 7. Creando y utilizando plantillas</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>7.4. Etiquetas y helpers</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="etiquetas_y_helpers" class="title">
+        <span>7.4.</span> Etiquetas y helpers
+    </h1>
+
+    
+
+<p>Después de estudiar las secciones anteriores, ya conoces los conceptos básicos de las plantillas, la sintaxis de su nomenclatura y hasta cómo aplicar la herencia de plantillas. Esta sección explica cómo realizar las tareas más habituales en las plantillas, como por ejemplo incluir unas plantillas en otras, crear enlaces entre páginas y mostrar imágenes.</p>
+
+<p>Symfony2 incluye varias etiquetas especiales de Twig y funciones que facilitan el trabajo del diseñador de las plantillas. El sistema de plantillas también incluye varios <em>helpers</em> para aquellos diseñadores que todavía utilizan PHP para diseñar las plantillas.</p>
+
+<p>Aunque ya hemos visto algunas etiquetas de Twig (<code>{&#37; block &#37;}</code> y <code>{&#37; extends &#37;}</code>) y algunos <em>helpers</em> de PHP, (<code>$view['slot']</code>), a continuación aprenderás unos cuantos más.</p>
+
+<h3 id="incluyendo_otras_plantillas">7.4.1. Incluyendo otras plantillas</h3>
+
+<p>Resulta habitual querer incluir la misma plantilla o fragmento de código en varias páginas diferentes. Si la aplicación tiene por ejemplo un listado de artículos, el código de la plantilla que muestra un artículo se puede utilizar en la página de detalle del artículo, en una página que muestra los artículos más populares, o en una lista de los artículos más recientes.</p>
+
+<p>En PHP, cuando necesitas reutilizar un trozo de código, normalmente mueves el código a una nueva clase o función. En las plantillas se aplica la misma idea. Después de mover una parte del código de la plantilla a su propia plantilla, este se puede incluir en cualquier otra plantilla. En primer lugar, crea la nueva plantilla reutilizable.</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_b29f3" class="active"><a data-toggle="tab active" href="#select_tab_1_b29f3" onclick="document.getElementById('select_tab_1_b29f3').className='active'; document.getElementById('tab_1_b29f3').className='tab-pane active';document.getElementById('select_tab_2_b29f3').className='';  document.getElementById('tab_2_b29f3').className='tab-pane';return false;">TWIG</a></li><li id="select_tab_2_b29f3"><a data-toggle="tab" href="#select_tab_2_b29f3" onclick="document.getElementById('select_tab_1_b29f3').className='';  document.getElementById('tab_1_b29f3').className='tab-pane';document.getElementById('select_tab_2_b29f3').className='active'; document.getElementById('tab_2_b29f3').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_b29f3">
+<div class="code twig">
+<pre class="twig"><span class="sc1"><span class="coMULTI">{&#35; src/Acme/ArticleBundle/Resources/views/Article/articleDetails.html.twig &#35;}</span></span>
+&lt;h2&gt;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">article</span><span class="sy0">.</span><span class="kw2">title</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&lt;/h2&gt;
+&lt;h3 class=&quot;byline&quot;&gt;by <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">article</span><span class="re1">.authorName</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&lt;/h3&gt;
+&nbsp;
+&lt;p&gt;
+    <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">article</span><span class="re1">.body</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>
+&lt;/p&gt;</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_b29f3">
+<div class="code php">
+<pre class="php">&lt;!-- src/Acme/ArticleBundle/Resources/views/Article/articleDetails.html.php --&gt;
+&lt;h2&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$article</span><span class="sy0">-&gt;</span><span class="me1">getTitle</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/h2&gt;
+&lt;h3 class=&quot;byline&quot;&gt;by <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$article</span><span class="sy0">-&gt;</span><span class="me1">getAuthorName</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/h3&gt;
+&nbsp;
+&lt;p&gt;
+    <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$article</span><span class="sy0">-&gt;</span><span class="me1">getBody</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&lt;/p&gt;</pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Ahora ya puedes incluir fácilmente esta plantilla en cualquier otra:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_b2af0" class="active"><a data-toggle="tab active" href="#select_tab_1_b2af0" onclick="document.getElementById('select_tab_1_b2af0').className='active'; document.getElementById('tab_1_b2af0').className='tab-pane active';document.getElementById('select_tab_2_b2af0').className='';  document.getElementById('tab_2_b2af0').className='tab-pane';return false;">TWIG</a></li><li id="select_tab_2_b2af0"><a data-toggle="tab" href="#select_tab_2_b2af0" onclick="document.getElementById('select_tab_1_b2af0').className='';  document.getElementById('tab_1_b2af0').className='tab-pane';document.getElementById('select_tab_2_b2af0').className='active'; document.getElementById('tab_2_b2af0').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_b2af0">
+<div class="code twig">
+<pre class="twig"><span class="sc1"><span class="coMULTI">{&#35; src/Acme/ArticleBundle/Resources/views/Article/list.html.twig &#35;}</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">extends</span> <span class="st0">'AcmeArticleBundle::layout.html.twig'</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+&nbsp;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">block</span> <span class="re0">body</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;h1&gt;Recent Articles&lt;h1&gt;
+&nbsp;
+    <span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">for</span> <span class="re0">article</span> <span class="kw5">in</span> <span class="re0">articles</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+        <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="kw1">include</span><span class="br0">&#40;</span>
+            <span class="st0">'AcmeArticleBundle:Article:articleDetails.html.twig'</span>,
+            <span class="br0">&#123;</span><span class="st0">'article'</span><span class="sy0">:</span> <span class="re0">article</span><span class="br0">&#125;</span>
+        <span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>
+    <span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endfor</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endblock</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_b2af0">
+<div class="code php">
+<pre class="php">&lt;!-- src/Acme/ArticleBundle/Resources/Article/list.html.php --&gt;
+<span class="kw2">&lt;?php</span> <span class="re0">$view</span><span class="sy0">-&gt;</span><span class="me1">extend</span><span class="br0">&#40;</span><span class="st_h">'AcmeArticleBundle::layout.html.php'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+<span class="kw2">&lt;?php</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'slots'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">start</span><span class="br0">&#40;</span><span class="st_h">'body'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+    &lt;h1&gt;Recent Articles&lt;/h1&gt;
+&nbsp;
+    <span class="kw2">&lt;?php</span> <span class="kw1">foreach</span> <span class="br0">&#40;</span><span class="re0">$articles</span> <span class="kw1">as</span> <span class="re0">$article</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+        <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">&#40;</span><span class="st_h">'AcmeArticleBundle:Article:articleDetails.html.php'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'article'</span> <span class="sy0">=&gt;</span> <span class="re0">$article</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+    <span class="kw2">&lt;?php</span> <span class="kw1">endforeach</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'slots'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">stop</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>La plantilla se incluye utilizando la función <code>{&#123; include() &#125;}</code>. Observa que el nombre de la plantilla utiliza la misma nomenclatura especial explicada anteriormente. Como la plantilla <code>articleDetails.html.twig</code> necesita una variable llamada <code>article</code>, la plantilla <code>list.html.twig</code> se la pasa utilizando la palabra reservada <code>with</code>.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> La sintaxis <code>{'article': article}</code> es la forma de crear un objeto o <em>hash</em> en Twig (es decir, como un array pero sin claves numéricas). Si quieres pasar varios elementos, utiliza la sintaxis <code>{'variable1': 'valor1', 'variable2': 'valor2'}</code>.</p></div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> La función <code>include()</code> es una nueva característica de Twig que está disponible a partir de la versión 2.2 de Symfony. Antes se utilizaba la etiqueta <code>{&#37; include &#37;}</code>.</p></div>
+
+<h3 id="integrando_controladores">7.4.2. Integrando controladores</h3>
+
+<p>En ocasiones es necesario hacer algo más que incluir una simple plantilla estática. Imagina que en tu sitio web tienes una barra lateral que muestra los tres artículos más recientes. Para obtener esos tres artículos es necesario realizar una consulta a la base de datos o alguna otra operación similar que no se puede incluir en la propia plantilla.</p>
+
+<p>La solución consiste en insertar en la plantilla el resultado devuelto por un controlador de la aplicación. En primer lugar, crea un controlador que renderice el listado de los artículos recientes:</p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// src/Acme/ArticleBundle/Controller/ArticleController.php</span>
+<span class="kw2">class</span> ArticleController <span class="kw2">extends</span> Controller
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> recentArticlesAction<span class="br0">&#40;</span><span class="re0">$max</span> <span class="sy0">=</span> <span class="nu0">3</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">// hace una llamada a la base de datos u otra lógica</span>
+        <span class="co1">// para obtener los &quot;$max&quot; artículos más recientes</span>
+        <span class="re0">$articles</span> <span class="sy0">=</span> <span class="sy0">...;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">&#40;</span>
+            <span class="st_h">'AcmeArticleBundle:Article:recentList.html.twig'</span><span class="sy0">,</span>
+            <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'articles'</span> <span class="sy0">=&gt;</span> <span class="re0">$articles</span><span class="br0">&#41;</span>
+        <span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>La plantilla <code>recentList</code> asociada al controlador anterior es muy sencilla, ya que sólo incluye el bucle <code>for</code> necesario para crear el listado de artículos:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_b2c25" class="active"><a data-toggle="tab active" href="#select_tab_1_b2c25" onclick="document.getElementById('select_tab_1_b2c25').className='active'; document.getElementById('tab_1_b2c25').className='tab-pane active';document.getElementById('select_tab_2_b2c25').className='';  document.getElementById('tab_2_b2c25').className='tab-pane';return false;">TWIG</a></li><li id="select_tab_2_b2c25"><a data-toggle="tab" href="#select_tab_2_b2c25" onclick="document.getElementById('select_tab_1_b2c25').className='';  document.getElementById('tab_1_b2c25').className='tab-pane';document.getElementById('select_tab_2_b2c25').className='active'; document.getElementById('tab_2_b2c25').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_b2c25">
+<div class="code twig">
+<pre class="twig"><span class="sc1"><span class="coMULTI">{&#35; src/Acme/ArticleBundle/Resources/views/Article/recentList.html.twig &#35;}</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">for</span> <span class="re0">article</span> <span class="kw5">in</span> <span class="re0">articles</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;a href=&quot;/article/<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">article</span><span class="re1">.slug</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&quot;&gt;
+        <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">article</span><span class="sy0">.</span><span class="kw2">title</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>
+        &lt;/a&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endfor</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_b2c25">
+<div class="code php">
+<pre class="php">&lt;!-- src/Acme/ArticleBundle/Resources/views/Article/recentList.html.php --&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">foreach</span> <span class="br0">&#40;</span><span class="re0">$articles</span> <span class="kw1">as</span> <span class="re0">$article</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+    &lt;a href=&quot;/article/<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$article</span><span class="sy0">-&gt;</span><span class="me1">getSlug</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&quot;&gt;
+        <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$article</span><span class="sy0">-&gt;</span><span class="me1">getTitle</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+        &lt;/a&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">endforeach</span><span class="sy0">;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Observa que en este ejemplo la URL de cada artículo se ha escrito directamente como <code>/article/*slug*</code>. Ela siguiente sección verás que esto es una mala práctica y descubrirás cómo hacerlo correctamente.</p></div>
+
+<p>Por último, para mostrar en cualquier plantilla el resultado de ejecutar este controlador, utiliza la función <code>render</code> e identifica al controlador utilizando la notación especial <strong>bundle</strong>:<strong>controlador</strong>:<strong>acción</strong>):</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_b2d14" class="active"><a data-toggle="tab active" href="#select_tab_1_b2d14" onclick="document.getElementById('select_tab_1_b2d14').className='active'; document.getElementById('tab_1_b2d14').className='tab-pane active';document.getElementById('select_tab_2_b2d14').className='';  document.getElementById('tab_2_b2d14').className='tab-pane';return false;">TWIG</a></li><li id="select_tab_2_b2d14"><a data-toggle="tab" href="#select_tab_2_b2d14" onclick="document.getElementById('select_tab_1_b2d14').className='';  document.getElementById('tab_1_b2d14').className='tab-pane';document.getElementById('select_tab_2_b2d14').className='active'; document.getElementById('tab_2_b2d14').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_b2d14">
+<div class="code twig">
+<pre class="twig"><span class="sc1"><span class="coMULTI">{&#35; app/Resources/views/base.html.twig &#35;}</span></span>
+&nbsp;
+<span class="sc1"><span class="coMULTI">{&#35; ... &#35;}</span></span>
+&lt;div id=&quot;sidebar&quot;&gt;
+    <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">render</span><span class="br0">&#40;</span>controller<span class="br0">&#40;</span><span class="st0">'AcmeArticleBundle:Article:recentArticles'</span>, <span class="br0">&#123;</span>
+        <span class="st0">'max'</span><span class="sy0">:</span> <span class="nu0">3</span>
+    <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>
+&lt;/div&gt;</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_b2d14">
+<div class="code php">
+<pre class="php">&lt;!-- app/Resources/views/base.html.php --&gt;
+&nbsp;
+&lt;!-- ... --&gt;
+&lt;div id=&quot;sidebar&quot;&gt;
+    <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'actions'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">&#40;</span>
+        <span class="kw2">new</span> ControllerReference<span class="br0">&#40;</span>
+            <span class="st_h">'AcmeArticleBundle:Article:recentArticles'</span><span class="sy0">,</span>
+            <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'max'</span> <span class="sy0">=&gt;</span> <span class="nu0">3</span><span class="br0">&#41;</span>
+        <span class="br0">&#41;</span>
+    <span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&lt;/div&gt;</pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Siempre que necesites una variable o alguna otra información dinámica a la que no puedas acceder directamente desde la plantilla, deberías renderizar un controlador con la función <code>render()</code>. Los controladores se ejecutan muy rápidamente y permiten organizar mejor el código de la aplicación.</p>
+
+<h3 id="contenido_asincrono_con_hincludejs">7.4.3. Contenido asíncrono con <code>hinclude.js</code></h3>
+
+<p>Los controladores se pueden incluir asíncronamente en las plantillas usando la librería <a href="http://mnot.github.com/hinclude/">hinclude.js</a> de JavaScript. Symfony2 utiliza la función <code>render()</code> estándar para configurar las etiquetas <code>hinclude</code>:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_b2def" class="active"><a data-toggle="tab active" href="#select_tab_1_b2def" onclick="document.getElementById('select_tab_1_b2def').className='active'; document.getElementById('tab_1_b2def').className='tab-pane active';document.getElementById('select_tab_2_b2def').className='';  document.getElementById('tab_2_b2def').className='tab-pane';return false;">TWIG</a></li><li id="select_tab_2_b2def"><a data-toggle="tab" href="#select_tab_2_b2def" onclick="document.getElementById('select_tab_1_b2def').className='';  document.getElementById('tab_1_b2def').className='tab-pane';document.getElementById('select_tab_2_b2def').className='active'; document.getElementById('tab_2_b2def').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_b2def">
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">render</span> <span class="re0">url</span><span class="br0">&#40;</span><span class="st0">'...'</span><span class="br0">&#41;</span> <span class="re0">with</span> <span class="br0">&#123;</span><span class="br0">&#125;</span>, <span class="br0">&#123;</span><span class="st0">'standalone'</span><span class="sy0">:</span> <span class="st0">'js'</span><span class="br0">&#125;</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_b2def">
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'actions'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">&#40;</span>
+    <span class="kw2">new</span> ControllerReference<span class="br0">&#40;</span><span class="st_h">'...'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'strategy'</span> <span class="sy0">=&gt;</span> <span class="st_h">'hinclude'</span><span class="br0">&#41;</span>
+<span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'actions'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">&#40;</span>
+    <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'router'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">generate</span><span class="br0">&#40;</span><span class="st_h">'...'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'strategy'</span> <span class="sy0">=&gt;</span> <span class="st_h">'hinclude'</span><span class="br0">&#41;</span>
+<span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Para que el código anterior funcione, asegúrate de incluir primero la librería <code>hinclude.js</code> en la página.</p></div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Si utilizas un controlador en vez de una URL, no olvides activar primero la configuración <code>fragments</code> de Symfony:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_b2ebc" class="active"><a data-toggle="tab active" href="#select_tab_1_b2ebc" onclick="document.getElementById('select_tab_1_b2ebc').className='active'; document.getElementById('tab_1_b2ebc').className='tab-pane active';document.getElementById('select_tab_2_b2ebc').className='';  document.getElementById('tab_2_b2ebc').className='tab-pane';document.getElementById('select_tab_3_b2ebc').className='';  document.getElementById('tab_3_b2ebc').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_b2ebc"><a data-toggle="tab" href="#select_tab_2_b2ebc" onclick="document.getElementById('select_tab_1_b2ebc').className='';  document.getElementById('tab_1_b2ebc').className='tab-pane';document.getElementById('select_tab_2_b2ebc').className='active'; document.getElementById('tab_2_b2ebc').className='tab-pane active';document.getElementById('select_tab_3_b2ebc').className='';  document.getElementById('tab_3_b2ebc').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_b2ebc"><a data-toggle="tab" href="#select_tab_3_b2ebc" onclick="document.getElementById('select_tab_1_b2ebc').className='';  document.getElementById('tab_1_b2ebc').className='tab-pane';document.getElementById('select_tab_2_b2ebc').className='';  document.getElementById('tab_2_b2ebc').className='tab-pane';document.getElementById('select_tab_3_b2ebc').className='active'; document.getElementById('tab_3_b2ebc').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_b2ebc">
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># app/config/config.yml</span><span class="co4">
+framework</span><span class="sy2">:
+</span>    <span class="co1"># ...</span><span class="co3">
+    fragments</span><span class="sy2">: </span><span class="br0">&#123;</span> path<span class="sy2">: </span>/_fragment <span class="br0">&#125;</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_b2ebc">
+<div class="code xml">
+<pre class="xml"><span class="sc-1">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="sc3"><span class="re1">&lt;framework:config<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;framework:fragments</span> <span class="re0">path</span>=<span class="st0">&quot;/_fragment&quot;</span> <span class="re2">/&gt;</span></span>
+<span class="sc3"><span class="re1">&lt;/framework:config<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_b2ebc">
+<div class="code php">
+<pre class="php"><span class="co1">// app/config/config.php</span>
+<span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">loadFromExtension</span><span class="br0">&#40;</span><span class="st_h">'framework'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="co1">// ...</span>
+    <span class="st_h">'fragments'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'/_fragment'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p></p></div>
+
+<p>El contenido por defecto que se muestra mientras se carga el contenido o cuando JavaScript está desactivado se puede configurar globalmente en el archivo <code>config.yml</code> de la aplicación:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_b2f9c" class="active"><a data-toggle="tab active" href="#select_tab_1_b2f9c" onclick="document.getElementById('select_tab_1_b2f9c').className='active'; document.getElementById('tab_1_b2f9c').className='tab-pane active';document.getElementById('select_tab_2_b2f9c').className='';  document.getElementById('tab_2_b2f9c').className='tab-pane';document.getElementById('select_tab_3_b2f9c').className='';  document.getElementById('tab_3_b2f9c').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_b2f9c"><a data-toggle="tab" href="#select_tab_2_b2f9c" onclick="document.getElementById('select_tab_1_b2f9c').className='';  document.getElementById('tab_1_b2f9c').className='tab-pane';document.getElementById('select_tab_2_b2f9c').className='active'; document.getElementById('tab_2_b2f9c').className='tab-pane active';document.getElementById('select_tab_3_b2f9c').className='';  document.getElementById('tab_3_b2f9c').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_b2f9c"><a data-toggle="tab" href="#select_tab_3_b2f9c" onclick="document.getElementById('select_tab_1_b2f9c').className='';  document.getElementById('tab_1_b2f9c').className='tab-pane';document.getElementById('select_tab_2_b2f9c').className='';  document.getElementById('tab_2_b2f9c').className='tab-pane';document.getElementById('select_tab_3_b2f9c').className='active'; document.getElementById('tab_3_b2f9c').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_b2f9c">
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># app/config/config.yml</span><span class="co4">
+framework</span><span class="sy2">:
+</span>    <span class="co1"># ...</span><span class="co4">
+    templating</span>:<span class="co3">
+        hinclude_default_template</span><span class="sy2">: </span>AcmeDemoBundle::hinclude.html.twig</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_b2f9c">
+<div class="code xml">
+<pre class="xml"><span class="sc-1">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="sc3"><span class="re1">&lt;framework:config<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;framework:templating</span></span>
+<span class="sc3">        <span class="re0">hinclude-default-template</span>=<span class="st0">&quot;AcmeDemoBundle::hinclude.html.twig&quot;</span> <span class="re2">/&gt;</span></span>
+<span class="sc3"><span class="re1">&lt;/framework:config<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_b2f9c">
+<div class="code php">
+<pre class="php"><span class="co1">// app/config/config.php</span>
+<span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">loadFromExtension</span><span class="br0">&#40;</span><span class="st_h">'framework'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="co1">// ...</span>
+    <span class="st_h">'templating'</span>      <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'hinclude_default_template'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="st_h">'AcmeDemoBundle::hinclude.html.twig'</span>
+        <span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Las plantillas por defecto de la función <code>render_hinclude()</code> se incluyeron a partir de la versión 2.2 de Symfony.</p></div>
+
+<p>Además de la plantilla por defecto global, puedes definir para cada <code>render_hinclude()</code> su propia plantilla por defecto que se muestra si cualquier error impide cargar el contenido solicitado:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_b308b" class="active"><a data-toggle="tab active" href="#select_tab_1_b308b" onclick="document.getElementById('select_tab_1_b308b').className='active'; document.getElementById('tab_1_b308b').className='tab-pane active';document.getElementById('select_tab_2_b308b').className='';  document.getElementById('tab_2_b308b').className='tab-pane';return false;">TWIG</a></li><li id="select_tab_2_b308b"><a data-toggle="tab" href="#select_tab_2_b308b" onclick="document.getElementById('select_tab_1_b308b').className='';  document.getElementById('tab_1_b308b').className='tab-pane';document.getElementById('select_tab_2_b308b').className='active'; document.getElementById('tab_2_b308b').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_b308b">
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">render_hinclude</span><span class="br0">&#40;</span>controller<span class="br0">&#40;</span><span class="st0">'...'</span><span class="br0">&#41;</span>, <span class="br0">&#123;</span>
+    <span class="st0">'default'</span><span class="sy0">:</span> <span class="st0">'AcmeDemoBundle:Default:content.html.twig'</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_b308b">
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'actions'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">&#40;</span>
+    <span class="kw2">new</span> ControllerReference<span class="br0">&#40;</span><span class="st_h">'...'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'strategy'</span> <span class="sy0">=&gt;</span> <span class="st_h">'hinclude'</span><span class="sy0">,</span>
+        <span class="st_h">'default'</span> <span class="sy0">=&gt;</span> <span class="st_h">'AcmeDemoBundle:Default:content.html.twig'</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span>
+<span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>La última opción consiste en definir directamente el contenido por defecto en la propia llamada a <code>render_hinclude()</code>, lo que evita que tengas que definir otra plantilla:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_b3149" class="active"><a data-toggle="tab active" href="#select_tab_1_b3149" onclick="document.getElementById('select_tab_1_b3149').className='active'; document.getElementById('tab_1_b3149').className='tab-pane active';document.getElementById('select_tab_2_b3149').className='';  document.getElementById('tab_2_b3149').className='tab-pane';return false;">TWIG</a></li><li id="select_tab_2_b3149"><a data-toggle="tab" href="#select_tab_2_b3149" onclick="document.getElementById('select_tab_1_b3149').className='';  document.getElementById('tab_1_b3149').className='tab-pane';document.getElementById('select_tab_2_b3149').className='active'; document.getElementById('tab_2_b3149').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_b3149">
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">render_hinclude</span><span class="br0">&#40;</span>controller<span class="br0">&#40;</span><span class="st0">'...'</span><span class="br0">&#41;</span>, <span class="br0">&#123;</span><span class="st0">'default'</span><span class="sy0">:</span> <span class="st0">'Cargando...'</span><span class="br0">&#125;</span><span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_b3149">
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'actions'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">&#40;</span>
+    <span class="kw2">new</span> ControllerReference<span class="br0">&#40;</span><span class="st_h">'...'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'strategy'</span> <span class="sy0">=&gt;</span> <span class="st_h">'hinclude'</span><span class="sy0">,</span>
+        <span class="st_h">'default'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'Cargando...'</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span>
+<span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<h3 id="contenido_asincrono_con_hincludejs_2">7.4.4. Contenido asíncrono con hinclude.js</h3>
+
+<p>Los controladores se pueden embeber asíncronamente mediante la librería <a href="http://mnot.github.com/hinclude/">hinclude.js</a> de JavaScript. Como el contenido incluído proviene de otra página (de otro controlador) Symfony2 utiliza el habitual <em>helper</em> <code>render</code> para configurar las etiquetas <code>hinclude</code>:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_b31fb" class="active"><a data-toggle="tab active" href="#select_tab_1_b31fb" onclick="document.getElementById('select_tab_1_b31fb').className='active'; document.getElementById('tab_1_b31fb').className='tab-pane active';document.getElementById('select_tab_2_b31fb').className='';  document.getElementById('tab_2_b31fb').className='tab-pane';return false;">TWIG</a></li><li id="select_tab_2_b31fb"><a data-toggle="tab" href="#select_tab_2_b31fb" onclick="document.getElementById('select_tab_1_b31fb').className='';  document.getElementById('tab_1_b31fb').className='tab-pane';document.getElementById('select_tab_2_b31fb').className='active'; document.getElementById('tab_2_b31fb').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_b31fb">
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="re0">render</span> <span class="re0">url</span><span class="br0">&#40;</span><span class="st0">'...'</span><span class="br0">&#41;</span> <span class="re0">with</span> <span class="br0">&#123;</span><span class="br0">&#125;</span>, <span class="br0">&#123;</span><span class="st0">'standalone'</span><span class="sy0">:</span> <span class="st0">'js'</span><span class="br0">&#125;</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_b31fb">
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'actions'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">&#40;</span>
+    <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'router'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">generate</span><span class="br0">&#40;</span><span class="st_h">'...'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'standalone'</span> <span class="sy0">=&gt;</span> <span class="st_h">'js'</span><span class="br0">&#41;</span>
+<span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Para que este código funcione, debes incluir la librería <code>hinclude.js</code> en tus páginas.</p></div>
+
+<p>El contenido por defecto que se muestra mientras se cargan los contenidos o cuando JavaScript está desactivado se puede configurar globalmente en la configuración de la aplicación:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_b32ba" class="active"><a data-toggle="tab active" href="#select_tab_1_b32ba" onclick="document.getElementById('select_tab_1_b32ba').className='active'; document.getElementById('tab_1_b32ba').className='tab-pane active';document.getElementById('select_tab_2_b32ba').className='';  document.getElementById('tab_2_b32ba').className='tab-pane';document.getElementById('select_tab_3_b32ba').className='';  document.getElementById('tab_3_b32ba').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_b32ba"><a data-toggle="tab" href="#select_tab_2_b32ba" onclick="document.getElementById('select_tab_1_b32ba').className='';  document.getElementById('tab_1_b32ba').className='tab-pane';document.getElementById('select_tab_2_b32ba').className='active'; document.getElementById('tab_2_b32ba').className='tab-pane active';document.getElementById('select_tab_3_b32ba').className='';  document.getElementById('tab_3_b32ba').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_b32ba"><a data-toggle="tab" href="#select_tab_3_b32ba" onclick="document.getElementById('select_tab_1_b32ba').className='';  document.getElementById('tab_1_b32ba').className='tab-pane';document.getElementById('select_tab_2_b32ba').className='';  document.getElementById('tab_2_b32ba').className='tab-pane';document.getElementById('select_tab_3_b32ba').className='active'; document.getElementById('tab_3_b32ba').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_b32ba">
+<div class="code yaml">
+<pre class="yaml"><span class="co1"># app/config/config.yml</span><span class="co4">
+framework</span><span class="sy2">:
+</span>    <span class="co1"># ...</span><span class="co4">
+    templating</span>:<span class="co3">
+        hinclude_default_template</span><span class="sy2">: </span>AcmeDemoBundle::hinclude.html.twig</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_b32ba">
+<div class="code xml">
+<pre class="xml"><span class="sc-1">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="sc3"><span class="re1">&lt;framework:config<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;framework:templating</span> <span class="re0">hinclude-default-template</span>=<span class="st0">&quot;AcmeDemoBundle::hinclude.html.twig&quot;</span> <span class="re2">/&gt;</span></span>
+<span class="sc3"><span class="re1">&lt;/framework:config<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_b32ba">
+<div class="code php">
+<pre class="php"><span class="co1">// app/config/config.php</span>
+<span class="re0">$container</span><span class="sy0">-&gt;</span><span class="me1">loadFromExtension</span><span class="br0">&#40;</span><span class="st_h">'framework'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="co1">// ...</span>
+    <span class="st_h">'templating'</span>      <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'hinclude_default_template'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'AcmeDemoBundle::hinclude.html.twig'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<h3 id="enlazando_paginas">7.4.5. Enlazando páginas</h3>
+
+<p>Crear enlaces a otras páginas de la aplicación es una de las tareas más comunes de una plantilla. En lugar de generar a mano las URL dentro de la plantilla, utiliza la función <code>path</code> de Twig (o el <em>helper</em> <code>router</code> en PHP) para generar las URL utilizando la configuración del sistema de enrutamiento. De esta manera, si más adelante quieres cambiar el aspecto de cualquier URL, sólo tienes que actualizar un archivo de configuración y todas las URL de las plantillas se actualizarán instantáneamente.</p>
+
+<p>El siguiente ejemplo crea un enlace a la página <code>_welcome</code>, cuya configuración de enrutamiento se muestra a continuación:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_b33a1" class="active"><a data-toggle="tab active" href="#select_tab_1_b33a1" onclick="document.getElementById('select_tab_1_b33a1').className='active'; document.getElementById('tab_1_b33a1').className='tab-pane active';document.getElementById('select_tab_2_b33a1').className='';  document.getElementById('tab_2_b33a1').className='tab-pane';document.getElementById('select_tab_3_b33a1').className='';  document.getElementById('tab_3_b33a1').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_b33a1"><a data-toggle="tab" href="#select_tab_2_b33a1" onclick="document.getElementById('select_tab_1_b33a1').className='';  document.getElementById('tab_1_b33a1').className='tab-pane';document.getElementById('select_tab_2_b33a1').className='active'; document.getElementById('tab_2_b33a1').className='tab-pane active';document.getElementById('select_tab_3_b33a1').className='';  document.getElementById('tab_3_b33a1').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_b33a1"><a data-toggle="tab" href="#select_tab_3_b33a1" onclick="document.getElementById('select_tab_1_b33a1').className='';  document.getElementById('tab_1_b33a1').className='tab-pane';document.getElementById('select_tab_2_b33a1').className='';  document.getElementById('tab_2_b33a1').className='tab-pane';document.getElementById('select_tab_3_b33a1').className='active'; document.getElementById('tab_3_b33a1').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_b33a1">
+<div class="code yaml">
+<pre class="yaml"><span class="co4">_welcome</span>:<span class="co3">
+    path</span><span class="sy2">: </span>    /<span class="co3">
+    defaults</span><span class="sy2">: </span><span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeDemoBundle:Welcome:index <span class="br0">&#125;</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_b33a1">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;route</span> <span class="re0">id</span>=<span class="st0">&quot;_welcome&quot;</span> <span class="re0">path</span>=<span class="st0">&quot;/&quot;</span><span class="re2">&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_controller&quot;</span><span class="re2">&gt;</span></span>AcmeDemoBundle:Welcome:index<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/route<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_b33a1">
+<div class="code php">
+<pre class="php"><span class="re0">$collection</span> <span class="sy0">=</span> <span class="kw2">new</span> RouteCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'_welcome'</span><span class="sy0">,</span> <span class="kw2">new</span> Route<span class="br0">&#40;</span><span class="st_h">'/'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_controller'</span> <span class="sy0">=&gt;</span> <span class="st_h">'AcmeDemoBundle:Welcome:index'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">return</span> <span class="re0">$collection</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Para enlazar a la página, utiliza la función <code>path</code> de Twig pasándole el nombre de la página a la que quieres ir al pinchar sobre el enlace:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_b345d" class="active"><a data-toggle="tab active" href="#select_tab_1_b345d" onclick="document.getElementById('select_tab_1_b345d').className='active'; document.getElementById('tab_1_b345d').className='tab-pane active';document.getElementById('select_tab_2_b345d').className='';  document.getElementById('tab_2_b345d').className='tab-pane';return false;">TWIG</a></li><li id="select_tab_2_b345d"><a data-toggle="tab" href="#select_tab_2_b345d" onclick="document.getElementById('select_tab_1_b345d').className='';  document.getElementById('tab_1_b345d').className='tab-pane';document.getElementById('select_tab_2_b345d').className='active'; document.getElementById('tab_2_b345d').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_b345d">
+<div class="code twig">
+<pre class="twig">&lt;a href=&quot;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">path</span><span class="br0">&#40;</span><span class="st0">'_welcome'</span><span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&quot;&gt;Home&lt;/a&gt;</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_b345d">
+<div class="code php">
+<pre class="php">&lt;a href=&quot;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'router'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">generate</span><span class="br0">&#40;</span><span class="st_h">'_welcome'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&quot;&gt;Home&lt;/a&gt;</pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Como era de esperar, este código hace que la URL generada sea <code>/</code>. Si ahora utilizas una ruta más avanzada:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_b3515" class="active"><a data-toggle="tab active" href="#select_tab_1_b3515" onclick="document.getElementById('select_tab_1_b3515').className='active'; document.getElementById('tab_1_b3515').className='tab-pane active';document.getElementById('select_tab_2_b3515').className='';  document.getElementById('tab_2_b3515').className='tab-pane';document.getElementById('select_tab_3_b3515').className='';  document.getElementById('tab_3_b3515').className='tab-pane';return false;">YAML</a></li><li id="select_tab_2_b3515"><a data-toggle="tab" href="#select_tab_2_b3515" onclick="document.getElementById('select_tab_1_b3515').className='';  document.getElementById('tab_1_b3515').className='tab-pane';document.getElementById('select_tab_2_b3515').className='active'; document.getElementById('tab_2_b3515').className='tab-pane active';document.getElementById('select_tab_3_b3515').className='';  document.getElementById('tab_3_b3515').className='tab-pane';return false;">XML</a></li><li id="select_tab_3_b3515"><a data-toggle="tab" href="#select_tab_3_b3515" onclick="document.getElementById('select_tab_1_b3515').className='';  document.getElementById('tab_1_b3515').className='tab-pane';document.getElementById('select_tab_2_b3515').className='';  document.getElementById('tab_2_b3515').className='tab-pane';document.getElementById('select_tab_3_b3515').className='active'; document.getElementById('tab_3_b3515').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_b3515">
+<div class="code yaml">
+<pre class="yaml"><span class="co4">article_show</span>:<span class="co3">
+    path</span><span class="sy2">: </span>    /article/<span class="br0">&#123;</span>slug<span class="br0">&#125;</span><span class="co3">
+    defaults</span><span class="sy2">: </span><span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeArticleBundle:Article:show <span class="br0">&#125;</span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_b3515">
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;route</span> <span class="re0">id</span>=<span class="st0">&quot;article_show&quot;</span> <span class="re0">path</span>=<span class="st0">&quot;/article/{slug}&quot;</span><span class="re2">&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;default</span> <span class="re0">key</span>=<span class="st0">&quot;_controller&quot;</span><span class="re2">&gt;</span></span>AcmeArticleBundle:Article:show<span class="sc3"><span class="re1">&lt;/default<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/route<span class="re2">&gt;</span></span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_3_b3515">
+<div class="code php">
+<pre class="php"><span class="re0">$collection</span> <span class="sy0">=</span> <span class="kw2">new</span> RouteCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$collection</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'article_show'</span><span class="sy0">,</span> <span class="kw2">new</span> Route<span class="br0">&#40;</span><span class="st_h">'/article/{slug}'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'_controller'</span> <span class="sy0">=&gt;</span> <span class="st_h">'AcmeArticleBundle:Article:show'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">return</span> <span class="re0">$collection</span><span class="sy0">;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Como la ruta anterior tiene alguna parte variable, además de especificar el nombre de la ruta (<code>article_show</code>) también es necesario asignar un valor al parámetro <code>{slug}</code>. Haciendo uso de esta ruta puedes mejorar la plantilla <code>recentList</code> que se utilizó en los ejemplos de las secciones anteriores:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_b363b" class="active"><a data-toggle="tab active" href="#select_tab_1_b363b" onclick="document.getElementById('select_tab_1_b363b').className='active'; document.getElementById('tab_1_b363b').className='tab-pane active';document.getElementById('select_tab_2_b363b').className='';  document.getElementById('tab_2_b363b').className='tab-pane';return false;">TWIG</a></li><li id="select_tab_2_b363b"><a data-toggle="tab" href="#select_tab_2_b363b" onclick="document.getElementById('select_tab_1_b363b').className='';  document.getElementById('tab_1_b363b').className='tab-pane';document.getElementById('select_tab_2_b363b').className='active'; document.getElementById('tab_2_b363b').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_b363b">
+<div class="code twig">
+<pre class="twig"><span class="sc1"><span class="coMULTI">{&#35; src/Acme/ArticleBundle/Resources/views/Article/recentList.html.twig &#35;}</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">for</span> <span class="re0">article</span> <span class="kw5">in</span> <span class="re0">articles</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+    &lt;a href=&quot;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">path</span><span class="br0">&#40;</span><span class="st0">'article_show'</span>, <span class="br0">&#123;</span><span class="st0">'slug'</span><span class="sy0">:</span> <span class="re0">article</span><span class="re1">.slug</span><span class="br0">&#125;</span><span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&quot;&gt;
+        <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">article</span><span class="sy0">.</span><span class="kw2">title</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>
+        &lt;/a&gt;
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">endfor</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_b363b">
+<div class="code php">
+<pre class="php">&lt;!-- src/Acme/ArticleBundle/Resources/views/Article/recentList.html.php --&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">foreach</span> <span class="br0">&#40;</span><span class="re0">$articles</span> in <span class="re0">$article</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+    &lt;a href=&quot;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'router'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">generate</span><span class="br0">&#40;</span><span class="st_h">'article_show'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+        <span class="st_h">'slug'</span> <span class="sy0">=&gt;</span> <span class="re0">$article</span><span class="sy0">-&gt;</span><span class="me1">getSlug</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&quot;&gt;
+        <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$article</span><span class="sy0">-&gt;</span><span class="me1">getTitle</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+    &lt;/a&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">endforeach</span><span class="sy0">;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> La función <code>path()</code> siempre genera URL relativas. Para generar URL absolutas, utiliza la función <code>url()</code> de Twig:</p>
+
+<div class="code twig">
+<pre class="twig">&lt;a href=&quot;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">url</span><span class="br0">&#40;</span><span class="st0">'_welcome'</span><span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&quot;&gt;Home&lt;/a&gt;</pre>
+</div>
+
+<p>Para las plantillas PHP utiliza el método <code>generate()</code>:</p>
+
+<div class="code php">
+<pre class="php">&lt;a href=&quot;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'router'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">generate</span><span class="br0">&#40;</span>
+    <span class="st_h">'_welcome'</span><span class="sy0">,</span>
+    <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="kw4">true</span>
+<span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&quot;&gt;Home&lt;/a&gt;</pre>
+</div>
+
+<p></p></div>
+
+<h3 id="enlazando_archivos_web">7.4.6. Enlazando archivos web</h3>
+
+<p>Las plantillas de las aplicaciones web suelen enlazar con los <em>web assets</em> o archivos web, tales como imágenes, hojas de estilo CSS, archivos JavaScript, etc. De nuevo no es aconsejable generar a mano las URL de este tipo de archivos, ya que Symfony2 ofrece una solución mejor y mucho más flexible mediante la función <code>asset</code> de Twig:</p>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs"><li id="select_tab_1_b3705" class="active"><a data-toggle="tab active" href="#select_tab_1_b3705" onclick="document.getElementById('select_tab_1_b3705').className='active'; document.getElementById('tab_1_b3705').className='tab-pane active';document.getElementById('select_tab_2_b3705').className='';  document.getElementById('tab_2_b3705').className='tab-pane';return false;">TWIG</a></li><li id="select_tab_2_b3705"><a data-toggle="tab" href="#select_tab_2_b3705" onclick="document.getElementById('select_tab_1_b3705').className='';  document.getElementById('tab_1_b3705').className='tab-pane';document.getElementById('select_tab_2_b3705').className='active'; document.getElementById('tab_2_b3705').className='tab-pane active';return false;">PHP</a></li></ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab_1_b3705">
+<div class="code twig">
+<pre class="twig">&lt;img src=&quot;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">asset</span><span class="br0">&#40;</span><span class="st0">'images/logo.png'</span><span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&quot; alt=&quot;Symfony!&quot; /&gt;
+&nbsp;
+&lt;link href=&quot;<span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">asset</span><span class="br0">&#40;</span><span class="st0">'css/blog.css'</span><span class="br0">&#41;</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;</pre>
+</div>
+</div>
+
+
+<div class="tab-pane" id="tab_2_b3705">
+<div class="code php">
+<pre class="php">&lt;img src=&quot;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'assets'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">getUrl</span><span class="br0">&#40;</span><span class="st_h">'images/logo.png'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&quot; alt=&quot;Symfony!&quot; /&gt;
+&nbsp;
+&lt;link href=&quot;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$view</span><span class="br0">&#91;</span><span class="st_h">'assets'</span><span class="br0">&#93;</span><span class="sy0">-&gt;</span><span class="me1">getUrl</span><span class="br0">&#40;</span><span class="st_h">'css/blog.css'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;</pre>
+</div>
+</div>
+
+  </div>
+</div>
+
+<p>Al utilizar la función <code>asset</code> tu aplicación es más flexible y fácil de trasladar de un servidor a otro. Si tu aplicación está instalada en la raíz del servidor (<code>http://ejemplo.com</code>), entonces las rutas de los archivos web serán del tipo <code>/images/logo.png</code>. Pero si tu aplicación se encuentra en un subdirectorio (<code>http://ejemplo.com/aplicacion</code>), las rutas ahora son del tipo  <code>/aplicacion/images/logo.png</code>. La función <code>asset</code> se encarga de tener esto en cuenta automáticamente, por lo que siempre genera las rutas correctas.</p>
+
+<p>Además, si utilizas la función <code>asset</code>, puedes hacer que Symfony añada una cadena al final de la URL del archivo web. De esta manera, se garantiza que los archivos estáticos que han sido actualizados no se almacenen en la caché. De esta manera, en vez de utilizar la URL simple <code>/images/logo.png</code> Symfony podría generar la URL <code>/images/logo.png?v2</code>.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_7/nomenclatura_y_localizacion_de_las_plantillas.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>7.3. Nomenclatura y localización de las plantillas</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_7/incluyendo_hojas_de_estilo_y_javascript_en_twig.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>7.5. Incluyendo hojas de estilo y JavaScript en Twig</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Symfony2 y los fundamentos de HTTP</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> De PHP a Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Instalando y configurando Symfony2</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Creando páginas en Symfony2</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> El controlador</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El enrutamiento</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_7.html">
+                    <span>Capítulo 7.</span> Creando y utilizando plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/plantillas.html">
+                    <span>7.1.</span> Plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/herencia_de_plantillas_y_layout.html">
+                    <span>7.2.</span> Herencia de plantillas y layout
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/nomenclatura_y_localizacion_de_las_plantillas.html">
+                    <span>7.3.</span> Nomenclatura y localización de las plantillas
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_7/etiquetas_y_helpers.html">
+                    <span>7.4.</span> Etiquetas y helpers
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/incluyendo_hojas_de_estilo_y_javascript_en_twig.html">
+                    <span>7.5.</span> Incluyendo hojas de estilo y JavaScript en Twig
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/variables_globales.html">
+                    <span>7.6.</span> Variables globales
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/configurando_y_usando_el_servicio_templating.html">
+                    <span>7.7.</span> Configurando y usando el servicio <code>templating</code>
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/modificando_las_plantillas_de_los_bundles.html">
+                    <span>7.8.</span> Modificando las plantillas de los bundles
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/herencia_de_tres_niveles.html">
+                    <span>7.9.</span> Herencia de tres niveles
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/mecanismo_de_escape.html">
+                    <span>7.10.</span> Mecanismo de escape
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/depurando.html">
+                    <span>7.11.</span> Depurando
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/detectando_errores_de_sintaxis.html">
+                    <span>7.12.</span> Detectando errores de sintaxis
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/formato_de_plantillas.html">
+                    <span>7.13.</span> Formato de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_7/consideraciones_finales.html">
+                    <span>7.14.</span> Consideraciones finales
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> La base de datos y Doctrine</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> La base de datos y Propel</a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Tests unitarios y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Validación</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Formularios</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> La caché de HTTP</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> El contenedor de servicios</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Mejorando el rendimiento</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> El interior de Symfony2</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> La API estable de Symfony2</a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

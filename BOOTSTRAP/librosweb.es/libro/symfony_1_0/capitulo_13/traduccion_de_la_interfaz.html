@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>13.4. Traducción de la interfaz (Symfony 1.0, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_13/informacion_textual_en_la_base_de_datos.html" />
+                    <link rel="next" href="../capitulo_13/resumen.html" />
+                <link rel="start" href="/libro/symfony_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="13.4. Traducción de la interfaz (Symfony 1.0, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/" itemprop="url">
+                    <span itemprop="title">Symfony 1.0, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/capitulo_13.html" itemprop="url">
+                    <span itemprop="title">Capítulo 13. Internacionalización y localización</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>13.4. Traducción de la interfaz</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="traduccion_de_la_interfaz" class="title">
+        <span>13.4.</span> Traducción de la interfaz
+    </h1>
+
+    
+
+<p>La interfaz de usuario es otro de los elementos que se deben adaptar en las aplicaciones i18n. Las plantillas tienen que poder mostrar las etiquetas, los mensajes y la navegación en diferentes idiomas pero manteniendo la misma presentación. Symfony recomienda que las plantillas se construyan con el lenguaje por defecto de la aplicación y que se defina la traducción de las frases en un archivo de diccionario. De esta forma, no es necesario modificar las plantillas cada vez que se añade, modifica o elimina una traducción.</p>
+
+<h3 id="configurando_la_traduccion">13.4.1. Configurando la traducción</h3>
+
+<p>Las plantillas no se traducen automáticamente, lo que significa que antes que nada, se debe activar la opción de traducción de las plantillas en el archivo <code>settings.yml</code>, como se muestra en el listado 13-11.</p>
+
+<p><strong>Listado 13-11 - Activando la traducción de la interfaz, en <code>miapp/config/settings.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co4">
+  .settings</span>:<span class="co3">
+    i18n</span><span class="sy2">: </span>on</pre>
+</div>
+
+<h3 id="usando_el_helper_de_traduccion">13.4.2. Usando el helper de traducción</h3>
+
+<p>En esta sección se va a considerar que se quiere construir un sitio web en inglés y en francés, siendo el inglés el idioma por defecto. Antes de empezar con la traducción del sitio web, una de las plantillas del sitio podría ser similar a la del listado 13-12.</p>
+
+<p><strong>Listado 13-12 - Plantilla con un único idioma</strong></p>
+
+<div class="code php">
+<pre class="php">Welcome to our website. Today's date is <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> format_date<span class="br0">&#40;</span><span class="kw3">date</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Para que Symfony pueda traducir las frases de una plantilla, estas deben identificarse como <em>"texto traducible"</em>. Para ello se ha definido el <em>helper</em> <code>__()</code> (2 guiones bajos seguidos), que es parte del grupo de <em>helpers</em> llamado I18N. De esa forma, todas las plantillas deben encerrar las frases que se van a traducir en llamadas a ese <em>helper</em>. El listado 13-12 por ejemplo se puede modificar para que tenga el aspecto del listado 13-13 (como se verá más adelante en la sección "Cómo realizar traducciones complejas", existe una forma mejor para llamar al <em>helper</em> de traducción).</p>
+
+<p><strong>Listado 13-13 - Plantilla preparada para múltiples idiomas</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> use_helper<span class="br0">&#40;</span><span class="st_h">'I18N'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> __<span class="br0">&#40;</span><span class="st_h">'Welcome to our website.'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> __<span class="br0">&#40;</span><span class="st0">&quot;Today's date is &quot;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> format_date<span class="br0">&#40;</span><span class="kw3">date</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Si la aplicación hace uso del grupo de <em>helpers</em> I18N en todas sus páginas, puede ser una buena idea incluirlo en la opción <code>standard_helpers</code> del archivo <code>settings.yml</code>, de forma que no sea necesario incluir <code>use_helper('I18N')</code> en cada plantilla.</p></div>
+
+<h3 id="utilizando_un_archivo_de_diccionario">13.4.3. Utilizando un archivo de diccionario</h3>
+
+<p>Cuando se invoca la función <code>__()</code>, Symfony busca la traducción del argumento que se le pasa en el diccionario correspondiente a la cultura del usuario. Si se encuentra una frase equivalente, la función devuelve la traducción y se muestra en la respuesta. De esta forma, la traducción de la interfaz se basa en los archivos de diccionario.</p>
+
+<p>Los archivos de diccionario se crean siguiendo el formato XLIFF (XML Localization Interchange File Format), sus nombres siguen el patrón <code>messages.[codigo de idioma].xml</code> y se guardan en el directorio <code>i18n/</code> de la aplicación.</p>
+
+<p>XLIFF es un formato estándar basado en XML. Como se trata de un formato muy utilizado, se pueden emplear herramientas externas que facilitan la traducción del sitio web entero. Las empresas que se encargan de realizar traducciones manejan este tipo de archivos y saben cómo traducir un sitio web entero añadiendo un nuevo archivo XLIFF.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Además del estándar XLIFF, Symfony también permite utilizar otros sistemas para guardar los diccionarios: gettext, MySQL, SQLite y Creole. La documentación de la API contiene toda la información sobre la configuración de estos métodos alternativos.</p></div>
+
+<p>El listado 13-14 muestra un ejemplo de la sintaxis XLIFF necesaria para crear el archivo <code>messages.fr.xml</code> que traduce al francés los contenidos del listado 13-13.</p>
+
+<p><strong>Listado 13-14 - Diccionario en formato XLIFF, en <code>miapp/i18n/messages.fr.xml</code></strong></p>
+
+<div class="code xml">
+<pre class="xml"><span class="sc3"><span class="re1">&lt;?xml</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span> <span class="re2">?&gt;</span></span>
+<span class="sc3"><span class="re1">&lt;xliff</span> <span class="re0">version</span>=<span class="st0">&quot;1.0&quot;</span><span class="re2">&gt;</span></span>
+  <span class="sc3"><span class="re1">&lt;file</span> <span class="re0">orginal</span>=<span class="st0">&quot;global&quot;</span> <span class="re0">source-language</span>=<span class="st0">&quot;en_US&quot;</span> <span class="re0">datatype</span>=<span class="st0">&quot;plaintext&quot;</span><span class="re2">&gt;</span></span>
+    <span class="sc3"><span class="re1">&lt;body<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;trans-unit</span> <span class="re0">id</span>=<span class="st0">&quot;1&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;source<span class="re2">&gt;</span></span></span>Welcome to our website.<span class="sc3"><span class="re1">&lt;/source<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;target<span class="re2">&gt;</span></span></span>Bienvenue sur notre site web.<span class="sc3"><span class="re1">&lt;/target<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;/trans-unit<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;trans-unit</span> <span class="re0">id</span>=<span class="st0">&quot;2&quot;</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;source<span class="re2">&gt;</span></span></span>Today's date is <span class="sc3"><span class="re1">&lt;/source<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;target<span class="re2">&gt;</span></span></span>La date d'aujourd'hui est <span class="sc3"><span class="re1">&lt;/target<span class="re2">&gt;</span></span></span>
+      <span class="sc3"><span class="re1">&lt;/trans-unit<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/body<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;/file<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/xliff<span class="re2">&gt;</span></span></span></pre>
+</div>
+
+<p>El atributo <code>source-language</code> siempre contiene el código ISO completo correspondiente a la cultura por defecto. Cada frase o elemento que se traduce, se indica en una etiqueta <code>trans-unit</code> con un atributo <code>id</code> único.</p>
+
+<p>Si en la aplicación se utiliza la cultura por defecto (en este ejemplo <code>en_US</code>), las frases no se traducen y por tanto se muestran directamente los argumentos indicados en las llamadas a <code>__()</code>. El resultado del listado 13-13 es similar al listado 13-12. Sin embargo, si se modifica la cultura a <code>fr_FR</code> o <code>fr_BE</code>, se muestran las traducciones del archivo <code>messages.fr.xml</code>, y el resultado es el que se muestra en el listado 13-15.</p>
+
+<p><strong>Listado 13-15 - Una plantilla traducida</strong></p>
+
+<div class="code php">
+<pre class="php">Bienvenue sur notre site web. La date d'aujourd'hui est
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> format_date<span class="br0">&#40;</span><span class="kw3">date</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Si se necesita añadir una nueva traducción, solamente es preciso crear un nuevo archivo <code>messages.XX.xml</code> de traducción en el mismo directorio que el resto de traducciones.</p>
+
+<h3 id="trabajando_con_diccionarios">13.4.4. Trabajando con diccionarios</h3>
+
+<p>Si el archivo <code>messages.XX.xml</code> aumenta tanto de tamaño como para hacerlo difícil de manejar, se pueden dividir sus contenidos en varios archivos de diccionarios ordenados por temas. De esta forma, es posible por ejemplo dividir el archivo <code>messages.fr.xml</code> en los siguientes tres archivos dentro del directorio <code>i18n/</code>:</p>
+
+<ul>
+<li><code>navegacion.fr.xml</code></li>
+<li><code>terminos_de_servicio.fr.xml</code></li>
+<li><code>busqueda.fr.xml</code></li>
+</ul>
+
+<p>Siempre que una traducción no se encuentre en el archivo <code>messages.XX.xml</code> por defecto, se debe indicar como tercer argumento en la llamada al <em>helper</em> <code>__()</code> el archivo de diccionario que debe utilizarse. Para traducir una cadena de texto que se encuentra en el archivo <code>navegacion.fr.xml</code>, se utilizaría la siguiente instrucción:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> __<span class="br0">&#40;</span><span class="st_h">'Welcome to our website'</span><span class="sy0">,</span> <span class="kw4">null</span><span class="sy0">,</span> <span class="st_h">'navegacion'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Otra forma de organizar los diccionarios es mediante su división en módulos. En vez de crear un solo archivo <code>messages.XX.xml</code> para toda la aplicación, se crea un archivo en cada directorio <code>modules/[nombre_modulo]/i18n/</code>. Así se consigue que los módulos sean más independientes de la aplicación, lo que es necesario para reutilizarlos, como por ejemplo en los plugins (ver Capítulo 17).</p>
+
+<h3 id="trabajando_con_otros_elementos_que_requieren_traduccion">13.4.5. Trabajando con otros elementos que requieren traducción</h3>
+
+<p>Otros elementos también pueden requerir ser traducidos:</p>
+
+<ul>
+<li>Las imágenes, documentos y cualquier otro tipo de contenido estático pueden variar en función de la cultura del usuario. Un ejemplo típico es el de las imágenes que se utilizan para mostrar un contenido de texto con una tipografía muy especial. En este caso, se pueden crear subdirectorios para cada una de las culturas disponibles (utilizando el valor <code>culture</code> para el nombre de cada subdirectorio):</li>
+</ul>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> image_tag<span class="br0">&#40;</span><span class="re0">$sf_user</span><span class="sy0">-&gt;</span><span class="me1">getCulture</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/miTexto.gif'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<ul>
+<li>Los mensajes de error de los archivos de validación se muestran automáticamente mediante <code>__()</code>, por lo que para traducirlos, solo es necesario añadirlos a los archivos de diccionario.</li>
+<li>Las páginas por defecto de Symfony (página no encontrada, error interno de servidor, acceso restringido, etc.) están escritas en inglés y tienen que reescribirse para las aplicaciones i18n. Probablemente, la solución consiste en crear un módulo <code>default</code> propio en la aplicación y utilizar <code>__()</code> en las plantillas. El Capítulo 19 explica cómo personalizar estas páginas.</li>
+</ul>
+
+<h3 id="como_realizar_traducciones_complejas">13.4.6. Cómo realizar traducciones complejas</h3>
+
+<p>La traducción mediante <code>__()</code> requiere que se se le pase como argumento una frase completa. Sin embargo, es muy común tener variables mezcladas con el texto en una frase. Aunque puede ser tentador intentar cortar las frases en varios trozos, el resultado es que las llamadas al <em>helper</em> pierden su significado. Afortunadamente, el <em>helper</em> <code>__()</code> dispone de una opción para reemplazar el valor de las variables y que permite crear diccionarios que conservan su significado y simplifican la traducción. Las etiquetas HTML también se pueden incluir en la llamada al <em>helper</em>. El listado 13-16 muestra un ejemplo.</p>
+
+<p><strong>Listado 13-16 - Traduciendo frases con etiquetas HTML y código PHP</strong></p>
+
+<div class="code php">
+<pre class="php">// Frases originales
+Welcome to all the &lt;strong&gt;new&lt;/strong&gt; users.&lt;br /&gt;
+There are <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> count_logged<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span> persons logged.
+&nbsp;
+// Ejemplo malo de como traducir las frases anteriores
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> __<span class="br0">&#40;</span><span class="st_h">'Welcome to all the'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&lt;strong&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> __<span class="br0">&#40;</span><span class="st_h">'new'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&lt;/strong&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> __<span class="br0">&#40;</span><span class="st_h">'users'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>.&lt;br /&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> __<span class="br0">&#40;</span><span class="st_h">'There are'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> count_logged<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> __<span class="br0">&#40;</span><span class="st_h">'persons logged'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// Ejemplo correcto para traducir las frases anteriores
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> __<span class="br0">&#40;</span><span class="st_h">'Welcome to all the &lt;strong&gt;new&lt;/strong&gt; users'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span> &lt;br /&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> __<span class="br0">&#40;</span><span class="st_h">'There are %1% persons logged'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'%1%'</span> <span class="sy0">=&gt;</span> count_logged<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>En este ejemplo, el nombre que se utiliza para la sustitución es <code>%1%</code>, pero puede utilizarse cualquier nombre, ya que el reemplazo se realiza en el <em>helper</em> mediante la función <code>strtr()</code> de PHP.</p>
+
+<p>Otro de los problemas habituales de las traducciones es el uso del plural. En función del número de resultados, el texto cambia, pero no lo hace de la misma forma en todos los idiomas. La última frase del listado 13-16 por ejemplo no es correcta si <code>count_logged()</code> devuelve 0 o 1. Aunque es posible comprobar el valor devuelto por la función y seleccionar la frase adecuada mediante código PHP, esta forma de trabajar es bastante tediosa. Además, cada idioma tiene sus propias reglas gramaticales, por lo que intentar inferir el plural de las palabras puede ser muy complicado. Como se trata de un problema muy habitual, Symfony incluye un <em>helper</em> llamado <code>format_number_choice()</code>. El listado 13-17 muestra cómo utilizar este <em>helper</em>.</p>
+
+<p><strong>Listado 13-17 - Traduciendo las frases en función del valor de los parámetros</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> <span class="kw1">echo</span> format_number_choice<span class="br0">&#40;</span>
+      <span class="st_h">'[0]Nobody is logged|[1]There is 1 person logged|(1,+Inf]There are %1% persons logged'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'%1%'</span> <span class="sy0">=&gt;</span> count_logged<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">,</span> count_logged<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>El primer argumento está formado por las diferentes posibilidades de frases. El segundo parámetro es el patrón utilizado para reemplazar variables (como con el <em>helper</em> <code>__()</code>) y es opcional. El tercer argumento es el número utilizado para determinar la frase que se utiliza.</p>
+
+<p>Las frases de las diferentes posibilidades se separan mediante el carácter <code>|</code> seguido de un array de valores, utilizando la siguiente sintaxis:</p>
+
+<ul>
+<li><code>[1,2]</code>: Acepta valores entre 1 y 2, ambos incluidos.</li>
+<li><code>(1,2)</code>: Acepta valores entre 1 y 2, ambos excluidos.</li>
+<li><code>{1,2,3,4}</code>: Solo se aceptan los valores definidos en este conjunto.</li>
+<li><code>[-Inf,0)</code>: Acepta valores mayores o iguales que -infinito y que son estrictamente menores que 0.</li>
+</ul>
+
+<p>Se puede utilizar cualquier combinación no vacía de paréntesis y corchetes.</p>
+
+<p>Para que la traducción funcione correctamente, el archivo XLIFF debe contener el mensaje tal y como aparece en la llamada al <em>helper</em> <code>format_number_choice()</code>. El listado 13-18 muestra un ejemplo.</p>
+
+<p><strong>Listado 13-18 - diccionario XLIFF para un argumento de <code>format_number_choice()</code></strong></p>
+
+<div class="code xml">
+<pre class="xml">...
+<span class="sc3"><span class="re1">&lt;trans-unit</span> <span class="re0">id</span>=<span class="st0">&quot;3&quot;</span><span class="re2">&gt;</span></span>
+  <span class="sc3"><span class="re1">&lt;source<span class="re2">&gt;</span></span></span>[0]Nobody is logged|[1]There is 1 person logged|(1,+Inf]There are %1% persons logged<span class="sc3"><span class="re1">&lt;/source<span class="re2">&gt;</span></span></span>
+  <span class="sc3"><span class="re1">&lt;target<span class="re2">&gt;</span></span></span>[0]Personne n'est connecté|[1]Une personne est connectée|(1,+Inf]Ily a %1% personnes en ligne<span class="sc3"><span class="re1">&lt;/target<span class="re2">&gt;</span></span></span>
+<span class="sc3"><span class="re1">&lt;/trans-unit<span class="re2">&gt;</span></span></span>
+...</pre>
+</div>
+
+<div class="admonition sidebar"><p><strong class="title"> Comentarios sobre los charset</strong> Si se trabaja con contenidos internacionalizados en las plantillas, es habitual encontrarse con problemas de charsets. Si se emplea un charset propio de un idioma, se debe modificar cada vez que el usuario cambia su cultura. Además, las plantillas escritas en un determinado charset no muestran correctamente los caracteres pertenecientes a otro charset.</p>
+
+<p>Por este motivo, si se utiliza más de una cultura, es muy recomendable crear todas las plantillas con el charset UTF-8 y que el layout declare que su contenido es UTF-8. Si se utiliza siempre UTF-8, es poco probable que se produzcan sorpresas desagradables.</p>
+
+<p>Las aplicaciones construidas con Symfony definen el charset utilizado de forma centralizada en el archivo <code>settings.yml</code>. Si se modifica su valor, se modifican todas las cabeceras <code>content-type</code> de todas las páginas de respuesta.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co4">
+  .settings</span>:<span class="co3">
+    charset</span><span class="sy2">: </span>utf-<span class="nu0">8</span></pre>
+</div>
+
+<p></p></div>
+
+<h3 id="utilizando_el_helper_de_traduccion_fuera_de_una_plantilla">13.4.7. Utilizando el helper de traducción fuera de una plantilla</h3>
+
+<p>No todo el texto que se muestra en las páginas viene de las plantillas. Por este motivo, es habitual tener que utilizar el <em>helper</em> <code>__()</code> en otras partes de la aplicación: acciones, filtros, clases del modelo, etc. El listado 13-19 muestra cómo utilizar el <em>helper</em> en una acción mediante la instancia del objeto <code>I18N</code> obtenida a través del <em>singleton</em> de contexto.</p>
+
+<p><strong>Listado 13-19 - Utilizando <code>__()</code> en una acción</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getContext</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getI18N</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span>__<span class="br0">&#40;</span><span class="re0">$texto</span><span class="sy0">,</span> <span class="re0">$argumentos</span><span class="sy0">,</span> <span class="st_h">'mensajes'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_13/informacion_textual_en_la_base_de_datos.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>13.3. Información textual en la base de datos</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_13/resumen.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>13.5. Resumen</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_13.html">
+                    <span>Capítulo 13.</span> Internacionalización y localización
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_13/cultura_del_usuario.html">
+                    <span>13.1.</span> Cultura del usuario
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_13/estandares_y_formatos.html">
+                    <span>13.2.</span> Estándares y formatos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_13/informacion_textual_en_la_base_de_datos.html">
+                    <span>13.3.</span> Información textual en la base de datos
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_13/traduccion_de_la_interfaz.html">
+                    <span>13.4.</span> Traducción de la interfaz
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_13/resumen.html">
+                    <span>13.5.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generadores</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

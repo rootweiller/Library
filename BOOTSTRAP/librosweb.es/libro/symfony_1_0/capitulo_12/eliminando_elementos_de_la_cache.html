@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>12.2. Eliminando elementos de la cache (Symfony 1.0, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_12/guardando_la_respuesta_en_la_cache.html" />
+                    <link rel="next" href="../capitulo_12/probando_y_monitorizando_la_cache.html" />
+                <link rel="start" href="/libro/symfony_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="12.2. Eliminando elementos de la cache (Symfony 1.0, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/" itemprop="url">
+                    <span itemprop="title">Symfony 1.0, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/capitulo_12.html" itemprop="url">
+                    <span itemprop="title">Capítulo 12. Uso de la cache</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>12.2. Eliminando elementos de la cache</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="eliminando_elementos_de_la_cache" class="title">
+        <span>12.2.</span> Eliminando elementos de la cache
+    </h1>
+
+    
+
+<p>Si se modifican los scripts o los datos de la aplicación, la información de la cache estará desfasada. Para evitar incoherencias y posibles errores, se pueden eliminar partes de la cache de varias formas en función de las necesidades de cada caso.</p>
+
+<h3 id="borrando_toda_la_cache">12.2.1. Borrando toda la cache</h3>
+
+<p>La tarea <code>clear-cache</code> del comando <code>symfony</code> se emplea para borrar la cache (la cache de HTML, de configuración y de internacionalización). Para borrar solo una parte de la cache, se pueden pasar parámetros, tal y como se muestra en el listado 12-8. Este comando solo se puede ejecutar desde el directorio raíz del proyecto.</p>
+
+<p><strong>Listado 12-8 - Borrando la cache</strong></p>
+
+<div class="code cli">
+<pre class="cli">// Borrar toda la cache
+&gt; symfony clear-cache
+&nbsp;
+// Atajo para borrar toda la cache
+&gt; symfony cc
+&nbsp;
+// Borrar solo la cache de la aplicación miapp
+&gt; symfony clear-cache miapp
+&nbsp;
+// Borrar solo la cache HTML de la aplicación miapp
+&gt; symfony clear-cache miapp template
+&nbsp;
+// Borrar solo la cache de configuración de la aplicación miapp
+&gt; symfony clear-cache miapp config</pre>
+</div>
+
+<h3 id="borrando_partes_de_la_cache">12.2.2. Borrando partes de la cache</h3>
+
+<p>Cuando se modifican los datos de la base de datos, debería borrarse la cache de las acciones que tienen relación con los datos modificados. Aunque se podría borrar la cache entera, en este caso se borraría también la cache de todas las acciones que no tienen relación con los datos modificados. Por este motivo, Symfony proporciona el método <code>remove()</code> del objeto <code>sfViewCacheManager</code>. El argumento que se le pasa es una URI interna (tal y como se utilizan por ejemplo en la función <code>link_to()</code>) y se elimina la cache de la acción relacionada con esa URI.</p>
+
+<p>Si se dispone de una acción llamada <code>modificar</code> en el módulo <code>usuario</code>, esta acción modifica el valor de los datos de los objetos <code>Usuario</code>. Las páginas de las acciones <code>listado</code> y <code>ver</code> de este módulo que se guardan en la cache deberían borrarse, ya que en otro caso, se mostrarían datos desfasados. Para borrar estas páginas de la cache, se utiliza el método <code>remove()</code> tal y como muestra el listado 12-9.</p>
+
+<p><strong>Listado 12-9 - Borrando la cache de una acción, en <code>modules/usuario/actions/actions.class.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> executeModificar<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="co1">// Modificar un usuario</span>
+  <span class="re0">$id_usuario</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRequestParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="re0">$usuario</span> <span class="sy0">=</span> UsuarioPeer<span class="sy0">::</span><span class="me2">retrieveByPk</span><span class="br0">&#40;</span><span class="re0">$id_usuario</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">foward404Unless</span><span class="br0">&#40;</span><span class="re0">$usuario</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">setNombre</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRequestParameter</span><span class="br0">&#40;</span><span class="st_h">'nombre'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="sy0">...</span>
+  <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">save</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+  <span class="co1">// Borrar la cache de las acciones relacionadas con este usuario</span>
+  <span class="re0">$cacheManager</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getContext</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getViewCacheManager</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="re0">$cacheManager</span><span class="sy0">-&gt;</span><span class="me1">remove</span><span class="br0">&#40;</span><span class="st_h">'usuario/listado'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="re0">$cacheManager</span><span class="sy0">-&gt;</span><span class="me1">remove</span><span class="br0">&#40;</span><span class="st_h">'usuario/ver?id='</span><span class="sy0">.</span><span class="re0">$id_usuario</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="sy0">...</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>Eliminar de la cache los elementos parciales, los componentes y los slots de componentes es un poco más complicado. Como se les puede pasar cualquier tipo de parámetro (incluso objetos), es casi imposible identificar la versión guardada en la cache en cada caso. Como la explicación es idéntica para los 3 tipos de elementos, solo se va a explicar el proceso para los elementos parciales. Symfony identifica los elementos parciales almacenados en la cache mediante un prefijo especial (<code>sf_cache_partial</code>), el nombre del módulo, el nombre del elemento parcial y una clave única o <em>hash</em> generada a partir de todos los parámetros utilizados en la llamada a la función:</p>
+
+<div class="code php">
+<pre class="php">// Un elemento parcial que se llama así
+<span class="kw2">&lt;?php</span> include_partial<span class="br0">&#40;</span><span class="st_h">'usuario/mi_parcial'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'user'</span> <span class="sy0">=&gt;</span> <span class="re0">$user</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// Se identifica en la cache de la siguiente manera
+/sf_cache_partial/usuario/_mi_parcial/sf_cache_key/bf41dd9c84d59f3574a5da244626dcc8</pre>
+</div>
+
+<p>En teoría, es posible eliminar un elemento parcial guardado en la cache mediante el método <code>remove()</code> siempre que se conozca el valor de todos los parámetros utilizados en ese elemento, aunque en la práctica es casi imposible conseguirlo. Afortunadamente, si se añade un parámetro denominado <code>sf_cache_key</code> en la llamada del <em>helper</em> <code>include_partial()</code>, se puede definir un identificador propio para ese elemento parcial. De esta forma, y como muestra el listado 12-10, es fácil borrar un elemento parcial:</p>
+
+<p><strong>Listado 12-10 - Borrando elementos parciales de la cache</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span> include_partial<span class="br0">&#40;</span><span class="st_h">'usuario/mi_parcial'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+  <span class="st_h">'user'</span>         <span class="sy0">=&gt;</span> <span class="re0">$user</span><span class="sy0">,</span>
+  <span class="st_h">'sf_cache_key'</span> <span class="sy0">=&gt;</span> <span class="re0">$user</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// Se identifica en la cache de la siguiente forma
+/sf_cache_partial/usuario/_mi_parcial/sf_cache_key/12
+&nbsp;
+// Se puede borrar la cache de _mi_parcial para un usuario específico
+$cacheManager-&gt;remove('@sf_cache_partial?module=usuario&amp;action=_mi_parcial&amp;sf_cache_key='.$user-&gt;getId());</pre>
+</div>
+
+<p>Este método no se puede utilizar para borrar todas las versiones de un elemento parcial guardadas en la cache. Más adelante, en la sección "Borrando la cache a mano" se detalla como conseguirlo.</p>
+
+<p>El método <code>remove()</code> también se emplea para borrar fragmentos de plantillas. El nombre que identifica a cada fragmento en la cache se compone del perfijo <code>sf_cache_partial</code>, el nombre del módulo, el nombre de la acción y el valor de <code>sf_cache_key</code> (el identificador único utilizado en la llamada al <em>helper</em> <code>cache()</code>). El listado 12-11 muestra un ejemplo.</p>
+
+<p><strong>Listado 12-11 - Borrando fragmentos de plantilla en la cache</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;!-- Código guardado en la cache --&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">&#40;</span><span class="sy0">!</span>cache<span class="br0">&#40;</span><span class="st_h">'usuarios'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+  ... // Lo que sea...
+  <span class="kw2">&lt;?php</span> cache_save<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<span class="kw2">&lt;?php</span> <span class="kw1">endif</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// Se identifica en la cache de la siguiente forma
+/sf_cache_partial/usuario/listado/sf_cache_key/usuarios
+&nbsp;
+// Se puede borrar con el siguiente método
+$cacheManager-&gt;remove('@sf_cache_partial?module=usuario&amp;action=listado&amp;sf_cache_key=usuarios');</pre>
+</div>
+
+<div class="admonition sidebar"><p><strong class="title"> El borrado selectivo de la cache es realmente complicado</strong> La parte más complicada del borrado de la cache es la de determinar que acciones se ven afectadas por la modificación de los datos.</p>
+
+<p>Imagina que dispones de una aplicación con un módulo llamado <code>publicacion</code> y las acciones <code>listado</code> y <code>ver</code>, además de estar relacionada con un autor (representado por la clase <code>Usuario</code>).  Si se modifican los datos de un <code>Usuario</code>, se verán afectadas todas las publicaciones de ese autor y el listado de las publicaciones. Por tanto, en la acción <code>modificar</code> del módulo <code>usuario</code> se debería añadir lo siguiente:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$c</span> <span class="sy0">=</span> <span class="kw2">new</span> Criteria<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$c</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span>PublicacionPeer<span class="sy0">::</span><span class="me2">AUTOR_ID</span><span class="sy0">,</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRequestParameter</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$publicaciones</span> <span class="sy0">=</span> PublicacionPeer<span class="sy0">::</span><span class="me2">doSelect</span><span class="br0">&#40;</span><span class="re0">$c</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$cacheManager</span> <span class="sy0">=</span> sfContext<span class="sy0">::</span><span class="me2">getInstance</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getViewCacheManager</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">foreach</span> <span class="br0">&#40;</span><span class="re0">$publicaciones</span> <span class="kw1">as</span> <span class="re0">$publicacion</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="re0">$cacheManager</span><span class="sy0">-&gt;</span><span class="me1">remove</span><span class="br0">&#40;</span><span class="st_h">'publicacion/ver?id='</span><span class="sy0">.</span><span class="re0">$publicacion</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+<span class="re0">$cacheManager</span><span class="sy0">-&gt;</span><span class="me1">remove</span><span class="br0">&#40;</span><span class="st_h">'publicacion/listado'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Si se utiliza la cache HTML, es necesario disponer de una visión clara de las dependencias y relaciones entre el modelo y las acciones, de forma que no se produzcan errores por no comprender completamente esas relaciones. Debe tenerse en cuenta que todas las acciones que modifican el modelo seguramente deben incluir una serie de llamadas al método <code>remove()</code> si se utiliza la cache HTML.</p>
+
+<p>Cuando la situación sea realmente complicada, siempre se puede borrar la cache entera cada vez que se actualiza la base de datos.</p></div>
+
+<h3 id="estructura_del_directorio_de_la_cache">12.2.3. Estructura del directorio de la cache</h3>
+
+<p>El directorio <code>cache/</code> de cada aplicación tiene la siguiente estructura:</p>
+
+<div class="code code">
+<pre class="code">cache/                  # sf_root_cache_dir
+  [nombre_aplicacion]/  # sf_base_cache_dir
+    [nombre_entorno]/   # sf_cache_dir
+      config/           # sf_config_cache_dir
+      i18n/             # sf_i18n_cache_dir
+      modules/          # sf_module_cache_dir
+      template/         # sf_template_cache_dir
+        [nombre_servidor]/
+          all/</pre>
+</div>
+
+<p>Las plantillas se guardan en la cache bajo el directorio <code>[nombre_servidor]</code> (sustituyendo los puntos por guiones bajos para mantener la compatibilidad con algunos sistemas de ficheros) y siguiendo una estructura relacionada con la URL. Por ejemplo, la plantilla de la siguiente página:</p>
+
+<div class="code code">
+<pre class="code">http://www.miapp.com/usuario/ver/id/12</pre>
+</div>
+
+<p>se guarda en el siguiente directorio de la cache:</p>
+
+<div class="code code">
+<pre class="code">cache/miapp/prod/template/www_miapp_com/all/usuario/ver/id/12.cache</pre>
+</div>
+
+<p>El código no debería incluir las rutas de los archivos escritas manualmente. En su lugar, se deben utilizar las constantes definidas para las rutas. Para obtener por ejemplo la ruta absoluta del directorio <code>template/</code> para la aplicación y entorno actuales, se emplea <code>sfConfig::get('sf_template_cache_dir')</code>.</p>
+
+<p>Conocer la estructura de directorios es muy útil cuando se tienen que borrar manualmente partes de la cache.</p>
+
+<h3 id="borrado_manual_de_la_cache">12.2.4. Borrado manual de la cache</h3>
+
+<p>El borrado de la cache entre diferentes aplicaciones suele ser problemático. Si por ejemplo un administrador modifica los datos de la tabla <code>usuario</code> en la aplicación <code>backend</code> (la aplicación de gestión), se deberían borrar de la cache todas las acciones que dependen de ese usuario en la aplicación <code>frontend</code> (la aplicación pública). Como el método <code>remove()</code> utiliza URI internas, no se puede utilizar para borrar la cache de otras aplicaciones, ya que cada aplicación siempre se encuentra aislada de las demás y no tiene acceso a las reglas de enrutamiento del resto de aplicaciones.</p>
+
+<p>La solución consiste en borrar manualmente los archivos del directorio <code>cache/</code>. Si la aplicación <code>backend</code> quiere borrar la cache de la acción <code>usuario/ver</code> de la aplicación <code>frontend</code> para el usuario cuyo <code>id</code> vale <code>12</code>, se podría utilizar el siguiente código:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$sf_root_cache_dir</span> <span class="sy0">=</span> sfConfig<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'sf_root_cache_dir'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$cache_dir</span> <span class="sy0">=</span> <span class="re0">$sf_root_cache_dir</span><span class="sy0">.</span><span class="st_h">'/frontend/prod/template/www_miapp_com/all'</span><span class="sy0">;</span>
+<span class="kw3">unlink</span><span class="br0">&#40;</span><span class="re0">$cache_dir</span><span class="sy0">.</span><span class="st_h">'/usuario/ver/id/12.cache'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Este método de borrado no es muy convincente, ya que el comando anterior solo borra la cache del entorno actual y obliga a escribir el nombre del entorno y el nombre del servidor en la ruta del archivo. Para evitar estas molestias, se puede utilizar el método <code>sfToolkit::clearGlob()</code>. Este método acepta como parámetro un patrón de nombre de fichero en el que se pueden incluir comodines. El siguiente ejemplo borra de la cache los mismos archivos que el ejemplo anterior sin necesidad de especificar ni el entorno ni el nombre del servidor:</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$cache_dir</span> <span class="sy0">=</span> <span class="re0">$sf_root_cache_dir</span><span class="sy0">.</span><span class="st_h">'/frontend/*/template/*/all'</span><span class="sy0">;</span>
+sfToolkit<span class="sy0">::</span><span class="me2">clearGlob</span><span class="br0">&#40;</span><span class="re0">$cache_dir</span><span class="sy0">.</span><span class="st_h">'/usuario/ver/id/12.cache'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Este método también es muy práctico cuando se quieren borrar todas las páginas de una acción independientemente de los parámetros. Si la aplicación dispone de varios idiomas, es posible que el código del idioma aparezca en la URL. El enlace al perfil de un usuario podría tener el siguiente aspecto:</p>
+
+<div class="code code">
+<pre class="code">http://www.miapp.com/en/usuario/ver/id/12</pre>
+</div>
+
+<p>Para eliminar de la cache el perfil de un usuario cuyo <code>id</code> vale <code>12</code> independientemente del idioma, se debe ejecutar la siguiente instrucción:</p>
+
+<div class="code php">
+<pre class="php">sfToolkit<span class="sy0">::</span><span class="me2">clearGlob</span><span class="br0">&#40;</span><span class="re0">$cache_dir</span><span class="sy0">.</span><span class="st_h">'/*/usuario/ver/id/12.cache'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_12/guardando_la_respuesta_en_la_cache.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>12.1. Guardando la respuesta en la cache</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_12/probando_y_monitorizando_la_cache.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>12.3. Probando y monitorizando la cache</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_12.html">
+                    <span>Capítulo 12.</span> Uso de la cache
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/guardando_la_respuesta_en_la_cache.html">
+                    <span>12.1.</span> Guardando la respuesta en la cache
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_12/eliminando_elementos_de_la_cache.html">
+                    <span>12.2.</span> Eliminando elementos de la cache
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/probando_y_monitorizando_la_cache.html">
+                    <span>12.3.</span> Probando y monitorizando la cache
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/http_11_y_la_cache_del_lado_del_cliente.html">
+                    <span>12.4.</span> HTTP 1.1 y la cache del lado del cliente
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/resumen.html">
+                    <span>12.5.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generadores</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>4.1. Crear el esqueleto del módulo (Symfony 1.0, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_4.html" />
+                    <link rel="next" href="../capitulo_4/obteniendo_informacion_del_usuario_a_traves_de_formularios.html" />
+                <link rel="start" href="/libro/symfony_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="4.1. Crear el esqueleto del módulo (Symfony 1.0, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/" itemprop="url">
+                    <span itemprop="title">Symfony 1.0, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/capitulo_4.html" itemprop="url">
+                    <span itemprop="title">Capítulo 4. Introducción a la creación de páginas</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>4.1. Crear el esqueleto del módulo</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="crear_el_esqueleto_del_modulo" class="title">
+        <span>4.1.</span> Crear el esqueleto del módulo
+    </h1>
+
+    
+
+<p>Como se vio en el Capítulo 2, Symfony agrupa las páginas en módulos. Por tanto, antes de crear una página es necesario crear un módulo, que inicialmente no es más que una estructura vacía de directorios y archivos que Symfony puede reconocer.</p>
+
+<p>La línea de comandos de Symfony automatiza la creación de los módulos. Sólo se necesita llamar a la tarea <code>init-module</code> indicando como argumentos el nombre de la aplicación y el nombre del nuevo módulo. En el capítulo anterior se creo una aplicación llamada <code>miaplicacion</code>. Para añadirle un módulo llamado <code>mimodulo</code>, se deben ejecutar los siguientes comandos:</p>
+
+<div class="code cli">
+<pre class="cli">&gt; cd ~/miproyecto
+&gt; symfony init-module miaplicacion mimodulo
+&nbsp;
+&gt;&gt; dir+      ~/miproyecto/apps/miaplicacion/modules/mimodulo
+&gt;&gt; dir+      ~/miproyecto/apps/miaplicacion/modules/mimodulo/actions
+&gt;&gt; file+     ~/miproyecto/apps/miaplicacion/modules/mimodulo/actions/actions.class.php
+&gt;&gt; dir+      ~/miproyecto/apps/miaplicacion/modules/mimodulo/config
+&gt;&gt; dir+      ~/miproyecto/apps/miaplicacion/modules/mimodulo/lib
+&gt;&gt; dir+      ~/miproyecto/apps/miaplicacion/modules/mimodulo/templates
+&gt;&gt; file+     ~/miproyecto/apps/miaplicacion/modules/mimodulo/templates/indexSuccess.php
+&gt;&gt; dir+      ~/miproyecto/apps/miaplicacion/modules/mimodulo/validate
+&gt;&gt; file+     ~/miproyecto/test/functional/miaplicacion/mimoduloActionsTest.php
+&gt;&gt; tokens    ~/miproyecto/test/functional/miaplicacion/mimoduloActionsTest.php
+&gt;&gt; tokens    ~/miproyecto/apps/miaplicacion/modules/mimodulo/actions/actions.class.php
+&gt;&gt; tokens    ~/miproyecto/apps/miaplicacion/modules/mimodulo/templates/indexSuccess.php</pre>
+</div>
+
+<p>Además de los directorios <code>actions/</code>, <code>config/</code>, <code>lib/</code>, <code>templates/</code> y <code>validate/</code>, este comando crea tres archivos. El archivo que se encuentra en el directorio <code>test/</code> está relacionado con las pruebas unitarias, que se ven en el Capítulo 15. El archivo <code>actions.class.php</code> (que se muestra en el listado 4-1) redirige la acción a la página de bienvenida del módulo por defecto. Por último, el archivo <code>templates/indexSuccess.php</code> está vacío.</p>
+
+<p><strong>Listado 4-1 - La acción generada por defecto, en <code>actions/actions.class.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">class</span> mimoduloActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeIndex<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">forward</span><span class="br0">&#40;</span><span class="st_h">'default'</span><span class="sy0">,</span> <span class="st_h">'module'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Si se abre el archivo <code>actions.class.php</code> generado realmente, su contenido es mucho mayor que las pocas líneas mostradas anteriormente, incluyendo un montón de comentarios. Symfony recomienda utilizar comentarios de PHP para documentar el proyecto y por tanto añade a cada archivo de cada clase comentarios que son compatibles con el formato de la herramienta phpDocumentor (http://www.phpdoc.org/).</p></div>
+
+<p>En cada nuevo módulo, Symfony crea una acción por defecto llamada <code>index</code>. La acción completa se compone del método <code>executeIndex</code> de la acción y del archivo de su plantilla llamada <code>indexSuccess.php</code>. El significado del prefijo <code>execute</code> y del sufijo <code>Success</code> se explican detalladamente en los Capítulos 6 y 7 respectivamente. Por el momento se puede considerar que esta forma de nombrar a los archivos y métodos es una convención que sigue Symfony. Para visualizar la página generada (que se muestra en la figura 4-1) se debe acceder a la siguiente dirección en un navegador:</p>
+
+<div class="code code">
+<pre class="code">http://localhost/miaplicacion_dev.php/mimodulo/index</pre>
+</div>
+
+<p>En este capítulo no se utiliza la acción <code>index</code>, por lo que se puede borrar el método <code>executeIndex()</code> del archivo <code>actions.class.php</code> y también se puede borrar el archivo <code>indexSuccess.php</code> del directorio <code>templates/</code>.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Symfony permite crear los módulos sin necesidad de utilizar la línea de comandos. Uno de esos métodos es crear manualmente todos los directorios y archivos necesarios. En otras ocasiones, las acciones y las plantillas de un módulo se emplean para manipular los datos de una tabla de la base de datos. Como el código necesario para crear, obtener, actualizar y borrar los datos casi siempre es el mismo, Symfony incorpora una técnica llamada <em>scaffolding</em> (literalmente traducido como <em>"andamiaje"</em>) que permite generar de forma automática todo el código PHP del módulo. El Capítulo 14 contiene los detalles de esta técnica.</p></div>
+
+<div class="figure" id="figure_4_1">
+    <img src="/img/symfony_1_0/f0401.png" alt="La página de índice generada automáticamente" />
+
+    <p class="caption"><strong>Figura 4.1</strong> La página de índice generada automáticamente</p>
+</div>
+
+
+<h3 id="anadir_una_pagina">4.1.1. Añadir una página</h3>
+
+<p>En Symfony la lógica o código de las páginas se define en la acción y la presentación se define en las plantillas. Las páginas estáticas que no requieren de ninguna lógica necesitan definir una acción vacía.</p>
+
+<h4 id="anadir_una_accion">4.1.1.1. Añadir una acción</h4>
+
+<p>La página que muestra el mensaje "¡Hola Mundo!" será accedida mediante una acción llamada <code>miAccion</code>. Para crearla, solamente es necesario añadir el método <code>executeMiAccion</code> en la clase <code>mimoduloActions</code>, como muestra el Listado 4-2.</p>
+
+<p><strong>Listado 4-2 - Añadir una acción es equivalente a añadir un método de tipo <em>execute</em> en la clase de la acción</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">class</span> mimoduloActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeMiAccion<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p>El nombre del método de la acción siempre es <code>execute</code> + <code>Xxxxxxx</code> + <code>()</code>, donde la segunda parte del nombre es el nombre de la acción con la primera letra en mayúsculas.</p>
+
+<p>Por tanto, si ahora se accede a la siguiente dirección:</p>
+
+<div class="code code">
+<pre class="code">http://localhost/miaplicacion_dev.php/mimodulo/miAccion</pre>
+</div>
+
+<p>Symfony mostrará un mensaje de error indicando que la plantilla <code>miAccionSuccess.php</code> no existe. Se trata de un error normal por el momento, ya que las páginas siempre están formadas por una acción y una plantilla.</p>
+
+<div class="admonition caution"><p><strong class="title">Advertencia</strong> Las URL (no los dominios) distinguen mayúsculas y minúsculas, y por tanto también las distingue Symfony, (aunque el nombre de los métodos en PHP no distingue mayúsculas de minúsculas). Por tanto, si se añade un método llamado <code>executemiaccion()</code> o <code>executeMiaccion()</code>, y se intenta acceder desde el navegador a <code>miAccion</code>, Symfony muestra un mensaje de error de tipo 404 (Página no encontrada).</p></div>
+
+<div class="admonition sidebar"><p><strong class="title"> Las URL son parte de la respuesta</strong> Symfony incluye un sistema de enrutamiento que permite separar completamente el nombre real de la acción y la forma de la URL que se utiliza para llamar a la acción. De esta forma, es posible personalizar las URL como si fueran una parte más de la respuesta. La estructura de directorios del servidor o los parámetros de la petición ya no son obstáculos para construir URL con cualquier formato; la URL de una acción puede construirse siguiendo cualquier formato. Por ejemplo, la URL típica de la acción <code>index</code> de un módulo llamado <code>articulo</code> suele tener el siguiente aspecto:</p>
+
+<div class="code code">
+<pre class="code">http://localhost/miaplicacion_dev.php/articulo/index?id=123</pre>
+</div>
+
+<p>Esta URL se emplea para obtener un artículo almacenado en la base de datos. En el ejemplo anterior, se obtiene un artículo cuyo identificador es <code>123</code>, que pertenece a la sección de artículos de Europa y que trata sobre la economía en Francia. Con un simple cambio en el archivo <code>routing.yml</code>, la URL anterior se puede construir de la siguiente manera:</p>
+
+<div class="code code">
+<pre class="code">http://localhost/articulos/europa/francia/economia.html</pre>
+</div>
+
+<p>La URL que se obtiene no solo es mejor desde el punto de vista de los buscadores, sino que es mucho más significativa para el usuario medio, que incluso puede utilizar la barra de direcciones como si fuera una especie de línea de comandos para realizar consultas a medida, como por ejemplo la siguiente URL:</p>
+
+<div class="code code">
+<pre class="code">http://localhost/articulos/etiquetas/economia+francia+euro</pre>
+</div>
+
+<p>Symfony es capaz de procesar y generar este tipo de URL inteligentes. El sistema de enrutamiento es capaz de extraer automáticamente los parámetros de la petición y ponerlos a disposición de la acción. También es capaz de formatear los enlaces incluidos en la respuesta para que también sean enlaces de tipo <em>inteligente</em>. El Capítulo 9 explica en detalle el sistema de enrutamiento.</p>
+
+<p>En resumen, el nombrado de las acciones no se debe realizar teniendo en cuenta la URL que se utilizará para acceder a ellas, sino que se deberían nombrar según la función de la acción dentro de la aplicación. El nombre de la acción explica su funcionalidad, por lo que suele ser un verbo en su forma de infinitivo (como por ejemplo <code>ver</code>, <code>listar</code>, <code>modificar</code>, etc.). El nombre de las acciones se puede ocultar a los usuarios, por lo que si es necesario, se pueden utilizar nombres muy explícitos para las acciones (como por ejemplo <code>listarPorNombre</code> o <code>verConComentarios</code>). Con este tipo de nombres, no son necesarios demasiados comentarios para explicar la funcionalidad de la acción y el código fuente resultante es mucho más fácil de comprender.</p></div>
+
+<h4 id="anadir_una_plantilla">4.1.1.2. Añadir una plantilla</h4>
+
+<p>La acción espera una plantilla para mostrarse en pantalla. Una plantilla es un archivo que está ubicado en el directorio <code>templates/</code> de un módulo, y su nombre está compuesto por el nombre de la acción y el resultado de la misma. El resultado por defecto es <code>success</code> (exitoso), por lo que el archivo de plantilla que se crea para la acción <code>miAccion</code> se llamará <code>miAccionSuccess.php</code>.</p>
+
+<p>Se supone que las plantillas sólo deben contener código de presentación, así que procura mantener la menor cantidad de código PHP en ellas como sea posible. De hecho, una página que muestre <code>"¡Hola, mundo!"</code> puede tener una plantilla tan simple como la del Listado 4-3.</p>
+
+<p><strong>Listado 4-3 - La plantilla <code>mimodulo/templates/miAccionSuccess.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="sy0">&lt;</span>p<span class="sy0">&gt;</span>¡Hola<span class="sy0">,</span> mundo<span class="sy0">!&lt;/</span>p<span class="sy0">&gt;</span></pre>
+</div>
+
+<p>Si necesitas ejecutar algún código PHP en la plantilla, es mejor evitar la sintaxis usual de PHP, como se muestra en el Listado 4-4. En su lugar, es preferible escribir las plantillas utilizando la sintaxis alternativa de PHP, mostrada en el Listado 4-5, para mantener el código entendible para personas sin conocimientos de PHP. De esta forma, no sólo el código final estará correctamente indentado, sino que además ayudará a mantener el código complejo de PHP en la acción, dado que sólo las estructuras de control (<code>if</code>, <code>foreach</code>, <code>while</code> y demás) poseen una sintaxis alternativa.</p>
+
+<p><strong>Listado 4-4 - La sintaxis tradicional de PHP, buena para las acciones, pero mala para las plantillas</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;p&gt;¡Hola, mundo!&lt;/p&gt;
+<span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$prueba</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="kw1">echo</span> <span class="st0">&quot;&lt;p&gt;&quot;</span><span class="sy0">.</span><span class="kw3">time</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st0">&quot;&lt;/p&gt;&quot;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="sy1">?&gt;</span></pre>
+</div>
+
+<p><strong>Listado 4-5 - La sintaxis alternativa de PHP, buena para las plantillas</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;p&gt;¡Hola, mundo!&lt;/p&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$prueba</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+&lt;p&gt;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="kw3">time</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>&lt;/p&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">endif</span><span class="sy0">;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Una buena regla para comprobar si la sintaxis de la plantilla es lo suficientemente legible, es que el archivo no debe contener código HTML generado por PHP mediante la función <code>echo</code>, ni tampoco llaves. Y en la mayoría de los casos, al abrir una etiqueta <code>&lt;?php</code>, debería cerrarse con <code>?&gt;</code> en la misma línea.</p></div>
+
+<h3 id="transfiriendo_informacion_de_la_accion_a_la_plantilla">4.1.2. Transfiriendo información de la acción a la plantilla</h3>
+
+<p>La tarea de la acción es realizar los cálculos complejos, obtener datos, realizar comprobaciones, y crear o inicializar las variables necesarias para que se presenten o se utilicen en la plantilla. Symfony hace que los atributos de la clase de la acción (disponibles vía <code>$this-&gt;nombreDeVariable</code> en la acción), estén directamente accesibles en la plantilla en el ámbito global (vía <code>$nombreVariable</code>). Los listados 4-6 y 4-7 muestran cómo pasar información de la acción a la plantilla.</p>
+
+<p><strong>Listado 4-6 - Configurando un atributo de acción dentro de ella para hacerlo disponible para la plantilla</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">class</span> mimoduloActions <span class="kw2">extends</span> sfActions
+<span class="br0">&#123;</span>
+  <span class="kw2">public</span> <span class="kw2">function</span> executeMiAccion<span class="br0">&#40;</span><span class="br0">&#41;</span>
+  <span class="br0">&#123;</span>
+    <span class="re0">$hoy</span> <span class="sy0">=</span> <span class="kw3">getdate</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">hora</span> <span class="sy0">=</span> <span class="re0">$hoy</span><span class="br0">&#91;</span><span class="st_h">'hours'</span><span class="br0">&#93;</span><span class="sy0">;</span>
+  <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<p><strong>Listado 4-7 - La plantilla tiene acceso directo a los atributos de la acción</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;p&gt;¡Hola, Mundo!&lt;/p&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$hora</span> <span class="sy0">&gt;=</span> <span class="nu0">18</span><span class="br0">&#41;</span><span class="sy0">:</span> <span class="sy1">?&gt;</span>
+&lt;p&gt;Quizás debería decir buenas tardes. Ya son las <span class="kw2">&lt;?php</span> <span class="kw1">echo</span> <span class="re0">$hora</span> <span class="sy1">?&gt;</span>.&lt;/p&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">endif</span><span class="sy0">;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> La plantilla es capaz de acceder a algunos datos sin necesidad de definir variables en la acción. Cada plantilla puede invocar métodos de los objetos <code>$sf_context</code>, <code>$sf_request</code>, <code>$sf_params</code> y <code>$sf_user</code>. Esos métodos contienen datos relacionados con el contexto actual, la petición y sus parámetros, y la sesión. Más adelante se muestra cómo utilizarlos de manera eficiente.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_4.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 4. Introducción a la creación de páginas</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_4/obteniendo_informacion_del_usuario_a_traves_de_formularios.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>4.2. Obteniendo información del usuario a través de formularios</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_4.html">
+                    <span>Capítulo 4.</span> Introducción a la creación de páginas
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_4/crear_el_esqueleto_del_modulo.html">
+                    <span>4.1.</span> Crear el esqueleto del módulo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/obteniendo_informacion_del_usuario_a_traves_de_formularios.html">
+                    <span>4.2.</span> Obteniendo información del usuario a través de formularios
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/enlazando_a_otra_accion.html">
+                    <span>4.3.</span> Enlazando a otra acción
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/obteniendo_informacion_de_la_peticion.html">
+                    <span>4.4.</span> Obteniendo información de la petición
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/resumen.html">
+                    <span>4.5.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generadores</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

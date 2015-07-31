@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>8.4. Acceso a los datos (Symfony 1.2, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_8/las_clases_del_modelo.html" />
+                    <link rel="next" href="../capitulo_8/conexiones_con_la_base_de_datos.html" />
+                <link rel="start" href="/libro/symfony_1_2/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="8.4. Acceso a los datos (Symfony 1.2, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_2"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_2/" itemprop="url">
+                    <span itemprop="title">Symfony 1.2, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_2/capitulo_8.html" itemprop="url">
+                    <span itemprop="title">Capítulo 8. El modelo</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>8.4. Acceso a los datos</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="acceso_a_los_datos" class="title">
+        <span>8.4.</span> Acceso a los datos
+    </h1>
+
+    
+
+<p>En Symfony, el acceso a los datos se realiza mediante objetos. Si se está acostumbrado al modelo relacional y a utilizar consultas SQL para acceder y modificar los datos, los métodos del modelo de objetos pueden parecer complicados. No obstante, una vez que se prueba el poder de la orientación a objetos para acceder a los datos, probablemente te gustará mucho más.</p>
+
+<p>En primer lugar, hay que asegurarse de que se utiliza el mismo vocabulario. Aunque el modelo relacional y el modelo de objetos utilizan conceptos similares, cada uno tiene su propia nomenclatura:</p>
+
+<div class="table" id="table_8_1">
+
+    <table>
+<thead>
+<tr>
+  <th>Relacional</th>
+  <th>Orientado a objetos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Tabla</td>
+  <td>Clase</td>
+</tr>
+<tr>
+  <td>Fila, registro</td>
+  <td>Objeto</td>
+</tr>
+<tr>
+  <td>Campo, columna</td>
+  <td>Propiedad</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<h3 id="obtener_el_valor_de_una_columna">8.4.1. Obtener el valor de una columna</h3>
+
+<p>Cuando Symfony construye el modelo, crea una clase de objeto base para cada una de las tablas definidas en <code>schema.yml</code>. Cada una de estas clases contiene una serie de constructores y accesores por defecto en función de la definición de cada columna: los métodos <code>new</code>, <code>getXXX()</code> y <code>setXXX()</code> permiten crear y obtener las propiedades de los objetos, como se muestra en el listado 8-7.</p>
+
+<p><strong>Listado 8-7 - Métodos generados en una clase objeto</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$articulo</span> <span class="sy0">=</span> <span class="kw2">new</span> Articulo<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">setTitulo</span><span class="br0">&#40;</span><span class="st_h">'Mi primer artículo'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">setContenido</span><span class="br0">&#40;</span><span class="st_h">'Este es mi primer artículo. \n Espero que te guste.'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$titulo</span>    <span class="sy0">=</span> <span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getTitulo</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$contenido</span> <span class="sy0">=</span> <span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getContenido</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> La clase objeto generada se llama <code>Articulo</code>, que es el valor de la propiedad <code>phpName</code> para la tabla <code>blog_articulo</code>. Si no se hubiera definido la propiedad <code>phpName</code>, la clase se habría llamado <code>BlogArticulo</code>. Los métodos accesores (<code>get</code> y <code>set</code>) utilizan una variante de <em>camelCase</em> aplicada al nombre de las columnas, por lo que el método <code>getTitulo()</code> obtiene el valor de la columna <code>titulo</code>.</p></div>
+
+<p>Para establecer el valor de varios campos a la vez, se puede utilizar el método <code>fromArray()</code>, que también se genera para cada clase objeto, como se muestra en el listado 8-8.</p>
+
+<p><strong>Listado 8-8 - El método <code>fromArray()</code> es un <em>setter</em> múltiple</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">fromArray</span><span class="br0">&#40;</span><span class="kw3">array</span><span class="br0">&#40;</span>
+  <span class="st_h">'titulo'</span>   <span class="sy0">=&gt;</span> <span class="st_h">'Mi primer artículo'</span><span class="sy0">,</span>
+  <span class="st_h">'contenido'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Este es mi primer artículo. \n Espero que te guste.'</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<h3 id="obtener_los_registros_relacionados">8.4.2. Obtener los registros relacionados</h3>
+
+<p>La columna <code>articulo_id</code> de la tabla <code>blog_comentario</code> define implícitamente una clave externa a la tabla <code>blog_articulo</code>. Cada comentario está relacionado con un artículo y un artículo puede tener muchos comentarios. Las clases generadas contienen 5 métodos que traducen esta relación a la forma orientada a objetos, de la siguiente manera:</p>
+
+<ul>
+<li><code>$comentario-&gt;getArticulo()</code>: para obtener el objeto <code>Articulo</code> relacionado</li>
+<li><code>$comentario-&gt;getArticuloId()</code>: para obtener el ID del objeto <code>Articulo</code> relacionado</li>
+<li><code>$comentario-&gt;setArticulo($articulo)</code>: para definir el objeto <code>Articulo</code> relacionado</li>
+<li><code>$comentario-&gt;setArticuloId($id)</code>: para definir el objeto <code>Articulo</code> relacionado a partir de un ID</li>
+<li><code>$articulo-&gt;getComentarios()</code>: para obtener los objetos <code>Comentario</code> relacionados</li>
+</ul>
+
+<p>Los métodos <code>getArticuloId()</code> y <code>setArticuloId()</code> demuestran que se puede utilizar la columna <code>articulo_id</code> como una columna normal y que se pueden indicar las relaciones manualmente, pero esto no es muy interesante.  La ventaja de la forma orientada a objetos es mucho más evidente en los otros 3 métodos. El listado 8-9 muestra como utilizar los <em>setters</em> generados.</p>
+
+<p><strong>Listado 8-9 - Las claves externas se traducen en un <em>setter</em> especial</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$comentario</span> <span class="sy0">=</span> <span class="kw2">new</span> Comentario<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$comentario</span><span class="sy0">-&gt;</span><span class="me1">setAutor</span><span class="br0">&#40;</span><span class="st_h">'Steve'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$comentario</span><span class="sy0">-&gt;</span><span class="me1">setContenido</span><span class="br0">&#40;</span><span class="st_h">'¡Es el mejor artículo que he leído nunca!'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Añadir este comentario al anterior objeto $articulo</span>
+<span class="re0">$comentario</span><span class="sy0">-&gt;</span><span class="me1">setArticulo</span><span class="br0">&#40;</span><span class="re0">$articulo</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Sintaxis alternativa</span>
+<span class="co1">// Solo es correcta cuando el objeto artículo ya </span>
+<span class="co1">// ha sido guardado anteriormente en la base de datos</span>
+<span class="re0">$comentario</span><span class="sy0">-&gt;</span><span class="me1">setArticuloId</span><span class="br0">&#40;</span><span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El listado 8-10 muestra como utilizar los <em>getters</em> generados automáticamente. También muestra como encadenar varias llamadas a métodos en los objetos del modelo.</p>
+
+<p><strong>Listado 8-10 - Las claves externas se traducen en <em>getters</em> especiales</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// Relación de &quot;muchos a uno&quot;</span>
+<span class="kw1">echo</span> <span class="re0">$comentario</span><span class="sy0">-&gt;</span><span class="me1">getArticulo</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getTitulo</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+ <span class="sy0">=&gt;</span> Mi primer artículo
+<span class="kw1">echo</span> <span class="re0">$comentario</span><span class="sy0">-&gt;</span><span class="me1">getArticulo</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getContenido</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+ <span class="sy0">=&gt;</span> Este es mi primer artículo<span class="sy0">.</span>
+    Espero que te guste<span class="sy0">.</span>
+&nbsp;
+<span class="co1">// Relación &quot;uno a muchos&quot;</span>
+<span class="re0">$comentarios</span> <span class="sy0">=</span> <span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getComentarios</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El método <code>getArticulo()</code> devuelve un objeto de tipo <code>Articulo</code>, que permite utilizar el método accesor <code>getTitulo()</code>. Se trata de una alternativa mucho mejor que realizar la unión de las tablas manualmente, ya que esto último necesitaría varias líneas de código (empezando con la llamada al método <code>$comment-&gt;getArticuloId()</code>).</p>
+
+<p>La variable <code>$comentarios</code> del listado 8-10 contiene un array de objetos de tipo <code>Comentario</code>. Se puede mostrar el primer comentario mediante <code>$comentarios[0]</code> o se puede recorrer la colección entera mediante <code>foreach ($comentarios as $comentario)</code>.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Los objetos del modelo se definen siguiendo la convención de utilizar nombres en singular, y ahora se puede entender la razón. La clave externa definida en la tabla <code>blog_comentario</code> crea el método <code>getComentarios()</code>, cuyo nombre se crea añadiendo una letra <code>s</code> al nombre del objeto <code>Comentario</code>. Si el nombre del modelo fuera plural, la generación automática llamaría <code>getComentarioss()</code> a ese método, lo cual no tiene mucho sentido.</p></div>
+
+<h3 id="guardar_y_borrar_datos">8.4.3. Guardar y borrar datos</h3>
+
+<p>Al utilizar el constructor <code>new</code> se crea un nuevo objeto, pero no un registro en la tabla <code>blog_articulo</code>. Si se modifica el objeto, tampoco se reflejan esos cambios en la base de datos. Para guardar los datos en la base de datos, se debe invocar el método <code>save()</code> del objeto.</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">save</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El ORM de Symfony es lo bastante inteligente como para detectar las relaciones entre objetos, por lo que al guardar el objeto <code>$articulo</code> también se guarda el objeto <code>$comentario</code> relacionado. También detecta si ya existía el objeto en la base de datos, por lo que el método <code>save()</code> a veces se traduce a una sentencia <code>INSERT</code> de SQL y otras veces se traduce a una sentencia <code>UPDATE</code>. La clave primaria se establece de forma automática al llamar al método <code>save()</code>, por lo que después de guardado, se puede obtener la nueva clave primaria del objeto mediante <code>$articulo-&gt;getId()</code>.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Para determinar si un objeto es completamente nuevo, se puede utilizar el método <code>isNew()</code>. Para detectar si un objeto ha sido modificado y por tanto se debe guardar en la base de datos, se puede utilizar el método <code>isModified()</code>.</p></div>
+
+<p>Si lees los comentarios que insertan los usuarios en tus artículos, puede que te desanimes un poco para seguir publicando cosas en Internet. Si además no captas la ironía de los comentarios, puedes borrarlos fácilmente con el método <code>delete()</code>, como se muestra en el listado 8-11.</p>
+
+<p><strong>Listado 8-11 - Borrar registros de la base de datos mediante el método <code>delete()</code> del objeto relacionado</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw1">foreach</span> <span class="br0">&#40;</span><span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getComentarios</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw1">as</span> <span class="re0">$comentario</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="re0">$comentario</span><span class="sy0">-&gt;</span><span class="me1">delete</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Después de ejecutar el método <code>delete()</code>, el objeto sigue disponible hasta que finaliza la ejecución de la petición actual. Para determinar si un objeto ha sido borrado de la base de datos, se puede utilizar el método <code>isDeleted()</code>.</p></div>
+
+<h3 id="obtener_registros_mediante_la_clave_primaria">8.4.4. Obtener registros mediante la clave primaria</h3>
+
+<p>Si se conoce la clave primaria de un registro concreto, se puede utilizar el método <code>retrieveByPk()</code> de la clase <em>peer</em> para obtener el objeto relacionado.</p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$articulo</span> <span class="sy0">=</span> ArticuloPeer<span class="sy0">::</span><span class="me2">retrieveByPk</span><span class="br0">&#40;</span><span class="nu0">7</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El archivo <code>schema.yml</code> define el campo <code>id</code> como clave primaria de la tabla <code>blog_articulo</code>, por lo que la sentencia anterior obtiene el artículo cuyo <code>id</code> sea igual a 7. Como se ha utilizado una clave primaria, solo se obtiene un registro; la variable <code>$articulo</code> contiene un objeto de tipo <code>Articulo</code>.</p>
+
+<p>En algunos casos, la clave primaria está formada por más de una columna. Es esos casos, el método <code>retrieveByPK()</code> permite indicar varios parámetros, uno para cada columna de la clave primaria.</p>
+
+<p>También se pueden obtener varios objetos a la vez mediante sus claves primarias, invocando el método <code>retrieveByPKs()</code>, que espera como argumento un array de claves primarias.</p>
+
+<h3 id="obtener_registros_mediante_criteria">8.4.5. Obtener registros mediante Criteria</h3>
+
+<p>Cuando se quiere obtener más de un registro, se debe utilizar el método <code>doSelect()</code> de la clase <em>peer</em> correspondiente a los objetos que se quieren obtener. Por ejemplo, para obtener objetos de la clase <code>Articulo</code>, se llama al método <code>ArticuloPeer::doSelect()</code>.</p>
+
+<p>El primer parámetro del método <code>doSelect()</code> es un objeto de la clase <code>Criteria</code>, que es una clase para definir consultas simples sin utilizar SQL, para conseguir la abstracción de base de datos.</p>
+
+<p>Un objeto <code>Criteria</code> vacío devuelve todos los objetos de la clase. Por ejemplo, el código del listado 8-12 obtiene todos los artículos de la base de datos.</p>
+
+<p><strong>Listado 8-12 - Obtener registros mediante <code>Criteria</code> con el método <code>doSelect()</code> (<code>Criteria</code> vacío)</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$c</span> <span class="sy0">=</span> <span class="kw2">new</span> Criteria<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$articulos</span> <span class="sy0">=</span> ArticuloPeer<span class="sy0">::</span><span class="me2">doSelect</span><span class="br0">&#40;</span><span class="re0">$c</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Genera la siguiente consulta SQL</span>
+SELECT blog_articulo<span class="sy0">.</span>ID<span class="sy0">,</span> blog_articulo<span class="sy0">.</span>TITLE<span class="sy0">,</span> blog_articulo<span class="sy0">.</span>CONTENIDO<span class="sy0">,</span>
+       blog_articulo<span class="sy0">.</span>CREATED_AT
+FROM   blog_articulo<span class="sy0">;</span></pre>
+</div>
+
+<div class="admonition sidebar"><p><strong class="title"> Hydrating</strong> Invocar el método <code>::doSelect()</code> es mucho más potente que una simple consulta SQL. En primer lugar, se optimiza el código SQL para la base de datos que se utiliza. En segundo lugar, todos los valores pasados a <code>Criteria</code> se escapan antes de insertarlos en el código SQL, para evitar los problemas de <em>SQL injection</em>. En tercer lugar, el método devuelve un array de objetos y no un <em>result set</em>. El ORM crea y rellena de forma automática los objetos en función del <em>result set</em> de la base de datos. Este proceso se conoce con el nombre de <em>hydrating</em>.</p></div>
+
+<p>Para las selecciones más complejas de objetos, se necesitan equivalentes a las sentencias <code>WHERE</code>, <code>ORDER BY</code>, <code>GROUP BY</code> y demás de SQL. El objeto <code>Criteria</code> dispone de métodos y parámetros para indicar todas estas condiciones. Por ejemplo, para obtener todos los comentarios escritos por el usuario <code>Steve</code> y ordenados por fecha, se puede construir un objeto <code>Criteria</code> como el del listado 8-13.</p>
+
+<p><strong>Listado 8-13 - Obtener registros mediante <code>Criteria</code> con el método <code>doSelect()</code> (<code>Criteria</code> con condiciones)</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$c</span> <span class="sy0">=</span> <span class="kw2">new</span> Criteria<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$c</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span>ComentarioPeer<span class="sy0">::</span><span class="me2">AUTOR</span><span class="sy0">,</span> <span class="st_h">'Steve'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$c</span><span class="sy0">-&gt;</span><span class="me1">addAscendingOrderByColumn</span><span class="br0">&#40;</span>ComentarioPeer<span class="sy0">::</span><span class="me2">CREATED_AT</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$comentarios</span> <span class="sy0">=</span> ComentarioPeer<span class="sy0">::</span><span class="me2">doSelect</span><span class="br0">&#40;</span><span class="re0">$c</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Genera la siguiente consulta SQL</span>
+SELECT blog_comentario<span class="sy0">.</span>ARTICULO_ID<span class="sy0">,</span> blog_comentario<span class="sy0">.</span>AUTOR<span class="sy0">,</span> blog_comentario<span class="sy0">.</span>CONTENIDO<span class="sy0">,</span>
+       blog_comentario<span class="sy0">.</span>CREATED_AT
+FROM   blog_comentario
+WHERE  blog_comentario<span class="sy0">.</span>autor <span class="sy0">=</span> <span class="st_h">'Steve'</span>
+ORDER BY blog_comentario<span class="sy0">.</span>CREATED_AT ASC<span class="sy0">;</span></pre>
+</div>
+
+<p>Las constantes de clase que se pasan como parámetros a los métodos <code>add()</code> hacen referencia a los nombres de las propiedades. Su nombre se genera a partir del nombre de las columnas en mayúsculas. Por ejemplo, para indicar la columna <code>contenido</code> de la tabla <code>blog_articulo</code>, se utiliza la constante de clase llamada <code>ArticuloPeer::CONTENIDO</code>.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> ¿Por qué se utiliza <code>ComentarioPeer::AUTOR</code> en vez de <code>blog_comentario.AUTOR</code>, que es en definitiva el valor que se va a utilizar en la consulta SQL? Supon que se debe modificar el nombre del campo de la tabla y en vez de <code>autor</code> ahora se llama <code>contributor</code>. Si se hubiera utilizado el valor <code>blog_comentario.AUTOR</code>, es necesario modificar ese valor en cada llamada al modelo. Sin embargo, si se utiliza el valor<code>ComentarioPeer::AUTOR</code>, solo es necesario cambiar el nombre de la columna en el archivo <code>schema.yml</code>, manteniendo el atributo <code>phpName</code> a un valor igual a <code>AUTOR</code> y reconstruir el modelo.</p></div>
+
+<p>La tabla 8-1 compara la sintaxis de SQL y del objeto <code>Criteria</code>.</p>
+
+<p><strong>Tabla 8-1 - Sintaxis de SQL y del objeto <code>Criteria</code></strong></p>
+
+<div class="table" id="table_8_2">
+
+    <table>
+<thead>
+<tr>
+  <th>SQL</th>
+  <th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>WHERE columna = valor</code></td>
+  <td><code>-&gt;add(columna, valor);</code></td>
+</tr>
+<tr>
+  <td><code>WHERE columna &lt;&gt; valor</code></td>
+  <td><code>-&gt;add(columna, valor, Criteria::NOT_EQUAL);</code></td>
+</tr>
+<tr>
+  <td><strong>Otros operadores de comparación</strong></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>&gt; , &lt;</code></td>
+  <td><code>Criteria::GREATER_THAN, Criteria::LESS_THAN</code></td>
+</tr>
+<tr>
+  <td><code>&gt;=, &lt;=</code></td>
+  <td><code>Criteria::GREATER_EQUAL, Criteria::LESS_EQUAL</code></td>
+</tr>
+<tr>
+  <td><code>IS NULL, IS NOT NULL</code></td>
+  <td><code>Criteria::ISNULL, Criteria::ISNOTNULL</code></td>
+</tr>
+<tr>
+  <td><code>LIKE, ILIKE</code></td>
+  <td><code>Criteria::LIKE, Criteria::ILIKE</code></td>
+</tr>
+<tr>
+  <td><code>IN, NOT IN</code></td>
+  <td><code>Criteria::IN, Criteria::NOT_IN</code></td>
+</tr>
+<tr>
+  <td><strong>Otras palabras clave de SQL</strong></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>ORDER BY columna ASC</code></td>
+  <td><code>-&gt;addAscendingOrderByColumn(columna);</code></td>
+</tr>
+<tr>
+  <td><code>ORDER BY columna DESC</code></td>
+  <td><code>-&gt;addDescendingOrderByColumn(columna);</code></td>
+</tr>
+<tr>
+  <td><code>LIMIT limite</code></td>
+  <td><code>-&gt;setLimit(limite)</code></td>
+</tr>
+<tr>
+  <td><code>OFFSET desplazamiento</code></td>
+  <td><code>-&gt;setOffset(desplazamiento)</code></td>
+</tr>
+<tr>
+  <td><code>FROM tabla1, tabla2 WHERE tabla1.col1 = tabla2.col2</code></td>
+  <td><code>-&gt;addJoin(col1, col2)</code></td>
+</tr>
+<tr>
+  <td><code>FROM tabla1 LEFT JOIN tabla2 ON tabla1.col1 = tabla2.col2</code></td>
+  <td><code>-&gt;addJoin(col1, col2, Criteria::LEFT_JOIN)</code></td>
+</tr>
+<tr>
+  <td><code>FROM tabla1 RIGHT JOIN tabla2 ON tabla1.col1 = tabla2.col2</code></td>
+  <td><code>-&gt;addJoin(col1, col2, Criteria::RIGHT_JOIN)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> La mejor forma de descubrir y entender los métodos disponibles en las clases generadas automáticamente es echar un vistazo a los archivos <code>Base</code> del directorio <code>lib/model/om/</code>. Los nombres de los métodos son bastante explícitos, aunque si se necesitan más comentarios sobre esos métodos, se puede establecer el parámetro <code>propel.builder.addComentarios</code> a <code>true</code> en el archivo de configuración <code>config/propel.ini</code> y después volver a reconstruir el modelo.</p></div>
+
+<p>El listado 8-14 muestra otro ejemplo del uso de <code>Criteria</code> con condiciones múltiples. En el ejemplo se obtienen todos los comentarios del usuario <code>Steve</code> en los artículos que contienen la palabra <code>enjoy</code> y además, ordenados por fecha.</p>
+
+<p><strong>Listado 8-14 - Otro ejemplo para obtener registros mediante <code>Criteria</code> con el método <code>doSelect()</code> (<code>Criteria</code> con condiciones)</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$c</span> <span class="sy0">=</span> <span class="kw2">new</span> Criteria<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$c</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span>ComentarioPeer<span class="sy0">::</span><span class="me2">AUTOR</span><span class="sy0">,</span> <span class="st_h">'Steve'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$c</span><span class="sy0">-&gt;</span><span class="me1">addJoin</span><span class="br0">&#40;</span>ComentarioPeer<span class="sy0">::</span><span class="me2">ARTICULO_ID</span><span class="sy0">,</span> ArticuloPeer<span class="sy0">::</span><span class="me2">ID</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$c</span><span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span>ArticuloPeer<span class="sy0">::</span><span class="me2">CONTENIDO</span><span class="sy0">,</span> <span class="st_h">'%enjoy%'</span><span class="sy0">,</span> Criteria<span class="sy0">::</span><span class="me2">LIKE</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$c</span><span class="sy0">-&gt;</span><span class="me1">addAscendingOrderByColumn</span><span class="br0">&#40;</span>ComentarioPeer<span class="sy0">::</span><span class="me2">CREATED_AT</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$comentarios</span> <span class="sy0">=</span> ComentarioPeer<span class="sy0">::</span><span class="me2">doSelect</span><span class="br0">&#40;</span><span class="re0">$c</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Genera la siguiente consulta SQL</span>
+SELECT blog_comentario<span class="sy0">.</span>ID<span class="sy0">,</span> blog_comentario<span class="sy0">.</span>ARTICULO_ID<span class="sy0">,</span> blog_comentario<span class="sy0">.</span>AUTOR<span class="sy0">,</span>
+       blog_comentario<span class="sy0">.</span>CONTENIDO<span class="sy0">,</span> blog_comentario<span class="sy0">.</span>CREATED_AT
+FROM   blog_comentario<span class="sy0">,</span> blog_articulo
+WHERE  blog_comentario<span class="sy0">.</span>AUTOR <span class="sy0">=</span> <span class="st_h">'Steve'</span>
+       AND blog_articulo<span class="sy0">.</span>CONTENIDO LIKE <span class="st_h">'%enjoy%'</span>
+       AND blog_comentario<span class="sy0">.</span>ARTICULO_ID <span class="sy0">=</span> blog_articulo<span class="sy0">.</span>ID
+ORDER BY blog_comentario<span class="sy0">.</span>CREATED_AT ASC</pre>
+</div>
+
+<p>De la misma forma que el lenguaje SQL es sencillo pero permite construir consultas muy complejas, el objeto <code>Criteria</code> permite manejar condiciones de cualquier nivel de complejodad. Sin embargo, como muchos programadores piensan primero en el código SQL y luego lo traducen a las condiciones de la lógica orientada a objetos, es difícil comprender bien el objeto <code>Criteria</code> cuando se utiliza las primeras veces. La mejor forma de aprender es mediante ejemplos y aplicaciones de prueba. El sitio web del proyecto Symfony esá lleno de ejemplos de cómo construir objetos de tipo <code>Criteria</code> para todo tipo de situaciones.</p>
+
+<p>Además del método <code>doSelect()</code>, todas las clases <em>peer</em> tienen un método llamado <code>doCount()</code>, que simplemente cuenta el número de registros que satisfacen las condiciones pasadas como parámetro y devuelve ese número como un entero. Como no se devuelve ningún objeto, no se produce el proceso de <em>hydrating</em> y por tanto el método <code>doCount()</code> es mucho más rápido que <code>doSelect()</code>.</p>
+
+<p>Las clases <em>peer</em> también incluyen métodos <code>doDelete()</code>, <code>doInsert()</code> y <code>doUpdate()</code> (todos ellos requieren como parámetro un objeto de tipo <code>Criteria</code>). Estos métodos permiten realizar consultas de tipo <code>DELETE</code>, <code>INSERT</code> y <code>UPDATE</code> a la base de datos. Se pueden consultar las clases <em>peer</em> generadas automáticamente para descubrir más detalles de estos métodos de Propel.</p>
+
+<p>Por último, si solo se quiere obtener el primer objeto, se puede reemplazar el método <code>doSelect()</code> por <code>doSelectOne()</code>. Es muy útil cuando se sabe que las condiciones de <code>Criteria</code> solo van a devolver un resultado, y su ventaja es que el método devuelve directamente un objeto en vez de un array de objetos.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Cuando una consulta <code>doSelect()</code> devuelve un número muy grande de resultados, normalmente sólo se quieren mostrar unos pocos en la respuesta. Symfony incluye una clase especial para paginar resultados llamada <code>sfPropelPager</code>, que realiza la paginación de forma automática y cuya documentación y ejemplos de uso se puede encontrar en http://www.symfony-project.org/cookbook/1_2/en/pager</p></div>
+
+<h3 id="uso_de_consultas_con_codigo_sql">8.4.6. Uso de consultas con código SQL</h3>
+
+<p>A veces, no es necesario obtener los objetos, sino que solo son necesarios algunos datos calculados por la base de datos. Por ejemplo, para obtener la fecha de creación de todos los artículos, no tiene sentido obtener todos los artículos y después recorrer el array de los resultados. En este caso es preferible obtener directamente el resultado, ya que se evita el proceso de <em>hydrating</em>.</p>
+
+<p>Por otra parte, no deberían utilizarse instrucciones PHP de acceso a la base de datos, porque se perderían las ventajas de la abstracción de bases de datos. Lo que significa que se debe evitar el ORM (Propel) pero no la abstracción de bases de datos (PDO).</p>
+
+<p>Para realizar consultas a la base de datos con PDO, es necesario realizar los siguientes pasos:</p>
+
+<ol>
+<li>Obtener la conexión con la base de datos.</li>
+<li>Construir la consulta.</li>
+<li>Crear una sentencia con esa consulta.</li>
+<li>Iterar el <em>result set</em> que devuelve la ejecución de la sentencia.</li>
+</ol>
+
+<p>Aunque lo anterior puede parecer un galimatías, el código del listado 8-15 es mucho más explícito.</p>
+
+<p><strong>Listado 8-15 - Consultas SQL personalizadas con PDO</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$conexion</span> <span class="sy0">=</span> Propel<span class="sy0">::</span><span class="me2">getConnection</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$consulta</span> <span class="sy0">=</span> <span class="st_h">'SELECT MAX(%s) AS max FROM %s'</span><span class="sy0">;</span>
+<span class="re0">$consulta</span> <span class="sy0">=</span> <span class="kw3">sprintf</span><span class="br0">&#40;</span><span class="re0">$consulta</span><span class="sy0">,</span> ArticuloPeer<span class="sy0">::</span><span class="me2">CREATED_AT</span><span class="sy0">,</span> ArticuloPeer<span class="sy0">::</span><span class="me2">TABLE_NAME</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$sentencia</span> <span class="sy0">=</span> <span class="re0">$conexion</span><span class="sy0">-&gt;</span><span class="me1">prepare</span><span class="br0">&#40;</span><span class="re0">$consulta</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$sentencia</span><span class="sy0">-&gt;</span><span class="me1">execute</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$resultset</span> <span class="sy0">=</span> <span class="re0">$sentencia</span><span class="sy0">-&gt;</span><span class="me1">fetch</span><span class="br0">&#40;</span>PDO<span class="sy0">::</span><span class="me2">FETCH_OBJ</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$max</span> <span class="sy0">=</span> <span class="re0">$resultset</span><span class="sy0">-&gt;</span><span class="kw3">max</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Al igual que sucede con las selecciones realizadas con Propel, las consultas con PDO son un poco complicadas de usar al principio. Los ejemplos de las aplicaciones existentes y de los tutoriales pueden ser útiles para descubrir la forma de hacerlas.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Si se salta esa forma de acceder y se intenta acceder de forma directa a la base de datos, se corre el riesgo de perder la seguridad y la abstracción proporcionadas por Propel. Aunque es más largo hacerlo con Propel, es la forma de utilizar las buenas prácticas que aseguran un buen rendimiento, portabilidad y seguridad a la aplicación. Esta recomendación es especialmente útil para las consultas que contienen parámetros cuyo origen no es confiable (como por ejemplo un usuario de Internet). Propel se encarga de escapar los datos para mantener la seguridad de la base de datos. Si se accede directamente a la base de datos, se corre el riesgo de sufrir ataques de tipo <em>SQL-injection</em>.</p></div>
+
+<h3 id="uso_de_columnas_especiales_de_fechas">8.4.7. Uso de columnas especiales de fechas</h3>
+
+<p>Normalmente, cuando una tabla tiene una columna llamada <code>created_at</code>, se utiliza para almacenar un timestamp de la fecha de creación del registro. La misma idea se aplica a las columnas <code>updated_at</code>, cuyo valor se debe actualizar cada vez que se actualiza el propio registro.</p>
+
+<p>La buena noticia es que Symfony reconoce estos nombres de columna y se ocupa de actualizar su valor de forma automática. No es necesario establecer manualmente el valor de las columnas <code>created_at</code> y <code>updated_at</code>; se actualizan automáticamente, tal y como muestra el listado 8-16. Lo mismo se aplica a las columnas llamadas <code>created_on</code> y <code>updated_on</code>.</p>
+
+<p><strong>Listado 8-16 - Las columnas <code>created_at</code> y <code>updated_at</code> se gestionan automáticamente</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$comentario</span> <span class="sy0">=</span> <span class="kw2">new</span> Comentario<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$comentario</span><span class="sy0">-&gt;</span><span class="me1">setAutor</span><span class="br0">&#40;</span><span class="st_h">'Steve'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$comentario</span><span class="sy0">-&gt;</span><span class="me1">save</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Muestra la fecha de creación</span>
+<span class="kw1">echo</span> <span class="re0">$comentario</span><span class="sy0">-&gt;</span><span class="me1">getCreatedAt</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+ <span class="sy0">=&gt;</span> <span class="br0">&#91;</span>fecha de la operación INSERT de la base de datos<span class="br0">&#93;</span></pre>
+</div>
+
+<p>Además, los <em>getters</em> de las columnas de fechas permiten indicar el formato de la fecha como argumento:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw1">echo</span> <span class="re0">$comentario</span><span class="sy0">-&gt;</span><span class="me1">getCreatedAt</span><span class="br0">&#40;</span><span class="st_h">'Y-m-d'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<div class="admonition sidebar"><p><strong class="title"> Refactorizando la capa de datos</strong> Cuando se desarrolla un proyecto con Symfony, normalmente se empieza escribiendo el código de la lógica de dominio en las acciones. Sin embargo, las consultas a la base de datos y la manipulación del modelo no se debería realizar en la capa del controlador. De forma que toda la lógica relacionada con los datos se debería colocar en la capa del modelo. Cada vez que se ejecuta el mismo código en más de un sitio de las acciones, se debería mover ese código al modelo. De esta forma las acciones se mantienen cortas y fáciles de leer.</p>
+
+<p>Por ejemplo, imagina el caso de un blog que tiene que obtener los 10 artículos más populares relacionados con una etiqueta determinada (que se pasa como parámetro). Este código no debería estar en la acción, sino en el modelo. De hecho, si se tiene que mostrar en la plantilla la lista de artículos, la acción debería ser similar a la siguiente:</p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">public</span> <span class="kw2">function</span> executeMuestraArticulosPopularesParaEtiqueta<span class="br0">&#40;</span><span class="re0">$peticion</span><span class="br0">&#41;</span>
+ <span class="br0">&#123;</span>
+   <span class="re0">$etiqueta</span> <span class="sy0">=</span> EtiquetaPeer<span class="sy0">::</span><span class="me2">retrieveByName</span><span class="br0">&#40;</span><span class="re0">$peticion</span><span class="sy0">-&gt;</span><span class="me1">getParameter</span><span class="br0">&#40;</span><span class="st_h">'etiqueta'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+   <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">foward404Unless</span><span class="br0">&#40;</span><span class="re0">$etiqueta</span><span class="br0">&#41;</span><span class="sy0">;</span>
+   <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">articulos</span> <span class="sy0">=</span> <span class="re0">$etiqueta</span><span class="sy0">-&gt;</span><span class="me1">getArticulosPopulares</span><span class="br0">&#40;</span><span class="nu0">10</span><span class="br0">&#41;</span><span class="sy0">;</span>
+ <span class="br0">&#125;</span></pre>
+</div>
+
+<p>La acción crea un objeto de clase <code>Etiqueta</code> a partir del parámetro de la petición. Después, todo el código necesario para realizar la consulta a la base de datos se almacena en el método <code>getArticulosPopulares()</code> de esta clase. La acción es más fácil de leer y el código del modelo se puede reutilizar fácilmente en otra acción.</p>
+
+<p>Mover el código a un lugar más apropiado es una de las técnicas de refactorización. Si se realiza habitualmente, el código resultante es más fácil de mantener y de entender por otros programadores. Una buena regla general sobre cuando refactorizar la capa de los datos es que el código de una acción raramente debería tener más de 10 líneas de código PHP.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_8/las_clases_del_modelo.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>8.3. Las clases del modelo</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_8/conexiones_con_la_base_de_datos.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>8.5. Conexiones con la base de datos</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_8.html">
+                    <span>Capítulo 8.</span> El modelo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/por_que_utilizar_un_orm_y_una_capa_de_abstraccion.html">
+                    <span>8.1.</span> ¿Por qué utilizar un ORM y una capa de abstracción?
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/esquema_de_base_de_datos_de_symfony.html">
+                    <span>8.2.</span> Esquema de base de datos de Symfony
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/las_clases_del_modelo.html">
+                    <span>8.3.</span> Las clases del modelo
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_8/acceso_a_los_datos.html">
+                    <span>8.4.</span> Acceso a los datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/conexiones_con_la_base_de_datos.html">
+                    <span>8.5.</span> Conexiones con la base de datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/extender_el_modelo.html">
+                    <span>8.6.</span> Extender el modelo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/sintaxis_extendida_del_esquema.html">
+                    <span>8.7.</span> Sintaxis extendida del esquema
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/no_crees_el_modelo_dos_veces.html">
+                    <span>8.8.</span> No crees el modelo dos veces
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_8/resumen.html">
+                    <span>8.9.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

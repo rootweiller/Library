@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>12.2. Excepciones (Algoritmos de Programación con Python)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_12.html" />
+                    <link rel="next" href="../capitulo_12/validaciones.html" />
+                <link rel="start" href="/libro/algoritmos_python/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="12.2. Excepciones (Algoritmos de Programación con Python)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page algoritmos_python"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/algoritmos_python/" itemprop="url">
+                    <span itemprop="title">Algoritmos de Programación con Python</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/algoritmos_python/capitulo_12.html" itemprop="url">
+                    <span itemprop="title">Capítulo 12. Manejo de errores y excepciones</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>12.2. Excepciones</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="excepciones" class="title">
+        <span>12.2.</span> Excepciones
+    </h1>
+
+    
+
+<p>Los errores de ejecución son llamados comúnmente <em>excepciones</em> y por
+eso de ahora en más utilizaremos ese nombre. Durante la ejecución de
+un programa, si dentro de una función surge una excepción y la función no la maneja, la excepción se propaga hacia la función que la invocó, si esta otra tampoco la maneja, la excepción continua propagándose hasta llegar a la función inicial del programa y si esta tampoco la maneja se interrumpe la ejecución del programa. Veamos entonces como manejar excepciones.</p>
+
+<h3 id="manejo_de_excepciones">12.2.1. Manejo de excepciones</h3>
+
+<p>Para el manejo de excepciones los lenguajes proveen ciertas palabras
+reservadas, que nos permiten manejar las excepciones que puedan surgir y
+tomar acciones de recuperación para evitar la interrupción del programa
+o, al menos, para realizar algunas acciones adicionales antes de
+interrumpir el programa.</p>
+
+<p>En el caso de Python, el manejo de excepciones se hace mediante los
+bloques que utilizan las sentencias <code>try</code>, <code>except</code> y <code>finally</code>.</p>
+
+<p>Dentro del bloque <code>try</code> se ubica todo el código que pueda llegar a
+<em>levantar</em> una excepción, se utiliza el término <em>levantar</em> para
+referirse a la acción de generar una excepción.</p>
+
+<p>A continuación se ubica el bloque <code>except</code>, que se encarga de capturar
+la excepción y nos da la oportunidad de procesarla mostrando por
+ejemplo un mensaje adecuado al usuario. Veamos qué sucede si se quiere
+realizar una división por cero:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> dividendo <span class="sy0">=</span> <span class="nu0">5</span>
+<span class="sy0">&gt;&gt;&gt;</span> divisor <span class="sy0">=</span> <span class="nu0">0</span>
+<span class="sy0">&gt;&gt;&gt;</span> dividendo / divisor
+Traceback <span class="br0">&#40;</span>most recent call last<span class="br0">&#41;</span>:
+  File <span class="st0">&quot;&lt;stdin&gt;&quot;</span><span class="sy0">,</span> line <span class="nu0">1</span><span class="sy0">,</span> <span class="kw1">in</span> <span class="sy0">&lt;</span>module<span class="sy0">&gt;</span>
+<span class="kw2">ZeroDivisionError</span>: integer division <span class="kw1">or</span> modulo by zero</pre>
+</div>
+
+<p>En este caso, se levantó la excepción <code>ZeroDivisionError</code> cuando se quiso
+hacer la división. Para evitar que se levante la excepción y se detenga
+la ejecución del programa, se utiliza el bloque <code>try</code>-<code>except</code>.</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> <span class="kw1">try</span>:
+...     <span class="me1">cociente</span> <span class="sy0">=</span> dividendo / divisor
+... <span class="kw1">except</span>:
+...     <span class="kw1">print</span> <span class="st0">&quot;No se permite la división por cero&quot;</span>
+...</pre>
+</div>
+
+<p>No se permite la división por cero</p>
+
+<p>Dado que dentro de un mismo bloque <code>try</code> pueden producirse excepciones de
+distinto tipo, es posible utilizar varios bloques <code>except</code>, cada uno para
+capturar un tipo distinto de excepción.</p>
+
+<p>Esto se hace especificando a continuación de la sentencia <code>except</code> el
+nombre de la excepción que se pretende capturar. Un mismo bloque <code>except</code>
+puede atrapar varios tipos de excepciones, lo cual se hace especificando
+los nombres de la excepciones separados por comas a continuación de la
+palabra <code>except</code>. Es importante destacar que si bien luego de un bloque
+<code>try</code> puede haber varios bloques <code>except</code>, se ejecutará, a lo sumo, uno de
+ellos.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">try</span>:
+    <span class="co1"># aquí ponemos el código que puede lanzar excepciones</span>
+<span class="kw1">except</span> <span class="kw2">IOError</span>:
+    <span class="co1"># entrará aquí en caso que se haya producido</span>
+    <span class="co1"># una excepción IOError</span>
+<span class="kw1">except</span> <span class="kw2">ZeroDivisionError</span>:
+    <span class="co1"># entrará aquí en caso que se haya producido</span>
+    <span class="co1"># una excepción ZeroDivisionError</span>
+<span class="kw1">except</span>:
+    <span class="co1"># entrará aquí en caso que se haya producido</span>
+    <span class="co1"># una excepción que no corresponda a ninguno</span>
+    <span class="co1"># de los tipos especificados en los except previos</span></pre>
+</div>
+
+<p>Como se muestra en el ejemplo precedente también es posible utilizar una
+sentencia <code>except</code> sin especificar el tipo de excepción a capturar, en
+cuyo caso se captura cualquier excepción, sin importar su tipo. Cabe
+destacar, también, que en caso de utilizar una sentencia <code>except</code> sin
+especificar el tipo, la misma debe ser siempre la última de las
+sentencias <code>except</code>, es decir que el siguiente fragmento de código es
+incorrecto.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">try</span>:
+    <span class="co1"># aquí ponemos el código que puede lanzar excepciones</span>
+<span class="kw1">except</span>:
+    <span class="co1"># ERROR de sintaxis, esta sentencia no puede estar aquí,</span>
+    <span class="co1"># sino que debería estar luego del except IOError.</span>
+<span class="kw1">except</span> <span class="kw2">IOError</span>:
+    <span class="co1"># Manejo de la excepción de entrada/salida</span></pre>
+</div>
+
+<p>Finalmente, puede ubicarse un bloque <code>finally</code> donde se escriben las
+sentencias de finalización, que son típicamente acciones de limpieza.
+La particularidad del bloque <code>finally</code> es que se ejecuta siempre, haya
+surgido una excepción o no. Si hay un bloque <code>except</code>, no es necesario que
+esté presente el <code>finally</code>, y es posible tener un bloque <code>try</code> sólo con
+<code>finally</code>, sin <code>except</code>.</p>
+
+<p>Veamos ahora como es que actúa Python al encontrarse con estos bloques.
+Python comienza a ejecutar las instrucciones que se encuentran dentro
+de un bloque <code>try</code> normalmente. Si durante la ejecución de esas
+instrucciones se levanta una excepción, Python interrumpe la ejecución
+en el punto exacto en que surgió la excepción y pasa a la ejecución del
+bloque <code>except</code> correspondiente.</p>
+
+<p>Para ello, Python verifica uno a uno los bloques <code>except</code> y si encuentra
+alguno cuyo tipo haga referencia al tipo de excepción levantada,
+comienza a ejecutarlo. Sino encuentra ningún bloque del tipo
+correspondiente pero hay un bloque <code>except</code> sin tipo, lo ejecuta. Al
+terminar de ejecutar el bloque correspondiente, se pasa a la ejecución
+del bloque <code>finally</code>, si se encuentra definido.</p>
+
+<p>Si, por otra parte, no hay problemas durante la ejecución del bloque
+<code>try</code>, se completa la ejecución del bloque, y luego se pasa directamente a
+la ejecución del bloque <code>finally</code> (si es que está definido).</p>
+
+<p>Bajemos todo esto a un ejemplo concreto, supongamos que nuestro programa
+tiene que procesar cierta información ingresada por el usuario y
+guardarla en un archivo. Dado que el acceso a archivos puede levantar
+excepciones, siempre deberíamos colocar el código de manipulación de
+archivos dentro de un bloque <code>try</code>. Luego deberíamos colocar un bloque
+<code>except</code> que atrape una excepción del tipo <code>IOError</code>, que es el tipo de
+excepciones que lanzan la funciones de manipulación de archivos.
+Adicionalmente podríamos agregar un bloque <code>except</code> sin tipo por si surge
+alguna otra excepción. Finalmente deberíamos agregar un bloque <code>finally</code>
+para cerrar el archivo, haya surgido o no una excepción.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">try</span>:
+    archivo <span class="sy0">=</span> <span class="kw2">open</span><span class="br0">&#40;</span><span class="st0">&quot;miarchivo.txt&quot;</span><span class="br0">&#41;</span>
+    <span class="co1"># procesar el archivo</span>
+<span class="kw1">except</span> <span class="kw2">IOError</span>:
+    <span class="kw1">print</span> <span class="st0">&quot;Error de entrada/salida.&quot;</span>
+    <span class="co1"># realizar procesamiento adicional</span>
+<span class="kw1">except</span>:
+    <span class="co1"># procesar la excepción</span>
+<span class="kw1">finally</span>:
+    <span class="co1"># si el archivo no está cerrado hay que cerrarlo</span>
+    <span class="kw1">if</span> <span class="kw1">not</span><span class="br0">&#40;</span>archivo.<span class="me1">closed</span><span class="br0">&#41;</span>:
+        archivo.<span class="me1">close</span><span class="br0">&#40;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<h3 id="procesamiento_y_propagacion_de_excepciones">12.2.2. Procesamiento y propagación de excepciones</h3>
+
+<p>Hemos visto cómo atrapar excepciones, es necesario ahora que veamos qué
+se supone que hagamos al atrapar una excepción. En primer lugar
+podríamos ejecutar alguna lógica particular del caso como: cerrar un
+archivo, realizar una procesamiento alternativo al del bloque <code>try</code>, etc.
+Pero más allá de esto tenemos algunas opciones genéricas que consisten
+en: dejar constancia de la ocurrencia de la excepción, propagar la
+excepción o, incluso, hacer ambas cosas.</p>
+
+<p>Para dejar constancia de la ocurrencia de la excepción, se puede
+escribir en un archivo de log o simplemente mostrar un mensaje en
+pantalla. Generalmente cuando se deja constancia de la ocurrencia de una
+excepción se suele brindar alguna información del contexto en que
+ocurrió la excepción, por ejemplo: tipo de excepción ocurrida, momento
+en que ocurrió la excepción y cuáles fueron las llamadas previas a la
+excepción. El objetivo de esta información es facilitar el diagnóstico
+en caso de que alguien deba corregir el programa para evitar que la
+excepción siga apareciendo.</p>
+
+<p>Es posible, por otra parte, que luego de realizar algún procesamiento
+particular del caso se quiera que la excepción se propague hacia la
+función que había invocado a la función actual. Para hacer esto Python
+nos brinda la instrucción <code>raise</code>.</p>
+
+<p>Si se invoca esta instrucción dentro de un bloque <code>except</code>, sin pasarle
+parámetros, Python levantará la excepción atrapada por ese bloque.</p>
+
+<p>También podría ocurrir que en lugar de propagar la excepción tal cual
+fue atrapada, quisiéramos lanzar una excepción distinta, más
+significativa para quien invocó a la función actual y que posiblemente
+contenga cierta información de contexto. Para levantar una excepción de
+cualquier tipo, utilizamos también la sentencia <code>raise</code>, pero indicándole
+el tipo de excepción que deseamos lanzar y pasando a la excepción los
+parámetros con información adicional que queramos brindar.</p>
+
+<p>El siguiente fragmento de código muestra este uso de <code>raise</code>.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> dividir<span class="br0">&#40;</span>dividendo<span class="sy0">,</span> divisor<span class="br0">&#41;</span>:
+    <span class="kw1">try</span>:
+        resultado <span class="sy0">=</span> dividendo / divisor
+        <span class="kw1">return</span> resultado
+    <span class="kw1">except</span> <span class="kw2">ZeroDivisionError</span>:
+        <span class="kw1">raise</span> <span class="kw2">ZeroDivisionError</span><span class="br0">&#40;</span><span class="st0">&quot;El divisor no puede ser cero&quot;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<h3 id="acceso_a_informacion_de_contexto">12.2.3. Acceso a información de contexto</h3>
+
+<p>Para acceder a la información de contexto estando dentro de un bloque
+<code>except</code> existen dos alternativas. Se puede utilizar la función <code>exc_info</code>
+del módulo <code>sys</code>. Esta función devuelve una tupla con información sobre la
+última excepción atrapada en un bloque <code>except</code>. Dicha tupla contiene tres
+elementos: el tipo de excepción, el valor de la excepción y las llamadas
+realizadas.</p>
+
+<p>Otra forma de obtener información sobre la excepción es utilizando la
+misma sentencia <code>except</code>, pasándole un identificador para que almacene una
+referencia a la excepción atrapada.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">try</span>:
+    <span class="co1"># código que puede lanzar una excepción</span>
+<span class="kw1">except</span> <span class="kw2">Exception</span><span class="sy0">,</span> ex:
+    <span class="co1"># procesamiento de la excepción cuya información</span>
+    <span class="co1"># es accesible a través del identificador ex</span></pre>
+</div>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> En otros lenguajes, como el lenguaje Java, si una función puede lanzar una excepción en alguna situación, la o las excepciones que lance deben formar parte de la declaración de la función y quien invoque dicha función está obligado a hacerlo dentro de un bloque <code>try</code> que la atrape.</p>
+
+<p>En Python, al no tener esta obligación por parte del lenguaje debemos tener cuidado de atrapar las excepciones probables, ya que de no ser así los programas se terminarán inesperadamente.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_12.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 12. Manejo de errores y excepciones</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_12/validaciones.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>12.3. Validaciones</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+            <div id="book-legal-notice">
+            Copyright (c) 2011-2014 Rosita Wachenchauzer, Margarita Manterola,
+Maximiliano Curia, Marcos Medrano, Nicolás Paez.
+La copia y redistribución de esta página se permite bajo los términos
+de la licencia Creative Commons Atribución - Compartir Obras Derivadas
+Igual 3.0 siempre que se conserve esta nota de copyright.
+
+        </div>
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Algunos conceptos básicos</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Programas sencillos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Funciones</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Decisiones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Más sobre ciclos</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Cadenas de caracteres</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Tuplas y listas</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Algoritmos de búsqueda</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Diccionarios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Contratos y Mutabilidad</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Manejo de archivos</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_12.html">
+                    <span>Capítulo 12.</span> Manejo de errores y excepciones
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_12/excepciones.html">
+                    <span>12.2.</span> Excepciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/validaciones.html">
+                    <span>12.3.</span> Validaciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/resumen.html">
+                    <span>12.4.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/apendice.html">
+                    <span>12.5.</span> Apéndice
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Procesamiento de archivos</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Objetos</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Polimorfismo, Herencia y Delegación</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Listas enlazadas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Pilas y colas</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Modelo de ejecución de funciones y recursividad</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Ordenar listas</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>20.</span> <a href="../capitulo_20.html"> Algunos ordenamientos recursivos</a>
+            </li>
+                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

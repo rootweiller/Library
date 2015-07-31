@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>10.5. La cadena de filtros (Más con Symfony)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_10/despachando_y_ejecutando_la_peticion.html" />
+                    <link rel="next" href="../capitulo_10/resumen_general.html" />
+                <link rel="start" href="/libro/mas_con_symfony/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="10.5. La cadena de filtros (Más con Symfony)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page mas_con_symfony"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/mas_con_symfony/" itemprop="url">
+                    <span itemprop="title">Más con Symfony</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/mas_con_symfony/capitulo_10.html" itemprop="url">
+                    <span itemprop="title">Capítulo 10. Funcionamiento interno de Symfony</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>10.5. La cadena de filtros</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="la_cadena_de_filtros" class="title">
+        <span>10.5.</span> La cadena de filtros
+    </h1>
+
+    
+
+<p>Ahora que ya se ha realizado toda la configuración, es momento de empezar con
+<em>el trabajo de verdad</em>, que en este caso consiste en la ejecución de la cadena
+de filtros.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> La cadena de filtros de Symfony implementa un patrón de diseño llamado
+<a href="http://es.wikipedia.org/wiki/Chain_of_Responsibility_%28patr%C3%B3n_de_dise%C3%B1o%29">cadena de responsabilidad</a>.
+Se trata de un patrón de diseño sencillo pero muy potente que permite encadenar
+varias acciones. Cada una de las partes de la cadena puede decidir si la cadena
+debe seguir ejecutándose o no. Cada parte de la cadena también puede ejecutarse
+antes o después del resto de partes de la cadena.</p></div>
+
+<p>La configuración de la cadena de filtros se obtiene del archivo
+<a href="http://trac.symfony-project.org/browser/branches/1.3/lib/config/config/filters.yml"><code>filters.yml</code></a>
+del módulo actual, que es la razón por la que se necesita la instancia de la
+acción. En este punto es donde se puede modificar el conjunto de filtros
+ejecutados por la cadena. Simplemente se debe tener en cuenta que el filtro
+<code>rendering</code> siempre debe ser el primero de la lista (como se explicará más
+adelante). La configuración de los filtros por defecto es la siguiente:</p>
+
+<ul>
+<li><a href="http://trac.symfony-project.org/browser/branches/1.3/lib/filter/sfRenderingFilter.class.php"><code>rendering</code></a></li>
+<li><a href="http://trac.symfony-project.org/browser/branches/1.3/lib/filter/sfSecurityFilter.class.php"><code>security</code></a></li>
+<li><a href="http://trac.symfony-project.org/browser/branches/1.3/lib/filter/sfCacheFilter.class.php"><code>cache</code></a></li>
+<li><a href="http://trac.symfony-project.org/browser/branches/1.3/lib/filter/sfExecutionFilter.class.php"><code>execution</code></a></li>
+</ul>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Recomendamos encarecidamente que añadas tus propios filtros entre el filtro
+<code>security</code> y el filtro <code>cache</code>.</p></div>
+
+<h3 id="el_filtro_security">10.5.1. El filtro <code>security</code></h3>
+
+<p>Como el filtro <code>rendering</code> espera a que todos los demás filtros acaben antes de
+realizar su trabajo, el primer filtro que realmente se ejecuta es el filtro
+<code>security</code>. Este filtro asegura que se cumpla la configuración del archivo
+<a href="http://trac.symfony-project.org/browser/branches/1.3/lib/config/config/security.yml"><code>security.yml</code></a>.
+En concreto, este filtro redirige a los usuarios sin autenticar al módulo y
+acción <code>login</code> y a los usuarios sin permisos suficientes al módulo y acción
+<code>secure</code>. Este filtro sólo se ejecuta si la seguridad está activada para esta
+acción.</p>
+
+<h3 id="el_filtro_cache">10.5.2. El filtro <code>cache</code></h3>
+
+<p>A continuación se ejecuta el filtro <code>cache</code>, que aprovecha su capacidad de evitar
+la ejecución del resto de filtros de la cadena. Efectivamente, si la cache está
+activada y si la página solicitada por el usuario está guardada en la cache, la
+acción ya no se ejecuta. Obviamente lo anterior sólo es válido para las páginas
+que se pueden guardar enteras en la cache, que no suele ser el caso para la
+mayoría de páginas.</p>
+
+<p>Este filtro contiene además otra parte que se ejecuta después del filtro
+<code>execution</code> y justo antes del filtro <code>rendering</code>. Este código es responsable de
+establecer correctamente las cabeceras HTTP relacionadas con la cache, además
+de guardar si es necesario la página en la cache gracias al método
+<a href="http://www.symfony-project.org/api/1_3/sfViewCacheManager#method_setpagecache"><code>sfViewCacheManager::setPageCache()</code></a>.</p>
+
+<h3 id="el_filtro_execution">10.5.3. El filtro <code>execution</code></h3>
+
+<p>El último filtro, pero no por eso menos importante, se denomina <code>execution</code> y
+se encarga de ejecutar la lógica de negocio y su vista asociada.</p>
+
+<p>Todo comienza cuando el filtro comprueba la cache para la acción actual. Si se
+encuentra en la cache, la acción no se ejecuta y se pasa directamente a ejecutar
+la vista denominada <code>Success</code>.</p>
+
+<p>Si no se encuentra la acción en la cache, se ejecuta el método <code>preExecute()</code>
+del controlador y después se ejecuta la propia acción. La ejecución se realiza
+invocando el método
+<a href="http://www.symfony-project.org/api/1_3/sfActions#method_execute"><code>sfActions::execute()</code></a>
+de la instancia de la acción. Este método simplemente comprueba que la acción
+se puede ejecutar y en caso afirmativo la ejecuta. Al volver al filtro, se
+ejecuta el método <code>postExecute()</code> de la acción.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> El valor devuelto por tu acción es muy importante, ya que determina la vista
+que se ejecuta. Por defecto, cuando no se devuelve ningún valor, se sobreentiende
+que el valor devuelto es <code>sfView::SUCCESS</code> (lo que se traduce en el valor <code>Success</code>
+y de ahí el nombre de las plantillas: <code>indexSuccess.php</code>).</p></div>
+
+<p>Siguiendo con el proceso, ahora le toca el turno a la vista. El filtro comprueba
+si la acción ha devuelto alguno de los dos siguientes valores especiales:
+<code>sfView::HEADER_ONLY</code> y <code>sfView::NONE</code>. Cada uno de ellos hace lo que implica
+su nombre: devuelve solamente las cabeceras HTTP (mediante el método interno
+<a href="http://www.symfony-project.org/api/1_3/sfWebResponse#method_setheaderonly"><code>sfWebResponse::setHeaderOnly()</code></a>)
+o no muestra ninguna página.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Los nombres internos disponibles paras las vistas son: <code>ALERT</code>, <code>ERROR</code>, <code>INPUT</code>,
+<code>NONE</code> y <code>SUCCESS</code>. Además de estos valores preconfigurados, puedes utilizar
+cualquier otro valor propio.</p></div>
+
+<p>Una vez que ya se ha determinado que la acción va a mostrar una página, se puede
+ejecutar el último paso del filtro: la ejecución de la vista seleccionada.</p>
+
+<p>En primer lugar se obtiene un objeto de tipo <a href="http://trac.symfony-project.org/browser/branches/1.3/lib/view/sfView.class.php"><code>sfView</code></a>
+a través del método <a href="http://www.symfony-project.org/api/1_3/sfController#method_getview"><code>sfController::getView()</code></a>.
+Este objeto se puede obtener de dos maneras diferentes. La primera es mediante
+un objeto propio de vista para esta acción específica, llamado <code>actionSuccessView</code>
+o <code>module_actionSuccessView</code> y disponible en el archivo
+<code>apps/frontend/modules/module/view/actionSuccessView.class.php</code> (suponiendo que
+la acción se llame <code>action</code> y el módulo se llame <code>module</code>). En cualquier otro
+caso se emplea la clase definida en la opción de configuración <code>mod_module_view_class</code>.
+El valor inicial de esta opción es <a href="http://trac.symfony-project.org/browser/branches/1.3/lib/view/sfPHPView.class.php"><code>sfPHPView</code></a>.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Si utilizas un clase propia para la vista es posible ejecutar lógica específica
+de la vista mediante el método <a href="http://www.symfony-project.org/api/1_3/sfView#method_execute"><code>sfView::execute()</code></a>.
+De esta forma podrías por ejemplo instanciar tu propio motor de plantillas.</p></div>
+
+<p>Existen tres modos diferentes de generar la vista:</p>
+
+<ol>
+<li><code>sfView::RENDER_NONE</code>": equivalente a <code>sfView::NONE</code>, por lo que no se genera
+ninguna vista.</li>
+<li><code>sfView::RENDER_VAR</code>: prepara la presentación de la acción, que después se
+puede acceder a través del método <a href="http://www.symfony-project.org/api/1_3/sfActionStackEntry#method_getpresentation"><code>sfActionStackEntry::getPresentation()</code></a>.</li>
+<li><code>sfView::RENDER_CLIENT</code>, genera la vista e incluye el contenido de la
+respuesta. Se trata del modo por defecto.</li>
+</ol>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> En la práctica, el modo de generación de la vista sólo se utiliza a través del
+método <a href="http://www.symfony-project.org/api/1_3/sfController#method_getpresentationfor"><code>sfController::getPresentationFor()</code></a>
+que devuelve la vista generada para el módulo y acción indicados.</p></div>
+
+<h3 id="el_filtro_rendering">10.5.4. El filtro <code>rendering</code></h3>
+
+<p>Aunque el proceso está prácticamente finalizado, todavía queda un último paso.
+La cadena de filtros se ha ejecutado en su totalidad pero el filtro <code>rendering</code>
+sigue esperando a que el resto de filtros terminen para poder hacer su trabajo.
+En concreto, el filtro <code>rendering</code> envía el contenido de la respuesta al navegador
+utilizando <a href="http://www.symfony-project.org/api/1_3/sfWebResponse#method_send"><code>sfWebResponse::send()</code></a>.</p>
+
+<h3 id="resumen_de_la_ejecucion_de_la_cadena_de_filtros">10.5.5. Resumen de la ejecución de la cadena de filtros</h3>
+
+<ol>
+<li>La cadena de filtros se instancia utilizando el archivo de configuración <code>filters.yml</code></li>
+<li>El filtro <code>security</code> comprueba las credenciales y las autorizaciones</li>
+<li>El filtro <code>cache</code> gestiona la cache de la página actual</li>
+<li>El filtro <code>execution</code> ejecuta la acción</li>
+<li>El filtro <code>rendering</code> envía la respuesta mediante <code>sfWebResponse</code></li>
+</ol>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_10/despachando_y_ejecutando_la_peticion.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>10.4. Despachando y ejecutando la petición</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_10/resumen_general.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>10.6. Resumen general</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Enrutamiento avanzado</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Mejora tu productividad</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Emails</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Widgets y validadores propios</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Formularios avanzados</a>
+            </li>
+                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Mejorando la barra de depuración web</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Uso avanzado de Doctrine</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Utilizando la herencia de tablas de Doctrine</a>
+            </li>
+                                                                                            <li class="level-1 ">
+                <a href="../capitulo_10.html">
+                    <span>Capítulo 10.</span> Funcionamiento interno de Symfony
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/el_inicio.html">
+                    <span>10.1.</span> El inicio
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/sfcontext_y_las_factorias.html">
+                    <span>10.2.</span> <code>sfContext</code> y las factorías
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/gestores_de_configuracion_o_config_handlers.html">
+                    <span>10.3.</span> Gestores de configuración o <em>Config Handlers</em>
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/despachando_y_ejecutando_la_peticion.html">
+                    <span>10.4.</span> Despachando y ejecutando la petición
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_10/la_cadena_de_filtros.html">
+                    <span>10.5.</span> La cadena de filtros
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/resumen_general.html">
+                    <span>10.6.</span> Resumen general
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_10/conclusion.html">
+                    <span>10.7.</span> Conclusión
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Windows y Symfony</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Desarrollando aplicaciones Facebook</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Descubriendo el poder de la línea de comandos</a>
+            </li>
+                                                                                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Jugando con la cache de configuración de Symfony</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Trabajando con la comunidad Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>A.</span> <a href="../apendice_a.html"> Código JavaScript de sfWidgetFormGMapAddress</a>
+            </li>
+                                            <li class="level-1">
+                <span>B.</span> <a href="../apendice_b.html"> Ejemplo de instalador propio</a>
+            </li>
+                                            <li class="level-1">
+                <span>C.</span> <a href="../apendice_c.html"> Licencia</a>
+            </li>
+                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

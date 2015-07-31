@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>19.1. Opciones de Symfony (Symfony 1.4, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_19.html" />
+                    <link rel="next" href="../capitulo_19/extendiendo_la_carga_automatica_de_clases.html" />
+                <link rel="start" href="/libro/symfony_1_4/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="19.1. Opciones de Symfony (Symfony 1.4, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_4"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_4/" itemprop="url">
+                    <span itemprop="title">Symfony 1.4, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_4/capitulo_19.html" itemprop="url">
+                    <span itemprop="title">Capítulo 19. Configuración avanzada</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>19.1. Opciones de Symfony</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="opciones_de_symfony" class="title">
+        <span>19.1.</span> Opciones de Symfony
+    </h1>
+
+    
+
+<p>El archivo <code>frontend/config/settings.yml</code> contiene la configuración principal de Symfony para la aplicación llamada <code>frontend</code>. Aunque ya se ha visto la utilidad de varias de sus opciones en los capítulos anteriores, a continuación se repasan todas estas opciones.</p>
+
+<p>Como se explicó en el capítulo 5, este archivo es dependiente del entorno, lo que significa que cada opción puede tomar un valor diferente en cada entorno de ejecución. Todas las opciones definidas en este archivo son accesibles desde el código de PHP mediante la clase <code>sfConfig</code>. El nombre del parámetro que se debe utilizar está formado por el nombre de la opción y el prefijo <code>sf_</code>. Si se quiere obtener el valor de la opción <code>cache</code>, se utiliza el parámetro <code>sf_cache</code> y se obtiene su valor mediante <code>sfConfig::get('sf_cache')</code>.</p>
+
+<h3 id="acciones_y_modulos_por_defecto">19.1.1. Acciones y módulos por defecto</h3>
+
+<p>Symfony proporciona páginas por defecto para varias situaciones. Si se produce un error en el enrutamiento, Symfony ejecuta una acción del módulo <code>default</code> que se encuentra en el directorio <code>sfConfig::get('sf_symfony_lib_dir')/controller/default/</code>. El archivo <code>settings.yml</code> define la acción que se ejecuta en función del error producido:</p>
+
+<ul>
+<li><code>error_404_module</code> y <code>error_404_action</code>: acción que se ejecuta cuando la URL solicitada por el usuario no cumple con ninguna de las rutas establecidas, o cuando se produce una excepción de tipo <code>sfError404Exception</code>. Su valor por defecto es <code>default/error404</code>.</li>
+<li><code>login_module</code> y <code>login_action</code>: acción que se ejecuta cuando un usuario que no se ha autenticado intenta acceder a una página definida como segura (opción <code>secure</code>) en el archivo <code>security.yml</code> (el Capítulo 6 muestra los detalles). Su valor por defecto es <code>default/login</code>.</li>
+<li><code>secure_module</code> y <code>secure_action</code>: acción que se ejecuta cuando un usuario no dispone de las credenciales requeriadas para una ejecutar una acción. Su valor por defecto es <code>default/secure</code>.</li>
+<li><code>module_disabled_module</code> y <code>module_disabled_action</code>: acción que se ejecuta cuando un usuario solicita un módulo que sido deshabilitado mediante el archivo <code>module.yml</code>. Su valor por defecto es <code>default/disabled</code>.</li>
+</ul>
+
+<p>Antes de instalar una aplicación en producción, se deberían personalizar todas esas acciones, ya que las plantillas del módulo <code>default</code> incluyen el logotipo de Symfony en todas las páginas. La figura 19-1 muestra el aspecto de una de estas páginas, la página del error 404.</p>
+
+<div class="figure left" id="figure_19_1">
+    <img src="/img/symfony_1_4/f1901.jpg" alt="Página por defecto para el error 404" />
+
+    <p class="caption"><strong>Figura 19.1</strong> Página por defecto para el error 404</p>
+</div>
+
+
+<p>Se pueden modificar las páginas por defecto de dos formas:</p>
+
+<ul>
+<li>Se puede crear un módulo llamado <code>default</code> dentro del directorio <code>modules/</code> de la aplicación y redefinir todas las acciones definidas en el archivo <code>settings.yml</code> (<code>index</code>, <code>error404</code>, <code>login</code>, <code>secure</code> y <code>disabled</code>) y todas las plantillas relacionadas (<code>indexSuccess.php</code>, <code>error404Success.php</code>, <code>loginSuccess.php</code>, <code>secureSuccess.php</code> y <code>disabledSuccess.php</code>).</li>
+<li>Se pueden modificar las opciones del módulo y acción por defecto del archivo <code>settings.yml</code> para utilizar páginas de la propia aplicación.</li>
+</ul>
+
+<p>Existen otras dos páginas que muestran el mismo aspecto que el resto de páginas de Symfony y que también se deben modificar antes de instalar la aplicación en producción. Estas páginas no se encuentran en el módulo <code>default</code>, ya que se muestran cuando Symfony no se ejecuta correctamente. Estas dos páginas se encuentran en el directorio <code>sfConfig::get('sf_symfony_lib_dir')/exception/data/</code>:</p>
+
+<ul>
+<li><code>error.html.php</code>: página que se muestra cuando ocurre un error en el entorno de producción. En otros entornos en los que la depuración de aplicaciones está activada, Symfony muestra en estos casos un mensaje de error explícito y la traza completa de la ejecución (ver los detalles en el capítulo 16).</li>
+<li><code>unavailable.php</code>: página que se muestra cuando un usuario solicita una página mientras la aplicación está deshabilitada (con la tarea <code>project:disable</code>). También se muestra esta página mientras se está borrando la cache (es decir, durante el tiempo que transcurre entre la ejecución de la tarea <code>php symfony cache:clear</code> y la finalización de esta tarea). Los sistemas que disponen de una cache muy grande, pueden tardar varios segundos en borrarla entera. Como Symfony no puede ejecutar una petición con una cache a medio borrar, las peticiones que se reciben antes del borrado completo se redirigen a esta página.</li>
+</ul>
+
+<p>Para personalizar el aspecto de estas páginas, se crean los archivos <code>error.html.php</code> y <code>unavailable.php</code> en el directorio <code>config/</code> del proyecto o de la aplicación. Si están disponibles en ese directorio, Symfony las utiliza en vez de sus propias páginas.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Para redireccionar las peticiones a la página <code>unavailable.php</code> cuando se necesite, se debe establecer la opción <code>check_lock</code> a <code>true</code> en el archivo <code>settings.yml</code> de la aplicación. Esta opción está desactivada por defecto porque reduce muy ligeramente el rendimiento para cada petición.</p></div>
+
+<h3 id="activando_caracteristicas_opcionales">19.1.2. Activando características opcionales</h3>
+
+<p>Algunas de las opciones del archivo <code>settings.yml</code> controlan las características opcionales del framework que se pueden activar y desactivar. Como desactivar las opciones que no se utilizan mejora el rendimiento de las aplicaciones, es conveniente repasar las opciones de la tabla 19-1 antes de instalar la aplicación en producción.</p>
+
+<p><strong>Tabla 19-1 - Características opcionales que se pueden activar mediante <code>settings.yml</code></strong></p>
+
+<div class="table" id="table_19_1">
+
+    <table>
+<thead>
+<tr>
+  <th>Opción</th>
+  <th>Descripción</th>
+  <th>Valor por defecto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>use_database</code></td>
+  <td>Activa el gestor de bases de datos. Se debe establecer a <code>off</code> si no se utilizan bases de datos</td>
+  <td><code>true</code></td>
+</tr>
+<tr>
+  <td><code>i18n</code></td>
+  <td>Activa la traducción de la interfaz de la aplicación (ver capítulo 13). En las aplicaciones multiidioma debería establecerse su valor a <code>true</code></td>
+  <td><code>false</code></td>
+</tr>
+<tr>
+  <td><code>logging_enabled</code></td>
+  <td>Activa el sistema de log de eventos de Symfony. Si se establece su valor a <code>false</code>, no se tienen en cuenta las opciones del archivo <code>logging.yml</code> y se desactiva por completo el uso de archivos de log en Symfony</td>
+  <td><code>true</code></td>
+</tr>
+<tr>
+  <td><code>escaping_strategy</code></td>
+  <td>Activa y establece la política utilizada por el mecanismo de escape (ver capítulo 7). Utiliza el valor <code>true</code> para que se aplique el mecanismo de escape a los datos que se pasan a las plantillas</td>
+  <td><code>false</code></td>
+</tr>
+<tr>
+  <td><code>cache</code></td>
+  <td>Activa el mecanismo de cache para las plantillas (ver capítulo 12). Si algún módulo define un archivo <code>cache.yml</code>, su valor debe ser <code>true</code>. El filtro de la cache (<code>sfCacheFilter</code>) solamente se activa si esta opción vale <code>true</code></td>
+  <td><code>false</code> en desarrollo, <code>true</code> en producción</td>
+</tr>
+<tr>
+  <td><code>web_debug</code></td>
+  <td>Activa la barra de depuración web para depurar fácilmente las aplicaciones (ver capítulo 16). Para mostrar la barra en todas las páginas, se establece su valor a <code>true</code>.</td>
+  <td><code>true</code> en desarrollo, <code>false</code> en producción</td>
+</tr>
+<tr>
+  <td><code>check_symfony_version</code></td>
+  <td>Activa la comprobación de la versión de Symfony para cada petición. Si se quiere borrar la cache automáticamente después de actualizar el framework, su valor debe ser <code>true</code>. Si se borra manualmente la cache después de cada actualización, su valor debe ser <code>false</code></td>
+  <td><code>true</code></td>
+</tr>
+<tr>
+  <td><code>check_lock</code></td>
+  <td>Activa el sistema de bloqueo de la aplicación, que se inicia mediante las tareas <code>cache:clear</code> y <code>project:disable</code> (ver sección anterior). Si se estable su valor a <code>true</code>, todas las peticiones a una aplicación deshabilitada se redirigen a la página <code>sfConfig::get('sf_symfony_lib_dir')/exception/data/unavailable.php</code></td>
+  <td><code>false</code></td>
+</tr>
+<tr>
+  <td><code>compressed</code></td>
+  <td>Activa la compresión de la respuesta mediante PHP. Si se establece a <code>true</code>, se comprime el código HTML generado antes de enviar la respuesta mediante las opciones de compresión de PHP</td>
+  <td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<h3 id="configuracion_de_cada_caracteristica">19.1.3. Configuración de cada característica</h3>
+
+<p>Symfony utiliza algunas opciones del archivo <code>settings.yml</code> para modificar el comportamiento de algunas de sus características, como la validación de formularios, la cache, los módulos externos, etc.</p>
+
+<h4 id="opciones_del_mecanismo_de_escape">19.1.3.1. Opciones del mecanismo de escape</h4>
+
+<p>Las opciones del mecanismo de escape controlan la forma en la que las plantillas acceden a las variables (ver capítulo 7). El archivo <code>settings.yml</code> incluye dos opciones para esta característica:</p>
+
+<ul>
+<li>La opción <code>escaping_strategy</code> puede tomar los valores <code>true</code> o <code>false</code>.</li>
+<li>La opción <code>escaping_method</code> puede valer <code>ESC_RAW</code>, <code>ESC_SPECIALCHARS</code>, <code>ESC_ENTITIES</code>, <code>ESC_JS</code> o <code>ESC_JS_NO_ENTITIES</code>.</li>
+</ul>
+
+<h4 id="opciones_del_sistema_de_enrutamiento">19.1.3.2. Opciones del sistema de enrutamiento</h4>
+
+<p>Las opciones del sistema de enrutamiento (ver capítulo 9) se definen en el archivo de configuración <code>factories.yml</code>, bajo la clave <code>routing</code>. El listado 19-1 muestra la configuración por defecto del sistema de enrutamiento.</p>
+
+<p><strong>Listado 19-1 - Opciones de configuración del sistema de enrutamiento, en <code>frontend/config/factories.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">routing</span>:<span class="co3">
+  class</span><span class="sy2">: </span>sfPatternRouting<span class="co4">
+  param</span>:<span class="co3">
+    load_configuration</span><span class="sy2">: </span>true<span class="co3">
+    suffix</span><span class="sy2">: </span>            .<span class="co3">
+    default_module</span><span class="sy2">: </span>    default<span class="co3">
+    default_action</span><span class="sy2">: </span>    index<span class="co3">
+    variable_prefixes</span><span class="sy2">: </span> <span class="br0">&#91;</span>':'<span class="br0">&#93;</span><span class="co3">
+    segment_separators</span><span class="sy2">: </span><span class="br0">&#91;</span>'/', '.'<span class="br0">&#93;</span><span class="co3">
+    variable_regex</span><span class="sy2">: </span>    '<span class="br0">&#91;</span>\w\d_<span class="br0">&#93;</span>+'<span class="co3">
+    debug</span><span class="sy2">: </span>             <span class="co2">%SF_DEBUG%</span><span class="co3">
+    logging</span><span class="sy2">: </span>           <span class="co2">%SF_LOGGING_ENABLED%</span><span class="co4">
+    cache</span>:<span class="co3">
+      class</span><span class="sy2">: </span>sfFileCache<span class="co4">
+      param</span>:<span class="co3">
+        automatic_cleaning_factor</span><span class="sy2">: </span><span class="nu0">0</span><span class="co3">
+        cache_dir</span><span class="sy2">: </span>                <span class="co2">%SF_CONFIG_CACHE_DIR%/routing</span><span class="co3">
+        lifetime</span><span class="sy2">: </span>                 <span class="nu0">31556926</span><span class="co3">
+        prefix</span><span class="sy2">: </span>                   <span class="co2">%SF_APP_DIR%</span></pre>
+</div>
+
+<ul>
+<li>La opción <code>suffix</code> establece el sufijo por defecto para las URL generadas. Su valor por defecto es un punto (<code>.</code>), lo que significa que no se añade ningún sufijo. Si se establece su valor a <code>.html</code>, todas las URL generadas parecerán páginas estáticas.</li>
+<li>Cuando una regla de enrutamiento no define los parámetros <code>module</code> o <code>action</code>, se utilizan los valores por defecto de <code>factories.yml</code>:
+
+<ul>
+<li><code>default_module</code>: valor por defecto del parámetro <code>module</code>. Su valor por defecto es <code>default</code>.</li>
+<li><code>default_action</code>: valor por defecto del parámetro <code>action</code>. Su valor por defecto es <code>index</code>.</li>
+</ul></li>
+<li>Los patrones de las rutas identifican los comodines con nombre mediante un prefijo formado por dos puntos (<code>:</code>). Se puede modificar ese valor por defecto para utilizar un formato más parecido a PHP. Para ello, se añade el símbolo del dólar (<code>$</code>) en el array de la opción <code>variable_prefixes</code>. De esta forma, se pueden utilizar patrones como <code>/articulo/$ano/$mes/$dia/$titulo</code> en vez de <code>/articulo/:ano/:mes/:dia/:titulo</code></li>
+<li>Los patrones de cada regla separan los diferentes comodines con nombre mediante los separadores. Por defecto, los separadores permitidos son la barra (<code>/</code>) y el punto (<code>.</code>). Se pueden añadir todos los separadores que se necesiten en la opción <code>segment_separators</code>. Si por ejemplo se añade el guión medio (<code>-</code>), se pueden crear patrones como <code>/articulo/:ano-:mes-:dia/:titulo</code></li>
+<li>En el entorno de producción, el sistema de enrutamiento utiliza una cache para mejorar el rendimiento en la transformación de URI internas en URL externas. Por defecto esta cache utiliza el sistema de archivos, pero se puede utilizar cualquier clase de cache, siempre que se declare esa clase y sus opciones en la opción <code>cache</code>. El capítulo 15 describe la lista completa de clases de cache. Para desactivar la cache del sistema de enrutamiento en el entorno de producción, se establece el valor <code>true</code> en la opción <code>debug</code>.</li>
+</ul>
+
+<p>Las opciones anteriores son todas las opciones disponibles para la clase <code>sfPatternRouting</code>. Además, es posible utilizar otra clase para el sistema de enrutamiento de la aplicación, ya sea una clase propia o una de las factorías incluidas por Symfony (<code>sfNoRouting</code> y <code>sfPathInfoRouting</code>). Estas dos factorías hacen que las URL tengan el aspecto <code>modulo/accion?clave1=valor1</code>. La desventaja es que no se pueden personalizar, pero su gran ventaja es que son muy rápidas. La diferencia entre las dos es que la primera utiliza el <code>GET</code> de PHP y la segunda utiliza el <code>PATH_INFO</code>. Se pueden utilizar sobre todo en las interfaces de administración de las aplicaciones.</p>
+
+<p>Existe una última opción relacionada con el sistema de enrutamiento, pero se define en el archivo <code>settings.yml</code>:</p>
+
+<ul>
+<li>La opción <code>no_script_name</code> activa o desactiva la aparición del nombre del controlador frontal en las URL generadas. La opción <code>no_script_name</code> solamente se puede activar para una sola aplicación dentro de un mismo proyecto, a no ser que se guarden los controladores frontales en varios directorios diferentes y se modifiquen las reglas de enrutamiento por defecto para las URL. En el entorno de producción, esta opción suele establecerse a <code>on</code> y suele vale <code>off</code> en el resto de entornos.</li>
+</ul>
+
+<h4 id="opciones_para_la_validacion_de_formularios">19.1.3.3. Opciones para la validación de formularios</h4>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Las opciones que se describen en esta sección han sido declaradas obsoletas desde Symfony 1.1 por lo que sólo funcionan si se habilita el plugin <code>sfCompat10</code>.</p></div>
+
+<p>Las opciones de validación de formularios controlan la forma en la que se muestran los mensajes de error de los <em>helpers</em> del grupo <code>Validation</code> (ver capítulo 10). Este tipo de errores se muestran dentro de etiquetas <code>&lt;div&gt;</code>, y utilizan el valor de la opción <code>validation_error_class</code> como atributo <code>class</code> del <code>&lt;div&gt;</code> y el valor de la opción <code>validation_error_id_prefix</code> para construir el atributo <code>id</code>. Los valores por defecto son <code>form_error</code> y <code>error_for_</code>, por lo que los atributos generados por la llamada al <em>helper</em> <code>form_error()</code> para un campo de formulario llamado <code>campo</code> serían <code>class="form_error" id="error_for_campo"</code>.</p>
+
+<p>Otras dos opciones determinan los caracteres que se muestran delante y detrás de los mensajes de error: <code>validation_error_prefix</code> y <code>validation_error_suffix</code>. Cambiando su valor, se modifica el aspecto de todos los mensajes de error generados.</p>
+
+<h4 id="opciones_para_la_cache">19.1.3.4. Opciones para la cache</h4>
+
+<p>Las mayoría de opciones de la cache se definen en el archivo <code>cache.yml</code>, salvo dos opciones incluidas en el archivo <code>settings.yml</code>: <code>cache</code> que activa el mecanismo de cache de las plantillas y <code>etag</code> que controla la etiqueta <code>Etag</code> en el lado del servidor (ver capítulo 15). También es posible configurar en el archivo <code>factories.yml</code> el tipo de almacenamiento que se utiliza en todas las caches (la cache de la vista, la del sistema de enrutamiento y la de la internacionalización). El listado 19-2 muestra la configuración por defecto de la factoría de la cache de la vista.</p>
+
+<p><strong>Listado 19-2 - Opciones de configuración de la cache de la vista, en <code>frontend/config/factories.yml</code></strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">view_cache</span>:<span class="co3">
+  class</span><span class="sy2">: </span>sfFileCache<span class="co4">
+  param</span>:<span class="co3">
+    automatic_cleaning_factor</span><span class="sy2">: </span><span class="nu0">0</span><span class="co3">
+    cache_dir</span><span class="sy2">: </span>                <span class="co2">%SF_TEMPLATE_CACHE_DIR%</span><span class="co3">
+    lifetime</span><span class="sy2">: </span>                 <span class="nu0">86400</span><span class="co3">
+    prefix</span><span class="sy2">: </span>                   <span class="co2">%SF_APP_DIR%/template</span></pre>
+</div>
+
+<p>La opción <code>class</code> puede tomar los valores <code>sfFileCache</code>, <code>sfAPCCache</code>, <code>sfEAcceleratorCache</code>, <code>sfXCacheCache</code>, <code>sfMemcacheCache</code> y <code>sfSQLiteCache</code>. También puedes utilizar tu propia clase, siempre que herede de la clase <code>sfCache</code> y proporcione los mismos métodos genéricos para guardar, obtener y borrar elementos en la cache mediante claves. Las opciones de esta factoría dependen de cada clase, aunque algunas opciones son comunes para todas:</p>
+
+<ul>
+<li><code>lifetime</code> establece el tiempo de expiración en segundos de los elementos de la cache.</li>
+<li><code>prefix</code> establece el prefijo que se añade a cada clave de la cache (utiliza el nombre del entorno de ejecución en el prefijo para que la aplicación utilice una cache diferente en cada entorno donde se ejecute). Para compartir una misma cache entre dos aplicaciones, es necesario utilizar el mismo prefijo.</li>
+</ul>
+
+<p>Además, para cada factoría es necesario definir el lugar en el que se va a almacenar la cache:</p>
+
+<ul>
+<li><code>sfFileCache</code> utiliza el parámetro <code>cache_dir</code> para establecer la ruta absoluta hasta el directorio de la cache.</li>
+<li><code>sfAPCCache</code>, <code>sfEAcceleratorCache</code> y <code>sfXCacheCache</code> no necesitan una opción para indicar el lugar en el que se almacena la cache, ya que utilizan las funciones nativas de PHP para comunicarse con los sistemas de cache de APC, EAccelerator y XCache respectivamente.</li>
+<li><code>sfMemcacheCache</code> utiliza el parámetro <code>host</code> para establecer el <code>hostname</code> del servidor de Memcached. También se puede utilizar el parámetro <code>servers</code> para indicar un array de servidores.</li>
+<li><code>sfSQLiteCache</code> utiliza el parámetro <code>database</code> para indicar la ruta absoluta hasta el archivo de la base de datos de tipo SQLite.</li>
+</ul>
+
+<p>La documentación de la API de cada clase de cache contiene más información sobre todas sus opciones.</p>
+
+<p>La vista no es el único componente que puede utilizar una cache. Las factorías <code>routing</code> y <code>I18N</code> incluyen un parámetro llamado <code>cache</code> en el que se puede indicar cualquier factoría de cache, de la misma forma que en la cache de la vista. El listado 19-1 por ejemplo muestra cómo el sistema de enrutamiento utiliza por defecto la cache para mejorar su rendimiento, pero se puede modificar esa opción por cualquier otro valor de los mostrados anteriormente.</p>
+
+<h4 id="opciones_para_los_archivos_de_log">19.1.3.5. Opciones para los archivos de log</h4>
+
+<p>El archivo <code>settings.yml</code> incluye dos opciones relacionadas con los archivos de log (ver capítulo 16):</p>
+
+<ul>
+<li><code>error_reporting</code> especifica los eventos que se guardan en los archivos de log de PHP. Su valor por defecto es <code>E_PARSE | E_COMPILE_ERROR | E_ERROR | E_CORE_ERROR | E_USER_ERROR</code> para el entorno de producción (por lo que los eventos que se guardan en el log son <code>E_PARSE</code>, <code>E_COMPILE_ERROR</code>, <code>E_ERROR</code>, <code>E_CORE_ERROR</code> y <code>E_USER_ERROR</code>) y <code>E_ALL | E_STRICT</code> para el entorno de desarrollo.</li>
+<li>La opción <code>web_debug</code> activa la barra de depuración web. su valor debería ser <code>true</code> solamente en los entornos de desarrollo y pruebas.</li>
+</ul>
+
+<h4 id="opciones_para_las_rutas_a_los_archivos_estaticos">19.1.3.6. Opciones para las rutas a los archivos estáticos</h4>
+
+<p>El archivo <code>settings.yml</code> también permite indicar la ruta a los archivos estáticos, también llamados <em>"assets"</em>. Si se quiere utilizar una versión específica de un componente que es diferente a la que se incluye en Symfony, estas opciones permiten establecer la ruta a la nueva versión:</p>
+
+<ul>
+<li>Los archivos del generador de administración se configuran mediante <code>admin_web_dir</code></li>
+<li>Los archivos de la barra de depuración web se configuran mediante <code>web_debug_web_dir</code></li>
+</ul>
+
+<h4 id="helpers_por_defecto">19.1.3.7. Helpers por defecto</h4>
+
+<p>Los <em>helpers</em> por defecto se cargan en todas las plantillas y se configuran mediante la opción <code>standard_helpers</code> (ver capítulo 7). Por defecto, se incluyen los grupos de <em>helpers</em> <code>Partial</code> y <code>Cache</code>. Si algún grupo de <em>helpers</em> se utiliza en todas las plantillas, es mejor añadirlo a la opción <code>standard_helpers</code> para evitar tener que declarar su uso en todas las plantillas mediante <code>use_helper()</code>.</p>
+
+<h4 id="modulos_activos">19.1.3.8. Módulos activos</h4>
+
+<p>La opción <code>enbled_modules</code> establece los módulos de los plugins o del propio núcleo de Symfony que están activos. Aunque un plugin incluya un módulo, los usuarios no pueden acceder a este módulo a menos que haya sido incluido en la lista de la opción <code>enabled_modules</code>. Por defecto solamente se encuentra activado el módulo <code>default</code> de Symfony, que muestra las páginas por defecto de bienvenida, de errores como "página no encontrada", etc.</p>
+
+<h4 id="juego_de_caracteres">19.1.3.9. Juego de caracteres</h4>
+
+<p>El juego de caracteres utilizado en las respuestas es una opción global de la aplicación, ya que se utiliza en muchos componentes del framework (plantillas, mecanismo de escape, <em>helpers</em>, etc.). Su valor se define en la opción <code>charset</code>, cuyo valor por defecto y recomendado es <code>utf-8</code>.</p>
+
+<div class="admonition sidebar"><p><strong class="title">Añadiendo opciones de la propia aplicación</strong> El archivo <code>settings.yml</code> se utiliza para indicar las opciones de Symfony para una determinada aplicación. Como se vio en el capítulo 5, cuando se quieren añadir opciones específicas para una aplicación, lo mejor es añadirlas en el archivo de configuración <code>frontend/config/app.yml</code>. Este archivo también depende del entorno de ejecución, y las opciones definidas en ese archivo se pueden acceder con la clase <code>sfConfig</code> mediante el prefijo <code>app_</code>.</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">all</span>:<span class="co4">
+   tarjetascredito</span>:<span class="co3">
+     falsa</span><span class="sy2">: </span>           false    <span class="co1"># app_tarjetascredito_falsa</span><span class="co3">
+     visa</span><span class="sy2">: </span>            true     <span class="co1"># app_tarjetascredito_visa</span><span class="co3">
+     americanexpress</span><span class="sy2">: </span> true     <span class="co1"># app_tarjetascredito_americanexpress</span></pre>
+</div>
+
+<p>También se puede crear un archivo <code>app.yml</code> en el directorio de configuración del proyecto, lo que permite establecer opciones para todas las aplicaciones del proyecto. El mecanismo de configuración en cascada también se aplica a este archivo, por lo que las opciones establecidas en el archivo <code>app.yml</code> de cada aplicación tienen preferencia y pueden redefinir las opciones establecidas en el archivo <code>app.yml</code> del proyecto.</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_19.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 19. Configuración avanzada</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_19/extendiendo_la_carga_automatica_de_clases.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>19.2. Extendiendo la carga automática de clases</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo (Doctrine)</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Emails</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generador de la parte de administración</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_19.html">
+                    <span>Capítulo 19.</span> Configuración avanzada
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_19/opciones_de_symfony.html">
+                    <span>19.1.</span> Opciones de Symfony
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/extendiendo_la_carga_automatica_de_clases.html">
+                    <span>19.2.</span> Extendiendo la carga automática de clases
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/estructura_de_archivos_propia.html">
+                    <span>19.3.</span> Estructura de archivos propia
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/comprendiendo_el_funcionamiento_de_los_manejadores_de_configuracion.html">
+                    <span>19.4.</span> Comprendiendo el funcionamiento de los manejadores de configuración
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_19/resumen.html">
+                    <span>19.5.</span> Resumen
+                </a>
+            </li>
+                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

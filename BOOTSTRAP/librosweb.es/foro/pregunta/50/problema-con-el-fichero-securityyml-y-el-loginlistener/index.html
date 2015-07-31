@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Problema con el fichero security.yml y el loginListener</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Problema con el fichero security.yml y el loginListener">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-4-2" class="forum forum_discussion"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                    <div class="module module-ad module-ad-responsive module-ad-top">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+    <div itemscope="" itemtype="http://schema.org/Article">
+        <div id="discussion" class="col-sm-9 ">
+            <h1 class="title" itemprop="name">Problema con el fichero security.yml y el loginListener</h1>
+
+            <div id="discussion-content" itemprop="description">
+                <p>Buenas, no se qué tipo de error he cometido al configurar las rutas, el <em>login listener</em> y el fichero <code>security.yml</code>, pero se me presenta el siguiente error cuando intento acceder a mi web:</p>
+
+<p><code>AuthenticationCredentialsNotFoundException: The security context contains no authentication token. One possible reason may be that there is no firewall configured for this URL.</code></p>
+
+<p>Otro error al intentar acceder a rutas concretas es que no está redirigiendo correctamente la página. La verdad es que no se si los eventos son los adecuados en el <em>login listener</em> para guardar la fecha de login del usuario y para redirigir a la portada según el tipo de usuario conectado.</p>
+
+<p>Te agradecería mucho que le echases un vistazo rápido. Un saludo.</p>
+
+<p><strong>Fichero security.yml</strong></p>
+
+<pre class="yaml code"><span class="co4">security</span><span class="sy2">:
+</span><span class="co4">
+    firewalls</span><span class="sy2">:
+</span>        <span class="co1"># Firewall de la parte de administración o backend</span><span class="co4">
+        backend</span>:<span class="co3">
+            pattern</span><span class="sy2">: </span>^/backend<span class="co3">
+            provider</span><span class="sy2">: </span>administradores<span class="co3">
+            http_basic</span><span class="sy2">: </span>~
+        <span class="co1"># Firewall de la extranet a la que se conectan los profesores</span><span class="co4">
+        extranet</span>:<span class="co3">
+            pattern</span><span class="sy2">: </span>^/extranet<span class="co3">
+            provider</span><span class="sy2">: </span>profesores<span class="co3">
+            anonymous</span><span class="sy2">: </span>~<span class="co4">
+            form_login</span>:<span class="co3">
+                login_path</span><span class="sy2">: </span>/extranet/login<span class="co3">
+                check_path</span><span class="sy2">: </span>/extranet/login_check<span class="co4">
+            logout</span>:<span class="co3">
+                path</span><span class="sy2">: </span>/extranet/logout<span class="co3">
+                target</span><span class="sy2">: </span>/extranet
+        <span class="co1"># Firewall global utilizado en la parte pública o frontend</span><span class="co4">
+        frontend</span>:<span class="co3">
+            pattern</span><span class="sy2">: </span>^/frontend<span class="co3">
+            provider</span><span class="sy2">: </span>estudiantes<span class="co3">
+            anonymous</span><span class="sy2">: </span>~<span class="co4">
+            form_login</span>:<span class="co3">
+                login_path</span><span class="sy2">: </span>/frontend/login<span class="co3">
+                check_path</span><span class="sy2">: </span>/frontend/login_check<span class="co3">
+                default_target_path</span><span class="sy2">: </span>/frontend/menu<span class="co4">
+            logout</span>:<span class="co3">
+                path</span><span class="sy2">: </span>/frontend/logout<span class="co4">
+            remember_me</span>:<span class="co3">
+                key</span><span class="sy2">: </span>0000<span class="co3">
+                lifetime</span><span class="sy2">: </span><span class="nu0">604800</span> <span class="co1"># 604.800 = 3.600 * 24 * 7 = 1 semana</span>
+<span class="co4">
+    access_control</span>:<span class="co3">
+        - { path</span><span class="sy2">: </span>^/frontend/login$, roles<span class="sy2">: </span>IS_AUTHENTICATED_ANONYMOUSLY <span class="br0">&#125;</span><span class="co3">
+        - { path</span><span class="sy2">: </span>^/frontend/registro, roles<span class="sy2">: </span>IS_AUTHENTICATED_ANONYMOUSLY <span class="br0">&#125;</span><span class="co3">
+        - { path</span><span class="sy2">: </span>^/frontend/*, roles<span class="sy2">: </span>ROLE_ESTUDIANTE <span class="br0">&#125;</span><span class="co3">
+        - { path</span><span class="sy2">: </span>^/extranet/login$, roles<span class="sy2">: </span>IS_AUTHENTICATED_ANONYMOUSLY <span class="br0">&#125;</span><span class="co3">
+        - { path</span><span class="sy2">: </span>^/extranet/*, roles<span class="sy2">: </span>ROLE_PROFESOR <span class="br0">&#125;</span><span class="co3">
+        - { path</span><span class="sy2">: </span>^/backend/*, roles<span class="sy2">: </span>ROLE_ADMIN <span class="br0">&#125;</span>
+<span class="co4">
+    encoders</span>:<span class="co3">
+        Wars\EstudianteBundle\Entity\Estudiante</span><span class="sy2">: </span>plaintext <span class="co1"># { algorithm: sha512, iterations: 10 }</span><span class="co3">
+        Wars\ProfesorBundle\Entity\Profesor</span><span class="sy2">: </span>plaintext <span class="co1"># { algorithm: sha512, iterations: 10 }</span><span class="co3">
+        Symfony\Component\Security\Core\User\User</span><span class="sy2">: </span>plaintext <span class="co1"># sha512</span>
+<span class="co4">
+    providers</span><span class="sy2">:
+</span>        <span class="co1"># Usuarios del frontend</span><span class="co4">
+        estudiantes</span>:<span class="co3">
+            entity</span><span class="sy2">: </span><span class="br0">&#123;</span> class<span class="sy2">: </span>Wars\EstudianteBundle\Entity\Estudiante, property<span class="sy2">: </span>email <span class="br0">&#125;</span>
+        <span class="co1"># Usuarios de la extranet</span><span class="co4">
+        profesores</span>:<span class="co3">
+            entity</span><span class="sy2">: </span><span class="br0">&#123;</span> class<span class="sy2">: </span>Wars\ProfesorBundle\Entity\Profesor, property<span class="sy2">: </span>login <span class="br0">&#125;</span>
+        <span class="co1"># Usuarios del backend</span><span class="co4">
+        administradores</span>:<span class="co4">
+            memory</span>:<span class="co4">
+                users</span><span class="sy2">:
+</span>                    <span class="co1"># user = admin, pass = 1234 CAMBIAR CUANDO SE CONFIGUREN LAS ENTITYS CON EL ALGORITMO SHA512</span><span class="co3">
+                    admin</span><span class="sy2">: </span><span class="br0">&#123;</span> password<span class="sy2">: </span><span class="nu0">1234</span>, roles<span class="sy2">: </span>ROLE_ADMIN <span class="br0">&#125;</span>
+<span class="co4">
+    role_hierarchy</span>:<span class="co3">
+        ROLE_ADMIN</span><span class="sy2">: </span><span class="br0">&#91;</span>ROLE_PROFESOR, ROLE_ESTUDIANTE, ROLE_ALLOWED_TO_SWITCH<span class="br0">&#93;</span></pre>
+
+<p><strong>Fichero loginListener.php del bundle EstudianteBundle:</strong></p>
+
+<pre class="php code"><span class="kw2">class</span> LoginListener
+<span class="br0">&#123;</span>
+    <span class="kw2">private</span> <span class="re0">$contexto</span><span class="sy0">,</span> <span class="re0">$router</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span>SecurityContext <span class="re0">$context</span><span class="sy0">,</span> Router <span class="re0">$router</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">contexto</span> <span class="sy0">=</span> <span class="re0">$context</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">router</span> <span class="sy0">=</span> <span class="re0">$router</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> onSecurityInteractiveLogin<span class="br0">&#40;</span>InteractiveLoginEvent <span class="re0">$event</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">// ESTE SERVICIO SE EJECUTA TRAS HACER LOGIN EL ESTUDIANTE</span>
+        <span class="co1">// El problema del evento InteractiveLoginEvent es que no proporciona </span>
+        <span class="co1">// acceso al objeto Response de la petición, por lo que no es posible </span>
+        <span class="co1">// redirigir al usuario a ninguna página</span>
+        <span class="re0">$usuario</span> <span class="sy0">=</span> <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">getAuthenticationToken</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getUser</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">contexto</span><span class="sy0">-&gt;</span><span class="me1">isGranted</span><span class="br0">&#40;</span><span class="st_h">'ROLE_ESTUDIANTE'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="co1">// Interesa guardar la última vez en la que se conecta un estudiante</span>
+            <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">setUltimaConexion</span><span class="br0">&#40;</span><span class="kw2">new</span> \DateTime<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="re0">$em</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getDoctrine</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getManager</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="re0">$em</span><span class="sy0">-&gt;</span><span class="me1">persist</span><span class="br0">&#40;</span><span class="re0">$usuario</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="re0">$em</span><span class="sy0">-&gt;</span><span class="kw3">flush</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> onKernelResponse<span class="br0">&#40;</span>FilterResponseEvent <span class="re0">$event</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">contexto</span><span class="sy0">-&gt;</span><span class="me1">isGranted</span><span class="br0">&#40;</span><span class="st_h">'ROLE_ESTUDIANTE'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="re0">$portada</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">router</span><span class="sy0">-&gt;</span><span class="me1">generate</span><span class="br0">&#40;</span><span class="st_h">'login'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            <span class="re0">$portada</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">router</span><span class="sy0">-&gt;</span><span class="me1">generate</span><span class="br0">&#40;</span><span class="st_h">'extranet_login'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">setResponse</span><span class="br0">&#40;</span><span class="kw2">new</span> RedirectResponse<span class="br0">&#40;</span><span class="re0">$portada</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">stopPropagation</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>El fichero <code>services.yml</code> creo que está bien implementado así que lo omito.</p>
+
+            </div>
+
+                            <div id="discussion-tags">
+                    <h3>Etiquetas</h3>
+                    <ul class="tags-list">
+                                                                <li><a href="/foro/php/">php</a></li>
+                                            <li><a href="/foro/seguridad/">seguridad</a></li>
+                                            <li><a href="/foro/symfony/">symfony</a></li>
+                                        </ul>
+                </div>
+                    </div>
+
+        <div id="discussion-attributes" class="col-sm-3">
+            <div class="row">
+                <p class="col-xs-3 col-sm-12 avatar">
+                    <img width="73" height="73" itemprop="image"
+                     src="http://abs.twimg.com/sticky/default_profile_images/default_profile_1_bigger.png" />
+                </p>
+
+                <p class="col-xs-8 col-sm-12 col-md-12">
+                    <span class="login">@Jorge_Gante</span>
+                    <meta itemprop="author" content="Jorge Gante" />
+
+                    <span class="published">2 de diciembre de 2013</span>
+                    <meta itemprop="dateCreated" content="2013-12-02T01:42:08+01:00" />
+                </p>
+
+                <p id="discussion-actions" class="col-sm-12">
+                                    </p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="discussion-comments" class="col-sm-12">
+                    <h2>Respuestas</h2>
+
+                            <div class="row comment"  id="respuesta-1">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/50/problema-con-el-fichero-securityyml-y-el-loginlistener/#respuesta-1" title="Enlace permanente a esta respuesta">#1</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_1_html">
+                        <p>Según el mensaje de error, la causa más probable es que no has configurado un <em>firewall</em> para la ruta que estás accediendo. La configuración del archivo <code>security.yml</code> hace que sólo las URL que empiezan por <code>/backend/</code>, <code>/extranet/</code> o <code>/frontend/</code> están protegidas, por lo que si acceder por ejemplo a la portada del sitio (<code>/</code>) se producirá un error.</p>
+
+<p>La solución más sencilla a este problema es que elimines el prefijo <code>/frontend/</code> de las rutas que sean públicas en tu sitio web. Así el <em>firewall</em> <code>frontend</code> se aplicará a todas las URL de tu aplicación salvo las que empiecen por <code>/backend/</code> y <code>/extranet/</code>.</p>
+
+<p>Por otra parte, en el código que muestras del <em>login listener</em> lo único erróneo que veo es que estás intentando utilizar Doctrine sin haber inyectado el servicio correspondiente. En tu archivo <code>services.yml</code> deberías añadir el servicio <code>@doctrine</code> además de los otros dos que ya tienes:</p>
+
+<pre class="yaml code"><span class="co4">services</span>:<span class="co4">
+    login_listener</span>:<span class="co3">
+        arguments</span><span class="sy2">: </span><span class="br0">&#91;</span>'@security.context', '@router', '@doctrine'<span class="br0">&#93;</span>
+        <span class="co1"># ...</span></pre>
+
+<p>Y luego no olvides añadirlo también en el constructor del <em>listener</em>:</p>
+
+<pre class="php code"><span class="kw2">use</span> Symfony\Component\Routing\Router<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Security\Core\SecurityContext<span class="sy0">;</span>
+<span class="kw2">use</span> Doctrine\Bundle\DoctrineBundle\Registry <span class="kw1">as</span> Doctrine<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> LoginListener
+<span class="br0">&#123;</span>
+    <span class="kw2">private</span> <span class="re0">$context</span><span class="sy0">,</span> <span class="re0">$router</span><span class="sy0">,</span> <span class="re0">$em</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span>SecurityContext <span class="re0">$context</span><span class="sy0">,</span> Router <span class="re0">$router</span><span class="sy0">,</span>
+                                Doctrine <span class="re0">$doctrine</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">context</span> <span class="sy0">=</span> <span class="re0">$context</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">router</span>  <span class="sy0">=</span> <span class="re0">$router</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">em</span>      <span class="sy0">=</span> <span class="re0">$doctrine</span><span class="sy0">-&gt;</span><span class="me1">getEntityManager</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co1">// ...</span>
+<span class="br0">&#125;</span></pre>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    02-dic-13 12:04
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-2">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/50/problema-con-el-fichero-securityyml-y-el-loginlistener/#respuesta-2" title="Enlace permanente a esta respuesta">#2</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_2_html">
+                        <p>Ya he corregido el método loginListener. En cuanto a modificar los firewall, el asunto es que no tengo parte pública más que la relativa a las páginas de login/registro del frontend y la del login en la extranet. Para acceder a mi página se requiere estar registrado como estudiante o como profesor, no pudiendo acceder a sus contenidos de otra forma (salvo como administrador).</p>
+
+<p>Me he fijado que los problemas desaparecen cuando comento el código de esta función en el loginListener, al parecer existe algún tipo de conflicto:</p>
+
+<pre class="php code"><span class="kw2">public</span> <span class="kw2">function</span> onKernelResponse<span class="br0">&#40;</span>FilterResponseEvent <span class="re0">$event</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+    <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">contexto</span><span class="sy0">-&gt;</span><span class="me1">isGranted</span><span class="br0">&#40;</span><span class="st_h">'ROLE_ESTUDIANTE'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="re0">$portada</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">router</span><span class="sy0">-&gt;</span><span class="me1">generate</span><span class="br0">&#40;</span><span class="st_h">'login'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+        <span class="re0">$portada</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">router</span><span class="sy0">-&gt;</span><span class="me1">generate</span><span class="br0">&#40;</span><span class="st_h">'extranet_login'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">setResponse</span><span class="br0">&#40;</span><span class="kw2">new</span> RedirectResponse<span class="br0">&#40;</span><span class="re0">$portada</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="re0">$event</span><span class="sy0">-&gt;</span><span class="me1">stopPropagation</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>Además he probado escribiendo directamente las rutas en la barra de direcciones y me redirige correctamente a las páginas del frontend y de la extranet.</p>
+
+<p>Por ejemplo, si escribo una ruta real sin estar logueado como estudiante:</p>
+
+<p><code>http://wars.local/app_dev.php/frontend/menu</code> me redirige bien a <code>http://wars.local/app_dev.php/frontend/login</code></p>
+
+<p>En cambio si escribo una ruta no contemplada, me muestra una excepción de que no existe dicha ruta. Lo mismo para las direcciones con <code>http://wars.local/app_dev.php/extranet/</code></p>
+
+<p>Es resumen, comentando la función arriba expuesta, consigo la conducta de redirección adecuada y que deseaba alcanzar mediante la inclusión de dicha función.</p>
+
+<p>Pero realmente mi problema no es ese, si no que a raíz de incluir las rutas de la extranet y usar el rol <code>ROLE_PROFESOR</code>, el programa me da errores concretamente al hacer esto en las páginas del frontend, cuando antes iban bien:</p>
+
+<pre class="php code"><span class="re0">$estudiante</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'security.context'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getToken</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getUser</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>Por eso me he metido a ver este tinglado. En uno de los comentarios <a href="http://dev.dbl-a.com/symfony-2-0/how-to-add-a-symfony2-login-event-listener/">de este artículo</a> dicen lo siguiente:</p>
+
+<pre class="code code">Hi,
+&nbsp;
+I’d rather use the event called “security.authentication.success” instead.
+The event “security.interactive_login”, you used, is not called in every custom authentication-handler.
+&nbsp;
+Source:
+http://blog.alterphp.com/2011/10/set-up-authenticationsuccesshandler.html*</pre>
+
+<p>No se qué veracidad tendrá y si tiene que ver con mi problema.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://abs.twimg.com/sticky/default_profile_images/default_profile_1_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @Jorge_Gante
+                                </span>
+
+                                <span class="published">
+                                    02-dic-13 17:46
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-3">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/50/problema-con-el-fichero-securityyml-y-el-loginlistener/#respuesta-3" title="Enlace permanente a esta respuesta">#3</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_3_html">
+                        <p>Mirando de nuevo tu código, efectivamente no necesitas el método <code>onKernelResponse()</code> ya que la lógica que quieres implementar en este caso, ya la hace Symfony automáticamente.</p>
+
+<p>Cuando un usuario anónimo intenta acceder a una URL que empieza por <code>/frontend/</code>, se activa el firewall <code>frontend</code> y le dirige automáticamente a la ruta o URL definida en la opción <code>login_path</code> de ese firewall. Y lo mismo pasa cuando un usuario anónimo intenta acceder a las rutas que empiezan por <code>/extranet/</code> y se activa el firewall llamado <code>extranet</code>.</p>
+
+<p>Lo que no entiendo es esto que comentas:</p>
+
+<blockquote>
+  <p>"En cambio si escribo una ruta no contemplada, me muestra una excepción de que no existe dicha ruta."</p>
+</blockquote>
+
+<p>No se muy bien a qué te refieres con rutas no contempladas y no se si la excepción que se muestra es lo que esperabas o también en ese caso quieres que se redirija al usuario a la página de login.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    02-dic-13 18:01
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-4">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/50/problema-con-el-fichero-securityyml-y-el-loginlistener/#respuesta-4" title="Enlace permanente a esta respuesta">#4</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_4_html">
+                        <p>Perdona, pero como estoy modificando continuamente el mensaje es lógico que no lo veas entero xD</p>
+
+<p>Si, yo entiendo que si la ruta no está contemplada, esto es, que no está en <code>routing.yml</code>, quiero que salga el típico error:</p>
+
+<pre class="php code">No route found <span class="kw1">for</span> <span class="st0">&quot;GET /frontend/ola_k_ase&quot;</span></pre>
+
+<p>en lugar de que me redirija al login, como ocurre cuando escribes en la barra de direcciones de cualquier página, por ejemplo: <a href="http://elpais.com/olakases">http://elpais.com/olakases</a>. Esto me recuerda que tengo que crear una página para este tipo de excepciones.</p>
+
+<p>Cuando tengas ocasión lee la última parte de mi anterior mensaje.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://abs.twimg.com/sticky/default_profile_images/default_profile_1_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @Jorge_Gante
+                                </span>
+
+                                <span class="published">
+                                    02-dic-13 18:14
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-5">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/50/problema-con-el-fichero-securityyml-y-el-loginlistener/#respuesta-5" title="Enlace permanente a esta respuesta">#5</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_5_html">
+                        <p>Muchas gracias, asunto resuelto. Hay que tener cuidado con las rutas que se ponen en los <em>action</em> de las funciones AJAX también:</p>
+
+<pre class="php code"><span class="co4">/**
+ * @Route(&quot; -&gt;&gt;&gt;&gt;&gt;  /calificaciones   &lt;&lt;&lt;&lt;&lt;-&quot;, name=&quot;calificaciones&quot;)
+ * @Template()
+ *
+ */</span>
+<span class="kw2">public</span> <span class="kw2">function</span> calificacionesAction<span class="br0">&#40;</span><span class="br0">&#41;</span></pre>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://abs.twimg.com/sticky/default_profile_images/default_profile_1_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @Jorge_Gante
+                                </span>
+
+                                <span class="published">
+                                    02-dic-13 18:47
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-6">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/50/problema-con-el-fichero-securityyml-y-el-loginlistener/#respuesta-6" title="Enlace permanente a esta respuesta">#6</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_6_html">
+                        <p>Para que no te vuelva a pasar otra vez, no olvides ejecutar el siguiente comando para ver todas las rutas y URL definidas en la aplicación:</p>
+
+<pre class="cli code">$ php app/console router:debug</pre>
+
+<p>Otro pequeño consejo para evitar problemas como este cuando definas las rutas mediante anotaciones es que puedes usar la anotación <code>@Route</code> sobre la clase del controlador para establecer un prefijo común para todas las rutas definidas por cada acción:</p>
+
+<pre class="php code"><span class="co4">/**
+ * @Route(&quot;/frontend&quot;)
+ */</span>
+<span class="kw2">class</span> AlumnosController <span class="kw2">extends</span> Controller
+<span class="br0">&#123;</span>
+    <span class="co4">/**
+     * @Route(&quot;/calificaciones&quot;, name=&quot;calificaciones&quot;)
+     * @Template()
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> calificacionesAction<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">// ...</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    02-dic-13 18:54
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-7">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/50/problema-con-el-fichero-securityyml-y-el-loginlistener/#respuesta-7" title="Enlace permanente a esta respuesta">#7</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_7_html">
+                        <p>Fantásticos consejos, te haría la ola pero no hay iconos para ello.</p>
+
+<p>Un saludo</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://abs.twimg.com/sticky/default_profile_images/default_profile_1_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @Jorge_Gante
+                                </span>
+
+                                <span class="published">
+                                    02-dic-13 18:57
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-8">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/50/problema-con-el-fichero-securityyml-y-el-loginlistener/#respuesta-8" title="Enlace permanente a esta respuesta">#8</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_8_html">
+                        <p>Ayúdenme por favor nose en que estoy fallando; al momento de ingresar con mis credenciales dicen que es incorrecta pero están bien las mismas.
+Mi archivo de configuración es <code>security.yml</code> es:</p>
+
+<pre class="yaml code"><span class="co4">security</span>:<span class="co4">
+    encoders</span>:<span class="co4">
+        Acme\DemoBundle\Entity\Usuario</span>:<span class="co3">
+            algorithm</span><span class="sy2">: </span>sha512<span class="co3">
+            encode-as-base64</span><span class="sy2">: </span>true<span class="co3">
+            iterations</span><span class="sy2">: </span><span class="nu0">10</span>
+<span class="co4">
+    role_hierarchy</span>:<span class="co3">
+        ROLE_ADMIN</span><span class="sy2">: </span><span class="br0">&#91;</span>ROLE_USER<span class="br0">&#93;</span>
+<span class="co4">
+    providers</span>:<span class="co4">
+        user_db</span>:<span class="co3">
+            entity</span><span class="sy2">: </span><span class="br0">&#123;</span> class<span class="sy2">: </span>Acme\DemoBundle\Entity\Usuario, property<span class="sy2">: </span>usuario <span class="br0">&#125;</span>
+<span class="co4">
+    firewalls</span>:<span class="co4">
+        main</span>:<span class="co3">
+            pattern</span><span class="sy2">: </span>/.<em><span class="co3">
+            provider</span><span class="sy2">: </span>user_db
+            <span class="co4">
+            form_login</span>:<span class="co3">
+                login_path</span><span class="sy2">: </span>/login<span class="co3">
+                check_path</span><span class="sy2">: </span>/login_check
+                <span class="co3">
+                remember_me</span><span class="sy2">: </span>true<span class="co3">
+                target_path_parameter</span><span class="sy2">: </span>rol<span class="co3">
+                default_target_path</span><span class="sy2">: </span>/rol
+                <span class="co4">
+            logout</span>:<span class="co3">
+                path</span><span class="sy2">: </span>/logout<span class="co3">
+                target</span><span class="sy2">: </span>/rol<span class="co4">
+            remember_me</span>:<span class="co3">
+                key</span><span class="sy2">: </span>MiClaveSegura<span class="co3">
+                lifetime</span><span class="sy2">: </span><span class="nu0">1800</span><span class="co3">
+                path</span><span class="sy2">: </span>/.</em><span class="co3">
+                domain</span><span class="sy2">: </span>~<span class="co3">
+            security</span><span class="sy2">: </span>true<span class="co3">
+            anonymous</span><span class="sy2">: </span>true
+<span class="co4">
+    access_control</span>:<span class="co3">
+        - { path</span><span class="sy2">: </span>/login, roles<span class="sy2">: </span>IS_AUTHENTICATED_ANONYMOUSLY <span class="br0">&#125;</span><span class="co3">
+        - { path</span><span class="sy2">: </span>/user, roles<span class="sy2">: </span>ROLE_USER <span class="br0">&#125;</span><span class="co3">
+        - { path</span><span class="sy2">: </span>/rol, roles<span class="sy2">: </span>ROLE_USER <span class="br0">&#125;</span><span class="co3">
+        - { path</span><span class="sy2">: </span>/admin, roles<span class="sy2">: </span>ROLE_ADMIN <span class="br0">&#125;</span><span class="co3">
+        - { path</span><span class="sy2">: </span>/.*, roles<span class="sy2">: </span>IS_AUTHENTICATED_ANONYMOUSLY <span class="br0">&#125;</span></pre>
+
+<p>El <code>SecurityController</code> es:</p>
+
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">namespace</span> Acme\DemoBundle\Controller<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Bundle\FrameworkBundle\Controller\Controller<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Security\Core\SecurityContext<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> SecurityController <span class="kw2">extends</span> Controller
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> loginAction<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$request</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRequest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$session</span> <span class="sy0">=</span> <span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">getSession</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">// get the login error if there is one</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">attributes</span><span class="sy0">-&gt;</span><span class="me1">has</span><span class="br0">&#40;</span>SecurityContext<span class="sy0">::</span><span class="me2">AUTHENTICATION_ERROR</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="re0">$error</span> <span class="sy0">=</span> <span class="re0">$request</span><span class="sy0">-&gt;</span><span class="me1">attributes</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span>SecurityContext<span class="sy0">::</span><span class="me2">AUTHENTICATION_ERROR</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="br0">&#123;</span>
+            <span class="re0">$error</span> <span class="sy0">=</span> <span class="re0">$session</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span>SecurityContext<span class="sy0">::</span><span class="me2">AUTHENTICATION_ERROR</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">&#40;</span><span class="st_h">'AcmeDemoBundle:Security:login.html.twig'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+            <span class="co1">// last username entered by the user</span>
+            <span class="st_h">'last_username'</span> <span class="sy0">=&gt;</span> <span class="re0">$session</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span>SecurityContext<span class="sy0">::</span><span class="me2">LAST_USERNAME</span><span class="br0">&#41;</span><span class="sy0">,</span>
+            <span class="st_h">'error'</span>         <span class="sy0">=&gt;</span> <span class="re0">$error</span><span class="sy0">,</span>
+        <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>En el <code>routing.yml</code> tengo las rutas asignadas:</p>
+
+<pre class="yaml code"><span class="co4">login</span>:<span class="co3">
+    pattern</span><span class="sy2">: </span>/login<span class="co3">
+    defaults</span><span class="sy2">: </span><span class="br0">&#123;</span> _controller<span class="sy2">: </span>AcmeDemoBundle:Security:login <span class="br0">&#125;</span>
+ <span class="co4">
+login_check</span>:<span class="co3">
+    pattern</span><span class="sy2">: </span>/login_check
+ <span class="co4">
+logout</span>:<span class="co3">
+    pattern</span><span class="sy2">: </span>/logout</pre>
+
+<p>Ademas tengo las clases <code>Usuario</code> y <code>Rol</code>:</p>
+
+<p><code>Usuario.php</code></p>
+
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">namespace</span> Acme\DemoBundle\Entity<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Doctrine\ORM\Mapping <span class="kw1">as</span> ORM<span class="sy0">;</span>
+&nbsp;
+<span class="co4">/**
+ * Usuario
+ */</span>
+<span class="kw2">class</span> Usuario
+<span class="br0">&#123;</span>
+    <span class="co4">/**
+     * @var integer
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$usuario</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$password</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$salt</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var \Acme\DemoBundle\Entity\Rol
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$roles</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get id
+     *
+     * @return integer 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set usuario
+     *
+     * @param string $usuario
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setUsuario<span class="br0">&#40;</span><span class="re0">$usuario</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">usuario</span> <span class="sy0">=</span> <span class="re0">$usuario</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get usuario
+     *
+     * @return string 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getUsuario<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">usuario</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set password
+     *
+     * @param string $password
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setPassword<span class="br0">&#40;</span><span class="re0">$password</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">password</span> <span class="sy0">=</span> <span class="re0">$password</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get password
+     *
+     * @return string 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getPassword<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">password</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set salt
+     *
+     * @param string $salt
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setSalt<span class="br0">&#40;</span><span class="re0">$salt</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">salt</span> <span class="sy0">=</span> <span class="re0">$salt</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get salt
+     *
+     * @return string 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getSalt<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">salt</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set roles
+     *
+     * @param \Acme\DemoBundle\Entity\Rol $roles
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setRoles<span class="br0">&#40;</span>\Acme\DemoBundle\Entity\Rol <span class="re0">$roles</span> <span class="sy0">=</span> <span class="kw4">null</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">roles</span> <span class="sy0">=</span> <span class="re0">$roles</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get roles
+     *
+     * @return \Acme\DemoBundle\Entity\Rol 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getRoles<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">roles</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+<p><code>Rol.php</code></p>
+
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">namespace</span> Acme\DemoBundle\Entity<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Doctrine\ORM\Mapping <span class="kw1">as</span> ORM<span class="sy0">;</span>
+&nbsp;
+<span class="co4">/**
+ * Rol
+ */</span>
+<span class="kw2">class</span> Rol
+<span class="br0">&#123;</span>
+    <span class="co4">/**
+     * @var integer
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$nombre</span><span class="sy0">;</span>
+&nbsp;
+&nbsp;
+    <span class="co4">/**
+     * Get id
+     *
+     * @return integer 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Rol
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setNombre<span class="br0">&#40;</span><span class="re0">$nombre</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">nombre</span> <span class="sy0">=</span> <span class="re0">$nombre</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get nombre
+     *
+     * @return string 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getNombre<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">nombre</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+      <span class="kw2">public</span> <span class="kw2">function</span> __toString<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">nombre</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>Al momento de poner en mi browser <code>http://localhost/seg2/web/app_dev.php/login</code> me sale el formulario; lleno con mis credenciales pero me sale el error <em>"Bad Credencials"</em>.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/463805721528639488/q2ypQmro_normal.jpeg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @k_mazon1991
+                                </span>
+
+                                <span class="published">
+                                    23-jun-14 17:00
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-9">
+                                        <i id="ultimo"></i>
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/50/problema-con-el-fichero-securityyml-y-el-loginlistener/#respuesta-9" title="Enlace permanente a esta respuesta">#9</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_9_html">
+                        <p>@k_mazon1991 el primer problema que veo en tu código es que parece que estás complicándote demasiado la vida con los roles propios. En mi opinión no necesitas la entidad <code>Rol</code>. Y si la necesitas, para que te funcione como esperas, debes crear una clase que implemente la interfaz <code>RoleInterface</code>.</p>
+
+<p>Por otra parte, el mensaje <em>Bad credentials</em> significa que o tu usuario o tu contraseña o ambos son incorrectos. La información que nos falta para saber si lo estás haciendo bien es saber cómo has registrado en la base de datos el usuario con el que quieres entrar en la aplicación. En otras palabras, ¿cómo se creó ese usuario? ¿cómo se codificó su contraseña? Si buscas a ese usuario en la base de datos, ¿cuál es el valor que aparece en la columna de la contraseña?</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    23-jun-14 18:02
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                    
+                    <div id="btn-reply">
+                <a rel="nofollow" href="/foro/pregunta/50/problema-con-el-fichero-securityyml-y-el-loginlistener/responder/#tu-respuesta" class="btn btn-lg">
+                    Responder pregunta
+                </a>
+            </div>
+            </div>
+
+
+                </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

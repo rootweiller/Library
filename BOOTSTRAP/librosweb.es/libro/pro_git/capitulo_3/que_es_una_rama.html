@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>3.1. ¿Qué es una rama? (Pro Git, el libro oficial de Git)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_3.html" />
+                    <link rel="next" href="../capitulo_3/procedimientos_basicos_para_ramificar_y_fusionar.html" />
+                <link rel="start" href="/libro/pro_git/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="3.1. ¿Qué es una rama? (Pro Git, el libro oficial de Git)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page pro_git"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/" itemprop="url">
+                    <span itemprop="title">Pro Git, el libro oficial de Git</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/pro_git/capitulo_3.html" itemprop="url">
+                    <span itemprop="title">Capítulo 3. Trabajando con ramas en Git</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>3.1. ¿Qué es una rama?</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="que_es_una_rama" class="title">
+        <span>3.1.</span> ¿Qué es una rama?
+    </h1>
+
+    
+
+<p>Para entender realmente cómo ramifica Git, previamente hemos de examinar la forma en que almacena sus datos. Recordando lo citado en el <a href="#capitulo1">capítulo 1</a>, Git no los almacena de forma incremental (guardando solo diferencias), sino que los almacena como una serie de instantáneas (copias puntuales de los archivos completos, tal y como se encuentran en ese momento).</p>
+
+<p>En cada confirmación de cambios (<em>commit</em>), Git almacena un punto de control que conserva: un apuntador a la copia puntual de los contenidos preparados (<em>staged</em>), unos metadatos con el autor y el mensaje explicativo, y uno o varios apuntadores a las confirmaciones (<em>commit</em>) que sean padres directos de esta (un padre en los casos de confirmación normal, y múltiples padres en los casos de estar confirmando una fusión (<em>merge</em>) de dos o mas ramas).</p>
+
+<p>Para ilustrar esto, vamos a suponer, por ejemplo, que tienes una carpeta con tres archivos, que preparas (<em>stage</em>) todos ellos y los confirmas (<em>commit</em>). Al preparar los archivos, Git realiza una suma de control de cada uno de ellos (un resumen SHA-1, tal y como se mencionaba en el <a href="#capitulo1">capítulo 1</a>), almacena una copia de cada uno en el repositorio (estas copias se denominan <em>"blobs"</em>), y guarda cada suma de control en el área de preparación (<em>staging area</em>):</p>
+
+<div class="code code">
+<pre class="code">$ git add README test.rb LICENSE
+$ git commit -m 'initial commit of my project'</pre>
+</div>
+
+<p>Cuando creas una confirmación con el comando <code>git commit</code>, Git realiza sumas de control de cada subcarpeta (en el ejemplo, solamente tenemos la carpeta principal del proyecto), y guarda en el repositorio Git una copia de cada uno de los archivos contenidos en ella/s. Después, Git crea un objeto de confirmación con los metadatos pertinentes y un apuntador al nodo correspondiente del árbol de proyecto. Esto permitirá poder regenerar posteriormente dicha instantánea cuando sea necesario.</p>
+
+<p>En este momento, el repositorio de Git contendrá cinco objetos: un <em>"blob"</em> para cada uno de los tres archivos, un árbol con la lista de contenidos de la carpeta (más sus respectivas relaciones con los <em>"blobs"</em>), y una confirmación de cambios (<em>commit</em>) apuntando a la raiz de ese árbol y conteniendo el resto de metadatos pertinentes. Conceptualmente, el contenido del repositorio Git será algo parecido a la Figura 3-1</p>
+
+<div class="figure" id="figure_3_1">
+    <img src="/img/pro_git/18333fig0301.png" alt="Datos en el repositorio tras una confirmación sencilla" />
+
+    <p class="caption"><strong>Figura 3.1</strong> Datos en el repositorio tras una confirmación sencilla</p>
+</div>
+
+
+<p>Si haces más cambios y vuelves a confirmar, la siguiente confirmación guardará un apuntador a esta su confirmación precedente. Tras un par de confirmaciones más, el registro ha de ser algo parecido a la Figura 3-2.</p>
+
+<div class="figure" id="figure_3_2">
+    <img src="/img/pro_git/18333fig0302.png" alt="Datos en el repositorio tras una serie de confirmaciones" />
+
+    <p class="caption"><strong>Figura 3.2</strong> Datos en el repositorio tras una serie de confirmaciones</p>
+</div>
+
+
+<p>Una rama Git es simplemente un apuntador móvil apuntando a una de esas confirmaciones. La rama por defecto de Git es la rama <code>master</code>. Con la primera confirmación de cambios que realicemos, se creará esta rama principal <code>master</code> apuntando a dicha confirmación. En cada confirmación de cambios que realicemos, la rama irá avanzando automáticamente. Y la rama <code>master</code> apuntará siempre a la última confirmación realizada.</p>
+
+<div class="figure" id="figure_3_3">
+    <img src="/img/pro_git/18333fig0303.png" alt="Apuntadores en el registro de confirmaciones de una rama" />
+
+    <p class="caption"><strong>Figura 3.3</strong> Apuntadores en el registro de confirmaciones de una rama</p>
+</div>
+
+
+<p>¿Qué sucede cuando creas una nueva rama? Pues que simplemente se crea un nuevo apuntador para que lo puedas mover libremente. Por ejemplo, si quieres crear una nueva rama denominada <code>testing</code> usarás el comando <code>git branch</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git branch testing</pre>
+</div>
+
+<p>Esto creará un nuevo apuntador apuntando al mismo <em>commit</em> donde estés actualmente (ver Figura 3-4).</p>
+
+<div class="figure" id="figure_3_4">
+    <img src="/img/pro_git/18333fig0304.png" alt="Apuntadores de varias ramas en el registro de confirmaciones de cambio" />
+
+    <p class="caption"><strong>Figura 3.4</strong> Apuntadores de varias ramas en el registro de confirmaciones de cambio</p>
+</div>
+
+
+<p>Y, ¿cómo sabe Git en qué rama estás en este momento? Pues mediante un apuntador especial denominado <code>HEAD</code>. Aunque es preciso comentar que este <code>HEAD</code> es totalmente distinto al concepto de <code>HEAD</code> en otros sistemas de control de cambios como Subversion o CVS. En Git, es simplemente el apuntador a la rama local en la que tú estés en ese momento. En este caso, en la rama <code>master</code>. Puesto que el comando <code>git branch</code> solamente crea una nueva rama, y no salta a dicha rama.</p>
+
+<div class="figure" id="figure_3_5">
+    <img src="/img/pro_git/18333fig0305.png" alt="Apuntador HEAD a la rama donde estás actualmente" />
+
+    <p class="caption"><strong>Figura 3.5</strong> Apuntador HEAD a la rama donde estás actualmente</p>
+</div>
+
+
+<p>Para saltar de una rama a otra, tienes que utilizar el comando <code>git checkout</code>. Hagamos una prueba, saltando a la rama <code>testing</code> recién creada:</p>
+
+<div class="code code">
+<pre class="code">$ git checkout testing</pre>
+</div>
+
+<p>Esto mueve el apuntador <code>HEAD</code> a la rama <code>testing</code> (ver Figura 3-6).</p>
+
+<div class="figure" id="figure_3_6">
+    <img src="/img/pro_git/18333fig0306.png" alt="Apuntador HEAD apuntando a otra rama cuando saltamos de rama" />
+
+    <p class="caption"><strong>Figura 3.6</strong> Apuntador HEAD apuntando a otra rama cuando saltamos de rama</p>
+</div>
+
+
+<p>¿Cuál es el significado de todo esto?. Lo veremos tras realizar otra confirmación de cambios:</p>
+
+<div class="code code">
+<pre class="code">$ vim test.rb
+$ git commit -a -m 'made a change'</pre>
+</div>
+
+<p>La Figura 3-7 ilustra el resultado.</p>
+
+<div class="figure" id="figure_3_7">
+    <img src="/img/pro_git/18333fig0307.png" alt="La rama apuntada por HEAD avanza con cada confirmación de cambios" />
+
+    <p class="caption"><strong>Figura 3.7</strong> La rama apuntada por HEAD avanza con cada confirmación de cambios</p>
+</div>
+
+
+<p>Observamos algo interesante: la rama <code>testing</code> avanza, mientras que la rama <code>master</code> permanece en la confirmación donde estaba cuando lanzaste el comando <code>git checkout</code> para saltar. Volvamos ahora a la rama <code>master</code>:</p>
+
+<div class="code code">
+<pre class="code">$ git checkout master</pre>
+</div>
+
+<p>La Figura 3-8 muestra el resultado.</p>
+
+<div class="figure" id="figure_3_8">
+    <img src="/img/pro_git/18333fig0308.png" alt="HEAD apunta a otra rama cuando hacemos un checkout" />
+
+    <p class="caption"><strong>Figura 3.8</strong> HEAD apunta a otra rama cuando hacemos un checkout</p>
+</div>
+
+
+<p>Este comando realiza dos acciones: Mueve el apuntador <code>HEAD</code> de nuevo a la rama <code>master</code>, y revierte los archivos de tu directorio de trabajo; dejandolos tal y como estaban en la última instantánea confirmada en dicha rama <code>master</code>. Esto supone que los cambios que hagas desde este momento en adelante divergerán de la antigua versión del proyecto. Básicamente, lo que se está haciendo es rebobinar el trabajo que habias hecho temporalmente en la rama <code>testing</code>; de tal forma que puedas avanzar en otra dirección diferente.</p>
+
+<p>Haz algunos cambios más y confirmalos:</p>
+
+<div class="code code">
+<pre class="code">$ vim test.rb
+$ git commit -a -m 'made other changes'</pre>
+</div>
+
+<p>Ahora el registro de tu proyecto diverge (ver Figura 3-9). Has creado una rama y saltado a ella, has trabajado sobre ella; has vuelto a la rama original, y has trabajado también sobre ella. Los cambios realizados en ambas sesiones de trabajo están aislados en ramas independientes: puedes saltar libremente de una a otra según estimes oportuno. Y todo ello simplemente con dos comandos:  <code>git branch</code> y <code>git checkout</code>.</p>
+
+<div class="figure" id="figure_3_9">
+    <img src="/img/pro_git/18333fig0309.png" alt="Los registros de las ramas divergen" />
+
+    <p class="caption"><strong>Figura 3.9</strong> Los registros de las ramas divergen</p>
+</div>
+
+
+<p>Debido a que una rama Git es realmente un simple archivo que contiene los 40 caracteres de una suma de control SHA-1, (representando la confirmación de cambios a la que apunta), no cuesta nada el crear y destruir ramas en Git. Crear una nueva rama es tan rápido y simple como escribir 41 bytes en un archivo, (40 caracteres y un retorno de carro).</p>
+
+<p>Esto contrasta fuertemente con los métodos de ramificación usados por otros sistemas de control de versiones. En los que crear una nueva rama supone el copiar todos los archivos del proyecto a una nueva carpeta adiccional. Lo que puede llevar segundos o incluso minutos, dependiendo del tamaño del proyecto. Mientras que en Git el proceso es siempre instantáneo. Y, además, debido a que se almacenan tambien los nodos padre para cada confirmación, el encontrar las bases adecuadas para realizar una fusión entre ramas es un proceso automático y generalmente sencillo de realizar. Animando así a los desarrolladores a utilizar ramificaciones frecuentemente.</p>
+
+<p>Y vamos a ver el por qué merece la pena hacerlo así.</p>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_3.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 3. Trabajando con ramas en Git</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_3/procedimientos_basicos_para_ramificar_y_fusionar.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>3.2. Procedimientos básicos para ramificar y fusionar</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Fundamentos de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_3.html">
+                    <span>Capítulo 3.</span> Trabajando con ramas en Git
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_3/que_es_una_rama.html">
+                    <span>3.1.</span> ¿Qué es una rama?
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/procedimientos_basicos_para_ramificar_y_fusionar.html">
+                    <span>3.2.</span> Procedimientos básicos para ramificar y fusionar
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/gestion_de_ramificaciones.html">
+                    <span>3.3.</span> Gestión de ramificaciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/flujos_de_trabajo_ramificados.html">
+                    <span>3.4.</span> Flujos de trabajo ramificados
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/ramas_remotas.html">
+                    <span>3.5.</span> Ramas Remotas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/reorganizando_el_trabajo_realizado.html">
+                    <span>3.6.</span> Reorganizando el trabajo realizado
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_3/resumen.html">
+                    <span>3.7.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Git en un servidor</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Git en entornos distribuidos</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Las herramientas de Git</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Personalizando Git</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Git y otros sistemas</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Funcionamiento interno de Git</a>
+            </li>
+                                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

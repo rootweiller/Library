@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>11.4. Parámetros para la ejecución remota (Symfony 1.0, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_11/helpers_de_ajax.html" />
+                    <link rel="next" href="../capitulo_11/creando_efectos_visuales.html" />
+                <link rel="start" href="/libro/symfony_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="11.4. Parámetros para la ejecución remota (Symfony 1.0, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/" itemprop="url">
+                    <span itemprop="title">Symfony 1.0, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/capitulo_11.html" itemprop="url">
+                    <span itemprop="title">Capítulo 11. Integración con Ajax</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>11.4. Parámetros para la ejecución remota</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="parametros_para_la_ejecucion_remota" class="title">
+        <span>11.4.</span> Parámetros para la ejecución remota
+    </h1>
+
+    
+
+<p>Todos los <em>helpers</em> de Ajax descritos anteriormente pueden utilizar otros parámetros, además de los parámetros <code>update</code> y <code>url</code>. El array asociativo con los parámetros de Ajax puede modificar el comportamiento de la ejecución remota y del procesamiento de las respuestas.</p>
+
+<h3 id="actualizar_elementos_diferentes_en_funcion_del_estado_de_la_respuesta">11.4.1. Actualizar elementos diferentes en función del estado de la respuesta</h3>
+
+<p>Si la ejecución remota no devuelve un resultado, los <em>helpers</em> pueden actualizar otro elemento distinto al elemento que se actualizaría en caso de una respuesta satisfactoria. Para conseguirlo, solo es necesario indicar como valor del parámetro <code>update</code> un array asociativo que establezca los diferentes elementos que se actualizan en caso de respuesta correcta (<code>success</code>) y respuesta incorrecta (<code>failure</code>). Se trata de una técnica eficaz cuando una página contiene muchas interacciones de Ajax y una única zona de notificación de errores. El listado 11-16 muestra el uso de esta técnica.</p>
+
+<p><strong>Listado 11-16 - Actualización condicional en función de la respuesta</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;div id=&quot;error&quot;&gt;&lt;/div&gt;
+&lt;div id=&quot;respuesta&quot;&gt;&lt;/div&gt;
+&lt;p&gt;¡Hola Mundo!&lt;/p&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to_remote<span class="br0">&#40;</span><span class="st_h">'Borrar este artículo'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'update'</span>   <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'success'</span> <span class="sy0">=&gt;</span> <span class="st_h">'respuesta'</span><span class="sy0">,</span> <span class="st_h">'failure'</span> <span class="sy0">=&gt;</span> <span class="st_h">'error'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="st_h">'url'</span>      <span class="sy0">=&gt;</span> <span class="st_h">'articulo/borrar?id='</span><span class="sy0">.</span><span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Solo las respuestas de servidor cuyo código de estado HTTP sea de tipo error (<code>500</code>, <code>404</code> y todos los códigos diferentes de <code>2XX</code>) provocan la actualización del elemento preparado para las respuestas erroneas. Las acciones que devuelven el valor <code>sfView::ERROR</code> no se consideran como erróneas. De esta forma, si se requiere que una acción de tipo Ajax devuelva una respuesta errónea, se debe ejecutar <code>$this-&gt;getResponse()-&gt;setStatusCode(404)</code> con cualquier código HTTP de error.</p></div>
+
+<h3 id="actualizar_un_elemento_segun_su_posicion">11.4.2. Actualizar un elemento según su posición</h3>
+
+<p>Al igual que sucede con el <em>helper</em> <code>update_element_function()</code>, se puede especificar el elemento a actualizar de forma relativa respecto de otro elemento mediante el parámetro <code>position</code>. El listado 11-17 muestra un ejemplo.</p>
+
+<p><strong>Listado 11-17 - Uso del parámetro <code>position</code> para modificar el lugar donde se muestra la respuesta</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;div id=&quot;respuesta&quot;&gt;&lt;/div&gt;
+&lt;p&gt;¡Hola Mundo!&lt;/p&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to_remote<span class="br0">&#40;</span><span class="st_h">'Borrar este artículo'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'update'</span>   <span class="sy0">=&gt;</span> <span class="st_h">'respuesta'</span><span class="sy0">,</span>
+    <span class="st_h">'url'</span>      <span class="sy0">=&gt;</span> <span class="st_h">'articulo/borrar?id='</span><span class="sy0">.</span><span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="st_h">'position'</span> <span class="sy0">=&gt;</span> <span class="st_h">'after'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>En esta ocasión, la respuesta de la petición Ajax se muestra después (<code>after</code>) del elemento cuyo atributo <code>id</code> es igual a <code>respuesta</code>; es decir, se muestra después del <code>&lt;div&gt;</code> y antes del <code>&lt;p&gt;</code>. De esta forma, se pueden realizar varias peticiones Ajax y ver como se acumulan todas las respuestas después del elemento que se actualiza.</p>
+
+<p>El parámetro <code>position</code> puede tomar uno de los siguientes valores:</p>
+
+<ul>
+<li><code>before</code>: antes del elemento</li>
+<li><code>after</code>: después del elemento</li>
+<li><code>top</code>: antes que cualquier otro contenido del elemento</li>
+<li><code>bottom</code>: después de todos los contenidos del elemento</li>
+</ul>
+
+<h3 id="actualizar_un_elemento_en_funcion_de_una_condicion">11.4.3. Actualizar un elemento en función de una condición</h3>
+
+<p>Las peticiones Ajax pueden tomar un parámetro adicional que permite que el usuario de su consentimiento antes de ejecutar la petición con el objeto <code>XMLHttpRequest</code>, como muestra el listado 11-18.</p>
+
+<p><strong>Listado 11-18 - Uso del parámetro <code>confirm</code> para solicitar el consentimiento del usuario antes de realizar la petición remota</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;div id=&quot;respuesta&quot;&gt;&lt;/div&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to_remote<span class="br0">&#40;</span><span class="st_h">'Borrar este artículo'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'update'</span>   <span class="sy0">=&gt;</span> <span class="st_h">'respuesta'</span><span class="sy0">,</span>
+    <span class="st_h">'url'</span>      <span class="sy0">=&gt;</span> <span class="st_h">'articulo/borrar?id='</span><span class="sy0">.</span><span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="st_h">'confirm'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'¿Estás seguro?'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>En este caso, se muestra al usuario un cuadro de diálogo de JavaScript con el mensaje "¿Estás seguro?" cuando pincha sobre el enlace. La acción <code>articulo/borrar</code> solo se ejecuta si el usuario da su consentimiento a esta petición pulsando sobre el botón de "Aceptar".</p>
+
+<p>La ejecución de la petición remota también se puede condicionar a que se cumpla una condición JavaScript evaluada en el navegador del usuario, mediante el parámetro <code>condition</code>, tal y como se muestra en el listado 11-19.</p>
+
+<p><strong>Listado 11-19 - Ejecución de petición remota condicionada a que se cumpla una condición probada en el lado del cliente</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;div id=&quot;respuesta&quot;&gt;&lt;/div&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to_remote<span class="br0">&#40;</span><span class="st_h">'Borrar este artículo'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'update'</span>    <span class="sy0">=&gt;</span> <span class="st_h">'respuesta'</span><span class="sy0">,</span>
+    <span class="st_h">'url'</span>       <span class="sy0">=&gt;</span> <span class="st_h">'articulo/borrar?id='</span><span class="sy0">.</span><span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="st_h">'condition'</span> <span class="sy0">=&gt;</span> <span class="st0">&quot;$('IDelemento') == true&quot;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<h3 id="determinando_el_metodo_de_una_peticion_ajax">11.4.4. Determinando el método de una petición Ajax</h3>
+
+<p>Las peticiones Ajax se realizan por defecto mediante un método POST. Si se quiere realizar una petición Ajax que no modifica los datos o si se quiere mostrar un formulario que incluye validación como resultado de una petición Ajax, se puede utilizar el método GET. La opción <code>method</code> modifica el método de la petición Ajax, como muestra el listado 11-20.</p>
+
+<p><strong>Listado 11-20 - Modificando el método de una petición Ajax</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;div id=&quot;respuesta&quot;&gt;&lt;/div&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to_remote<span class="br0">&#40;</span><span class="st_h">'Borrar este artículo'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'update'</span>    <span class="sy0">=&gt;</span> <span class="st_h">'respuesta'</span><span class="sy0">,</span>
+    <span class="st_h">'url'</span>       <span class="sy0">=&gt;</span> <span class="st_h">'articulo/borrar?id='</span><span class="sy0">.</span><span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="st_h">'method'</span>    <span class="sy0">=&gt;</span> <span class="st_h">'get'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<h3 id="permitiendo_la_ejecucion_de_un_script">11.4.5. Permitiendo la ejecución de un script</h3>
+
+<p>Si la respuesta de una petición Ajax incluye código JavaScript (el código es la respuesta del servidor y se incluye en el elemento indicado por el parámetro <code>update</code>) por defecto no se ejecuta ese código. El motivo es el de reducir la posibilidad de ataques remotos y para permitir al programador autorizar la ejecución del código de la respuesta después de comprobar el contenido del código.</p>
+
+<p>Para permitir la ejecución de los scripts de la respuesta del servidor, se debe utilizar la opción <code>script</code>. El listado 11-21 muestra un ejemplo de una petición Ajax remota que autoriza la ejecución del código JavaScript que forme parte de la respuesta.</p>
+
+<p><strong>Listado 11-21 - Permitiendo la ejecución de un script en una respuesta Ajax</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;div id=&quot;respuesta&quot;&gt;&lt;/div&gt;
+<span class="kw2">&lt;?php</span>
+  <span class="co1">// Si la respuesta de la acción articulo/borrar contiene código</span>
+  <span class="co1">// JavaScript, se ejecuta en el navegador del usuario</span>
+  <span class="kw1">echo</span> link_to_remote<span class="br0">&#40;</span><span class="st_h">'Borrar este artículo'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'update'</span>    <span class="sy0">=&gt;</span> <span class="st_h">'respuesta'</span><span class="sy0">,</span>
+    <span class="st_h">'url'</span>       <span class="sy0">=&gt;</span> <span class="st_h">'articulo/borrar?id='</span><span class="sy0">.</span><span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="st_h">'script'</span>    <span class="sy0">=&gt;</span> <span class="st_h">'true'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Si la plantilla remota contiene <em>helpers</em> de Ajax (como por ejemplo <code>remote_function()</code>), estas funciones PHP generan código JavaScript, que no se ejecuta a menos que se indique la opción <code>script =&gt; true</code>.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Cuando se permite la ejecución de los scripts de la respuesta remota, el código fuente del código remoto no se puede ver ni siquiera con una herramienta para visualizar el código generado. Los scripts se ejecutan pero su código no se muestra. Se trata de un comportamiento poco habitual, pero completamente normal.</p></div>
+
+<h3 id="creando_callbacks">11.4.6. Creando callbacks</h3>
+
+<p>Una desventaja importante de las interacciones creadas con Ajax es que son invisibles al usuario hasta que se actualiza la zona preparada para las notificaciones. Por tanto, si se produce un error de servidor o la red está congestionada, los usuarios pueden pensar que su acción se ha realizado correctamente cuando en realidad aun no ha sido procesada. Este es el motivo por el que es muy importante notificar al usuario sobre los eventos que se producen a lo largo de una interacción creada con Ajax.</p>
+
+<p>Por defecto, cada petición remota es un proceso asíncrono durante el que se pueden ejecutar varias funciones JavaScript de tipo callback (por ejemplo para indicar el progreso de la petición). Todas las funciones de callback tienen acceso directo al objeto <code>request</code>, que contiene a su vez el objeto <code>XMLHttpRequest</code>. Los callback que se pueden definir se corresponden con los eventos que se producen durante una interacción de Ajax:</p>
+
+<ul>
+<li><code>before</code>: antes de que se inicie la petición</li>
+<li><code>after</code>: justo después de que se inicie la petición y antes de que se cargue</li>
+<li><code>loading</code>: cuando se está cargando la respuesta remota en el navegador</li>
+<li><code>loaded</code>: cuando el navegador ha terminado de cargar la respuesta remota</li>
+<li><code>interactive</code>: cuando el usuario puede interaccionar con la respuesta remota, incluso si no se ha terminado de cargar</li>
+<li><code>success</code>: cuando <code>XMLHttpRequest</code> está completo y el código HTTP de estado corresponde al rango 2XX</li>
+<li><code>failure</code>: cuando <code>XMLHttpRequest</code> está completo y el código HTTP de estado no corresponde al rango 2XX</li>
+<li><code>404</code>: cuando la petición devuelve un error de tipo 404</li>
+<li><code>complete</code>: cuando <code>XMLHttpRequest</code> está completo (se ejecuta después de <code>success</code> o <code>failure</code>, si alguno de los 2 está definido)</li>
+</ul>
+
+<p>El ejemplo más habitual es el de mostrar un indicador de tipo <code>Cargando...</code> mientras la petición remota se está ejecutando y ocultarlo cuando se recibe la respuesta. Para incluir este comportamiento, solo es necesario añadir los parámetros <code>loading</code> y <code>complete</code> a la petición Ajax, tal y como muestra el listado 11-22.</p>
+
+<p><strong>Listado 11-22 - Uso de callbacks en Ajax para mostrar y ocultar un indicador de actividad</strong></p>
+
+<div class="code php">
+<pre class="php">&lt;div id=&quot;respuesta&quot;&gt;&lt;/div&gt;
+&lt;div id=&quot;indicador&quot;&gt;Cargando...&lt;/div&gt;
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to_remote<span class="br0">&#40;</span><span class="st_h">'Borrar este artículo'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+    <span class="st_h">'update'</span>    <span class="sy0">=&gt;</span> <span class="st_h">'respuesta'</span><span class="sy0">,</span>
+    <span class="st_h">'url'</span>       <span class="sy0">=&gt;</span> <span class="st_h">'articulo/borrar?id='</span><span class="sy0">.</span><span class="re0">$articulo</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="st_h">'loading'</span>  <span class="sy0">=&gt;</span> <span class="st0">&quot;Element.show('indicador')&quot;</span><span class="sy0">,</span>
+    <span class="st_h">'complete'</span> <span class="sy0">=&gt;</span> <span class="st0">&quot;Element.hide('indicador')&quot;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
+</div>
+
+<p>Los métodos <code>show()</code>, <code>hide()</code> y el objeto <code>Element</code> son otras de las utilidades proporcionadas por la librería Prototype.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_11/helpers_de_ajax.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>11.3. Helpers de Ajax</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_11/creando_efectos_visuales.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>11.5. Creando efectos visuales</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_11.html">
+                    <span>Capítulo 11.</span> Integración con Ajax
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/helpers_basicos_de_javascript.html">
+                    <span>11.1.</span> Helpers básicos de JavaScript
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/prototype.html">
+                    <span>11.2.</span> Prototype
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/helpers_de_ajax.html">
+                    <span>11.3.</span> Helpers de Ajax
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_11/parametros_para_la_ejecucion_remota.html">
+                    <span>11.4.</span> Parámetros para la ejecución remota
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/creando_efectos_visuales.html">
+                    <span>11.5.</span> Creando efectos visuales
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/json.html">
+                    <span>11.6.</span> JSON
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/interacciones_complejas_con_ajax.html">
+                    <span>11.7.</span> Interacciones complejas con Ajax
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_11/resumen.html">
+                    <span>11.8.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generadores</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

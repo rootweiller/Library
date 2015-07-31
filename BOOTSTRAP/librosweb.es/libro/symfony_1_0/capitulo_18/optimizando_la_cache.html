@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>18.4. Optimizando la cache (Symfony 1.0, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_18/optimizando_la_vista.html" />
+                    <link rel="next" href="../capitulo_18/desactivando_las_caracteristicas_que_no_se_utilizan.html" />
+                <link rel="start" href="/libro/symfony_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="18.4. Optimizando la cache (Symfony 1.0, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/" itemprop="url">
+                    <span itemprop="title">Symfony 1.0, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/capitulo_18.html" itemprop="url">
+                    <span itemprop="title">Capítulo 18. Rendimiento</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>18.4. Optimizando la cache</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="optimizando_la_cache" class="title">
+        <span>18.4.</span> Optimizando la cache
+    </h1>
+
+    
+
+<p>El Capítulo 12 describe cómo guardar en la cache partes de la respuesta o incluso la respuesta completa. Como guardar la respuesta en la cache mejora mucho el rendimiento de la aplicación, esta técnica debería ser una de las primeras a considerar para optimizar las aplicaciones. En esta sección se muestra cómo sacar el máximo partido a la cache e incluye algunos trucos muy interesantes.</p>
+
+<h3 id="borrando_partes_de_la_cache_de_forma_selectiva">18.4.1. Borrando partes de la cache de forma selectiva</h3>
+
+<p>Durante el desarrollo de una aplicación, se dan muchas situaciones en las que se debe borrar la cache:</p>
+
+<ul>
+<li>Cuando se crea una clase nueva: añadir la clase a un directorio para el que funciona la carga automática de clases (cualquier directorio <code>lib/</code> del proyecto) no es suficiente para que Symfony sea capaz de encontrarla. En este caso, es preciso borrar la cache de la carga automática para que Symfony recorrar otra vez todos los directorios indicados en el archivo <code>autoload.yml</code> y pueda encontrar las nuevas clases.</li>
+<li>Cuando se modifica la configuración en el entorno de producción: en producción, la configuración de la aplicación solamente se procesa durante la primera petición. Las siguientes peticiones utilizan la versión guardada en la cache. Por lo tanto, cualquier cambio en la configuración no tiene efecto en el entorno de producción (o en cualquier otro entorno donde <code>SF_DEBUG</code> esté desactivado) hasta que se borre ese archivo de la cache.</li>
+<li>Cuando se modifica una plantilla en un entorno en el que la cache de plantillas está activada: en producción siempre se utilizan las plantillas guardadas en la cache, por lo que todos los cambios introducidos en las plantillas se ignoran hasta que la plantilla guardada en la cache se borra o caduca.</li>
+<li>Cuando se actualiza una aplicación mediante el comando <code>sync</code>: este caso normalmente comprende las 3 modificaciones descritas anteriormente.</li>
+</ul>
+
+<p>El problema de borrar la cache entera es que la siguiente petición tarda bastante tiempo en ser procesada, porque se debe regenerar la cache de configuración. Además, también se borran de la cache las plantillas que no han sido modificadas, por lo que se pierde la ventaja de haberlas guardado en la cache.</p>
+
+<p>Por este motivo, es una buena idea borrar de la cache solamente los archivos que hagan falta. Las opciones de la tarea <code>clear-cache</code> pueden definir un subconjunto de archivos a borrar de la cache, como muestra el listado 18-14.</p>
+
+<p><strong>Listado 18-14 - Borrando solamente algunas partes de la cache</strong></p>
+
+<div class="code cli">
+<pre class="cli">// Borrar sólo la cache de la aplicación &quot;miaplicacion&quot;
+&gt; symfony clear-cache miaplicacion
+&nbsp;
+// Borrar sólo la cache HTML de la aplicación &quot;miaplicacion&quot;
+&gt; symfony clear-cache miaplicacion template
+&nbsp;
+// Borrar sólo la cache de configuración de la aplicación &quot;miaplicacion&quot;
+&gt; symfony clear-cache miaplicacion config</pre>
+</div>
+
+<p>También es posible borrar a mano algunos archivos del directorio <code>cache/</code> o borrar las plantillas guardadas en la cache desde la acción mediante el método <code>$cacheManager-&gt;remove()</code>, como se describe en el capítulo 12.</p>
+
+<p>Todas estas técnicas minimizan el impacto negativo sobre el rendimiento de todos los cambios mostrados anteriormente.</p>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Cuando se actualiza Symfony, la cache se borra de forma automática, sin intervención manual (si se establece la opción <code>check_symfony_version</code> a <code>true</code> en el archivo de configuración <code>settings.yml</code>).</p></div>
+
+<h3 id="generando_paginas_para_la_cache">18.4.2. Generando páginas para la cache</h3>
+
+<p>Cuando se instala una nueva aplicación en producción, la cache de las plantillas está vacía. Para que una página se guarde en la cache, se debe esperar a que algún usuario visite esa página. En algunas aplicaciones críticas, no es admisible el tiempo de procesamiento de esa primera petición, por lo que se debe disponer de la versión de la página en la cache desde la primera petición.</p>
+
+<p>La solución consiste en navegar de forma automática por las páginas de la aplicación en un entorno intermedio que se suele llamar <em>"staging"</em> y que dispone de una configuración similar a la del entorno de producción. De esta forma, se genera la cache completa de páginas y plantillas. Después, se puede transferir la aplicación a producción junto con la cache llena.</p>
+
+<p>Para navegar de forma automática por todas las páginas de la aplicación, una opción consiste en utilizar un script de consola que navegue por una serie de URL mediante un navegador de texto (como por ejemplo "curl"). Otra opción mejor y más rápida consiste en utilizar un script de Symfony que utilice el objeto <code>sfBrowser</code> mostrado en el capítulo 15. Se trata de un navegador interno escrito en PHP y que utiliza el objeto <code>sfTestBrowser</code> para las pruebas funcionales. A partir de una URL externa, devuelve una respuesta, teniendo en cuenta la cache de las plantillas, como haría cualquier otro navegador. Como sólo se inicializa Symfony una vez y no pasa por la capa HTTP, este método es mucho más rápido.</p>
+
+<p>El listado 18-15 muestra un script que genera la cache de plantillas en un entorno de tipo <em>"stagging"</em>. Se puede ejecutar mediante <code>php batch/generar_cache.php</code>.</p>
+
+<p><strong>Listado 18-15 - Generando la cache de las plantillas, en <code>batch/generar_cache.php</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw3">define</span><span class="br0">&#40;</span><span class="st_h">'SF_ROOT_DIR'</span><span class="sy0">,</span>    <span class="kw3">realpath</span><span class="br0">&#40;</span><span class="kw3">dirname</span><span class="br0">&#40;</span><span class="kw4">__FILE__</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/..'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw3">define</span><span class="br0">&#40;</span><span class="st_h">'SF_APP'</span><span class="sy0">,</span>         <span class="st_h">'myapp'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw3">define</span><span class="br0">&#40;</span><span class="st_h">'SF_ENVIRONMENT'</span><span class="sy0">,</span> <span class="st_h">'staging'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw3">define</span><span class="br0">&#40;</span><span class="st_h">'SF_DEBUG'</span><span class="sy0">,</span>       <span class="kw4">false</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">require_once</span><span class="br0">&#40;</span>SF_ROOT_DIR<span class="sy0">.</span><span class="kw4">DIRECTORY_SEPARATOR</span><span class="sy0">.</span><span class="st_h">'apps'</span><span class="sy0">.</span><span class="kw4">DIRECTORY_SEPARATOR</span><span class="sy0">.</span>SF_APP<span class="sy0">.</span><span class="kw4">DIRECTORY_SEPARATOR</span><span class="sy0">.</span><span class="st_h">'config'</span><span class="sy0">.</span><span class="kw4">DIRECTORY_SEPARATOR</span><span class="sy0">.</span><span class="st_h">'config.php'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Array de URL a navegar</span>
+<span class="re0">$uris</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span>
+  <span class="st_h">'/foo/index'</span><span class="sy0">,</span>
+  <span class="st_h">'/foo/bar/id/1'</span><span class="sy0">,</span>
+  <span class="st_h">'/foo/bar/id/2'</span><span class="sy0">,</span>
+  <span class="sy0">...</span>
+<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$b</span> <span class="sy0">=</span> <span class="kw2">new</span> sfBrowser<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">foreach</span> <span class="br0">&#40;</span><span class="re0">$uris</span> <span class="kw1">as</span> <span class="re0">$uri</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="re0">$b</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="re0">$uri</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<h3 id="guardando_los_datos_de_la_cache_en_una_base_de_datos">18.4.3. Guardando los datos de la cache en una base de datos</h3>
+
+<p>Por defecto, los datos de la cache de plantillas se guardan en el sistema de archivos: los trozos de HTML y los objetos serializados de la respuesta se guardan en el directorio <code>cache/</code> del proyecto. Symfony también incluye un método de almacenamiento alternativo para la cache: la base de datos SQLite. Este tipo de base de datos consiste en un archivo simple que PHP es capaz de reconocer como base de datos para buscar información en el archivo de forma muy eficiente.</p>
+
+<p>Para indicar a Symfony que debería utilizar el almacenamiento de SQLite en vez del sistema de archivos, se debe modificar la opción <code>view_cache</code> del archivo de configuración <code>factories.yml</code>:</p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">view_cache</span>:<span class="co3">
+  class</span><span class="sy2">: </span>sfSQLiteCache<span class="co4">
+  param</span>:<span class="co3">
+    database</span><span class="sy2">: </span><span class="co2">%SF_TEMPLATE_CACHE_DIR%/cache.db</span></pre>
+</div>
+
+<p>La ventaja de utilizar el almacenamiento en SQLite es que la cache de las plantillas es mucho más fácil de leer y de escribir cuando el número de elementos de la cache es muy grande. Si la aplicación hace un uso intensivo de la cache, los archivos almacenados en la cache acaban en una estructura de directorios muy profunda, por lo que utilizar el almacenamiento de SQLite mejora el rendimiento de la aplicación.</p>
+
+<p>Además, borrar una cache almacenada en el sistema de archivos requiere eliminar muchos archivos, por lo que es una operación que puede durar algunos segundos, durante los cuales la aplicación no está disponible. Si se utiliza el almacenamiento de SQLite, el proceso de borrado de la cache consiste en borrar un solo archivo, precisamente el archivo que se utiliza como base de datos SQLite. Independientemente del número de archivos en la cache, el borrado es instantáneo.</p>
+
+<h3 id="saltandose_symfony">18.4.4. Saltándose Symfony</h3>
+
+<p>La mejor forma de mejorar el rendimiento de Symfony consiste en saltárselo por completo, aunque sea de forma parcial. Algunas páginas no cambian con cada petición, por lo que no es necesario procesarlas cada vez mediante el framework. Aunque la cache de las plantillas acelera el procesamiento de las páginas, todavía debe hacer uso de Symfony.</p>
+
+<p>El capítulo 12 muestra algunos trucos con los que se puede evitar Symfony por completo para algunas páginas. El primer truco consiste en utilizar las cabeceras HTTP 1.1 para solicitar a los proxies y a los navegadores de los usuarios que guarden la página en sus propias caches y que no la soliciten la próxima vez que el usuario quiera acceder a la página. El segundo truco es la cache super rápida (que se puede automatizar mediante el plugin <code>sfSuperCachePlugin</code>) que consiste en guardar una copia de la respuesta en el directorio <code>web/</code> y la modificación de las reglas de reescritura de URL para que Apache busque en primer lugar la versión de la página en la cache antes de enviar la petición a Symfony.</p>
+
+<p>Estos dos métodos son muy efectivos, aunque solamente se puedan aplicar a las páginas estáticas, ya que evita que estas páginas sean procesadas por Symfony, permitiendo a los servidores dedicarse al procesamiento de las peticiones complejas.</p>
+
+<h3 id="guardando_en_la_cache_el_resultado_de_una_funcion">18.4.5. Guardando en la cache el resultado de una función</h3>
+
+<p>Si una función no depende del contexto de ejecución ni de variables aleatorias, al ejecutar 2 veces la misma función con los mismos parámetros, el resultado será el mismo. De esta forma, se podría evitar la segunda ejecución de la función si se ha almacenado el resultado de la primera ejecución. Esto es exactamente lo que permite hacer la clase <code>sfFunctionCache</code>. Esta clase dispone de un método llamado <code>call()</code>, al que se le pasa un elemento de PHP que se pueda ejecutar y una serie de parámetros. Cuando se ejecuta, este método crea una huella digital mediante el método MD5 de todos los argumentos que se le han pasado y busca en la cache un archivo cuyo nombre coincida con esta huella digital. Si se encuentra el archivo, se devuelve el resultado almacenado en el archivo. Si no se encuentra, <code>sfFunctionCache</code> ejecuta la función, almacena su respuesta en la cache y devuelve esta respuesta. Por tanto, la segunda ejecución del código del listado 18-16 es más rápida que la primera.</p>
+
+<p><strong>Listado 18-16 - Guardando el resultado de una función en la cache</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="re0">$directorio_cache_para_funciones</span> <span class="sy0">=</span> sfConfig<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'sf_cache_dir'</span><span class="br0">&#41;</span><span class="sy0">.</span><span class="st_h">'/function'</span><span class="sy0">;</span>
+<span class="re0">$fc</span> <span class="sy0">=</span> <span class="kw2">new</span> sfFunctionCache<span class="br0">&#40;</span><span class="re0">$directorio_cache_para_funciones</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$resultado1</span> <span class="sy0">=</span> <span class="re0">$fc</span><span class="sy0">-&gt;</span><span class="me1">call</span><span class="br0">&#40;</span><span class="st_h">'cos'</span><span class="sy0">,</span> M_PI<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$resultado2</span> <span class="sy0">=</span> <span class="re0">$fc</span><span class="sy0">-&gt;</span><span class="me1">call</span><span class="br0">&#40;</span><span class="st_h">'preg_replace'</span><span class="sy0">,</span> <span class="st_h">'/\s\s+/'</span><span class="sy0">,</span> <span class="st_h">' '</span><span class="sy0">,</span> <span class="re0">$input</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El constructor de <code>sfFunctionCache</code> espera como argumento una ruta absoluta a un directorio (el directorio debe existir antes de que se instancie el objeto). El primer argumento del método <code>call()</code> debe ser cualquier elemento PHP que se pueda ejecutar, por lo que se puede indicar el nombre de una función, un array con el nombre de una clase y un método estático o un array con el nombre de un objeto y el de un método público. Respecto al resto de argumentos que se pueden pasar al método <code>call()</code>, se pueden indicar tantos argumentos como sean necesarios, ya que son procesados por el elemento PHP que realmente se ejecutará.</p>
+
+<p>Este objeto es muy útil para las funciones que requieren mucha CPU, ya que las operaciones de lectura y escritura de archivos requieren mucho más tiempo que el necesario para ejecutar una función sencilla. El objeto se basa en la clase <code>sfFileCache</code>, que es el componente que utiliza el mecanismo de cache de plantillas de Symfony. La documentación de la API dispone de más detalle sobre estas clases.</p>
+
+<div class="admonition caution"><p><strong class="title">Advertencia</strong> La tarea <code>clear-cache</code> solamente borra los contenidos del directorio <code>cache/</code>. Si se establece el directorio de cache de las funciones en otro directorio diferente, no se borrará automáticamente cuando se borre la cache mediante la línea de comandos.</p></div>
+
+<h3 id="guardando_datos_en_la_cache_del_servidor">18.4.6. Guardando datos en la cache del servidor</h3>
+
+<p>Los aceleradores de PHP proporcionan unas funciones especiales para almacenar datos en la memoria, de forma que se puedan reutilizar entre diferentes peticiones. El problema es que cada acelerador utiliza su propia sintaxis y cada uno realiza esta tarea de una forma diferente. Symfony dispone de una clase llamada <code>sfProcessCache</code> que abstrae todas las diferencias en el funcionamiento de los diferentes aceleradores. Su sintaxis se muestra en el listado 18-17.</p>
+
+<p><strong>Listado 18-17 - Sintaxis de los métodos de <code>sfProcessCache</code></strong></p>
+
+<div class="code php">
+<pre class="php"><span class="co1">// Guardando datos en la cache de los procesos</span>
+sfProcessCache<span class="sy0">::</span><span class="me2">set</span><span class="br0">&#40;</span><span class="re0">$nombre</span><span class="sy0">,</span> <span class="re0">$valor</span><span class="sy0">,</span> <span class="re0">$tiempoVida</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Accediendo a los datos</span>
+<span class="re0">$valor</span> <span class="sy0">=</span> sfProcessCache<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="re0">$nombre</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Comprobando si un valor existe en la cache</span>
+<span class="re0">$existe_valor</span> <span class="sy0">=</span> sfProcessCache<span class="sy0">::</span><span class="me2">has</span><span class="br0">&#40;</span><span class="re0">$nombre</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Borrar la cache de los procesos</span>
+sfProcessCache<span class="sy0">::</span><span class="me2">clear</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</div>
+
+<p>El método <code>set()</code> devuelve un valor <code>false</code> si no funciona la cache. El valor guardado en la cache puede ser de cualquier tipo (cadena, array, objeto); la clase <code>sfProcessCache</code> se encarga de la serialización automática. El método <code>get()</code> devuelve un valor <code>null</code> si la variable solicitada no existe en la cache.</p>
+
+<p>Los métodos de la clase <code>sfProcessCache</code> funcionan incluso cuando no se encuentra instalado ningún acelerador. Por lo tanto, no existe ningún riesgo en intentar obtener datos de la cache de los procesos, siempre que se proporcione un valor alternativo. El listado 18-18 por ejemplo muestra cómo obtener una opción de configuración de la cache de procesos.</p>
+
+<p><strong>Listado 18-18 - Utilizando la cache de procesos de forma segura</strong></p>
+
+<div class="code php">
+<pre class="php"><span class="kw1">if</span> <span class="br0">&#40;</span>sfProcessCache<span class="sy0">::</span><span class="me2">has</span><span class="br0">&#40;</span><span class="st_h">'miaplicacion_parametros'</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+  <span class="re0">$parametros</span> <span class="sy0">=</span> sfProcessCache<span class="sy0">::</span><span class="me2">get</span><span class="br0">&#40;</span><span class="st_h">'miaplicacion_parametros'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+<span class="kw1">else</span>
+<span class="br0">&#123;</span>
+  <span class="re0">$parametros</span> <span class="sy0">=</span> obtener_parametros<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> Si se quiere profundizar en el uso de la cache en memoria, se debería utilizar la extensión <code>memcache</code> para PHP. Esta extensión permite reducir la carga en la base de datos para las aplicaciones en las que se aplica el balanceo de carga y PHP 5 proporciona una interfaz con esta extensión (http://www.php.net/memcache/).</p></div>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_18/optimizando_la_vista.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>18.3. Optimizando la vista</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_18/desactivando_las_caracteristicas_que_no_se_utilizan.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>18.5. Desactivando las características que no se utilizan</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Enlaces y sistema de enrutamiento</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generadores</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_18.html">
+                    <span>Capítulo 18.</span> Rendimiento
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_18/optimizando_el_servidor.html">
+                    <span>18.1.</span> Optimizando el servidor
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_18/optimizando_el_modelo.html">
+                    <span>18.2.</span> Optimizando el modelo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_18/optimizando_la_vista.html">
+                    <span>18.3.</span> Optimizando la vista
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_18/optimizando_la_cache.html">
+                    <span>18.4.</span> Optimizando la cache
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_18/desactivando_las_caracteristicas_que_no_se_utilizan.html">
+                    <span>18.5.</span> Desactivando las características que no se utilizan
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_18/optimizando_el_codigo_fuente.html">
+                    <span>18.6.</span> Optimizando el código fuente
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_18/resumen.html">
+                    <span>18.7.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

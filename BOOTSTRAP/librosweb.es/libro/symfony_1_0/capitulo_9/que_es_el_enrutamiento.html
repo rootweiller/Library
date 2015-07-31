@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>9.1. ¿Qué es el enrutamiento? (Symfony 1.0, la guía definitiva)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_9.html" />
+                    <link rel="next" href="../capitulo_9/reescritura_de_url.html" />
+                <link rel="start" href="/libro/symfony_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="9.1. ¿Qué es el enrutamiento? (Symfony 1.0, la guía definitiva)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page symfony_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/" itemprop="url">
+                    <span itemprop="title">Symfony 1.0, la guía definitiva</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/symfony_1_0/capitulo_9.html" itemprop="url">
+                    <span itemprop="title">Capítulo 9. Enlaces y sistema de enrutamiento</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>9.1. ¿Qué es el enrutamiento?</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="que_es_el_enrutamiento" class="title">
+        <span>9.1.</span> ¿Qué es el enrutamiento?
+    </h1>
+
+    
+
+<p>El enrutamiento es un mecanismo que reescribe las URL para simplificar su aspecto. Antes de poder comprender su importancia, es necesario dedicar unos minutos al estudio de las URL de las aplicaciones</p>
+
+<h3 id="url_como_instrucciones_de_servidor">9.1.1. URL como instrucciones de servidor</h3>
+
+<p>Cuando el usuario realiza una acción, las URL se encargan de enviar la información desde el navegador hasta el servidor. Las URL tradicionales incluyen la ruta hasta el script del servidor y algunos parámetros necesarios para completar la petición, como se muestra en el siguiente ejemplo:</p>
+
+<div class="code code">
+<pre class="code">http://www.ejemplo.com/web/controlador/articulo.php?id=123456&amp;codigo_formato=6532</pre>
+</div>
+
+<p>La URL anterior incluye información sobre la arquitectura de la aplicación y sobre su base de datos. Normalmente, los programadores evitan mostrar la estructura interna de la aplicación en la interfaz (las páginas por ejemplo se titulan "Perfil personal" y no "QZ7.65"). Desvelar detalles internos de la aplicación en la URL no solo contradice esta norma, sino que tiene otras desventajas:</p>
+
+<ul>
+<li>Los datos técnicos que se muestran en las URL son una fuente potencial de agujeros de seguridad. En el ejemplo anterior, ¿qué sucede si un usuario malicioso modifica el valor del parámetro <code>id</code>? ¿Supone este caso que la aplicación ofrece una interfaz directa a la base de datos? ¿Qué sucedería si otro usuario probara otros nombres de script, como por ejemplo <code>admin.php</code>? En resumen, las URL directas permiten <em>jugar</em> de forma directa y sencilla con una aplicación y es casi imposible manejar su seguridad.</li>
+<li>Las URL complejas son muy difíciles de leer y hoy en día las URL no solo aparecen en la barra de direcciones. También suelen aparecer cuando un usuario pasa el ratón por encima de un enlace y también en los resultados de búsqueda. Cuando los usuarios buscan información, es más útil proporcionarles URL sencillas y fáciles de entender y no URL complejas como las que se muestran en la figura 9.1</li>
+</ul>
+
+<div class="figure" id="figure_9_1">
+    <img src="/img/symfony_1_0/symfony_1_0:f0901.png" alt="Las URL aparecen en muchos lugares, como por ejemplo los resultados de búsqueda" />
+
+    <p class="caption"><strong>Figura 9.1</strong> Las URL aparecen en muchos lugares, como por ejemplo los resultados de búsqueda</p>
+</div>
+
+
+<ul>
+<li>Si se modifica una URL (porque cambia el nombre del script o el de alguno de sus parámetros), se deben modificar todos los enlaces a esa URL. De esta forma, las modificaciones en la estructura del controlador son muy pesadas y costosas, lo que contradice la filosofía del desarrollo ágil de aplicaciones.</li>
+</ul>
+
+<p>La situación podría ser incluso mucho peor si Symfony no utilizara un controlador frontal; es decir, si la aplicación contiene varios scripts accesibles desde el exterior, como por ejemplo:</p>
+
+<div class="code code">
+<pre class="code">http://www.ejemplo.com/web/galeria/album.php?nombre=mis%20vacaciones
+http://www.ejemplo.com/web/weblog/publico/post/listado.php
+http://www.ejemplo.com/web/general/contenido/pagina.php?nombre=sobre%20nosotros</pre>
+</div>
+
+<p>En este caso, los programadores deben hacer coincidir la estructura de las URL y la estructura del sistema de archivos, por lo que su mantenimiento se convierte en una pesadilla cuando cualquiera de las dos estructuras se modifica.</p>
+
+<h3 id="url_como_parte_de_la_interfaz">9.1.2. URL como parte de la interfaz</h3>
+
+<p>Una de las ideas del sistema de enrutamiento es utilizar las URL como parte de la interfaz. Las aplicaciones trasladan información al usuario mediante el formateo de las URL y el usuario puede utilizar las URL para acceder a los recursos de la aplicación.</p>
+
+<p>Lo anterior es posible en las aplicaciones Symfony porque la URL que se muestra al usuario no tiene que guardar obligatoriamente relación con la instrucción del servidor necesaria para completar la petición. En su lugar, la URL está relacionada con el recurso solicitado, y su aspecto puede configurarse libremente. En Symfony es posible por ejemplo utilizar la siguiente URL y obtener los mismos resultados que la primera URL mostrada en este capítulo:</p>
+
+<div class="code code">
+<pre class="code">http://www.ejemplo.com/articulos/economia/2006/sectores-actividad.html</pre>
+</div>
+
+<p>Este tipo de URL tiene muchas ventajas:</p>
+
+<ul>
+<li>Las URL tienen significado y ayudan a los usuarios a decidir si la página que se cargará al pulsar sobre un enlace contiene lo que esperan. Un enlace puede contener detalles adicionales sobre el recurso que enlaza. Esto último es especialmente útil para los resultados de los buscadores. Además, muchas veces las URL aparecen sin que se mencione el título de su página (por ejemplo cuando se copian las URL en un mensaje de email) por lo que en ese caso deberían contener su propio significado. La figura 9-2 muestra una URL sencilla y fácil de entender.</li>
+</ul>
+
+<div class="figure" id="figure_9_2">
+    <img src="/img/symfony_1_0/f0902.png" alt="Las URL pueden incluir información adicional sobre una página, como por ejemplo su fecha de publicación" />
+
+    <p class="caption"><strong>Figura 9.2</strong> Las URL pueden incluir información adicional sobre una página, como por ejemplo su fecha de publicación</p>
+</div>
+
+
+<ul>
+<li>Las URL que aparecen en los documentos impresos son más fáciles de escribir y de recordar. Si la dirección del sitio web de una empresa se muestra en una tarjeta de visita con un aspecto similar a <code>http://www.ejemplo.com/controlador/web/index.jsp?id=ERD4</code>, probablemente no reciba muchas visitas.</li>
+<li>La URL se puede convertir en una especie de línea de comandos, que permita realizar acciones u obtener información de forma intuitiva. Este tipo de aplicaciones son las que más rápidamente utilizan los usuarios más avanzados.</li>
+</ul>
+
+<div class="code code">
+<pre class="code">// Listado de resultados: se puede añadir una nueva etiqueta para restringir los resultados
+http://del.icio.us/tag/symfony+ajax
+// Página de perfil de usuario: se puede modificar el nombre para obtener otro perfil
+http://www.askeet.com/user/francois</pre>
+</div>
+
+<ul>
+<li>Se puede modificar el aspecto de la URL y el del nombre de la acción o de los parámetros de forma independiente y con una sola modificación. En otras palabras, es posible empezar a programar la aplicación y después modificar el aspecto de las URL sin estropear completamente la aplicación.</li>
+<li>Aunque se modifique la estructura interna de la aplicación, las URL pueden mantener su mismo aspecto hacia el exterior. De esta forma, las URL se convierten en persistentes y pueden ser añadidas a los marcadores o favoritos.</li>
+<li>Cuando los motores de búsqueda indexan un sitio web, suelen tratar de forma diferente (incluso saltándoselas) a las páginas dinámicas (las que acaban en <code>.php</code>, <code>.asp</code>, etc.) Así que si se formatean las URL de esta forma, los buscadores creen que están indexando contenidos estáticos, por lo que generalmente se obtiene una mejor indexación de las páginas de la aplicación.</li>
+<li>Son más seguras. Cualquier URL no reconocida se redirige a una página especificada por el programador y los usuarios no pueden navegar por el directorio raíz del servidor mediante la prueba de diferentes URL. La razón es que no se visualiza el nombre del script utilizado o el de sus parámetros.</li>
+</ul>
+
+<p>La relación entre las URL mostradas al usuario y el nombre del script que se ejecuta y de sus parámetros está gestionada por el sistema de enrutamiento, que utiliza patrones que se pueden modificar mediante la configuración de la aplicación.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> ¿Qué sucede con los contenidos estáticos? Afortunadamente, las URL de los contenidos estáticos (imágenes, hojas de estilos y archivos de JavaScript) no suelen mostrarse durante la navegación, por lo que no es necesario utilizar el sistema de enrutamiento para este tipo de contenidos. Symfony almacena todos los contenidos estáticos en el directorio <code>web/</code> y sus URL se corresponden con su localización en el sistema de archivos. No obstante, es posible gestionar dinámicamente los contenidos estáticos mediante URL generadas con un <em>helper</em> para contenidos estáticos. Por ejemplo, para mostrar una imagen generada dinámicamnete, se puede utilizar el <em>helper</em> <code>image_tag(url_for('captcha/image?key='.$key))</code>.</p></div>
+
+<h3 id="como_funciona">9.1.3. Cómo funciona</h3>
+
+<p>Symfony desasocia las URL externas y las URI utilizadas internamente. La correspondencia entre las dos es responsabilidad del sistema de enrutamiento. Symfony simplifica este mecanismo utilizando una sintaxis para las URI internas muy similar a la de las URL habituales. El listado 9-1 muestra un ejemplo.</p>
+
+<p><strong>Listado 9-1 - URL externas y URI internas</strong></p>
+
+<div class="code code">
+<pre class="code">// Sintaxis de las URI internas
+&lt;modulo&gt;/&lt;accion&gt;[?parametro1=valor1][&amp;parametro2=valor2][&amp;parametro3=valor3]...
+&nbsp;
+// Ejemplo de URI interna que nunca se muestra al usuario
+articulo/permalink?ano=2006&amp;tema=economia&amp;titulo=sectores-actividad
+&nbsp;
+// Ejemplo de URL externa que se muestra al usuario
+http://www.ejemplo.com/articulos/economia/2006/sectores-actividad.html</pre>
+</div>
+
+<p>El sistema de enrutamiento utiliza un archivo de configuración especial, llamado <code>routing.yml</code>, en el que se pueden definir las reglas de enrutamiento. Si se considera la regla mostrada en el listado 9-2, se define un patrón cuyo aspecto es <code>articulos/*/*/*</code> y que también define el nombre de cada pieza que forma parte de la URL.</p>
+
+<p><strong>Listado 9-2 - Ejemplo de regla de enrutamiento</strong></p>
+
+<div class="code yaml">
+<pre class="yaml"><span class="co4">articulo_segun_titulo</span>:<span class="co3">
+  url</span><span class="sy2">: </span>   articulos/:tema/:ano/:titulo.html<span class="co3">
+  param</span><span class="sy2">: </span> <span class="br0">&#123;</span> module<span class="sy2">: </span>articulo, action<span class="sy2">: </span>permalink <span class="br0">&#125;</span></pre>
+</div>
+
+<p>Todas las peticiones realizadas a una aplicación Symfony son analizadas en primer lugar por el sistema de enrutamiento (que es muy sencillo porque todas las peticiones se gestionan mediante un único controlador frontal). El sistema de enrutamiento busca coincidencias entre la URL de la petición y los patrones definidos en las reglas de enrutamiento. Si se produce una coincidencia, las partes del patrón que tienen nombre se transforman en parámetros de la petición y se juntan a los parámetros definidos en la clave <code>param:</code>. El listado 9-3 muestra su funcionamiento.</p>
+
+<p><strong>Listado 9-3 - El sistema de enrutamiento interpreta las URL de las peticiones entrantes</strong></p>
+
+<div class="code code">
+<pre class="code">// El usuario escribe (o pulsa) sobre esta URL externa
+http://www.ejemplo.com/articulos/economia/2006/sectores-actividad.html
+&nbsp;
+// El controlador frontal comprueba que coincide con la regla articulo_segun_titulo
+// El sistema de enrutamiento crea los siguientes parámetros de la petición
+  'module'  =&gt; 'articulo'
+  'action'  =&gt; 'permalink'
+  'tema'    =&gt; 'economia'
+  'ano'     =&gt; '2006'
+  'titulo'  =&gt; 'sectores-actividad'</pre>
+</div>
+
+<div class="admonition tip"><p><strong class="title">Truco</strong> La extensión <code>.html</code> de las URL externas es solo un adorno y por ese motivo el sistema de enrutamiento la ignora. Su única función es la de hacer que las páginas dinámicas parezcan páginas estáticas. La sección "Configuración del enrutamiento" al final de este capítulo explica cómo activar esta extensión.</p></div>
+
+<p>Después, la petición se pasa a la acción <code>permalink</code> del módulo <code>articulo</code>, que dispone de toda la información necesaria en los parámetros de la petición para obtener el artículo solicitado.</p>
+
+<p>El mecanismo de enrutamiento también funciona en la otra dirección. Para mostrar las URL en los enlaces de una aplicación, se debe proporcionar al sistema de enrutamiento la información necesaria para determinar la regla que se debe aplicar a cada enlace. Además, no se deben escribir los enlaces directamente con etiquetas <code>&lt;a&gt;</code> (ya que de esta forma no se estaría utilizando el sistema de enrutamiento) sino con un <em>helper</em> especial, tal y como se muestra en el listado 9-4.</p>
+
+<p><strong>Listado 9-4 - El sistema de enrutamiento formatea las URL externas mostradas en las plantillas</strong></p>
+
+<div class="code php">
+<pre class="php">// El helper url_for() transforma una URI interna en una URL externa
+&lt;a href=&quot;<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> url_for<span class="br0">&#40;</span><span class="st_h">'articulo/permalink?tema=economia&amp;ano=2006&amp;titulo=sectores-actividad'</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>&quot;&gt;pincha aquí&lt;/a&gt;
+&nbsp;
+// El helper reconoce que la URI cumple con la regla articulo_segun_titulo
+// El sistema de enrutamiento crea una URL externa a partir de el
+ =&gt; &lt;a href=&quot;http://www.ejemplo.com/articulos/economia/2006/sectores-actividad.html&quot;&gt;pincha aquí&lt;/a&gt;
+&nbsp;
+// El helper link_to() muestra directamente un enlace
+// y evita tener que mezclar PHP y HTML
+<span class="kw2">&lt;?php</span> <span class="kw1">echo</span> link_to<span class="br0">&#40;</span>
+  <span class="st_h">'pincha aqui'</span><span class="sy0">,</span>
+  <span class="st_h">'articulo/permalink?tema=economia&amp;ano=2006&amp;titulo=sectores-actividad'</span>
+<span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+&nbsp;
+// Internamente link_to() llama a url_for(), por lo que el resultado es el mismo
+ =&gt; &lt;a href=&quot;http://www.ejemplo.com/articulos/economia/2006/sectores-actividad.html&quot;&gt;pincha aquí&lt;/a&gt;</pre>
+</div>
+
+<p>De forma que el enrutamiento es un mecanismo bidireccional y solo funciona cuando se utiliza el <em>helper</em> <code>link_to()</code> para mostrar todos los enlaces.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_9.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>Capítulo 9. Enlaces y sistema de enrutamiento</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_9/reescritura_de_url.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>9.2. Reescritura de URL</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Symfony</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Explorando el interior de Symfony</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Ejecutar aplicaciones Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Introducción a la creación de páginas</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Configurar Symfony</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El Controlador</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> La Vista</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> El modelo</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_9.html">
+                    <span>Capítulo 9.</span> Enlaces y sistema de enrutamiento
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_9/que_es_el_enrutamiento.html">
+                    <span>9.1.</span> ¿Qué es el enrutamiento?
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/reescritura_de_url.html">
+                    <span>9.2.</span> Reescritura de URL
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/helpers_de_enlaces.html">
+                    <span>9.3.</span> Helpers de enlaces
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/configuracion_del_sistema_de_enrutamiento.html">
+                    <span>9.4.</span> Configuración del sistema de enrutamiento
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/trabajando_con_rutas_en_las_acciones.html">
+                    <span>9.5.</span> Trabajando con rutas en las acciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_9/resumen.html">
+                    <span>9.6.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Formularios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Integración con Ajax</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Uso de la cache</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Internacionalización y localización</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Generadores</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Pruebas unitarias y funcionales</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Herramientas para la administración de aplicaciones</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Personalizar Symfony</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Rendimiento</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Configuración avanzada</a>
+            </li>
+                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

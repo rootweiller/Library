@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>5.13. Realizar cambios en el esquema de una base de datos (El libro de Django 1.0)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_5/acotar_datos.html" />
+                    <link rel="next" href="../capitulo_5/que_sigue.html" />
+                <link rel="start" href="/libro/django_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="5.13. Realizar cambios en el esquema de una base de datos (El libro de Django 1.0)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page django_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/" itemprop="url">
+                    <span itemprop="title">El libro de Django 1.0</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/capitulo_5.html" itemprop="url">
+                    <span itemprop="title">Capítulo 5. Interactuar con una base de datos: Modelos</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>5.13. Realizar cambios en el esquema de una base de datos</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="realizar_cambios_en_el_esquema_de_una_base_de_datos" class="title">
+        <span>5.13.</span> Realizar cambios en el esquema de una base de datos
+    </h1>
+
+    
+
+<p>Cuando presentamos el comando <code>syncdb</code> previamente en este capítulo, hicimos
+notar que <code>syncdb</code> simplemente crea tablas que todavía no existen en tu base
+de datos — <em>no</em> sincroniza cambios en modelos ni borra modelos. Si agregas o
+modificas un campo de un modelo o si eliminas un modelo, será necesario que
+realices el cambio en tu base de datos en forma manual. Esta sección explica
+cómo hacerlo.</p>
+
+<p>Cuando estás realizando cambios de esquema, es importante tener presente algunas características de la capa de base de datos de Django:</p>
+
+<ul>
+<li>Django se quejará estrepitosamente si un modelo contiene un campo que
+todavía no ha sido creado en la tabla de la base de datos. Esto causará un
+error la primera vez que uses la API de base de datos de Django para
+consultar la tabla en cuestión (esto es, ocurrirá en tiempo de ejecución y
+no en tiempo de compilación).</li>
+<li>A Django no le importa si una tabla de base de datos contiene columnas que
+no están definidas en el modelo.</li>
+<li>A Django no le importa si una base de datos contiene una tabla que no está
+representada por un modelo.</li>
+</ul>
+
+<p>El realizar cambios al esquema de una base de datos es cuestión  de cambiar las
+distintas piezas — el código Python y la base de datos en sí misma — en el
+orden correcto.</p>
+
+<h3 id="agregar_campos">5.13.1. Agregar campos</h3>
+
+<p>Cuando se agrega un campo a una tabla/modelo en un entorno de producción, el
+truco es sacar ventaja del hecho que a Django no le importa si una tabla
+contiene columnas que no están definidas en el modelo. La estrategia es agregar
+la columna en la base de datos y luego actualizar el modelo Django para que
+incluya el nuevo campo.</p>
+
+<p>Sin embargo, tenemos aquí un pequeño problema del huevo y la gallina, porque
+para poder saber cómo debe expresarse la nueva columna en SQL, necesitas ver la
+salida producida por el comando <code>manage.py sqlall</code> de Django, el cual requiere
+que el campo exista en el modelo. (Notar que <em>no</em> es un requerimiento el que
+crees tu columna con exactamente el mismo SQL que usaría Django, pero es una
+buena idea el hacerlo para estar seguros de que todo está en sincronía).</p>
+
+<p>La solución al problema del huevo y la gallina es usar un entorno de desarrollo
+en lugar de realizar los cambios en un servidor de producción. (<em>Estás</em> usando
+un entorno de pruebas/desarrollo, ¿no es cierto?). Este es el detalle de los
+pasos a seguir.</p>
+
+<p>Primero, realiza los siguientes pasos en el entorno de desarrollo (o sea, no en
+el servidor de producción):</p>
+
+<ol>
+<li>Agrega el campo a tu modelo.</li>
+<li>Ejecuta <code>manage.py sqlall [yourapp]</code> para ver la nueva sentencia
+ <code>CREATE TABLE</code> para el modelo. Toma nota de la definición de la columna
+ para el nuevo campo.</li>
+<li>Arranca el shell interactivo de tu base de datos (por  ej. <code>psql</code> o
+ <code>mysql</code>, o puedes usar <code>manage.py dbshell</code>). Ejecuta una sentencia
+ <code>ALTER TABLE</code> que agregue tu nueva columna.</li>
+<li>(Opcional) Arranca el shell interactivo de Python con <code>manage.py shell</code>
+ y verifica que el nuevo campo haya sido agregado correctamente importando
+ el modelo y seleccionando desde la tabla (por ej.
+ <code>MyModel.objects.all()[:5]</code>).</li>
+</ol>
+
+<p>Entonces en el servidor de producción realiza los siguientes pasos:</p>
+
+<ol>
+<li>Arranca el shell interactivo de tu base de datos.</li>
+<li>Ejecuta la sentencia <code>ALTER TABLE</code> que usaste en el paso 3 de
+ arriba.</li>
+<li>Agrega el campo a tu modelo. Si estás usando un sistema de control de
+ revisiones de código fuente y has realizado un <em>check in</em> de la
+ modificación del paso 1 del trabajo en el entorno de desarrollo, entonces
+ puedes actualizar el código (por ej. <code>svn update</code> si usas Subversion)
+ en el servidor de producción.</li>
+<li>Reinicia el servidor Web para que los cambios en el código surtan efecto.</li>
+</ol>
+
+<p>Por ejemplo, hagamos un repaso de los que haríamos si agregáramos un campo
+<code>num_pages</code> al modelo <code>Book</code> descrito previamente en este capítulo. Primero,
+alteraríamos el modelo en nuestro entorno de desarrollo para que se viera así:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">class</span> Book<span class="br0">&#40;</span>models.<span class="me1">Model</span><span class="br0">&#41;</span>:
+    title <span class="sy0">=</span> models.<span class="me1">CharField</span><span class="br0">&#40;</span>maxlength<span class="sy0">=</span><span class="nu0">100</span><span class="br0">&#41;</span>
+    authors <span class="sy0">=</span> models.<span class="me1">ManyToManyField</span><span class="br0">&#40;</span>Author<span class="br0">&#41;</span>
+    publisher <span class="sy0">=</span> models.<span class="me1">ForeignKey</span><span class="br0">&#40;</span>Publisher<span class="br0">&#41;</span>
+    publication_date <span class="sy0">=</span> models.<span class="me1">DateField</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    num_pages <span class="sy0">=</span> models.<span class="me1">IntegerField</span><span class="br0">&#40;</span>blank<span class="sy0">=</span><span class="kw2">True</span><span class="sy0">,</span> null<span class="sy0">=</span><span class="kw2">True</span><span class="br0">&#41;</span>
+&nbsp;
+    <span class="kw1">def</span> <span class="kw4">__str__</span><span class="br0">&#40;</span><span class="kw2">self</span><span class="br0">&#41;</span>:
+        <span class="kw1">return</span> <span class="kw2">self</span>.<span class="me1">title</span></pre>
+</div>
+
+<p>(Nota: Revisa el apartado "Agregando columnas NOT NULL" para conocer detalles
+importantes acerca de por qué hemos incluido <code>blank=True</code> y <code>null=True</code>).</p>
+
+<p>Luego ejecutaríamos el comando <code>manage.py sqlall books</code> para ver la sentencia
+<code>CREATE TABLE</code>. La misma se vería similar a esto:</p>
+
+<div class="code sql">
+<pre class="sql"><span class="kw1">CREATE</span> <span class="kw1">TABLE</span> <span class="st0">&quot;books_book&quot;</span> <span class="br0">&#40;</span>
+    <span class="st0">&quot;id&quot;</span> serial <span class="kw1">NOT</span> <span class="kw1">NULL</span> <span class="kw1">PRIMARY</span> <span class="kw1">KEY</span><span class="sy0">,</span>
+    <span class="st0">&quot;title&quot;</span> <span class="kw1">VARCHAR</span><span class="br0">&#40;</span><span class="nu0">100</span><span class="br0">&#41;</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
+    <span class="st0">&quot;publisher_id&quot;</span> <span class="kw1">INTEGER</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span> <span class="kw1">REFERENCES</span> <span class="st0">&quot;books_publisher&quot;</span> <span class="br0">&#40;</span><span class="st0">&quot;id&quot;</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="st0">&quot;publication_date&quot;</span> <span class="kw1">DATE</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
+    <span class="st0">&quot;num_pages&quot;</span> <span class="kw1">INTEGER</span> <span class="kw1">NULL</span>
+<span class="br0">&#41;</span>;</pre>
+</div>
+
+<p>La nueva columna está representada de la siguiente manera:</p>
+
+<div class="code sql">
+<pre class="sql"><span class="st0">&quot;num_pages&quot;</span> <span class="kw1">INTEGER</span> <span class="kw1">NULL</span></pre>
+</div>
+
+<p>A continuación, arrancaríamos el shell interactivo de base de datos en nuestra
+base de datos de desarrollo escribiendo <code>psql</code> (para PostgreSQL), y
+ejecutaríamos la siguiente sentencia:</p>
+
+<div class="code sql">
+<pre class="sql"><span class="kw1">ALTER</span> <span class="kw1">TABLE</span> books_book <span class="kw1">ADD</span> <span class="kw1">COLUMN</span> num_pages <span class="kw1">INTEGER</span>;</pre>
+</div>
+
+<div class="admonition sidebar"><p><strong class="title"> Agregando columnas NOT NULL</strong> Existe un detalle sutil aquí que merece ser mencionado. Cuando agregamos el
+campo <code>num_pages</code> a nuestro modelo, incluimos las opciones <code>blank=True</code>
+y <code>null=True</code>. Lo hicimos porque una columna de una base de datos
+contendrá inicialmente valores NULL desde el momento que la crees.</p>
+
+<p>Sin embargo, es también posible agregar columnas que no puedan contener
+valores NULL. Para hacer esto, tienes que crear la columna como <code>NULL</code>,
+luego poblar los valores de la columna usando algunos valor(es) por omisión,
+y luego modificar la columna para activar el modificador <code>NOT NULL</code>. Por
+ejemplo:</p>
+
+<div class="code sql">
+<pre class="sql"><span class="kw1">BEGIN</span>;
+<span class="kw1">ALTER</span> <span class="kw1">TABLE</span> books_book <span class="kw1">ADD</span> <span class="kw1">COLUMN</span> num_pages <span class="kw1">INTEGER</span>;
+<span class="kw1">UPDATE</span> books_book <span class="kw1">SET</span> num_pages<span class="sy0">=</span><span class="nu0">0</span>;
+<span class="kw1">ALTER</span> <span class="kw1">TABLE</span> books_book <span class="kw1">ALTER</span> <span class="kw1">COLUMN</span> num_pages <span class="kw1">SET</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span>;
+COMMIT;</pre>
+</div>
+
+<p>Si sigues este camino, recuerda que debes quitar <code>blank=True</code> y
+<code>null=True</code> de tu modelo.</p></div>
+
+<p>Luego de la sentencia <code>ALTER TABLE</code>, verificaríamos que el cambio haya
+funcionado correctamente, para ello iniciaríamos el shell de Python y
+ejecutaríamos este código:</p>
+
+<div class="code python">
+<pre class="python"><span class="sy0">&gt;&gt;&gt;</span> <span class="kw1">from</span> mysite.<span class="me1">books</span>.<span class="me1">models</span> <span class="kw1">import</span> Book
+<span class="sy0">&gt;&gt;&gt;</span> Book.<span class="me1">objects</span>.<span class="kw2">all</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#91;</span>:<span class="nu0">5</span><span class="br0">&#93;</span></pre>
+</div>
+
+<p>Si dicho código no produjera errores, podríamos movernos a nuestro servidor de
+producción y ejecutaríamos la sentencia <code>ALTER TABLE</code> en la base de datos de
+producción. Entonces, actualizaríamos el modelo en el entorno de producción y
+reiniciaríamos el servidor Web.</p>
+
+<h3 id="eliminar_campos">5.13.2. Eliminar campos</h3>
+
+<p>Eliminar un campo de un modelo es mucho más fácil que agregar uno. Para borrar
+un campo, sólo sigue los siguientes pasos:</p>
+
+<ol>
+<li>Elimina el campo de tu modelo y reinicia el servidor Web.</li>
+<li>Elimina la columna de tu base de datos, usando un comando como este:</li>
+</ol>
+
+<div class="code python">
+<pre class="python">ALTER TABLE books_book DROP COLUMN num_pages<span class="sy0">;</span></pre>
+</div>
+
+<h3 id="eliminar_campos_many_to_many">5.13.3. Eliminar campos Many-to-Many</h3>
+
+<p>Debido a que los campos many-to-many son diferentes a los campos normales, el
+proceso de borrado es diferente:</p>
+
+<ol>
+<li>Elimina el campo <code>ManyToManyField</code> de tu modelo y reinicia el servidor
+ Web.</li>
+<li>Elimina la tabla many-to-many de tu base de datos, usando un comando como
+ este:</li>
+</ol>
+
+<div class="code sql">
+<pre class="sql"><span class="kw1">DROP</span> <span class="kw1">TABLE</span> books_books_publishers;</pre>
+</div>
+
+<h3 id="eliminar_modelos">5.13.4. Eliminar modelos</h3>
+
+<p>Eliminar completamente un modelo es tan fácil como el eliminar un campo. Para
+borrar un modelo, sigue los siguientes pasos:</p>
+
+<ol>
+<li>Elimina el modelo de tu archivo <code>models.py</code> y reinicia el servidor Web.</li>
+<li>Elimina la tabla de tu base de datos, usando un comando como este:</li>
+</ol>
+
+<div class="code sql">
+<pre class="sql"><span class="kw1">DROP</span> <span class="kw1">TABLE</span> books_book;</pre>
+</div>
+
+
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_5/acotar_datos.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>5.12. Acotar datos</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_5/que_sigue.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>5.14. ¿Qué sigue?</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Los principios de las páginas Web dinámicas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> El sistema de plantillas de Django</a>
+            </li>
+                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_5.html">
+                    <span>Capítulo 5.</span> Interactuar con una base de datos: Modelos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/la_manera_simple_de_hacer_una_consulta_a_la_base_de_datos.html">
+                    <span>5.1.</span> La manera simple de hacer una consulta a la base de datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/el_patron_de_diseno_mtv.html">
+                    <span>5.2.</span> El patrón de diseño MTV
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/configuracion_de_la_base_de_datos.html">
+                    <span>5.3.</span> Configuración de la base de datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/tu_primera_aplicacion.html">
+                    <span>5.4.</span> Tu primera aplicación
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/definir_modelos_en_python.html">
+                    <span>5.5.</span> Definir modelos en Python
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/tu_primer_modelo.html">
+                    <span>5.6.</span> Tu primer modelo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/instalar_el_modelo.html">
+                    <span>5.7.</span> Instalar el modelo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/acceso_basico_a_datos.html">
+                    <span>5.8.</span> Acceso básico a datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/agregar_strings_de_representacion_del_modelo.html">
+                    <span>5.9.</span> Agregar strings de representación del modelo
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/insertar_y_actualizar_datos.html">
+                    <span>5.10.</span> Insertar y actualizar datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/seleccionar_objetos.html">
+                    <span>5.11.</span> Seleccionar objetos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/acotar_datos.html">
+                    <span>5.12.</span> Acotar datos
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_5/realizar_cambios_en_el_esquema_de_una_base_de_datos.html">
+                    <span>5.13.</span> Realizar cambios en el esquema de una base de datos
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_5/que_sigue.html">
+                    <span>5.14.</span> ¿Qué sigue?
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El sitio de Administración Django</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Procesamiento de formularios</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Vistas avanzadas y URLconfs</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Vistas genéricas</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Extender el sistema de plantillas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Generación de contenido no HTML</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Sesiones, usuario e inscripciones</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Cache</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Otros sub-frameworks contribuidos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Middleware</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Integración con Base de datos y Aplicaciones existentes</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Extender la Interfaz de Administración de Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>20.</span> <a href="../capitulo_20.html"> Puesta en marcha de Django en un servidor</a>
+            </li>
+                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Columnas variables en base de datos</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Columnas variables en base de datos">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-4-2" class="forum forum_discussion"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                    <div class="module module-ad module-ad-responsive module-ad-top">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+    <div itemscope="" itemtype="http://schema.org/Article">
+        <div id="discussion" class="col-sm-9 ">
+            <h1 class="title" itemprop="name">Columnas variables en base de datos</h1>
+
+            <div id="discussion-content" itemprop="description">
+                <p>Buenas a todos.</p>
+<p>La verdad es que no me decidía a hacer esta consulta por su, al menos aparente, complejidad, pero dado que he llegado a un "punto muerto" voy a tratar de ser claro.</p>
+<p>Básicamente lo que estoy desarrollando es un sistema de gestión en Symfony de artículos y sus características (imaginaos la tabla de artículos de PCBox, aunque no tenga nada que ver con lo que necesito, es por poner un ejemplo rápido).</p>
+<p>La complejidad de este sistema está en que <strong>las características de cada artículo pueden ser muy numerosas</strong>, y lo que es peor, <strong>muy variables</strong>. Un artículo puede tener, por poner un ejemplo muy básico, las características "color", "tamaño" y "fabricante", y otro artículo sólo "peso". El problema está no sólo en que esas características puedan ser muy numerosas, sino que pueden ser muy flexibles (pueden ser numéricas, texto, fecha, boolean o incluso - lo que más me quita el sueño - claves foráneas de otras tablas).</p>
+<p>Es por ello que descarto la idea de introducir las características de un artículo en columnas adicionales dentro de la misma tabla MySQL: primero, porque dichas características son dinámicas (pueden crearse nuevas o eliminar existentes), segundo porque el tamaño de la tabla de artículos podría llegar a ser enorme.</p>
+<p>Las alternativas que he buscado son las siguientes:</p>
+<p><strong>1.</strong> Utilizar MongoDB dado que aparentemente los documentos no siguen ningún esquema específico, pero me tira para atrás que una característica pueda ser clave foránea de otra tabla o documento y no puedan usarse joins. Además de que no soy ningún gurú en MongoDB y no sabría como crear un CRUD de documentos sin esquema.</p>
+<p><strong>2.</strong> Partir de una tabla muy simple "artículo" (información básica del artículo como nombre y descripción), otra "característica" (título, formato o tipo de datos y descripción, entre otros) y crear una tabla nueva por cada una de las características existentes. Aquí el problema está en: ¿como demonios podría utilizar DDL mediante Doctrine (que a priori pensaba utilizar salvo que me recomendéis lo contrario) para crear o modificar tablas?</p>
+<p>También he leído algo de las tablas pivotantes en las cuales se convierten filas en columnas, pero ni idea de si es posible implementar algo de esto mediante Doctrine.</p>
+<p><strong>3.</strong> Igual que en el caso anterior, pero almacenar las características en una sola columna de la tabla "artículo", almacenándolos en formato json (por ejemplo). El problema es: para el formulario de artículo ¿cómo puedo implementar el campo de características si este es variable y dinámico?</p>
+<p><strong>4.</strong> Partir de las tablas de la solución 2 y crear otra "artículo_característica" para la relación n-n de modo que cada fila conste de [artículo_id, característica_id, valor]. De momento es la opción que más valoro, pero me tira para atrás que el campo "valor" sea tan variable en tipo y tamaño: almacenar en la misma columna textos tanto cortos como largos, enteros, fechas o lo que es peor como ya he dicho anteriormente, claves foráneas, me parece pasarse por el forro la normalización, además de que estoy seguro que afectaría al rendimiento.</p>
+<p>¿Qué opináis vosotros?</p>
+<p>Aunque realmente me he dejado cosas en el tintero creo que mi problema de base lo he podido explicar. Lo importante es que pueda <em>"tirar para adelante"</em> siguiendo las mejores prácticas en cuanto a implementación de BBDD.</p>
+            </div>
+
+                            <div id="discussion-tags">
+                    <h3>Etiquetas</h3>
+                    <ul class="tags-list">
+                                                                <li><a href="/foro/bbdd/">bbdd</a></li>
+                                            <li><a href="/foro/doctrine/">doctrine</a></li>
+                                            <li><a href="/foro/mongodb/">mongodb</a></li>
+                                            <li><a href="/foro/mysql/">mysql</a></li>
+                                            <li><a href="/foro/symfony/">symfony</a></li>
+                                        </ul>
+                </div>
+                    </div>
+
+        <div id="discussion-attributes" class="col-sm-3">
+            <div class="row">
+                <p class="col-xs-3 col-sm-12 avatar">
+                    <img width="73" height="73" itemprop="image"
+                     src="http://pbs.twimg.com/profile_images/1780462663/255948_10150329648455200_799905199_9934181_5603087_o_bigger.jpg" />
+                </p>
+
+                <p class="col-xs-8 col-sm-12 col-md-12">
+                    <span class="login">@KePitt2</span>
+                    <meta itemprop="author" content="Ignacio Giménez" />
+
+                    <span class="published">11 de noviembre de 2014</span>
+                    <meta itemprop="dateCreated" content="2014-11-11T21:01:52+01:00" />
+                </p>
+
+                <p id="discussion-actions" class="col-sm-12">
+                                    </p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="discussion-comments" class="col-sm-12">
+                    <h2>Respuestas</h2>
+
+                            <div class="row comment"  id="respuesta-1">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/347/columnas-variables-en-base-de-datos/#respuesta-1" title="Enlace permanente a esta respuesta">#1</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_1_html">
+                        <p>De los cuatro escenarios que planteas como solución, en mi opinión los mejores serían el primero y el último.</p>
+<p>Lo malo de la opción <strong>1</strong> es que dices que no tienes experiencia con MongoDB, por lo que te exigirá un esfuerzo no despreciable sólo para poder empezar. Y cuando somos nuevos en alguna tecnología, ya sabes lo fácil que es cometer errores de principiante.</p>
+<p>La solución <strong>4</strong> creo que es la más correcta desde el punto de vista técnico. De hecho, este tipo de modelos se llaman <a href="http://en.wikipedia.org/wiki/Entity%E2%80%93attribute%E2%80%93value_model">EAV</a>, del inglés <em>Entity - Attribute - Value</em> y funcionan exactamente como propones en tu pregunta. Un ejemplo muy conocido de aplicación que usa este modelo es WordPress, que permite definir un número ilimitado de atributos de cualquier tipo para sus posts y páginas.</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    12-nov-14 22:55
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-2">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/347/columnas-variables-en-base-de-datos/#respuesta-2" title="Enlace permanente a esta respuesta">#2</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_2_html">
+                        <p>Pues la verdad es que me aportas mucha luz al asunto porque mira que he tratado de buscar este tipo de modelos y sus soluciones y lo único que he encontrado es lo de las <em>pivot tables</em>.</p>
+<p>En cuanto a la opción MongoDB, no temo utilizarlo porque ya tengo cierto conocimiento, sin embargo donde flaqueo más es en utilizar todo su potencial a través de Doctrine, como ya he comentado, crear un modelo tan dinámico creo que no me resultará nada sencillo.</p>
+<p>Respecto a la opción 4, tengo que confesar que ya había realizado una aplicación mediante este método, la duda es si lo tenía bien optimizado e implementado utilizando como columna "valor" un tipo <code>varchar</code> (almacenando en el mismo tanto enteros, <em>booleanos</em>, textos cortos/largos, fechas, etc...) y de ahí viene mi consulta.</p>
+<p>En cualquier caso creo que voy bien encaminado porque las alternativas más barajadas por mi parte eran precisamente esas, especialmente la última; ahora sólo tengo que implementarlas correctamente si doctrine me lo permite :)</p>
+<p>Muchas gracias por tu ayuda!</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1780462663/255948_10150329648455200_799905199_9934181_5603087_o_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @KePitt2
+                                </span>
+
+                                <span class="published">
+                                    13-nov-14 00:04
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-3">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/347/columnas-variables-en-base-de-datos/#respuesta-3" title="Enlace permanente a esta respuesta">#3</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_3_html">
+                        <p>Otro ejemplo práctico de cómo hacer EAV con PHP es Magento, la famosa aplicación de comercio electrónico. <a href="http://www.magentocommerce.com/wiki/2_-_magento_concepts_and_architecture/magento_database_diagram">Aquí</a> puedes echar un vistazo al diagrama y a los detalles de su base de datos.</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    13-nov-14 08:22
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-4">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/347/columnas-variables-en-base-de-datos/#respuesta-4" title="Enlace permanente a esta respuesta">#4</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_4_html">
+                        <p>Muchas gracias Javier! Ya estuve investigando ayer un buen rato. En <a href="http://www.elblogdeselo.com/modelo-de-datos-eav">este tutorial</a> se explica también de manera simple...</p>
+<p>La solución que adopta Magento, en resumidas cuentas, es utilizar <strong>tablas distintas para cada tipo de valor</strong> en lugar de una sóla tabla de valores tal y como lo llevo haciendo hasta ahora utilizando una única columna "valor" de tipo VARCHAR(4000); es decir, en magento, además de las tablas de entidades y atributos, hay una tabla para valores de text, otra para valores varchar, otra para datetime, etc). En mi caso sería algo como: </p>
+<p><em>artículo_características_values_varchar</em>:</p>
+<table>
+<thead>
+<tr>
+<th>Columnas</th>
+<th>Tipos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>entidad_id</td>
+<td>INT</td>
+</tr>
+<tr>
+<td>atributo_id</td>
+<td>INT</td>
+</tr>
+<tr>
+<td>value</td>
+<td>VARCHAR(255)</td>
+</tr>
+</tbody>
+</table>
+<p><em>artículo_características_values_datetime</em>:</p>
+<table>
+<thead>
+<tr>
+<th>Columnas</th>
+<th>Tipos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>entidad_id</td>
+<td>INT</td>
+</tr>
+<tr>
+<td>atributo_id</td>
+<td>INT</td>
+</tr>
+<tr>
+<td>value</td>
+<td>DATETIME</td>
+</tr>
+</tbody>
+</table>
+<p>etc... </p>
+<p>No niego que la solución sea la más correcta, pero la complejidad a la hora de hacer consultas es mucho más elevada.</p>
+<p>Yo propondría una solución intermedia: utilizar una única tabla de valores, creando una <strong>columna</strong> para cada tipo de datos. No se si sería más óptimo porque en cada tupla habría campos vacíos (únicamente tendría valor el campo cuyo tipo de datos coincida con el del atributo). Es un p*** lío pero sería algo como:</p>
+<p><em>artículo_características_values</em>:</p>
+<table>
+<thead>
+<tr>
+<th>Columnas</th>
+<th>Tipos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>entidad_id</td>
+<td>INT</td>
+</tr>
+<tr>
+<td>atributo_id</td>
+<td>INT</td>
+</tr>
+<tr>
+<td>value_varchar</td>
+<td>VARCHAR(255)</td>
+</tr>
+<tr>
+<td>value_text</td>
+<td>TEXT</td>
+</tr>
+<tr>
+<td>value_datetime</td>
+<td>DATETIME</td>
+</tr>
+<tr>
+<td>value_integer</td>
+<td>INT</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+</tr>
+</tbody>
+</table>
+<p>Por cuestiones de tamaño no debería dar problemas, pero dejamos toda la lógica de consultas a la propia aplicación que sería algo más sencilla.</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1780462663/255948_10150329648455200_799905199_9934181_5603087_o_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @KePitt2
+                                </span>
+
+                                <span class="published">
+                                    13-nov-14 09:17
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-5">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/347/columnas-variables-en-base-de-datos/#respuesta-5" title="Enlace permanente a esta respuesta">#5</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_5_html">
+                        <p>Como tú mismo dices, la solución de Magento sería más correcta técnicamente ... pero ellos tienen un equipo de desarrollo enorme que lleva años trabajando en esto. Si los recursos son limitados y la aplicación que tienes que desarrollar no es tan compleja, puede ser un compromiso aceptable hacer lo que propones.</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    13-nov-14 09:30
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-6">
+                                        <i id="ultimo"></i>
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/347/columnas-variables-en-base-de-datos/#respuesta-6" title="Enlace permanente a esta respuesta">#6</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_6_html">
+                        <p>En principio lo haré así.
+La crema sería que hubiera un Bundle en Symfony que implementara este modelo. Si me voy desenvolviendo bien con el tema igual me pongo a ello... Me parece un tema bastante interesante.</p>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1780462663/255948_10150329648455200_799905199_9934181_5603087_o_normal.jpg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @KePitt2
+                                </span>
+
+                                <span class="published">
+                                    13-nov-14 10:43
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                    
+                    <div id="btn-reply">
+                <a rel="nofollow" href="/foro/pregunta/347/columnas-variables-en-base-de-datos/responder/#tu-respuesta" class="btn btn-lg">
+                    Responder pregunta
+                </a>
+            </div>
+            </div>
+
+
+                </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

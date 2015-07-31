@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>12.3. Validaciones (Algoritmos de Programación con Python)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_12/excepciones.html" />
+                    <link rel="next" href="../capitulo_12/resumen.html" />
+                <link rel="start" href="/libro/algoritmos_python/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="12.3. Validaciones (Algoritmos de Programación con Python)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page algoritmos_python"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/algoritmos_python/" itemprop="url">
+                    <span itemprop="title">Algoritmos de Programación con Python</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/algoritmos_python/capitulo_12.html" itemprop="url">
+                    <span itemprop="title">Capítulo 12. Manejo de errores y excepciones</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>12.3. Validaciones</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="validaciones" class="title">
+        <span>12.3.</span> Validaciones
+    </h1>
+
+    
+
+<p>Las validaciones son técnicas que permiten asegurar que los valores con
+los que se vaya a operar estén dentro de determinado dominio.</p>
+
+<p>Estas técnicas son particularmente importantes al momento de utilizar
+entradas del usuario o de un archivo (o entradas externas en general) en
+nuestro código, y también se las utiliza para comprobar precondiciones.
+Al uso intensivo de estas técnicas se lo suele llamar <em>programación defensiva</em>.</p>
+
+<p>Si bien quien invoca una función debe preocuparse de cumplir con las
+precondiciones de ésta, si las validaciones están hechas correctamente
+pueden devolver información valiosa para que el invocante pueda actuar
+en consecuencia.</p>
+
+<p>Hay distintas formas de comprobar el dominio de un dato. Se puede
+comprobar el contenido; que una variable sea de un tipo en particular;
+o que el dato tenga determinada característica, como que deba ser
+"comparable", o "iterable".</p>
+
+<p>También se debe tener en cuenta qué hará nuestro código cuando una
+validación falle, ya que queremos darle información al invocante que le
+sirva para procesar el error. El error producido tiene que ser
+fácilmente reconocible. En algunos casos, como por ejemplo cuando se
+quiere devolver una posición, devolver <code>-1</code> nos puede asegurar que el
+invocante lo vaya a reconocer. En otros casos, levantar una excepción es
+una solución más elegante.</p>
+
+<p>En cualquier caso, lo importante es que el resultado generado por
+nuestro código cuando funciona correctamente y el resultado generado
+cuando falla debe ser claramente distinto. Por ejemplo, si el código
+debe devolver un elemento de una secuencia, no es una buena idea que
+devuelva <code>None</code> en el caso de que la secuencia esté vacía, ya que None es
+un elemento válido dentro de una secuencia.</p>
+
+<h3 id="comprobaciones_por_contenido">12.3.1. Comprobaciones por contenido</h3>
+
+<p>Cuando queremos validar que los datos provistos a una porción de código
+contengan la información apropiada, ya sea porque esa información la
+ingresó un usuario, fue leída de un archivo, o porque por cualquier
+motivo es posible que sea incorrecta, es deseable comprobar que el
+contenido de las variables a utilizar estén dentro de los valores con
+los que se puede operar.</p>
+
+<p>Estas comprobaciones no siempre son posibles, ya que en ciertas
+situaciones puede ser muy costoso corroborar las precondiciones de una
+función. Es por ello que este tipo de comprobaciones se realizan sólo
+cuando sea posible.</p>
+
+<p>Por ejemplo, la función factorial está definida para los números
+naturales incluyendo el <code>0</code>. Es posible utilizar <code>assert</code> (que es otra forma
+de levantar una excepción) para comprobar las precondiciones de
+factorial.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> factorial<span class="br0">&#40;</span>n<span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Calcula el factorial de n.
+    Pre: n debe ser un entero, mayor igual a 0
+    Post: se devuelve el valor del factorial pedido
+    &quot;&quot;&quot;</span>
+    <span class="kw1">assert</span> n <span class="sy0">&gt;=</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="st0">&quot;n debe ser mayor igual a 0&quot;</span>
+    fact<span class="sy0">=</span><span class="nu0">1</span>
+    <span class="kw1">for</span> i <span class="kw1">in</span> <span class="kw2">xrange</span><span class="br0">&#40;</span><span class="nu0">2</span><span class="sy0">,</span>n+<span class="nu0">1</span><span class="br0">&#41;</span>:
+        fact*<span class="sy0">=</span>i
+    <span class="kw1">return</span> fact</pre>
+</div>
+
+<h3 id="entrada_del_usuario">12.3.2. Entrada del usuario</h3>
+
+<p>En el caso particular de una porción de código que trate con entrada del
+usuario, no se debe asumir que el usuario vaya a ingresar los datos
+correctamente, ya que los seres humanos tienden a cometer errores al
+ingresar información.</p>
+
+<p>Por ejemplo, si se desea que un usuario ingrese un número, no se debe
+asumir que vaya a ingresarlo correctamente. Se lo debe guardar en una
+cadena y luego convertir a un número, es por eso que es recomendable el
+uso de la función <code>raw_input</code> ya que devuelve una cadena que puede ser
+procesada posteriormente.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> lee_entero<span class="br0">&#40;</span><span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Solicita un valor entero y lo devuelve.
+        Si el valor ingresado no es entero, lanza una excepción. &quot;&quot;&quot;</span>
+    valor <span class="sy0">=</span> <span class="kw2">raw_input</span><span class="br0">&#40;</span><span class="st0">&quot;Ingrese un número entero: &quot;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> <span class="kw2">int</span><span class="br0">&#40;</span>valor<span class="br0">&#41;</span></pre>
+</div>
+
+<p>Esta función devuelve un valor entero, o lanza una excepción si la
+conversión no fue posible. Sin embargo, esto no es suficiente. En el
+caso en el que el usuario no haya ingresado la información
+correctamente, es necesario volver a solicitarla.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> lee_entero<span class="br0">&#40;</span><span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Solicita un valor entero y lo devuelve.
+        Mientras el valor ingresado no sea entero, vuelve a solicitarlo. &quot;&quot;&quot;</span>
+    <span class="kw1">while</span> <span class="kw2">True</span>:
+        valor <span class="sy0">=</span> <span class="kw2">raw_input</span><span class="br0">&#40;</span><span class="st0">&quot;Ingrese un número entero: &quot;</span><span class="br0">&#41;</span>
+        <span class="kw1">try</span>:
+            valor <span class="sy0">=</span> <span class="kw2">int</span><span class="br0">&#40;</span>valor<span class="br0">&#41;</span>
+            <span class="kw1">return</span> valor
+        <span class="kw1">except</span> <span class="kw2">ValueError</span>:
+            <span class="kw1">print</span> <span class="st0">&quot;ATENCIÓN: Debe ingresar un número entero.&quot;</span></pre>
+</div>
+
+<p>Podría ser deseable, además, poner un límite a la cantidad máxima de
+intentos que el usuario tiene para ingresar la información
+correctamente y, superada esa cantidad máxima de intentos, levantar
+una excepción para que sea manejada por el código invocante.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> lee_entero<span class="br0">&#40;</span><span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Solicita un valor entero y lo devuelve.
+        Si el valor ingresado no es entero, da 5 intentos para ingresarlo
+        correctamente, y de no ser así, lanza una excepción. &quot;&quot;&quot;</span>
+    intentos <span class="sy0">=</span> <span class="nu0">0</span>
+    <span class="kw1">while</span> intentos <span class="sy0">&lt;</span> <span class="nu0">5</span>:
+        valor <span class="sy0">=</span> <span class="kw2">raw_input</span><span class="br0">&#40;</span><span class="st0">&quot;Ingrese un número entero: &quot;</span><span class="br0">&#41;</span>
+        <span class="kw1">try</span>:
+            valor <span class="sy0">=</span> <span class="kw2">int</span><span class="br0">&#40;</span>valor<span class="br0">&#41;</span>
+            <span class="kw1">return</span> valor
+        <span class="kw1">except</span> <span class="kw2">ValueError</span>:
+            intentos +<span class="sy0">=</span> <span class="nu0">1</span>
+    <span class="kw1">raise</span> <span class="kw2">ValueError</span><span class="sy0">,</span> <span class="st0">&quot;Valor incorrecto ingresado en 5 intentos&quot;</span></pre>
+</div>
+
+<p>Por otro lado, cuando la entrada ingresada sea una cadena, no es
+esperable que el usuario la vaya a ingresar en mayúsculas o
+minúsculas, ambos casos deben ser considerados.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> lee_opcion<span class="br0">&#40;</span><span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Solicita una opción de menú y la devuelve. &quot;&quot;&quot;</span>
+    <span class="kw1">while</span> <span class="kw2">True</span>:
+        <span class="kw1">print</span> <span class="st0">&quot;Ingrese A (Altas) - B (Bajas) - M (Modificaciones): &quot;</span><span class="sy0">,</span>
+        opcion <span class="sy0">=</span> <span class="kw2">raw_input</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">upper</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+        <span class="kw1">if</span> opcion <span class="kw1">in</span> <span class="br0">&#91;</span><span class="st0">&quot;A&quot;</span><span class="sy0">,</span> <span class="st0">&quot;B&quot;</span><span class="sy0">,</span> <span class="st0">&quot;M&quot;</span><span class="br0">&#93;</span>:
+            <span class="kw1">return</span> opcion</pre>
+</div>
+
+<h3 id="comprobaciones_por_tipo">12.3.3. Comprobaciones por tipo</h3>
+
+<p>En esta clase de comprobaciones nos interesa el tipo del dato que
+vamos a tratar de validar, Python nos indica el tipo de una variable
+usando la función <code>type(variable)</code>. Por ejemplo, para comprobar que una
+variable contenga un tipo entero podemos hacer:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">if</span> <span class="kw2">type</span><span class="br0">&#40;</span>i<span class="br0">&#41;</span> <span class="sy0">!=</span> <span class="kw2">int</span>:
+    <span class="kw1">raise</span> <span class="kw2">TypeError</span><span class="sy0">,</span> <span class="st0">&quot;i debe ser del tipo int&quot;</span></pre>
+</div>
+
+<p>Sin embargo, ya hemos visto que tanto las listas como las tuplas y las
+cadenas son secuencias, y muchas de las funciones utilizadas puede
+utilizar cualquiera de estas secuencias. De la misma manera, una
+función puede utilizar un valor numérico, y que opere correctamente ya
+sea entero, flotante, o complejo.</p>
+
+<p>Es posible comprobar el tipo de nuestra variable contra una secuencia de
+tipos posibles.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">if</span> <span class="kw2">type</span><span class="br0">&#40;</span>i<span class="br0">&#41;</span> <span class="kw1">not</span> <span class="kw1">in</span> <span class="br0">&#40;</span><span class="kw2">int</span><span class="sy0">,</span> <span class="kw2">float</span><span class="sy0">,</span> <span class="kw2">long</span><span class="sy0">,</span> <span class="kw2">complex</span><span class="br0">&#41;</span>:
+    <span class="kw1">raise</span> <span class="kw2">TypeError</span><span class="sy0">,</span> <span class="st0">&quot;i debe ser numérico&quot;</span></pre>
+</div>
+
+<p>Si bien esto es bastante más flexible que el ejemplo anterior, también
+puede ser restrictivo ya que - como se verá más adelante - cada
+programador puede definir sus propios tipos utilizando como base los que
+ya están definidos. Con este código se están descartando todos los tipos
+que se basen en <code>int</code>, <code>float</code>, <code>long</code> o <code>complex</code>.</p>
+
+<p>Para poder incluir estos tipos en la comprobación a realizar, Python nos
+provee de la función <code>isinstance(variable, tipos)</code>.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">if</span> <span class="kw1">not</span> <span class="kw2">isinstance</span><span class="br0">&#40;</span>i<span class="sy0">,</span> <span class="br0">&#40;</span><span class="kw2">int</span><span class="sy0">,</span> <span class="kw2">float</span><span class="sy0">,</span> <span class="kw2">long</span><span class="sy0">,</span> <span class="kw2">complex</span><span class="br0">&#41;</span> <span class="br0">&#41;</span>:
+    <span class="kw1">raise</span> <span class="kw2">TypeError</span><span class="sy0">,</span> <span class="st0">&quot;i debe ser numérico&quot;</span></pre>
+</div>
+
+<p>Con esto comprobamos si una variable es de determinado tipo o subtipo de
+éste. Esta opción es bastante flexible, pero existen aún más opciones.</p>
+
+<div class="admonition caution"><p><strong class="title">Advertencia</strong> Hacer comprobaciones sobre los tipos de las variables suele resultar demasiado restrictivo, ya que es muy posible que una porción de código que opere con un tipo en particular funcione correctamente con otros tipos de variables que se comporten de forma similar.</p>
+
+<p>Es por eso que hay que tener mucho cuidado al limitar el uso de una variable por su tipo, y en muchos casos es preferible limitarlas por sus propiedades, como el ejemplo anterior, en que se requería que se pudiera convertir a un entero.</p></div>
+
+<p>Para la mayoría de los tipos básicos de Python existe una función que se
+llama de la misma manera que el tipo que devuelve un elemento de ese
+tipo, por ejemplo, <code>int()</code> devuelve <code>0</code>, <code>dict()</code> devuelve <code>{}</code> y así. Además,
+estas funciones suelen poder recibir un elemento de otro tipo para
+tratar de convertirlo, por ejemplo, <code>int(3.0)</code> devuelve <code>3</code>, <code>list("Hola")</code>
+devuelve <code>['H', 'o', 'l', 'a']</code>.</p>
+
+<p>Usando está conversión conseguimos dos cosas: podemos convertir un tipo
+recibido al que realmente necesitamos, a la vez que tenemos una copia de
+este, dejando el original intacto, que es importante cuando estamos
+tratando con tipos mutables.</p>
+
+<p>Por ejemplo, si se quiere contar con una función de división entera que
+pueda recibir diversos parámetros, podría hacerse de la siguiente
+manera.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> division_entera<span class="br0">&#40;</span>x<span class="sy0">,</span>y<span class="br0">&#41;</span>:
+    <span class="st0">&quot;&quot;&quot; Calcula la división entera después de convertir los parámetros a
+    enteros. &quot;&quot;&quot;</span>
+    <span class="kw1">try</span>:
+        dividendo <span class="sy0">=</span> <span class="kw2">int</span><span class="br0">&#40;</span>x<span class="br0">&#41;</span>
+        divisor <span class="sy0">=</span> <span class="kw2">int</span><span class="br0">&#40;</span>y<span class="br0">&#41;</span>
+        <span class="kw1">return</span> dividendo/divisor
+    <span class="kw1">except</span> <span class="kw2">ValueError</span>:
+        <span class="kw1">raise</span> <span class="kw2">ValueError</span><span class="sy0">,</span> <span class="st0">&quot;x e y deben poder convertirse a enteros&quot;</span>
+    <span class="kw1">except</span> <span class="kw2">ZeroDivisionError</span>:
+        <span class="kw1">raise</span> <span class="kw2">ZeroDivisionError</span><span class="sy0">,</span> <span class="st0">&quot;y no puede ser cero&quot;</span></pre>
+</div>
+
+<p>De esta manera, la función <code>division_entera</code> puede ser llamada incluso
+con cadenas que contengan expresiones enteras. Que este comportamiento
+sea deseable o no, depende siempre de cada caso.</p>
+
+<h3 id="comprobaciones_por_caracteristicas">12.3.4. Comprobaciones por características</h3>
+
+<p>Otra posible comprobación, dejando de lado los tipos, consiste en
+verificar si una variable tiene determinada característica o no. Python
+promueve este tipo de programación, ya que el mismo intérprete utiliza
+este tipo de comprobaciones. Por ejemplo, para imprimir una variable,
+Python convierte esa variable a una cadena, no hay en el interprete una
+verificación para cada tipo, sino que busca una función especial, llamada <code>__str__</code>, en la variable a imprimir, y si existe, la utiliza para convertir la variable a una cadena.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Python utiliza la idea de <em>duck typing</em>, que viene del concepto de que si algo parece un pato, camina como un pato y grazna como un pato, entonces, se lo puede considerar un pato.</p>
+
+<p>Esto se refiere a no diferenciar las variables por los tipos a los que pertenecen, sino por las funciones que tienen.</p></div>
+
+<p>Para comprobar si una variable tiene o no una función Python provee la
+función <code>hasattr(variable, atributo)</code>, donde <code>atributo</code> puede ser el nombre
+de la función o de la variable que se quiera verificar. Se verá más
+sobre atributos en la unidad de Programación Orientada a Objetos.</p>
+
+<p>Por ejemplo, existe la función <code>__add__</code> para realizar operaciones de
+suma entre elementos. Si se quiere corroborar si un elemento es sumable,
+se lo haría de la siguiente forma.</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">if</span> <span class="kw1">not</span> <span class="kw2">hasattr</span><span class="br0">&#40;</span>i<span class="sy0">,</span><span class="st0">&quot;__add__&quot;</span><span class="br0">&#41;</span>:
+    <span class="kw1">raise</span> <span class="kw2">TypeError</span><span class="sy0">,</span> <span class="st0">&quot;El elemento no es sumable&quot;</span></pre>
+</div>
+
+<p>Sin embargo, que el atributo exista no quiere decir que vaya a funcionar
+correctamente en todos los casos. Por ejemplo, tanto las cadenas como
+los números definen su propia "suma", pero no es posible sumar cadenas y
+números, de modo que en este caso sería necesario tener en cuenta una
+posible excepción.</p>
+
+<p>Por otro lado, en la mayoría de los casos se puede aplicar la frase: <em>es
+más fácil pedir perdón que permiso</em>, atribuída a la programadora Grace
+Hopper. Es decir, en este caso es más sencillo hacer la suma dentro de
+un bloque <code>try</code> y manejar la excepción en caso de error, que saber cuáles
+son los detalles de la implementación de <code>__add__</code> de cada tipo
+interactuante.</p>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_12/excepciones.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>12.2. Excepciones</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_12/resumen.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>12.4. Resumen</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+            <div id="book-legal-notice">
+            Copyright (c) 2011-2014 Rosita Wachenchauzer, Margarita Manterola,
+Maximiliano Curia, Marcos Medrano, Nicolás Paez.
+La copia y redistribución de esta página se permite bajo los términos
+de la licencia Creative Commons Atribución - Compartir Obras Derivadas
+Igual 3.0 siempre que se conserve esta nota de copyright.
+
+        </div>
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Algunos conceptos básicos</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Programas sencillos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Funciones</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>4.</span> <a href="../capitulo_4.html"> Decisiones</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Más sobre ciclos</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> Cadenas de caracteres</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Tuplas y listas</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Algoritmos de búsqueda</a>
+            </li>
+                                                                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Diccionarios</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Contratos y Mutabilidad</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Manejo de archivos</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_12.html">
+                    <span>Capítulo 12.</span> Manejo de errores y excepciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/excepciones.html">
+                    <span>12.2.</span> Excepciones
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_12/validaciones.html">
+                    <span>12.3.</span> Validaciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/resumen.html">
+                    <span>12.4.</span> Resumen
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_12/apendice.html">
+                    <span>12.5.</span> Apéndice
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Procesamiento de archivos</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Objetos</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Polimorfismo, Herencia y Delegación</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Listas enlazadas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Pilas y colas</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Modelo de ejecución de funciones y recursividad</a>
+            </li>
+                                                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Ordenar listas</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>20.</span> <a href="../capitulo_20.html"> Algunos ordenamientos recursivos</a>
+            </li>
+                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

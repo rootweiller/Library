@@ -1,0 +1,2427 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Problema con la base de datos al migrar una aplicación Symfony</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Problema con la base de datos al migrar una aplicación Symfony">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-4-2" class="forum forum_discussion"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                    <div class="module module-ad module-ad-responsive module-ad-top">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+
+    <div itemscope="" itemtype="http://schema.org/Article">
+        <div id="discussion" class="col-sm-9 ">
+            <h1 class="title" itemprop="name">Problema con la base de datos al migrar una aplicación Symfony</h1>
+
+            <div id="discussion-content" itemprop="description">
+                <p>Hola buenas,</p>
+
+<p>La verdad es que tengo un problema: tengo una aplicación funcionando bien en local, pero ahora que lo subí a un servidor remoto, por alguna extraña razón que aún sigo sin determinar, no puedo guardar información en una tabla específica de la base de datos. Tengo varias tablas pero no puedo hacer guardar información solo en una.</p>
+
+<p>¿Alguna vez le ha pasado a alguien? Agradecería, toda información que puedan darme.</p>
+
+            </div>
+
+                            <div id="discussion-tags">
+                    <h3>Etiquetas</h3>
+                    <ul class="tags-list">
+                                                                <li><a href="/foro/base%20de%20datos/">base de datos</a></li>
+                                            <li><a href="/foro/error/">error</a></li>
+                                            <li><a href="/foro/symfony/">symfony</a></li>
+                                        </ul>
+                </div>
+                    </div>
+
+        <div id="discussion-attributes" class="col-sm-3">
+            <div class="row">
+                <p class="col-xs-3 col-sm-12 avatar">
+                    <img width="73" height="73" itemprop="image"
+                     src="http://pbs.twimg.com/profile_images/3350463315/32856439dd61b0f5b7e04c76c14df10f_bigger.jpeg" />
+                </p>
+
+                <p class="col-xs-8 col-sm-12 col-md-12">
+                    <span class="login">@ponceelrelajado</span>
+                    <meta itemprop="author" content="IG: ponceelrelajado" />
+
+                    <span class="published">24 de agosto de 2014</span>
+                    <meta itemprop="dateCreated" content="2014-08-24T05:43:09+02:00" />
+                </p>
+
+                <p id="discussion-actions" class="col-sm-12">
+                                    </p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="discussion-comments" class="col-sm-12">
+                    <h2>Respuestas</h2>
+
+                            <div class="row comment"  id="respuesta-1">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/202/problema-con-la-base-de-datos-al-migrar-una-aplicacion-symfony/#respuesta-1" title="Enlace permanente a esta respuesta">#1</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_1_html">
+                        <p>Lo más probable es que en local hayas hecho algún cambio en esa tabla (añadir o eliminar una columna, cambiar alguna opción de alguna columna, etc.) y por eso se produce un error al intentar guardar la información.</p>
+
+<p>Lo mejor que puedes hacer es mirar el archivo de log <code>app/logs/prod.log</code> donde es casi seguro que verás algún mensaje de error de Doctrine indicando la causa exacta del problema.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    24-ago-14 10:57
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-2">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/202/problema-con-la-base-de-datos-al-migrar-una-aplicacion-symfony/#respuesta-2" title="Enlace permanente a esta respuesta">#2</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_2_html">
+                        <p>@javiereguiluz Gracias por tu pronta respuesta. Fíjate el error que me muestra sólo ratifica lo de que no puedo guardar en esa tabla. Para hacerme entender mejor, use este tutorial maestrosdelweb.com/editorial/curso-symfony2-seguridad-de-acceso/ para guardar usuarios, roles y login.</p>
+
+<p>La tabla que no me está dejando guardar es <code>usuarios</code>, y me da error porque no puedo guardar el <code>user_rol</code>, porque no existe el id de <code>usuario</code>. Repito en local funciona bien.</p>
+
+<p>Agradecería, toda información que puedan darme.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/3350463315/32856439dd61b0f5b7e04c76c14df10f_normal.jpeg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @ponceelrelajado
+                                </span>
+
+                                <span class="published">
+                                    24-ago-14 17:03
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-3">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/202/problema-con-la-base-de-datos-al-migrar-una-aplicacion-symfony/#respuesta-3" title="Enlace permanente a esta respuesta">#3</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_3_html">
+                        <p>Lo mejor sería que nos copiaras exactamente las líneas de error que veas en el archivo de log. En cualquier caso, como tú mismo dices el error parece que está relacionado con que no existe el <code>id</code> del usuario.</p>
+
+<p>Así que si has migrado la información de tu aplicación local, no se han respetado los <code>id</code> de los registros de la base de datos. Y si has migrado la aplicación pero no la información, entonces te tienes asegurar de que existe ese usuario que estás visualizando o editando.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    24-ago-14 19:03
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-4">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/202/problema-con-la-base-de-datos-al-migrar-una-aplicacion-symfony/#respuesta-4" title="Enlace permanente a esta respuesta">#4</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_4_html">
+                        <p>@javiereguiluz este es el error:</p>
+
+<pre class="code code">An exception occurred while executing
+'INSERT INTO user_role (user_id, role_id) VALUES (?, ?)' with params [0, 2]:
+&nbsp;
+SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update
+a child row: a foreign key constraint fails (<code>asptmsh_asptmsh</code>.<code>user_role</code>,
+CONSTRAINT <code>FK_2DE8C6A3A76ED395</code> FOREIGN KEY (<code>user_id</code>)
+REFERENCES <code>admin_user</code> (<code>id</code>))</pre>
+
+<p>Lo que estoy intentando hacer es registrar usuarios pero por alguna extraña razón no puedo  pero solo en la tabla usuarios. En el resto de las tablas puedo guardar sin inconvenientes. Adjuntaré el código de mi entidad a ver si me pueden ayudar, la verdad ya estoy desesperado:</p>
+
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// proyecto/src/Asap/TimesheetsBundle/Entity/User.php</span>
+<span class="kw2">namespace</span> Asap\TimesheetsBundle\Entity<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\Security\Core\User\UserInterface<span class="sy0">;</span>
+<span class="kw2">use</span> Doctrine\Common\Collections\ArrayCollection<span class="sy0">;</span>
+<span class="kw2">use</span> Doctrine\ORM\Mapping <span class="kw1">as</span> ORM<span class="sy0">;</span>
+&nbsp;
+<span class="co4">/**
+  * @ORM\Entity(repositoryClass=&quot;Asap\TimesheetsBundle\Entity\UserRepository&quot;)
+  * @ORM\Table(name=&quot;admin_user&quot;)
+  */</span>
+<span class="kw2">class</span> User implements UserInterface
+<span class="br0">&#123;</span>
+    <span class="co4">/**
+     * @var integer
+     *
+     * @ORM\Column(name=&quot;id&quot;, type=&quot;integer&quot;, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy=&quot;IDENTITY&quot;)
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     *
+     * @ORM\Column(name=&quot;idquickbooks&quot;, type=&quot;string&quot;, length=255, nullable=true)
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$idquickbooks</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     *
+     * @ORM\Column(name=&quot;nombres&quot;, type=&quot;string&quot;, length=255, nullable=false)
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$nombres</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     *
+     * @ORM\Column(name=&quot;apellidos&quot;, type=&quot;string&quot;, length=255, nullable=false)
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$apellidos</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     *
+     * @ORM\Column(name=&quot;username&quot;, type=&quot;string&quot;, length=255, nullable=true)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$username</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     *
+     * @ORM\Column(name=&quot;useremail&quot;, type=&quot;string&quot;, length=255, nullable=false)
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$useremail</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     *
+     * @ORM\Column(name=&quot;password&quot;, type=&quot;string&quot;, length=255, nullable=true)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$password</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     *
+     * @ORM\Column(name=&quot;salt&quot;, type=&quot;string&quot;, length=255, nullable=true)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$salt</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\Column(name=&quot;is_active&quot;, type=&quot;boolean&quot;)
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$isActive</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Cuentabancaria&quot;, mappedBy=&quot;usuarioid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$cuentabancaria_usuario_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Direccion&quot;, mappedBy=&quot;usuarioid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$direccion_usuario_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Emails&quot;, mappedBy=&quot;usuarioid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$email_usuario_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Empresa&quot;, mappedBy=&quot;empresausuarioadministradorid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$empresa_usuario_administrador_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Empresa&quot;, mappedBy=&quot;empresausuariofacturacionid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$empresa_usuario_facturacion_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Telefono&quot;, mappedBy=&quot;usuarioid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$telefono_usuario_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Timesheet&quot;, mappedBy=&quot;timesheetusuarioid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$timesheet_usuario_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;LogTimesheets&quot;, mappedBy=&quot;usuario_creador&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$timesheet_log_usuario_creador</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;LogTimesheets&quot;, mappedBy=&quot;usuario_modificador&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$timesheet_log_usuario_modificador</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;LogUsers&quot;, mappedBy=&quot;usuarioid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$log_usuario_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;LogUsers&quot;, mappedBy=&quot;usuario_modificador_id&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$log_usuario_modificador</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Usuariorogrupo&quot;, mappedBy=&quot;usuarioid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$usuariogrupo_usuario_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * se utilizó user_roles para no hacer conflicto al aplicar -&gt;toArray en getRoles()
+     * @ORM\ManyToMany(targetEntity=&quot;Role&quot;)
+     * @ORM\JoinTable(name=&quot;user_role&quot;,
+     *     joinColumns={@ORM\JoinColumn(name=&quot;user_id&quot;, referencedColumnName=&quot;id&quot;)},
+     *     inverseJoinColumns={@ORM\JoinColumn(name=&quot;role_id&quot;, referencedColumnName=&quot;id&quot;)}
+     * )
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$user_roles</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">user_roles</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">cuentabancaria_usuario_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">direccion_usuario_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">email_usuario_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">empresa_usuario_administrador_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">empresa_usuario_facturacion_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">telefono_usuario_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_usuario_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_log_usuario_creador</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_log_usuario_modificador</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">log_usuario_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">log_usuario_modificador</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">usuariogrupo_usuario_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">isActive</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get id
+     *
+     * @return integer
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set idquickbooks
+     *
+     * @param string $idquickbooks
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setIdquickbooks<span class="br0">&#40;</span><span class="re0">$idquickbooks</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">idquickbooks</span> <span class="sy0">=</span> <span class="re0">$idquickbooks</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get nombres
+     *
+     * @return string 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getIdquickbooks<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">idquickbooks</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set nombres
+     *
+     * @param string $nombres
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setNombres<span class="br0">&#40;</span><span class="re0">$nombres</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">nombres</span> <span class="sy0">=</span> <span class="re0">$nombres</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get nombres
+     *
+     * @return string 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getNombres<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">nombres</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set apellidos
+     *
+     * @param string $apellidos
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setApellidos<span class="br0">&#40;</span><span class="re0">$apellidos</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">apellidos</span> <span class="sy0">=</span> <span class="re0">$apellidos</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get apellidos
+     *
+     * @return string 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getApellidos<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">apellidos</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set username
+     *
+     * @param string $username
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setUsername<span class="br0">&#40;</span><span class="re0">$username</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">username</span> <span class="sy0">=</span> <span class="re0">$username</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get username
+     *
+     * @return string
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getUsername<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">username</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set user_email
+     *
+     * @param string $userEmail
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setUseremail<span class="br0">&#40;</span><span class="re0">$useremail</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">useremail</span> <span class="sy0">=</span> <span class="re0">$useremail</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get user_email
+     *
+     * @return string 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getUseremail<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">useremail</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set password
+     *
+     * @param string $password
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setPassword<span class="br0">&#40;</span><span class="re0">$password</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">password</span> <span class="sy0">=</span> <span class="re0">$password</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get password
+     *
+     * @return string
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getPassword<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">password</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set salt
+     *
+     * @param string $salt
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setSalt<span class="br0">&#40;</span><span class="re0">$salt</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">salt</span> <span class="sy0">=</span> <span class="re0">$salt</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get salt
+     *
+     * @return string
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getSalt<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">salt</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add cuentabancaria_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Cuentabancaria $cuentabancariaUsuarioId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addCuentabancariaUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Cuentabancaria <span class="re0">$cuentabancariaUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">cuentabancaria_usuario_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$cuentabancariaUsuarioId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove cuentabancaria_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Cuentabancaria $cuentabancariaUsuarioId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeCuentabancariaUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Cuentabancaria <span class="re0">$cuentabancariaUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">cuentabancaria_usuario_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$cuentabancariaUsuarioId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get cuentabancaria_usuario_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getCuentabancariaUsuarioId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">cuentabancaria_usuario_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add direccion_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Direccion $direccionUsuarioId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addDireccionUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Direccion <span class="re0">$direccionUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">direccion_usuario_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$direccionUsuarioId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove direccion_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Direccion $direccionUsuarioId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeDireccionUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Direccion <span class="re0">$direccionUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">direccion_usuario_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$direccionUsuarioId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get direccion_usuario_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getDireccionUsuarioId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">direccion_usuario_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add email_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Emails $emailUsuarioId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addEmailUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Emails <span class="re0">$emailUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">email_usuario_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$emailUsuarioId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove email_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Emails $emailUsuarioId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeEmailUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Emails <span class="re0">$emailUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">email_usuario_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$emailUsuarioId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get email_usuario_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getEmailUsuarioId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">email_usuario_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add empresa_usuario_administrador_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Empresa $empresaUsuarioAdministradorId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addEmpresaUsuarioAdministradorId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Empresa <span class="re0">$empresaUsuarioAdministradorId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">empresa_usuario_administrador_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$empresaUsuarioAdministradorId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove empresa_usuario_administrador_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Empresa $empresaUsuarioAdministradorId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeEmpresaUsuarioAdministradorId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Empresa <span class="re0">$empresaUsuarioAdministradorId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">empresa_usuario_administrador_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$empresaUsuarioAdministradorId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get empresa_usuario_administrador_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getEmpresaUsuarioAdministradorId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">empresa_usuario_administrador_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add empresa_usuario_facturacion_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Empresa $empresaUsuarioFacturacionId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addEmpresaUsuarioFacturacionId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Empresa <span class="re0">$empresaUsuarioFacturacionId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">empresa_usuario_facturacion_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$empresaUsuarioFacturacionId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove empresa_usuario_facturacion_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Empresa $empresaUsuarioFacturacionId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeEmpresaUsuarioFacturacionId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Empresa <span class="re0">$empresaUsuarioFacturacionId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">empresa_usuario_facturacion_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$empresaUsuarioFacturacionId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get empresa_usuario_facturacion_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getEmpresaUsuarioFacturacionId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">empresa_usuario_facturacion_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add telefono_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Telefono $telefonoUsuarioId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addTelefonoUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Telefono <span class="re0">$telefonoUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">telefono_usuario_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$telefonoUsuarioId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove telefono_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Telefono $telefonoUsuarioId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeTelefonoUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Telefono <span class="re0">$telefonoUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">telefono_usuario_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$telefonoUsuarioId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get telefono_usuario_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getTelefonoUsuarioId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">telefono_usuario_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add timesheet_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Timesheet $timesheetUsuarioId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addTimesheetUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Timesheet <span class="re0">$timesheetUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_usuario_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$timesheetUsuarioId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove timesheet_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Timesheet $timesheetUsuarioId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeTimesheetUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Timesheet <span class="re0">$timesheetUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_usuario_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$timesheetUsuarioId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get timesheet_usuario_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getTimesheetUsuarioId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_usuario_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add usuariogrupo_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Usuariorogrupo $usuariogrupoUsuarioId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addUsuariogrupoUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Usuariorogrupo <span class="re0">$usuariogrupoUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">usuariogrupo_usuario_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$usuariogrupoUsuarioId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove usuariogrupo_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Usuariorogrupo $usuariogrupoUsuarioId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeUsuariogrupoUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Usuariorogrupo <span class="re0">$usuariogrupoUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">usuariogrupo_usuario_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$usuariogrupoUsuarioId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get usuariogrupo_usuario_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getUsuariogrupoUsuarioId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">usuariogrupo_usuario_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add user_roles
+     *
+     * @param Asap\TimesheetsBundle\Entity\Role $userRoles
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addRole<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Role <span class="re0">$userRoles</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">user_roles</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$userRoles</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> setUserRoles<span class="br0">&#40;</span><span class="re0">$roles</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">user_roles</span> <span class="sy0">=</span> <span class="re0">$roles</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setIsActive<span class="br0">&#40;</span><span class="re0">$isActive</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">isActive</span> <span class="sy0">=</span> <span class="re0">$isActive</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get isActive
+     *
+     * @return boolean 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getIsActive<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">isActive</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add timesheet_log_usuario_creador
+     *
+     * @param \Asap\TimesheetsBundle\Entity\LogTimesheets $timesheetLogUsuarioCreador
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addTimesheetLogUsuarioCreador<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\LogTimesheets <span class="re0">$timesheetLogUsuarioCreador</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_log_usuario_creador</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$timesheetLogUsuarioCreador</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove timesheet_log_usuario_creador
+     *
+     * @param \Asap\TimesheetsBundle\Entity\LogTimesheets $timesheetLogUsuarioCreador
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeTimesheetLogUsuarioCreador<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\LogTimesheets <span class="re0">$timesheetLogUsuarioCreador</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_log_usuario_creador</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$timesheetLogUsuarioCreador</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get timesheet_log_usuario_creador
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getTimesheetLogUsuarioCreador<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_log_usuario_creador</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add timesheet_log_usuario_modificador
+     *
+     * @param \Asap\TimesheetsBundle\Entity\LogTimesheets $timesheetLogUsuarioModificador
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addTimesheetLogUsuarioModificador<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\LogTimesheets <span class="re0">$timesheetLogUsuarioModificador</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_log_usuario_modificador</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$timesheetLogUsuarioModificador</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove timesheet_log_usuario_modificador
+     *
+     * @param \Asap\TimesheetsBundle\Entity\LogTimesheets $timesheetLogUsuarioModificador
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeTimesheetLogUsuarioModificador<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\LogTimesheets <span class="re0">$timesheetLogUsuarioModificador</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_log_usuario_modificador</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$timesheetLogUsuarioModificador</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get timesheet_log_usuario_modificador
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getTimesheetLogUsuarioModificador<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_log_usuario_modificador</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add log_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\LogUsers $logUsuarioId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addLogUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\LogUsers <span class="re0">$logUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">log_usuario_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$logUsuarioId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove log_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\LogUsers $logUsuarioId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeLogUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\LogUsers <span class="re0">$logUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">log_usuario_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$logUsuarioId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get log_usuario_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getLogUsuarioId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">log_usuario_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add log_usuario_modificador
+     *
+     * @param \Asap\TimesheetsBundle\Entity\LogUsers $logUsuarioModificador
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addLogUsuarioModificador<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\LogUsers <span class="re0">$logUsuarioModificador</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">log_usuario_modificador</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$logUsuarioModificador</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove log_usuario_modificador
+     *
+     * @param \Asap\TimesheetsBundle\Entity\LogUsers $logUsuarioModificador
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeLogUsuarioModificador<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\LogUsers <span class="re0">$logUsuarioModificador</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">log_usuario_modificador</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$logUsuarioModificador</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get log_usuario_modificador
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getLogUsuarioModificador<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">log_usuario_modificador</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get user_roles
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getUserRoles<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">user_roles</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get roles
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getRoles<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">//return $this-&gt;user_roles-&gt;toArray(); //IMPORTANTE: el mecanismo de seguridad de Sf2 requiere ésto como un array</span>
+        <span class="re0">$roles</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">foreach</span> <span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">user_roles</span> <span class="kw1">as</span> <span class="re0">$role</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="re0">$roles</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$role</span><span class="sy0">-&gt;</span><span class="me1">getRole</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$roles</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Compares this user to another to determine if they are the same.
+     *
+     * @param UserInterface $user The user
+     * @return boolean True if equal, false othwerwise.
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> equals<span class="br0">&#40;</span>UserInterface <span class="re0">$user</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="kw3">md5</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getUsername</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="kw3">md5</span><span class="br0">&#40;</span><span class="re0">$user</span><span class="sy0">-&gt;</span><span class="me1">getUsername</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Erases the user credentials.
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> eraseCredentials<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add user_roles
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Role $userRoles
+     * @return User
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addUserRole<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Role <span class="re0">$userRoles</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">user_roles</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$userRoles</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove user_roles
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Role $userRoles
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeUserRole<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Role <span class="re0">$userRoles</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">user_roles</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$userRoles</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/3350463315/32856439dd61b0f5b7e04c76c14df10f_normal.jpeg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @ponceelrelajado
+                                </span>
+
+                                <span class="published">
+                                    26-ago-14 08:54
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-5">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/202/problema-con-la-base-de-datos-al-migrar-una-aplicacion-symfony/#respuesta-5" title="Enlace permanente a esta respuesta">#5</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_5_html">
+                        <p>Afortunadamente el error que se te está produciendo es muy fácil de solucionar. La aplicación está intentando ejecutar esta sentencia SQL para insertar nueva información:</p>
+
+<pre class="sql code"><span class="kw1">INSERT</span> <span class="kw1">INTO</span> user_role <span class="br0">&#40;</span>user_id<span class="sy0">,</span> role_id<span class="br0">&#41;</span> <span class="kw1">VALUES</span> <span class="br0">&#40;</span><span class="nu0">0</span><span class="sy0">,</span> <span class="nu0">2</span><span class="br0">&#41;</span>;</pre>
+
+<p>El problema es que en la tabla relacionada (<code>admin_user</code>) no existe un usuario con el <code>id = 0</code> y por eso no se puede insertar la información. Ya se que parece que usar calves foráneas es un incordio, pero precisamente su ventaja es que no te deja insertar información errónea, como por ejemplo <em>roles</em> asignados a un usuario que no existe.</p>
+
+<p>La solución más sencilla sería insertar primero el usuario y después sus <em>roles</em>. Otra posible solución sería buscar el <code>id</code> correcto del usuario que ya está insertado y para el que quieres asignar <em>roles</em>.</p>
+
+<p>Al margen de este error, te quería comentar que me parece que tu código es demasiado complicado. Symfony ya se puede encargar de gestionar los <em>roles</em>, por lo que no hace falta que crees otra tabla para ello.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    26-ago-14 09:16
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-6">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/202/problema-con-la-base-de-datos-al-migrar-una-aplicacion-symfony/#respuesta-6" title="Enlace permanente a esta respuesta">#6</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_6_html">
+                        <p>Hola @javiereguiluz gracias por tu pronta respuesta, en efecto estoy usando Symfony para los roles. Yo no cree esa tabla (<code>user_rol</code>). Entiendo el error de la clave foranea.</p>
+
+<p>Mi yugo es que usando Symfony al hacer el <code>persist()</code> y <code>flush()</code> de todo el objeto usuario, no está guardando el usuario sin generarme error alguno. Al no guardar el usuario nuevo, no puede guardar la relacion del rol. Mi pregunta es qué tiene mal mi entidad porque no puedo hacer <code>save</code> en ella, pero como dije en un principio en local sí puedo.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/3350463315/32856439dd61b0f5b7e04c76c14df10f_normal.jpeg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @ponceelrelajado
+                                </span>
+
+                                <span class="published">
+                                    26-ago-14 19:28
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-7">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/202/problema-con-la-base-de-datos-al-migrar-una-aplicacion-symfony/#respuesta-7" title="Enlace permanente a esta respuesta">#7</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_7_html">
+                        <p>Después de revisar tu código, yo haría dos pequeños cambios en la clase <code>User</code>:</p>
+
+<ul>
+<li>El método <code>equals()</code> lo puedes eliminar completamente, ya que no es necesario en Symfony desde hace varias versiones (creo que la 2.1).</li>
+<li>El <code>@ORM\GeneratedValue(strategy="IDENTITY")</code> de la propiedad <code>id</code> yo lo cambiaría por <code>@ORM\GeneratedValue(strategy="AUTO")</code>, ya que es el único valor que garantiza una portabilidad total de un sistema a otro.</li>
+</ul>
+
+<p>Por otra parte, dices que la información no se inserta, pero que al mismo tiempo no se genera ningún mensaje de error de Doctrine. Como esto es bastante extraño, ¿puedes mirar la sección <em>Doctrine</em> del <em>profiler</em> de Symfony para ver qué consultas se han hecho y qué resultado han tenido?</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    26-ago-14 20:45
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-8">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/202/problema-con-la-base-de-datos-al-migrar-una-aplicacion-symfony/#respuesta-8" title="Enlace permanente a esta respuesta">#8</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_8_html">
+                        <p>Copio lo creo es relevante:</p>
+
+<pre class="code code">DEBUG - &quot;START TRANSACTION&quot;
+DEBUG - INSERT INTO admin_user (idquickbooks, nombres, apellidos, username,
+useremail, password, salt, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?) 
+&nbsp;
+Context: {&quot;1&quot;:&quot;0125&quot;,&quot;2&quot;:&quot;Jhon&quot;,&quot;3&quot;:&quot;Marquez&quot;,&quot;4&quot;:&quot;jmarquez&quot;,&quot;5&quot;:&quot;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="4928213c202a2c0921263d24282025672a2624">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&quot;,
+&quot;6&quot;:null,&quot;7&quot;:null,&quot;8&quot;:0}
+&nbsp;
+DEBUG - INSERT INTO user_role (user_id, role_id) VALUES (?, ?) 
+Context: [0,1]
+&nbsp;
+DEBUG - &quot;ROLLBACK&quot;</pre>
+
+<p>¡De verdad ya me estoy desesperando!</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/3350463315/32856439dd61b0f5b7e04c76c14df10f_normal.jpeg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @ponceelrelajado
+                                </span>
+
+                                <span class="published">
+                                    26-ago-14 20:57
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-9">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/202/problema-con-la-base-de-datos-al-migrar-una-aplicacion-symfony/#respuesta-9" title="Enlace permanente a esta respuesta">#9</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_9_html">
+                        <p>Para ser mas claro te copio la funcion del controlador donde hago el <em>save</em>:</p>
+
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">namespace</span> Asap\TimesheetsBundle\Controller<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\HttpFoundation\Request<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Bundle\FrameworkBundle\Controller\Controller<span class="sy0">;</span>
+<span class="kw2">use</span> Sensio\Bundle\FrameworkExtraBundle\Configuration\Method<span class="sy0">;</span>
+<span class="kw2">use</span> Asap\TimesheetsBundle\Entity\User<span class="sy0">;</span>
+<span class="kw2">use</span> Asap\TimesheetsBundle\Form\Type\UsuariosType<span class="sy0">;</span>
+&nbsp;
+&nbsp;
+<span class="kw2">class</span> UserController <span class="kw2">extends</span> Controller
+<span class="br0">&#123;</span><br />
+    <span class="kw2">public</span> <span class="kw2">function</span> newAction<span class="br0">&#40;</span>Request <span class="re0">$request</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$usuario</span> <span class="sy0">=</span> <span class="kw2">new</span> User<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$direccion</span> <span class="sy0">=</span> <span class="kw2">new</span> Direccion<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$cuentabancaria</span> <span class="sy0">=</span> <span class="kw2">new</span> Cuentabancaria<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$form</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">createForm</span><span class="br0">&#40;</span><span class="kw2">new</span> UsuariosType<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$usuario</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$em</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getDoctrine</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getManager</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$telefonotipo</span> <span class="sy0">=</span> <span class="re0">$em</span><span class="sy0">-&gt;</span><span class="me1">getRepository</span><span class="br0">&#40;</span><span class="st_h">'AsapTimesheetsBundle:Telefonotipo'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">findAll</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$emailtipo</span> <span class="sy0">=</span> <span class="re0">$em</span><span class="sy0">-&gt;</span><span class="me1">getRepository</span><span class="br0">&#40;</span><span class="st_h">'AsapTimesheetsBundle:Emailtipo'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">findAll</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$direcciontipo</span> <span class="sy0">=</span> <span class="re0">$em</span><span class="sy0">-&gt;</span><span class="me1">getRepository</span><span class="br0">&#40;</span><span class="st_h">'AsapTimesheetsBundle:Direcciontipo'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">findAll</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$ubicacionpais</span> <span class="sy0">=</span> <span class="re0">$em</span><span class="sy0">-&gt;</span><span class="me1">getRepository</span><span class="br0">&#40;</span><span class="st_h">'AsapTimesheetsBundle:Ubicacionpais'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getEstadosPermitidos</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$cuentabanacariatipo</span> <span class="sy0">=</span> <span class="re0">$em</span><span class="sy0">-&gt;</span><span class="me1">getRepository</span><span class="br0">&#40;</span><span class="st_h">'AsapTimesheetsBundle:Cuentabancariatipo'</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">findAll</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">handleRequest</span><span class="br0">&#40;</span><span class="re0">$request</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">isValid</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+            <span class="co1">//$this-&gt;setSecurePassword($usuario);</span>
+&nbsp;
+            <span class="re0">$u</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getDoctrine</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getManager</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="re0">$u</span><span class="sy0">-&gt;</span><span class="me1">persist</span><span class="br0">&#40;</span><span class="re0">$usuario</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="re0">$u</span><span class="sy0">-&gt;</span><span class="kw3">flush</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">redirect</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">generateUrl</span><span class="br0">&#40;</span><span class="st_h">'admin_user_show'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'id'</span> <span class="sy0">=&gt;</span> <span class="re0">$usuario</span><span class="sy0">-&gt;</span><span class="me1">getId</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">&#40;</span><span class="st_h">'AsapTimesheetsBundle:User:new.html.php'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'form'</span> <span class="sy0">=&gt;</span> <span class="re0">$form</span><span class="sy0">-&gt;</span><span class="me1">createView</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span><span class="st_h">'telefonotipo'</span> <span class="sy0">=&gt;</span> <span class="re0">$telefonotipo</span><span class="sy0">,</span><span class="st_h">'emailtipo'</span> <span class="sy0">=&gt;</span> <span class="re0">$emailtipo</span><span class="sy0">,</span><span class="st_h">'direcciontipo'</span> <span class="sy0">=&gt;</span> <span class="re0">$direcciontipo</span><span class="sy0">,</span><span class="st_h">'ubicacionpais'</span> <span class="sy0">=&gt;</span> <span class="re0">$ubicacionpais</span><span class="sy0">,</span><span class="st_h">'cuentabanacariatipo'</span> <span class="sy0">=&gt;</span> <span class="re0">$cuentabanacariatipo</span><span class="sy0">,</span><span class="st_h">'em'</span> <span class="sy0">=&gt;</span> <span class="re0">$em</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>El formulario que estoy usando:</p>
+
+<pre class="php code"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">namespace</span> Asap\TimesheetsBundle\Form\Type<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\Form\AbstractType<span class="sy0">;</span>
+<span class="kw2">use</span> Symfony\Component\Form\FormBuilderInterface<span class="sy0">;</span>
+<span class="kw2">use</span>  Symfony\Component\OptionsResolver\OptionsResolverInterface<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> UsuariosType <span class="kw2">extends</span> AbstractType
+<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> buildForm<span class="br0">&#40;</span>FormBuilderInterface <span class="re0">$builder</span><span class="sy0">,</span> <span class="kw3">array</span> <span class="re0">$options</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$builder</span>
+                <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'idquickbooks'</span><span class="sy0">,</span> <span class="st_h">'text'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'attr'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'class'</span><span class="sy0">=&gt;</span><span class="st_h">'form-control validate[required]'</span><span class="sy0">,</span> <span class="st_h">'placeholder'</span><span class="sy0">=&gt;</span><span class="st0">&quot;Enter the user's previously generated QuickBooks ID. Example: 12345-01&quot;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+                <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'nombres'</span><span class="sy0">,</span> <span class="st_h">'text'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'attr'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'class'</span><span class="sy0">=&gt;</span><span class="st_h">'form-control validate[required,custom[onlyLetterSp]]'</span><span class="sy0">,</span> <span class="st_h">'placeholder'</span><span class="sy0">=&gt;</span><span class="st_h">'Enter the user Name. Example: John'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+                <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'apellidos'</span><span class="sy0">,</span> <span class="st_h">'text'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'attr'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'class'</span><span class="sy0">=&gt;</span><span class="st_h">'form-control validate[required,custom[onlyLetterSp]]'</span><span class="sy0">,</span> <span class="st_h">'placeholder'</span><span class="sy0">=&gt;</span><span class="st_h">'Enter the user Surname. Example: Downland'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+                <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'username'</span><span class="sy0">,</span> <span class="st_h">'text'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'attr'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'class'</span><span class="sy0">=&gt;</span><span class="st_h">'form-control validate[required]'</span><span class="sy0">,</span> <span class="st_h">'placeholder'</span><span class="sy0">=&gt;</span><span class="st_h">'Select a username for this user. Example: jdownland'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+                <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'useremail'</span><span class="sy0">,</span> <span class="st_h">'text'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'attr'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'class'</span><span class="sy0">=&gt;</span><span class="st_h">'form-control validate[required,custom[email]]'</span><span class="sy0">,</span> <span class="st_h">'placeholder'</span><span class="sy0">=&gt;</span><span class="st_h">'Enter the main Email for this user. Example: <a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="96fcf9fef8f2d6f1fbf7fffab8f5f9fb">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+                <span class="co1">//-&gt;add('salt', 'hidden', array('attr' =&gt; array('class'=&gt;'form-control', 'placeholder'=&gt;'Enter the user Name. Example: John')))</span>
+                <span class="co1">//-&gt;add('password', 'password', array('attr' =&gt; array('class'=&gt;'form-control validate[required]', 'placeholder'=&gt;'Enter Password')))</span>
+                <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'isActive'</span><span class="sy0">,</span> <span class="st_h">'choice'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'choices'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'1'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Yes'</span><span class="sy0">,</span> <span class="st_h">'0'</span> <span class="sy0">=&gt;</span> <span class="st_h">'No'</span><span class="br0">&#41;</span><span class="sy0">,</span><span class="st_h">'preferred_choices'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'Yes'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'attr'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'class'</span><span class="sy0">=&gt;</span><span class="st_h">'form-control'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+                <span class="co1">//-&gt;add('user_roles', 'entity', array('class'   =&gt; 'AsapTimesheetsBundle:Role','property'   =&gt; 'name','attr' =&gt; array('class'=&gt;'form-control validate[required]'),'empty_value' =&gt; 'Choose Role','empty_data'  =&gt; null))</span>
+                <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'user_roles'</span><span class="sy0">,</span> <span class="st_h">'entity'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'class'</span>   <span class="sy0">=&gt;</span> <span class="st_h">'AsapTimesheetsBundle:Role'</span><span class="sy0">,</span><span class="st_h">'property'</span>   <span class="sy0">=&gt;</span> <span class="st_h">'name'</span><span class="sy0">,</span><span class="st_h">'attr'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'class'</span><span class="sy0">=&gt;</span><span class="st_h">'form-control validate[required]'</span><span class="br0">&#41;</span><span class="sy0">,</span><span class="st_h">'multiple'</span> <span class="sy0">=&gt;</span> <span class="st_h">'false'</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+                <span class="sy0">-&gt;</span><span class="me1">add</span><span class="br0">&#40;</span><span class="st_h">'save'</span><span class="sy0">,</span> <span class="st_h">'submit'</span><span class="sy0">,</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'attr'</span> <span class="sy0">=&gt;</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="st_h">'class'</span><span class="sy0">=&gt;</span><span class="st_h">'btn btn-generic'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+     <span class="kw2">public</span>  <span class="kw2">function</span>  setDefaultOptions <span class="br0">&#40;</span> OptionsResolverInterface  <span class="re0">$resolver</span> <span class="br0">&#41;</span> 
+    <span class="br0">&#123;</span> 
+        <span class="re0">$resolver</span> <span class="sy0">-&gt;</span> <span class="me1">setDefaults</span> <span class="br0">&#40;</span> <span class="kw3">array</span> <span class="br0">&#40;</span> 
+            <span class="st_h">'data_class'</span>  <span class="sy0">=&gt;</span>  <span class="st_h">'Asap\TimesheetsBundle\Entity\User'</span> 
+        <span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> getName<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="st_h">'usuarios'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>La entidad <code>Role</code>:</p>
+
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// proyecto/src/Asap/TimesheetsBundle/Entity/Role.php</span>
+<span class="kw2">namespace</span> Asap\TimesheetsBundle\Entity<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\Security\Core\Role\RoleInterface<span class="sy0">;</span>
+<span class="kw2">use</span> Doctrine\ORM\Mapping <span class="kw1">as</span> ORM<span class="sy0">;</span>
+&nbsp;
+<span class="co4">/**
+ * @ORM\Entity
+ * @ORM\Table(name=&quot;admin_roles&quot;)
+ */</span>
+<span class="kw2">class</span> Role implements RoleInterface
+<span class="br0">&#123;</span>
+    <span class="co4">/**
+     * @var integer
+     *
+     * @ORM\Column(name=&quot;id&quot;, type=&quot;integer&quot;, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy=&quot;AUTO&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     *
+     * @ORM\Column(name=&quot;nombre&quot;, type=&quot;string&quot;, length=255, nullable=true)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$name</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get id
+     *
+     * @return integer
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set name
+     *
+     * @param string $name
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setName<span class="br0">&#40;</span><span class="re0">$name</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">name</span> <span class="sy0">=</span> <span class="re0">$name</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get name
+     *
+     * @return string
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getName<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">name</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> getRole<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __toString<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">getRole</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>y nuevamente la entidad <code>User</code>:</p>
+
+<pre class="php code"><span class="kw2">&lt;?php</span>
+<span class="co1">// proyecto/src/Asap/TimesheetsBundle/Entity/User.php</span>
+<span class="kw2">namespace</span> Asap\TimesheetsBundle\Entity<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">use</span> Symfony\Component\Security\Core\User\UserInterface<span class="sy0">;</span>
+<span class="kw2">use</span> Doctrine\Common\Collections\ArrayCollection<span class="sy0">;</span>
+<span class="kw2">use</span> Doctrine\ORM\Mapping <span class="kw1">as</span> ORM<span class="sy0">;</span>
+<span class="co4">/**
+  * @ORM\Entity(repositoryClass=&quot;Asap\TimesheetsBundle\Entity\UserRepository&quot;)
+  * @ORM\Table(name=&quot;admin_user&quot;)
+  */</span>
+<span class="kw2">class</span> User implements UserInterface
+<span class="br0">&#123;</span>
+    <span class="co4">/**
+     * @var integer
+     *
+     * @ORM\Column(name=&quot;id&quot;, type=&quot;integer&quot;, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy=&quot;AUTO&quot;)
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     *
+     * @ORM\Column(name=&quot;idquickbooks&quot;, type=&quot;string&quot;, length=255, nullable=true)
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$idquickbooks</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     *
+     * @ORM\Column(name=&quot;nombres&quot;, type=&quot;string&quot;, length=255, nullable=false)
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$nombres</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     *
+     * @ORM\Column(name=&quot;apellidos&quot;, type=&quot;string&quot;, length=255, nullable=false)
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$apellidos</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     *
+     * @ORM\Column(name=&quot;username&quot;, type=&quot;string&quot;, length=255, nullable=true)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$username</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     *
+     * @ORM\Column(name=&quot;useremail&quot;, type=&quot;string&quot;, length=255, nullable=false)
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$useremail</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     *
+     * @ORM\Column(name=&quot;password&quot;, type=&quot;string&quot;, length=255, nullable=true)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$password</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @var string
+     *
+     * @ORM\Column(name=&quot;salt&quot;, type=&quot;string&quot;, length=255, nullable=true)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$salt</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\Column(name=&quot;is_active&quot;, type=&quot;boolean&quot;)
+     */</span>
+    <span class="kw2">private</span> <span class="re0">$isActive</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Cuentabancaria&quot;, mappedBy=&quot;usuarioid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$cuentabancaria_usuario_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Direccion&quot;, mappedBy=&quot;usuarioid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$direccion_usuario_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Emails&quot;, mappedBy=&quot;usuarioid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$email_usuario_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Empresa&quot;, mappedBy=&quot;empresausuarioadministradorid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$empresa_usuario_administrador_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Empresa&quot;, mappedBy=&quot;empresausuariofacturacionid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$empresa_usuario_facturacion_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Telefono&quot;, mappedBy=&quot;usuarioid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$telefono_usuario_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Timesheet&quot;, mappedBy=&quot;timesheetusuarioid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$timesheet_usuario_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;LogTimesheets&quot;, mappedBy=&quot;usuario_creador&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$timesheet_log_usuario_creador</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;LogTimesheets&quot;, mappedBy=&quot;usuario_modificador&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$timesheet_log_usuario_modificador</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;LogUsers&quot;, mappedBy=&quot;usuarioid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$log_usuario_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;LogUsers&quot;, mappedBy=&quot;usuario_modificador_id&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$log_usuario_modificador</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * @ORM\OneToMany(targetEntity=&quot;Usuariorogrupo&quot;, mappedBy=&quot;usuarioid&quot;)
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$usuariogrupo_usuario_id</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co4">/**
+     * se utilizó user_roles para no hacer conflicto al aplicar -&gt;toArray en getRoles()
+     * @ORM\ManyToMany(targetEntity=&quot;Role&quot;)
+     * @ORM\JoinTable(name=&quot;user_role&quot;,
+     *     joinColumns={@ORM\JoinColumn(name=&quot;user_id&quot;, referencedColumnName=&quot;id&quot;)},
+     *     inverseJoinColumns={@ORM\JoinColumn(name=&quot;role_id&quot;, referencedColumnName=&quot;id&quot;)}
+     * )
+     */</span>
+    <span class="kw2">protected</span> <span class="re0">$user_roles</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">user_roles</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">cuentabancaria_usuario_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">direccion_usuario_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">email_usuario_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">empresa_usuario_administrador_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">empresa_usuario_facturacion_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">telefono_usuario_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_usuario_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_log_usuario_creador</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_log_usuario_modificador</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">log_usuario_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">log_usuario_modificador</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">usuariogrupo_usuario_id</span> <span class="sy0">=</span> <span class="kw2">new</span> ArrayCollection<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">isActive</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get id
+     *
+     * @return integer
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set idquickbooks
+     *
+     * @param string $idquickbooks
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setIdquickbooks<span class="br0">&#40;</span><span class="re0">$idquickbooks</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">idquickbooks</span> <span class="sy0">=</span> <span class="re0">$idquickbooks</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get nombres
+     *
+     * @return string 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getIdquickbooks<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">idquickbooks</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set nombres
+     *
+     * @param string $nombres
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setNombres<span class="br0">&#40;</span><span class="re0">$nombres</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">nombres</span> <span class="sy0">=</span> <span class="re0">$nombres</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get nombres
+     *
+     * @return string 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getNombres<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">nombres</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set apellidos
+     *
+     * @param string $apellidos
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setApellidos<span class="br0">&#40;</span><span class="re0">$apellidos</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">apellidos</span> <span class="sy0">=</span> <span class="re0">$apellidos</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get apellidos
+     *
+     * @return string 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getApellidos<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">apellidos</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set username
+     *
+     * @param string $username
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setUsername<span class="br0">&#40;</span><span class="re0">$username</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">username</span> <span class="sy0">=</span> <span class="re0">$username</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get username
+     *
+     * @return string
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getUsername<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">username</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set user_email
+     *
+     * @param string $userEmail
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setUseremail<span class="br0">&#40;</span><span class="re0">$useremail</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">useremail</span> <span class="sy0">=</span> <span class="re0">$useremail</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get user_email
+     *
+     * @return string 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getUseremail<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">useremail</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set password
+     *
+     * @param string $password
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setPassword<span class="br0">&#40;</span><span class="re0">$password</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">password</span> <span class="sy0">=</span> <span class="re0">$password</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get password
+     *
+     * @return string
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getPassword<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">password</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set salt
+     *
+     * @param string $salt
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setSalt<span class="br0">&#40;</span><span class="re0">$salt</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">salt</span> <span class="sy0">=</span> <span class="re0">$salt</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get salt
+     *
+     * @return string
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getSalt<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">salt</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add cuentabancaria_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Cuentabancaria $cuentabancariaUsuarioId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addCuentabancariaUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Cuentabancaria <span class="re0">$cuentabancariaUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">cuentabancaria_usuario_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$cuentabancariaUsuarioId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove cuentabancaria_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Cuentabancaria $cuentabancariaUsuarioId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeCuentabancariaUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Cuentabancaria <span class="re0">$cuentabancariaUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">cuentabancaria_usuario_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$cuentabancariaUsuarioId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get cuentabancaria_usuario_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getCuentabancariaUsuarioId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">cuentabancaria_usuario_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add direccion_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Direccion $direccionUsuarioId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addDireccionUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Direccion <span class="re0">$direccionUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">direccion_usuario_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$direccionUsuarioId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove direccion_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Direccion $direccionUsuarioId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeDireccionUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Direccion <span class="re0">$direccionUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">direccion_usuario_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$direccionUsuarioId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get direccion_usuario_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getDireccionUsuarioId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">direccion_usuario_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add email_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Emails $emailUsuarioId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addEmailUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Emails <span class="re0">$emailUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">email_usuario_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$emailUsuarioId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove email_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Emails $emailUsuarioId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeEmailUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Emails <span class="re0">$emailUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">email_usuario_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$emailUsuarioId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get email_usuario_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getEmailUsuarioId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">email_usuario_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add empresa_usuario_administrador_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Empresa $empresaUsuarioAdministradorId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addEmpresaUsuarioAdministradorId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Empresa <span class="re0">$empresaUsuarioAdministradorId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">empresa_usuario_administrador_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$empresaUsuarioAdministradorId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove empresa_usuario_administrador_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Empresa $empresaUsuarioAdministradorId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeEmpresaUsuarioAdministradorId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Empresa <span class="re0">$empresaUsuarioAdministradorId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">empresa_usuario_administrador_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$empresaUsuarioAdministradorId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get empresa_usuario_administrador_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getEmpresaUsuarioAdministradorId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">empresa_usuario_administrador_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add empresa_usuario_facturacion_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Empresa $empresaUsuarioFacturacionId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addEmpresaUsuarioFacturacionId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Empresa <span class="re0">$empresaUsuarioFacturacionId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">empresa_usuario_facturacion_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$empresaUsuarioFacturacionId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove empresa_usuario_facturacion_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Empresa $empresaUsuarioFacturacionId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeEmpresaUsuarioFacturacionId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Empresa <span class="re0">$empresaUsuarioFacturacionId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">empresa_usuario_facturacion_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$empresaUsuarioFacturacionId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get empresa_usuario_facturacion_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getEmpresaUsuarioFacturacionId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">empresa_usuario_facturacion_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add telefono_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Telefono $telefonoUsuarioId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addTelefonoUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Telefono <span class="re0">$telefonoUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">telefono_usuario_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$telefonoUsuarioId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove telefono_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Telefono $telefonoUsuarioId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeTelefonoUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Telefono <span class="re0">$telefonoUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">telefono_usuario_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$telefonoUsuarioId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get telefono_usuario_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getTelefonoUsuarioId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">telefono_usuario_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add timesheet_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Timesheet $timesheetUsuarioId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addTimesheetUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Timesheet <span class="re0">$timesheetUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_usuario_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$timesheetUsuarioId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove timesheet_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Timesheet $timesheetUsuarioId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeTimesheetUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Timesheet <span class="re0">$timesheetUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_usuario_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$timesheetUsuarioId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get timesheet_usuario_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getTimesheetUsuarioId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_usuario_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add usuariogrupo_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Usuariorogrupo $usuariogrupoUsuarioId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addUsuariogrupoUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Usuariorogrupo <span class="re0">$usuariogrupoUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">usuariogrupo_usuario_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$usuariogrupoUsuarioId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove usuariogrupo_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Usuariorogrupo $usuariogrupoUsuarioId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeUsuariogrupoUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Usuariorogrupo <span class="re0">$usuariogrupoUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">usuariogrupo_usuario_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$usuariogrupoUsuarioId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get usuariogrupo_usuario_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getUsuariogrupoUsuarioId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">usuariogrupo_usuario_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add user_roles
+     *
+     * @param Asap\TimesheetsBundle\Entity\Role $userRoles
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addRole<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Role <span class="re0">$userRoles</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">user_roles</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$userRoles</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> setUserRoles<span class="br0">&#40;</span><span class="re0">$roles</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">user_roles</span> <span class="sy0">=</span> <span class="re0">$roles</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> setIsActive<span class="br0">&#40;</span><span class="re0">$isActive</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">isActive</span> <span class="sy0">=</span> <span class="re0">$isActive</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get isActive
+     *
+     * @return boolean 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getIsActive<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">isActive</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add timesheet_log_usuario_creador
+     *
+     * @param \Asap\TimesheetsBundle\Entity\LogTimesheets $timesheetLogUsuarioCreador
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addTimesheetLogUsuarioCreador<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\LogTimesheets <span class="re0">$timesheetLogUsuarioCreador</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_log_usuario_creador</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$timesheetLogUsuarioCreador</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove timesheet_log_usuario_creador
+     *
+     * @param \Asap\TimesheetsBundle\Entity\LogTimesheets $timesheetLogUsuarioCreador
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeTimesheetLogUsuarioCreador<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\LogTimesheets <span class="re0">$timesheetLogUsuarioCreador</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_log_usuario_creador</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$timesheetLogUsuarioCreador</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get timesheet_log_usuario_creador
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getTimesheetLogUsuarioCreador<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_log_usuario_creador</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add timesheet_log_usuario_modificador
+     *
+     * @param \Asap\TimesheetsBundle\Entity\LogTimesheets $timesheetLogUsuarioModificador
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addTimesheetLogUsuarioModificador<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\LogTimesheets <span class="re0">$timesheetLogUsuarioModificador</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_log_usuario_modificador</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$timesheetLogUsuarioModificador</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove timesheet_log_usuario_modificador
+     *
+     * @param \Asap\TimesheetsBundle\Entity\LogTimesheets $timesheetLogUsuarioModificador
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeTimesheetLogUsuarioModificador<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\LogTimesheets <span class="re0">$timesheetLogUsuarioModificador</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_log_usuario_modificador</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$timesheetLogUsuarioModificador</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get timesheet_log_usuario_modificador
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getTimesheetLogUsuarioModificador<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">timesheet_log_usuario_modificador</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add log_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\LogUsers $logUsuarioId
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addLogUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\LogUsers <span class="re0">$logUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">log_usuario_id</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$logUsuarioId</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove log_usuario_id
+     *
+     * @param \Asap\TimesheetsBundle\Entity\LogUsers $logUsuarioId
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeLogUsuarioId<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\LogUsers <span class="re0">$logUsuarioId</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">log_usuario_id</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$logUsuarioId</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get log_usuario_id
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getLogUsuarioId<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">log_usuario_id</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add log_usuario_modificador
+     *
+     * @param \Asap\TimesheetsBundle\Entity\LogUsers $logUsuarioModificador
+     * @return Usuario
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addLogUsuarioModificador<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\LogUsers <span class="re0">$logUsuarioModificador</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">log_usuario_modificador</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$logUsuarioModificador</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove log_usuario_modificador
+     *
+     * @param \Asap\TimesheetsBundle\Entity\LogUsers $logUsuarioModificador
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeLogUsuarioModificador<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\LogUsers <span class="re0">$logUsuarioModificador</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">log_usuario_modificador</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$logUsuarioModificador</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get log_usuario_modificador
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getLogUsuarioModificador<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">log_usuario_modificador</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get user_roles
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getUserRoles<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">user_roles</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Get roles
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> getRoles<span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="co1">//return $this-&gt;user_roles-&gt;toArray(); //IMPORTANTE: el mecanismo de seguridad de Sf2 requiere ésto como un array</span>
+        <span class="re0">$roles</span> <span class="sy0">=</span> <span class="kw3">array</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">foreach</span> <span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">user_roles</span> <span class="kw1">as</span> <span class="re0">$role</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            <span class="re0">$roles</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$role</span><span class="sy0">-&gt;</span><span class="me1">getRole</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$roles</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Erases the user credentials.
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> eraseCredentials<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Add user_roles
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Role $userRoles
+     * @return User
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> addUserRole<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Role <span class="re0">$userRoles</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">user_roles</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$userRoles</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co4">/**
+     * Remove user_roles
+     *
+     * @param \Asap\TimesheetsBundle\Entity\Role $userRoles
+     */</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> removeUserRole<span class="br0">&#40;</span>\Asap\TimesheetsBundle\Entity\Role <span class="re0">$userRoles</span><span class="br0">&#41;</span>
+    <span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">user_roles</span><span class="sy0">-&gt;</span><span class="me1">removeElement</span><span class="br0">&#40;</span><span class="re0">$userRoles</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>Agradecido de antemano por cada respuesta</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/3350463315/32856439dd61b0f5b7e04c76c14df10f_normal.jpeg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @ponceelrelajado
+                                </span>
+
+                                <span class="published">
+                                    26-ago-14 21:15
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-10">
+                                        
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/202/problema-con-la-base-de-datos-al-migrar-una-aplicacion-symfony/#respuesta-10" title="Enlace permanente a esta respuesta">#10</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_10_html">
+                        <p>Hola Buenas, pude solucionar, por alguna extraña razón supongo que la versión de MySQL del servidor remoto no estaba aceptando los valores <em>boleanos</em>. Así que sólo cambio el tipo de campo en mi <em>entity</em>, actualicé el <em>schema</em> y todo funciona a la perfección. Explico mi solución por si a alguna persona le da el mismo error.</p>
+
+<p>Saludos y gracias!</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/3350463315/32856439dd61b0f5b7e04c76c14df10f_normal.jpeg" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @ponceelrelajado
+                                </span>
+
+                                <span class="published">
+                                    03-sep-14 23:43
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                            <div class="row comment"  id="respuesta-11">
+                                        <i id="ultimo"></i>
+
+                    <div class="col-sm-1 col-md-1 permalink">
+                        <a href="/foro/pregunta/202/problema-con-la-base-de-datos-al-migrar-una-aplicacion-symfony/#respuesta-11" title="Enlace permanente a esta respuesta">#11</a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-md-8 content" id="comment_11_html">
+                        <p>@ponceelrelajado, ¡muchas gracias por mostrarnos la solución! Parece que al final era algo "fácil" de solucionar porque no estaba realmente relacionado con el código de la aplicación.</p>
+
+<p>Por problemas como este provocados por las diferencias entre el sistema de desarrollo y el de producción es por lo que algunos programadores recomiendan unificar entornos. Para ello hacen uso de soluciones basadas en máquinas virtuales, como Vagrant, y así consiguen tener en local el mismo sistema que en producción.</p>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-3 col-md-offset-0 comment-attributes">
+                        <div class="row">
+                            <p class="col-xs-2 col-sm-1 col-md-1 avatar">
+                                <img width="48" height="48" src="http://pbs.twimg.com/profile_images/1616936371/avatar_normal.png" />
+                            </p>
+
+                            <p class="col-xs-9 col-sm-9 col-md-10">
+                                <span class="login">
+                                    @javiereguiluz
+                                </span>
+
+                                <span class="published">
+                                    04-sep-14 08:41
+                                </span>
+                            </p>
+
+                            <p class="col-sm-4 col-md-12 comment-actions">
+                                                            </p>
+                        </div>
+                    </div>
+                </div>
+                    
+                    <div id="btn-reply">
+                <a rel="nofollow" href="/foro/pregunta/202/problema-con-la-base-de-datos-al-migrar-una-aplicacion-symfony/responder/#tu-respuesta" class="btn btn-lg">
+                    Responder pregunta
+                </a>
+            </div>
+            </div>
+
+
+                </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>

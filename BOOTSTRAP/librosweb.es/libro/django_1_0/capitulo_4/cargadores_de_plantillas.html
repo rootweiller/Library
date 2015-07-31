@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml" xml:lang="es" lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>4.6. Cargadores de plantillas (El libro de Django 1.0)</title>
+                                    <link rel="stylesheet" href="/css/app.css" />
+                        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-82842-2', 'librosweb.es');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        </script>
+                        <link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" type="image/png" href="/apple-touch-icon.png">
+        <meta name="apple-mobile-web-app-title" content="LibrosWeb">
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <meta name="site-version" content="a7f65a4">
+                <link rel="publisher" href="http://plus.google.com/112008023125011571577">
+                                                    <link rel="prev" href="../capitulo_4/uso_de_plantillas_en_las_vistas.html" />
+                    <link rel="next" href="../capitulo_4/herencia_de_plantillas.html" />
+                <link rel="start" href="/libro/django_1_0/" />
+                <meta name="twitter:site" content="@librosweb">
+                <link rel="search" type="application/opensearchdescription+xml" href="http://librosweb.es/opensearch/documentation.xml" title="LibrosWeb">
+                <meta property="fb:page_id" content="437758756273955">
+                <meta property="fb:app_id" content="437758756273955">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="4.6. Cargadores de plantillas (El libro de Django 1.0)">
+        <meta property="og:image" content="http://www.gravatar.com/avatar/9f219b4dfaa677bfd0f47753c02d5126.png?s=200">
+                <meta name="msapplication-TileColor" content="#CC1414">
+        <meta name="application-name" content="LibrosWeb">
+        <meta name="msapplication-tooltip" content="Libros y tutoriales sobre HTML, CSS, JavaScript, PHP y otras tecnologías web.">
+    </head>
+
+    <body id="p-1-2" class="books book_page django_1_0"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="librosweb.es",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+        <div class="content-background"></div>
+
+        <div id="header">
+            <div class="navbar navbar-default navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu">
+                    <span class="sr-only">Desplegar menú</span>
+                    <i class="fa fa-menu"></i>
+                  </button>
+                  <a class="navbar-brand" href="/" title="LibrosWeb.es">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 132 32" preserveAspectRatio="xMinYMin meet">
+<g fill="#CC1414" transform="translate(-21.738 -21.148)">
+<path d="m24.062 23.486v28h9.64v-5h-4.04v-23h-5.6"/>
+<path d="m40.796 23.486h-5.6v28h5.6v-28"/>
+<path d="m53.932 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32 1-1 1h-1.32v-6.64h1.32c0.68 0 1 0.32 1 1m-2.32 10.32h1.4c0.68 0 1 0.32 1 1v5.08c0 0.68-0.32 1-1 1h-1.4v-7.08"/>
+<path d="m69.284 38.246c1.52-0.56 2.4-1.76 2.4-4.16v-5.4c0-3.48-1.72-5.2-5.2-5.2h-8.36v28h5.6v-10.6h1.4c0.68 0 1 0.32 1 1v9.6h5.6v-9.64c0-2.04-0.72-3.12-2.44-3.6m-3.2-8.88v5.76c0 0.68-0.32 1-1 1h-1.36v-7.76h1.36c0.68 0 1 0.32 1 1"/>
+<path d="m87.513 46.526v-18.08c0-3.48-1.72-5.2-5.2-5.2h-3.6c-3.48 0-5.2 1.72-5.2 5.2v18.08c0 3.48 1.72 5.2 5.2 5.2h3.6c3.48 0 5.2-1.72 5.2-5.2m-5.6-17.48v16.88c0 0.68-0.32 1-1 1h-0.8c-0.68 0-1-0.32-1-1v-16.88c0-0.68 0.32-1 1-1h0.8c0.68 0 1 0.32 1 1"/>
+<path d="m100.57 36.966-4.8-3.56c-0.68-0.48-0.96-0.92-0.96-1.8v-2.64c0-0.68 0.32-1 1-1h0.44c0.68 0 1 0.32 1 1v4.6h5.48v-5.12c0-3.48-1.72-5.2-5.2-5.2h-3.04c-3.48 0-5.2 1.72-5.2 5.2v4.44c0 2 0.52 3.16 2.24 4.4l4.8 3.56c0.68 0.48 0.96 0.92 0.96 1.8v3.36c0 0.68-0.32 1-1 1h-0.52c-0.68 0-1-0.32-1-1v-5.44h-5.48v5.96c0 3.48 1.72 5.2 5.2 5.2h3.12c3.48 0 5.2-1.72 5.2-5.2v-5.16c0-2.08-0.52001-3.16-2.24-4.4"/>
+<path d="m106.98 51.486h6.16l1.44-12.72 1.44 12.72h6.16l3.4-28h-4.96l-1.44 14.88-1.6-14.88h-5.28l-1.6 14.92-1.44-14.92h-5.68l3.4 28"/>
+<path d="m126.87 23.486v28h10.48v-5h-4.88v-6.72h4.6v-5h-4.6v-6.28h4.8v-5h-10.4"/>
+<path d="m150.26 37.006c1.48-0.56 2.32-1.76 2.32-4.16v-4.16c0-3.48-1.72-5.2-5.2-5.2h-8.24v28h8.32c3.48 0 5.2-1.72 5.2-5.2v-5.68c0-2.04-0.72001-3.12-2.4-3.6m-3.24-7.72v4.64c0 0.68-0.32001 1-1 1h-1.32v-6.64h1.32c0.67999 0 1 0.32 1 1m-2.32 10.32h1.4c0.67999 0 1 0.32 1 1v5.08c0 0.68-0.32001 1-1 1h-1.4v-7.08"/>
+</g>
+</svg>
+                      <span>LibrosWeb</span>
+                  </a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-right" id="header-menu">
+                  <ul class="nav navbar-nav pull-right">
+                    
+                                                <li class="">
+                            <a href="/">
+                                Inicio
+                            </a>
+                        </li>
+                                                <li class="active">
+                            <a href="/libros/">
+                                Libros
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/tutoriales/">
+                                Tutoriales
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/eventos/">
+                                Eventos
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/foro/">
+                                Foro
+                            </a>
+                        </li>
+                                                <li class="">
+                            <a href="/buscar">
+                                Buscar
+                            </a>
+                        </li>
+                                          </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id="wrapper" class="container">
+
+            <div id="content" class="row">
+                                    <div id="main" class="col-sm-9">
+                        
+    
+    <div id="book-toc-anchor" class="well visible-xs">
+        <a href="#indice">
+            <i class="fa fa-book"></i> Ver índice de contenidos del libro
+        </a>
+    </div>
+
+    <div id="breadcrumb" class="hidden-xs">
+        <ol>
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libros/" itemprop="url">
+                    <span itemprop="title">Libros</span>
+                </a>
+            </li>
+
+            <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/" itemprop="url">
+                    <span itemprop="title">El libro de Django 1.0</span>
+                </a>
+            </li>
+
+                    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/libro/django_1_0/capitulo_4.html" itemprop="url">
+                    <span itemprop="title">Capítulo 4. El sistema de plantillas de Django</span>
+                </a>
+            </li>
+        
+            <li class="active">
+                <span>4.6. Cargadores de plantillas</span>
+            </li>
+        </ol>
+    </div>
+
+    <h1 id="cargadores_de_plantillas" class="title">
+        <span>4.6.</span> Cargadores de plantillas
+    </h1>
+
+    
+
+<p>Django provee una práctica y poderosa API para cargar plantillas del
+disco, con el objetivo de quitar la redundancia en la carga de la plantilla y
+en las mismas plantillas.</p>
+
+<p>Para usar la API para cargar plantillas, primero necesitas indicarle al
+framework dónde están guardadas tus plantillas. El lugar para hacer esto es en
+el <em>archivo de configuración</em>.</p>
+
+<p>El archivo de configuración de Django es el lugar para poner configuraciones
+para tu instancia o proyecto de Django. Es un simple módulo de Python con 
+variables, una por cada configuración.</p>
+
+<p>Cuando ejecutaste <code>django-admin.py startproject mysite</code> en el Capítulo 2,
+el script creó un archivo de configuración por omisión por ti, llamado
+<code>settings.py</code>. Échale un vistazo al contenido del archivo. Este contiene
+variables que se parecen a estas (no necesariamente en este orden):</p>
+
+<ul>
+<li>DEBUG = True</li>
+<li>TIME_ZONE = 'America/Chicago'</li>
+<li>USE_I18N = True</li>
+<li>ROOT_URLCONF = 'mysite.urls'</li>
+</ul>
+
+<p>Éstas se explican por sí solas; las configuraciones y sus respectivos valores
+son simples variables de Python. Como el archivo de configuración es sólo un
+módulo plano de Python, puedes hacer cosas dinámicas como verificar el valor de
+una variable antes de configurar otra. (Esto también significa que debes
+evitar errores de sintaxis de Python en los archivos de configuración).</p>
+
+<p>Cubriremos el archivo de configuración en profundidad en el Apéndice E, pero 
+por ahora, veamos la variable de configuración <code>TEMPLATE_DIRS</code>. Esta variable 
+le indica al mecanismo de carga de plantillas dónde buscar las plantillas. Por
+omisión, ésta es una tupla vacía. Elige un directorio en el que desees guardar
+tus plantillas y agrega este a <code>TEMPLATE_DIRS</code>, así:</p>
+
+<div class="code python">
+<pre class="python">TEMPLATE_DIRS <span class="sy0">=</span> <span class="br0">&#40;</span><span class="st0">'/home/django/mysite/templates'</span><span class="sy0">,</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Hay algunas cosas para notar:</p>
+
+<ul>
+<li>Puedes especificar cualquier directorio que quieras, siempre y cuando la
+cuenta de usuario en el cual se ejecuta el servidor web tengan acceso al
+directorio y su contenido. Si no puedes pensar en un lugar apropiado para
+poner las plantillas, te recomendamos crear un directorio <code>templates</code>
+dentro del proyecto de Django (esto es, dentro del directorio <code>mysite</code>
+que creaste en el Capítulo 2 , si vienes siguiendo los ejemplos a lo
+largo del libro).</li>
+<li><p>¡No olvides la coma al final del string del directorio de plantillas!
+Python requiere una coma en las tuplas de un solo elemento para
+diferenciarlas de una expresión de paréntesis. Esto es común en los
+usuarios nuevos.</p>
+
+<p>Si quieres evitar este error, puedes hacer <code>TEMPLATE_DIRS</code> una lista,
+en vez de una tupla, porque un solo elemento en una lista no requiere
+estar seguido de una coma:</p></li>
+</ul>
+
+<div class="code python">
+<pre class="python">TEMPLATE_DIRS <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">'/home/django/mysite/templates'</span><span class="br0">&#93;</span></pre>
+</div>
+
+<ul>
+<li>Una tupla es un poco más correcta semánticamente que una lista (las
+tuplas no pueden cambiar luego de ser creadas, y nada podría cambiar las
+configuraciones una vez que fueron leídas), nosotros recomendamos usar
+tuplas para la variable <code>TEMPLATE_DIRS</code>.</li>
+<li>Si estás en Windows, incluye tu letra de unidad y usa el estilo de Unix
+para las barras en vez de barras invertidas, como sigue::</li>
+</ul>
+
+<div class="code python">
+<pre class="python">TEMPLATE_DIRS <span class="sy0">=</span> <span class="br0">&#40;</span><span class="st0">'C:/www/django/templates'</span><span class="sy0">,</span><span class="br0">&#41;</span></pre>
+</div>
+
+<ul>
+<li><p>Es más sencillo usar rutas absolutas (esto es, las rutas de directorios
+comienzan desde la raíz del sistema de archivos). Si quieres ser un poco
+más flexible e independiente, también, puedes tomar el hecho de que el
+archivo de configuración de Django es sólo código de Python y construir la
+variable <code>TEMPLATE_DIRS</code> dinámicamente.</p>
+
+<p>Este ejemplo usa la variable de Python "mágica" <code>__file__</code>, la cual es
+automáticamente asignada al nombre del archivo del módulo de Python en
+el que se encuentra el código.</p></li>
+</ul>
+
+<div class="code python">
+<pre class="python">&nbsp;
+    <span class="kw1">import</span> <span class="kw3">os</span>.<span class="me1">path</span>
+&nbsp;
+    TEMPLATE_DIRS <span class="sy0">=</span> <span class="br0">&#40;</span>
+        <span class="kw3">os</span>.<span class="me1">path</span>.<span class="me1">join</span><span class="br0">&#40;</span><span class="kw3">os</span>.<span class="me1">path</span>.<span class="me1">dirname</span><span class="br0">&#40;</span>__file__<span class="br0">&#41;</span><span class="sy0">,</span> <span class="st0">'templates'</span><span class="br0">&#41;</span>.<span class="me1">replace</span><span class="br0">&#40;</span><span class="st0">'<span class="es0">\\</span>'</span><span class="sy0">,</span><span class="st0">'/'</span><span class="br0">&#41;</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span></pre>
+</div>
+
+<p>Con la variable <code>TEMPLATE_DIRS</code> configurada, el próximo paso es cambiar el
+código de vista que usa la funcionalidad de carga de plantillas de Django,
+para no incluir la ruta a la plantilla. Volvamos a nuestra vista
+<code>current_datetime</code>, vamos a cambiar esta como sigue:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">template</span>.<span class="me1">loader</span> <span class="kw1">import</span> get_template
+<span class="kw1">from</span> django.<span class="me1">template</span> <span class="kw1">import</span> Context
+<span class="kw1">from</span> django.<span class="me1">http</span> <span class="kw1">import</span> HttpResponse
+<span class="kw1">import</span> <span class="kw3">datetime</span>
+&nbsp;
+<span class="kw1">def</span> current_datetime<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    now <span class="sy0">=</span> <span class="kw3">datetime</span>.<span class="kw3">datetime</span>.<span class="me1">now</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    t <span class="sy0">=</span> get_template<span class="br0">&#40;</span><span class="st0">'current_datetime.html'</span><span class="br0">&#41;</span>
+    html <span class="sy0">=</span> t.<span class="me1">render</span><span class="br0">&#40;</span>Context<span class="br0">&#40;</span><span class="br0">&#123;</span><span class="st0">'current_date'</span>: now<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> HttpResponse<span class="br0">&#40;</span>html<span class="br0">&#41;</span></pre>
+</div>
+
+<p>En este ejemplo, usamos la función <code>django.template.loader.get_template()</code>
+en vez de cargar la plantilla desde el sistemas de archivos manualmente. La
+función <code>get_template()</code> toma el nombre de la plantilla como argumento,
+se da cuenta de dónde está la plantilla en el sistema de archivos, lo abre, y
+retorna un objeto <code>Template</code> compilado.</p>
+
+<p>Si <code>get_template()</code> no puede encontrar la plantilla con el nombre pasado, esta
+levanta una excepción <code>TemplateDoesNotExist</code>. Para ver que cómo se ve eso,
+ejecutar el servidor de desarrollo de Django otra vez, como en el Capítulo 3,
+ejecutando <code>python manage.py runserver</code> en el directorio de tu proyecto de
+Django. Luego, escribe en tu navegador la página que activa la vista
+<code>current_datetime</code> (o sea, <code>http://127.0.0.1:8000/time/</code>). Asumiendo que tu
+variable de configuración <code>DEBUG</code> está asignada a <code>True</code> y todavía no has
+creado la plantilla <code>current_datetime.html</code>, deberías ver una página de error
+de Django resaltando el error <code>TemplateDoesNotExist</code>.</p>
+
+<div class="figure" id="figure_4_1">
+    <img src="/img/django_1_0/missing_template.png" alt="La página de error que se muestra cuando una plantilla no se encuentra" />
+
+    <p class="caption"><strong>Figura 4.1</strong> La página de error que se muestra cuando una plantilla no se encuentra</p>
+</div>
+
+
+<p>Esta página de error es similar a la que explicamos en el Capítulo 3, con una
+pieza adicional de información de depuración: una sección "Postmortem del
+cargador de plantillas". Esta sección te indica qué plantilla intentó cargar
+Django acompañado de una razón para cada intento fallido (por ej. <em>"File does 
+not exist"</em>). Esta información es invaluable cuando hacemos depuración de
+errores de carga de plantillas.</p>
+
+<p>Como probablemente puedas distinguir de los mensajes de error de la Figura 4-1,
+Django intentó buscar una plantilla combinando el directorio de la variable
+<code>TEMPLATE_DIRS</code> con el nombre de la plantilla pasada a <code>get_template()</code>.
+Entonces si tu variable <code>TEMPLATE_DIRS</code> contiene <code>'/home/django/templates'</code>,
+Django buscará <code>'/home/django/templates/current_datetime.html'</code>.  Si
+<code>TEMPLATE_DIRS</code> contiene más que un directorio, cada uno de estos es
+examinado hasta que se encuentre la plantilla o hasta que no haya más
+directorios.</p>
+
+<p>Continuando, crea el archivo <code>current_datetime.html</code> en tu directorio de
+plantillas usando el siguiente código:</p>
+
+<div class="code twig">
+<pre class="twig">&lt;html&gt;&lt;body&gt;It is now <span class="kw6"><span class="br0">&#123;</span><span class="br0">&#123;</span></span> <span class="re0">current_date</span> <span class="kw6"><span class="br0">&#125;</span><span class="br0">&#125;</span></span>.&lt;/body&gt;&lt;/html&gt;</pre>
+</div>
+
+<p>Refresca la página en tu navegador web, y deberías ver la página completamente
+renderizada.</p>
+
+<h3 id="render_to_response">4.6.1. <code>render_to_response()</code></h3>
+
+<p>Debido a que es común cargar una plantilla, rellenar un <code>Context</code>, y retornar
+un objeto <code>HttpResponse</code> con el resultado de la plantilla renderizada, Django
+provee un atajo que te deja hacer estas cosas en una línea de código.  Este
+atajo es la función llamada <code>render_to_response()</code>, la cual se encuentra en el
+módulo <code>django.shortcuts</code>. La mayoría de las veces, usarás
+<code>render_to_response()</code> en vez de cargar las plantillas y crear los objetos
+<code>Context</code> y <code>HttpResponse</code> manualmente.</p>
+
+<p>Aquí está el ejemplo actual <code>current_datetime</code> reescrito utilizando
+<code>render_to_response()</code>:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">from</span> django.<span class="me1">shortcuts</span> <span class="kw1">import</span> render_to_response
+<span class="kw1">import</span> <span class="kw3">datetime</span>
+&nbsp;
+<span class="kw1">def</span> current_datetime<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    now <span class="sy0">=</span> <span class="kw3">datetime</span>.<span class="kw3">datetime</span>.<span class="me1">now</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span><span class="st0">'current_datetime.html'</span><span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'current_date'</span>: now<span class="br0">&#125;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>¡Qué diferencia! Vamos paso a paso a través de los cambios del código:</p>
+
+<ul>
+<li>No tenemos que importar <code>get_template</code>, <code>Template</code>, <code>Context</code>, o
+<code>HttpResponse</code>. En vez de esto, importamos
+<code>django.shortcuts.render_to_response</code>.  <code>import datetime</code>  se
+mantiene.</li>
+<li>En la función <code>current_datetime</code>, seguimos calculando <code>now</code>, pero la
+carga de la plantilla, creación del contexto, renderización de esta, y de
+la creación de <code>HttpResponse</code> se encarga la llamada a
+<code>render_to_response()</code>.  Como <code>render_to_response()</code> retorna un objeto
+<code>HttpResponse</code>, podemos simplemente <code>retornar</code> ese valor en la vista.</li>
+</ul>
+
+<p>El primer argumento de <code>render_to_response()</code> debe ser el nombre de la
+plantilla a utilizar. El segundo argumento, si es pasado, debe ser un
+diccionario para usar en la creación de un <code>Context</code> para esa plantilla. Si
+no se le pasa un segundo argumento, <code>render_to_response()</code> utilizará un
+diccionario vacío.</p>
+
+<h3 id="el_truco_locals">4.6.2. El truco <code>locals()</code></h3>
+
+<p>Considera nuestra última versión de <code>current_datetime</code>:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> current_datetime<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    now <span class="sy0">=</span> <span class="kw3">datetime</span>.<span class="kw3">datetime</span>.<span class="me1">now</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span><span class="st0">'current_datetime.html'</span><span class="sy0">,</span> <span class="br0">&#123;</span><span class="st0">'current_date'</span>: now<span class="br0">&#125;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Muchas veces, como en este ejemplo, buscarás tú mismo calcular algunos valores,
+guardando ellos en variables (por ej. <code>now</code> en el código anterior), y pasando
+estas a la plantilla. Particularmente los programadores perezosos notarán que
+es ligeramente redundante tener esos nombres en variables temporales <em>y</em>
+tener nombres para las variables de la plantilla. No sólo que esto es
+redundante, sino que también hay que teclear más.</p>
+
+<p>Entonces si eres uno de esos programadores perezosos y quieres ahorrar código
+particularmente conciso, puedes tomar la ventaja de la función built-in de
+Python llamada <code>locals()</code>. Esta retorna un diccionario mapeando todos los
+nombres de variables locales con sus valores. De esta manera, la vista anterior
+podría reescribirse como sigue:</p>
+
+<div class="code python">
+<pre class="python"><span class="kw1">def</span> current_datetime<span class="br0">&#40;</span>request<span class="br0">&#41;</span>:
+    current_date <span class="sy0">=</span> <span class="kw3">datetime</span>.<span class="kw3">datetime</span>.<span class="me1">now</span><span class="br0">&#40;</span><span class="br0">&#41;</span>
+    <span class="kw1">return</span> render_to_response<span class="br0">&#40;</span><span class="st0">'current_datetime.html'</span><span class="sy0">,</span> <span class="kw2">locals</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Aquí, en vez de especificar manualmente el diccionario al contexto como antes,
+pasamos el valor de <code>locals()</code>, el cual incluye todas las variables definidas
+hasta ese punto en la ejecución de la función. Como una consecuencia,
+renombramos el nombre de la variable <code>now</code> a <code>current_date</code>, porque esta es
+la variable que especificamos en la plantilla. En este ejemplo, <code>locals()</code> no
+ofrece una <em>gran</em> mejora, pero esta técnica puede ahorrar un poco de tipeo si
+tienes plantillas con varias variables definidas — o si eres perezoso.</p>
+
+<p>Una cosa en la que tiene que tener cuidado cuando usas <code>locals()</code> es que esta
+incluye <em>todas</em> las variables locales, con lo cual quizás conste de más
+variables de las cuales quieres tener acceso en la plantilla. En el ejemplo
+anterior, <code>locals()</code> también incluirá <code>request</code>. Depende de tu aplicación
+saber si esto es de importancia.</p>
+
+<p>La última cosa a considerar es que <code>locals()</code> provoca un poco sobrecarga,
+porque cuando es llamado, Python crea el diccionario dinámicamente. Si
+especificas el diccionario al contexto manualmente, evitas esta sobrecarga.</p>
+
+<h3 id="subdirectorios_en_get_template">4.6.3. Subdirectorios en <code>get_template()</code></h3>
+
+<p>Puede ser un poco inmanejable guardar todas las plantillas en un solo
+directorio. Quizás quieras guardar las plantillas en subdirectorios del
+directorio de tus plantillas, y esto está bien. De hecho, recomendamos hacerlo;
+algunas de las características más avanzadas de Django (como las vistas
+genéricas del sistema, las cuales veremos en el Capítulo 9) esperan esta
+distribución de las plantillas como una convención por omisión.</p>
+
+<p>Guardar las plantillas en subdirectorios de tu directorio de plantilla es
+fácil. En tus llamadas a <code>get_template()</code>, sólo incluye el nombre del
+subdirectorio y una barra antes del nombre de la plantilla, así:</p>
+
+<div class="code python">
+<pre class="python">t <span class="sy0">=</span> get_template<span class="br0">&#40;</span><span class="st0">'dateapp/current_datetime.html'</span><span class="br0">&#41;</span></pre>
+</div>
+
+<p>Debido a que <code>render_to_response()</code> es un pequeño envoltorio de
+<code>get_template()</code>, puedes hacer lo mismo con el primer argumento de
+<code>render_to_response()</code>.</p>
+
+<p>No hay límites para la profundidad del árbol de subdirectorios. Siéntete libre
+de usar tantos como quieras.</p>
+
+<div class="admonition note"><p><strong class="title">Nota</strong> Los usuario de Windows, asegúrense de usar barras comunes en vez de barras
+invertidas. <code>get_template()</code> asume el estilo de designación de archivos
+de Unix.</p></div>
+
+<h3 id="la_etiqueta_de_plantilla_include">4.6.4. La etiqueta de plantilla <code>include</code></h3>
+
+<p>Ahora que vimos el mecanismo para cargar plantillas, podemos introducir una 
+etiqueta para simplificar esto: <code>{&#37; include &#37;}</code>. Esta etiqueta te permite 
+incluir el contenido de otra plantilla. El argumento para esta etiqueta 
+debería ser el nombre de la plantilla a incluir, y el nombre de
+la plantilla también se puede indicar mediante una variable cuyo valor sea una
+cadena de texto encerrada con comillas simples o dobles. En cualquier momento 
+que tengas el mismo código en varias etiquetas, considera utilizar un
+<code>{&#37; include &#37;}</code> para eliminar lo duplicado.</p>
+
+<p>Estos dos ejemplos incluyen el contenido de la plantilla <code>nav.html</code>. Los
+ejemplos son equivalentes e ilustran que cualquier modo de comillas está
+permitido:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">include</span> <span class="st0">'nav.html'</span> <span class="kw6">%<span class="br0">&#125;</span></span>
+<span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">include</span> <span class="st0">&quot;nav.html&quot;</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Este ejemplo incluye el contenido de la plantilla <code>includes/nav.html</code>:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">include</span> <span class="st0">'includes/nav.html'</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Este ejemplo incluye el contenido de la plantilla cuyo nombre se encuentra en
+la variable <code>template_name</code>:</p>
+
+<div class="code twig">
+<pre class="twig"><span class="kw6"><span class="br0">&#123;</span>%</span> <span class="kw1">include</span> <span class="re0">template_name</span> <span class="kw6">%<span class="br0">&#125;</span></span></pre>
+</div>
+
+<p>Como en <code>get_template()</code>, el nombre del archivo de la plantilla es
+determinado agregando el directorio de plantillas tomado de <code>TEMPLATE_DIRS</code>
+para el nombre de plantilla solicitado.</p>
+
+<p>Las plantillas incluidas son evaluadas con el contexto de la plantilla en la
+cual está incluida.</p>
+
+<p>Si una plantilla no encuentra el nombre tomado, Django hará una de estas dos
+cosas:</p>
+
+<ul>
+<li>Si <code>DEBUG</code> es <code>True</code>, verás la excepción <code>TemplateDoesNotExist</code>
+sobre la página de error de Django.</li>
+<li>Si <code>DEBUG</code> es <code>False</code>, la etiqueta fallará silenciosamente, sin
+mostrar nada en el lugar de la etiqueta.</li>
+</ul>
+
+
+
+            <div class="module module-ad module-ad-responsive module-ad-bottom">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-pager">
+        <ul class="row pager">
+            <li class="col-xs-6 previous ">
+                                    <a href="../capitulo_4/uso_de_plantillas_en_las_vistas.html">
+                        <strong>&larr; Anterior</strong>
+                        <small>4.5. Uso de plantillas en las vistas</small>
+                    </a>
+                            </li>
+
+            <li class="col-xs-6 next ">
+                                    <a href="../capitulo_4/herencia_de_plantillas.html">
+                        <strong>Siguiente &rarr;</strong>
+                        <small>4.7. Herencia de plantillas</small>
+                    </a>
+                            </li>
+        </ul>
+    </div>
+
+                        </div>
+
+                    <div id="sidebar" class="col-sm-3">
+                        
+            <div class="module module-share">
+        <h3>Compartir</h3>
+        <ul>
+    <li><a id="share_twitter" href="#" title="Compartir en Twitter">Twitter</a></li>
+    <li><a id="share_facebook" href="#" title="Compartir en Facebook">Facebook</a></li>
+    <li><a id="share_google" href="#" title="Compartir en Google+">Google+</a></li>
+</ul>
+
+<script type="text/javascript">
+var title    = '{{ item_social_title }}';
+var page_url = encodeURIComponent(window.location);
+var options  = 'menubar=no,toolbar=no,resizable=yes,scrollbars=no,width=640,height=350';
+var services = {
+    share_twitter:  'https://twitter.com/share?text=' + title + '&lang=es',
+    share_facebook: 'http://www.facebook.com/sharer.php?u=' + page_url + '&t=' + title,
+    share_google:   'https://plus.google.com/share?url=' + page_url + '&hl=es'
+};
+
+for (var id in services) {
+    if (services.hasOwnProperty(id)) {
+        document.getElementById(id).href = services[id];
+        document.getElementById(id).onclick = function(a) {
+            a = a || window.event;
+            a = a.target || a.srcElement;
+
+            ga('send', 'social', {
+                'socialNetwork' : a.id.substr(6),
+                'socialAction'  : 'share',
+                'socialTarget'  : window.location
+            });
+
+            window.open(services[a.id], a.title, options);
+
+            return false;
+        };
+    }
+}
+</script>
+
+    </div>
+
+            <div class="module module-ad module-ad-responsive module-ad-sidebar">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1491000300253750"
+         data-ad-slot="3770792827"
+         data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+    
+    <div id="book-toc" class="module">
+        <a id="indice"></a>
+
+        <h3>Indice de contenidos</h3>
+        <ul class="toc text-links">
+                                            <li class="level-1">
+                <span>1.</span> <a href="../capitulo_1.html"> Introducción a Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>2.</span> <a href="../capitulo_2.html"> Empezando</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>3.</span> <a href="../capitulo_3.html"> Los principios de las páginas Web dinámicas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1 ">
+                <a href="../capitulo_4.html">
+                    <span>Capítulo 4.</span> El sistema de plantillas de Django
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/introduccion_al_sistema_de_plantillas.html">
+                    <span>4.1.</span> Introducción al sistema de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/usando_el_sistema_de_plantillas.html">
+                    <span>4.2.</span> Usando el sistema de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/etiquetas_basicas_de_plantillas_y_filtros.html">
+                    <span>4.3.</span> Etiquetas básicas de plantillas y filtros
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/filosofia_y_limitaciones.html">
+                    <span>4.4.</span> Filosofía y Limitaciones
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/uso_de_plantillas_en_las_vistas.html">
+                    <span>4.5.</span> Uso de plantillas en las vistas
+                </a>
+            </li>
+                                            <li class="level-2 active">
+                <a href="../capitulo_4/cargadores_de_plantillas.html">
+                    <span>4.6.</span> Cargadores de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/herencia_de_plantillas.html">
+                    <span>4.7.</span> Herencia de plantillas
+                </a>
+            </li>
+                                            <li class="level-2 ">
+                <a href="../capitulo_4/que_sigue.html">
+                    <span>4.8.</span> ¿Qué sigue?
+                </a>
+            </li>
+                                            <li class="level-1">
+                <span>5.</span> <a href="../capitulo_5.html"> Interactuar con una base de datos: Modelos</a>
+            </li>
+                                                                                                                                                                                                                                                                            <li class="level-1">
+                <span>6.</span> <a href="../capitulo_6.html"> El sitio de Administración Django</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>7.</span> <a href="../capitulo_7.html"> Procesamiento de formularios</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>8.</span> <a href="../capitulo_8.html"> Vistas avanzadas y URLconfs</a>
+            </li>
+                                                                                            <li class="level-1">
+                <span>9.</span> <a href="../capitulo_9.html"> Vistas genéricas</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>10.</span> <a href="../capitulo_10.html"> Extender el sistema de plantillas</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>11.</span> <a href="../capitulo_11.html"> Generación de contenido no HTML</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>12.</span> <a href="../capitulo_12.html"> Sesiones, usuario e inscripciones</a>
+            </li>
+                                                                                                                                                            <li class="level-1">
+                <span>13.</span> <a href="../capitulo_13.html"> Cache</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>14.</span> <a href="../capitulo_14.html"> Otros sub-frameworks contribuidos</a>
+            </li>
+                                                                                                                                                                            <li class="level-1">
+                <span>15.</span> <a href="../capitulo_15.html"> Middleware</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>16.</span> <a href="../capitulo_16.html"> Integración con Base de datos y Aplicaciones existentes</a>
+            </li>
+                                                                                                            <li class="level-1">
+                <span>17.</span> <a href="../capitulo_17.html"> Extender la Interfaz de Administración de Django</a>
+            </li>
+                                                                                                                            <li class="level-1">
+                <span>18.</span> <a href="../capitulo_18.html"> Internacionalización</a>
+            </li>
+                                                                                                                                                                                            <li class="level-1">
+                <span>19.</span> <a href="../capitulo_19.html"> Seguridad</a>
+            </li>
+                                                                                                                                                                                                            <li class="level-1">
+                <span>20.</span> <a href="../capitulo_20.html"> Puesta en marcha de Django en un servidor</a>
+            </li>
+                                                                                                                                        </ul>
+    </div>
+                    </div>
+                            </div>
+
+            <div id="footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-9">
+                        &copy; 2015 LibrosWeb.es
+                        <a href="/sitio/contacto">Contacto</a>
+                        <a href="https://plus.google.com/+librosweb">Novedades</a>
+                        <a href="/sitio/condiciones">Condiciones</a>
+                        <a href="/sitio/privacidad">Privacidad</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-3 uptime">
+                        3.111 días online
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+                                    <script src="/js/app.js"></script>
+            
+            <script type="text/javascript">
+                console.log($(window).width());
+            </script>
+            </body>
+</html>
